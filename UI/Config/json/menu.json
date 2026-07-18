@@ -1,0 +1,4 @@
+{
+  "filterDebounceMs": 300,
+  "filterBatchSize": 120
+}

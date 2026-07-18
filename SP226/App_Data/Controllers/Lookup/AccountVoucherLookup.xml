@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmtktct" code="id" name="header%l" order="id" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh sách trường dữ liệu" e="Data Field List"></header>
+  <fields>
+    <field name="id" allowSorting="true" allowFilter="true">
+      <header v="Trường dữ liệu" e="Data Field"></header>
+    </field>
+    <field name="header%l" allowSorting="true" allowFilter="true">
+      <header v="Tên trường" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

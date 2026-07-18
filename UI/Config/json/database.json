@@ -1,0 +1,12 @@
+{
+  "filterDebounceMs": 250,
+  "filterMinLength": 1,
+  "commandTimeoutSeconds": 45,
+  "catalogScriptFile": "database_catalog.sql",
+  "defaultTarget": "App",
+  "showModifiedDate": true,
+  "sortByModifiedDesc": true,
+  "batchUiSize": 200,
+  "singleClickDelayMs": 0,
+  "objectActionsFile": "database.object-actions.xml"
+}

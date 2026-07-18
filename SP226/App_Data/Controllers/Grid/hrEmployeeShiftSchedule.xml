@@ -1,0 +1,400 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY DowloadScript SYSTEM "..\Include\Javascript\DownloadScript.txt">
+
+  <!ENTITY TransferID "hrEmployeeShiftSchedule">
+  <!ENTITY FastBusiness.Encryption.Begin "">
+  <!ENTITY CreateTicket "declare @ticket varchar(32), @filename varchar(128), @description nvarchar(128)
+select @ticket = lower(replace(newid(),'-',''))
+if @@language = 'v' select @filename = 'hrEmployeeShiftSchedule.xlsx', @description = N'Khai báo ca'
+else select @filename = 'hrEmployeeShiftSchedule2.xlsx', @description = N'Shift Schedule'
+insert into @@sysDatabaseName..ticket values(@ticket, @@userID, '&TransferID;', @filename, @description, '@@appDatabaseName', getdate());">
+  <!ENTITY FastBusiness.Encryption.End "">
+
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+]>
+
+<grid table="hrca$000000" code="stt_rec_nv" order="ma_nv" type="Voucher" id="H01" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Đăng ký ca làm việc cho nhân viên" e="Employee Working Shift Schedule"></title>
+  <subTitle v="Tháng %s1, năm %s2, bộ phận: %s3..." e="Month %s1, Year %s2, Department: %s3..."></subTitle>
+  <partition table="hrca$000000" prime="hrca$" field="stt_rec_nv" expression="''" default=""/>
+
+  <fields>
+    <field name="stt_rec_nv" isPrimaryKey="true" width="0" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nv" width="100" external="true" defaultValue="''" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Mã nhân viên" e="Employee ID"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ho_ten" width="150" external="true" defaultValue="''" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Họ và tên" e="Employee Name"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ten_bp%l" width="300" external="true" defaultValue="''" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Bộ phận" e="Department"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n01" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="1" e="1"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n02" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="2" e="2"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n03" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="3" e="3"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n04" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="4" e="4"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n05" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="5" e="5"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n06" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="6" e="6"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n07" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="7" e="7"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n08" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="8" e="8"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n09" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="9" e="9"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n10" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="10" e="10"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n11" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="11" e="11"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n12" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="12" e="12"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n13" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="13" e="13"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n14" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="14" e="14"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n15" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="15" e="15"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n16" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="16" e="16"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n17" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="17" e="17"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n18" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="18" e="18"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n19" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="19" e="19"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n20" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="20" e="20"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n21" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="21" e="21"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n22" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="22" e="22"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n23" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="23" e="23"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n24" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="24" e="24"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n25" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="25" e="25"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n26" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="26" e="26"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n27" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="27" e="27"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n28" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="28" e="28"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n29" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="29" e="29"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n30" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="30" e="30"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="n31" width="50" allowFilter="&GridVoucherAllowFilter;">
+      <header v="31" e="31"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt_rec_nv"/>
+      <field name="ma_nv"/>
+      <field name="ho_ten"/>
+      <field name="ten_bp%l"/>
+      <field name="n01"/>
+      <field name="n02"/>
+      <field name="n03"/>
+      <field name="n04"/>
+      <field name="n05"/>
+      <field name="n06"/>
+      <field name="n07"/>
+      <field name="n08"/>
+      <field name="n09"/>
+      <field name="n10"/>
+      <field name="n11"/>
+      <field name="n12"/>
+      <field name="n13"/>
+      <field name="n14"/>
+      <field name="n15"/>
+      <field name="n16"/>
+      <field name="n17"/>
+      <field name="n18"/>
+      <field name="n19"/>
+      <field name="n20"/>
+      <field name="n21"/>
+      <field name="n22"/>
+      <field name="n23"/>
+      <field name="n24"/>
+      <field name="n25"/>
+      <field name="n26"/>
+      <field name="n27"/>
+      <field name="n28"/>
+      <field name="n29"/>
+      <field name="n30"/>
+      <field name="n31"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        &CreateTicket; <![CDATA[
+select 'this._authorize = ' + rtrim(@@sysDatabaseName.dbo.FastBusiness$System$GetAuthorize(@@admin, @@userID, 'hrEmployeeShiftSchedule', 'Edit')) + ';this._key = ''' + @ticket + ''';load$ShiftScheduleGrid$(this);' as message
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'dispose$ShiftScheduleGrid$(this);' as message
+return
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$ShiftScheduleGrid$(g) {
+  g.add_onRender(on$ShiftScheduleGrid$Render);
+  g.add_onResponseComplete(on$ShiftScheduleGrid$ResponseComplete);
+  g.add_commandEvent(on$ShiftScheduleGrid$ExecuteCommand);
+}
+function dispose$ShiftScheduleGrid$(g) {
+  try {g.remove_commandEvent(on$ShiftScheduleGrid$ExecuteCommand);} catch (ex) {}
+  try {g.remove_onResponseComplete(on$ShiftScheduleGrid$ResponseComplete);} catch (ex) {}
+  try {g.remove_onRender(on$ShiftScheduleGrid$Render);} catch (ex) {}
+}
+function on$ShiftScheduleGrid$Render(sender, eventArgs) {
+  var g = eventArgs.grid;
+  g._d1 = getDayOfMonth(g._month, g._year, 6), g._d2 = getDayOfMonth(g._month, g._year, 0), a = g._nonWorking.split(',');
+  for (var i = 0; i < a.length; i++) {
+    var d = parseInt(a[i]);
+    if ((Array.indexOf(g._d2, d) == -1) && !isNaN(d)) g._d2.push(d);
+  }
+  if (g._hiddenFields) {
+    var a = g._hiddenFields;
+    for (var i = 0; i < a.length; i++) setGridHiddenFields(g, a[i].Fields, a[i].Value);
+  }
+  for (var i = (g._rowCount ? 1 : 0); i <= g._rowCount; i++) {
+    setGridColor(g, g._d1, i, '#4695d6', '#e6edf7');
+    setGridColor(g, g._d2, i, '#e6400d', '#e9edf1');
+  }
+}
+function on$ShiftScheduleGrid$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, b = (g._activeRow != -1);
+  if (b) g._employeeID = $func.trim(g._getItemValue(g._activeRow, g._getColumnOrder('ma_nv')));
+  switch (action) {
+    case 'CopyRow':
+      if (b) show$Form(g, 'hrShiftScheduleCopyRow');
+      break;
+    case 'CopyColumn':
+      show$Form(g, 'hrShiftScheduleCopyColumn');
+      break;
+    case 'Truncate':
+      show$Form(g, 'hrShiftScheduleTruncate');
+      break;
+    case 'ImportData':
+      show$Form(g, 'hrShiftScheduleImport');
+      break;
+    case 'Download':
+      request$Download(g, action);
+      break;
+    default:
+      break;
+  }
+}
+function on$ShiftScheduleGrid$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Download':
+      g._key = result[0].Value;
+      break;
+    default:
+      break;
+  }
+}
+function setGridHiddenFields(g, s, v) {
+  var a = s.split(',');
+  for (var i = 0; i < a.length; i++) g._setColumnVisible(g._getColumnOrder($func.trim(a[i])), !v);
+}
+function setGridColor(g, a, r, c, b) {
+  var id = g.get_id(), k = (r > 0);
+  for (var i = 0; i < a.length; i++) {
+    $get(id + '_HeaderText_' + (a[i] > 9 ? 'n' + a[i].toString() : 'n0' + a[i].toString())).style.color = c;
+    if (k) $get(id + '_gridCell_' + r.toString() + '.' + (a[i] + 4).toString()).style.backgroundColor = b;
+  }
+}
+function getDayOfMonth(m, y, x) {
+  var a = [], d = new Date(y, m - 1, 1), day = d.getDay(), v = (x == 0 ? 7 : 6);
+  if (day != x) d.setDate(d.getDate() + (v - day));
+  a.push(d.getDate());
+  while (d) {
+    d.setDate(d.getDate() + 7);
+    if (d.getMonth() != (m - 1)) return a;
+    a.push(d.getDate());
+  }
+}
+function show$Form(g, c) {(!g._denyEdit) ? (g._authorize == 1) ? g.showForm(c) : $message.show($df.getResources(g._language, "Message.NotAccess")) : $message.show(g._denyMessage);}
+/* </flatten> */]]>
+      &DowloadScript;
+    </text>
+  </script>
+
+  <response>
+    <action id="Download">
+      <text>
+        &CreateTicket;<![CDATA[
+select @ticket as value
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @key nvarchar(4000), @join nvarchar(4000), @field nvarchar(4000), @day varchar(1024), @i int
+select @i = 1, @day = ''
+while @i < 32 select @day = @day + 'upper(n' + replace(str(@i, 2), ' ', '0') + '),', @i = @i + 1
+select @day = substring(@day, 1, len(@day) - 1), @field = ' a.stt_rec_nv, rtrim(b.ma_nv) ma_nv, rtrim(b.ho_nv) + space(1) + rtrim(b.ten_nv) ho_ten, ' + case @@language when 'v' then 'c.ten_bp,' else 'c.ten_bp2,' end + @day
+select @key = 'b.bp_ref like ''' + @bp_ref + '%''', @join = 'left join hrnv b on a.stt_rec_nv = b.stt_rec left join hrbp c on b.bo_phan = c.ma_bp'
+if @ma_nv <> '' select @key = @key + ' and a.stt_rec_nv = ''' + (select rtrim(stt_rec) from hrnv where ma_nv = @ma_nv) + ''''
+if @ma_vtr <> '' select @key = @key + ' and b.vi_tri = ''' + replace(rtrim(@ma_vtr), '''', '''''') + ''''
+if @bac_ql <> '' select @key = @key + ' and b.bac_quan_ly = ''' + replace(rtrim(@bac_ql), '''', '''''') + ''''
+
+declare @k1 varchar(1024), @k2 varchar(1024)
+select @k1 = stuff(@@firstItem, len(@@firstItem) - 12, 0, ' '), @k2 = stuff(@@lastItem, len(@@lastItem) - 12, 0, ' ')
+exec FastBusiness$HRM$ShiftSchedule$Finding @@prime, @@table, @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount,
+  @k1, @k2, @key, @join, 'rtrim(ma_nv) + '' '' + stt_rec_nv', @field, 'b.ma_nv', @bp_ref, @thang, @nam, '@@sysDatabaseName', @@admin, @@userID
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <css>
+    <text>
+      <![CDATA[
+div.Edit{background-image:url(../images/Highlight.png);background-repeat:no-repeat;background-position:0 0;}
+div.TextEdit{background-image:url(../images/Highlight.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.CopyRow{background-image:url(../images/Shift.png);background-repeat:no-repeat;background-position:0 0;}
+div.CopyColumn{background-image:url(../images/Shift.png);background-repeat:no-repeat;background-position:-22px 0;}
+div.ImportData{background-image:url(../images/Upload.png);background-repeat:no-repeat;background-position:0 0;}
+div.Download{background-image:url(../Images/Download.png);background-repeat:no-repeat;background-position:0 0;}
+div.Truncate{background-image:url(../images/command.png);background-repeat:no-repeat;background-position:-44px 0;}
+div.TextCopyRow{background-image:url(../images/TextAsterisk.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.TextCopyColumn{background-image:url(../images/TextClone.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.TextTruncate{background-image:url(../images/TextRemove.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.EditOverGreen, div.TextEditOverGreen, div.CopyColumnOverGreen, div.TextCopyColumnOverGreen, div.TextCopyRowOverGreen, div.DownloadOverGreen, div.ImportDataOverGreen, div.CopyRowOverGreen, div.TruncateOverGreen, div.TextTruncateOverGreen{background-position-y:-22px;}]]>
+    </text>
+  </css>
+
+  <toolbar>
+    <button command="Edit">
+      <title v="Khai báo (Ctrl + E)$$90" e="Toolbar.Edit"></title>
+    </button>
+    <button command="Truncate">
+      <title v="Xóa đăng ký ca của nhân viên đã nghỉ$$90" e="Delete shift schedule of the leaved employees$Delete...$90"></title>
+    </button>
+    <button command="ImportData">
+      <title v="Lấy dữ liệu từ tệp..." e="Import Data from File..."></title>
+    </button>
+    <button command="Download">
+      <title v="Tải tệp mẫu..." e="Download Template File..."/>
+    </button>
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"></title>
+    </button>
+    <button command="Seprate">
+      <title v="-" e="-"></title>
+    </button>
+    <button command="CopyRow">
+      <title v="Sao chép theo nhân viên$$120" e="Copy by Employee$$120"></title>
+    </button>
+    <button command="CopyColumn">
+      <title v="Sao chép theo ngày$$75" e="Copy by Date$$75"></title>
+    </button>
+    <button command="Seprate">
+      <title v="-" e="-"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+</grid>

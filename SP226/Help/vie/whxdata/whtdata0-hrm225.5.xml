@@ -1,0 +1,335 @@
+﻿<?xml version='1.0' encoding='utf-8' ?>
+<tocdata>
+<book name="Khởi đầu" >
+  <item name="Các hướng dẫn chung khi làm việc với chương trình" url="GeneralWebapptask.htm" />
+  <item name="Các thao tác chung khi làm việc với các danh mục" url="Generallisttask.htm" />
+  <item name="Những thao tác chung về chứng từ" url="GeneralVouchertask.htm" />
+  <item name="Các thao tác chung trên báo cáo" url="generalreporttask.htm" />
+</book>
+<book name="Hệ thống" >
+  <item name="Chọn ngày làm việc" url="WorkingDate.htm" />
+  <item name="Tỷ giá qui đổi ngoại tệ" url="FCExchangeRate.htm" />
+  <item name="Danh mục tiền tệ" url="Currency.htm" />
+  <item name="Danh mục đơn vị cơ sở" url="Unit.htm" />
+  <book name="Người sử dụng" >
+    <item name="Khai báo  người sử dụng" url="User.htm" />
+    <item name="Khai báo nhóm sử dụng" url="UserGroup.htm" />
+    <item name="Phân quyền truy nhập" url="AllowRight.htm" />
+    <item name="Phân quyền truy nhập theo nhóm người dùng" url="AllowGroupRight.htm" />
+    <item name="Phân quyền truy nhập theo đơn vị cơ sở" url="UnitRight.htm" />
+    <item name="Giới hạn quyền truy cập" url="DenyRight.htm" />
+    <item name="Giới hạn quyền truy cập theo nhóm người dùng" url="DenyGroupRight.htm" />
+    <item name="Giới hạn quyền truy nhập theo đơn vị cơ sở" url="LimitUnitRight.htm" />
+    <item name="Giới hạn địa chỉ truy cập" url="BlackListIP.htm" />
+    <item name="Giới hạn địa chỉ truy cập theo người dùng" url="AllowUserIP.htm" />
+    <item name="Giới hạn địa chỉ truy cập theo nhóm người dùng" url="AllowGroupIP.htm" />
+  </book>
+	<book name="Duyệt chứng từ..." >
+		<item name="Khai báo trạng thái duyệt" url="GNApprovalIndicator.htm" />
+		<item name="Danh mục kiểu duyệt" url="GNApprovalCategory.htm" />
+		<item name="Khai báo kiểu duyệt" url="GNApprovalCategoryDetail.htm" />
+		<item name="Khai báo quyền duyệt" url="GNApprovalRoles.htm" />
+		<item name="Khai báo người duyệt" url="GNApprovingOfficers.htm" />
+		<item name="Khai báo trạng thái cho phép duyệt lại" url="GNResetApprove.htm" />
+	</book>
+  <book name="Phân quyền chức năng của nhân viên" >
+    <item name="Lập luận về bảo mật thông tin trong trong phân hệ nhân sự-tiền lương" url="hrAccessRighLogic.htm" />
+    <item name="Khai báo quyền sử dụng" url="hrAccessRight.htm" />
+    <item name="Khai báo quyền chức năng" url="hrAllowTabRight.htm" />
+    <item name="Khai báo quyền bộ phận" url="hrAllowDepartmentRight.htm" />
+    <item name="Phân quyền người sử dụng" url="hrAllowUserRight.htm" />
+    <item name="Phân quyền nhóm người sử dụng" url="hrAllowGroupRight.htm" />
+    <item name="Khai báo quyền nhân viên" url="hrAllowEmployeeRight.htm" />
+  </book>
+	<book name="Tiện ích" >
+		<item name="Quản lý chức năng" url="MenuManagement.htm" />
+	</book>  
+  <book name="Bảo trì dữ liệu" >
+    <item name="Lưu trữ số liệu" url="AutoBackup.htm" />
+    <item name="Khóa số liệu" url="LockedDate.htm" />
+    <item name="Khóa số liệu theo chứng từ" url="VoucherLocking.htm" />
+    <item name="Tạo dữ liệu" url="CreateYear.htm" />
+    <item name="Tính số liệu theo kỳ" url="CalculatePeriodTable.htm" />
+  </book>
+  <item name="Khai báo các màn hình nhập chứng từ" url="VoucherInformation.htm" />
+  <item name="Khai báo các tham số tùy chọn" url="Options.htm" />
+  <item name="Khai báo ngày bắt đầu nhập liệu" url="InputStartDate.htm" />
+</book>
+<book name="Nhân sự" >
+  <item name="Thông tin nhân viên" url="hrPIGeneralInformation.htm" />
+  <item name="Danh mục bộ phận" url="hrDepartment.htm" />
+  <item name="Danh mục loại phân nhóm bộ phận" url="hrDeptCategoryType.htm" />
+  <item name="Cập nhật phân nhóm bộ phận" url="hrDeptCategoryDefinition.htm" />
+  <item name="Danh mục vị trí công việc" url="hrPosition.htm" />
+  <book name="Quản lý đào tạo" >
+    <item name="Phiếu yêu cầu đào tạo" url="hrTMRequest.htm" />
+	<item name="Duyệt Phiếu yêu cầu đào tạo" url="hrTMApproval.htm" />
+	<item name="Đóng Phiếu yêu cầu đào tạo" url="hrTMClose.htm" />
+    <item name="Cập nhật thông tin khóa học" url="hrTMCourseInformation.htm" />
+    <item name="Cập nhật kết quả khóa học" url="hrTMCourseResult.htm" />
+    <item name="Cập nhật yêu cầu đào tạo theo vị trí công việc" url="hrTMRequirementJobPosition.htm" />
+    <item name="Danh mục môn học" url="hrTMSubjectList.htm" />
+    <item name="Danh mục loại kỹ năng" url="hrTMSkillTypeList.htm" />
+    <item name="Danh mục xếp loại" url="hrTMGradeList.htm" />
+    <item name="Danh mục loại hình đào tạo" url="hrTMTypeList.htm" />
+    <item name="Khai báo nguồn lực đào tạo" url="hrTMResource.htm" />
+    <item name="Khai báo đơn vị đào tạo" url="hrTMProvider.htm" />
+    <item name="Hướng dẫn lập báo cáo đào tạo" url="hrTMrptguide.htm" />
+  </book>
+  <book name="Quản lý đánh giá" >
+    <item name="Cập nhật đánh giá thực hiện công việc" url="hrAMPerformanceInfor.htm" />
+    <item name="Khai báo kỳ đánh giá" url="hrAMPeriod.htm" />
+    <item name="Danh mục loại chỉ tiêu đánh giá" url="hrAMCriterionType.htm" />
+    <item name="Khai báo chỉ tiêu đánh giá" url="hrAMCriteria.htm" />
+    <item name="Hướng dẫn lập báo cáo đánh giá công việc" url="hrAMrptguide.htm" />
+  </book>
+  <book name="Cấp phát công cụ, dụng cụ" >
+    <item name="Cập nhật cấp phát công cụ, dụng cụ" url="hrTSIssue.htm" />
+    <item name="Cập nhật giảm công cụ, dụng cụ" url="hrTSDecrease.htm" />
+    <item name="Cập nhật yêu cầu công cụ, dụng cụ theo vị trí công việc" url="hrTSRequestJobPosition.htm" />
+    <item name="Báo cáo cấp phát công cụ, dụng cụ" url="hrptTSIssue.htm" />
+    <item name="Báo cáo giảm công cụ, dụng cụ" url="hrptTSDecrease.htm" />
+    <item name="Tình hình cấp phát công cụ, dụng cụ theo nhân viên" url="hrptTSIssueStatusEmployee.htm" />
+    <item name="Tình hình cấp phát công cụ, dụng cụ theo vị trí công việc" url="hrptTSIssueStatusPosition.htm" />
+    <item name="Báo cáo công cụ, dụng cụ cấp phát hết hạn" url="hrptTSExpiry.htm" />
+    <item name="Danh mục loại công cụ, dụng cụ" url="hrTSTypeList.htm" />
+    <item name="Danh mục công cụ, dụng cụ" url="hrTSList.htm" />
+    <item name="Cập nhật công cụ, dụng cụ sử dụng đầu kỳ" url="hrTSOpening.htm" />
+    <item name="Kết chuyển công cụ, dụng cụ sử dụng sang năm sau" url="hrTSTransfer.htm" />
+  </book>
+  <item name="Sơ yếu lý lịch" url="hrptCurriculumVitae.htm" />
+  <item name="Danh sách sinh nhật nhân viên" url="hrptEmpBirthday.htm" />
+  <item name="Danh sách thông tin gia đình của nhân viên" url="hrptEmpFamilyMembers.htm" />
+  <item name="Danh sách nhân viên" url="hrptEmployee.htm" />
+  <item name="Danh sách nhân viên theo bộ phận" url="hrptEmpByDept.htm" />
+  <item name="Danh sách nhân viên theo trình độ học vấn" url="hrptEmpEducation.htm" />
+  <item name="Danh sách nhân viên theo chuyên môn" url="hrptEmpSpecialist.htm" />
+  <item name="Danh sách nhân viên theo trình độ ngoại ngữ" url="hrptEmpForeignLanguage.htm" />
+  <item name="Danh sách nhân viên theo thâm niên công tác" url="hrptEmpWorkSeniority.htm" />
+  <item name="Danh sách nhân viên tăng giảm lương trong kỳ" url="hrptEmpSalaryChanges.htm" />
+  <item name="Danh sách nhân viên đến kỳ thay đổi lương" url="hrptEmpSalaryDueIncrease.htm" />
+  <book name="Danh sách" >
+    <item name="Danh sách khen thưởng nhân viên" url="hrptRewardList.htm" />
+    <item name="Danh sách kỷ luật nhân viên" url="hrptDisciplineViolator.htm" />
+    <item name="Danh sách nhân viên bị tai nạn" url="hrptEmpLabourAccidents.htm" />
+  </book>
+  <book name="Báo cáo biến động nhân viên" >
+    <item name="Danh sách nhân viên tăng theo bộ phận" url="hrptEmpIncreasingByDept.htm" />
+    <item name="Danh sách nhân viên giảm theo bộ phận" url="hrptEmpDecreasingByDept.htm" />
+    <item name="Danh sách nhân viên điều chuyển bộ phận" url="hrptEmpTransfering.htm" />
+    <item name="Báo cáo diễn biến lao động theo bộ phận" url="hrptEmpChangesByDept.htm" />
+    <item name="Báo cáo diễn biến lao động theo bộ phận, vị trí công việc" url="hrptEmpChangesByDeptAndPos.htm" />
+	<item name="Thông báo về tình hình biến động lao động" url="hrptDetailLaborFluctuationNotification.htm" />
+	<item name="Báo cáo tình hình thay đổi lao động" url="hrptNumberLaborFluctuationNotification.htm" />
+	<item name="Sổ quản lý lao động" url="hrptBookLabor.htm" />
+  </book>
+  <book name="Báo cáo thống kê nhân viên" >
+    <item name="Báo cáo thống kê số lượng nhân viên theo bộ phận trong năm" url="hrptEmpStatisticsByDept.htm" />
+    <item name="Báo cáo thống kê số lượng nhân viên theo tính chất công việc trong năm" url="hrptEmpStatisticsByJobNature.htm" />
+    <item name="Báo cáo thống kê trình độ học vấn theo bộ phận, vị trí công việc" url="hrptEduStatisticsByDeptPos.htm" />
+    <item name="Báo cáo thống kê thâm niên làm việc theo bộ phận" url="hrptWorkSeniorityByDept.htm" />
+    <item name="Báo cáo thống kê thâm niên của bộ phận theo tháng" url="hrptWorkSeniorityByMonth.htm" />
+    <item name="Báo cáo thống kê thời gian thử việc theo bộ phận" url="hrptEmpProbationPeriodByDept.htm" />
+    <item name="Báo cáo thống kê độ tuổi theo bộ phận, vị trí công việc" url="hrptAgeStatisticsDeptPos.htm" />
+    <item name="Báo cáo thống kê độ tuổi theo tình trạng hôn nhân" url="hrptAgeStatisticsMaritalStatus.htm" />
+    <item name="Báo cáo tỷ lệ nhân viên nghỉ việc" url="hrptJobLeavingPercentage.htm" />
+    <item name="Báo cáo thống kê nghỉ việc theo lý do" url="hrptJobLeavingStatisticsbyReason.htm" />
+  </book>
+    <item name="Truy vấn thông tin nhân viên" url="EmployeeInformation.htm" />
+  <book name="Khai báo" >
+    <item name="Khai báo tham số mẫu báo cáo" url="hrFormParameterDeclaration.htm" />
+    <item name="Cập nhật thông báo biến động lao động" url="hrLaborFluctuation.htm" />
+	<item name="Điều chỉnh người quản lý trực tiếp" url="hrDirectSupervisorChanging.htm" />
+  </book>
+  <book name="Danh mục" >
+    <item name="Danh mục thông tin chung" url="hrGeneralInformationList.htm" />
+    <item name="Danh mục thông tin học vấn" url="hrEducationalInformationList.htm" />
+    <item name="Danh mục khác" url="hrOtherList.htm" />
+  </book>
+</book>
+<book name="Tuyển dụng" >
+  <item name="Cập nhật yêu cầu số lượng nhân viên" url="hrRMEmpRequirementInput.htm" />
+  <item name="Phiếu yêu cầu tuyển dụng" url="hrRMRequest.htm" />
+  <item name="Duyệt phiếu yêu cầu tuyển dụng" url="hrRMApproval.htm" />
+  <item name="Đóng phiếu yêu cầu tuyển dụng" url="hrRMClose.htm" />
+  <item name="Cập nhật thông tin đợt tuyển dụng" url="hrRMPeriodInfoInput.htm" />
+  <item name="Cập nhật hồ sơ ứng viên" url="hrRMApplicantProfileInput.htm" />
+  <item name="Lập lịch kiểm tra, phỏng vấn" url="hrRMTestInterviewSchedule.htm" />
+  <item name="Cập nhật lịch kiểm tra, phỏng vấn cho ứng viên" url="hrRMTestInterviewScheduleApplicant.htm" />
+  <item name="Cập nhật kết quả kiểm tra" url="hrRMTestResultInput.htm" />
+  <item name="Cập nhật kết quả phỏng vấn" url="hrRMInterviewResultInput.htm" />
+  <item name="Cập nhật quyết định tuyển dụng" url="hrRMDecision.htm" />
+  <item name="Danh mục loại kiểm tra" url="hrRMTest.htm" />
+  <item name="Danh mục loại phỏng vấn" url="hrRMInterview.htm" />
+  <item name="Danh mục vòng thi tuyển" url="hrRMRoundExamination.htm" />
+  <item name="Danh mục trạng thái hồ sơ" url="hrRMAppFormStatus.htm" />
+  <item name="Danh mục kênh tuyển dụng" url="hrRMChannel.htm" />
+  <item name="Danh mục nguồn tuyển dụng" url="hrRMSource.htm" />
+  <item name="Khai báo hình thức thi tuyển" url="hrRMExaminationForm.htm" />
+  <item name="Khai báo mẫu yêu cầu kiểm tra" url="hrRMTestRequest.htm" />
+  <item name="Hướng dẫn lập báo cáo tuyển dụng" url="hrRMrptguide.htm" />
+</book>
+<book name="Chấm công" >
+  <item name="Cập nhật thông tin chấm công nhân viên" url="hrEmployeeCardInfoInput.htm" />
+  <book name="Đăng ký ca..." >
+	<item name="Đăng ký ca làm việc cho nhân viên" url="hrEmployeeShiftSchedule.htm" />
+	<item name="Đăng ký ca làm việc cho nhân viên theo thời gian" url="hrEmployeeShiftScheduleByDay.htm" />
+	<item name="Đăng ký tăng ca cho nhân viên" url="hrEmployeeOvertimeRegister.htm" />
+  </book>
+  <item name="Lấy số liệu chấm công" url="hrEmployeeTimekeepingImport.htm" />
+  <item name="Xóa số liệu chấm công" url="hrEmployeeTimekeepingDeletion.htm" />
+  <item name="Cập nhật giờ vào, ra cho nhân viên" url="hrEmployeeTimeInOut.htm" />
+	<book name="Cập nhật" >
+		<item name="Cập nhật thông tin nhân viên nghỉ, vắng mặt" url="hrEmployeeLeaveInput.htm" />
+		<item name="Cập nhật thông tin nhân viên nghỉ theo chế độ" url="hrEmployeeLeavebyRegulation.htm" />
+		<item name="Cập nhật thông tin nhân viên không cần chấm công" url="hrEmployeeWithoutTimesheetLeaveInput.htm" />
+	</book>
+	  <book name="Điều chỉnh" >
+    <item name="Điều chỉnh giờ vào, ra cho nhân viên" url="hrEmployeeTimeInOutAdjusting.htm" />
+	<item name="Điều chỉnh dữ liệu chấm công" url="hrTimekeepingAdjusting.htm" />
+    <item name="Điều chỉnh bộ phận tính công cho nhân viên" url="hrWorkingDepartmentDefinition.htm" />
+    <item name="Điều chỉnh công làm việc cho nhân viên" url="hrEmployeeWorkdayAdjusting.htm" />
+    <item name="Bổ sung công làm việc cho nhân viên" url="hrEmployeeWorkdayAdditional.htm" />
+  </book>
+  <item name="Tính công" url="hrWorkdayComputation.htm" />
+  <item name="Xóa công" url="hrWorkdayDeletion.htm" />
+  <item name="Danh sách nhân viên sai số liệu chấm công" url="hrptEmployeesWithInaccurateTimeInOut.htm" />
+  <item name="Danh sách nhân viên không có dữ liệu chấm công" url="hrptListOfEmpWithoutTimekeepingData.htm" />
+  <item name="Bảng chấm công" url="hrptTimesheet.htm" />
+  <item name="Bảng kê chi tiết kết quả chấm công" url="hrptTimesheetDetailed.htm" />
+  <item name="Bảng tổng hợp công nhân viên" url="hrptEmployeeWorkdaySheet.htm" />
+  <item name="Bảng tổng hợp tăng ca" url="hrptOvertimeSheet.htm" />
+  <book name="Báo cáo" >
+    <item name="Báo cáo đi muộn, về sớm" url="hrptLateInEarlyOut.htm" />
+    <item name="Báo cáo thống kê số lần đi muộn, về sớm" url="hrptEmployeeLateInEarlyOutStatistics.htm" />
+    <item name="Báo cáo chi tiết nghỉ theo mã công" url="hrptLeaveTimeDetailed.htm" />
+    <item name="Báo cáo tổng hợp nghỉ theo mã công" url="hrptLeaveTimeSummary.htm" />
+  </book>
+  <book name="Danh mục" >
+    <item name="Danh mục ký hiệu chấm công" url="hrWorkdaySign.htm" />
+    <item name="Danh mục loại công" url="hrWorkdayType.htm" />
+    <item name="Danh mục nhóm công" url="hrWorkdayGroup.htm" />
+    <item name="Danh mục ca làm việc" url="hrWorkingShift.htm" />
+    <item name="Danh mục nhóm ca làm việc" url="hrWorkingShiftGroup.htm" />
+    <item name="Danh mục lý do tăng ca" url="hrOvertimeReason.htm" />
+	<item name="Khai báo chi tiết ca" url="hrDetailedShift.htm" />
+    <item name="Khai báo loại công tăng ca" url="hrOvertimeWorkdayType.htm" />
+	<item name="Khai báo chỉ tiêu bảng chấm công tổng hợp" url="hrTimesheetSummaryDefinition.htm" />
+    <item name="Danh mục loại nghỉ, vắng mặt" url="hrLeaveType.htm" />
+    <item name="Khai báo ngày nghỉ, ngày lễ" url="hrNonworkingDaysPublicHolidays.htm" />
+    <item name="Khai báo lịch nghỉ" url="hrDepartmentNonWorkingDays.htm" />
+  </book>
+  <book name="Quản lý phép" >
+    <item name="Cập nhật số phép phát sinh cho nhân viên" url="hrEmployeeAnnualLeaveInput.htm" />
+    <item name="Khai báo số phép cộng thêm cho bộ phận" url="hrDepartmentAddAnnualLeave.htm" />
+    <item name="Khai báo số phép cộng thêm cho nhân viên" url="hrEmployeeAddAnnualLeave.htm" />
+    <item name="Xem thông tin phép đã duyệt" url="hrApprovedAnnualLeaveRequest.htm" />
+    <item name="Báo cáo chi tiết nhân viên nghỉ phép" url="hrptLeaveDetailed.htm" />
+    <item name="Bảng theo dõi số ngày nghỉ phép trong năm" url="hrptEmployeeAnnualLeaveDetailed.htm" />
+    <item name="Báo cáo phép năm" url="hrptEmployeeAnnualLeaveSummary.htm" />
+    <item name="Cập nhật số dư phép" url="hrAnnualLeaveBalanceInput.htm" />
+	<item name="Khai báo chuyển phép sang năm sau" url="hrCarriedForwardAnnualLeave.htm" />
+    <item name="Kết chuyển số phép của nhân viên sang năm sau" url="AnnualLeaveBalanceTransfer.htm" />
+  </book>
+</book>
+<book name="Lương" >
+  <item name="Cập nhật thông tin lương nhân viên" url="hrEmployeeSalaryInformation.htm" />
+  <item name="Cập nhật thông tin phụ cấp" url="hrAllowances.htm" />
+  <item name="Cập nhật số lượng sản phẩm cá nhân" url="hrEmployeeProductQuantityInput.htm" />
+  <item name="Cập nhật số lượng sản phẩm theo bộ phận" url="hrDepartmentProductQuantityInput.htm" />
+  <item name="Cập nhật thông tin thưởng, phạt" url="hrAwardsPenalties.htm" />
+  <item name="Cập nhật thông tin thu nhập, giảm trừ" url="hrIncomesDeductions.htm" />
+  <item name="Cập nhật đánh giá khen thưởng" url="hrEmployeeRewardInput.htm" />
+  <item name="Cập nhật tạm ứng" url="hrSalaryAdvance.htm" />
+  <item name="Tính lương" url="hrSalaryComputation.htm" />
+  <item name="Điều chỉnh dữ liệu lương" url="hrSalaryAdjustment.htm" />
+  <item name="Bút toán kết chuyển lương" url="hrCreateSalaryTrans.htm" />
+  <item name="Xóa lương" url="hrSalaryDeletion.htm" />
+  <item name="Bảng chi tiết thanh toán lương cho nhân viên" url="hrptPayroll001.htm" />
+  <item name="Bảng chi tiết thanh toán lương cho nhân viên theo bộ phận" url="hrptPayroll002.htm" />
+  <book name="Báo cáo" >
+    <item name="Bảng thanh toán lương theo bộ phận" url="hrptPayroll003.htm" />
+    <item name="Bảng thanh toán lương theo bộ phận nhiều kỳ" url="hrptPayroll004.htm" />
+    <item name="Bảng chi tiết lương sản phẩm cho nhân viên" url="hrptPayroll007.htm" />
+    <item name="Bảng chi tiết lương sản phẩm cho bộ phận" url="hrptPayroll008.htm" />
+    <item name="Bảng phân bổ lương sản phẩm bộ phận cho nhân viên" url="hrptPayroll009.htm" />
+    <item name="Bảng chi tiết phụ cấp cho nhân viên theo bộ phận" url="hrptPayroll005.htm" />
+    <item name="Bảng chi tiết thưởng, phạt nhân viên theo bộ phận" url="hrptPayroll006.htm" />
+    <item name="Bảng chi tiết thu nhập, giảm trừ nhân viên theo bộ phận" url="hrptPayroll016.htm" />
+    <item name="Danh sách thanh toán lương bằng chuyển khoản" url="hrptPayroll010.htm" />
+    <item name="Danh sách thanh toán lương bằng tiền mặt" url="hrptPayroll011.htm" />
+	<item name="Gửi phiếu lương qua thư điện tử" url="hrptMailSalary.htm" />
+  </book>
+  <book name="Thuế thu nhập cá nhân" >
+    <item name="Cập nhật thông tin thuế TNCN cho nhân viên" url="hrEmployeePITInformation.htm" />
+    <item name="Cập nhật thu nhập/giảm trừ theo biểu thuế lũy tiến" url="hrProgressiveTaxTariff.htm" />
+    <item name="Cập nhật phát sinh theo biểu thuế toàn phần" url="hrFlatRateTariff.htm" />
+    <item name="Quyết toán thuế thu nhập cá nhân" url="hrPITFinalization.htm" />
+    <item name="Cập nhật điều chỉnh thuế khấu trừ" url="hrAdjustDeductablePIT.htm" />
+    <item name="Điều chỉnh số liệu tờ khai quyết toán thuế TNCN" url="Tax05KK.htm" />
+    <item name="Tờ khai khấu trừ thuế TNCN từ tiền lương, tiền công" url="hrpt02KK.htm" />
+    <item name="Tờ khai khấu trừ thuế TNCN từ thu nhập khác" url="hrpt03KK.htm" />
+    <item name="Tờ khai quyết toán thuế TNCN từ tiền lương, tiền công" url="hrpt05KK.htm" />
+    <item name="Bảng kê thuế TNCN từ tiền lương, tiền công theo biểu thuế lũy tiến" url="hrpt05ABK.htm" />
+    <item name="Bảng kê thuế TNCN từ tiền lương, tiền công theo biểu thuế toàn phần" url="hrpt05BBK.htm" />
+    <item name="Bảng kê thông tin người phụ thuộc" url="hrpt053BK.htm" />
+    <item name="Bảng kê thuế TNCN từ chuyển nhượng chứng khoán" url="hrpt06BK.htm" />
+    <item name="Tờ khai quyết toán thuế TNCN từ thu nhập khác" url="hrpt06KK.htm" />
+    <item name="Danh mục loại thu nhập tính thuế" url="TaxIncomeType.htm" />
+    <item name="Danh mục chỉ tiêu thu nhập/giảm trừ" url="IncomeList.htm" />
+    <item name="Danh mục biểu thuế lũy tiến từng phần" url="ProgressiveTariff.htm" />
+    <item name="Danh mục biểu thuế toàn phần" url="CompleteTariff.htm" />
+	<item name="Khai báo hệ số qui đổi thu nhập tính thuế" url="hrConversionCoeffTaxableIncome.htm" />
+    <item name="Khai báo chỉ tiêu thu nhập cho loại lương" url="hrIncomeDefiningbyPayType.htm" />
+  </book>
+  <item name="Khai báo loại lương" url="hrPayType.htm" />
+  <book name="Khai báo" >
+	<item name="Khai báo chỉ tiêu lương" url="hrPayNorm.htm" />
+	<item name="Khai báo các bút toán kết chuyển lương" url="hrSalaryTransactionDefinition.htm" />
+	<item name="Khóa số liệu theo bộ phận" url="hrDepartmentLocking.htm" />
+  </book>
+  <book name="Danh mục" >
+    <item name="Khai báo kỳ tính lương" url="hrSalaryComputingPeriod.htm" />
+    <item name="Khai báo tỷ giá tính lương" url="hrSalaryExchangeRate.htm" />
+    <item name="Khai báo tỷ giá tính bảo hiểm" url="hrInsurance_ExchangeRate.htm" />
+    <item name="Cập nhật lương tối thiểu" url="hrCommonMinimumWage.htm" />
+    <item name="Cập nhật lương tối thiểu theo vùng" url="hrRegionMinimumWage.htm" />
+    <item name="Khai báo chi tiết loại lương theo công" url="hrSalaryCategoryByWorkday.htm" />
+    <item name="Cập nhật đơn giá giờ công" url="hrWorkingHourUnitCost.htm" />
+    <item name="Danh mục loại phụ cấp" url="hrAllowanceTypeList.htm" />
+    <item name="Danh mục phụ cấp" url="hrAllowanceList.htm" />
+    <item name="Danh mục lý do thưởng, phạt" url="hrAwardPenaltyReasonList.htm" />
+    <item name="Danh mục thu nhập, giảm trừ khác" url="hrIncomeDeductionList.htm" />
+    <item name="Danh mục loại khen thưởng" url="hrAwardTypeList.htm" />
+    <item name="Danh mục sản phẩm" url="hrProduct.htm" />
+    <item name="Cập nhật đơn giá sản phẩm" url="hrProductUnitCost.htm" />
+    <item name="Cập nhật hệ số theo bộ phận" url="hrCoefficientByDepartment.htm" />
+    <item name="Danh mục bậc lương" url="hrPayrollLevel.htm" />
+    <item name="Danh mục ngạch lương" url="hrPayGradeList.htm" />
+    <item name="Khai báo thang bảng lương" url="hrBasePayrollLevel.htm" />
+    <item name="Khai báo hệ số thử việc theo bộ phận" url="hrProbationCoefficient.htm" />
+  </book>
+  <book name="Tạo mẫu báo cáo" >
+    <item name="Bảng chi tiết thanh toán lương cho nhân viên" url="hrPayroll001.htm" />
+    <item name="Bảng chi tiết thanh toán lương theo bộ phận" url="hrPayroll002.htm" />
+    <item name="Khai báo tham số mẫu báo cáo" url="hrPayroll003.htm" />
+  </book>
+</book>
+<book name="Bảo hiểm" >
+  <item name="Cập nhật thông tin bảo hiểm, công đoàn" url="hrEmployeeInsuranceAndUnionDueInformation.htm" />
+  <item name="Cập nhật quá trình tham gia BHXH" url="hrEmployeeSIHistory.htm" />
+  <item name="Cập nhật danh sách lao động đề nghị cấp sổ bảo hiểm" url="hrEmployeeRequestingForSIBookInput.htm" />
+  <item name="Văn bản đề nghị" url="hrWrittenRequest.htm" />
+  <item name="Cập nhật danh sách lao động phát sinh thanh toán theo chế độ" url="hrSocialInsuranceBenefitsEntry.htm" />
+  <item name="Cập nhật danh sách lao động tham gia bảo hiểm" url="hrInsuranceInformationChangesInput.htm" />
+  <item name="Điều chỉnh danh sách lao động thanh toán theo chế độ" url="hrSocialInsuranceBenefitsAdjustment.htm" />
+  <item name="Cập nhật hợp đồng lao động" url="hrLaborContract.htm" />
+  <item name="Cập nhật ngày nghỉ hưởng trợ cấp đầu kỳ" url="hrInputAccumulatedLeaveswithBenefits.htm" />
+  <item name="Cập nhật lao động tham gia bảo hiểm đầu kỳ" url="hrInsuranceInformationSummaryInput.htm" />
+  <item name="Cập nhật thay đổi thông tin" url="hrChangingLaborInformation.htm" />
+  <item name="Kết chuyển thông tin tham gia bảo hiểm sang năm sau" url="hrTransferInsuranceInformation.htm" />
+  <book name="Danh mục" >
+  <item name="Danh mục quản lý HĐLĐ, BHXH" url="hrListInsurance.htm" />
+  </book>
+</book>
+</tocdata>

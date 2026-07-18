@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLWhenReportLoading SYSTEM "..\Include\XML\WhenReportLoading.xml">
+  <!ENTITY XMLWhenReportClosing SYSTEM "..\Include\XML\WhenReportClosing.xml">
+  <!ENTITY XMLStandardQueryToolbar SYSTEM "..\Include\XML\StandardQueryToolbar.xml">
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+
+  <!ENTITY FilterInitialize SYSTEM "..\Include\FilterInitialize.xml">
+  <!ENTITY FilterQuery SYSTEM "..\Include\FilterQuery.xml">
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+
+  <!ENTITY Controller "'QueryDataCopy'">
+
+  <!ENTITY FastBusiness.Encryption.Begin "">
+  <!ENTITY QueryString "
+declare @c char(1), @d char(1)
+select @c = char(253), @d = char(252)
+select * into #t from dbo.FastBusiness$Function$System$Split(@@queryString, @c)
+declare @code varchar(128)
+select @code = replace(data, @d, '''') from #t where id = 1
+drop table #t">
+  <!ENTITY FastBusiness.Encryption.End "">
+]>
+
+<grid order="code" type="Inquiry" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Nhật ký lỗi" e="Error Logs"></title>
+  <subTitle v="Thông tin lỗi..." e="Detailed information about error messages..."></subTitle>
+  <fields>
+    <field name="id" width="0" type="Decimal" readOnly="true" hidden="true">
+      <header v="id" e="id"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="note" width="300" allowFilter="true">
+      <header v="Diễn giải" e="Note"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="code" width="0" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="id"/>
+      <field name="note"/>
+      <field name="code"/>
+    </view>
+  </views>
+
+  <commands>
+    &XMLWhenReportLoading;
+    &XMLWhenReportClosing;
+  </commands>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        &QueryString;
+        <![CDATA[
+declare @key varchar(512), @field nvarchar(4000)
+select @key = 'id = ' + replace(rtrim(@code), '''', '')
+
+select @field = 'id,rtrim(note) as note,rtrim(code) as code'
+]]>&FilterInitialize;<![CDATA[
+
+exec FastBusiness$App$Table$Finding 'convertmessage', @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount,
+  @@firstItem, @@lastItem, @key, 'code',
+  @field, '', @@textOrderBy, @@admin, @@userID, default, default, @$primeJoin, @$primeFilter
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <script>
+    <text>
+      &JavascriptReportInit;
+    </text>
+  </script>
+
+  &XMLStandardQueryToolbar;
+
+</grid>

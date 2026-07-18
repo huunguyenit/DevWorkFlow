@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmdvdt" code="ma_dvdt" name="ten_dvdt%l" order="ma_dvdt" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục đơn vị đào tạo" e="Training Providers"></header>
+
+  <fields>
+    <field name="ma_dvdt" allowSorting="true" allowFilter="true">
+      <header v="Mã đơn vị" e="Code"></header>
+    </field>
+    <field name="ten_dvdt%l" allowSorting="true" allowFilter="true">
+      <header v="Tên đơn vị" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

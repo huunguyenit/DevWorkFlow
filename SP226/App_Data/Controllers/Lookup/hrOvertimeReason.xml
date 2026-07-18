@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmldtca" code="ma_ly_do" name="ten_ly_do%l" order="ma_ly_do" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục lý do tăng ca" e="Overtime Reason"></header>
+  <fields>
+    <field name="ma_ly_do" allowSorting="true" allowFilter="true">
+      <header v="Mã lý do" e="Code"></header>
+    </field>
+    <field name="ten_ly_do%l" allowSorting="true" allowFilter="true">
+      <header v="Tên lý do" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

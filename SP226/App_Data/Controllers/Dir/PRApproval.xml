@@ -1,0 +1,252 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dir [
+  <!ENTITY MessageID "PurchaseRequisition">
+
+  <!ENTITY % PostNotifyApproval SYSTEM "..\Include\PostNotifyApprovalVoucher.ent">
+  %PostNotifyApproval;
+  <!ENTITY PostNotifyGroup "02">
+  <!ENTITY PostNotifyCreate "exec rs_CreateNotifyPRTran @stt_rec, 'm91$$partition$current', 'd91$$partition$current', '#notifyContent'">
+
+  <!ENTITY % VoucherEditLog SYSTEM "..\Include\VoucherEditLog.ent">
+  %VoucherEditLog;
+]>
+<dir table="m91$000000" code="stt_rec" order="ngay_ct, so_ct" id="PR2" type="Voucher" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="duyệt, hủy chi tiết phiếu nhu cầu" e="PR Approval"></title>
+  <partition table="c91$000000" prime="m91$" inquiry="i91$" field="ngay_ct" expression="convert(char(6), {0}, 112)" increase="dateadd(month, 1, {0})" default="000000"/>
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="dept_id" allowNulls="false">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="AutoComplete" controller="Department" reference="ten_bp%l" key="status = '1'" check="1 = 1" information="ma_bp$dmbp.ten_bp%l"/>
+    </field>
+    <field name="ten_bp%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ong_ba">
+      <header v="Người yêu cầu" e="Requisitioned by"></header>
+    </field>
+    <field name="ma_nk">
+      <header v="" e=""></header>
+      <items style="AutoComplete" controller="VoucherBook" reference="ten_nk%l" key="status = '1' and ma_nk in (select ma_nk from v20dmctnk where ma_ct = @@id and (lstuser = '' or charindex(rtrim(@@userName) + ',', replace(lstuser, ' ', '') + ',') > 0))" check="1=1" information="ma_nk$v20dmnk.ten_nk%l"/>
+      <handle reference="so_ct"/>
+    </field>
+    <field name="ten_nk%l" clientDefault="Default" readOnly="true" hidden="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="so_ct" dataFormatString="@upperCaseFormat" align="right">
+      <header v="Số phiếu yêu cầu" e="Invoice Number"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ngay_lct" type="DateTime" dataFormatString="@datetimeFormat" align="left">
+      <header v="Ngày lập" e="Invoice Date"></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" inactivate="true" dataFormatString="@datetimeFormat">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nt" clientDefault="Default" allowNulls="false" inactivate="true">
+      <header v="Mã nt" e="Currency"></header>
+      <items style="AutoComplete" controller="Currency" reference="ten_nt%l" key="status = '1'" check="1=1" information="ma_nt$dmnt.ten_nt%l"/>
+    </field>
+    <field name="ten_nt%l" clientDefault="Default" hidden="false" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ty_gia" type="Decimal" dataFormatString="@exchangeRateInputFormat" clientDefault="Default" defaultValue="1">
+      <header v="Tỷ giá" e="Ex. Rate"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ma_gd" allowNulls="false" clientDefault="Default" defaultValue="1">
+      <header v="Mã giao dịch" e="Transaction Code"></header>
+      <items style="AutoComplete" controller="TransactionCode" reference="ten_gd%l" key="ma_ct = @@id and status = '1'" check="ma_ct = @@id" information="ma_gd$dmmagd.ten_gd%l" row="1"/>
+    </field>
+    <field name="ten_gd%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="status" inactivate="true" clientDefault="0">
+      <header v="Trạng thái" e="Status"></header>
+      <items style="DropDownList">
+        <item value="0">
+          <text v="0. Lập chứng từ" e="0. No Action"/>
+        </item>
+        <item value="1">
+          <text v="1. Chờ duyệt" e="1. Open"/>
+        </item>
+        <item value="2">
+          <text v="2. Duyệt" e="2. Approve"/>
+        </item>
+        <item value="5">
+          <text v="5. Đóng" e="5. Close"/>
+        </item>
+        <item value="3">
+          <text v="3. Đặt hàng" e="3. Ordering"/>
+        </item>
+        <item value="4">
+          <text v="4. Hoàn thành" e="4. Completed"/>
+        </item>
+        <item value="9">
+          <text v="9. Đang duyệt" e="9. Pending"/>
+        </item>
+      </items>
+    </field>
+    <field name="ma_md" readOnly="" allowNulls="false" clientDefault="Default" disabled="true">
+      <header v="Mức độ" e="Priority"></header>
+      <items style="AutoComplete" controller="Priority" reference="ten_md%l" key="ma_ct = @@id and status = '1'" check="ma_ct = @@id" information="ma_md$dmmd.ten_md%l" row="1"/>
+    </field>
+    <field name="ten_md%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="dien_giai">
+      <header v="Diễn giải" e="Memo"></header>
+    </field>
+    <field name="d91" external="true" clientDefault="0" defaultValue="0" rows="257" categoryIndex="1" allowNulls="false">
+      <header v="" e=""></header>
+      <label v="Chi tiết" e="Detail"></label >
+      <items style="Grid" controller="PRApprovalDetail" row="1">
+        <item value="ForeignKey">
+          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+        </item>
+      </items>
+    </field>
+    <field name="ma_dvcs" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="cookie" external="true" hidden="true" readOnly="true" defaultValue="''" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="xs_name" external="true" hidden="true" readOnly="true" defaultValue="''" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="loai_ct" hidden="true" readOnly="true" clientDefault="Default">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="t_tien_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" disabled="true">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="kieu_duyet" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="317" anchor="6" split="10">
+      <item value="100, 30, 70, 35, 65, 0, 0, 37, 100, 100, 8, 58, 50, 100, 0"/>
+      <item value="110100000011011: [dept_id].Label, [dept_id], [ten_bp%l], [stt_rec], [so_ct].Label, [so_ct], [ma_nk]"/>
+      <item value="110--------1011: [ong_ba].Label, [ong_ba], [ngay_lct].Label, [ngay_lct], [loai_ct]"/>
+      <item value="1101000000-111-: [ma_gd].Label, [ma_gd], [ten_gd%l], [ty_gia].Label, [ma_nt], [ty_gia]"/>
+      <item value="1101000000-1101: [ma_md].Label, [ma_md], [ten_md%l], [status].Label, [status], [xs_name]"/>
+      <item value="1100000000--11111: [dien_giai].Label, [dien_giai], [ma_dvcs], [cookie], [ngay_ct], [t_tien_nt], [kieu_duyet]"/>
+
+      <item value="1: [d91]"/>
+
+      <categories>
+        <category index="1" columns="769" anchor="1">
+          <header v="Chi tiết" e="Detail"/>
+        </category>
+        <category index="-1" columns="100, 30, 70, 35, 65, 0, 0, 37, 100, 100, 8, 58, 42, 8, 100" anchor="6">
+          <header v="" e=""/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$Form(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+declare @stt_rec0 char(3), @sl_duyet numeric(18,3), @ghi_chu_ct nvarchar(1023), @tag1 bit, @tag2 bit, @c1 char(6), @c2 char(6), @maxNum int, @p int, @lastrow int, @lastUser int, @createdUser int, @userID3 int
+select @userID3 = user_id3 from m91$$partition$current where stt_rec = @stt_rec
+select @maxNum = max(line_nbr) from @d91
+select @lastrow = 0, @lastUser = 0, @createdUser = 0
+select @p = min(line_nbr) from @d91
+while @p is not null begin
+  if @p = @maxNum set @lastrow = 1
+  select @stt_rec0 = stt_rec0, @sl_duyet = sl_duyet, @ghi_chu_ct = ghi_chu, @tag1 = tag1, @tag2 = tag2 from @d91 where line_nbr = @p
+  if @tag1 = 1 exec rs_PostPRAuthorize 2, 1, @@userID, @stt_rec, @@sysDatabaseName, @@language, '', @stt_rec0, @sl_duyet, @ghi_chu_ct, @lastrow, default, default, default, ]]>&VoucherApproveLog;<![CDATA[
+    else if @tag2 = 1 exec rs_PostPRAuthorize 2, 2, @@userID, @stt_rec, @@sysDatabaseName, @@language, '', @stt_rec0, @sl_duyet, @ghi_chu_ct, @lastrow, default, default, default, ]]>&VoucherApproveLog;<![CDATA[
+  select @p = min(line_nbr) from @d91 where line_nbr > @p
+end
+
+declare @t_duyet varchar(16), @t_huy varchar(16), @t_dong varchar(16), @$status varchar(32), @$u_status0 varchar(32), @ownerID int
+select @t_duyet = ltrim(t_duyet), @t_huy = ltrim(t_huy), @t_dong = ltrim(t_dong), @$status = status, @$u_status0 = u_status0, @ownerID = user_id0 from m91$$partition$current where stt_rec = @stt_rec
+
+declare @invoke nvarchar(4000), @mailUser int, @xtype int, @isChange bit, @role varchar(32), @categoryApprove varchar(32)
+select @invoke = '', @isChange = 0
+if @$status in ('1', '2', '9') begin
+  if exists(select 1 from e91$000000 where stt_rec = @stt_rec and stt = (select max(stt) from a91$000000 where stt_rec = @stt_rec))
+  or (@$u_status0 = '1' and exists(select 1 from d91$$partition$current where stt_rec = @stt_rec and so_luong <> sl_duyet))
+    select @isChange = 1
+
+  exec FastBusiness$App$GetApprovalRole '1', @@id, @@userID, @dept_id, @ma_nt, @t_tien_nt, @$u_status0, @@language, @kieu_duyet, @categoryApprove output, @role output
+  if @$u_status0 = '1' or not exists (select 1 from dmquyenct where ma_quyen = @role and status = @$u_status0 and notify_mail_yn = '1' and kieu_duyet = @categoryApprove) select @userID3 = 0
+  if not exists (select 1 from dmquyenct where ma_quyen = @role and status = @$u_status0 and created_mail_yn = '1' and kieu_duyet = @categoryApprove) select @ownerID = 0
+
+  create table #mail(id int, stt_rec char(13), userID int, xtype int)
+  insert into #mail exec FastBusiness$App$GetApprovalMailList @stt_rec, 'm91$$partition$current', '1', @@id, '@@sysDatabaseName', @userID3, @isChange, @ownerID
+
+  select @p = min(id) from #mail
+  while @p is not null begin
+    select @mailUser = userID, @xtype = xtype from #mail where id = @p
+    select @invoke = @invoke + case when @invoke = '' then '' else '&' + char(255) + ';' end + 'Message.Message.SendPrivate(' + ']]>&MessageID;<![CDATA[' + ',' + @stt_rec + ',' + '@@appDatabaseName' + char(255) + '@@sysDatabaseName' + ',' + @ma_md + ',' + rtrim(@mailUser)+ ',' + rtrim(@xtype) + ')'
+    select @p = min(id) from #mail where id > @p
+  end
+  ]]>&PostNotify;<![CDATA[
+end
+
+select '' field, '' as message, @invoke as invoke, 'updateBrowse(this,' + @t_duyet + ',' + @t_huy + ',' + @t_dong + ');'
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[/* <flatten type="Javascript"> */
+var f = this, id = f.get_id(), v = f._language == 'v', g = f.getItem('d91')._controlBehavior;
+var l1 = g._getColumnOrder('tag1'), l2 = g._getColumnOrder('tag2');
+var e1 = (v ? 'Dữ liệu không hợp lệ, các dòng trong chi tiết phải được chọn duyệt hoặc hủy.' : 'Invalid data, purchase requisition line has not been approved or cancelled.');
+for (var i = 1; i <= g._rowCount; i++) {
+  var v1 = g._getItemValue(i, l1), v2 = g._getItemValue(i, l2);
+    if (!v1 && !v2) {
+      $func.hideWait(id);
+      f._errorWarningObject = g._getItem(i, l1);
+      $message.show(e1, String.format('var f = $find(\'{0}\');f.focus(\'d91\');f._errorWarningObject.focus()', id));
+      f._checked = false;
+      break;
+    }
+  }
+}/* </flatten> */]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$Form(f) {setItemDisable(f, 'dept_id, ma_nk, so_ct, ong_ba, ngay_lct, ma_gd, status, ty_gia, ma_nt, dien_giai', true);}
+function setItemDisable(f, c, v) {
+  var a = c.split(',');
+  for (var i = 0; i < a.length; i++) {
+    var o = f.getItem($func.trim(a[i]));
+    f._setReadOnly(o, v);
+    o.disabled = v;
+  }
+}
+function updateBrowse(f, d, h, t) {
+  var g = f.grid;
+  g.goToPage(-1);
+}/* </flatten> */
+]]>
+    </text>
+  </script>
+</dir>

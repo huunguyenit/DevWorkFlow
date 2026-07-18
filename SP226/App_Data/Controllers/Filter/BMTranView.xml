@@ -1,0 +1,124 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+]>
+
+<dir table="phdm" code="stt_rec" order="ma_sp" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="Cấu trúc nguyên vật liệu" e="Product Structure"></title>
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" filterSource="Vacant" hidden="true">
+      <header v="" e=""></header>
+      <footer v="&lt;div class=&quot;Break&quot;/&gt;" e="&lt;div class=&quot;Break&quot;/&gt;"></footer>
+    </field>
+    <field name="ma_sp" allowNulls="false">
+      <header v="Sản phẩm" e="Product"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ten_sp%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="treeView" external="true" defaultValue="''" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <footer v="&lt;div id=&quot;treeviewPanel&quot; style=&quot;width: 542px; height: 453px;&quot; &gt;&lt;/div&gt;" e="&lt;div id=&quot;treeviewPanel&quot; style=&quot;width: 542px; height: 453px;&quot; &gt;&lt;/div&gt;"></footer>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 25, 5, 70, 100, 100, 130"/>
+      <item value="1100100: [ma_sp].Label, [ma_sp], [ten_sp%l]"/>
+      <item value="1000000: [stt_rec].Description"/>
+
+      <item value="10000001: [treeView].Description, [treeView]"/>
+    </view>
+  </views>
+
+  <commands>
+
+    <command event="Initialize">
+      <text>
+        <![CDATA[
+select 'this._break = true;' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Showing">
+      <text>
+        <![CDATA[
+select '$get(''treeviewPanel'').parentNode.style.maxHeight = ''none'';' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$FormRight(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormRight(this);' as message
+return
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function active$FormRight(f) {
+  var g = f.grid, a = g._$k, l = g._$k.length, r = (l - 1), t0 = '', t1 = '', t2 = '';
+  var lvl = a[0][8], text = '<tree id="0"><item text="' + $func.htmlEncode($func.htmlAttributeEncode(a[0][7])) + '" id="' + a[0][6] + '">{$%childText' + a[0][3] + '}</item>';
+
+  f.setReadOnlyFields('ma_sp');
+  f.setItemValues('ma_sp, ten_sp%l', [g._$p, g._$n]);
+  for (var j = 1; j <= lvl; j++) {
+    for (var i = 0; i < l; i++) {
+      if (a[i][4] == j) {
+        t0 = '{$%childText' + a[i][5] + '}';
+        t1 = (a[i][1] == '0' ? '' : '{$%childText' + a[i][3] + '}');
+        if (t2 != t0) {
+          text = text.replace(t2, '');
+          t2 = t0;
+        }
+        text = text.replace(t0, '<item text="' + $func.htmlEncode($func.htmlAttributeEncode(a[i][7])) + '" id="' + a[i][6] + '">' + t1 + '</item>' + t0);
+      }
+    }
+  }
+  text = text + '</tree>';
+
+  var template = '<table cellspacing="0" style="table-layout:fixed;padding:0px;"><tbody><tr><td width="100px"><div style="width:100px"><%0%></div></td><td width="250px"><div style="width:250px; padding:0 4px;text-overflow: ellipsis;overflow: hidden;"><%1%></div></td><td width="100px"><div style="width:100px;text-align:right;padding:0 4px;"><%2%></div></td><td width="100px"><div style="width:100px;font-style:italic;color:#444;"><%3%></div></td><td width="60px"><div style="width:60px;padding:0 4px;font-style:italic;color:#444;"><%4%></div></td><td width="60px"><div style="width:60px;text-align:right;"><%5%></div></td></tr></tbody></table>';
+
+  $func.showWait(f.get_id());
+  var treeView = f._treeView = new TreeView('treeviewPanel', '100%', '100%', 0);
+  treeView.set_path('../Images/Tree/');
+  treeView.enableCheckBoxes(false);
+  treeView.inheritFromParentNode(true);
+  treeView.loadTemplate(template);
+  treeView.loadXMLString(text);
+
+  $func.hideWait(f.get_id());
+}
+function close$FormRight(f) {f._treeView.dispose();}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <css>
+    <text>
+      <![CDATA[
+.Break{margin:1px 0 1px 8px;padding:0;height:1px;overflow:hidden;display:block;background-color:white;border-top:1px solid #CED3DE;}
+]]>
+    </text>
+  </css>
+</dir>

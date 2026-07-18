@@ -1,0 +1,525 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+  <!ENTITY defaultName "hrTimekeepingAdjusting">
+
+  <!ENTITY LockedDateJoin "cross join #t1 b">
+  <!ENTITY LockedDateKey "a.ngay_ks >= b.data and b.data &lt;&gt; ''">
+  <!ENTITY CheckLockedBeforeProcess SYSTEM "..\Include\Command\HRMCheckLockedBeforeProcess.txt">
+]>
+
+<grid type="Report" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Điều chỉnh dữ liệu chấm công" e="Timekeeping Data Adjusting"></title>
+  <subTitle v="Điều chỉnh dữ liệu chấm công: mới, sửa, xóa..." e="New, Edit, Delete Timekeeping Data Adjusting..."></subTitle>
+  <fields>
+    <field name="stt_rec" width="0" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nv" width="100" readOnly="true" allowFilter="true">
+      <header v="Mã nhân viên" e="Employee ID"></header>
+    </field>
+    <field name="ten_nv" width="150" readOnly="true" allowFilter="true">
+      <header v="Họ và tên" e="Employee Name"></header>
+    </field>
+    <field name="ngay" type="DateTime" dataFormatString="@datetimeFormat" width="100" readOnly="true" allowFilter="true">
+      <header v="Ngày" e="Date"></header>
+    </field>
+
+    <field name="gio_vao" dataFormatString="HH:ss" width="60" align="center">
+      <header v="Giờ vào" e="Time In"></header>
+    </field>
+    <field name="hs_vao" type="Boolean" width="60">
+      <header v="Hôm sau" e="Next Day"></header>
+    </field>
+    <field name="gio_ra" dataFormatString="HH:ss" width="60" align="center">
+      <header v="Giờ ra" e="Time Out"></header>
+    </field>
+    <field name="hs_ra" type="Boolean" width="60">
+      <header v="Hôm sau" e="Next Day"></header>
+    </field>
+    <field name="xoa_yn" type="Boolean" width="60">
+      <header v="Xóa" e="Delete"></header>
+    </field>
+    <field name="ghi_chu" width="300" maxLength="256">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+
+    <field name="gio_vao0" dataFormatString="HH:ss" width="0" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="hs_vao0" type="Boolean" width="0" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="gio_ra0" dataFormatString="HH:ss" width="0" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="hs_ra0" type="Boolean" width="0" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="loai_dl" width="0" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="gio_vao_old" dataFormatString="HH:ss" width="0" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="hs_vao_old" type="Boolean" width="0" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="gio_ra_old" dataFormatString="HH:ss" width="0" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="hs_ra_old" type="Boolean" width="0" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt_rec"/>
+      <field name="ma_nv"/>
+      <field name="ten_nv"/>
+      <field name="ngay"/>
+
+      <field name="gio_vao"/>
+      <field name="hs_vao"/>
+      <field name="gio_ra"/>
+      <field name="hs_ra"/>
+      <field name="xoa_yn"/>
+      <field name="ghi_chu"/>
+
+      <field name="gio_vao0"/>
+      <field name="hs_vao0"/>
+      <field name="gio_ra0"/>
+      <field name="hs_ra0"/>
+      <field name="loai_dl"/>
+
+      <field name="gio_vao_old"/>
+      <field name="hs_vao_old"/>
+      <field name="gio_ra_old"/>
+      <field name="hs_ra_old"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'load$GridReport$(this);load$]]>&defaultName;<![CDATA[(this);' as message
+]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'dispose$GridReport$(this);dispose$]]>&defaultName;<![CDATA[(this);' as message
+return
+]]>
+      </text>
+    </command>
+    <command event ="Scattering">
+      <text>
+        <![CDATA[
+select 'scatter$]]>&defaultName;<![CDATA[(this);' as message
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &JavascriptReportInit;
+      <![CDATA[
+function load$]]>&defaultName;<![CDATA[(g) {
+  g._c$stt_rec = g._getColumnOrder('stt_rec');
+  g._c$ngay = g._getColumnOrder('ngay');
+
+  g._c$gio_vao0 = g._getColumnOrder('gio_vao0');
+  g._c$hs_vao0 = g._getColumnOrder('hs_vao0');
+  g._c$gio_ra0 = g._getColumnOrder('gio_ra0');
+  g._c$hs_ra0 = g._getColumnOrder('hs_ra0');
+
+  g._c$gio_vao = g._getColumnOrder('gio_vao');
+  g._c$hs_vao = g._getColumnOrder('hs_vao');
+  g._c$gio_ra = g._getColumnOrder('gio_ra');
+  g._c$hs_ra = g._getColumnOrder('hs_ra');
+  g._c$ghi_chu = g._getColumnOrder('ghi_chu');
+  g._c$xoa_yn = g._getColumnOrder('xoa_yn');
+  g._c$loai_dl = g._getColumnOrder('loai_dl');
+
+  g._c$gio_vao0 = g._getColumnOrder('gio_vao0');
+  g._c$hs_vao0 = g._getColumnOrder('hs_vao0');
+  g._c$gio_ra0 = g._getColumnOrder('gio_ra0');
+  g._c$hs_ra0 = g._getColumnOrder('hs_ra0');
+
+  g._c$gio_vao_old = g._getColumnOrder('gio_vao_old');
+  g._c$hs_vao_old = g._getColumnOrder('hs_vao_old');
+  g._c$gio_ra_old = g._getColumnOrder('gio_ra_old');
+  g._c$hs_ra_old = g._getColumnOrder('hs_ra_old');
+
+  g.add_itemValueChanged(onChange$]]>&defaultName;<![CDATA[);
+  g.add_commandEvent(on$]]>&defaultName;<![CDATA[$ExecuteCommand);
+  g.add_onResponseComplete(on$]]>&defaultName;<![CDATA[$ResponseComplete);
+}
+function scatter$]]>&defaultName;<![CDATA[(g) {fill$Grid(g);}
+function dispose$]]>&defaultName;<![CDATA[(g) {
+  g._arrValue = null; g._arrSaved = null; g._rKey = null;
+  try {g.remove_commandEvent(on$]]>&defaultName;<![CDATA[$ExecuteCommand);} catch (ex) {}
+  try {g.remove_onResponseComplete(on$]]>&defaultName;<![CDATA[$ResponseComplete);} catch (ex) {}
+  try {g.remove_itemValueChanged(onChange$]]>&defaultName;<![CDATA[);} catch (ex) {}
+}
+
+function onChange$]]>&defaultName;<![CDATA[(sender, eventArgs) {
+  var o = eventArgs.get_object(), g = o.grid, f = g.get_element().parentForm, name = o.field.Name, r = o.row;
+  switch (name) {
+    case 'gio_vao':
+      if (!emptyTime(g, r, 'gio_vao', 'gio_vao0')) window.setTimeout(function(){ addArray(g, r); }, 2);
+      break;
+    case 'gio_ra':
+      if (!emptyTime(g, r, 'gio_ra', 'gio_ra0')) window.setTimeout(function(){ addArray(g, r); }, 2);
+      break;
+    case 'hs_vao':
+    case 'hs_ra':
+    case 'xoa_yn':
+    case 'ghi_chu':
+      addArray(g, r);
+		  break;
+    default:
+      break;
+  }
+}
+
+function on$]]>&defaultName;<![CDATA[$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'Save':
+      if (g._arrValue.length == 0) return;
+      if (g._rKey == '') g._rKey = (Math.random()).toString().substring(2, 18);
+
+      var p = String.fromCharCode(253), maxlength = 3000, request = [];
+      var t0 = '', t1 = '', t2 = '', t3 = '', t4 = '', t5 = '', t6 = '', t7 = '', t8 = '', t9 = '', t10 = '', t11 = '', t12 = '', t13 = '', t14 = '', t15 = '', t16 = '';
+      var s0 = '', s1 = '', s2 = '', s3 = '', s4 = '', s5 = '', s6 = '', s7 = '', s8 = '', s9 = '', s10 = '', s11 = '', s12 = '', s13 = '', s14 = '', s15 = '', s16 = '';
+      for (var row = 0; row < g._arrValue.length; row ++) {
+        var r = g._arrValue[row];
+        t0 = r[0]; t1 = r[1]; t2 = r[2]; t3 = r[3]; t4 = r[4]; t5 = r[5]; t6 = r[6]; t7 = r[7]; t8 = r[8];
+        t9 = r[9]; t10 = r[10]; t11 = r[11]; t12 = r[12]; t13 = r[13]; t14 = r[14]; t15 = r[15]; t16 = r[16];
+        if (t0.length <= maxlength && t11.length <= maxlength) {
+          if (s0.length + t0.length > maxlength || s11.length + t11.length > maxlength) {
+            addRequest(request, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, g._rKey);
+            s0 = ''; s1 = ''; s2 = ''; s3 = ''; s4 = ''; s5 = ''; s6 = ''; s7 = ''; s8 = ''; s9 = ''; s10 = ''; s11 = ''; s12 = ''; s13 = ''; s14 = ''; s15 = ''; s16 = '';
+          }
+          s0 += p + t0; s1 += p + t1; s2 += p + t2; s3 += p + t3; s4 += p + t4; s5 += p + t5; s6 += p + t6; s7 += p + t7; s8 += p + t8;
+          s9 += p + t9; s10 += p + t10; s11 += p + t11; s12 += p + t12; s13 += p + t13; s14 += p + t14; s15 += p + t15; s16 += p + t16;
+        }
+      }
+
+      if (s0 != '' && s0.length <= maxlength) addRequest(request, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, g._rKey);
+      g._responseCount = 0;
+      g._requestCount = request.length;
+      for (var i = 0; i < g._requestCount; i ++) {
+        Array.add(request[i], ['sum_lan', 'Decimal', g._requestCount]); Array.add(request[i], ['so_lan', 'Decimal', i + 1]);
+        g.request(g, 'Save', 'Save', request[i]);
+      }
+      request = null;
+      g._rKey = '';
+      break;
+    case 'Add':
+      g.showForm('hrTimekeepingUpdate');
+      break;
+    default:
+      break;
+  }
+}
+/* <flatten type="Javascript"> */
+function addRequest(request, s0, s1, s2, s3, s4, s5, s6, s7, s8, s9, s10, s11, s12, s13, s14, s15, s16, rKey) {
+  var arr = [];
+  Array.add(arr, ['k0', 'String', s0]); Array.add(arr, ['k1', 'String', s1]); Array.add(arr, ['k2', 'String', s2]);
+  Array.add(arr, ['k3', 'String', s3]); Array.add(arr, ['k4', 'String', s4]); Array.add(arr, ['k5', 'String', s5]);
+  Array.add(arr, ['k6', 'String', s6]); Array.add(arr, ['k7', 'String', s7]); Array.add(arr, ['k8', 'String', s8]);
+  Array.add(arr, ['k9', 'String', s9]); Array.add(arr, ['k10', 'String', s10]); Array.add(arr, ['k11', 'String', s11]);
+  Array.add(arr, ['k12', 'String', s12]); Array.add(arr, ['k13', 'String', s13]); Array.add(arr, ['k14', 'String', s14]);
+  Array.add(arr, ['k15', 'String', s15]); Array.add(arr, ['k16', 'String', s16]); Array.add(arr, ['rKey', 'String', rKey]);
+  Array.add(request, arr);
+}
+/* </flatten> */
+function on$]]>&defaultName;<![CDATA[$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result, o = e.type.Object;
+  switch (context) {
+    case 'Save':
+      var m = result[0].Value;
+      if (m) {
+        if (m == 'Done') {
+          m = (g._language == 'v' ? 'Chương trình đã thực hiện xong.' : 'The process completed successfully.');
+          for (var r = 1; r <= g._rowCount; r++) {
+            g._setItemValue(r, g._c$gio_vao_old, g._getItemValue(r, g._c$gio_vao));
+            g._setItemValue(r, g._c$hs_vao_old, g._getItemValue(r, g._c$hs_vao));
+            g._setItemValue(r, g._c$gio_ra_old, g._getItemValue(r, g._c$gio_ra));
+            g._setItemValue(r, g._c$hs_ra_old, g._getItemValue(r, g._c$hs_ra));
+          }
+          for (var row = 0; row < g._arrSaved.length; row ++) {
+            g._arrSaved[row][3] = g._arrSaved[row][7];
+            g._arrSaved[row][4] = g._arrSaved[row][8];
+            g._arrSaved[row][5] = g._arrSaved[row][9];
+            g._arrSaved[row][6] = g._arrSaved[row][10];
+          }
+          disableRow(g);
+          g._arrValue = [];
+        }
+        $message.show(m, String.format('$find(\'{0}\')._focusWhenTabChanged();', g.get_id()));
+      }
+      break;
+    default:
+      break;
+  }
+}
+/* <flatten type="Javascript"> */
+function addArray(g, r) {
+  if (g._getItem(r, g._c$xoa_yn).disabled) return;
+  var add = false, k0 = g._getItemValue(r, g._c$stt_rec), k1 = g._getItemValue(r, g._c$ngay).z.format('yyyyMMdd'), k2 = g._getItemValue(r, g._c$loai_dl);
+  var k3 = g._getItemValue(r, g._c$gio_vao_old), k4 = (g._getItemValue(r, g._c$hs_vao_old) ? '1' : '0'), k5 = g._getItemValue(r, g._c$gio_ra_old), k6 = (g._getItemValue(r, g._c$hs_ra_old) ? '1' : '0');
+
+  var item = [k0, k1, k2, k3, k4, k5, k6,
+    g._getItemValue(r, g._c$gio_vao), (g._getItem(r, g._c$hs_vao).checked ? '1' : '0'), g._getItemValue(r, g._c$gio_ra), (g._getItem(r, g._c$hs_ra).checked ? '1' : '0'), g._getItemValue(r, g._c$ghi_chu), (g._getItem(r, g._c$xoa_yn).checked ? '1' : '0'),
+    g._getItemValue(r, g._c$gio_vao0), (g._getItem(r, g._c$hs_vao0).checked ? '1' : '0'), g._getItemValue(r, g._c$gio_ra0), (g._getItem(r, g._c$hs_ra0).checked ? '1' : '0')];
+
+  for (var i = 0; i < g._arrValue.length; i ++) {
+    var v = g._arrValue[i];
+    if (v[0] == k0 && v[1] == k1 && v[2] == k2 && v[3] == k3 && v[4] == k4 && v[5] == k5 && v[6] == k6) {
+      g._arrValue[i] = item;
+      add = true;
+      break;
+    }
+  }
+  if (!add) Array.add(g._arrValue, item);
+  add = false;
+  Array.add(item, 0);
+  for (var i = 0; i < g._arrSaved.length; i ++) {
+    var v = g._arrSaved[i];
+    if (v[0] == k0 && v[1] == k1 && v[2] == k2 && v[3] == k3 && v[4] == k4 && v[5] == k5 && v[6] == k6) {
+      g._arrSaved[i] = item;
+      add = true;
+      return;
+    }
+  }
+  if (!add) Array.add(g._arrSaved, item);
+
+}
+
+function fill$Grid(g) {
+  if(g._gridRefresh) {
+    g._gridRefresh = false;
+    g._arrValue = []; g._arrSaved = []; g._rKey = [];
+  }
+  if (g._arrSaved.length == 0) return;
+  disableRow(g);
+  for (var r = 1; r <= g._rowCount; r++) {
+    for (var i = 0; i < g._arrSaved.length; i ++) {
+      var v = g._arrSaved[i];
+      if (v[0] == g._getItemValue(r, g._c$stt_rec) && v[1] == g._getItemValue(r, g._c$ngay) && v[2] == g._getItemValue(r, g._c$loai_dl)
+          && v[3] == g._getItemValue(r, g._c$gio_vao_old) && v[4] == g._getItemValue(r, g._c$hs_vao_old) && v[5] == g._getItemValue(r, g._c$gio_ra_old) && v[6] == g._getItemValue(r, g._c$hs_ra_old)) {
+        g._setItemValue(r, g._c$gio_vao, v[7]);
+        g._setItemValue(r, g._c$hs_vao, v[8] == 1);
+        g._setItemValue(r, g._c$gio_ra, v[9]);
+        g._setItemValue(r, g._c$hs_ra, v[10] == 1);
+        g._setItemValue(r, g._c$ghi_chu, v[11]);
+        g._setItemValue(r, g._c$xoa_yn, v[12] == 1);
+	    }
+    }
+  }
+}
+
+function disableRow(g) {
+  for (var r = 1; r <= g._rowCount; r++) {
+    for (var i = 0; i < g._arrSaved.length; i ++) {
+      var v = g._arrSaved[i];
+      if (v[12] == 1 && v[2] == 1 && v[0] == g._getItemValue(r, g._c$stt_rec) && v[1] == g._getItemValue(r, g._c$ngay) && v[2] == g._getItemValue(r, g._c$loai_dl)
+          && v[3] == g._getItemValue(r, g._c$gio_vao_old) && v[4] == g._getItemValue(r, g._c$hs_vao_old) && v[5] == g._getItemValue(r, g._c$gio_ra_old) && v[6] == g._getItemValue(r, g._c$hs_ra_old)) {
+        g._getItem(r, g._c$xoa_yn).disabled = true;
+        break;
+      }
+    }
+  }
+}
+
+function emptyTime(g, r, c1, c0) {
+  var l1 = g._getColumnOrder(c1), l2 = g._getColumnOrder(c0), v = g._getItemValue(r, l1);
+  v = v.replace(' ', '0');
+  if (v == '00:00' && g._getItemValue(r, l2) == '') {
+    g._setItemValue(r, l1, ':');
+    return true;
+  }
+  return false;
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="Save">
+      <text>
+        <![CDATA[
+declare @c char(1), @ky char(6), @q nvarchar(4000), @q2 nvarchar(4000), @q3 nvarchar(4000), @q4 nvarchar(4000), @check bit
+declare @$exists nvarchar(512), @$valid nvarchar(512), @s1 varchar(33), @s2 varchar(33), @s3 varchar(33)
+
+select @$exists = case when @@language = 'V' then N'Thông tin giờ vào/ra lúc <span class="Highlight">%s1</span> của nhân viên <span class="Highlight">%s2</span> vào ngày <span class="Highlight">%s3</span> đã được khai báo hoặc không hợp lệ, không lưu được.'
+  else N'The information time in/out at <span class="Highlight">%s1</span> of employee <span class="Highlight">%s2</span> on <span class="Highlight">%s3</span> already exists or invalid, it can not be saved.' end
+
+set @c = char(253)
+select * into #t0 from dbo.FastBusiness$Function$System$Split(@k0, @c) -- stt_rec (PK)
+select * into #t1 from dbo.FastBusiness$Function$System$Split(@k1, @c) -- ngay (PK)
+select * into #t2 from dbo.FastBusiness$Function$System$Split(@k2, @c) -- loai_dl (PK)
+select * into #t3 from dbo.FastBusiness$Function$System$Split(@k3, @c) -- gio_vao_old (PK)
+select * into #t4 from dbo.FastBusiness$Function$System$Split(@k4, @c) -- hs_vao_old (PK)
+select * into #t5 from dbo.FastBusiness$Function$System$Split(@k5, @c) -- gio_ra_old (PK)
+select * into #t6 from dbo.FastBusiness$Function$System$Split(@k6, @c) -- hs_ra_old (PK)
+select * into #t7 from dbo.FastBusiness$Function$System$Split(@k7, @c) -- gio_vao
+select * into #t8 from dbo.FastBusiness$Function$System$Split(@k8, @c) -- hs_vao
+select * into #t9 from dbo.FastBusiness$Function$System$Split(@k9, @c) -- gio_ra
+select * into #t10 from dbo.FastBusiness$Function$System$Split(@k10, @c) -- hs_ra
+select * into #t11 from dbo.FastBusiness$Function$System$Split(@k11, @c) -- ghi_chu
+select * into #t12 from dbo.FastBusiness$Function$System$Split(@k12, @c) -- xoa_yn
+select * into #t13 from dbo.FastBusiness$Function$System$Split(@k13, @c) -- gio_vao0
+select * into #t14 from dbo.FastBusiness$Function$System$Split(@k14, @c) -- hs_vao0
+select * into #t15 from dbo.FastBusiness$Function$System$Split(@k15, @c) -- gio_ra0
+select * into #t16 from dbo.FastBusiness$Function$System$Split(@k16, @c) -- hs_ra0
+
+]]>&CheckLockedBeforeProcess;<![CDATA[
+
+select identity(int, 1, 1) as stt, a.data as stt_rec, cast(b.data as smalldatetime) as ngay, convert(char(6), cast(b.data as smalldatetime), 112) as ky,
+    c.data as loai_dl, d.data as gio_vao_old, e.data as hs_vao_old, f.data as gio_ra_old, g.data as hs_ra_old, h.data as gio_vao, i.data as hs_vao,
+    j.data as gio_ra, k.data as hs_ra, l.data as ghi_chu, m.data as xoa_yn, n.data as gio_vao0, o.data as hs_vao0, p.data as gio_ra0, q.data as hs_ra0,
+    cast(null as datetime) as thoi_gian_vao, cast(null as datetime) as thoi_gian_ra
+  into #t from #t0 a join #t1 b on a.id = b.id join #t2 c on a.id = c.id join #t3 d on a.id = d.id join #t4 e on a.id = e.id join #t5 f on a.id = f.id
+      join #t6 g on a.id = g.id join #t7 h on a.id = h.id join #t8 i on a.id = i.id join #t9 j on a.id = j.id join #t10 k on a.id = k.id join #t11 l on a.id = l.id
+      join #t12 m on a.id = m.id join #t13 n on a.id = n.id join #t14 o on a.id = o.id join #t15 p on a.id = p.id join #t16 q on a.id = q.id
+    where a.data <> ''
+
+if @so_lan = 1 delete hrdcdulieu$999999 where datetime2 < getdate() - 3
+
+if (select count(*) from (select distinct stt from hrdcdulieu$999999 where rkey = @rKey) a) < @sum_lan - 1 begin
+  insert into hrdcdulieu$999999 (rkey, datetime2, stt, loai_dl, stt_rec, ngay, gio_vao, hs_vao, gio_ra, hs_ra, gio_vao0, hs_vao0, gio_ra0, hs_ra0, xoa_yn, ghi_chu, gio_vao_old, hs_vao_old, gio_ra_old, hs_ra_old)
+	  select @rKey, getdate(), @so_lan, loai_dl, stt_rec, ngay, gio_vao, hs_vao, gio_ra, hs_ra, gio_vao0, hs_vao0, gio_ra0, hs_ra0, xoa_yn, ghi_chu, gio_vao_old, hs_vao_old, gio_ra_old, hs_ra_old from #t
+  select ''
+  return
+end
+
+insert into #t (stt_rec, ngay, ky, gio_vao0, hs_vao0, gio_ra0, hs_ra0, gio_vao, hs_vao, gio_ra, hs_ra, xoa_yn, ghi_chu, loai_dl, gio_vao_old, hs_vao_old, gio_ra_old, hs_ra_old)
+  select stt_rec, convert(char(8), ngay, 112), convert(char(6), ngay, 112), gio_vao0, hs_vao0, gio_ra0, hs_ra0, gio_vao, hs_vao, gio_ra, hs_ra, xoa_yn, ghi_chu, loai_dl, gio_vao_old, hs_vao_old, gio_ra_old, hs_ra_old
+    from hrdcdulieu$999999 where rkey = @rKey
+delete hrdcdulieu$999999 where rkey = @rKey
+update #t set thoi_gian_vao = cast(convert(varchar(8), ngay, 112) + ' ' + gio_vao as datetime) + case when hs_vao = 1 then 1 else 0 end where gio_vao <> ''
+update #t set thoi_gian_ra = cast(convert(varchar(8), ngay, 112) + ' ' + gio_ra as datetime) + case when hs_ra = 1 then 1 else 0 end where gio_ra <> ''
+
+select top 1 @check = 1, @s1 = gio_vao, @s2 = stt_rec, @s3 = convert(char(10), ngay, 103) from #t a where loai_dl = 1 and exists(select 1 from #t b where loai_dl = 1 and b.stt <> a.stt and b.stt_rec = a.stt_rec and b.ngay = a.ngay and b.gio_vao = a.gio_vao)
+if @check = 1 begin
+  select replace(replace(replace(@$exists, '%s1', @s1), '%s2', rtrim(ma_nv)), '%s3', @s3) from hrnv with(nolock) where stt_rec = @s2
+  return
+end
+select top 1 @check = 1, @s1 = gio_ra, @s2 = stt_rec, @s3 = convert(char(10), ngay, 103) from #t a where loai_dl = 1 and exists(select 1 from #t b where loai_dl = 1 and b.stt <> a.stt and b.stt_rec = a.stt_rec and b.ngay = a.ngay and b.gio_ra = a.gio_ra)
+if @check = 1 begin
+  select replace(replace(replace(@$exists, '%s1', @s1), '%s2', rtrim(ma_nv)), '%s3', @s3) from hrnv with(nolock) where stt_rec = @s2
+  return
+end
+
+select top 1 @check = 1, @s1 = a.gio_vao + '/' + a.gio_ra, @s2 = a.stt_rec, @s3 = convert(char(10), a.ngay, 103)
+  from #t a, #t b where a.stt_rec = b.stt_rec and a.ngay = b.ngay and (
+  (a.thoi_gian_vao <> b.thoi_gian_vao and a.thoi_gian_vao = b.thoi_gian_ra) or (a.thoi_gian_ra <> b.thoi_gian_ra and a.thoi_gian_ra = b.thoi_gian_vao))
+if @check = 1 begin
+  select replace(replace(replace(@$exists, '%s1', @s1), '%s2', rtrim(ma_nv)), '%s3', @s3) from hrnv with(nolock) where stt_rec = @s2
+  return
+end
+
+select distinct ky into #ky from #t
+select @ky = min(ky) from #ky
+select top 0 @check as c, @s1 as s1, @s2 as s2, @s3 as s3 into #check
+while @ky is not null begin
+  set @q = 'select top 1 1, a.gio_vao + ''/'' + a.gio_ra, a.stt_rec, convert(char(10), a.ngay, 103) from #t a join hrdcdulieu$' + @ky + ' b with(nolock) on a.stt_rec = b.stt_rec and a.ngay = b.ngay'
+  set @q = @q + ' where a.loai_dl = b.loai_dl and not (b.gio_vao = a.gio_vao_old and b.hs_vao = a.hs_vao_old and b.gio_ra = a.gio_ra_old and b.hs_ra = a.hs_ra_old)'
+  set @q = @q + ' and ((a.gio_vao = b.gio_vao and a.hs_vao = b.hs_vao) or (a.gio_ra = b.gio_vao and a.hs_ra = b.hs_vao) or (a.gio_vao = b.gio_ra and a.hs_vao = b.hs_ra) or (a.gio_ra = b.gio_ra and a.hs_ra = b.hs_ra))'
+  insert into #check exec sp_executesql @q
+
+  select top 1 @check = c, @s1 = s1, @s2 = s2, @s3 = s3 from #check
+  if @check = 1 begin
+	select replace(replace(replace(@$exists, '%s1', @s1), '%s2', rtrim(ma_nv)), '%s3', @s3) from hrnv with(nolock) where stt_rec = @s2
+    return
+  end
+  --
+  select @ky = min(ky) from #ky where ky > @ky
+end
+
+set @q = 'update hrdcdulieu$%ky set gio_vao = b.gio_vao, hs_vao = b.hs_vao, gio_ra = b.gio_ra, hs_ra = b.hs_ra,'
+set @q = @q + ' thoi_gian_vao = b.thoi_gian_vao, thoi_gian_ra = b.thoi_gian_ra,'
+set @q = @q + ' gio0_vao = cast(left(b.gio_vao, 2) as int) * 60 + cast(right(b.gio_vao, 2) as int) + case when b.hs_vao = 1 then 1440 else 0 end,'
+set @q = @q + ' gio0_ra = cast(left(b.gio_ra, 2) as int) * 60 + cast(right(b.gio_ra, 2) as int) + case when b.hs_ra = 1 then 1440 else 0 end,'
+set @q = @q + ' ghi_chu = b.ghi_chu, xoa_yn = b.xoa_yn, datetime2 = getdate(), user_id2 = @@userID'
+set @q = @q + ' from hrdcdulieu$%ky a join #t b on a.stt_rec = b.stt_rec and a.ngay = b.ngay and a.loai_dl = b.loai_dl and a.gio_vao = b.gio_vao_old and a.hs_vao = b.hs_vao_old and a.gio_ra = b.gio_ra_old and a.hs_ra = b.hs_ra_old'
+set @q = @q + ' where not exists (select 1 from hrdcdulieu$%ky c with(nolock) where b.stt_rec = c.stt_rec and b.ngay = c.ngay and b.loai_dl = c.loai_dl'
+set @q = @q + ' and ((a.gio_vao <> b.gio_vao_old or a.hs_vao <> b.hs_vao_old))'
+set @q = @q + ' and ((b.gio_vao = c.gio_vao and b.hs_vao = c.hs_vao) or (b.gio_ra = c.gio_vao and b.hs_ra = c.hs_vao)'
+set @q = @q + ' or (b.gio_vao = c.gio_ra and b.hs_vao = c.hs_ra) or (b.gio_ra = c.gio_ra and b.hs_ra = c.hs_ra)))'
+set @q = @q + char(13)
+set @q = @q + 'insert into hrdcdulieu$%ky (stt_rec, ngay, gio_vao, hs_vao, gio_vao0, hs_vao0, gio0_vao, thoi_gian_vao, thoi_gian_vao0, gio_ra,'
+set @q = @q + ' hs_ra, gio_ra0, hs_ra0, gio0_ra, thoi_gian_ra, thoi_gian_ra0, xoa_yn, ghi_chu, loai_dl, datetime0, datetime2, user_id0, user_id2)'
+set @q = @q + ' select a.stt_rec, a.ngay, a.gio_vao, a.hs_vao, a.gio_vao0, a.hs_vao0,'
+set @q = @q + ' cast(left(a.gio_vao, 2) as int) * 60 + cast(right(a.gio_vao, 2) as int) + case when a.hs_vao = 1 then 1440 else 0 end,'
+set @q = @q + ' a.thoi_gian_vao, case when a.gio_vao0 <> '''' then cast(convert(varchar(8), a.ngay, 112) + '' '' + a.gio_vao0 as datetime) + case when a.hs_vao0 = 1 then 1 else 0 end else null end,'
+set @q = @q + ' a.gio_ra, a.hs_ra, a.gio_ra0, a.hs_ra0,'
+set @q = @q + ' cast(left(a.gio_ra, 2) as int) * 60 + cast(right(a.gio_ra, 2) as int) + case when a.hs_ra = 1 then 1440 else 0 end,'
+set @q = @q + ' a.thoi_gian_ra, case when a.gio_ra0 <> '''' then cast(convert(varchar(8), a.ngay, 112) + '' '' + a.gio_ra0 as datetime) + case when a.hs_ra0 = 1 then 1 else 0 end else null end,'
+set @q = @q + ' a.xoa_yn, a.ghi_chu, a.loai_dl, getdate(), getdate(), @@userID, @@userID'
+set @q = @q + ' from #t a where not exists (select 1 from hrdcdulieu$%ky b with(nolock) where a.stt_rec = b.stt_rec and a.ngay = b.ngay and a.gio_vao_old = b.gio_vao and a.hs_vao_old = b.hs_vao and a.gio_ra_old = b.gio_ra and a.hs_ra_old = b.hs_ra)'
+set @q = @q + ' and not exists(select 1 from hrdcdulieu$%ky c with(nolock) where a.stt_rec = c.stt_rec and a.ngay = c.ngay and a.gio_vao = c.gio_vao and a.hs_vao = c.hs_vao and a.gio_ra = c.gio_ra and a.hs_ra = c.hs_ra and a.loai_dl = c.loai_dl)'
+set @q = @q + ' and a.ky = ''%ky'''
+
+set @q3 = 'delete hrdcdulieu$%ky from hrdcdulieu$%ky a where exists (select 1 from #t b where a.stt_rec = b.stt_rec and a.ngay = b.ngay and a.loai_dl = 1'
+set @q3 = @q3 + ' and a.gio_vao = b.gio_vao_old and a.hs_vao = b.hs_vao_old and a.gio_ra = b.gio_ra_old and a.hs_ra = b.hs_ra_old and b.xoa_yn = 1)'
+set @q3 = @q3 + char(13) + 'delete #t where ky = ''%ky'' and loai_dl = 1 and xoa_yn = 1'
+
+select @ky = min(ky) from #ky
+while @ky is not null begin
+  select @q2 = replace(@q, '%ky', @ky), @q4 = replace(@q3, '%ky', @ky)
+  exec sp_executesql @q4
+  exec sp_executesql @q2
+  select @ky = min(ky) from #ky where ky > @ky
+end
+
+select 'Done'
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+  <css>
+    <text>
+      <![CDATA[
+div.Add{background-image:url(../images/Shift.png);background-repeat:no-repeat;background-position:0 0;}
+div.TextAdd{background-image:url(../images/TextAsterisk.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.TextSave{background-image:url(../images/TextStorage.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.TextSaveOverGreen, div.AddOverGreen, div.TextAddOverGreen{background-position-y:-22px;}
+]]>
+    </text>
+  </css>
+
+  <toolbar>
+    <button command="Add">
+      <title v="Tạo mới$$75" e="Add Item$$75"></title>
+    </button>
+    <button command="Save">
+      <title v="Lưu dữ liệu$$90" e="Save$"></title>
+    </button>
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"/>
+    </button>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"></title>
+    </button>
+    <button command="Seprate">
+      <title v="-" e="-"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+</grid>

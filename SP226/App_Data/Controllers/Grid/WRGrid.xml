@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLUserDefinedHiddenFields SYSTEM "..\Include\XML\UserDefinedHiddenFields.txt">
+  <!ENTITY XMLUserDefinedHiddenViews SYSTEM "..\Include\XML\UserDefinedHiddenViews.txt">
+
+  <!ENTITY Identity "WR">
+
+  <!ENTITY XMLFlowGridTagHeader SYSTEM "..\Include\XML\FlowGridTagHeader.xml">
+  <!ENTITY ScriptFlowGridSelect SYSTEM "..\Include\Javascript\FlowGridSelect.txt">
+  <!ENTITY FlowGridTagField "chon">
+  <!ENTITY FlowGridSetItem "">
+
+  <!ENTITY % CheckRelative SYSTEM "..\Include\CheckRelative.ent">
+  %CheckRelative;
+  <!ENTITY CheckRelativeParameter "'WRGrid', 'Grid', 'WRTran'">
+  <!ENTITY CheckRelativeQuery "
+  select top 0 @@fieldExternal from cttt20
+  return">
+]>
+
+<grid table="cttt20" code="so_ct" order="ngay_ct, so_ct" type="Detail" freezeColumns="3" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+
+  <fields>
+    <field name="chon" type="Boolean" external="true" defaultValue="cast(0 as bit)" width="60">
+      &XMLFlowGridTagHeader;
+      <items style="CheckBox"/>
+    </field>
+    <field name="so_ct" external="true" defaultValue="ltrim(so_ct)" align="right" width="100" readOnly="true">
+      <header v="Số hóa đơn" e="Invoice No."></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy" width="100" readOnly="true">
+      <header v="Ngày" e="Date"></header>
+    </field>
+    <field name="tk" width="100" readOnly="true">
+      <header v="Tài khoản" e="Account"></header>
+    </field>
+
+    <field name="t_tt_nt" type="Decimal" external="true" defaultValue="case when isnull(ma_nt, '') = '' then t_tt else t_tt_nt end" dataFormatString="### ### ### ### ###.00" align="right" width="120" readOnly="true">
+      <header v="Số tiền" e="Amount"></header>
+    </field>
+    <field name="t_tt_qd" type="Decimal" dataFormatString="### ### ### ### ###.00" align="right" width="120" readOnly="true">
+      <header v="Đã thanh toán" e="Received"></header>
+    </field>
+    <field name="cl_nt" type="Decimal" external="true" defaultValue="case when isnull(ma_nt, '') = '' then t_tt else t_tt_nt end - t_tt_qd" dataFormatString="### ### ### ### ###.00" align="right" width="120" readOnly="true">
+      <header v="Còn lại" e="Remaining"></header>
+    </field>
+
+    <field name="ma_nt"  external="true" defaultValue="case when isnull(ma_nt, '') = '' then @baseCurrency else rtrim(ma_nt) end" width="100" readOnly="true">
+      <header v="Mã nt" e="Currency Code"></header>
+    </field>
+    <field name="dien_giai" width="300" readOnly="true">
+      <header v="Diễn giải" e="Description"></header>
+    </field>
+
+    <field name="stt_rec" width="0" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ty_gia" type="Decimal" dataFormatString="@exchangeRateInputFormat" clientDefault="0" width="0" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+    &XMLUserDefinedHiddenFields;
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="chon"/>
+
+      <field name="so_ct"/>
+      <field name="ngay_ct"/>
+      <field name="tk"/>
+
+      <field name="t_tt_nt"/>
+      <field name="t_tt_qd"/>
+      <field name="cl_nt"/>
+      <field name="ma_nt"/>
+
+      <field name="dien_giai"/>
+
+      <field name="stt_rec"/>
+      <field name="ty_gia"/>
+
+      &XMLUserDefinedHiddenViews;
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$]]>&Identity;<![CDATA[Grid$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Scattering">
+      <text>
+        <![CDATA[select 'scatter$]]>&Identity;<![CDATA[Grid$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function load$]]>&Identity;<![CDATA[Grid$(g) {
+  var f = g.get_element().parentForm;
+  if (g._rowCount > 0) g._focusWhenTabChanged();
+    else try {$get(String.format('{0}_updateDlgCancel', f._id)).focus();} catch (ex) {}
+  try {$get('FlowGridTagId').parentNode.title = '';} catch (ex) {}
+}
+function scatter$]]>&Identity;<![CDATA[Grid$(g) {g._memvars = [];}
+]]>
+      &ScriptFlowGridSelect;
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+declare @baseCurrency varchar(32)
+select @baseCurrency = rtrim(val) from options where name = 'm_ma_nt0'
+]]>&CheckRelativeProcess;<![CDATA[
+select @@fieldExternal from @@table where ((@ma_dvcs = '' and ma_dvcs = @@unit) or ma_dvcs = @ma_dvcs) and ma_kh = @ma_kh and loai_tt = 0 and (ngay_ct between @ngay_ct1 and @ngay_ct2) and ((ma_nt = '' and t_tt < t_tt_qd) or (ma_nt <> '' and t_tt_nt < t_tt_qd)) order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <toolbar>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+
+</grid>

@@ -1,0 +1,336 @@
+<![CDATA[
+function load$]]>&Identification;<![CDATA[$(f) {
+  chart$]]>&Identification;<![CDATA[GetTypeDataField(f);
+  chart$]]>&Identification;<![CDATA[GetData(f);
+  chart$]]>&Identification;<![CDATA[InitForm(f);
+  chart$]]>&Identification;<![CDATA[Init(f);
+  f._resizableControlBehavior.add_resize(chart$]]>&Identification;<![CDATA[Resize);
+}
+
+function close$]]>&Identification;<![CDATA[$(f) {
+  try {f._resizableControlBehavior.remove_resize(chart$]]>&Identification;<![CDATA[Resize)} catch (ex) {}
+  chart$]]>&Identification;<![CDATA[Close(f);
+}
+
+function chart$]]>&Identification;<![CDATA[GetTypeDataField(f) {
+  var g = f.grid, df = ]]>&GraphDataField;<![CDATA[, typeData = []; f._typeData = [];
+  for (var i = 0; i < df.length; i++) {
+    for (var j = g._fields.length - 1; j >= 0; j--) {
+      if (g._fields[j].AliasName.split('$')[0] == df[i]) {
+        typeData.push(df[i]);
+        break;
+      }
+    }
+  }
+  for (var i = 0; i < typeData.length; i++) {
+    for (var j = 0; j < g._allFields.length; j++) {
+      if (g._allFields[j].AliasName == typeData[i]) {
+        f._typeData.push({
+          AliasName: g._allFields[j].AliasName,
+          HeaderText: g._allFields[j].HeaderText,
+          DataFormatString: g._allFields[j].DataFormatString
+        });
+        break;
+      }
+    }
+  }
+}
+
+function chart$]]>&Identification;<![CDATA[InitForm(f) {
+  var g = f.grid, v = f._language == 'v', titleField == v ? ]]>&GraphTitleField.v;<![CDATA[ : ]]>&GraphTitleField.e;<![CDATA[, title == v ? "]]>&GraphTitle.v;<![CDATA[" : "]]>&GraphTitle.e;<![CDATA[";
+  if (titleField.length) {
+    for (var i = 0; i < titleField.length; i++) {
+      title = title.replace('%s' + (i + 1) + '.HeaderText', $func.htmlEncode(g._fields[g._getColumnOrder(titleField[i]) - 1].HeaderText));
+      title = title.replace('%s' + (i + 1) + '.Label', g._fields[g._getColumnOrder(titleField[i]) - 1].Label);
+      title = title.replace('%s' + (i + 1), g._getItemValue(g._activeRow, g._getColumnOrder(titleField[i])));
+    }
+  }
+  $get(f.get_id() + '_updateDlgTitleText').textContent = title;
+
+  var o1 = f.getItem('loai_dt'), o2 = f.getItem('loai_dl');
+  if (!f._pieChart) o1.options.remove(2);
+  o2.remove(0);
+  for (var i = 0; i < f._typeData.length; i++) {
+    var option = document.createElement("option");
+    option.text = f._typeData[i].HeaderText;
+    option.value = f._typeData[i].AliasName;
+    o2.options.add(option);
+  }
+}
+
+function chart$]]>&Identification;<![CDATA[GetData(f) {
+  var g = f.grid, r = g._activeRow, df = ]]>&GraphDataField;<![CDATA[;
+  f._pieChart = false; f._v = []; f._lb = [];
+
+  for (var i = 0; i < g._fields.length; i++) {
+    var aliasName = g._fields[i].AliasName.split('$');
+    for (var j = 0; j < f._typeData.length; j++) {
+      if (i + j + 1 > g._fields.length) break;
+      if (f._v.length <= f._typeData.length) {f._v.push([]); f._lb.push([]);}
+
+      var value = g._getItemValue(r, i + j + 1);
+      for (var m = 0; m < df.length; m++) {
+        if (aliasName[0] == df[m]) {
+          if (g._fields[i + j].AliasName.split('$')[0] == df[m]) {
+            if (value > 0) f._pieChart = true;
+            f._v[m].push(value);
+
+            var label = g._fields[i].HeaderText.split(' - ')[0];
+            if (f._lb[m][f._lb[m].length - 1] != label) f._lb[m].push(label);
+            break;
+          }
+        }
+      }
+    }
+  }
+
+  for (var i = 0; i < f._v.length; i++) {
+    if (!f._v[i].length) {
+      f._v.splice(i,1);
+      f._lb.splice(i,1);
+      i--;
+    }
+  }
+
+  for (var i = 0; i < f._v.length; i++) {
+    for (var j = 0; j < f._v[i].length; j++) {
+      if (!f._v[i][j]) {
+        f._v[i].splice(j,1);
+        f._lb[i].splice(j,1);
+        j--;
+      }
+    }
+  }
+
+  var dataIndex = ]]>&GraphDataIndex;<![CDATA[;
+  if(dataIndex[0]){
+    for (var i = 0; i < f._v.length; i++) {
+      for (var j = 0; j < Math.abs(dataIndex[0]); j++) {
+        if(dataIndex[0] > 0) {
+          f._v[i].shift();
+          f._lb[i].shift();
+        }
+        else {
+          f._v[i].pop();
+          f._lb[i].pop();
+        }
+      }
+      if(dataIndex.length == 2){
+        for (var k = 0; k < Math.abs(dataIndex[1]); k++) {
+          if(dataIndex[1] > 0) {
+            if(f._v[i].length) {
+              f._v[i].shift();
+              f._lb[i].shift();
+            }
+          }
+          else {
+            if(f._v[i].length) {
+              f._v[i].pop();
+              f._lb[i].pop();
+            }
+          }
+        }
+      }
+    }
+  }
+
+  f._chartValue = f._v.length ? f._v[0] : [];
+  f._labels = f._lb.length ? f._lb[0] : [];
+  f._formatValue = f._typeData[0].DataFormatString;
+  f._labelString = f._typeData[0].HeaderText;
+  f._typeChart = 'bar';
+}
+
+function chart$]]>&Identification;<![CDATA[Init(f) {
+  document._form = f;
+  if (f._chart) f._chart.destroy();
+
+  var dataset = [{
+    type: f._typeChart,
+    label: f._labelString,
+    data: f._chartValue,
+    fill: 'false',
+    backgroundColor: ]]>&GraphColorBar;<![CDATA[,
+    borderColor: ]]>&GraphColorBar;<![CDATA[,
+    borderWidth: 1,
+    barPercentage: 0.5
+  }];
+
+  var max = 0, min = 0;
+  for (var i = 0; i < f._chartValue.length; i++) {
+    if (f._chartValue[i] > max) max = f._chartValue[i];
+    if (f._chartValue[i] < min) min = f._chartValue[i];
+  }
+
+  var ctx = $get('ViewChartID').getContext('2d');
+  f._chart = new Chart(ctx, {
+      type: f._typeChart,
+      data: { labels: f._labels, datasets: dataset },
+      options: {
+        responsive: true,
+        responsiveAnimationDuration: 800,
+        maintainAspectRatio: false,
+        legend: {
+          display: false
+        },
+        layout: {padding: {top: 24}},
+        tooltips: {
+          titleFontColor: '#444',
+          titleFontStyle: 'bold',
+          bodyFontColor: '#444',
+          backgroundColor: '#fff',
+          borderColor: '#bdbbb6',
+          borderWidth: 1,
+          callbacks: {label: function(tooltipItem, data) {return " " + $func.numberFormat(tooltipItem.yLabel, f._formatValue);}}
+        },
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+                maxTicksLimit: Math.abs(max - min) < 10 ? Math.abs(max - min) + 1 : 11,
+                callback: function(value) {return $func.numberFormat(value, '### ### ### ### ##0');}
+              },
+              gridLines: {borderDash: [3, 3]},
+              position: 'left',
+              scaleLabel: {
+                display: true,
+                labelString: f._labelString,
+                fontColor:'#c75e00',
+                fontStyle: 'normal',
+                fontFamily: 'Tahoma',
+                fontSize: 15
+              }
+            }
+          ]
+        }
+      }
+    }
+  );
+  Chart.defaults.global.defaultFontColor = 'black';
+  Chart.defaults.global.defaultFontFamily = 'Tahoma';
+  Chart.defaults.global.defaultFontSize = 11;
+
+  f._chartLength = f._chartValue.length;
+  chart$]]>&Identification;<![CDATA[Resize(null);
+
+  f._chart.update();
+  f._chart.resize();
+}
+
+function chart$]]>&Identification;<![CDATA[InitPie(f) {
+  document._form = f;
+  if (f._chart) f._chart.destroy();
+  chart$]]>&Identification;<![CDATA[Resize(null);
+
+  var color = ]]>&GraphColorPie;<![CDATA[, chartValue = Array.from(f._chartValue), labels = Array.from(f._labels);
+  for (var i = 0; i < chartValue.length; i++) {
+    if (chartValue[i] < 0) {
+      chartValue.splice(i, 1);
+      labels.splice(i, 1);
+      i--;
+    }
+  }
+  while(chartValue.length / color.length > 1) {
+    Array.prototype.push.apply(color, color);
+  }
+
+  var sum = chartValue.reduce(function(a, b) {return a + b;}, 0)];
+  for (var i = 0; i < chartValue.length; i++) {
+    chartValue[i] = sum ? parseFloat((chartValue[i] / sum * 100).toFixed(1)) : 0;
+  }
+
+  var dataset = [{label: f._labelString, data: chartValue, fill: 'false', backgroundColor: color, borderWidth: 1}];
+
+  var ctx = $get('ViewChartID').getContext('2d');
+  f._chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: labels,
+      datasets: dataset
+    },
+    options: {
+      responsive: true,
+      tooltips: {
+        callbacks: {
+          label: function(tooltipItem, data) {
+            var dataset = data.datasets[tooltipItem.datasetIndex], currentValue = dataset.data[tooltipItem.index];
+            return data.labels[tooltipItem.index] + ': ' +  currentValue + '%';
+          }
+        },
+        filter: function (tooltipItem, data) {
+           var dataset = data.datasets[tooltipItem.datasetIndex],
+               meta = dataset._meta[Object.keys(dataset._meta)[0]],
+               total = meta.total;
+           return (total != 0);
+        }
+      }
+    }
+  );
+
+  Chart.defaults.global.defaultFontColor = 'black';
+  Chart.defaults.global.defaultFontFamily = 'Tahoma';
+  Chart.defaults.global.defaultFontSize = 11;
+}
+
+function onChange$]]>&Identification;<![CDATA[DataType(o) {
+  var f = o.parentForm;
+  var dataType = f.getItemValue('loai_dl');
+  for (var i = 0; i < f._typeData.length; i++) {
+    if (f._typeData[i].AliasName.toString() == dataType) {
+      f._labelString = f._typeData[i].HeaderText;
+      f._chartValue = f._v[i];
+      f._labels = f._lb[i];
+      f._formatValue = f._typeData[i].DataFormatString;
+      break;
+    }
+  }
+  if (f._typeChart == 'pie') chart$]]>&Identification;<![CDATA[InitPie(f);
+  else chart$]]>&Identification;<![CDATA[Init(f);
+}
+
+function onChange$]]>&Identification;<![CDATA[ChartType(o) {
+  var f = o.parentForm;
+  switch (f.getItemValue('loai_dt')) {
+    case '10':
+      f._typeChart = 'bar';
+      chart$]]>&Identification;<![CDATA[Init(f);
+      break;
+    case '20':
+      f._typeChart = 'line';
+      chart$]]>&Identification;<![CDATA[Init(f);
+      break;
+    case '30':
+      f._typeChart = 'pie';
+      chart$]]>&Identification;<![CDATA[InitPie(f);
+      break;
+    default:
+      break;
+  }
+}
+
+function chart$]]>&Identification;<![CDATA[Close(f) {
+  f._chart.destroy();
+}
+
+function chart$]]>&Identification;<![CDATA[Resize(e) {
+  var f = document._form, id = f.get_id(), length = f._chartLength, canvasStyle = $get('canvasParent').style;
+  document._globalResizeTimer = null;
+
+  $get('ChartContainer').style.height = $func.measurementToNumber($get(id + "_Tabs_body").style.height) + 'px';
+  if (f) {
+    if (f._typeChart != 'pie') {
+      var w = (length * 70 + f._chart.scales['y-axis-0'].width), t = $func.measurementToNumber($get(String.format('{0}1_formTable', f._id)).style.width);
+      canvasStyle.width = (w > t ? w : t) + 'px';
+    }
+    else {
+      var c = $get('ViewChartID');
+      canvasStyle.width = ($func.measurementToNumber($get(id + "1_formTable").style.width)) + 'px';
+      c.width = ($func.measurementToNumber($get(id + "1_formTable").style.width));
+	  c.height = $func.measurementToNumber($get(id + "_Tabs_body").style.height);
+
+      if (e) chart$]]>&Identification;<![CDATA[InitPie(f);
+    }
+  }
+}
+]]>

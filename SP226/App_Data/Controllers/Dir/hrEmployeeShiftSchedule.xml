@@ -1,0 +1,587 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+
+  <!ENTITY h1 "&lt;div style=&quot;text-align:center;&quot;&gt;">
+  <!ENTITY h2 "&lt;div id=&quot;">
+  <!ENTITY h3 "&quot; style=&quot;text-align:right;&quot;&gt;&lt;/div&gt;">
+  <!ENTITY h4 "&lt;/div&gt;">
+  <!ENTITY h5 "1 = 1">
+  <!ENTITY h6 "status = '1'">
+
+  <!ENTITY c7 "&lt;span style=&quot;color:#4695d6;&quot;&gt;">
+  <!ENTITY c8 "&lt;span style=&quot;color:#e6400d;&quot;&gt;">
+  <!ENTITY c9 "&lt;/span&gt;&h4;">
+]>
+
+<dir table="hrca$000000" code="stt_rec_nv" order="stt_rec_nv" type="Voucher" id="H01" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="ca làm việc" e="Working Shift"></title>
+  <partition table="hrca$000000" prime="hrca$000000" field="stt_rec_nv" expression="''" default=""/>
+
+  <fields>
+    <field name="stt_rec_nv" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nv" external="true" defaultValue="''">
+      <header v="Mã nhân viên" e="Employee ID"></header>
+      <footer v="&lt;div class=&quot;Break&quot;/&gt;" e="&lt;div class=&quot;Break&quot;/&gt;"></footer>
+    </field>
+    <field name="ho_ten" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_bp" external="true" defaultValue="''">
+      <header v="Bộ phận" e="Department"></header>
+    </field>
+    <field name="ten_bp%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_vt" external="true" defaultValue="''">
+      <header v="Vị trí công việc" e="Position"></header>
+    </field>
+    <field name="ten_vt%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="thang" type="Decimal" dataFormatString="#0" external="true" defaultValue="0">
+      <header v="Tháng/năm" e="Month/Year"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="nam" type="Decimal" dataFormatString="###0" external="true" defaultValue="0">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="d1" external="true" defaultValue="''">
+      <header v="&h2;d1&h3;" e="&h2;d1&h3;"></header>
+      <footer v="&h1;&c8;Chủ nhật&c9;" e="&h1;&c8;Sunday&c9;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d2" external="true" defaultValue="''">
+      <header v="&h2;d2&h3;" e="&h2;d2&h3;"></header>
+      <footer v="&h1;Thứ hai&h4;" e="&h1;Monday&h4;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d3" external="true" defaultValue="''">
+      <header v="&h2;d3&h3;" e="&h2;d3&h3;"></header>
+      <footer v="&h1;Thứ ba&h4;" e="&h1;Tuesday&h4;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d4" external="true" defaultValue="''">
+      <header v="&h2;d4&h3;" e="&h2;d4&h3;"></header>
+      <footer v="&h1;Thứ tư&h4;" e="&h1;Wednesday&h4;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d5" external="true" defaultValue="''">
+      <header v="&h2;d5&h3;" e="&h2;d5&h3;"></header>
+      <footer v="&h1;Thứ năm&h4;" e="&h1;Thursday&h4;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d6" external="true" defaultValue="''">
+      <header v="&h2;d6&h3;" e="&h2;d6&h3;"></header>
+      <footer v="&h1;Thứ sáu&h4;" e="&h1;Friday&h4;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d7" external="true" defaultValue="''">
+      <header v="&h2;d7&h3;" e="&h2;d7&h3;"></header>
+      <footer v="&h1;&c7;Thứ bảy&c9;" e="&h1;&c7;Saturday&c9;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d8" external="true" defaultValue="''">
+      <header v="&h2;d8&h3;" e="&h2;d8&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d9" external="true" defaultValue="''">
+      <header v="&h2;d9&h3;" e="&h2;d9&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d10" external="true" defaultValue="''">
+      <header v="&h2;d10&h3;" e="&h2;d10&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d11" external="true" defaultValue="''">
+      <header v="&h2;d11&h3;" e="&h2;d11&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d12" external="true" defaultValue="''">
+      <header v="&h2;d12&h3;" e="&h2;d12&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d13" external="true" defaultValue="''">
+      <header v="&h2;d13&h3;" e="&h2;d13&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d14" external="true" defaultValue="''">
+      <header v="&h2;d14&h3;" e="&h2;d14&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d15" external="true" defaultValue="''">
+      <header v="&h2;d15&h3;" e="&h2;d15&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d16" external="true" defaultValue="''">
+      <header v="&h2;d16&h3;" e="&h2;d16&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d17" external="true" defaultValue="''">
+      <header v="&h2;d17&h3;" e="&h2;d17&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d18" external="true" defaultValue="''">
+      <header v="&h2;d18&h3;" e="&h2;d18&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d19" external="true" defaultValue="''">
+      <header v="&h2;d19&h3;" e="&h2;d19&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d20" external="true" defaultValue="''">
+      <header v="&h2;d20&h3;" e="&h2;d20&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d21" external="true" defaultValue="''">
+      <header v="&h2;d21&h3;" e="&h2;d21&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d22" external="true" defaultValue="''">
+      <header v="&h2;d22&h3;" e="&h2;d22&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d23" external="true" defaultValue="''">
+      <header v="&h2;d23&h3;" e="&h2;d23&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d24" external="true" defaultValue="''">
+      <header v="&h2;d24&h3;" e="&h2;d24&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d25" external="true" defaultValue="''">
+      <header v="&h2;d25&h3;" e="&h2;d25&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d26" external="true" defaultValue="''">
+      <header v="&h2;d26&h3;" e="&h2;d26&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d27" external="true" defaultValue="''">
+      <header v="&h2;d27&h3;" e="&h2;d27&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d28" external="true" defaultValue="''">
+      <header v="&h2;d28&h3;" e="&h2;d28&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d29" external="true" defaultValue="''">
+      <header v="&h2;d29&h3;" e="&h2;d29&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d30" external="true" defaultValue="''">
+      <header v="&h2;d30&h3;" e="&h2;d30&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d31" external="true" defaultValue="''">
+      <header v="&h2;d31&h3;" e="&h2;d31&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d32" external="true" defaultValue="''">
+      <header v="&h2;d32&h3;" e="&h2;d32&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d33" external="true" defaultValue="''">
+      <header v="&h2;d33&h3;" e="&h2;d33&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d34" external="true" defaultValue="''">
+      <header v="&h2;d34&h3;" e="&h2;d34&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d35" external="true" defaultValue="''">
+      <header v="&h2;d35&h3;" e="&h2;d35&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d36" external="true" defaultValue="''">
+      <header v="&h2;d36&h3;" e="&h2;d36&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d37" external="true" defaultValue="''">
+      <header v="&h2;d37&h3;" e="&h2;d37&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d38" external="true" defaultValue="''">
+      <header v="&h2;d38&h3;" e="&h2;d38&h3;"></header>
+    </field>
+    <field name="d39" external="true" defaultValue="''">
+      <header v="&h2;d39&h3;" e="&h2;d39&h3;"></header>
+    </field>
+    <field name="d40" external="true" defaultValue="''">
+      <header v="&h2;d40&h3;" e="&h2;d40&h3;"></header>
+    </field>
+    <field name="d41" external="true" defaultValue="''">
+      <header v="&h2;d41&h3;" e="&h2;d41&h3;"></header>
+    </field>
+    <field name="d42" external="true" defaultValue="''">
+      <header v="&h2;d42&h3;" e="&h2;d42&h3;"></header>
+    </field>
+
+    <field name="n01" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n02" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n03" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n04" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n05" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n06" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n07" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n08" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n09" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n10" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n11" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n12" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n13" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n14" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n15" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n16" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n17" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n18" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n19" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n20" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n21" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n22" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n23" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n24" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n25" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n26" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n27" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n28" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n29" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n30" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n31" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="partition" external="true" defaultValue="''" hidden="true" readOnly="true" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="20, 88, 19, 40, 40, 8, 20, 88, 19, 88, 20, 88, 19, 88, 20, 88, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"/>
+      <item value="10011: [thang].Label, [thang], [nam]"/>
+      <item value="10010001000000001111111111111111: [ma_nv].Label, [ma_nv], [ho_ten], [stt_rec_nv], [n01], [n02], [n03], [n04], [n05], [n06], [n07], [n08], [n09], [n10], [n11], [n12], [n13], [n14], [n15]"/>
+      <item value="10010001000000001111111111111111: [ma_bp].Label, [ma_bp], [ten_bp%l], [n16], [n17], [n18], [n19], [n20], [n21], [n22], [n23], [n24], [n25], [n26], [n27], [n28], [n29], [n30], [n31]"/>
+      <item value="10010001000000001: [ma_vt].Label, [ma_vt], [ten_vt%l], [partition]"/>
+      <item value="1000000000000000: [ma_nv].Description"/>
+
+      <item value="1010001010101010: [d2].Description, [d3].Description, [d4].Description, [d5].Description, [d6].Description, [d7].Description, [d1].Description"/>
+      <item value="-1-100-1-1-1-1-1: [d1].Label, [d2].Label, [d3].Label, [d4].Label, [d5].Label, [d6].Label, [d7].Label"/>
+      <item value="-1-100-1-1-1-1-1: [d1], [d2], [d3], [d4], [d5], [d6], [d7]"/>
+      <item value="-1-100-1-1-1-1-1: [d8].Label, [d9].Label, [d10].Label, [d11].Label, [d12].Label, [d13].Label, [d14].Label"/>
+      <item value="-1-100-1-1-1-1-1: [d8], [d9], [d10], [d11], [d12], [d13], [d14]"/>
+      <item value="-1-100-1-1-1-1-1: [d15].Label, [d16].Label, [d17].Label, [d18].Label, [d19].Label, [d20].Label, [d21].Label"/>
+      <item value="-1-100-1-1-1-1-1: [d15], [d16], [d17], [d18], [d19], [d20], [d21]"/>
+      <item value="-1-100-1-1-1-1-1: [d22].Label, [d23].Label, [d24].Label, [d25].Label, [d26].Label, [d27].Label, [d28].Label"/>
+      <item value="-1-100-1-1-1-1-1: [d22], [d23], [d24], [d25], [d26], [d27], [d28]"/>
+      <item value="-1-100-1-1-1-1-1: [d29].Label, [d30].Label, [d31].Label, [d32].Label, [d33].Label, [d34].Label, [d35].Label"/>
+      <item value="-1-100-1-1-1-1-1: [d29], [d30], [d31], [d32], [d33], [d34], [d35]"/>
+      <item value="-1-100-1-1-1-1-1: [d36].Label, [d37].Label, [d38].Label, [d39].Label, [d40].Label, [d41].Label, [d42].Label"/>
+      <item value="-1-100-1-1-1-1-1: [d36], [d37], [d38], [d39], [d40], [d41], [d42]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+select 'init$EmployeeShiftScheduleForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'load$EmployeeShiftScheduleForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$EmployeeShiftScheduleForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="InitExternalFields">
+      <text>
+        <![CDATA[
+select char(255) as n01, char(255) as n02, char(255) as n03, char(255) as n04, char(255) as n05, char(255) as n06, char(255) as n07, char(255) as n08, char(255) as n09, char(255) as n10, 
+    char(255) as n11, char(255) as n12, char(255) as n13, char(255) as n14, char(255) as n15, char(255) as n16, char(255) as n17, char(255) as n18, char(255) as n19, char(255) as n20, 
+    char(255) as n21, char(255) as n22, char(255) as n23, char(255) as n24, char(255) as n25, char(255) as n26, char(255) as n27, char(255) as n28, char(255) as n29, char(255) as n30, char(255) as n31, 
+    rtrim(b.ma_nv) ma_nv, rtrim(b.ho_nv) + space(1) + rtrim(b.ten_nv) ho_ten, rtrim(b.bo_phan) ma_bp, rtrim(b.vi_tri) ma_vt, case @@language when 'v' then c.ten_bp else c.ten_bp2 end ten_bp%l, case @@language when 'v' then d.ten_vtr else d.ten_vtr2 end ten_vt%l
+  from @@table a left join hrnv b on a.stt_rec_nv = b.stt_rec left join hrbp c on b.bo_phan = c.ma_bp left join hrvt d on b.vi_tri = d.ma_vtr
+  where a.stt_rec_nv = @stt_rec_nv
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+declare @q nvarchar(4000), @d nvarchar(4000), @s nvarchar(4000), @f nvarchar(4000), @k nvarchar(32), @i int
+select @d = '', @s = '', @f = '', @k = '', @i = 1
+while @i < 32 begin
+	select @k = case when @i > 9 then rtrim(@i) else '0' + rtrim(@i) end
+	select @d = @d +  'isnull(n' + @k + ', '''')+', @s = @s + replace('n%f = @n%f, ', '%f', @k), @f = @f + '@n' + @k + ' varchar(32),'
+	select @i = @i + 1
+end
+
+select @d = substring(rtrim(@d), 0, len(@d)), @s = substring(rtrim(@s), 0, len(@s)), @f = substring(rtrim(@f), 0, len(@f))
+select @q = 'update ' + @$partition + ' set ' + replace(@s, '''', '''''') + ' where stt_rec_nv = ''' + replace(@stt_rec_nv, '''', '''''') + ''''
+execute sp_executesql @q, @f, @n01, @n02, @n03, @n04, @n05, @n06, @n07, @n08, @n09, @n10, @n11, @n12, @n13, @n14, @n15, @n16, @n17, @n18, @n19, @n20, @n21, @n22, @n23, @n24, @n25, @n26, @n27, @n28, @n29, @n30, @n31
+/*
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[*/
+select @q =  'update ' + @$partition + ' set status = case when (rtrim(' + @d + ')) <> '''' then ''1'' else ''0'' end where stt_rec_nv = ''' + replace(@stt_rec_nv, '''', '') + ''''
+exec sp_executesql @q
+
+select @q = 'update ' + @$partition + ' set datetime0 = getdate(), datetime2 = getdate(), user_id0 = @@userID, user_id2 = @@userID'
+select @q = @q + ' where stt_rec_nv = ''' + replace(@stt_rec_nv, '''', '''''') + ''''
+exec sp_executesql @q
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[
+var f = this, g = f.grid, v = new Date(g._year, g._month - 1, 1), d = (v.getDay() != 0) ? v.getDay(): 7;
+for (var i = 1; i <= 31; i++) {
+  var field = 'n' + (i > 9 ? i.toString() : '0' + i.toString()), v = f.getItem('d' + (i + d - 1).toString()).value;
+  f.setItemValue(field, v);
+}
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function init$EmployeeShiftScheduleForm(f) {
+  f.add_onResponseComplete(on$EmployeeShiftScheduleForm$ResponseComplete);
+  set$EmployeeShiftScheduleFormLayout(f);
+}
+function load$EmployeeShiftScheduleForm(f) {
+  for (var i = 1; i <= 37; i++) {
+    changeLookupReadonly(f, 'd' + i.toString(), true);
+  }
+  var g = f.grid;
+  f.getItem('thang').value = g._month;
+  f.getItem('nam').value = g._year;
+  f.setReadOnlyFields('thang, nam, ma_nv, ma_bp, ma_vt');
+  f.live(f.getItem('thang'));
+}
+function close$EmployeeShiftScheduleForm(f) {try {f.remove_onResponseComplete(on$EmployeeShiftScheduleForm$ResponseComplete);} catch (ex) {}}
+function set$EmployeeShiftScheduleFormLayout(f) {
+  var line = '1px solid #c0d1e9', blank = '#f0f4fb', normal = '#ffffff', sunday = '#e9edf1';
+  var g = f.grid, d1 = new Date(g._year, g._month - 1, 1), d2 = new Date(g._year, g._month, 0);
+  var d0 = (d1.getDay() != 0) ? d1.getDay(): 7, d3 = d2.getDate(), id = f.get_id() + '0_formCell_';
+  var p = g._year.toString() + ((g._month < 10) ? '0' + g._month.toString() : g._month.toString());
+  
+  var s = f.getItemValue('stt_rec_nv');
+  f.getItem('partition').value = 'hrca$' + p;
+  f.request('GetFormData', 'GetFormData', [['p', 'String', p], ['s', 'String', s]]);
+  setHeaderStyle(id, line);
+  for (var i = 1; i <= 42; i++) {
+    var item = 'd' + i.toString(), o = f.getItem(item), cell = $get(item);
+    if ((i > d0 - 1) && (i < d3 + d0)) {
+      var index = i + 1 - d0, k = ((Array.indexOf(g._d2, index) == -1));
+      setCellStyle(o, cell, k ? normal : sunday, index, k);
+    }
+    else disableCellStyle(o, cell, blank, i);
+  }
+  setBorderStyle(g, id, line, blank, normal, sunday);
+}
+
+function setHeaderStyle(id, line) {
+  for (i = 2; i <= 16; i += 2) {
+    if (i == 4) i += 2;
+    var o = $get(id + '6.' + i.toString()), style = o.style;
+    style.borderTop = line;
+    style.borderLeft = line;
+    style.backgroundColor = '#e6edf7';
+    if (i == 16) style.borderRight = line;
+    if ($func.isOpr) o.childNodes[0].style.padding = 0;
+  }
+  $get(id + '6.2').parentNode.style.height = $func.isSr ? '31px' : '27px';
+}
+function setCellStyle(o, cell, color, index, k) {
+  var style = o.style, parentStyle = o.parentNode.style;
+  cell.innerHTML = index.toString();
+  cell.style.color = '#008ecc';
+  cell.style.marginRight = ($func.isOpr) ? '2px' : '6px';
+
+  style.width = $func.isCs ? '68px' : '65px';
+  style.paddingLeft = ($func.isSr || $func.isOpr) ? '4px' : '0';
+  style.backgroundColor = o.parentNode.parentNode.style.backgroundColor = color;
+
+  parentStyle.marginLeft = ($func.isSr) ? '-7px' : '-5px';
+  parentStyle.marginBottom = '6px';
+  parentStyle.marginTop = $func.isSr ? '4px' : '0';
+  
+  if ($func.isOpr) parentStyle.width = '82px';
+  if (k) parentStyle.borderBottom = '1px solid #e6edf7';
+}
+function disableCellStyle(o, cell, color, index) {
+  if (index == 36) {
+    cell.innerHTML = '&nbsp;';
+    cell.disabled = true;
+  }
+  var parent = o.parentNode;
+  o.disabled = true;
+  if (o.a) $common.setVisible(o.a, false);
+  cell.style.color = color;
+  o.style.backgroundColor = parent.parentNode.style.backgroundColor = color;
+  parent.style.borderBottom = 'none';
+  parent.style.marginBottom = '7px';
+}
+function setBorderStyle(g, id, line, blank, normal, sunday) {
+  for (var i = 7; i <= 18; i++) {
+    for (var j = 1; j <= 16; j++) {
+      if (j == 4) j = 6;
+      
+      var o = $get(id + i.toString() + '.' + j.toString()), style = o.style;
+      if (i == 7) style.borderTop = line;
+      if (j == 16) style.borderRight= line;
+      if (i % 2 == 0) style.borderBottom = line;
+      
+      if (j % 2 != 0) style.borderLeft = line;
+      else {
+        var v = o.firstChild.firstChild.innerHTML, c = j - (j == 6 ? 3 : 1), e = c.toString();
+        
+        if ((!v) && (o.firstChild.firstChild.id.length <= 15)) {
+          style.backgroundColor = blank;
+          $get(id + i.toString() + '.' + e).style.backgroundColor = blank;
+          $get(id + (i + 1).toString() + '.' + e).style.backgroundColor = blank;
+        }
+        
+        if (v) {
+          var color = ((Array.indexOf(g._d2, parseInt(v)) == -1)) ? normal : sunday;
+          if (v == '&nbsp;') color = blank;
+          style.backgroundColor = color;
+          $get(id + i.toString() + '.' + e).style.backgroundColor = color;
+          $get(id + (i + 1).toString() + '.' + e).style.backgroundColor = color;
+        }
+      }
+    }
+  }
+}
+function on$EmployeeShiftScheduleForm$ResponseComplete(sender, e) {
+  var f = e.object, g = f.grid, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'GetFormData':
+      var v = new Date(g._year, g._month - 1, 1), d = (v.getDay() != 0) ? v.getDay(): 7;
+      for (var i = 0; i <= 30; i++) f.setItemValue('d' + (d + i).toString(), result[i].Value);
+      break;
+    default:
+      break;
+  }
+}
+]]>
+      &OutlineEntry;
+    </text>
+  </script>
+
+  <response>
+    <action id="GetFormData">
+      <text>
+        <![CDATA[
+declare @q nvarchar(4000), @i int, @c varchar(2)
+select @q = 'select rtrim(n01) as n01', @i = 2
+while @i <= 31 begin
+  select @c = replace(str(@i, 2), ' ', '0')
+  select @q = @q + ', rtrim(n' + @c + ') as n' + @c, @i = @i + 1
+end
+select @q = @q + ' from hrca$' + @p + ' where (stt_rec_nv = ''' + replace(@s, '''', '') + ''')'
+exec sp_executesql @q
+]]>
+      </text>
+    </action>
+  </response>
+
+  <css>
+    <text>
+      <![CDATA[
+.Break{margin:1px 0 1px 8px;padding:0;height:1px;overflow:hidden;display:block;background-color:white;border-top:1px solid #ced3de;}
+]]>
+    </text>
+  </css>
+</dir>

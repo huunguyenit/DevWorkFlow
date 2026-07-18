@@ -1,0 +1,39 @@
+﻿<![CDATA[
+objectBehavior$Voucher$Number = {
+  create: function(f, voucherNumber, voucherBook, voucherReference, fieldReference) {
+    var c = f.getItem(voucherNumber), b = f.getItem(voucherBook);
+    var v = f._voucherNumberBehavior = $create(FastBusiness.AjaxControlExtender.VoucherNumber, {id: f._id + '_voucherNumberBehavior', book: b, form: f}, null, null, c);
+    if (voucherReference && fieldReference) {
+      f._voucher$Reference$Lookup = voucherReference;
+      f._field$Referencee$Lookup = fieldReference;
+      f._voucher$NumberLookup = b._controlBehavior;
+      f._voucher$NumberLookup.add_loading(on$voucher$Number$Before$Lookup);
+    }
+    v.init();
+    v.setFormLayout();
+    this._voucherNumberChangedHandler = Function.createDelegate(this, this.onVoucherNumberChanged);
+    v.add_onVoucherNumberChange(this._voucherNumberChangedHandler);
+    if (f._isVoucherBook == 0) v.hideBook();
+  },
+  dispose: function(f) {
+    if (f._voucherNumberBehavior) {
+      if (f._voucher$NumberLookup) {
+        try {f._voucher$NumberLookup.remove_loading(on$voucher$Number$Before$Lookup);} catch (ex) {}
+        f._voucher$NumberLookup = null;
+      }
+      if (this._voucherNumberChangedHandler) {
+        f._voucherNumberBehavior.remove_onVoucherNumberChange(this._voucherNumberChangedHandler);
+        this._voucherNumberChangedHandler = null;
+      }
+      f._voucherNumberBehavior.dispose();
+    }
+  },
+  warning: function(f, msg) {$message.show(msg + String.format('<div style="color:#035ab8;">{0}</div>', (f._language == 'v' ? 'Lưu ý: Hệ thống vẫn lưu dữ liệu vừa cập nhật.' : 'Warnings: Updated data has been saved.')), String.format('$get(\'{0}_updateDlgNew\').focus();', f.get_id()));},
+  onVoucherNumberChanged: function(sender, e) {e.object._book.parentForm.request('GetVoucherNumber', 'GetVoucherNumber', [['voucherBook', 'String', e.type]]);}
+}
+function on$voucher$Number$Before$Lookup(sender, e) {
+  var f = sender._element.parentForm;
+  if (!f.validFields(f._voucher$Reference$Lookup)) e.type.cancelEvent = true;
+    else sender.set_memvars([{Name: 'd', Type: 'DateTime', Value: f.getItemValue(f._voucher$Reference$Lookup)}, {Name: 'u', Type: 'String', Value: u = f.getItemValue(f._field$Referencee$Lookup)}]);
+}
+]]>

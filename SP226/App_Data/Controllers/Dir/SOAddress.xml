@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE dir [
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+]>
+
+<dir table="dmdc2" code="ma_kh, ma_dc" order="ma_kh, ma_dc" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="địa chỉ giao hàng" e="Delivery Address" />
+  <fields>
+    <field name="ma_kh" isPrimaryKey="true" clientDefault="Default" allowNulls="false">
+      <header v="Mã khách hàng" e="Customer" />
+      <items style="AutoComplete" controller="Customer" key="status = '1'" reference="ten_kh%l" information="ma_kh$dmkh.ten_kh%l" />
+    </field>
+    <field name="ten_kh%l" clientDefault="Default" defaultValue="''" readOnly="true" external="true">
+      <header v="" e="" />
+    </field>
+    <field name="ma_dc" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã địa chỉ" e="Address" />
+      <items style="Mask" />
+    </field>
+
+    <field name="ten_dc">
+      <header v="Tên địa chỉ" e="Description" />
+    </field>
+    <field name="ten_dc2">
+      <header v="Tên khác" e="Other Name" />
+    </field>
+
+    <field name="ghi_chu" rows="2">
+      <header v="Ghi chú" e="Note" />
+    </field>
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status" />
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive" />
+      <items style="Mask" />
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 330" />
+      <item value="1101: [ma_kh].Label, [ma_kh], [ten_kh%l]" />
+      <item value="110: [ma_dc].Label, [ma_dc]" />
+      <item value="1100: [ten_dc].Label, [ten_dc]" />
+      <item value="1100: [ten_dc2].Label, [ten_dc2]" />
+      <item value="1100: [ghi_chu].Label, [ghi_chu]" />
+      <item value="1110: [status].Label, [status], [status].Description" />
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$FormSOAddress(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormSOAddress(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[ 
+declare @$exists nvarchar(512), @$updateConflict nvarchar(512), @$recordHasBeenChanged nvarchar(512), @$deleteConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã khách hàng <span class="Highlight">%s1</span> và địa chỉ <span class="Highlight">%s2</span> đã có hoặc lồng nhau trong danh mục địa chỉ giao hàng.' else N'The record consisting of customer <span class="Highlight">%s1</span> and address <span class="Highlight">%s2</span> is invalid or already exists.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Mã khách hàng <span class="Highlight">%s1</span> và địa chỉ <span class="Highlight">%s2</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The record consisting of customer <span class="Highlight">%s1</span> and address <span class="Highlight">%s2</span> has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+    <command event="Inserting">
+      <text>
+        <![CDATA[ 
+if exists(select 1 from @@table where ma_kh = @ma_kh and ((ma_dc like rtrim(@ma_dc) + '%') or rtrim(@ma_dc) like rtrim(ma_dc) + '%')) begin  
+  select 'ma_dc' as field, replace(replace(@$exists, '%s1', rtrim(@ma_kh)), '%s2', rtrim(@ma_dc)) as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select 1 from @@table where ma_kh = $ma_kh.OldValue and ma_dc = $ma_dc.OldValue) begin
+  select 'ma_kh' as field, replace(replace(@$recordHasBeenChanged, '%s1', rtrim($ma_kh.OldValue)), '%s2', rtrim($ma_dc.OldValue)) as message
+  return
+end
+
+if @ma_kh <> $ma_kh.OldValue or @ma_dc <> $ma_dc.OldValue begin
+  if exists(select * from @@table where (not (ma_kh = $ma_kh.OldValue and ma_dc = $ma_dc.OldValue)) and ((ma_kh = @ma_kh and ma_dc = @ma_dc) or (ma_kh = @ma_kh and ma_dc like rtrim(@ma_dc) + '%') or (ma_kh = @ma_kh and rtrim(@ma_dc) like rtrim(ma_dc) + '%'))) begin	
+    select 'ma_dc' as field, replace(replace(@$exists, '%s1', rtrim(@ma_kh)), '%s2', rtrim(@ma_dc)) as message
+    return
+	end
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_kh = @ma_kh and ma_dc = @ma_dc
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$FormSOAddress(f) {f.add_onResponseComplete(on$FormSOAddress$ResponseComplete);}
+function close$FormSOAddress(f) {try {f.remove_onResponseComplete(on$FormSOAddress$ResponseComplete)} catch (ex) {}}
+function on$FormSOAddress$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'ma_dc');
+      break;
+    default:
+      break;
+  }
+}
+]]>
+      &ScriptIrregular;
+    </text>
+  </script>
+
+</dir>

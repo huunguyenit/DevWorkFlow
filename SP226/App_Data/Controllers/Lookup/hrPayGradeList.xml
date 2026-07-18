@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmnl" code="ma_ngach" name="ten_ngach%l" order="ma_ngach" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục ngạch lương" e="Pay Grade List"></header>
+  <fields>
+    <field name="ma_ngach" allowSorting="true" allowFilter="true">
+      <header v="Mã ngạch lương" e="Pay Grade"></header>
+    </field>
+    <field name="ten_ngach%l" allowSorting="true" allowFilter="true">
+      <header v="Tên ngạch lương" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmtcltdbh" code="ma_tc" name="ten_tc%l" order="ma_tc" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục tính chất loại thay đổi BHXH" e="SI Change Type Properties"></header>
+  <fields>
+    <field name="ma_tc" allowSorting="true" allowFilter="true">
+      <header v="Mã" e="Code"></header>
+    </field>
+    <field name="ten_tc%l" allowSorting="true" allowFilter="true">
+      <header v="Tên" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

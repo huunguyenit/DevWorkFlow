@@ -1,0 +1,19 @@
+﻿<![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<title>Thư cám ơn</title>
+<body>
+
+<div class="h5">Dear Ms/Mr: {!ten_uv}</div>
+<br/>
+
+<div class="h6">Đầu tiên, công ty cảm ơn Anh/chị đã dành thời gian đến tham dự phỏng vấn.</br>
+                Chúng tôi rất tiếc phải thông báo đợt này Anh/Chị chưa phải là ứng viên mà công ty đang tuyển dụng.</br>
+                Chúng tôi sẽ lưu hồ sơ của Anh/Chị và sẽ ưu tiên vào đợt tuyển dụng lần sau.</br>
+                Chúc Anh/Chị nhiều sức khỏe, luôn thành công và phát triển sự nghiệp của mình.</div>
+<div class="h6">Trân trọng cảm ơn!</div>
+<div class="h5">-----------------</div>
+
+<br />
+
+</body></html>
+]]>

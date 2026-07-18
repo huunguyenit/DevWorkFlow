@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<grid table="hrdgthct" code="stt_rec" order="stt_rec, line_nbr" type="Detail" freezeColumns="3" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+
+  <fields>
+    <field name="stt" width="60" readOnly="true" isPrimaryKey="true">
+      <header v="Stt" e="No."/>
+    </field>
+    <field name="chi_tieu" readOnly="true" width="300">
+      <header v="Chỉ tiêu" e="Criterion"></header>
+    </field>
+    <field name="muc_tieu" readOnly="true" width="100" type="Decimal" dataFormatString="@markViewFormat">
+      <header v="Mục tiêu" e ="Objective"/>
+      <items style="Numeric"></items>
+    </field>
+    <field name="trong_so" readOnly="true" width="100" type="Decimal" dataFormatString="@markViewFormat">
+      <header v="Trọng số (%)" e ="Weight"/>
+      <items style="Numeric"></items>
+    </field>
+    <field name="diem_nv_dg" width="100" type="Decimal" dataFormatString="@markInputFormat">
+      <header v="Nhân viên đánh giá" e ="Self-Score"/>
+      <handle key="[readonly_yn]!=1" field="readonly_yn"/>
+      <items style="Numeric"></items>
+    </field>
+    <field name="diem_ql_dg" width="100" type="Decimal" dataFormatString="@markInputFormat">
+      <header v="Quản lý đánh giá" e ="Appraiser Score"/>
+      <handle key="[readonly_yn]!=1" field="readonly_yn"/>
+      <items style="Numeric"></items>
+    </field>
+
+    <field name="ghi_chu" width="300">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+    <field name="dien_giai" width="300" readOnly="true">
+      <header v="Diễn giải" e="Description"></header>
+    </field>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="bac" readOnly="true" width="0" hidden="true" type="Int32">
+      <header v="" e =""/>
+    </field>
+    <field name="stt0" readOnly="true" width="0" hidden="true">
+      <header v="" e =""/>
+    </field>
+    <field name="ma_loai" readOnly="true" width="0" hidden="true">
+      <header v="" e =""/>
+    </field>
+    <field name="readonly_yn" type="Boolean" readOnly="true" width="0" hidden="true">
+      <header v="" e =""/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt"/>
+      <field name="chi_tieu"/>
+      <field name="muc_tieu"/>
+      <field name="trong_so"/>
+      <field name="diem_nv_dg"/>
+      <field name="diem_ql_dg"/>
+      <field name="ghi_chu"/>
+      <field name="dien_giai"/>
+      <field name="stt_rec"/>
+      <field name="line_nbr"/>
+      <field name="bac"/>
+      <field name="stt0"/>
+      <field name="ma_loai"/>
+      <field name="readonly_yn"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$GridVoucherDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridVoucherDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$GridVoucherDetail$(g) {
+  g.add_itemValueChanged(onChange$GridVoucherDetail$);
+  g.add_commandEvent(on$GridVoucherDetail$ExecuteCommand);
+  g._$trongso = g._getColumnOrder('trong_so');
+  g._$diem_nv_dg = g._getColumnOrder('diem_nv_dg');
+  g._$diem_ql_dg = g._getColumnOrder('diem_ql_dg');
+  g._$stt0 = g._getColumnOrder('stt0');
+  g._$stt = g._getColumnOrder('stt');
+}
+function dispose$GridVoucherDetail$(g) {
+  try {g.remove_commandEvent(on$GridVoucherDetail$ExecuteCommand);} catch (ex) {}
+  try {g.remove_itemValueChanged(onChange$GridVoucherDetail$);} catch (ex) {}
+}
+
+function on$GridVoucherDetail$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm;
+  switch (action) {
+     case 'Retrieve':
+      if (f._action == 'View') break;
+      if (!f.validFields('ma_ky')) break;
+      if (!f.validFields('nam')) break;
+		  if (!f.validFields('ma_nv')) break;
+
+      on$Filter$QueryComplete(g, f.getItemValue('ma_ky'), f.getItemValue('nam'), f.getItemValue('stt_rec_nv'));
+      f.setItemValues('t_diem_nv_dg, t_diem_ql_dg', [0, 0]);
+      break;
+    default:
+      break;
+  }
+}
+
+function onChange$GridVoucherDetail$(sender, eventArgs) {
+  var o = eventArgs.get_object(), g = o.grid, f = g.get_element().parentForm, name = o.field.Name;
+  switch (name) {
+    case 'diem_nv_dg':
+    case 'diem_ql_dg':
+      var a = g._getItemValue(g._activeRow, g._$stt0);
+      if (a == '') a = g._getItemValue(g._activeRow, g._$stt);
+      onChange$Grid$SelfScore$(g, f, a, g._activeColumn);
+      break;
+    default:
+      break;
+  }
+}
+
+function onChange$Grid$SelfScore$(g, f, a, col) {
+  var weight = 0, total = 0, val = 0, add = 1;
+  for (var i = 1; i <= g._rowCount; i++) {
+    if (g._getItemValue(i, g._$stt) == a) {
+      add = i;
+      break;
+    }
+  }
+  if (add == g._activeRow) {
+    onChange$Grid$Total(g, f, col);
+    return;
+  }
+
+  for (var r = 1; r <= g._rowCount; r++) {
+    if (g._getItemValue(r, g._$stt0) == a) {
+      weight += g._getItemValue(r, g._$trongso);
+      total += g._getItemValue(r, col) * g._getItemValue(r, g._$trongso);
+    }
+  }
+
+  val = weight == 0 ? 0 : total / weight;
+	g._setItemValue(add, col, val);
+  onChange$Grid$Total(g, f, col);
+}
+
+function onChange$Grid$Total(g, f, col) {
+  var weight = 0, total = 0, val = 0;
+  for (var i = 1; i <= g._rowCount; i++) {
+    if (g._getItemValue(i, g._$stt0) == '') {
+      weight += g._getItemValue(i, g._$trongso);
+      total += g._getItemValue(i, col) * g._getItemValue(i, g._$trongso)
+    }
+  }
+  val = weight == 0 ? 0 : total / weight;
+  f.setItemValue(((col == g._$diem_nv_dg) ? 't_diem_nv_dg' : 't_diem_ql_dg'), val);
+}
+
+function on$Filter$QueryComplete(g, a, b, c) {
+  var k = [];
+  Array.add(k, {Name: 'ma_ky', OldValue: null, NewValue: parseInt(a), Modified: true, Items: []});
+  Array.add(k, {Name: 'nam', OldValue: null, NewValue: b, Modified: true, Items: []});
+  Array.add(k, {Name: 'key_nv', OldValue: null, NewValue: c, Modified: true, Items: []});
+  g.set_memvars(k);
+  g.set_gridPageIndex(-2);
+  g._loadPage(1);
+
+  var o = g.get_element().field;
+  o.AllowContain = true;
+  o.FilterSource = '';
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from hrdgthct where stt_rec = @stt_rec order by @@orderByClause
+]]>
+      </text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @key char(13)
+select top 1 @key = stt_rec from hrkbctdg where stt_rec_nv = @key_nv and nam * 100 + ky <= @nam * 100 + @ma_ky order by nam desc, ky desc
+select a.stt, chi_tieu, muc_tieu, trong_so, 0 as diem_nv_dg, 0 diem_ql_dg, '' as ghi_chu, dien_giai, '' as stt_rec, line_nbr, bac, stt0, ma_loai, case when(b.stt = a.stt) then 0 else isnull(b.stt, case when bac = 1 then 1 else 0 end) end as readonly_yn
+  from hrkbctdgct a left join (
+    select stt from hrkbctdgct where stt not in (select stt0 from hrkbctdgct where stt_rec = @key) and stt_rec = @key and stt0 = ''
+  ) b on a.stt = b.stt
+  where stt_rec = @key order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <toolbar>
+    <button command="Retrieve">
+      <title v="Lấy số liệu từ khai báo chỉ tiêu đánh giá$$90" e="Extract Data from Appraisal Criteria$$120"></title>
+    </button>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+</grid>

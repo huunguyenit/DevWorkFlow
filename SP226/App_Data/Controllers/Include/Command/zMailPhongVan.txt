@@ -1,0 +1,19 @@
+﻿<![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<title>Thư mời phỏng vấn</title>
+<body>
+
+<div class="h5">Dear Ms/Mr: {!ten_uv}</div>
+<br/>
+<div class="h6">Như đã trao đổi qua điện thoại: {!ten_cty} gửi anh/chị lịch phỏng vấn cho vị trí {!ten_vtr_ut}.</div>
+<div class="h5">-  Thời gian: {!thoi_gian_pv}  ngày {!ngay_pv} thứ {!thu}.</div>
+<div class="h6">-  Địa điểm: {!ten_cty} - {!dia_diem_pv}.</div>
+<div class="h6">-  Số điện thoại liên lạc: {!thong_tin_hr}.</div>
+<div class="h5">Anh/Chị vui lòng sắp xếp thời gian đến đúng giờ để tham gia phỏng vấn nhé.</div>
+<div class="h5">Định vị công ty: <a href="{!dinh_vi_cty}" > bản đồ. <a/></div>
+<div class="h5" style="display:{!kem_file_yn}">Bảng câu hỏi: <a href="{!link_download}" > tải file. <a/></div>
+<div class="h6">Xin cảm ơn!</div>
+<div class="h5">-----------------</div>
+<br />
+</body></html>
+]]>

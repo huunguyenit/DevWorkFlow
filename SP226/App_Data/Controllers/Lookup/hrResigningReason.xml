@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmldnv" code="ma_ldnv" name="ten_ldnv%l" order="ma_ldnv" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục lý do nghỉ việc" e="Reason for Leaving Job List"></header>
+  <fields>
+    <field name="ma_ldnv" allowSorting="true" allowFilter="true">
+      <header v="Mã lý do" e="Code"></header>
+    </field>
+    <field name="ten_ldnv%l" allowSorting="true" allowFilter="true">
+      <header v="Tên lý do" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

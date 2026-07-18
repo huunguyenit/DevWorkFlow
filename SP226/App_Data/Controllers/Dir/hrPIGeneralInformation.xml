@@ -1,0 +1,1196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+
+  <!ENTITY XMLSuggestion SYSTEM "..\Include\XML\MaxNumber.xml">
+  <!ENTITY ScriptSuggestion SYSTEM "..\Include\Javascript\Suggestion.txt">
+
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+  <!ENTITY ScriptWatermark SYSTEM "..\Include\Javascript\TextboxWatermark.txt">
+
+  <!ENTITY FastBusiness.Encryption.Begin "">
+  <!ENTITY CheckOutWorkStatus "
+if exists(select 1 from options where name = 'm_tt_nghi_viec' and val = @tinh_trang_nv) begin
+  if @@action = 'New' or exists(select 1 from hrnv where stt_rec = @stt_rec and ngay_nghi is null) begin
+    select 'tinh_trang_nv' as field, case when @@language = 'v' then N'Trường tình trạng hiện tại không đúng.' else N'Invalid Current Status.' end as message
+    return
+  end
+end">
+  <!ENTITY CheckDepartmentRight "declare @rights tinyint; if @@admin = 1 select @rights = 1
+else begin if exists(select 1 from @@sysDatabaseName..hrquyenbp where user_id = @@userID)
+select @rights = 1 else select @rights = 0 end;">
+  <!ENTITY CreateTicket "declare @ticket varchar(32)
+select @ticket = '';select @ticket = lower(replace(newid(),'-',''));
+insert into @@sysDatabaseName..ticket(ticket, user_id, data, datetime0) values(@ticket, @@userID, '@@appDatabaseName', getdate());">
+
+  <!ENTITY CreateTicket2 "declare @ticket2 varchar(32)
+select @ticket2 = '';select @ticket2 = lower(replace(newid(),'-',''));
+insert into @@sysDatabaseName..ticket(ticket, user_id, data, datetime0) values(@ticket2, @@userID, '@@appDatabaseName', getdate());">
+  <!ENTITY FastBusiness.Encryption.End "">
+
+  <!ENTITY % Extender SYSTEM "..\Include\Extender.ent">
+  %Extender;
+  %Extender.Include.hrPIGeneralInformation;
+  %Extender.Ignore;
+
+  <!ENTITY % CheckValidEmail SYSTEM "..\Include\CheckValidEmail.ent">
+  %CheckValidEmail;
+  <!ENTITY CheckValidEmail.FieldName "email_cty,email_ca_nhan">
+  <!ENTITY CheckValidEmail.MultiEmail "true">
+]>
+
+<dir table="hrnv" code="stt_rec" order="stt_rec" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thông tin nhân viên" e="Employee Information"></title>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" allowNulls="false" dataFormatString="@upperCaseFormat" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Mask"/>
+    </field>
+    <field name="status" clientDefault="1"  hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="ma_nv" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã nhân viên" e="Employee ID"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ho_nv" allowNulls="false">
+      <header v="Họ nhân viên" e="Last Name"></header>
+      <clientScript><![CDATA[onchange=onChange$EmployeeForm$Name(this);]]></clientScript>
+    </field>
+    <field name="ten_nv" allowNulls="false">
+      <header v="Tên nhân viên" e="First Name"></header>
+      <footer v="Họ và tên" e="Employee Name"></footer>
+      <clientScript><![CDATA[onchange=onChange$EmployeeForm$Name(this);]]></clientScript>
+    </field>
+    <field name="ho_ten" external="true" defaultValue="''" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="bo_phan" allowNulls="false">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="AutoComplete" controller="hreDepartment" reference="ten_bp%l" key="status = '1'" check="1 = 1" information="ma_bp$hrbp.ten_bp%l"/>
+    </field>
+    <field name="ten_bp%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="gioi_tinh" clientDefault="1" dataFormatString="1, 2" align="right">
+      <header v="Giới tính" e="Gender"/>
+      <footer v="1 - Nam, 2 - Nữ" e="1 - Male, 2 - Female"></footer>
+      <items style="Mask"/>
+      <clientScript><![CDATA[onchange=onChange$EmployeeForm$Gender(this);]]></clientScript>
+    </field>
+    <field name="ten_gt" readOnly="true" external="true" defaultValue="''" hidden="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="stt" type="Decimal" dataFormatString="####0">
+      <header v="Stt sắp xếp" e="Ordinal Number"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="ngay_sinh" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" categoryIndex="1">
+      <header v="Ngày sinh" e="Date of Birth"></header>
+    </field>
+    <field name="noi_sinh" categoryIndex="1">
+      <header v="Nơi sinh" e="Place of Birth"></header>
+    </field>
+    <field name="cmnd_so" categoryIndex="1">
+      <header v="Số CMND" e="ID Card No"></header>
+    </field>
+    <field name="cmnd_ngay_hl" type="DateTime" dataFormatString="@datetimeFormat" categoryIndex="1">
+      <header v="Ngày cấp CMND" e="Date of Issue"></header>
+    </field>
+    <field name="cmnd_noi_cap" categoryIndex="1">
+      <header v="Nơi cấp" e="Place of Issue"></header>
+      <items style="AutoComplete" controller="hrProvinceCity" reference="cmnd_nc%l" key="status = '1'" check="1 = 1" information="ma_tinh$hrdmtinh.ten_tinh%l" new="Default"/>
+    </field>
+    <field name="cmnd_nc%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="cmnd_ngay_hh" type="DateTime" dataFormatString="@datetimeFormat" categoryIndex="1">
+      <header v="Ngày hết hạn CMND" e="Expiry Date"></header>
+    </field>
+    <field name="quoc_tich" categoryIndex="1">
+      <header v="Quốc tịch" e="Nationality"></header>
+      <items style="AutoComplete" controller="hrNationality" reference="ten_qt%l" key="status = '1'" check="1 = 1" information="ma_qt$dmqt.ten_qt%l" new="Nationality"/>
+    </field>
+    <field name="ten_qt%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="dan_toc" categoryIndex="1">
+      <header v="Dân tộc" e="Ethnic"></header>
+      <items style="AutoComplete" controller="hrEthnic" reference="ten_dt%l" key="status = '1'" check="1 = 1" information="ma_dt$hrdmdt.ten_dt%l" new="Default"/>
+    </field>
+    <field name="ten_dt%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ton_giao" categoryIndex="1">
+      <header v="Tôn giáo" e="Religion"></header>
+      <items style="AutoComplete" controller="hrReligion" reference="ten_tg%l" key="status = '1'" check="1 = 1" information="ma_tg$hrdmtg.ten_tg%l" new="Default"/>
+    </field>
+    <field name="ten_tg%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="hon_nhan" categoryIndex="1">
+      <header v="Tình trạng hôn nhân" e="Marital Status"></header>
+      <items style="AutoComplete" controller="hrMaritalStatus" reference="ten_tthn%l" key="status = '1'" check="1 = 1" information="ma_tthn$hrdmtthn.ten_tthn%l" new="Default"/>
+    </field>
+    <field name="ten_tthn%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="dien_thoai_dd" categoryIndex="1">
+      <header v="Điện thoại di động" e="Mobile Phone"></header>
+    </field>
+    <field name="email_cty" categoryIndex="1">
+      <header v="Thư &lt;span class=&quot;LabelDescription&quot;&gt;(Email)" e="Email Address"></header>
+    </field>
+    <field name="dia_chi_ht" filterSource="Ignore" inactivate="true" categoryIndex="1">
+      <header v="Địa chỉ hiện tại" e="Current Address"></header>
+      <footer v="&lt;div class=&quot;Break&quot;/&gt;" e="&lt;div class=&quot;Break&quot;/&gt;"></footer>
+    </field>
+    <field name="dia_chi_ht_so" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="dia_chi_ht_tinh" categoryIndex="1">
+      <header v="Địa chỉ hiện tại" e="Current Address"></header>
+      <items style="AutoComplete" controller="hrProvinceCity" reference="ten_dcht_tinh%l" key="status = '1'" check="1 = 1" information="ma_tinh$hrdmtinh.ten_tinh%l" new="Default"/>
+      <clientScript><![CDATA[onchange=onChange$EmployeeForm$CurrentProvince(this);]]></clientScript>
+    </field>
+    <field name="ten_dcht_tinh%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="dia_chi_ht_quan" categoryIndex="1">
+      <header v="Địa chỉ hiện tại" e="Current Address"></header>
+      <items style="AutoComplete" controller="hrDistrict" reference="ten_dcht_quan%l" key="ma_tinh = '{$%c[dia_chi_ht_tinh]}' and status = '1'" check="ma_tinh = '{$%c[dia_chi_ht_tinh]}'" information="ma_quan$hrdmquan.ten_quan%l"/>
+      <clientScript><![CDATA[onchange=onChange$EmployeeForm$CurrentDistrict(this);]]></clientScript>
+    </field>
+    <field name="ten_dcht_quan%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="dia_chi_ht_xa" categoryIndex="1">
+      <header v="Địa chỉ hiện tại" e="Current Address"></header>
+      <items style="AutoComplete" controller="hrWardCommune" reference="ten_dcht_xa%l" key="ma_tinh = '{$%c[dia_chi_ht_tinh]}' and ma_quan = '{$%c[dia_chi_ht_quan]}' and status = '1'" check="ma_tinh = '{$%c[dia_chi_ht_tinh]}' and ma_quan = '{$%c[dia_chi_ht_quan]}'" information="ma_phuong$hrdmphuong.ten_phuong%l"/>
+    </field>
+    <field name="ten_dcht_xa%l" readOnly="true" external="true" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="ngay_vao" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" categoryIndex="2">
+      <header v="Ngày vào công ty" e="Join Date"></header>
+    </field>
+    <field name="ngay_chinh_thuc" type="DateTime" dataFormatString="@datetimeFormat" categoryIndex="2">
+      <header v="Ngày vào chính thức" e="Official Hire Date"></header>
+    </field>
+    <field name="vi_tri" categoryIndex="2">
+      <header v="Vị trí công việc" e="Position"></header>
+      <items style="AutoComplete" controller="hrPosition" reference="ten_vtr%l" key="status = '1'" check="1 = 1" information="ma_vtr$hrvt.ten_vtr%l" new="Default"/>
+      <clientScript><![CDATA[onchange="onChange$EmployeeForm$Position(this);"]]></clientScript>
+    </field>
+    <field name="ten_vtr%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="bac_quan_ly" categoryIndex="2">
+      <header v="Bậc quản lý" e="Job Grade"></header>
+      <items style="AutoComplete" controller="hrManagerLevel" reference="ten_bac%l" key="status = '1'" check="1 = 1" information="ma_bac$hrdmbql.ten_bac%l" new="Default"/>
+    </field>
+    <field name="ten_bac%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="nv_ql" categoryIndex="2">
+      <header v="Người quản lý trực tiếp" e="Direct Supervisor"></header>
+      <items style="AutoComplete" controller="hrEmployee" reference="ten_nql" key="status = '1'" check="1 = 1" information="ma_nv$vhrnv.ten"/>
+    </field>
+    <field name="ten_nql" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="ma_tdhv" categoryIndex="3">
+      <header v="Trình độ học vấn" e="Education Level"></header>
+      <items style="AutoComplete" controller="hrAcademicStandard" reference="ten_tdhv%l" key="status = '1'" check="1 = 1" information="ma_tdhv$hrdmtdhv.ten_tdhv%l" new="Default"/>
+    </field>
+    <field name="ten_tdhv%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="truong_hoc" categoryIndex="3">
+      <header v="Trường tốt nghiệp" e="Graduation from"></header>
+    </field>
+    <field name="ma_cn" categoryIndex="3">
+      <header v="Chuyên ngành" e="Education Major"></header>
+      <items style="AutoComplete" controller="hrEducationMajor" reference="ten_cn%l" key="status = '1'" check="1 = 1" information="ma_cn$hrdmcn.ten_cn%l" new="Default"/>
+    </field>
+    <field name="ten_cn%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_hoc_tu" type="DateTime" dataFormatString="@datetimeFormat" categoryIndex="3">
+      <header v="Từ ngày" e="From Date"></header>
+    </field>
+    <field name="ngay_hoc_den" type="DateTime" dataFormatString="@datetimeFormat" categoryIndex="3">
+      <header v="Đến ngày" e="To Date"></header>
+    </field>
+    <field name="ngay_tot_nghiep" type="DateTime" dataFormatString="@datetimeFormat" categoryIndex="3"  filterSource="Optional">
+      <header v="Ngày tốt nghiệp" e="Graduation Date"></header>
+    </field>
+    <field name="loai_tot_nghiep" categoryIndex="3">
+      <header v="Xếp loại tốt nghiệp" e="Rank of Graduation"></header>
+    </field>
+
+    <field name="ma_nn" categoryIndex="4">
+      <header v="Ngoại ngữ" e="Foreign Language"></header>
+      <items style="AutoComplete" controller="hrLanguage" reference="ten_nn%l" key="status = '1'" check="1 = 1" information="ma_nn$hrdmnn.ten_nn%l" new="Default"/>
+    </field>
+    <field name="ten_nn%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="bang_cap" categoryIndex="4">
+      <header v="Bằng cấp" e="Certificate"></header>
+      <items style="AutoComplete" controller="hrCertificate" reference="ten_bc%l" key="status = '1'" check="1 = 1" information="ma_cc$hrdmcc.ten_cc%l" new="Default"/>
+    </field>
+    <field name="ten_bc%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="diem" categoryIndex="4">
+      <header v="Bằng/Điểm" e="Grade/Score"></header>
+    </field>
+    <field name="ngay_cap_bang" type="DateTime" dataFormatString="@datetimeFormat" categoryIndex="4">
+      <header v="Ngày cấp" e="Date of Issue"></header>
+    </field>
+
+    <field name="dien_thoai_cty" categoryIndex="5">
+      <header v="Điện thoại công ty" e="Office Phone"></header>
+    </field>
+    <field name="dien_thoai_nha" categoryIndex="5">
+      <header v="Điện thoại nhà riêng" e="Home Phone"></header>
+    </field>
+    <field name="email_ca_nhan" categoryIndex="5">
+      <header v="Thư &lt;span class=&quot;LabelDescription&quot;&gt;(Email)&lt;/span&gt; cá nhân" e="Email Address"></header>
+    </field>
+    <field name="giam_ho" categoryIndex="5">
+      <header v="Cha/mẹ hoặc giám hộ" e="Father/Mother/Guardian"></header>
+    </field>
+    <field name="nguoi_than" categoryIndex="5">
+      <header v="Thân nhân khác" e="Others"></header>
+    </field>
+    <field name="dia_chi_th_tru" filterSource="Ignore" categoryIndex="5" inactivate="true">
+      <header v="Địa chỉ thường trú" e="Permanent Address"></header>
+    </field>
+    <field name="dia_chi_th_tru_so" categoryIndex="5">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="dia_chi_th_tru_tinh" categoryIndex="5">
+      <header v="Địa chỉ thường trú" e="Permanent Address"></header>
+      <items style="AutoComplete" controller="hrProvinceCity" reference="ten_dctt_tinh%l" key="status = '1'" check="1 = 1" information="ma_tinh$hrdmtinh.ten_tinh%l" new="Default"/>
+      <clientScript><![CDATA[onchange=onChange$EmployeeForm$PermanentProvince(this);]]></clientScript>
+    </field>
+    <field name="ten_dctt_tinh%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="dia_chi_th_tru_quan" categoryIndex="5">
+      <header v="Địa chỉ thường trú" e="Permanent Address"></header>
+      <items style="AutoComplete" controller="hrDistrict" reference="ten_dctt_quan%l" key="ma_tinh = '{$%c[dia_chi_th_tru_tinh]}' and status = '1'" check="ma_tinh = '{$%c[dia_chi_th_tru_tinh]}'" information="ma_quan$hrdmquan.ten_quan%l"/>
+      <clientScript><![CDATA[onchange=onChange$EmployeeForm$PermanentDistrict(this);]]></clientScript>
+    </field>
+    <field name="ten_dctt_quan%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="dia_chi_th_tru_xa" categoryIndex="5">
+      <header v="Địa chỉ thường trú" e="Permanent Address"></header>
+      <items style="AutoComplete" controller="hrWardCommune" reference="ten_dctt_xa%l" key="ma_tinh = '{$%c[dia_chi_th_tru_tinh]}' and ma_quan = '{$%c[dia_chi_th_tru_quan]}' and status = '1'" check="ma_tinh = '{$%c[dia_chi_th_tru_tinh]}' and ma_quan = '{$%c[dia_chi_th_tru_quan]}'" information="ma_phuong$hrdmphuong.ten_phuong%l"/>
+    </field>
+    <field name="ten_dctt_xa%l" readOnly="true" external="true" defaultValue="''" categoryIndex="5">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="que_quan" filterSource="Ignore" categoryIndex="5" inactivate="true">
+      <header v="Quê quán" e="Native Country"></header>
+    </field>
+    <field name="que_quan_so" categoryIndex="5">
+      <header v="" e=""></header>
+    </field>
+    <field name="que_quan_phuong" categoryIndex="5">
+      <header v="Quê quán" e="Native Country"></header>
+    </field>
+    <field name="que_quan_tinh" categoryIndex="5">
+      <header v="Quê quán" e="Native Country"></header>
+      <items style="AutoComplete" controller="hrProvinceCity" reference="ten_qq_tinh%l" key="status = '1'" check="1 = 1" information="ma_tinh$hrdmtinh.ten_tinh%l" new="Default"/>
+      <clientScript><![CDATA[onchange=onChange$EmployeeForm$NativeProvince(this);]]></clientScript>
+    </field>
+    <field name="ten_qq_tinh%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="que_quan_quan" categoryIndex="5">
+      <header v="Quê quán" e="Native Country"></header>
+      <items style="AutoComplete" controller="hrDistrict" reference="ten_qq_quan%l" key="ma_tinh = '{$%c[que_quan_tinh]}' and status = '1'" check="ma_tinh = '{$%c[que_quan_tinh]}'" information="ma_quan$hrdmquan.ten_quan%l"/>
+      <clientScript><![CDATA[onchange=onChange$EmployeeForm$NativeDistrict(this);]]></clientScript>
+    </field>
+    <field name="ten_qq_quan%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="que_quan_xa" categoryIndex="5">
+      <header v="" e=""></header>
+      <items style="AutoComplete" controller="hrWardCommune" reference="ten_qq_xa%l" key="ma_tinh = '{$%c[que_quan_tinh]}' and ma_quan = '{$%c[que_quan_quan]}' and status = '1'" check="ma_tinh = '{$%c[que_quan_tinh]}' and ma_quan = '{$%c[que_quan_quan]}'" information="ma_phuong$hrdmphuong.ten_phuong%l"/>
+    </field>
+    <field name="ten_qq_xa%l" readOnly="true" external="true" defaultValue="''" categoryIndex="5">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="nh_nv1" categoryIndex="18">
+      <header v="Nhóm nhân viên 1" e="Employee Group 1"></header>
+      <items style="AutoComplete" controller="hrEmployeeGroup" reference="ten_nh_nv1%l" key="status = '1' and loai_nh = '1'" check="loai_nh = '1'" information="ma_nh$hrdmnhnv.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_nv1%l" readOnly="true" external="true" defaultValue="''" categoryIndex="18">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_nv2" categoryIndex="18">
+      <header v="Nhóm nhân viên 2" e="Employee Group 2"></header>
+      <items style="AutoComplete" controller="hrEmployeeGroup" reference="ten_nh_nv2%l" key="status = '1' and loai_nh = '2'" check="loai_nh = '2'" information="ma_nh$hrdmnhnv.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_nv2%l" readOnly="true" external="true" defaultValue="''" categoryIndex="18">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_nv3" categoryIndex="18">
+      <header v="Nhóm nhân viên 3" e="Employee Group 3"></header>
+      <items style="AutoComplete" controller="hrEmployeeGroup" reference="ten_nh_nv3%l" key="status = '1' and loai_nh = '3'" check="loai_nh = '3'" information="ma_nh$hrdmnhnv.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_nv3%l" readOnly="true" external="true" defaultValue="''" categoryIndex="18">
+      <header v="" e=""></header>
+    </field>
+    <field name="tinh_trang_nv" categoryIndex="18" allowNulls="false">
+      <header v="Tình trạng hiện tại" e="Current Status"/>
+      <items style="AutoComplete" controller="hrEmployeeStatus" reference="ten_ttnv%l" key="status = '1' and not exists(select 1 from options where name = 'm_tt_nghi_viec' and ma_ttnv = rtrim(val))" check="1 = 1" information="ma_ttnv$hrdmttnv.ten_ttnv%l" new="Default"/>
+    </field>
+    <field name="ten_ttnv%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="d_language" categoryIndex="18">
+      <header v="Ngôn ngữ ngầm định" e="Default Language"></header>
+      <items style="DropDownList">
+        <item value="v">
+          <text v="Tiếng Việt" e="Vietnamese"/>
+        </item>
+        <item value="e">
+          <text v="Tiếng Anh" e="English"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;</clientScript>
+    </field>
+    <field name="ghi_chu" rows="2" categoryIndex="18">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+
+    <field name="rights" readOnly="true" external="true" defaultValue="''" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ticket" readOnly="true" external="true" defaultValue="''" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ticket2" readOnly="true" external="true" defaultValue="''" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="imageurl" readOnly="true" external="true" defaultValue="''" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="image" readOnly="true" external="true" defaultValue="''" hidden="true" inactivate="true">
+      <header v="" e=""></header>
+      <footer v="&lt;img id=&quot;empImage&quot; style=&quot;width:60px;display:inline-block;&quot;&gt;&lt;iframe src=&quot;about:blank&quot; name=&quot;imageIFrame2&quot; id=&quot;imageIFrame2&quot; style=&quot;display:none;position:absolute;&quot;&gt;&lt;/iframe&gt;&lt;form id=&quot;uploadForm2&quot; target=&quot;imageIFrame2&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot; style=&quot;width:60px;height:80px;display:inline-block;margin-left:-60px;&quot;&gt;&lt;div style=&quot;width:60px;height:80px;overflow:hidden;position:relative;&quot;&gt;&lt;input type=&quot;file&quot; title=&quot;Chọn tệp&quot; tabindex=&quot;-1&quot; style=&quot;height:80px&quot; class=&quot;divInput&quot; name=&quot;imageupload2&quot; id=&quot;imageupload2&quot;&gt;&lt;/div&gt;&lt;/form&gt;" e="&lt;img id=&quot;empImage&quot; style=&quot;width:60px;display:inline-block;&quot;&gt;&lt;iframe src=&quot;about:blank&quot; name=&quot;imageIFrame2&quot; id=&quot;imageIFrame2&quot; style=&quot;display:none;position:absolute;&quot;&gt;&lt;/iframe&gt;&lt;form id=&quot;uploadForm2&quot; target=&quot;imageIFrame2&quot; method=&quot;post&quot; enctype=&quot;multipart/form-data&quot; style=&quot;width:60px;height:80px;display:inline-block;margin-left:-60px;&quot;&gt;&lt;div style=&quot;width:60px;height:80px;overflow:hidden;position:relative;&quot;&gt;&lt;input type=&quot;file&quot; title=&quot;Select...&quot; tabindex=&quot;-1&quot; style=&quot;height:80px&quot; class=&quot;divInput&quot; name=&quot;imageupload2&quot; id=&quot;imageupload2&quot;&gt;&lt;/div&gt;&lt;/form&gt;"></footer>
+    </field>
+    <field name="upload" readOnly="true" external="true" defaultValue="''" disabled="true" inactivate="true">
+      <header v="" e=""></header>
+      <footer v="&lt;iframe id=&quot;imageIFrame&quot; name=&quot;imageIFrame&quot; style=&quot;display: none; position: absolute; width: 0px; height: 0px&quot; src=&quot;about:blank&quot;&gt;&lt;/iframe&gt;&lt;form id=&quot;uploadForm&quot; method=&quot;post&quot; target=&quot;imageIFrame&quot; enctype=&quot;multipart/form-data&quot;&gt;&lt;div class=&quot;divUpload&quot;&gt;&lt;div align=&quot;center&quot; class=&quot;divButton&quot; &gt;Chọn...&lt;/div&gt;&lt;input type=&quot;file&quot; title=&quot;Chọn tệp&quot; name=&quot;imageupload&quot; id=&quot;imageupload&quot; tabIndex=&quot;-1&quot; class=&quot;divInput&quot; /&gt;&lt;/div&gt;&lt;/form&gt;" e="&lt;iframe id=&quot;imageIFrame&quot; name=&quot;imageIFrame&quot; style=&quot;display: none; position: absolute; width: 0px; height: 0px&quot; src=&quot;about:blank&quot;&gt;&lt;/iframe&gt;&lt;form id=&quot;uploadForm&quot; method=&quot;post&quot; target=&quot;imageIFrame&quot; enctype=&quot;multipart/form-data&quot;&gt;&lt;div class=&quot;divUpload&quot;&gt;&lt;div align=&quot;center&quot; class=&quot;divButton&quot; &gt;Select...&lt;/div&gt;&lt;input type=&quot;file&quot; title=&quot;Select File&quot; name=&quot;imageupload&quot; id=&quot;imageupload&quot; tabIndex=&quot;-1&quot; class=&quot;divInput&quot; /&gt;&lt;/div&gt;&lt;/form&gt;"></footer>
+    </field>
+    <field name="rkey" readOnly="true" external="true" defaultValue="''" hidden="true" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="rkey2" readOnly="true" external="true" defaultValue="''" hidden="true" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+
+    &ListField;
+    &PostField;
+  </fields>
+
+  <views>
+    <view id="Dir" height="315" anchor="8">
+      <item value="120, 30, 20, 50, 110, 100, 20, 236, 47, 20, 0, 0"/>
+      <item value="1100----101: [ma_nv].Label, [ma_nv], [image].Description, [image]"/>
+      <item value="11001----: [ten_nv].Description, [ho_nv], [ten_nv]"/>
+      <item value="11001000: [bo_phan].Label, [bo_phan], [ten_bp%l]"/>
+      <item value="11100----: [gioi_tinh].Label, [gioi_tinh], [gioi_tinh].Description"/>
+      <item value="1100----101: [stt].Label, [stt], [upload].Description, [ten_gt]"/>
+
+      <item value="1100----------1: [ngay_sinh].Label, [ngay_sinh], [rights]"/>
+      <item value="11000---------: [noi_sinh].Label, [noi_sinh]"/>
+      <item value="1100--110-----1: [cmnd_so].Label, [cmnd_so], [cmnd_ngay_hl].Label, [cmnd_ngay_hl], [stt_rec]"/>
+      <item value="110010000000001: [cmnd_noi_cap].Label, [cmnd_noi_cap], [cmnd_nc%l], [imageurl]"/>
+      <item value="1100----------1: [cmnd_ngay_hh].Label, [cmnd_ngay_hh], [status]"/>
+      <item value="110010000000001: [quoc_tich].Label, [quoc_tich], [ten_qt%l], [ho_ten]"/>
+      <item value="110010000000001: [dan_toc].Label, [dan_toc], [ten_dt%l], [rkey]"/>
+      <item value="110010000000001: [ton_giao].Label, [ton_giao], [ten_tg%l], [ticket]"/>
+      <item value="110010000000001: [hon_nhan].Label, [hon_nhan], [ten_tthn%l], [ticket2]"/>
+
+      <item value="100000000000001: [dia_chi_ht].Description, [rkey2]"/>
+
+      <item value="1100: [ngay_vao].Label, [ngay_vao]"/>
+      <item value="1100: [ngay_chinh_thuc].Label, [ngay_chinh_thuc]"/>
+      <item value="11001000000: [vi_tri].Label, [vi_tri], [ten_vtr%l]"/>
+      <item value="11001000000: [bac_quan_ly].Label, [bac_quan_ly], [ten_bac%l]"/>
+      <item value="11001000000: [nv_ql].Label, [nv_ql], [ten_nql]"/>
+
+      <item value="11001000000: [ma_tdhv].Label, [ma_tdhv], [ten_tdhv%l]"/>
+      <item value="11000: [truong_hoc].Label, [truong_hoc]"/>
+      <item value="11001000000: [ma_cn].Label, [ma_cn], [ten_cn%l]"/>
+      <item value="1100: [ngay_hoc_tu].Label, [ngay_hoc_tu]"/>
+      <item value="1100: [ngay_hoc_den].Label, [ngay_hoc_den]"/>
+      <item value="1100: [ngay_tot_nghiep].Label, [ngay_tot_nghiep]"/>
+      <item value="1100: [loai_tot_nghiep].Label, [loai_tot_nghiep]"/>
+
+      <item value="11001000000: [ma_nn].Label, [ma_nn], [ten_nn%l]"/>
+      <item value="11001000000: [bang_cap].Label, [bang_cap], [ten_bc%l]"/>
+      <item value="1100: [diem].Label, [diem]"/>
+      <item value="1100: [ngay_cap_bang].Label, [ngay_cap_bang]"/>
+
+      <item value="11000-----: [dien_thoai_cty].Label, [dien_thoai_cty]"/>
+      <item value="11000------: [dien_thoai_dd].Label, [dien_thoai_dd]"/>
+      <item value="11000------: [email_cty].Label, [email_cty]"/>
+      <item value="11000-----: [dien_thoai_nha].Label, [dien_thoai_nha]"/>
+      <item value="11000-----: [email_ca_nhan].Label, [email_ca_nhan]"/>
+      <item value="11000-----: [giam_ho].Label, [giam_ho]"/>
+      <item value="11000-----: [nguoi_than].Label, [nguoi_than]"/>
+
+      <item value="11000-11010---1111: [dia_chi_ht].Label, [dia_chi_ht_so], [dia_chi_ht_tinh], [dia_chi_ht_quan], [dia_chi_ht_xa], [ten_dcht_tinh%l], [ten_dcht_quan%l], [ten_dcht_xa%l], [dia_chi_ht]"/>
+      <item value="11000-11001-111-1: [dia_chi_th_tru].Label, [dia_chi_th_tru_so], [dia_chi_th_tru_tinh], [dia_chi_th_tru_quan], [dia_chi_th_tru_xa], [ten_dctt_tinh%l], [ten_dctt_quan%l], [ten_dctt_xa%l], [dia_chi_th_tru]"/>
+      <item value="11000-11001-111-1: [que_quan].Label, [que_quan_so], [que_quan_tinh], [que_quan_quan], [que_quan_xa], [ten_qq_tinh%l], [ten_qq_quan%l], [ten_qq_xa%l], [que_quan]"/>
+
+      &ListView;
+      &PostView;
+
+      <item value="11001000000: [nh_nv1].Label, [nh_nv1], [ten_nh_nv1%l]"/>
+      <item value="11001000000: [nh_nv2].Label, [nh_nv2], [ten_nh_nv2%l]"/>
+      <item value="11001000000: [nh_nv3].Label, [nh_nv3], [ten_nh_nv3%l]"/>
+      <item value="11001000000: [tinh_trang_nv].Label, [tinh_trang_nv], [ten_ttnv%l]"/>
+      <item value="11000: [d_language].Label, [d_language]"/>
+      <item value="1100000000: [ghi_chu].Label, [ghi_chu]"/>
+      <categories>
+        <category index="1" columns="120, 30, 20, 50, 100, 4, 100, 50, 50, 50, 50, 50, 50, 29, 0">
+          <header v="Thông tin chung" e="General"/>
+        </category>
+        <category index="2" columns="120, 30, 20, 50, 110, 100, 20, 30, 50, 20, 203">
+          <header v="Công việc" e="Working"/>
+        </category>
+        <category index="3" columns="120, 30, 20, 50, 100, 100, 20, 30, 50, 30, 203">
+          <header v="Trình độ học vấn" e="Education"/>
+        </category>
+        <category index="4" columns="120, 30, 20, 50, 110, 100, 20, 30, 50, 20, 203">
+          <header v="Ngoại ngữ" e="Foreign Language"/>
+        </category>
+        <category index="5" columns="120, 30, 20, 50, 100, 4, 100, 20, 30, 50, 100, 129, 0, 0">
+          <header v="Địa chỉ liên hệ" e="Resident Address"/>
+        </category>
+
+        &ListCategory;
+        &PostCategory;
+
+        <category index="18" columns="120, 30, 20, 50, 110, 100, 20, 30, 50, 20, 203">
+          <header v="Khác" e="Other"/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+declare @message nvarchar(4000)
+select @message = ''
+]]>&ListShowingMessage;<![CDATA[
+select @message = @message + 'loadEmployeeImage(this);'
+select @message as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        <![CDATA[
+]]>&CheckDepartmentRight;<![CDATA[
+declare @statusID varchar(32), @statusName nvarchar(512), @outWork varchar(32)
+select @statusID = rtrim(val) from options where name = 'm_tt_lam_viec'
+select @outWork = rtrim(val) from options where name = 'm_tt_nghi_viec'
+select @statusName = case when @@language = 'v' then rtrim(ten_ttnv) else rtrim(ten_ttnv2) end from hrdmttnv where ma_ttnv = @statusID
+select 'this._right = ' + rtrim(@rights) + ';this._statusID = ''' + isnull(@statusID, '') + ''';this._outWork = ''' + isnull(@outWork, '') + ''';this._statusName =''' + replace(replace(isnull(@statusName, ''), '\', '\\'), '''', '\''') + ''';load$EmployeeForm(this);' as  message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+select 'scatter$EmployeeForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$EmployeeForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="InitExternalFields">
+      <text>
+        <![CDATA[
+#IF @@action = 'Edit' #THEN
+  ]]>&CreateTicket;<![CDATA[
+  ]]>&CreateTicket2;<![CDATA[
+  declare @rkey varchar(32), @ho_ten nvarchar(256), @imageUrl varchar(4000)
+  declare @dia_chi_ht_tinh varchar(33), @dia_chi_ht_quan varchar(33), @dia_chi_ht_xa varchar(33), @dia_chi_th_tru_tinh varchar(33), @dia_chi_th_tru_quan varchar(33), @dia_chi_th_tru_xa varchar(33), @que_quan_tinh varchar(33), @que_quan_quan varchar(33), @que_quan_xa varchar(33)
+  declare @ten_dcht_quan nvarchar(512), @ten_dcht_xa nvarchar(512), @ten_dctt_quan nvarchar(512), @ten_dctt_xa nvarchar(512), @ten_qq_quan nvarchar(512), @ten_qq_xa nvarchar(512)
+
+  select @rkey = rkey from hreanh where stt_rec = @stt_rec
+  select @ho_ten = ho_nv + space(1) + ten_nv
+      , @dia_chi_ht_tinh = dia_chi_ht_tinh, @dia_chi_ht_quan = dia_chi_ht_quan, @dia_chi_ht_xa = dia_chi_ht_xa
+      , @dia_chi_th_tru_tinh = dia_chi_th_tru_tinh, @dia_chi_th_tru_quan = dia_chi_th_tru_quan, @dia_chi_th_tru_xa = dia_chi_th_tru_xa
+      , @que_quan_tinh = que_quan_tinh, @que_quan_quan = que_quan_quan, @que_quan_xa = que_quan_xa
+    from @@table where stt_rec = @stt_rec
+  select @ten_dcht_quan = ten_quan%l from hrdmquan where ma_quan = @dia_chi_ht_quan and ma_tinh = @dia_chi_ht_tinh
+  select @ten_dcht_xa = ten_phuong%l from hrdmphuong where ma_phuong = @dia_chi_ht_xa and ma_quan = @dia_chi_ht_quan and ma_tinh = @dia_chi_ht_tinh
+  select @ten_dctt_quan = ten_quan%l from hrdmquan where ma_quan = @dia_chi_th_tru_quan and ma_tinh = @dia_chi_th_tru_tinh
+  select @ten_dctt_xa = ten_phuong%l from hrdmphuong where ma_phuong = @dia_chi_th_tru_xa and ma_quan = @dia_chi_th_tru_quan and ma_tinh = @dia_chi_th_tru_tinh
+  select @ten_qq_quan = ten_quan%l from hrdmquan where ma_quan = @que_quan_quan and ma_tinh = @que_quan_tinh
+  select @ten_qq_xa = ten_phuong%l from hrdmphuong where ma_phuong = @que_quan_xa and ma_quan = @que_quan_quan and ma_tinh = @que_quan_tinh
+
+  if isnull(@rkey, '') = '' select @imageUrl = ''
+  else select @imageUrl = '../AppHandler/Image.ashx?t=show&k=' + @stt_rec + '&d=' + '@@appDatabaseName' + '&r=' + isnull(@rkey, '')
+
+  select @ticket as ticket, @ticket2 as ticket2, @rkey as rkey, @ho_ten as ho_ten, @imageUrl as imageurl
+    , @ten_dcht_quan as ten_dcht_quan%l, @ten_dcht_xa as ten_dcht_xa%l, @ten_dctt_quan as ten_dctt_quan%l, @ten_dctt_xa as ten_dctt_xa%l, @ten_qq_quan as ten_qq_quan%l, @ten_qq_xa as ten_qq_xa%l
+  return
+#END
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$conflict nvarchar(512), @$deleteConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã nhân viên <span class="Highlight">%s</span> đã khai báo trong thông tin nhân viên.' else N'The employee <span class="Highlight">%s</span> already exists.' end
+select @$conflict = case when @@language = 'v' then N'Số chứng minh nhân dân <span class="Highlight">%s</span> đã có trong thông tin nhân viên.' else N'The identity card <span class="Highlight">%s</span> already exists.' end
+select @$deleteConflict = case when @@language = 'v' then N'Mã nhân viên <span class="Highlight">%s</span> đã phát sinh, không thể xóa được.' else N'Cannot delete the employee ID <span class="Highlight">%s</span>. It has already been used.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        &CheckOutWorkStatus;
+        <![CDATA[
+declare @ticket varchar(32)
+select @ticket = lower(replace(newid(), '-', ''))
+
+if exists(select * from @@table where ma_nv = @ma_nv) begin
+  insert into @@sysDatabaseName..ticket(ticket, user_id, data, datetime0) values(@ticket, @@userID, '@@appDatabaseName', getdate())
+  select '' as field, replace(@$exists, '%s', rtrim(@ma_nv)) as message, 'resetTicket(this, "' + @ticket + '", "ma_nv")' as script
+  return
+end
+
+if @cmnd_so <> '' and exists(select * from @@table where cmnd_so = @cmnd_so) begin
+  insert into @@sysDatabaseName..ticket(ticket, user_id, data, datetime0) values(@ticket, @@userID, '@@appDatabaseName', getdate())
+  select '' as field, replace(@$conflict, '%s', rtrim(@cmnd_so)) as message, 'resetTicket(this, "' + @ticket + '", "cmnd_so")' as script
+  return
+end
+
+select @bp_ref = isnull(bp_ref, ''), @ma_dvcs = isnull(ma_dvcs, '') from hrbp where ma_bp = @bo_phan
+
+declare @wsID varchar(8), @outWork varchar(32)
+select @wsID = rtrim(val) from options where upper(name) = 'M_WS_ID'
+select @outWork = rtrim(val) from options where name = 'm_tt_nghi_viec'
+select @stt_rec = max(stt_rec) from hrnv
+select @stt_rec = @wsID + case when @stt_rec is null then '000000001' else replace(str(cast(substring(@stt_rec, 2, 9) as bigint) + 1, 9), ' ', '0') end + 'HRM'
+
+if @tinh_trang_nv = @outWork select @status = '0'
+select @dia_chi_ht_phuong = ten_phuong from hrdmphuong where ma_phuong = @dia_chi_ht_xa
+select @dia_chi_th_tru_phuong = ten_phuong from hrdmphuong where ma_phuong = @dia_chi_th_tru_xa
+select @que_quan_phuong = ten_phuong from hrdmphuong where ma_phuong = @que_quan_xa
+select @dia_chi_ht = rtrim(@dia_chi_ht_so) + case when @dia_chi_ht_so <> '' and @dia_chi_ht_phuong <> '' then ' - ' else '' end + @dia_chi_ht_phuong,
+  @dia_chi_th_tru = rtrim(@dia_chi_th_tru_so) + case when @dia_chi_th_tru_so <> '' and @dia_chi_th_tru_phuong <> '' then ' - ' else '' end + @dia_chi_th_tru_phuong,
+  @que_quan = rtrim(@que_quan_so) + case when @que_quan_so <> '' and @que_quan_phuong <> '' then ' - ' else '' end + @que_quan_phuong,
+  @ngay_hh_tv = case when @ngay_chinh_thuc is null then @ngay_nghi else case when @ngay_nghi is null then @ngay_chinh_thuc else case when @ngay_chinh_thuc > @ngay_nghi then @ngay_nghi else @ngay_chinh_thuc end end end,
+  @bp_chinh_thuc0 = @bo_phan, @vt_chinh_thuc0 = @vi_tri, @ql_chinh_thuc0 = @bac_quan_ly,
+  @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+declare @script nvarchar(4000), @invoke varchar(4000), @imageUrl varchar(4000), @fileTicket nvarchar(256)
+select @script = 'showViewPanelForm(this, true);', @invoke = '', @fileTicket = ''
+if (@$rkey <> '') begin
+  select @imageUrl = '../AppHandler/Image.ashx?t=show&k=' + @stt_rec + '&d=' + '@@appDatabaseName' + '&r=' + @$rkey
+  select @script = @script + 'setViewPanelImage(this, ' + '''' + @imageUrl + ''');'
+  select @invoke = 'Image.Image.Process.SaveImage(' + rtrim(@$rkey) + ',' + rtrim(@stt_rec) + ',' + '@@appDatabaseName' + ')'
+end else select @script = 'showBlankImage(this);' + @script
+if (@$rkey2 <> '') begin
+  select @invoke = 'Image.Image.Process.SaveFullImage(' + rtrim(@$rkey2) + ',' + rtrim(@stt_rec) + ',' + '@@appDatabaseName' + ')' + case when @invoke <> '' then '&' + char(255) + ';' else '' end + @invoke
+  select @script = 'this.grid._fullImageKey=''' + @$rkey2 + ''';' +  @script
+end
+]]>
+        &ListCommand;
+        &PostInserted;
+        &ListQuery;<![CDATA[, @stt_rec as stt_rec
+else select '' as message, '' as field, @stt_rec as stt_rec, @script as script
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        &CheckOutWorkStatus;
+        <![CDATA[
+if exists(select 1 from hrnv where stt_rec = @stt_rec and ngay_nghi < @ngay_vao) begin
+  select 'ngay_vao' as field, case when @@language = 'v' then N'Trường ngày vào công ty phải nhỏ hơn hoặc bằng ngày nghỉ.' else N'Invalid Join Date.' end as message
+  return
+end
+if exists(select 1 from hrnv where stt_rec = @stt_rec and ngay_nghi < @ngay_chinh_thuc and @ngay_chinh_thuc is not null) begin
+  select 'ngay_chinh_thuc' as field, case when @@language = 'v' then N'Trường ngày vào chính thức phải nhỏ hơn hoặc bằng ngày nghỉ.' else N'Invalid Official Hire Date.' end as message
+  return
+end
+
+declare @eid varchar(32), @idc varchar(32), @ticket varchar(32)
+select @ticket = lower(replace(newid(), '-', ''))
+select @eid = ma_nv, @idc = cmnd_so from @@table where stt_rec = @stt_rec
+
+if @ma_nv <> @eid begin
+  if exists(select * from @@table where ma_nv = @ma_nv and stt_rec <> @stt_rec) begin
+    insert into @@sysDatabaseName..ticket(ticket, user_id, data, datetime0) values(@ticket, @@userID, '@@appDatabaseName', getdate())
+    select '' as field, replace(@$exists, '%s', rtrim(@ma_nv)) as message, 'resetTicket(this, "' + @ticket + '", "ma_nv")' as script
+    return
+  end
+end
+
+if @cmnd_so <> '' and @cmnd_so <> @idc begin
+  if exists(select * from @@table where cmnd_so = @cmnd_so and stt_rec <> @stt_rec) begin
+    insert into @@sysDatabaseName..ticket(ticket, user_id, data, datetime0) values(@ticket, @@userID, '@@appDatabaseName', getdate())
+    select '' as field, replace(@$conflict, '%s', rtrim(@cmnd_so)) as message, 'resetTicket(this, "' + @ticket + '", "cmnd_so")' as script
+    return
+  end
+end
+
+declare @outWork varchar(32)
+select @outWork = rtrim(val) from options where name = 'm_tt_nghi_viec'
+if (@tinh_trang_nv = @outWork) select @status = '0' else select @status = '1'
+update @@table set status = @status where stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set bp_ref = b.bp_ref, ma_dvcs = b.ma_dvcs from @@table a join hrbp b on a.bo_phan = b.ma_bp where stt_rec = @stt_rec
+update @@table set dia_chi_ht_phuong = isnull(b.ten_phuong, '') from @@table a left join hrdmphuong b on a.dia_chi_ht_xa = b.ma_phuong
+update @@table set dia_chi_th_tru_phuong = isnull(b.ten_phuong, '') from @@table a left join hrdmphuong b on a.dia_chi_th_tru_xa = b.ma_phuong
+update @@table set que_quan_phuong = isnull(b.ten_phuong, '') from @@table a left join hrdmphuong b on a.que_quan_xa = b.ma_phuong
+update @@table set dia_chi_ht = rtrim(dia_chi_ht_so) + case when dia_chi_ht_so <> '' and dia_chi_ht_phuong <> '' then ' - ' else '' end + dia_chi_ht_phuong,
+  dia_chi_th_tru = rtrim(dia_chi_th_tru_so) + case when dia_chi_th_tru_so <> '' and dia_chi_th_tru_phuong <> '' then ' - ' else '' end + dia_chi_th_tru_phuong,
+  que_quan = rtrim(que_quan_so) + case when que_quan_so <> '' and que_quan_phuong <> '' then ' - ' else '' end + que_quan_phuong,
+  ngay_hh_tv = case when ngay_chinh_thuc is null then ngay_nghi else case when ngay_nghi is null then ngay_chinh_thuc else case when ngay_chinh_thuc > ngay_nghi then ngay_nghi else ngay_chinh_thuc end end end,
+  bp_chinh_thuc0 = bo_phan, vt_chinh_thuc0 = vi_tri, ql_chinh_thuc0 = bac_quan_ly,
+  datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec
+
+if @ngay_chinh_thuc is not null begin
+  update hrnv set bp_chinh_thuc0 = b.bo_phan, vt_chinh_thuc0 = b.vi_tri, ql_chinh_thuc0 = b.bac_quan_ly from hrnv a join (select a.stt_rec, a.bo_phan, a.vi_tri, a.bac_quan_ly from hreqtlvht a join (select a.stt_rec, max(a.ngay_tu) as ngay_tu from hreqtlvht a join hrnv b on a.stt_rec = b.stt_rec where a.stt_rec = @stt_rec and a.tinh_chat = '1' and a.ngay_tu <= b.ngay_chinh_thuc group by a.stt_rec) b on a.stt_rec = b.stt_rec and a.ngay_tu = b.ngay_tu) b on a.stt_rec = b.stt_rec
+    where a.stt_rec = @stt_rec
+end
+
+declare @script nvarchar(4000), @invoke varchar(4000), @imageUrl varchar(4000), @fileTicket nvarchar(256)
+select @script = 'showViewPanelForm(this, false);', @invoke = '', @fileTicket = ''
+if (@$rkey <> '') begin
+  select @imageUrl = '../AppHandler/Image.ashx?t=show&k=' + @stt_rec + '&d=' + '@@appDatabaseName' + '&r=' + @$rkey
+  select @script = @script + 'setViewPanelImage(this,' + '''' + @imageUrl + ''');'
+  select @invoke = 'Image.Image.Process.SaveImage(' + rtrim(@$rkey) + ',' + rtrim(@stt_rec) + ',' + '@@appDatabaseName' + ')'
+end
+if (@$rkey2 <> '') begin
+  select @invoke = 'Image.Image.Process.SaveFullImage(' + rtrim(@$rkey2) + ',' + rtrim(@stt_rec) + ',' + '@@appDatabaseName' + ')' + case when @invoke <> '' then '&' + char(255) + ';' else '' end + @invoke
+  select @script = 'this.grid._fullImageKey=''' + @$rkey2 + ''';' +  @script
+end
+]]>
+        &ListCommand;
+        &ListQuery;<![CDATA[, @stt_rec as stt_rec
+else select '' as message, '' as field, @stt_rec as stt_rec, @script as script
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+declare @employeeID varchar(33), @message nvarchar(512)
+select @employeeID = ma_nv from hrnv where stt_rec = @stt_rec
+select @message = replace(@$deleteConflict, '%s', rtrim(@employeeID))
+
+if exists(select * from hrttchamcong where stt_rec = @stt_rec) begin
+  select @message as message
+  return
+end
+
+if exists(select * from hrttluong where stt_rec = @stt_rec) begin
+  select @message as message
+  return
+end
+
+if exists(select * from hrcthd where stt_rec = @stt_rec) begin
+  select @message as message
+  return
+end
+
+if exists(select * from hrttbh where stt_rec = @stt_rec) begin
+  select @message as message
+  return
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Deleted">
+      <text>
+        <![CDATA[
+delete hreanh where stt_rec = @stt_rec
+delete hreanh2 where stt_rec = @stt_rec
+
+declare @q nvarchar(4000), @c nvarchar(512), @t varchar(32)
+select @t = '', @c = 'delete %t% where stt_rec = ''' + @stt_rec + ''''
+select distinct table_name into #t from @@sysDatabaseName..hrtabinfo where table_del_yn = 1
+while exists(select 1 from #t) begin
+  select top 1 @t = table_name from #t order by table_name
+  set @q = replace(@c, '%t%', @t)
+  exec sp_executesql @q
+  delete #t where table_name = @t
+end
+drop table #t
+
+if exists(select 1 from sysobjects where name = 'hrrmqdtd' and type = 'U')
+  delete hrrmqdtd where stt_rec_nv = @stt_rec
+
+declare @invoke nvarchar(4000)
+select @invoke = ''
+]]>&ListDeleted;<![CDATA[
+]]>&PostDeleted;<![CDATA[
+select @invoke as invoke
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+
+        <![CDATA[/* <flatten type="Javascript"> */
+var f = this, field1 = f.getItem('rkey').field, field2 = f.getItem('rkey2').field, allowExt = 'gif,png,jpg,jpeg';
+var imgname = getFileName($get('imageupload').value), imgname2 = getFileName($get('imageupload2').value);
+var err = (f._language == 'v' ? 'Định dạng tệp ảnh không đúng.' : 'Invalid file type.');
+var b0 = (imgname != ''), b1 = (imgname2 != ''), b2 = (f.getItemValue('imageurl') != ''), b3 = false;
+
+if (b0) {
+  var ext = imgname.split('.').pop();
+  if (allowExt.indexOf(ext.toLowerCase()) < 0) {
+    f._checked = false;
+    $message.show(err);
+  }
+  else {
+    var k = getRandomKey(12), h = f.getItemValue('ticket'), f1 = $get('uploadForm');
+    f.setItemValue('rkey', k);
+    f1.action = '../AppHandler/Image.ashx?t=upload&k=' + k + '&h=' + h;
+    f1.submit();
+    f1.reset();
+  }
+  field1.FilterSource = '';
+}
+else {
+  f.setItemValue('rkey', '');
+  field1.FilterSource = 'Ignore';
+}
+
+if ((f._checked) && (b1)) {
+  var ext2 = imgname2.split('.').pop();
+  if (allowExt.indexOf(ext2.toLowerCase()) < 0) {
+    f._checked = false;
+    $message.show(err);
+  }
+  else {
+    if ((b0 != '') || ((b0 == '') && (b2))) {
+      var k2 = getRandomKey(12), h2 = f.getItemValue('ticket2'), f2 = $get('uploadForm2');
+      f.setItemValue('rkey2', k2);
+      f2.action = '../AppHandler/Image.ashx?t=upload&k=' + k2 + '&h=' + h2;
+      f2.submit();
+      f2.reset();
+    }
+  }
+  field2.FilterSource = '';
+}
+else {
+  f.setItemValue('rkey2', '');
+  field2.FilterSource = 'Ignore';
+}
+
+if (f._checked) {
+  setEmployeeAddress(f);
+}
+/* </flatten> */
+]]>
+        &CheckValidEmailCommandChecking;
+        &ListChecking;
+        &PostChecking;
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function load$EmployeeForm(f) {
+  var p = $get('empImage').parentNode;
+  p.style.maxHeight = 'none';
+
+  f.add_commandEvent(on$EmployeeForm$ExecuteCommand);
+  f.add_onResponseComplete(on$EmployeeForm$ResponseComplete);
+  f._tabContainer.add_activeTabChanged(onChange$EmployeeForm$Tab);
+  f._tabContainer._loaded = true;
+  f._showFullImageHandler = Function.createDelegate(f, show$FormFullImage);
+
+  $addHandler($get('imageupload'), 'change', onFileSelected);
+  $addHandler(p, 'click', f._showFullImageHandler);
+
+  init$EmployeeForm(f);
+  f._textboxWatermark = ['dia_chi_ht_xa', 'dia_chi_ht_quan', 'dia_chi_ht_tinh', 'dia_chi_th_tru_xa', 'dia_chi_th_tru_quan', 'dia_chi_th_tru_tinh', 'que_quan_xa', 'que_quan_quan', 'que_quan_tinh'];
+  textboxWatermark(f, f._textboxWatermark, 0, 'Region', 'c');
+  objectBehavior$Dir$Code.create(f, 'stt', 'stt', 'hrnv');
+  ]]>
+      &ListCreate;
+      &PostCreate;
+      <![CDATA[
+}
+function scatter$EmployeeForm(f) {
+  loadEmployeeImage(f);
+  init$EmployeeForm(f);
+  ]]>
+      &ListScattering;
+      &PostScattering;<![CDATA[
+  textboxWatermark(f, f._textboxWatermark, 1);
+}
+function close$EmployeeForm(f) {
+  textboxWatermark(f, f._textboxWatermark, 9);
+  ]]>
+      &ListDispose;
+      &PostDispose;<![CDATA[
+  if (f._showFullImageHandler) try {$removeHandler($get('empImage').parentNode, 'click', f._showFullImageHandler);} catch (ex) {}
+  try {$removeHandler($get('imageupload'), 'change', onFileSelected);} catch (ex) {}
+  if (f._tabContainer) try {f._tabContainer.remove_activeTabChanged(onChange$EmployeeForm$Tab);} catch (ex) {}
+  try {f.remove_onResponseComplete(on$EmployeeForm$ResponseComplete);} catch (ex) {}
+  try {f.remove_commandEvent(on$EmployeeForm$ExecuteCommand);} catch (ex) {}
+}
+function on$EmployeeForm$ExecuteCommand(sender, e) {
+  var action = e.type.Action, f = sender;
+  switch (action) {
+    case 'Shown':
+      setFormViewMode(f);
+      ]]>&ListShown;<![CDATA[
+      ]]>&PostShown;<![CDATA[
+      break;
+    case 'Save':
+      f.getItem('ngay_tot_nghiep').field.AllowNulls = ($func.trim(f.getItemValue('ma_tdhv')) == '');
+      break;
+    default:
+      break;
+  }
+}
+/* <flatten type="Javascript"> */
+function init$EmployeeForm(f) {
+  var g = f.grid, o = f.getItem('tinh_trang_nv');
+  var m = f.getItemValue('gioi_tinh'), d = g._view._activeDept;
+
+  setFormViewMode(f);
+  f.getItem('rights').value =  f._right;
+  o.disabled = false;
+
+  if (f._action == 'New') {
+    $common.setVisible(o.a, true);
+    o.value = f._statusID;
+    f.getItem('ten_ttnv%l').value =  f._statusName;
+    f.request('DefautFormValue', 'DefautFormValue', [['r', 'Decimal', f._right], ['ma_bp', 'String', d]]);
+  }
+
+  if (f._action == 'Edit') {
+    var b = (f.getItemValue('rights') == 1), p = f.getItem('bo_phan');
+    p.disabled = !b;
+    $common.setVisible(p.a, b);
+
+    b = $func.trim(o.value) == f._outWork;
+    o.disabled = b;
+    $common.setVisible(o.a, !b);
+  }
+
+  for (var i = 0; i < g._name.length; i++) {
+    if (g._name[i][0] == m) {
+      f.getItem('ten_gt').value = g._name[i][1];
+      break;
+    }
+  }
+}
+function setFormViewMode(f) {
+  var img = $get('empImage'), f1 = $get('imageupload'), f2 = $get('imageupload2');
+  var viewMode = (f._action == 'View'), isBlank = (f._action == 'New') ;
+  if (!isBlank) isBlank = ((f.getItemValue('imageurl') == '') && (f.getItemValue('rkey') == ''));
+
+  f1.value = ''; f1.disabled = viewMode;
+  f2.value = ''; f2.disabled = viewMode;
+  f2.style.display = (viewMode || isBlank) ? 'none' : 'inline-block';
+  img.parentNode.style.cursor = (viewMode && (!isBlank)) ? 'pointer' : 'default';
+  img.style.display = isBlank ? 'none' : 'inline-block';
+  if (isBlank) img.src = '';
+}
+function loadEmployeeImage(f) {
+  var k = f.getItemValue('stt_rec'), src = f.getItemValue('imageurl');
+  var o = $get('empImage'), p = o.parentNode, b = (f._action == 'New') || (src == '');
+  p.parentNode.setAttribute('rowspan', 4);
+  if (b) {
+    p.className = 'ViewBlank';
+    p.style.width = '58px';
+    p.style.marginLeft = '1px';
+  } else o.src = src;
+}
+function setViewPanelImage(f, v) {
+  var g = f.grid, d = g._view._dirInfo;
+  var img = '<img id="view_image" src="' + v + '">';
+  if (!window.FileReader) $get('empImage').src = v;
+  for (var i = 0; i < d.length; i++) {
+    var id = d[i][0] + '_view_image';
+    if ($get(id)) $get(id).innerHTML = img;
+  }
+}
+function showBlankImage(f) {
+  var id =  f._controller + '_view_image';
+  if $get(id) $get(id).innerHTML = '<div class="ViewBlank"></div>';
+}
+function resetTicket(f, v, name) {
+  f.setItemValue('ticket', v);
+  if (name) f.focus(name);
+}
+function onFileSelected(e) {
+  var img = $get('empImage'), parent = img.parentNode, ipt = $get('imageupload2');
+  if (window.FileReader) {
+    var reader = new FileReader(), file = e.target.files[0];
+    reader.onload = function(e) { img.src = e.target.result; }
+    if (file) reader.readAsDataURL(file);
+  }
+  else {
+    img.src = '../Images/Attach.png';
+  }
+  img.style.height = '80px';
+  img.style.display = 'inline-block';
+  parent.className = 'FormContainer';
+  parent.style.width = '100%';
+  parent.style.margin = '0';
+  ipt.style.display = 'inline-block';
+}
+function getFileName(s) {
+  var p = s.lastIndexOf('\\');
+  if (p != -1) {return s.substring(p + 1);}
+  else {return s;}
+}
+function showViewPanelForm(f, t) {
+  var g = f.grid, view = g._view;
+  if (t) {
+    if (view._controller) {
+      if (view._type) view.showGridDetail();
+      else window.setTimeout(function() {view.showViewPanel();}, 100);
+    }
+  }
+  else {
+    view.scatterMemvar(f);
+  }
+}
+function setEmployeeAddress(f) {
+  setItemAddress(f, 'dia_chi_ht', 'dia_chi_ht_so', 'dia_chi_ht_phuong');
+  setItemAddress(f, 'dia_chi_th_tru', 'dia_chi_th_tru_so', 'dia_chi_th_tru_phuong');
+  setItemAddress(f, 'que_quan', 'que_quan_so', 'que_quan_phuong');
+}
+function setItemAddress(f, name, c1, c2) {
+  var c = $func.trim(f.getItemValue(c1)), d = $func.trim(f.getItemValue(c2));
+  f.getItem(name).value = c + ((c != '') && (d != '') ? ' - ' : '') + d;
+}
+function getRandomKey(l) {
+  var s = '', c = '0123456789abcdefghiklmnopqrstuvwxyz';
+  for (var i = 0; i < l; i++) {
+    var r = Math.floor(Math.random() * c.length);
+    s += c.substring(r, r + 1);
+  }
+  return s;
+}
+function onChange$EmployeeForm$Gender(o) {
+  var f = o.parentForm, g = f.grid, m = o.value;
+  for (var i = 0; i < g._name.length; i++) {
+    if (g._name[i][0] == m) {
+      f.getItem('ten_gt').value = g._name[i][1];
+      break;
+    }
+  }
+}
+function onChange$EmployeeForm$CurrentProvince(o) {
+  var f = o.parentForm;
+  f.setReferenceKeyFilter('dia_chi_ht_quan');
+  f.setReferenceKeyFilter('dia_chi_ht_xa');
+}
+function onChange$EmployeeForm$CurrentDistrict(o) {o.parentForm.setReferenceKeyFilter('dia_chi_ht_xa'); }
+function onChange$EmployeeForm$PermanentProvince(o) {
+  var f = o.parentForm;
+  f.setReferenceKeyFilter('dia_chi_th_tru_quan');
+  f.setReferenceKeyFilter('dia_chi_th_tru_xa');
+}
+function onChange$EmployeeForm$PermanentDistrict(o) {o.parentForm.setReferenceKeyFilter('dia_chi_th_tru_xa');}
+function onChange$EmployeeForm$NativeProvince(o) {
+  var f = o.parentForm;
+  f.setReferenceKeyFilter('que_quan_quan');
+  f.setReferenceKeyFilter('que_quan_xa');
+}
+/* </flatten> */
+function onChange$EmployeeForm$NativeDistrict(o) {o.parentForm.setReferenceKeyFilter('que_quan_xa');}
+function onChange$EmployeeForm$Position(o) {o.parentForm.request('Position', 'Position', ['vi_tri'], o);}
+function onChange$EmployeeForm$Tab(sender, e) {sender.parentForm.focusWhenTabChanged(['ngay_sinh','ngay_vao','ma_tdhv','ma_nn','dien_thoai_cty']]>&ListTabChange;&PostTabChange;<![CDATA[,'nh_nv1']);]]>&PostTabFocus;<![CDATA[}
+function onChange$EmployeeForm$Name(o) {var f = o.parentForm; f.getItem('ho_ten').value = $func.trim(f.getItem('ho_nv').value) + ' ' + $func.trim(f.getItem('ten_nv').value);}
+function on$EmployeeForm$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Suggestion':
+      var o = f._suggestionElement, v = (result[0].Value + 1).toString();
+      if ($func.replace(o.field.DataFormatString, ' ', '').length >= v.length) {
+        o.value = v;
+        f.live(o);
+      }
+      break;
+    case 'DefautFormValue':
+      f.setItemValue('ticket', result[0].Value);
+      f.setItemValue('ticket2', result[1].Value);
+      f.setItemValue('ma_nv', result[2].Value);
+      f.setItemControlBehavior('bo_phan', result[3].Value, result[4].Value, true);
+      break;
+    case 'Position':
+      f.setItemControlBehavior('bac_quan_ly', result[0].Value, result[1].Value, true);
+      f.live(f.getItem('bac_quan_ly'));
+      break;
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'ma_nv');
+      break;
+    ]]>&ListResponseTicket;<![CDATA[
+    default:
+      break;
+  }
+}
+]]>
+      &ScriptSuggestion;
+      &ListScript;
+      &PostScript;
+      &ScriptIrregular;
+      &ScriptWatermark;
+      &OutlineEntry;
+      &CheckValidEmailFunction;
+    </text>
+  </script>
+
+  <response>
+    &XMLSuggestion;
+
+    <action id="Position">
+      <text>
+        <![CDATA[
+if exists(select 1 from hrvt where ma_vtr = @vi_tri and ma_bac <> '') begin
+  declare @level varchar(32)
+  select @level = ma_bac from hrvt where ma_vtr = @vi_tri
+  select rtrim(@level) as ma_bac, ten_bac%l from hrdmbql where ma_bac = @level
+  return
+end
+]]>
+      </text>
+    </action>
+
+    <action id="DefautFormValue">
+      <text>
+        <![CDATA[
+]]>&CreateTicket;<![CDATA[
+]]>&CreateTicket2;<![CDATA[
+if @r = 1 and @ma_bp <> '' and exists(select 1 from hrbp where ma_bp = @ma_bp) begin
+  declare @id varchar(32), @current varchar(32), @dept varchar(32), @ref varchar(32), @default varchar(32), @bp_ref varchar(128), @l1 int, @l2 int
+  select @bp_ref = bp_ref from hrbp where ma_bp = @ma_bp
+  if (@@admin = 1 ) or exists(select 1 from @@sysDatabaseName..hrquyenbp where user_id = @@userID and dbo.ff_Inlist(@bp_ref, r_access2) = 1) begin
+    select @dept = @ma_bp, @current = @ma_bp
+    select @id = rtrim(ma_ngam_dinh), @dept = bp_me from hrbp where ma_bp = @dept
+
+    while isnull(@id, '') = '' and @dept <> '' select @current = @dept, @id = rtrim(ma_ngam_dinh), @dept = bp_me from hrbp where ma_bp = @dept
+    select @id = isnull(@id, '')
+
+    if @id <> '' begin
+      select @ref = rtrim(bp_ref) + '%' from hrbp where ma_bp = @current
+      select @default = max(ma_nv) from hrnv where ma_nv like (@id + '%') and bp_ref like @ref
+      select @default = rtrim(isnull(@default, ''))
+      select @l1 = len(@id), @l2 = len(@default)
+      if @l2 > @l1 begin
+        declare @numeric bit
+        select @numeric = 1, @default = right(@default, @l2 - @l1)
+        select @l1 = 1, @l2 = len(@default)
+        while @numeric = 1 and @l1 <= @l2 select @numeric = case when ascii(substring(@default, @l1, 1)) between 48 and 57 then 1 else 0 end, @l1 = @l1 + 1
+        if @numeric = 1 select @id = @id + replace(str(cast(@default as bigint) + 1, len(@default)), ' ', '0')
+      end
+    end
+    select @ticket as ticket, @ticket2 as ticket2, rtrim(@id) as id, @ma_bp as ma_bp, case @@language when 'v' then ten_bp else ten_bp2 end from hrbp where rtrim(ma_bp) = @ma_bp
+    return
+  end
+end else begin
+  select @ticket as ticket, @ticket2 as ticket2, '' as id, '' as ma_bp, '' as ten_bp
+  return
+end
+]]>
+      </text>
+    </action>
+
+    &ListTicket;
+  </response>
+
+  <css>
+    <text>
+      <![CDATA[
+.Break{margin:1px 0 1px 8px;padding:0;height:1px;overflow:hidden;display:block;background-color:white;border-top:1px solid #CED3DE;}
+.Region{background:url(data:image/gif;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAACZCAMAAAClmLxMAAAAh1BMVEWxsbG70/LF3v/ZyLHj077P6v+xvNjZ9f+xyOXj9f/t3svt9eXt9f/t6tjFsbHFsb67yOXt9fLZyMuxsb67sbHPvLHPvMu7vL6xscvZyL67sb7PvL67vNjFvNjZ9eXFyOW7yMvj6v/j9eXj9fKxyNi709jt3uXFscvP6vK7scuxyMu7vLHF3uVs/V8HAAAD/ElEQVR4Xu2a527rMAyFtbxHks5x957v/3yX4ziSA/s6QfurkACXkkqdUIrhD6Rj+hdpr11muKm7D9zxdprybubcls2qzPBU9P3htu6vKn9dsNzbybn7UUXPq6o/vCmG/Vo0oSYVfGwaAgTnksGuyXS7n6zSGmMeKl0btB++jWIsaRtHF8+Gjzc8KaM6kaFFLgail5XLP1Qc52PB2zncWonal40Ym8Zt+Fyu5XRInToUjG4gWFrL63lEF59vnCQ3NlGGpEOtAXTvGgkGPlBk09a8NfbFJI+GX9VRhgPsdgWb3teiQIv44MW0ZHgXlk0fygaTQV26SebG9rrGGHNvdbs4vWDl6kZz/Yc/5GTSGLtyF0sw2PNW460ty0AA/19v+oU8JF75QZFlLm5ZJssAn3GgiHBLAt0IigIwKXH4wf7lrpo9EBefYwyG4BIy1IyXSMPv8zXesdKSzKfYN8ApCEIG9AQcWQL0hIOE1hLRAnMNfoZmIQNkIgLAkbugJxxoL0yk3oso/IwGHHEIemIkwaAPI1S29D0YatMqyJA8d+gCPQFHiSChpxI0gFfU4Ge6kdeNTqjoa9ATxBQv9OHA9wOjpaU/h7sKfoYkBDli7y3oCThKMOirAz4TaD36Gdxgi23hm17xNnrbxtuPjymB6IIKbl3ZZCZDlrm8ZZksw8lTJBM6djb29RxfqUw3Gm5lc1XFXCDlZRyjM+9DRhi1+OQEL+N4ySllOHIhgBKMZE8O1WEMms6dUhnvUlCCkUniifGiE5rBNiMVT3m5SFOYRIb95Q8AeMpLjOc0hYkyOOEWoDzhZdlgfEJTmFQGZAQAIy8VYA7jOU1hosw6L59PBvAyk+HlZbJMlskyz3vqILvTKq23q7W0bRlhptcq5gYat2SGPXPMTWBsv94ai0TnEpnHwjsUOElNYkMF9hKZYU8LaFkCxomZ58sMe6oH+7+EQIARZd6LIGO0lBCM7VMw9qGW/rkNJflAJ5uCUSuwLpNho2WZLJNlsozwAK/QUlbOZ7ZkNF8a7TorMbONO0mcQi11zvIz55cCTqEDcfQ9z2zJBKcReEexg5sApxN0XVXb9DSKxrYmq0XtYxqJV5LS2ZThELBCszmkkRJhsGemaIYYKSdMVnc05Zc8I32Z4db9RyYI/hna8s27Kb/kGT3himYyGf7TskyWyTKZmvXpPKh5vozUcnebCNmmpgDmmGCWjeLlqYhFW320403megIdyoY5iR/8MN660cV6LOCJN5mLMjgaISN+8KPURSE2whNvMlepyVYMfvBDlgVj0ZbnRX+1GfZURGo0gUH5e1egEJvAE28yu0UZfIYaT/uT8G1atAU8keBnMrxSmSzzD4b17reYmpDKAAAAAElFTkSuQmCC) no-repeat}
+.c11,.c41,.c71{background-position:0px -2px;}
+.c12,.c42,.c72{background-position:0px -80px;}
+.c21,.c51,.c81{background-position:0px -28px;}
+.c22,.c52,.c82{background-position:0px -106px;}
+.c31,.c61,.c91{background-position:0px -54px;}
+.c32,.c62,.c92{background-position:0px -132px;}
+.divUpload:hover{color:#3171c6;text-decoration:underline}
+.divUpload2:hover{color:#3171c6;text-decoration:underline}
+.divUpload{position:relative;width:64px!important;height:22px!important;overflow:hidden}
+.divUpload2{position:relative;width:72px!important;height:22px!important;overflow:hidden}
+.divButton{color:#3171c6;font-family:verdana;font-size:11px;height:22px!important;margin-left:0!important}
+.divInput{cursor:pointer;position:absolute;-moz-opacity:0;opacity:0;filter:alpha(opacity:0);top:0;right:0;padding:0}
+.LabelDescription{color:#73A6DE;}
+.SelectionOutline{outline-style:dotted;outline-width:1px;}
+]]>
+    </text>
+  </css>
+</dir>

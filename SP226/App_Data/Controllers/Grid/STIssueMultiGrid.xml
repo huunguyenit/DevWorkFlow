@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY % GridInitialize SYSTEM "..\Include\Grid.ent">
+  %GridInitialize;
+
+  <!ENTITY FilterInitialize SYSTEM "..\Include\FilterInitialize.xml">
+  <!ENTITY FilterQuery SYSTEM "..\Include\FilterQuery.xml">
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+
+  <!ENTITY Identity "STIssueMultiGrid">
+  <!ENTITY Controller "'&Identity;'">
+  <!ENTITY Tag "">
+
+  <!ENTITY % FlowMultiVoucher SYSTEM "..\Include\FlowMultiVoucher.ent">
+  %FlowMultiVoucher;
+
+  <!ENTITY % CheckRelative SYSTEM "..\Include\CheckRelative.ent">
+  %CheckRelative;
+  <!ENTITY CheckRelativeParameter "'STIssueMultiGrid', 'Grid', 'STTran'">
+  <!ENTITY CheckRelativeQuery "
+    select top 0 @@fieldExternal from d66$000000 a, m66$000000 m, dmvt b
+    return
+">
+]>
+
+<grid order="ngay_ct, so_ct, stt_rec, line_nbr" type="Inquiry" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Hóa đơn bán hàng" e="Sales Invoice"></title>
+  <subTitle v="Từ ngày %d1 đến ngày %d2..." e="Date from %d1 to %d2..."></subTitle>
+
+  <fields>
+    <field name="ngay_ct" type="DateTime" dataFormatString="@datetimeFormat" width="80" allowFilter="&GridQueryAllowFilter;" aliasName="m" readOnly="true">
+      <header v="Ngày" e="Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="so_ct" width="80" align="right" allowFilter="&GridQueryAllowFilter;" hyperlinkFormatString="~/AppHandler/Voucher.ashx Query: {Name: '[ma_ct]', Value: '[stt_rec]'}, Script: 'beforeDrillDown(this);'" aliasName="m" readOnly="true">
+      <header v="Số" e="Number"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="ma_vt" width="100" aliasName ="a" allowFilter="&GridQueryAllowFilter;" readOnly="true">
+      <header v="Mã hàng" e="Item Code"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ten_vt%l" width="&FlowMultiGridWidthOfNameField;" aliasName ="b" allowFilter="&GridQueryAllowFilter;" readOnly="true">
+      <header v="Tên mặt hàng" e="Item Description"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="dvt" allowFilter="&GridQueryAllowFilter;" allowNulls="false" width="50" aliasName="a" readOnly="true">
+      <header v="Đvt" e="UOM"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_kho" allowFilter="&GridQueryAllowFilter;" allowNulls="false" width="80" aliasName="a" readOnly="true">
+      <header v="Mã kho" e="Site"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_vi_tri" allowFilter="&GridQueryAllowFilter;" width="80" aliasName="a" readOnly="true">
+      <header v="Mã vị trí" e="Location"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_lo" allowFilter="&GridQueryAllowFilter;" width="80" readOnly="true">
+      <header v="Mã lô" e="Lot"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="so_chuyen" type="Int16" dataFormatString="# ##0" external="true" clientDefault="0" defaultValue="0" width="100">
+      <header v="Số chuyến" e="Counts of Shipments"></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="onChange$FlowMulti$GridQuery$]]>&Identity;<![CDATA[InvoiceQuantity(this);"]]></clientScript>
+    </field>
+    <field name="so_luong" type="Decimal" dataFormatString="@quantityViewFormat" readOnly="true" width="100">
+      <header v="Sl hóa đơn" e="Invoice Q'ty"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="loai_vc" width="80" dataFormatString="@upperCaseFormat" external="true" allowContain="true" clientDefault="Default" defaultValue="''" aliasName="case when '.' = '.' then cast('' as varchar(2)) end">
+      <header v="Loại vận chuyển" e="Transport Type"></header>
+      <items style="AutoComplete" controller="TransportType" reference="ten_loai%l" key="status = '1'" check="1=1" information="ma_loai$dmloaivc.ten_loai%l"/>
+      <clientScript><![CDATA[onchange="onChange$FlowMulti$GridQuery$]]>&Identity;<![CDATA[TransportType(this);"]]></clientScript>
+    </field>
+    <field name="ten_loai%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''"  aliasName="case when '.' = '.' then cast('' as nvarchar(128)) end" inactivate="true" width="&FlowMultiGridWidthOfNameField;">
+      <header v="Tên loại vận chuyển" e="Transport Type Name"></header>
+    </field>
+
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" aliasName="m" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" width="0" aliasName="a" hidden="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="line_nbr" type="Int32" width="0" align="right" aliasName="a" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_ct" width="0" hidden="true" aliasName="m" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ngay_ct"/>
+      <field name="so_ct"/>
+
+      <field name="ma_vt"/>
+      <field name="ten_vt%l"/>
+      <field name="dvt"/>
+
+      <field name="ma_kho"/>
+      <field name="ma_vi_tri"/>
+      <field name="ma_lo"/>
+
+      <field name="so_chuyen"/>
+
+      <field name="so_luong"/>
+      <field name="loai_vc"/>
+      <field name="ten_loai%l"/>
+
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+      <field name="ma_ct"/>
+    </view>
+  </views>
+
+  <commands>
+    &FlowMultiGridCommand;
+  </commands>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        &CheckRelativeProcess;
+        <![CDATA[
+declare @c char(1), @d char(1)
+select @c = char(253), @d = char(252)
+select * into #t from dbo.FastBusiness$Function$System$Split(@@queryString, @c)
+declare @ma_kh varchar(128), @ngay_ct1 smalldatetime, @ngay_ct2 smalldatetime, @ma_dvcs varchar(8000)
+
+select @ma_dvcs = replace(data, @d, '''') from #t where id = 1
+select @ma_kh = replace(data, @d, '''') from #t where id = 2
+select @ngay_ct1 = data from #t where id = 3
+select @ngay_ct2 = data from #t where id = 4
+
+if @ma_dvcs = '' set @ma_dvcs = @@unit
+]]>
+        <![CDATA[
+declare @queryWhereClause nvarchar(4000), @queryFormClause nvarchar(4000)
+select @queryFormClause = 'm66$%Partition m with(nolock) join d66$%Partition a with(nolock) on m.stt_rec = a.stt_rec left join dmvt b on a.ma_vt = b.ma_vt'
+select @queryWhereClause = 'm.ma_dvcs = ''' + replace(rtrim(@ma_dvcs), '''', '''''') + ''' and m.ma_kh like ''' + replace(rtrim(@ma_kh), '''', '''''') + '%'' and m.status = ''2'' and m.loai_ct = ''1'''
+if exists(select 1 from syssiterights r where r.user_id = @@userID) begin
+  select @queryWhereClause = @queryWhereClause + ' and exists(select 1 from syssiterights r where r.user_id = @@userID and a.ma_kho = r.ma_kho)'
+end
+
+]]>&FilterInitialize;&FilterQuery;
+        &FlowMultiGridFinding;
+      </text>
+    </query>
+  </queries>
+
+  <script>
+    <text>
+      <![CDATA[
+function init$FlowMulti$GridQuery$]]>&Identity;<![CDATA[(g) {
+  var f = g._$parentForm, c = String.fromCharCode(253), a = f._$queryFilterString.split(c);
+  g._alterTitle = [null, [['%d1', formatDateView(a[2]), true], ['%d2', formatDateView(a[3]), true]]];
+}
+
+function load$FlowMulti$GridQuery$]]>&Identity;<![CDATA[(g) {
+  g._$k = [];
+  g._$f = ['stt_rec', 'stt_rec0'];
+  g._$i = [g._getColumnOrder('stt_rec'), g._getColumnOrder('stt_rec0')];
+  g._$s = [g._getColumnOrder('so_chuyen'), g._getColumnOrder('loai_vc'), g._getColumnOrder('ten_loai%l')];
+  g.add_onResponseComplete(on$FlowMulti$GridQuery$]]>&Identity;<![CDATA[ResponseComplete);
+}
+function dispose$FlowMulti$GridQuery$]]>&Identity;<![CDATA[(g) {
+  g._$k = g._$f = g._$i = g._$s = null;
+  try {g.remove_onResponseComplete(on$FlowMulti$GridQuery$]]>&Identity;<![CDATA[ResponseComplete);} catch (ex) {}
+}
+function scatter$FlowMulti$GridQuery$]]>&Identity;<![CDATA[(g) {scatter$FlowMulti$GridQuery(g);}
+
+function onChange$FlowMulti$GridQuery$]]>&Identity;<![CDATA[InvoiceQuantity(o) {
+  var g = o.grid, a = o.id.split('_inputCell_'), r = a[1].split('.')[0];
+  var l = g._getColumnOrder('loai_vc'), v = g._getItemValue(r, l);
+  if (v != '' || o.value != 0) addTagRow$FlowMulti$(g, r);
+  else removeTagRow$FlowMulti$(g, r);
+}
+
+function onChange$FlowMulti$GridQuery$]]>&Identity;<![CDATA[TransportType(o) {
+  var g = o.grid, a = o.id.split('_inputCell_'), r = a[1].split('.')[0];
+  var l = g._getColumnOrder('so_chuyen'), v = g._getItemValue(r, l);
+  if (v != 0 || o.value != '') addTagRow$FlowMulti$(g, r);
+  else removeTagRow$FlowMulti$(g, r);
+  if (o.value != '') {
+    g.request(o, 'TransportType', 'TransportType', ['loai_vc', ['r', 'Decimal', r]], null, true);
+  }
+}
+
+function on$FlowMulti$GridQuery$]]>&Identity;<![CDATA[ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result, o = e.type.Object, f = g.get_element().parentForm;
+  switch (context) {
+    case 'TransportType':
+    var r = result[1].Value;
+    if (result[0].Value != '') {
+      g._getItem(r, g._getColumnOrder('ten_loai%l')).value = result[0].Value;
+      addTagRow$FlowMulti$(g, r);
+    }
+    else {
+      var l = g._getColumnOrder('so_chuyen'), v = g._getItemValue(r, l);
+      var c2 = g._getColumnOrder('loai_vc'), v2 = g._getItemValue(r, c2);
+      g._getItem(r, g._getColumnOrder('ten_loai%l')).value = '';
+      if (v != 0 || v2 != '') addTagRow$FlowMulti$(g, r);
+      else removeTagRow$FlowMulti$(g, r);
+    }
+    break;s
+    default:
+      break;
+  }
+}
+]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="TransportType">
+      <text>
+        <![CDATA[
+if exists(select 1 from dmloaivc where ma_loai = @loai_vc) begin
+  select ten_loai%l as ten, @r as r from dmloaivc where ma_loai = @loai_vc
+  return
+end
+select '' as ten, @r as r
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+  &FlowMultiGridToolbar;
+</grid>

@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dir [
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+]>
+
+<dir table="dmvitri" code="ma_kho, ma_vi_tri" order="ma_kho, ma_vi_tri" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="vị trí kho hàng" e="Location"></title>
+  <fields>
+    <field name="ma_kho" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã kho" e="Site"></header>
+      <items style="AutoComplete" controller="Site" reference="ten_kho%l" key="status = '1'" check="1 = 1" information="ma_kho$dmkho.ten_kho%l"/>
+    </field>
+    <field name="ten_kho%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_vi_tri" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã vị trí" e="Location"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ten_vi_tri" allowNulls="false">
+      <header v="Tên vị trí" e="Description"></header>
+    </field>
+    <field name="ten_vi_tri2">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+    <field name="ghi_chu" rows="2">
+      <header v="Ghi chú" e="Note"></header>
+      <footer v="&lt;div class=&quot;Break&quot;/&gt;" e="&lt;div class=&quot;Break&quot;/&gt;"></footer>
+    </field>
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 330"/>
+      <item value="1101: [ma_kho].Label, [ma_kho], [ten_kho%l]"/>
+      <item value="110: [ma_vi_tri].Label, [ma_vi_tri]"/>
+      <item value="1100: [ten_vi_tri].Label, [ten_vi_tri]"/>
+      <item value="1100: [ten_vi_tri2].Label, [ten_vi_tri2]"/>
+      <item value="1100: [ghi_chu].Label, [ghi_chu]"/>
+      <item value="1110: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$FormLocation(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormLocation(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$recordHasBeenChanged nvarchar(512),  @$updateConflict nvarchar(512), @$deleteConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã kho <span class="Highlight">%s1</span> và vị trí <span class="Highlight">%s2</span> đã có hoặc lồng nhau trong danh mục vị trí kho.' else N'The record consisting of site <span class="Highlight">%s1</span> and location <span class="Highlight">%s2</span> is invalid or already exists.' end
+select @$updateConflict = case when @@language = 'v' then N'Mã kho <span class="Highlight">%s1</span> và vị trí <span class="Highlight">%s2</span> đã phát sinh, không thể sửa được.' else N'Cannot edit the record consisting of site <span class="Highlight">%s1</span> and location <span class="Highlight">%s2</span>. It has already been used.' end
+select @$deleteConflict = case when @@language = 'v' then N'Mã kho <span class="Highlight">%s1</span> và vị trí <span class="Highlight">%s2</span> đã phát sinh, không thể xóa được.' else N'Cannot delete the record consisting of site <span class="Highlight">%s1</span> and location <span class="Highlight">%s2</span>. It has already been used.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Kho <span class="Highlight">%s1</span> và vị trí <span class="Highlight">%s2</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The record consisting of site <span class="Highlight">%s1</span> and location <span class="Highlight">%s2</span> has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select * from @@table where (ma_kho = @ma_kho and ma_vi_tri = @ma_vi_tri) or (ma_kho = @ma_kho and ma_vi_tri like rtrim(@ma_vi_tri) + '%') or (ma_kho = @ma_kho and rtrim(@ma_vi_tri) like rtrim(ma_vi_tri) + '%'))
+  begin
+    select 'ma_vi_tri' as field, replace(replace(@$exists, '%s1', rtrim(@ma_kho)), '%s2', rtrim(@ma_vi_tri)) as message
+    return
+  end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select * from @@table where ma_kho = $ma_kho.OldValue and ma_vi_tri = $ma_vi_tri.OldValue)
+  begin
+    select 'ma_vi_tri' as field, replace(replace(@$recordHasBeenChanged, '%s1', rtrim($ma_kho.OldValue)), '%s2', rtrim($ma_vi_tri.OldValue)) as message
+    return
+  end
+  
+if @ma_kho <> $ma_kho.OldValue or @ma_vi_tri <> $ma_vi_tri.OldValue
+  begin
+    if exists(select * from @@table where (not (ma_kho = $ma_kho.OldValue and ma_vi_tri = $ma_vi_tri.OldValue)) and ((ma_kho = @ma_kho and ma_vi_tri = @ma_vi_tri) or (ma_kho = @ma_kho and ma_vi_tri like rtrim(@ma_vi_tri) + '%') or (ma_kho = @ma_kho and rtrim(@ma_vi_tri) like rtrim(ma_vi_tri) + '%')))
+      begin
+        select 'ma_vi_tri' as field, replace(replace(@$exists, '%s1', rtrim(@ma_kho)), '%s2', rtrim(@ma_vi_tri)) as message
+        return
+      end
+    if exists(select top 1 1 as val from ct70 where ma_kho = $ma_kho.OldValue and ma_vi_tri = $ma_vi_tri.OldValue)
+      begin
+        select 'ma_kho' as field, replace(replace(@$updateConflict, '%s1', rtrim($ma_kho.OldValue)), '%s2', rtrim($ma_vi_tri.OldValue)) as message
+        return
+      end
+    end
+]]>
+      </text>
+    </command>
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_kho = @ma_kho and ma_vi_tri = @ma_vi_tri
+]]>
+      </text>
+    </command>
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+if exists(select top 1 1 as val from ct70 where ma_kho = @ma_kho and ma_vi_tri = @ma_vi_tri)
+begin
+  select replace(replace(@$deleteConflict, '%s1', rtrim(@ma_kho)), '%s2', rtrim(@ma_vi_tri)) as message
+  return
+end
+        ]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$FormLocation(f) {f.add_onResponseComplete(on$FormLocation$ResponseComplete);}
+function close$FormLocation(f) {try {f.remove_onResponseComplete(on$FormLocation$ResponseComplete)} catch (ex) {}}
+function on$FormLocation$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'ma_vi_tri');
+      break;
+    default:
+      break;
+  }
+}
+]]>
+      &ScriptIrregular;
+    </text>
+  </script>
+
+</dir>

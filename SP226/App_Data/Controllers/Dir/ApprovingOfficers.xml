@@ -1,0 +1,231 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<dir table="dmduyet" code="user_id, loai_duyet, ma_quyen, ngay_hl, ma_bp, ma_nt" order="user_id, loai_duyet, ma_quyen, ngay_hl, ma_bp, ma_nt" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="khai báo người duyệt" e="Approving Officers"></title>
+  <fields>
+    <field name="user_id" isPrimaryKey="true" type="Decimal" disabled="true" hidden="true">
+      <header v="" e=""></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="loai_duyet" isPrimaryKey="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="name" dataFormatString="@upperCaseFormat" allowNulls="false" external="true" defaultValue="''">
+      <header v="Người sử dụng" e="User"></header>
+      <items style="AutoComplete" controller="User" reference="comment%l" key="status = 1" check="1 = 1" information="name$userinfo2.comment%l"/>
+      <clientScript><![CDATA[onchange=onChange$FormApprovingOfficers$UserID(this.parentForm);]]></clientScript>
+    </field>
+    <field name="comment%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_quyen" allowNulls="false">
+      <header v="Mã quyền" e="Roles"></header>
+      <items style="AutoComplete" controller="ApprovalRoles" reference="ten_quyen%l" key="loai_duyet = '{$%c[loai_duyet]}' and status = '1'" check="loai_duyet = '{$%c[loai_duyet]}'" information="ma_quyen$dmquyen.ten_quyen%l"/>
+    </field>
+    <field name="ten_quyen%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_bp" isPrimaryKey="true">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="AutoComplete" controller="Department" reference="ten_bp%l" key="status='1'" check="1=1" information="ma_bp$dmbp.ten_bp%l"/>
+    </field>
+    <field name="ten_bp%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="tien_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" defaultValue="0">
+      <header v="Tiền" e="Amount"></header>
+      <footer v="(0 - Không giới hạn)" e="(0 - Unlimited)"/>
+      <items style="Numeric"/>
+    </field>
+    <field name="ma_nt" isPrimaryKey="true" allowNulls="false" clientDefault="Default">
+      <header v="Mã nt" e="Currency"></header>
+      <items style="AutoComplete" controller="Currency" reference="ten_nt%l" key="status='1'" check="1=1" information="ma_nt$dmnt.ten_nt%l"/>
+    </field>
+    <field name="ten_nt%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_hl" isPrimaryKey="true" allowNulls="false" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày hiệu lực từ" e="Effective Date from"></header>
+      <footer v="Ngày hiệu lực từ/đến" e="Effective Date from/to"></footer>
+    </field>
+    <field name="ngay_hl2" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày hiệu lực đến" e="Effective Date to"></header>
+    </field>
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 100, 230, 0"/>
+      <item value="110101: [name].Label, [name], [comment%l], [loai_duyet]"/>
+      <item value="110101: [ma_quyen].Label, [ma_quyen], [ten_quyen%l], [user_id]"/>
+      <item value="11010: [ma_bp].Label, [ma_bp], [ten_bp%l]"/>
+      <item value="11010: [tien_nt].Label, [tien_nt], [tien_nt].Description"/>
+      <item value="11010: [ma_nt].Label, [ma_nt], [ten_nt%l]"/>
+      <item value="1101: [ngay_hl].Description, [ngay_hl], [ngay_hl2]"/>
+      <item value="11100: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+declare @$message nvarchar(4000)
+select @$message = 'var f = this;type=f.grid._approvalType == ''2'';setObjectFormHidden(f, ''ma_bp'', type);setObjectFormHidden(f, ''ten_bp%l'', type);'
+select @$message as message
+return
+]]>
+      </text>
+    </command>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'init$FormApprovingOfficers(this);active$FormApprovingOfficers$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+select 'init$FormApprovingOfficers(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormApprovingOfficers$(this)' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="InitExternalFields">
+      <text>
+        <![CDATA[
+if @@action = 'Edit' begin
+  declare @nsd varchar(30), @comment nvarchar(511)
+  select @nsd = name, @comment = case when @@language = 'V' then comment else comment2 end from vsysuserinfo where id = @user_id
+  select rtrim(@nsd) as name, rtrim(@comment) as comment%l
+  return
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$name nvarchar(33), @$exists nvarchar(512), @$recordHasBeenChanged nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Người sử dụng <span class="Highlight">%s1</span> bộ phận <span class="Highlight">%s2</span>, ngoại tệ <span class="Highlight">%s3</span> và ngày hiệu lực từ/đến đã khai báo trong danh mục duyệt.' else N'User <span class="Highlight">%s1</span>, department <span class="Highlight">%s2</span>, currency<span class="Highlight">%s3</span> and effective date from/to already exists.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Người sử dụng <span class="Highlight">%s1</span>, bộ phận <span class="Highlight">%s2</span>, ngoại tệ <span class="Highlight">%s3</span> và ngày hiệu lực <span class="Highlight">%s4</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'User <span class="Highlight">%s1</span>, department <span class="Highlight">%s2</span>, currency<span class="Highlight">%s3</span> and effective date <span class="Highlight">%s4</span> has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where user_id = @user_id and loai_duyet = @loai_duyet and ma_bp = @ma_bp and ma_nt = @ma_nt and ((ngay_hl >= @ngay_hl and (ngay_hl <= @ngay_hl2 or @ngay_hl2 is null) or @ngay_hl >= ngay_hl and (@ngay_hl <= ngay_hl2 or ngay_hl2 is null)))) begin
+  declare @name nvarchar(1023)
+  select @name = name from vsysuserinfo where id = @user_id
+  select 'name' as field, replace(replace(replace(@$exists, '%s1', rtrim(@name)), '%s2', rtrim(@ma_bp)), '%s3', rtrim(@ma_nt)) as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+declare @name nvarchar(1023)
+if not exists(select 1 from @@table where user_id = $user_id.OldValue and loai_duyet = $loai_duyet.OldValue and ma_bp = $ma_bp.OldValue and ma_nt = $ma_nt.OldValue and ngay_hl = $ngay_hl.OldValue) begin
+  select @name = name from vsysuserinfo where id = $user_id.OldValue
+  select 'name' as field, replace(replace(replace(replace(@$recordHasBeenChanged, '%s1', rtrim(@name)), '%s2', rtrim($ma_bp.OldValue)), '%s3', rtrim(@ma_nt)), '%s4', rtrim(@ngay_hl)) as message
+  return
+end
+
+if exists(select 1 from @@table where user_id = @user_id and loai_duyet = @loai_duyet and ma_bp = @ma_bp and ma_nt = @ma_nt and ((ngay_hl >= @ngay_hl and (ngay_hl <= @ngay_hl2 or @ngay_hl2 is null) or @ngay_hl >= ngay_hl and (@ngay_hl <= ngay_hl2 or ngay_hl2 is null))) and (not (loai_duyet = $loai_duyet.OldValue and ma_bp = $ma_bp.OldValue and ma_nt = $ma_nt.OldValue and ngay_hl = $ngay_hl.OldValue))) begin
+  select @name = name from vsysuserinfo where id = @user_id
+  select 'name' as field, replace(replace(replace(@$exists, '%s1', rtrim(@name)), '%s2', rtrim(@ma_bp)), '%s3', rtrim(@ma_nt)) as message
+  return
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where user_id = @user_id and loai_duyet = @loai_duyet and ma_bp = @ma_bp and ma_nt = @ma_nt and ngay_hl = @ngay_hl
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[/* <flatten type="Javascript"> */
+var f = this, d1 = f.getItemValue('ngay_hl'), d2 = f.getItemValue('ngay_hl2'), v = f._language == 'v', e;
+if (d2 != null && d1 > d2) {
+  f._errorObject = f.getItem('ngay_hl2');
+  e = (v ? 'Trường <span class="Highlight">Ngày hiệu lực từ</span> phải nhỏ hơn hoặc bằng <span class="Highlight">Ngày hiệu lực đến</span>.' : '<span class="Highlight">Effective date from</span> must be less than <span class="Highlight">effective date to</span>.');
+  f._checked = false;
+}
+if (!f._checked) $message.show(e, String.format('$find(\'{0}\')._errorObject.focus()', f.get_id()));
+/* </flatten> */]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function init$FormApprovingOfficers(f) {
+  var g = f.grid;
+  f.setItemValue('loai_duyet', g._approvalType);
+  if (f.getItemValue('user_id') == 0) {f.setItemValues('user_id, name, comment%l', [g._userID, g._userName, g._userComment]);}
+  f.setReferenceKeyFilter('ma_quyen', 'name');
+  if (f._action == 'New') f.setItemValue('ngay_hl', new Date());
+}
+function active$FormApprovingOfficers$(f) {f.add_onResponseComplete(on$FormApprovingOfficers$ResponseComplete);}
+function close$FormApprovingOfficers$(f) {try {f.remove_onResponseComplete(on$FormApprovingOfficers$ResponseComplete);} catch (ex) {}}
+function onChange$FormApprovingOfficers$UserID(f) {f.request('GetUserID', 'SetUserID', ['name']);}
+function on$FormApprovingOfficers$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'SetUserID':
+      f.setItemValue('user_id', result[0].Value);
+      break;
+    default:
+      break;
+  }
+}
+function setObjectFormHidden(f, c, b) {if (b) {$common.setVisible(f.getItem(c).parentNode.parentNode.parentNode, false);}}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="GetUserID">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@sysDatabaseName..userinfo2 where name = @name) begin
+  select id from @@sysDatabaseName..userinfo2 where name = @name
+  return
+end
+]]>
+      </text>
+    </action>
+  </response>
+</dir>

@@ -1,0 +1,166 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY % Authentication SYSTEM "..\..\Include\Authentication.ent">
+  %Authentication;
+
+  <!ENTITY CustomerFields SYSTEM "Include\CustomerFields.txt">
+  <!ENTITY CustomerFieldsCompact SYSTEM "Include\CustomerFieldsCompact.txt">
+  <!ENTITY IrregularValue SYSTEM "Include\Irregular.txt">
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY Checking "@@checking">
+  <!ENTITY Inserting "@@inserting">
+  <!ENTITY Updating "@@updating">
+
+  <!ENTITY s1 "Mã số thuế &lt;span class=&quot;Highlight&quot;&gt;&#37;s1&lt;/span&gt; tại dòng &lt;span class=&quot;Highlight&quot;&gt;&#37;s2&lt;/span&gt;">
+  <!ENTITY s2 "The tax code &lt;span class=&quot;Highlight&quot;&gt;&#37;s1&lt;/span&gt; at row &lt;span class=&quot;Highlight&quot;&gt;&#37;s2&lt;/span&gt;">
+
+  <!ENTITY % Nested SYSTEM "..\..\Include\Nested.ent">
+  %Nested;
+
+  <!ENTITY % CheckTaxCode SYSTEM "..\..\Include\CheckTaxCode.ent">
+  %CheckTaxCode;
+
+  <!ENTITY % CheckValidEmail SYSTEM "..\..\Include\CheckValidEmail.ent">
+  %CheckValidEmail;
+  <!ENTITY CheckValidEmail.FieldName "e_mail">
+  <!ENTITY CheckValidEmail.MultiEmail "1=1">
+]>
+
+<import xmlns="urn:schemas-fast-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$CustomerImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$CustomerImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+    <baseTable value="dmkh"/>
+    <table value="dmkh" alias="a"/>
+    <temporary value="#k" alias="b"/>
+  </setting>
+
+  <query>
+    <command>
+      <text>
+        <![CDATA[
+if exists(select 1 from options where name = 'm_compact_mode' and val = '1') select '1' as view_index else select '0' as view_index
+]]>
+      </text>
+    </command>
+
+    <views>
+      <fields identity="true" name="stt" index="1">
+        &CustomerFieldsCompact;
+      </fields>
+    </views>
+  </query>
+
+  <fields identity="true" name="stt">
+    &CustomerFields;
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+if @@admin = 0 and @type = '1' begin
+  if @@sysDatabaseName.dbo.FastBusiness$System$GetAuthorize(@@admin, @@userID, 'Customer', 'Edit') = 0 select @type = '0'
+end
+
+declare @message nvarchar(4000), @q nvarchar(4000), @duplicate nvarchar(4000), @irregular nvarchar(4000), @field varchar(32), @irregularChars varchar(128), @r int, @checkTaxCode int, @taxCodeConflict nvarchar(512)
+select @irregularChars = ]]>&IrregularValue;<![CDATA[
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> ]]>&Customer.Nested.Message.v;<![CDATA[.' else 'The value of cell <span class="Highlight">%invalidCell</span> is ]]>&Customer.Nested.Message.e;<![CDATA[.' end
+select @irregular = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> có chứa các ký tự: ' + @irregularChars else 'The value of cell <span class="Highlight">%invalidCell</span> contains any of the following characters: ' + @irregularChars  end
+select @taxCodeConflict = case when @@language = 'v' then N']]>&s1;<![CDATA[ đã có trong danh mục.' else ']]>&s2;<![CDATA[ is already exists.' end
+
+-- Check
+create index i on @@table (ma_kh)
+
+if @type = '0' delete @@table where ma_kh in (select ma_kh from dmkh)
+
+select @field = 'ma_kh', @r = min(stt) from @@table where ma_kh like '%[' + @irregularChars + ']%']]>&Irregular;<![CDATA[
+
+]]>&CheckValidEmailCommandCheckingImport;<![CDATA[
+
+-- Checking
+]]>&Checking;<![CDATA[
+
+-- Check Tax Code
+-- + Self
+select @checkTaxCode = case when exists(select 1 from options where name = 'm_kt_mst_trung' and val = '2') then 1 else 0 end
+if @checkTaxCode = 1 begin
+  select @r = stt from (select min(stt) as stt from @@table where ma_so_thue <> '' group by ma_so_thue having count(*) > 1) a
+  if @r is not null begin
+    select replace(replace(@taxCodeConflict, '%s1', ma_so_thue), '%s2', @@delta + @r) as message from @@table where stt = @r
+    return
+  end
+end
+]]>&CommandCheckTaxCodeImport;<![CDATA[
+
+select a.* into #k from @@table a join dmkh b on a.ma_kh = b.ma_kh
+
+-- Do not delete following line
+-- #OverwriteChecking
+
+if @type = '1' delete @@table where ma_kh in (select ma_kh from #k)
+
+if @checkTaxCode = 1 begin
+  -- + Inserting
+  select @r = min(a.stt) from @@table a join dmkh b on a.ma_so_thue = b.ma_so_thue left join #k c on b.ma_kh = c.ma_kh where a.ma_so_thue <> '' and c.ma_kh is null group by a.ma_kh
+  if @r is not null begin
+    select replace(replace(@taxCodeConflict, '%s1', ma_so_thue), '%s2', @@delta + @r) as message from @@table where stt = @r
+    return
+  end
+
+  -- + Updating
+  if @type = '1' begin
+    select @r = min(a.stt) from #k a join dmkh b on a.ma_so_thue = b.ma_so_thue where a.ma_so_thue <> '' and a.ma_kh <> b.ma_kh group by a.ma_kh
+    if @r is not null begin
+      select replace(replace(@taxCodeConflict, '%s1', ma_so_thue), '%s2', @@delta + @r) as message from #k where stt = @r
+      return
+    end
+  end
+end
+
+--
+select @field = 'ma_kh'
+]]>&Customer.Nested.Key.b;<![CDATA[
+  select @q = 'select top 1 @r = a.stt from @@table a, @@table b with (index(i)) where a.ma_kh <> b.ma_kh and a.ma_kh like rtrim(b.ma_kh) + ''%'''
+  exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+  select @q = 'select top 1 @r = a.stt from @@table a with (index(i)), dmkh b with (index(PK_dmkh)) where a.ma_kh like rtrim(b.ma_kh) + ''%'''
+  exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+  select @q = 'select top 1 @r = b.stt from dmkh a with (index(PK_dmkh)), @@table b with (index(i)) where a.ma_kh like rtrim(b.ma_kh) + ''%'''
+  exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+end
+-- Insert
+]]>&Inserting;<![CDATA[
+-- Update
+if @type = '1' begin ]]>&Updating;<![CDATA[ end
+]]>
+    </text>
+  </processing>
+
+</import>

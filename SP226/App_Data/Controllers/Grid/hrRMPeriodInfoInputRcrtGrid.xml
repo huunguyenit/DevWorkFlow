@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLFlowGridCommand SYSTEM "..\Include\XML\FlowGridCommand.txt">
+  <!ENTITY ScriptFlowGridFunction SYSTEM "..\Include\Javascript\FlowGridFunction.txt">
+  <!ENTITY Identity "hrRMPeriodInfoInputRcrt">
+
+  <!ENTITY XMLFlowGridTagHeader SYSTEM "..\Include\XML\FlowGridTagHeader.xml">
+  <!ENTITY ScriptFlowGridSelect SYSTEM "..\Include\Javascript\FlowGridSelect.txt">
+  <!ENTITY FlowGridTagField "chon">
+  <!ENTITY FlowGridSetItem "g._setItemValue(r, g._getColumnOrder('so_luong0'), o.checked ? ((g._getItemValue(r, g._getColumnOrder('so_luong')) - g._getItemValue(r, g._getColumnOrder('sl_dot'))) > 0 ? (g._getItemValue(r, g._getColumnOrder('so_luong')) - g._getItemValue(r, g._getColumnOrder('sl_dot'))) : 0) : 0);">
+
+  <!ENTITY % CheckRelative SYSTEM "..\Include\CheckRelative.ent">
+  %CheckRelative;
+  <!ENTITY CheckRelativeParameter "'hrRMPeriodInfoInputRcrtGrid', 'Grid', 'hrRMPeriodInfoInput'">
+  <!ENTITY CheckRelativeQuery "
+    select top 0 @@fieldExternal from hrrmycct a, hrrmyc b, hrvt c, hrbp d
+    return
+">
+]>
+
+<grid table="hrrmycct" code="stt_rec" order="stt_rec, line_nbr" type="Detail" freezeColumns="3" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <partition table="hrrmycct" prime="hrrmycct" inquiry="hrirmyc" field="ngay_ct" expression="''" increase="{0}" default=""/>
+
+  <fields>
+    <field name="ma_vtr" allowNulls="false" width="100" readOnly="true" aliasName="a">
+      <header v="Mã vị trí" e="Position Code"></header>
+      <items style="AutoComplete" controller="hrPosition" reference="ten_vtr%l" key="status = '1'" check="1=1" information="ma_vtr$hrvt.ten_vtr%l"/>
+    </field>
+    <field name="ten_vtr%l" external="true" defaultValue="''" width="150" readOnly="true" aliasName="c">
+      <header v="Tên vị trí công việc" e="Position Name"></header>
+    </field>
+    <field name="chon" type="Boolean" external="true" allowContain="true" defaultValue="0" width="60">
+      &XMLFlowGridTagHeader;
+      <items style="CheckBox"/>
+      <clientScript><![CDATA[onclick="onClick$]]>&Identity;<![CDATA[$Calculate(this);"]]></clientScript>
+    </field>
+    <field name="so_luong0" type="Decimal" dataFormatString="### ##0" external="true" defaultValue="0" allowContain="true" width="80">
+      <header v="Số lượng" e="Quantity"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="so_luong" type="Decimal" dataFormatString="### ##0" readOnly="true" width="80" aliasName="a">
+      <header v="Số lượng yêu cầu" e="Request Quantity"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="sl_dot" type="Decimal" dataFormatString="### ##0" hidden="true" inactivate="true" width="0" readOnly="true" aliasName="a">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ky_nang_yc" width="300" readOnly="true" aliasName="a">
+      <header v="Kỹ năng yêu cầu" e="Required Skills"></header>
+    </field>
+    <field name="ngay_tu" type="DateTime" dataFormatString="@datetimeFormat" align="left" width="100" allowNulls="false" readOnly="true" aliasName="a">
+      <header v="Yêu cầu từ ngày" e="Date from"></header>
+    </field>
+    <field name="ngay_den" type="DateTime" dataFormatString="@datetimeFormat" align="left" width="100" allowNulls="false" readOnly="true" aliasName="a">
+      <header v="Đến ngày" e="Date to"></header>
+    </field>
+    <field name="ghi_chu" width="300" readOnly="true" aliasName="a">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" width="0" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_bp" readOnly="true" width="0" hidden="true" aliasName="b">
+      <header v="" e=""></header>
+    </field>
+    <field name="so_ct" readOnly="true" width="0" hidden="true" aliasName="b">
+      <header v="" e=""></header>
+    </field>
+    <field name="ten_bp%l" external="true" defaultValue="''" width="0" readOnly="true" hidden="true" aliasName="d">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_vtr"/>
+      <field name="ten_vtr%l"/>
+      <field name="chon"/>
+      <field name="so_luong0"/>
+      <field name="so_luong"/>
+      <field name="sl_dot"/>
+      <field name="ky_nang_yc"/>
+      <field name="ngay_tu"/>
+      <field name="ngay_den"/>
+      <field name="ghi_chu"/>
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+      <field name="ma_bp"/>
+      <field name="ten_bp%l"/>
+      <field name="so_ct"/>
+    </view>
+  </views>
+
+  <commands>
+    &XMLFlowGridCommand;
+  </commands>
+
+  <script>
+    <text>
+      &ScriptFlowGridFunction;
+      &ScriptFlowGridSelect;
+      <![CDATA[
+function onClick$]]>&Identity;<![CDATA[$Calculate(o) {
+  var g = o.grid, a = o.id.split('_inputCell_'), r = a[1].split('.')[0];
+  if (!g) g = $find(a[0]);
+  var q = 0;
+  if (o.checked) q = g._getItemValue(r, g._getColumnOrder('so_luong')) - g._getItemValue(r, g._getColumnOrder('sl_dot'));
+  if (q < 0) q = 0;
+  g._setItemValue(r, g._getColumnOrder('so_luong0'), q);
+}
+]]>
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        &CheckRelativeProcess;
+        <![CDATA[
+select @@fieldExternal from @@prime$partition$current a left join hrrmyc b on a.stt_rec = b.stt_rec left join hrvt c on a.ma_vtr = c.ma_vtr left join hrbp d on b.ma_bp = d.ma_bp where a.stt_rec = @stt_rec order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <toolbar>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+</grid>

@@ -1,0 +1,30 @@
+<field name="ma_kh" column="A" isPrimaryKey="true" allowNulls="false" upperCase="true" updateValue="None"/>
+<field name="ten_kh" column="B" allowNulls="false"/>
+<field name="ten_kh2" column="C"/>
+<field name="dia_chi" column="D"/>
+<field name="ma_so_thue" column="E" upperCase="true" check="&EIImportCheckTax;"/>
+<field name="tk" column="F" check="tk &lt;&gt; '' and tk not in (select tk from dmtk where loai_tk = 1)"/>
+<field name="ma_tt" column="G" check="ma_tt &lt;&gt; '' and ma_tt not in (select ma_tt from dmtt)"/>
+<field name="nh_kh1" column="H" check="nh_kh1 &lt;&gt; '' and nh_kh1 not in (select ma_nh from dmnhkh where loai_nh = 1)"/>
+<field name="nh_kh2" column="I" check="nh_kh2 &lt;&gt; '' and nh_kh2 not in (select ma_nh from dmnhkh where loai_nh = 2)"/>
+<field name="nh_kh3" column="J" check="nh_kh3 &lt;&gt; '' and nh_kh3 not in (select ma_nh from dmnhkh where loai_nh = 3)"/>
+<field name="dien_thoai" column="K"/>
+<field name="fax" column="L"/>
+<field name="e_mail" column="M" check="&EIImportCheckEmail;"/>
+<field name="home_page" column="N"/>
+<field name="tk_nh" column="O" upperCase="true"/>
+<field name="ngan_hang" column="P"/>
+<field name="tinh_thanh" column="Q"/>
+<field name="doi_tac" column="R"/>
+<field name="ghi_chu" column="S" maxLength="256"/>
+
+<field name="kh_yn" column="None" type="Boolean" insertValue="'1'" updateValue="None"/>
+<field name="cc_yn" column="None" type="Boolean" insertValue="'1'" updateValue="None"/>
+<field name="nv_yn" column="None" type="Boolean" insertValue="'1'" updateValue="None"/>
+
+<field name="status" column="None" insertValue="'1'" updateValue="None"/>
+<field name="datetime0" column="None" type="DateTime" insertValue="getdate()" updateValue="None"/>
+<field name="datetime2" column="None" type="DateTime" insertValue="getdate()" updateValue="getdate()"/>
+<field name="user_id0" column="None" type="Int" insertValue="@@userID" updateValue="None"/>
+<field name="user_id2" column="None" type="Int" insertValue="@@userID" updateValue="@@userID"/>
+

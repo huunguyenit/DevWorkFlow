@@ -1,0 +1,421 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY Identity "ReplacementInvoiceRegistration">
+]>
+
+<dir table="hddt01" code="stt_rec0, stt_rec1" order="ngay_ct0, so_ct0" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="hóa đơn thay thế" e="Replacement Invoice"></title>
+  <fields>
+    <field name="so_ct0" dataFormatString="@upperCaseFormat" align="right" allowNulls="false">
+      <header v="Số chứng từ" e="Invoice Number"></header>
+      <footer v="&lt;div class=&quot;divOriginal&quot; align=&quot;center&quot; onclick=&quot;showForm$&Identity;(this, '0');&quot;&gt;Chọn...&lt;/div&gt;" e="&lt;div class=&quot;divOriginal&quot; align=&quot;center&quot; onclick=&quot;showForm$&Identity;(this, '0');&quot;&gt;Select...&lt;/div&gt;"/>
+    </field>
+    <field name="ngay_ct0" type="DateTime" dataFormatString="@datetimeFormat" align="left">
+      <header v="Ngày chứng từ" e="Invoice Date"></header>
+    </field>
+    <field name="ma_kh0" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="AutoComplete" controller="Customer" reference="ten_kh0%l" key="status = '1'" check="1 = 1" information="ma_kh$dmkh.ten_kh%l"/>
+    </field>
+    <field name="ten_kh0%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="t_tt_nt0" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ma_nt0" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="so_ct1" dataFormatString="@upperCaseFormat" align="right" allowNulls="false">
+      <header v="Số thay thế" e="Replacement Number"></header>
+      <footer v="&lt;div class=&quot;divOriginal&quot; align=&quot;center&quot; onclick=&quot;showForm$&Identity;(this, '1');&quot;&gt;Chọn...&lt;/div&gt;" e="&lt;div class=&quot;divOriginal&quot; align=&quot;center&quot; onclick=&quot;showForm$&Identity;(this, '1');&quot;&gt;Select...&lt;/div&gt;"/>
+    </field>
+    <field name="ngay_ct1" type="DateTime" dataFormatString="@datetimeFormat" align="left">
+      <header v="Ngày thay thế" e="Replacement Date"></header>
+    </field>
+    <field name="ma_kh1" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="AutoComplete" controller="Customer" reference="ten_kh1%l" key="status = '1'" check="1 = 1" information="ma_kh$dmkh.ten_kh%l"/>
+    </field>
+    <field name="ten_kh1%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="t_tt_nt1" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ma_nt1" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_dvcs" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_ct" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec1" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="cn_qui_trinh" type="Boolean">
+      <header v="Cập nhật qui trình" e="Update Reference Voucher"/>
+      <items style="CheckBox"/>
+    </field>
+
+    <field name="hddt01ct" external="true" clientDefault="0" defaultValue="0" rows="220" filterSource="Tidy" categoryIndex="2">
+      <header v="" e=""></header>
+      <label v="Chi tiết cập nhật qui trình" e="Detail"></label>
+      <items style="Grid" controller="ReplacementInvoiceRegistrationDetail" row="1">
+        <item value="ForeignKey">
+          <text v ="String: stt_rec0, stt_rec0" e="String: stt_rec0, stt_rec0"></text>
+        </item>
+      </items>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="280">
+      <item value="120, 30, 70, 100, 230, 0, 0, 0, 0"/>
+      <item value="1101-11: [so_ct0].Label, [so_ct0], [so_ct0].Description, [stt_rec0], [ma_dvcs]"/>
+      <item value="110--1111: [ngay_ct0].Label, [ngay_ct0], [ma_kh0], [ten_kh0%l], [t_tt_nt0], [ma_nt0]"/>
+      <item value="1101-11: [so_ct1].Label, [so_ct1], [so_ct1].Description, [stt_rec1], [ma_ct]"/>
+      <item value="110--1111: [ngay_ct1].Label, [ngay_ct1], [ma_kh1], [ten_kh1%l], [t_tt_nt1], [ma_nt1]"/>
+      <item value="11: [cn_qui_trinh].Label, [cn_qui_trinh]"/>
+
+      <item value="1: [hddt01ct]"/>
+
+      <categories>
+        <category index="2" columns="566" anchor="1">
+          <header v="Chi tiết cập nhật qui trình" e="Detail"/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+select 'show$]]>&Identity;<![CDATA[$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$]]>&Identity;<![CDATA[$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+select 'scatter$]]>&Identity;<![CDATA[$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$]]>&Identity;<![CDATA[$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$invoiceExists nvarchar(512), @$replacementExists nvarchar(512), @$invoiceUpdateConflict nvarchar(512), @$replacementUpdateConflict nvarchar(512), @$invoiceDeleteConflict nvarchar(512), @$replacementDeleteConflict nvarchar(512), @$recordHasBeenChanged nvarchar(512)
+declare @$paymentConflict nvarchar(512), @$existFlowConflict nvarchar(512), @$flowConflictType nvarchar(512)
+select @$invoiceExists = case when @@language = 'v' then N'Hóa đơn gốc đã có hoặc không hợp lệ.' else N'The original invoice is invalid or already exists.' end
+select @$replacementExists = case when @@language = 'v' then N'Hóa đơn thay thế đã có hoặc không hợp lệ.' else N'The replacement invoice is invalid or already exists.' end
+select @$invoiceUpdateConflict = case when @@language = 'v' then N'Hóa đơn gốc đã phát sinh, không thể sửa được.' else N'Cannot edit the original invoice. It has already been used.' end
+select @$replacementUpdateConflict = case when @@language = 'v' then N'Hóa đơn thay thế đã phát sinh, không thể sửa được.' else N'Cannot edit the replacement invoice. It has already been used.' end
+select @$invoiceDeleteConflict = case when @@language = 'v' then N'Hóa đơn gốc đã phát sinh, không thể xóa được.' else N'Cannot delete the original invoice. It has already been used.' end
+select @$replacementDeleteConflict = case when @@language = 'v' then N'Hóa đơn thay thế đã phát sinh, không thể xóa được.' else N'Cannot delete the replacement invoice. It has already been used.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Hóa đơn thay thế đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The replacement invoice has been modified or deleted by another user.' end
+
+select @$paymentConflict = case when @@language = 'v' then N'Đã có chứng từ thanh toán cho hóa đơn gốc, không thể thay thế được.' else N'The original invoice has been paid.' end
+select @$existFlowConflict = case when @@language = 'v' then N'Hóa đơn thay thế đã có qui trình, không cập nhật qui trình được.' else N'The replacement invoice has already retrieved data from a previous process.' end
+select @$flowConflictType = case when @@language = 'v' then N'Giao dịch của hóa đơn thay thế khác với hóa đơn gốc, không cập nhật qui trình được.' else N'The replacement invoice has transaction code does not match with the one in the original invoice.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where stt_rec0 = @stt_rec0) begin
+  select 'so_ct0' as field, @$invoiceExists as message
+  return
+end
+if exists(select 1 from @@table where stt_rec1 = @stt_rec1) begin
+  select 'so_ct1' as field, @$replacementExists as message
+  return
+end
+
+if @ma_ct = 'HDA' and exists(select 1 from cttt20 where stt_rec_tt = @stt_rec0) begin
+  select 'so_ct0' as field, @$paymentConflict as message
+  return
+end
+
+if @ma_ct = 'HDA' and @cn_qui_trinh = 1 begin
+  declare @q nvarchar(4000), @checkStatus bit
+  set @q = 'if exists(select top 1 1 from d81$' + convert(char(6), @ngay_ct1, 112) + ' where stt_rec = @stt_rec1 and (stt_rec_dh <> '''' or stt_rec_px <> '''')) set @checkStatus = 1 else set @checkStatus = 0'
+  exec sp_executesql @q, N'@stt_rec1 char(13), @checkStatus bit out', @stt_rec1, @checkStatus out
+  if @checkStatus = 1 begin
+    select 'cn_qui_trinh' as field, @$existFlowConflict as message
+    return
+  end
+
+  set @q = 'if (select loai_ct from m81$' + convert(char(6), @ngay_ct0, 112) + ' where stt_rec = @stt_rec0) <> (select loai_ct from m81$' + convert(char(6), @ngay_ct1, 112) + ' where stt_rec = @stt_rec1) set @checkStatus = 1 else set @checkStatus = 0'
+  exec sp_executesql @q, N'@stt_rec0 char(13), @stt_rec1 char(13), @checkStatus bit out', @stt_rec0, @stt_rec1, @checkStatus out
+  if @checkStatus = 1 begin
+    select 'cn_qui_trinh' as field, @$flowConflictType as message
+    return
+  end
+end
+
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+update @hddt01ct set stt_rec0 = @stt_rec0
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+insert into hddt01ct select * from @hddt01ct
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select 1 from @@table where stt_rec0 = $stt_rec0.OldValue) begin
+  select 'so_ct0' as field, @$recordHasBeenChanged as message
+  return
+end
+
+declare @q nvarchar(4000), @u0 tinyint, @u1 tinyint, @id0 varchar(32), @id1 varchar(32)
+if @stt_rec0 <> $stt_rec0.OldValue or @stt_rec1 <> $stt_rec1.OldValue begin
+  if @stt_rec0 <> $stt_rec0.OldValue and exists(select 1 from @@table where stt_rec0 = @stt_rec0 and stt_rec0 <> $stt_rec0.OldValue) begin
+    select 'so_ct0' as field, @$invoiceExists as message
+    return
+  end
+  if @stt_rec1 <> $stt_rec1.OldValue and exists(select 1 from @@table where stt_rec1 = @stt_rec1 and stt_rec1 <> $stt_rec1.OldValue) begin
+    select 'so_ct1' as field, @$replacementExists as message
+    return
+  end
+
+  select @u0 = 1, @u1 = 1, @id0 = $stt_rec0.OldValue, @id1= $stt_rec1.OldValue
+  select @q = 'if exists(select 1 from hddt00$' + convert(varchar(6), @ngay_ct0, 112) + ' where stt_rec = ''' + replace(@id0, '''', '') + ''' and tinh_trang_hddt = ''4'') select @u0Out = 0'
+  exec sp_executesql @q, N'@u0Out tinyint output', @u0Out = @u0 output
+  if @u0 = 0 begin
+    select 'so_ct0' as field, @$invoiceUpdateConflict as message
+    return
+  end
+
+  select @q = 'if exists(select 1 from hddt00$' + convert(varchar(6), @ngay_ct1, 112) + ' where stt_rec = ''' + replace(@id1, '''', '') + ''' and tinh_trang_hddt = ''2'') select @u1Out = 0'
+  exec sp_executesql @q, N'@u1Out tinyint output', @u1Out = @u1 output
+  if @u1 = 0 begin
+    select 'so_ct1' as field, @$replacementUpdateConflict as message
+    return
+  end
+
+  -- Check Payment of Original Voucher
+  if @ma_ct in('HD2', 'HD4', 'HD6') begin
+    if exists(select 1 from cttt20 where loai_tt = 1 and left(stt_rec, 10) = left(@stt_rec0, 10)) begin
+      select 'so_ct0' as field, @$paymentConflict as message
+      return
+    end
+  end
+  if @ma_ct in('PXC', 'PXD') begin
+    if exists(select 1 from cttt30 where loai_tt = 1 and left(stt_rec, 10) = left(@stt_rec0, 10)) begin
+      select 'so_ct0' as field, @$paymentConflict as message
+      return
+    end
+  end
+  if exists(select 1 from cttt20 where stt_rec_tt = @stt_rec0) begin
+	  select 'so_ct0' as field, @$paymentConflict as message
+	  return
+  end
+
+end
+
+if @ma_ct = 'HDA' begin
+  if @stt_rec0 = $stt_rec0.OldValue and @stt_rec1 = $stt_rec1.OldValue begin
+    select @u0 = 1, @u1 = 1, @id0 = $stt_rec0.OldValue, @id1= $stt_rec1.OldValue
+    select @q = 'if exists(select 1 from hddt00$' + convert(varchar(6), @ngay_ct0, 112) + ' where stt_rec = ''' + replace(@id0, '''', '') + ''' and tinh_trang_hddt = ''4'') select @u0Out = 0'
+    exec sp_executesql @q, N'@u0Out tinyint output', @u0Out = @u0 output
+    if @u0 = 0 begin
+      select 'so_ct0' as field, @$invoiceUpdateConflict as message
+      return
+    end
+  end
+
+  if @cn_qui_trinh = 1 begin
+    declare @checkStatus bit
+    set @q = 'if exists(select top 1 1 from d81$' + convert(char(6), @ngay_ct1, 112) + ' where stt_rec = @stt_rec1 and (stt_rec_dh <> '''' or stt_rec_px <> '''')) set @checkStatus = 1 else set @checkStatus = 0'
+    exec sp_executesql @q, N'@stt_rec1 char(13), @checkStatus bit out', @stt_rec1, @checkStatus out
+    if @checkStatus = 1 begin
+      select 'cn_qui_trinh' as field, @$existFlowConflict as message
+      return
+    end
+
+    set @q = 'if (select loai_ct from m81$' + convert(char(6), @ngay_ct0, 112) + ' where stt_rec = @stt_rec0) <> (select loai_ct from m81$' + convert(char(6), @ngay_ct1, 112) + ' where stt_rec = @stt_rec1) set @checkStatus = 1 else set @checkStatus = 0'
+    exec sp_executesql @q, N'@stt_rec0 char(13), @stt_rec1 char(13), @checkStatus bit out', @stt_rec0, @stt_rec1, @checkStatus out
+    if @checkStatus = 1 begin
+      select 'cn_qui_trinh' as field, @$flowConflictType as message
+      return
+    end
+  end
+end
+
+
+if @stt_rec0 <> $stt_rec0.OldValue begin
+  if $hddt01ct.NewValue = $hddt01ct.OldValue update hddt01ct set stt_rec0 = @stt_rec0 where stt_rec0 = $stt_rec0.OldValue
+end
+update @hddt01ct set stt_rec0 = @stt_rec0
+if $hddt01ct.NewValue <> $hddt01ct.OldValue delete hddt01ct where stt_rec0 = $stt_rec0.OldValue
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+if $hddt01ct.NewValue <> $hddt01ct.OldValue insert into hddt01ct select * from @hddt01ct
+update hddt01 set stt_rec0 = @stt_rec0, ma_nt0 = @ma_nt0, ma_kh0 = @ma_kh0, t_tt_nt0 = @t_tt_nt0, stt_rec1 = @stt_rec1, ma_nt1 = @ma_nt1, ma_kh1 = @ma_kh1, t_tt_nt1 = @t_tt_nt1, datetime2 = getdate(), user_id2 = @@userID where stt_rec0 = $stt_rec0.OldValue and stt_rec1 = $stt_rec1.OldValue
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+declare @q nvarchar(4000), @u0 tinyint, @u1 tinyint, @ngay_ct0 smalldatetime, @ngay_ct1 smalldatetime
+select @u0 = 1, @u1 = 1, @ngay_ct0 = ngay_ct0, @ngay_ct1 = ngay_ct1 from hddt01 where stt_rec0 = @stt_rec0 and stt_rec1 = @stt_rec1
+
+select @q = 'if exists(select 1 from hddt00$' + convert(varchar(6), @ngay_ct0, 112) + ' where stt_rec = ''' + replace(@stt_rec0, '''', '') + ''' and tinh_trang_hddt = ''4'') select @u0Out = 0'
+exec sp_executesql @q, N'@u0Out tinyint output', @u0Out = @u0 output
+if @u0 = 0 begin
+  select 'so_ct0' as field, @$invoiceDeleteConflict as message
+  return
+end
+
+select @q = 'if exists(select 1 from hddt00$' + convert(varchar(6), @ngay_ct1, 112) + ' where stt_rec = ''' + replace(@stt_rec1, '''', '') + ''' and tinh_trang_hddt = ''2'') select @u1Out = 0'
+exec sp_executesql @q, N'@u1Out tinyint output', @u1Out = @u1 output
+if @u1 = 0 begin
+  select 'so_ct1' as field, @$replacementDeleteConflict as message
+  return
+end
+delete hddt01ct where stt_rec0 = @stt_rec0
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[/* <flatten type="Javascript"> */
+var f = this, id = f.get_id(), g = f.grid, v = f._language == 'v';
+var e = (v ? 'Hóa đơn gốc phải khác với hóa đơn thay thế.' : 'Original Invoice should have different Replacement Invoice.');
+if (f.getItemValue('stt_rec0') == f.getItemValue('stt_rec1')) {
+  $func.hideWait(id);
+  $message.show(e, String.format('$find(\'{0}\').getItem(\'so_ct0\').focus()', id));
+  f._checked = false;
+}
+
+var g2 = f.getItem('hddt01ct')._controlBehavior;
+if (f._checked && g2._rowCount > 1)
+  var gID = g2.get_id(), t = g2._getColumnOrder('line_nbr0');
+  e = (v ? 'Tồn tại dòng trên chứng từ gốc trùng nhau.' : 'The original invoice\'s line already existed.');
+  for (var i = 1; i < g2._rowCount; i++) {
+    if (!f._checked) break;
+    for (var j = i + 1; j <= g2._rowCount; j++) {
+      var d1 = g2._getItemValue(i, t).valueOf(), d2 = g2._getItemValue(j, t).valueOf();
+      if (d1 == d2) {
+        g2._errorWarningObject = g2._getItem(j, t);
+        $func.hideWait(id);
+        $message.show(e, String.format('$find(\'{0}\').focus(\'{1}\');$find(\'{2}\')._errorWarningObject.focus()', id, 'hddt01ct', gID));
+        f._checked = false;
+        break;
+      }
+    }
+  }
+}
+/* </flatten> */]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function show$]]>&Identity;<![CDATA[$(f) {
+  var g = f.grid;
+  if (g._$voucherCode != 'HDA') {
+    setItemHidden(f, 'cn_qui_trinh', true);
+    var t = $find(f._tabContainer.get_id());
+    if (t) {
+      var b = t._element.parentElement.getElementsByClassName('TabDlgBottom');
+      t._element.style.display = 'none';
+      if (b) b[0].style.display = 'none';
+    }
+  }
+}
+function active$]]>&Identity;<![CDATA[$(f) {set$]]>&Identity;<![CDATA[$DefaultValue(f);}
+function scatter$]]>&Identity;<![CDATA[$(f) {set$]]>&Identity;<![CDATA[$DefaultValue(f);}
+function close$]]>&Identity;<![CDATA[$(f) {}
+function showForm$]]>&Identity;<![CDATA[(o, n) {
+  var f = document.body._form, g = f.grid;
+  if (f._action != 'View') {
+    g._$typeInv = n;
+    g.showForm(']]>&Identity;<![CDATA[Filter');
+  }
+}
+
+function set$]]>&Identity;<![CDATA[$DefaultValue(f) {
+  var g = f.grid;
+  f.setReadOnlyFields('so_ct0, ngay_ct0, so_ct1, ngay_ct1');
+  if (f._action == 'New') f.setItemValues('ma_dvcs, ma_ct', [g._$unit, g._$voucherCode]);
+  document.body._form = f;
+}
+/* <flatten type="Javascript"> */
+function setItemHidden(f, c, b) {
+  var a = c.split(','), o;
+  for (var i = 0; i < a.length; i++) {
+    if ($func.trim(a[i]) != '') {
+      o = f.getItem($func.trim(a[i]));
+      if (b) o.field.AllowNulls = b;
+      $common.setVisible(o.parentNode.parentNode.parentNode, !b);
+    }
+  }
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <css>
+    <text>
+      <![CDATA[
+.divOriginal:hover{text-decoration:underline}
+.divOriginal{cursor:pointer;position:relative;width:64px!important;height:22px!important;overflow:hidden;color:#3171c6;font-family:verdana;font-size:11px;}
+.Column_stt_rec{visibility:hidden;display:none;}
+]]>
+    </text>
+  </css>
+</dir>

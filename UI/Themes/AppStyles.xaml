@@ -1,0 +1,490 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         IDE Theme – Light (Visual Studio / WPF Designer style)
+    ═══════════════════════════════════════════════════════════════════ -->
+
+    <!-- ── Palette ────────────────────────────────────────────────── -->
+    <Color x:Key="PrimaryColor">#0078D4</Color>
+    <Color x:Key="PrimaryLightColor">#2B88D8</Color>
+    <Color x:Key="PrimaryDarkColor">#005A9E</Color>
+    <Color x:Key="AccentColor">#0078D4</Color>
+    <Color x:Key="SuccessColor">#107C10</Color>
+    <Color x:Key="WarningColor">#9A6700</Color>
+    <Color x:Key="ErrorColor">#C50F1F</Color>
+
+    <!-- Surfaces – light -->
+    <Color x:Key="TitleBarColor">#F3F3F3</Color>
+    <Color x:Key="SidebarBgColor">#F8F8F8</Color>
+    <Color x:Key="SidebarHoverColor">#E8E8E8</Color>
+    <Color x:Key="SidebarSelectedColor">#CCE8FF</Color>
+    <Color x:Key="WorkspaceBgColor">#FFFFFF</Color>
+    <Color x:Key="CardBgColor">#FFFFFF</Color>
+    <Color x:Key="EditorBgColor">#FAFAFA</Color>
+    <Color x:Key="BorderColor">#CCCEDB</Color>
+    <Color x:Key="FgColor">#1E1E1E</Color>
+    <Color x:Key="FgMutedColor">#6B6B6B</Color>
+    <Color x:Key="FgBrightColor">#000000</Color>
+    <Color x:Key="StatusBarColor">#007ACC</Color>
+    <Color x:Key="BadgeFileColor">#388A34</Color>
+    <Color x:Key="BadgeEncryptedColor">#9A6700</Color>
+    <Color x:Key="DesignSurfaceColor">#F5F5F5</Color>
+    <Color x:Key="CodePaneHeaderColor">#EEEEF2</Color>
+
+    <SolidColorBrush x:Key="PrimaryBrush"        Color="{StaticResource PrimaryColor}"/>
+    <SolidColorBrush x:Key="PrimaryLightBrush"   Color="{StaticResource PrimaryLightColor}"/>
+    <SolidColorBrush x:Key="PrimaryDarkBrush"    Color="{StaticResource PrimaryDarkColor}"/>
+    <SolidColorBrush x:Key="AccentBrush"         Color="{StaticResource AccentColor}"/>
+    <SolidColorBrush x:Key="SuccessBrush"        Color="{StaticResource SuccessColor}"/>
+    <SolidColorBrush x:Key="WarningBrush"        Color="{StaticResource WarningColor}"/>
+    <SolidColorBrush x:Key="ErrorBrush"          Color="{StaticResource ErrorColor}"/>
+    <SolidColorBrush x:Key="TitleBarBrush"       Color="{StaticResource TitleBarColor}"/>
+    <SolidColorBrush x:Key="SidebarBgBrush"      Color="{StaticResource SidebarBgColor}"/>
+    <SolidColorBrush x:Key="SidebarHoverBrush"   Color="{StaticResource SidebarHoverColor}"/>
+    <SolidColorBrush x:Key="SidebarSelectedBrush" Color="{StaticResource SidebarSelectedColor}"/>
+    <SolidColorBrush x:Key="WorkspaceBgBrush"    Color="{StaticResource WorkspaceBgColor}"/>
+    <SolidColorBrush x:Key="CardBgBrush"         Color="{StaticResource CardBgColor}"/>
+    <SolidColorBrush x:Key="EditorBgBrush"       Color="{StaticResource EditorBgColor}"/>
+    <SolidColorBrush x:Key="IdeBorderBrush"      Color="{StaticResource BorderColor}"/>
+    <SolidColorBrush x:Key="FgBrush"             Color="{StaticResource FgColor}"/>
+    <SolidColorBrush x:Key="FgMutedBrush"        Color="{StaticResource FgMutedColor}"/>
+    <SolidColorBrush x:Key="FgBrightBrush"       Color="{StaticResource FgBrightColor}"/>
+    <SolidColorBrush x:Key="StatusBarBrush"      Color="{StaticResource StatusBarColor}"/>
+    <SolidColorBrush x:Key="BadgeFileBrush"      Color="{StaticResource BadgeFileColor}"/>
+    <SolidColorBrush x:Key="BadgeEncryptedBrush" Color="{StaticResource BadgeEncryptedColor}"/>
+    <SolidColorBrush x:Key="DesignSurfaceBrush"  Color="{StaticResource DesignSurfaceColor}"/>
+    <SolidColorBrush x:Key="CodePaneHeaderBrush" Color="{StaticResource CodePaneHeaderColor}"/>
+
+    <!-- Alias cũ – tránh đụng SystemColors.BorderBrush -->
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}"/>
+
+    <!-- ── Typography (IDE-like) ──────────────────────────────────── -->
+    <FontFamily x:Key="AppFont">Segoe UI, Cascadia Code, Consolas</FontFamily>
+    <FontFamily x:Key="MonoFont">Cascadia Code, Consolas, Courier New</FontFamily>
+    <sys:Double x:Key="FontSizeSmall">12</sys:Double>
+    <sys:Double x:Key="FontSizeNormal">13</sys:Double>
+    <sys:Double x:Key="FontSizeMedium">14</sys:Double>
+    <sys:Double x:Key="FontSizeLarge">16</sys:Double>
+    <sys:Double x:Key="FontSizeTitle">18</sys:Double>
+    <sys:Double x:Key="TreeFontSize">12</sys:Double>
+
+    <Thickness x:Key="CardPadding">16</Thickness>
+    <Thickness x:Key="SectionMargin">0,0,0,16</Thickness>
+    <CornerRadius x:Key="CardCorner">4</CornerRadius>
+    <sys:Double x:Key="SidebarWidth">300</sys:Double>
+    <sys:Double x:Key="SidebarCollapsedWidth">48</sys:Double>
+    <sys:Double x:Key="TopBarHeight">36</sys:Double>
+    <sys:Double x:Key="StatusBarHeight">24</sys:Double>
+
+    <!-- ── Title bar window buttons (Hide / Close) ────────────────── -->
+    <Style x:Key="WindowChromeButtonStyle" TargetType="Button">
+        <Setter Property="Width" Value="46"/>
+        <Setter Property="Height" Value="36"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="#E5E5E5"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="#D0D0D0"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="WindowCloseButtonStyle" TargetType="Button" BasedOn="{StaticResource WindowChromeButtonStyle}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="#E81123"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="#F1707A"/>
+                            <Setter Property="Foreground" Value="White"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ── Sidebar flat button ────────────────────────────────────── -->
+    <Style x:Key="SidebarButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Padding" Value="10,7"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                            Padding="{TemplateBinding Padding}" CornerRadius="0">
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource SidebarHoverBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ── Primary action (Chọn Program) ──────────────────────────── -->
+    <Style x:Key="IdePrimaryButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="10,7"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="Bd" Background="{TemplateBinding Background}"
+                            CornerRadius="2" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource PrimaryLightBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Opacity" Value="0.5"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ── IDE TreeView (Explorer-like) ───────────────────────────── -->
+    <Style x:Key="IdeTreeViewStyle" TargetType="TreeView">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
+        <Setter Property="FontSize" Value="{StaticResource TreeFontSize}"/>
+        <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
+        <Setter Property="VirtualizingStackPanel.IsVirtualizing" Value="True"/>
+        <Setter Property="VirtualizingStackPanel.VirtualizationMode" Value="Recycling"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True"/>
+    </Style>
+
+    <!-- Chevron expander giống VS Code (định nghĩa trước ItemStyle) -->
+    <Style x:Key="IdeTreeExpanderStyle" TargetType="ToggleButton">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="Width" Value="16"/>
+        <Setter Property="Height" Value="24"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="Transparent">
+                        <Path x:Name="Arrow"
+                              Data="M 0,0 L 4,4 L 0,8 Z"
+                              Fill="{StaticResource FgMutedBrush}"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              RenderTransformOrigin="0.5,0.5">
+                            <Path.RenderTransform>
+                                <RotateTransform Angle="0"/>
+                            </Path.RenderTransform>
+                        </Path>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="Arrow" Property="RenderTransform">
+                                <Setter.Value>
+                                    <RotateTransform Angle="90"/>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource FgBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Arrow" Property="Fill" Value="{StaticResource FgBrightBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="IdeTreeViewItemStyle" TargetType="TreeViewItem">
+        <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}"/>
+        <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
+        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="FontSize" Value="{StaticResource TreeFontSize}"/>
+        <Setter Property="MinHeight" Value="24"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TreeViewItem">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Border x:Name="Bd"
+                                Grid.Row="0"
+                                Background="{TemplateBinding Background}"
+                                Padding="0"
+                                SnapsToDevicePixels="True"
+                                MinHeight="24">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <ToggleButton x:Name="Expander"
+                                              Grid.Column="0"
+                                              ClickMode="Press"
+                                              IsChecked="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Style="{StaticResource IdeTreeExpanderStyle}"/>
+
+                                <ContentPresenter x:Name="PART_Header"
+                                                  Grid.Column="1"
+                                                  ContentSource="Header"
+                                                  HorizontalAlignment="Stretch"
+                                                  VerticalAlignment="Center"
+                                                  Margin="2,1,8,1"/>
+                            </Grid>
+                        </Border>
+
+                        <ItemsPresenter x:Name="ItemsHost"
+                                        Grid.Row="1"
+                                        Margin="12,0,0,0"
+                                        Visibility="Collapsed"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsExpanded" Value="True">
+                            <Setter TargetName="ItemsHost" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                        <Trigger Property="HasItems" Value="False">
+                            <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource SidebarHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource SidebarSelectedBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FgBrightBrush}"/>
+                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True"/>
+                                <Condition Property="IsSelectionActive" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background" Value="#E8E8E8"/>
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Code editor (pane dưới – kiểu VS XAML) -->
+    <Style x:Key="IdeCodeEditorStyle" TargetType="TextBox">
+        <Setter Property="Background" Value="{StaticResource EditorBgBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
+        <Setter Property="CaretBrush" Value="{StaticResource FgBrightBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="FontFamily" Value="{StaticResource MonoFont}"/>
+        <Setter Property="FontSize" Value="13"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
+        <Setter Property="AcceptsTab" Value="True"/>
+        <Setter Property="TextWrapping" Value="NoWrap"/>
+        <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}">
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- ── Card / Page ────────────────────────────────────────────── -->
+    <Style x:Key="CardStyle" TargetType="md:Card">
+        <Setter Property="Padding" Value="{StaticResource CardPadding}"/>
+        <Setter Property="Margin" Value="8"/>
+        <Setter Property="Background" Value="{StaticResource CardBgBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
+        <Setter Property="UniformCornerRadius" Value="4"/>
+        <Setter Property="md:ElevationAssist.Elevation" Value="Dp0"/>
+        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <Style x:Key="PageTitleStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeTitle}"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{StaticResource FgBrightBrush}"/>
+        <Setter Property="Margin" Value="0,0,0,10"/>
+    </Style>
+
+    <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeMedium}"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="Margin" Value="{StaticResource SectionMargin}"/>
+        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
+    </Style>
+
+    <Style x:Key="NavItemStyle" TargetType="ListBoxItem">
+        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
+        <Setter Property="Padding" Value="12,8"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border x:Name="Bd" Background="Transparent" Padding="{TemplateBinding Padding}">
+                        <ContentPresenter/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource SidebarHoverBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="Bd" Property="Background" Value="{StaticResource SidebarSelectedBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="NavGroupHeaderStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource FgMutedBrush}"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Margin" Value="12,12,12,4"/>
+    </Style>
+
+    <Style x:Key="TopBarStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource TitleBarBrush}"/>
+        <Setter Property="Height" Value="{StaticResource TopBarHeight}"/>
+        <Setter Property="Padding" Value="0"/>
+    </Style>
+
+    <Style x:Key="StatusBarStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource StatusBarBrush}"/>
+        <Setter Property="Height" Value="{StaticResource StatusBarHeight}"/>
+        <Setter Property="Padding" Value="10,0"/>
+    </Style>
+
+    <Style x:Key="IconButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignIconButton}">
+        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Width" Value="36"/>
+        <Setter Property="Height" Value="36"/>
+    </Style>
+
+    <Style x:Key="ActionButtonStyle" TargetType="Button" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+        <Setter Property="Margin" Value="4,0"/>
+        <Setter Property="Height" Value="30"/>
+        <Setter Property="Padding" Value="12,0"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
+        <Setter Property="Background" Value="{StaticResource PrimaryBrush}"/>
+        <Setter Property="Foreground" Value="White"/>
+    </Style>
+
+    <Style x:Key="DataGridRowStyle" TargetType="DataGridRow" BasedOn="{StaticResource MaterialDesignDataGridRow}">
+        <Setter Property="Height" Value="32"/>
+    </Style>
+
+    <Style x:Key="WorkflowNodeStyle" TargetType="Border">
+        <Setter Property="CornerRadius" Value="4"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+        <Setter Property="Background" Value="{StaticResource CardBgBrush}"/>
+        <Setter Property="Padding" Value="8,4"/>
+        <Setter Property="Cursor" Value="SizeAll"/>
+    </Style>
+
+    <Style x:Key="FieldLabelStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}"/>
+        <Setter Property="Foreground" Value="{StaticResource FgMutedBrush}"/>
+        <Setter Property="Margin" Value="0,0,0,2"/>
+    </Style>
+
+    <Style x:Key="ChipRunningStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource SuccessBrush}"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Padding" Value="8,2"/>
+    </Style>
+
+    <Style x:Key="ChipWarningStyle" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource WarningBrush}"/>
+        <Setter Property="CornerRadius" Value="10"/>
+        <Setter Property="Padding" Value="8,2"/>
+    </Style>
+
+    <Style x:Key="StatCardStyle" TargetType="md:Card" BasedOn="{StaticResource CardStyle}">
+        <Setter Property="Margin" Value="8"/>
+        <Setter Property="MinWidth" Value="140"/>
+    </Style>
+
+    <!-- Filter / search box trong sidebar -->
+    <Style x:Key="IdeSearchBoxStyle" TargetType="TextBox">
+        <Setter Property="Background" Value="White"/>
+        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
+        <Setter Property="CaretBrush" Value="{StaticResource FgBrightBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource IdeBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="8,5"/>
+        <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TextBox">
+                    <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="2"
+                            Padding="{TemplateBinding Padding}">
+                        <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

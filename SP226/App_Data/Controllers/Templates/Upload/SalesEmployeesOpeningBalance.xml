@@ -1,0 +1,71 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+  <!ENTITY And "&#13;">
+  <!ENTITY Checking "@@checking">
+  <!ENTITY Inserting "@@inserting">
+  <!ENTITY Updating "@@updating">
+]>
+
+<import xmlns="urn:schemas-fast-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$SalesEmployeesOpeningBalanceImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$SalesEmployeesOpeningBalanceImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+    <baseTable value="cdnvbh"/>
+    <table value="cdnvbh" alias="a"/>
+    <temporary value="#k" alias="b"/>
+  </setting>
+
+  <fields identity="true" name="stt">
+    <field name="ma_dvcs" column="A" isPrimaryKey="true" allowNulls="false" upperCase="true" updateValue="None" check="ma_dvcs not in (select ma_dvcs from dmdvcs where status = '1')&And;ma_dvcs in (select distinct ma_dvcs from dmdvcsks where year(ngay_ks) >= @year)&And;not exists(select 1 from cdnvbh b where @@table.ma_dvcs = b.ma_dvcs and @@table.tk = b.tk and @@table.ma_nvbh = b.ma_nvbh and b.nam = @year) and @@table.ma_dvcs not in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_new = 1)&And;exists(select 1 from cdnvbh b where @@table.ma_dvcs = b.ma_dvcs and @@table.tk = b.tk and @@table.ma_nvbh = b.ma_nvbh and b.nam = @year) and @@table.ma_dvcs not in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_edit = 1)" condition="&And;&And;if (@admin &lt;&gt; 1) begin&And;if (@admin &lt;&gt; 1 and @type = '1') begin" tag="&And;&And;end&And;end"/>
+    <field name="tk" column="B" isPrimaryKey="true" allowNulls="false" upperCase="true" check="tk not in (select tk from dmtk where loai_tk = 1)" updateValue="None"/>
+    <field name="ma_nvbh" column="C" isPrimaryKey="true" allowNulls="false" upperCase="true" check="ma_nvbh not in (select ma_nvbh from dmnvbh)" updateValue="None"/>
+    <field name="ma_kh" column="E" isPrimaryKey="true" upperCase="true" check="ma_kh &lt;&gt; '' and ma_kh not in (select ma_kh from dmkh)&And;ma_kh &lt;&gt; '' and tk in (select tk from dmtk where tk_cn = 0)&And;ma_kh = '' and tk in (select tk from dmtk where tk_cn = 1)" updateValue="None"/>
+    <field name="du_no00" column="G" type="Decimal"/>
+    <field name="du_co00" column="H" type="Decimal"/>
+    <field name="du_no_nt00" column="I" type="Decimal"/>
+    <field name="du_co_nt00" column="J" type="Decimal"/>
+
+    <field name="nam" column="None" type="Decimal" insertValue="@year" updateValue="None"/>
+    <field name="datetime0" column="None" type="DateTime" insertValue="getdate()" updateValue="None"/>
+    <field name="datetime2" column="None" type="DateTime" insertValue="getdate()" updateValue="getdate()"/>
+    <field name="user_id0" column="None" type="Int" insertValue="@@userID" updateValue="None"/>
+    <field name="user_id2" column="None" type="Int" insertValue="@@userID" updateValue="@@userID"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+declare @message nvarchar(4000), @q nvarchar(4000), @field varchar(32), @r int, @user int, @admin bit, @unit varchar(32), @year int
+select @admin = @@admin, @user = @@userID, @unit = @@unit, @year = nam_bd from dmstt
+if @admin <> 1 begin
+  if @type = '1' begin
+		if @@sysDatabaseName.dbo.FastBusiness$System$GetAuthorize(@@admin, @@userID, 'SalesEmployeesOpeningBalance', 'Edit') = 0 select @type = 0
+  end
+end
+]]>&Checking;<![CDATA[
+update @@table set du_co_nt00 = 0 where du_no_nt00 <> 0
+update @@table set du_co00 = 0 where du_no00 <> 0
+if @type = '0' delete @@table from @@table a where exists(select 1 from cdnvbh b where a.ma_dvcs = b.ma_dvcs and a.tk = b.tk and a.ma_nvbh = b.ma_nvbh and b.nam = @year and a.ma_kh = b.ma_kh)
+select a.* into #k from @@table a join cdnvbh b on a.ma_dvcs = b.ma_dvcs and a.tk = b.tk and a.ma_nvbh = b.ma_nvbh and a.ma_kh = b.ma_kh where b.nam = @year
+delete @@table from @@table a where exists(select 1 from #k b where a.ma_dvcs = b.ma_dvcs and a.tk = b.tk and a.ma_nvbh = b.ma_nvbh and a.ma_kh = b.ma_kh)
+]]>
+      &Inserting;<![CDATA[
+if @type = '1' begin ]]>&Updating;<![CDATA[ where a.nam = @year end
+]]>
+    </text>
+  </processing>
+
+</import>

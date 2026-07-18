@@ -1,0 +1,127 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLStandardDetailToolbar SYSTEM "..\Include\XML\StandardDetailToolbar.xml">
+]>
+
+<grid table="d01$000000" code="stt_rec" order="stt_rec, line_nbr" type="Detail" freezeColumns="3" id="CN1" uniKey="true" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <partition table="c01$000000" prime="d01$" inquiry="i01$" field="ngay_ct" expression="convert(char(6), {0}, 112)" increase="dateadd(month, 1, {0})" default="000000"/>
+  <fields>
+    <field name="ma_ns" allowNulls="false" width="100" aliasName="a">
+      <header v="Mã nhân viên" e="Employee ID"></header>
+      <items style="AutoComplete" controller="TaxEmployee" reference="ten_ns%l" key="(('{[$ma_dvcs]}' = '' and ma_dvcs = @@unit) or (ma_dvcs = '{[$ma_dvcs]}')) and status = '1'" check="(('{[$ma_dvcs]}' = '' and ma_dvcs = @@unit) or (ma_dvcs = '{[$ma_dvcs]}'))" information="ma_ns$phns.ten_ns%l"/>
+    </field>
+    <field name="ten_ns%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="300" aliasName="b">
+      <header v="Tên nhân viên" e="Employee Name"></header>
+    </field>
+    <field name="tn_ct_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" width="100">
+      <header v="Tiền nt" e="FC Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tn_ct" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" width="100" allowContain="true">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_ns"/>
+      <field name="ten_ns%l"/>
+      <field name="tn_ct_nt"/>
+      <field name="tn_ct"/>
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'this._voucherCode='@@id';load$GridVoucherDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridVoucherDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+/* <flatten type="Javascript"> */
+function load$GridVoucherDetail$(g) {
+  g.add_itemValueChanged(onChange$GridVoucherDetail$);
+  g.add_commandEvent(on$GridVoucherDetail$ExecuteCommand);
+  g.$a = {
+    tn_ct: '[tn_ct]:=[tn_ct_nt]*[$ty_gia]',
+    t_tn_ct_nt: ['t_tn_ct_nt', 'tn_ct_nt'],
+    t_tn_ct: ['t_tn_ct', 'tn_ct']
+  };
+  udf$Detail$(g);
+}
+function dispose$GridVoucherDetail$(g) {
+  g.$a = null;
+  try {g.remove_commandEvent(on$GridVoucherDetail$ExecuteCommand);} catch (ex) {}
+  try {g.remove_itemValueChanged(onChange$GridVoucherDetail$);} catch (ex) {}
+}
+function onChange$GridVoucherDetail$(sender, eventArgs) {
+  var o = eventArgs.get_object(), g = o.grid, f = g.get_element().parentForm, name = o.field.Name;
+  switch (name) {
+    case 'tn_ct_nt':
+      g.validExpression(o, [g.$a.tn_ct], [g.$a.t_tn_ct_nt, g.$a.t_tn_ct]);
+      break;
+    case 'tn_ct':
+      g.executeAggregate([g.$a.t_tn_ct]);
+      break;
+    default:
+      break;
+  }
+}
+function on$GridVoucherDetail$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm;
+  switch (action) {
+    case 'AfterRemoveRow':
+      on$GridVoucherDetail$RowChange(g, f);
+      break;
+    case 'AfterCloneRow':
+      g.setItemFieldValue('stt_rec0', e.type.Value, '');
+      on$GridVoucherDetail$RowChange(g, f);
+      break;
+    default:
+      break;
+  }
+}
+function on$GridVoucherDetail$RowChange(g, f) {g.executeAggregate([g.$a.t_tn_ct_nt, g.$a.t_tn_ct]);}
+/* </flatten> */
+]]>
+    </text>
+  </script>
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from @@prime$partition$current a left join phns b on a.ma_ns = b.ma_ns where a.stt_rec = @stt_rec order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  &XMLStandardDetailToolbar;
+</grid>

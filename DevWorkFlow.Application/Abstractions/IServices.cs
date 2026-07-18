@@ -1,0 +1,70 @@
+using DevWorkFlow.Domain.Models;
+
+namespace DevWorkFlow.Application.Abstractions;
+
+/// <summary>Điều hướng giữa các workspace panel.</summary>
+public interface INavigationService
+{
+    string CurrentPage { get; }
+    event EventHandler<string> PageChanged;
+    void NavigateTo(string page, object? parameter = null);
+    object? CurrentParameter { get; }
+}
+
+/// <summary>Quản lý danh sách template items.</summary>
+public interface ITemplateService
+{
+    Task<IEnumerable<TemplateItem>> GetAllAsync();
+    Task<TemplateItem?> GetByIdAsync(string id);
+    Task<TemplateItem> CreateAsync(string name, TemplateType type);
+    Task DeleteAsync(string id);
+    Task<bool> UpdateAsync(TemplateItem item);
+}
+
+/// <summary>Quản lý FormDefinition (CRUD + parse XML).</summary>
+public interface IFormService
+{
+    Task<FormDefinition?> GetFormAsync(string id);
+    Task<IEnumerable<FormDefinition>> GetAllFormsAsync();
+    Task SaveFormAsync(FormDefinition form);
+    Task DeleteFormAsync(string id);
+}
+
+/// <summary>Đọc connectionStrings từ web.config của Program FBO.</summary>
+public interface IWebConfigReader
+{
+    ProgramContext Read(string program_path);
+}
+
+/// <summary>Đọc bảng wcommand từ database sys.</summary>
+public interface IWcommandRepository
+{
+    Task<IReadOnlyList<WCommandItem>> GetAllAsync(string sys_connection_string);
+}
+
+/// <summary>Dựng cây menu; resolve resource từ file main (aspx) → Controller → XML tồn tại.</summary>
+public interface IMenuService
+{
+    Task<IReadOnlyList<MenuTreeNode>> LoadMenuTreeAsync(ProgramContext program);
+
+    /// <summary>
+    /// Đọc link (.aspx) của menu, parse Controller, liệt kê các file XML/aspx thật sự có trên disk.
+    /// </summary>
+    MenuResourceBundle ResolveFromMenu(ProgramContext program, MenuTreeNode menu_node);
+}
+
+/// <summary>Đọc bảng entity (sys) — danh sách database app (cột cdata).</summary>
+public interface IEntityRepository
+{
+    Task<IReadOnlyList<AppDatabaseInfo>> GetAppDatabasesAsync(string sys_connection_string);
+}
+
+/// <summary>Session Program đang mở trong tool.</summary>
+public interface IProgramSession
+{
+    ProgramContext? Current { get; }
+    event EventHandler? ProgramChanged;
+    void SetProgram(ProgramContext program);
+    void UpdateProgram(ProgramContext program);
+    void Clear();
+}

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="sodmkieuduyet" code="ma_kieu" name="ten_kieu%l" order="ma_kieu" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục kiểu duyệt" e="Approval Category"></header>
+  <fields>
+    <field name="ma_kieu" allowSorting="true" allowFilter="true">
+      <header v="Mã kiểu" e="Approval Category"></header>
+    </field>
+    <field name="ten_kieu%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên kiểu" e = "Description"></header>
+    </field>
+  </fields>
+</lookup>

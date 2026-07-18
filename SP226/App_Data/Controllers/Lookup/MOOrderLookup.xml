@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE lookup [
+  <!ENTITY FilterInitialize SYSTEM "..\Include\FilterInitialize.xml">
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+  <!ENTITY Controller "'SOTran'">
+
+  <!ENTITY % CheckRelative SYSTEM "..\Include\CheckRelative.ent">
+  %CheckRelative;
+  <!ENTITY CheckRelativeParameter "'MOOrderLookup', 'Lookup', 'MOTran'">
+  <!ENTITY CheckRelativeQuery "set @$primeFilter = '1 = 0'">
+]>
+
+<lookup table="m64$000000" code="so_ct" name="stt_rec" order="ngay_ct, so_ct, stt_rec" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Chọn đơn hàng" e="Select Sales Order"></header>
+  <fields>
+    <field name="so_ct" align="right" allowFilter="true">
+      <header v="Số đơn hàng" e="Order No."></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="stt_rec">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy" allowFilter="true">
+      <header v="Ngày" e="Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="status" allowFilter="true">
+      <header v="Trạng thái" e="Status"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="u0%l" aliasName="statusname%l" allowFilter="true">
+      <header v="Tên trạng thái" e="Status Name"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+  </fields>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @unit varchar(128), @status nvarchar(8), @custID nvarchar(64)
+select @custID = '%#15$1#20$' + rtrim(@ma_kh) + '#%', @unit = case when @ma_dvcs = '' then @@unit else @ma_dvcs end
+]]>&FilterInitialize;&CheckRelativeProcess;<![CDATA[
+exec FastBusiness$App$Voucher$Finding 'DXA', 'c64$000000', 'm64$', 'i64$', 'ngay_ct', 'convert(char(6), {0}, 112)', 'dateadd(month, 1, {0})', '000000',
+  @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem,
+  @custID, '', 'stt_rec',
+  'so_ct,stt_rec,ngay_ct,status',
+  'so_ct,stt_rec,ngay_ct,a.status,b.statusname%l u0%l',
+  'a left join dmttct b on a.status = b.status where b.ma_ct = ''DXA''',
+  'ngay_ct, so_ct', 1, @@userID, 1,
+  @ngay_ct1, @ngay_ct2, '', '', '2', '0', @unit, 0, 1, default, default, default, default, default, @$primeJoin, @$primeFilter]]>
+      </text>
+    </query>
+  </queries>
+</lookup>

@@ -1,0 +1,24 @@
+﻿<!ENTITY % Conditional.Unit.Profile "IGNORE">
+
+<![%Conditional.Unit.Profile;[
+  <!ENTITY Conditional.Unit.Profile.Query.Declare "declare @$unit$Profile varchar(32)">
+  <!ENTITY Conditional.Unit.Profile.Query.Select "select @$unit$Profile = ma_dvcs from @@prime$partition$current where stt_rec = @stt_rec">
+  <!ENTITY Conditional.Unit.Profile.Query.Select.Filter "select @$unit$Profile = cast(@$ma_dvcs as varchar(32))">
+  <!ENTITY Conditional.Unit.Profile.Query.Result "select @$unit$Profile as profile">
+
+  
+  <!ENTITY Conditional.Unit.Profile.Value.Declare ", @$unit$Profile varchar(32)">
+  <!ENTITY Conditional.Unit.Profile.Value.Select ", @$unit$Profile = ma_dvcs">
+  <!ENTITY Conditional.Unit.Profile.Value.Select.Filter ", @$unit$Profile = @$ma_dvcs">
+  <!ENTITY Conditional.Unit.Profile.Value.Result ", @$unit$Profile as profile">
+]]>
+
+<!ENTITY Conditional.Unit.Profile.Query.Declare "">
+<!ENTITY Conditional.Unit.Profile.Query.Select "">
+<!ENTITY Conditional.Unit.Profile.Query.Select.Filter "">
+<!ENTITY Conditional.Unit.Profile.Query.Result "">
+
+<!ENTITY Conditional.Unit.Profile.Value.Declare "">
+<!ENTITY Conditional.Unit.Profile.Value.Select "">
+<!ENTITY Conditional.Unit.Profile.Value.Select.Filter "">
+<!ENTITY Conditional.Unit.Profile.Value.Result "">

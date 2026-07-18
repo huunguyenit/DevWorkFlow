@@ -1,0 +1,282 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY % GridInitialize SYSTEM "..\Include\Grid.ent">
+  %GridInitialize;
+
+  <!ENTITY XMLUserDefinedHiddenFields SYSTEM "..\Include\XML\UserDefinedHiddenFields.txt">
+  <!ENTITY XMLUserDefinedHiddenViews SYSTEM "..\Include\XML\UserDefinedHiddenViews.txt">
+  <!ENTITY XMLFlowGridCommand SYSTEM "..\Include\XML\FlowGridCommand.txt">
+  <!ENTITY ScriptFlowGridFunction SYSTEM "..\Include\Javascript\FlowGridFunction.txt">
+  <!ENTITY Identity "PAInvoice">
+
+  <!ENTITY XMLFlowGridTagHeader SYSTEM "..\Include\XML\FlowGridTagHeader.xml">
+  <!ENTITY ScriptFlowGridSelect SYSTEM "..\Include\Javascript\FlowGridSelect.txt">
+  <!ENTITY FlowGridTagField "chon">
+  <!ENTITY FlowGridSetItem "g._setItemValue(r, g._getColumnOrder('so_luong0'), o.checked ? g._getItemValue(r, g._getColumnOrder('so_luong')) : 0);">
+
+  <!ENTITY % CheckRelative SYSTEM "..\Include\CheckRelative.ent">
+  %CheckRelative;
+  <!ENTITY CheckRelativeParameter "'PAInvoiceGrid', 'Grid', 'PATran'">
+  <!ENTITY CheckRelativeQuery "
+    select top 0 @@fieldExternal from d83$000000 a, dmvt b
+    return
+">
+]>
+
+<grid table="d83$000000" code="stt_rec" order="stt_rec, line_nbr" type="Detail" freezeColumns="3" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <partition table="m83$000000" prime="d83$000000" inquiry="i83$000000" field="ngay_ct" expression="''" increase="{0}" default=""/>
+  <fields>
+    <field name="ma_vt" allowNulls="false" width="100" aliasName="a" readOnly="true">
+      <header v="Mã hàng" e="Item Code"></header>
+    </field>
+    <field name="ten_vt%l" readOnly="true" external="true" defaultValue="' '" width="300" aliasName="b">
+      <header v="Tên mặt hàng" e="Item Description"></header>
+    </field>
+    <field name="dvt" allowNulls="false" width="50" aliasName="a" readOnly="true">
+      <header v="Đvt" e="UOM"></header>
+    </field>
+    <field name="ten_dvt%l" readOnly="true" external="true" defaultValue="' '" inactivate="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="he_so" type="Decimal" width="0" inactivate="true" hidden="true" dataFormatString="&CoefficientInputFormat;" clientDefault="0">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ma_kho" allowNulls="false" width="80" aliasName="a" readOnly="true">
+      <header v="Mã kho" e="Site"></header>
+    </field>
+    <field name="ten_kho%l" readOnly="true" external="true" defaultValue="' '" inactivate="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_vi_tri" width="80" aliasName="a" readOnly="true">
+      <header v="Mã vị trí" e="Location"></header>
+    </field>
+    <field name="ten_vi_tri%l" readOnly="true" external="true" defaultValue="' '" inactivate="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_lo" width="80" readOnly="true">
+      <header v="Mã lô" e="Lot"></header>
+    </field>
+    <field name="ten_lo%l" readOnly="true" external="true" defaultValue="' '" inactivate="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="chon" type="Boolean" external="true" allowContain="true" defaultValue="1" width="60">
+      &XMLFlowGridTagHeader;
+      <items style="CheckBox"/>
+      <clientScript><![CDATA[onclick="onClick$]]>&Identity;<![CDATA[$Calculate(this);"]]></clientScript>
+    </field>
+    <field name="so_luong0" type="Decimal" dataFormatString="@quantityInputFormat" external="true" defaultValue="a.so_luong" width="100">
+      <header v="Số lượng" e="Quantity"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="so_luong" type="Decimal" dataFormatString="@quantityViewFormat" clientDefault="0" width="80" readOnly="true">
+      <header v="Sl hóa đơn" e="Invoice Quantity"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="gia_nt" type="Decimal" dataFormatString="@foreignCurrencyPriceViewFormat" clientDefault="0" width="100" readOnly="true">
+      <header v="Giá nt" e="FC Price"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountViewFormat" clientDefault="0" width="100" allowContain="true" readOnly="true">
+      <header v="Tiền nt" e="FC Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="thue_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountViewFormat" clientDefault="0" width="100" allowContain="true" readOnly="true" hidden="true">
+      <header v="Thuế nt" e="FC Tax"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tk_vt" width="0" aliasName="a" readOnly="true" hidden="true">
+      <header v="Tk nợ" e="Debit Account"></header>
+    </field>
+    <field name="ten_tk_vt%l" readOnly="true" external="true" defaultValue="' '" inactivate="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="gia" type="Decimal" dataFormatString="@baseCurrencyPriceViewFormat" clientDefault="0" width="100" allowContain="true" readOnly="true">
+      <header v="Giá" e="Price"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien" type="Decimal" dataFormatString="@baseCurrencyAmountViewFormat" clientDefault="0" width="100" allowContain="true" readOnly="true">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="thue" type="Decimal" dataFormatString="@baseCurrencyAmountViewFormat" clientDefault="0" width="100" allowContain="true" readOnly="true" hidden="true">
+      <header v="Thuế" e="Tax"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="hd_so" width="0" align="right" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+
+    &XMLUserDefinedHiddenFields;
+
+    <field name="nhieu_dvt" type="Boolean" width="0" external="true" hidden="true" aliasName="b">
+      <header v="" e=""></header>
+    </field>
+    <field name="lo_yn" type="Boolean" width="0" external="true" hidden="true" aliasName="b">
+      <header v="" e=""></header>
+    </field>
+    <field name="vi_tri_yn" type="Boolean" width="0" external="true" hidden="true" aliasName="case when exists(select top 1 ma_kho from dmvitri where dmvitri.ma_kho = a.ma_kho) then 1 else 0 end">
+      <header v="" e=""></header>
+    </field>
+    <field name="sua_tk_vt" type="Boolean" width="0" external="true" hidden="true" aliasName="b">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" readOnly="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" align="right" readOnly="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_vt"/>
+      <field name="ten_vt%l"/>
+      <field name="dvt"/>
+      <field name="ten_dvt%l"/>
+      <field name="he_so"/>
+
+      <field name="ma_kho"/>
+      <field name="ten_kho%l"/>
+      <field name="ma_vi_tri"/>
+      <field name="ten_vi_tri%l"/>
+      <field name="ma_lo"/>
+      <field name="ten_lo%l"/>
+
+      <field name="chon"/>
+      <field name="so_luong0"/>
+      <field name="so_luong"/>
+      <field name="gia_nt"/>
+      <field name="tien_nt"/>
+      <field name="thue_nt"/>
+      <field name="tk_vt"/>
+      <field name="ten_tk_vt%l"/>
+      <field name="gia"/>
+      <field name="tien"/>
+      <field name="thue"/>
+      <field name="hd_so"/>
+
+      &XMLUserDefinedHiddenViews;
+
+      <field name="nhieu_dvt"/>
+      <field name="lo_yn"/>
+      <field name="vi_tri_yn"/>
+      <field name="sua_tk_vt"/>
+
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+    </view>
+  </views>
+
+  <commands>
+    &XMLFlowGridCommand;
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function load$]]>&Identity;<![CDATA[Grid$(g) {
+  var f = g.get_element().parentForm, z = f.grid, w = z.get_element().parentForm;
+  if (g._rowCount > 0) g._focusWhenTabChanged();
+    else try {$get(String.format('{0}_updateDlgCancel', f._id)).focus();} catch (ex) {}
+  try {$get('FlowGridTagId').parentNode.title = '';} catch (ex) {}
+  render$]]>&Identity;<![CDATA[Grid$(g, ['ma_vi_tri', 'ma_lo'], ['gia_nt', 'tien_nt'], z);
+}
+function scatter$]]>&Identity;<![CDATA[Grid$(g) {g._memvars = [];}
+function render$]]>&Identity;<![CDATA[Grid$(g, c, d, z) {
+  var w = z.get_element().parentForm;
+  k = z._voucher$Retrieve$Fields.split(String.fromCharCode(255));
+  u = (w._baseCurrency.toUpperCase() == k[0]);
+  for (var i = 0; i < c.length; i++) {
+    var k = z._getColumnOrder($func.trim(c[i])), v = z._fields[k - 1].Visible;
+    g._setColumnVisible(g._getColumnOrder($func.trim(c[i])), v);
+  }
+  for (var i = 0; i < d.length; i++) {
+    var k = z._getColumnOrder($func.trim(d[i]));
+    g._setColumnVisible(g._getColumnOrder($func.trim(d[i])), !u);
+  }
+}
+function onClick$]]>&Identity;<![CDATA[$Calculate(o) {
+  var g = o.grid, a = o.id.split('_inputCell_'), r = a[1].split('.')[0];
+  if (!g) g = $find(a[0]);
+  var l1 = g._getColumnOrder('so_luong0'), l2 = g._getColumnOrder('so_luong');
+  g._setItemValue(r, l1, o.checked ? g._getItemValue(r, l2): 0);
+}
+]]>
+      &ScriptFlowGridSelect;
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        &CheckRelativeProcess;
+        <![CDATA[
+declare @vcCode char(3), @s nvarchar(4000), @e char(6)
+select @vcCode = right(@stt_rec, 3)
+
+create table #e(e char(6))
+select @s = 'insert into #e select convert(varchar(6), ngay_ct, 112) from ' + case when @vcCode = 'PNA' then 'c71$000000' when @vcCode = 'PNB' then 'c72$000000' else 'c78$000000' end + ' where stt_rec = ''' + replace(@stt_rec, '''', '''''') + ''''
+exec sp_executesql @s
+select @e = e from #e
+
+declare @td varchar(33), @field varchar(128), @join varchar(4000)
+select @td = case when @vcCode = 'PNG' then 'd78$' when @vcCode = 'PNB' then 'd72$' else 'd71$' end + @e
+select @field = 'rtrim(a.tk_vt)', @join = ''
+
+create table #nkp(e char(6))
+select stt_rec, stt_rec0, tk_vt into #nk from d74$000000
+
+if @vcCode <> 'PNG' and not exists(select 1 from options where name = 'm_compact_mode' and val = 1) begin
+  select @s = 'if exists (select 1 from ' + replace(@td, 'd', 'm') + ' where loai_ct in(''5'', ''6'') and stt_rec = ''' + replace(@stt_rec, '''', '''''') + ''')'
+  select @s = @s + char(13) + 'insert into #nkp select convert(char(6), ngay_ct, 112) from c74$000000 a where exists (select 1 from ' + @td + ' b where a.stt_rec = b.stt_rec_ir)'
+  exec sp_executesql @s
+
+  select @e = min(e) from #nkp
+  while @e is not null begin
+    select @s = 'insert into #nk select a.stt_rec, a.stt_rec0, a.tk_vt from d74$' + @e + ' a join ' + @td + ' b on a.stt_rec = b.stt_rec_ir and a.stt_rec0 = b.stt_rec0ir where b.stt_rec = ''' + @stt_rec + ''''
+    exec sp_executesql @s
+    select @e = min(e) from #nkp where e > @e
+  end
+
+  if exists (select 1 from #nk)
+    select @field = 'isnull(rtrim(c.tk_vt), rtrim(a.tk_vt))', @join = ' left join #nk c on a.stt_rec_ir = c.stt_rec and c.stt_rec0 = a.stt_rec0ir'
+end
+
+select * into #r from @@prime$partition$current where 1 = 0
+select @s = 'insert into #r (ma_vt, dvt, he_so, ma_kho, ma_vi_tri, ma_lo, so_luong, gia_nt, tien_nt, thue_nt, gia, tien, thue, tk_vt, stt_rec_hd, stt_rec0hd, hd_so, hd_ln, stt_rec, stt_rec0, line_nbr, '
+select @s = @s + char(13) + 'ma_vv, ma_sp, ma_bp, ma_hd, ma_ku, so_lsx, ma_phi, ma_ct, so_ct, ngay_ct)'
+select @s = @s + char(13) + 'select rtrim(a.ma_vt), rtrim(a.dvt), he_so, rtrim(a.ma_kho), rtrim(a.ma_vi_tri), rtrim(a.ma_lo), a.so_luong, a.gia_nt, a.tien_nt, 0, a.gia, a.tien, 0, ' + @field + ', a.stt_rec, a.stt_rec0, a.so_ct, a.line_nbr, ''' + replace(@stt_rec, '''', '''''') + ''', a.stt_rec0, a.line_nbr, '
+select @s = @s + char(13) + 'rtrim(a.ma_vv), rtrim(a.ma_sp), rtrim(ma_bp), rtrim(a.ma_hd), rtrim(a.ma_ku), rtrim(a.so_lsx), rtrim(a.ma_phi), a.ma_ct, a.so_ct, a.ngay_ct'
+select @s = @s + char(13) + ' from ' + @td + ' a left join dmvt b on a.ma_vt = b.ma_vt ' + @join + ' where a.stt_rec = ''' + replace(@stt_rec, '''', '''''') + ''''
+exec sp_executesql @s
+select @@fieldExternal from #r a left join dmvt b on a.ma_vt = b.ma_vt order by line_nbr
+
+drop table #r
+drop table #e
+drop table #nk
+drop table #nkp
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <toolbar>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+
+</grid>

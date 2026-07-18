@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Ánh xạ folder Controllers → kind (dùng khi mở file, không ảnh hưởng icon Explorer). -->
+<controllerFolders>
+  <folder name="Dir" kind="Dir" order="0" />
+  <folder name="Filter" kind="Filter" order="1" />
+  <folder name="Grid" kind="Grid" order="2" />
+  <folder name="Lookup" kind="Lookup" order="3" />
+  <folder name="Report" kind="Report" order="4" />
+  <folder name="Include" kind="Include" order="5" />
+</controllerFolders>

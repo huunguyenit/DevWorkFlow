@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<dir table="hrnv" code="stt_rec" order="stt_rec" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thông tin khác" e="Other Information"></title>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="nguoi_tiep_nhan">
+      <header v="Người ký tiếp nhận" e="Recruited by"></header>
+    </field>
+    <field name="nguon_tuyen_dung">
+      <header v="Nguồn tuyển dụng" e="Recruitment Source"></header>
+    </field>
+    <field name="nguoi_gioi_thieu">
+      <header v="Người giới thiệu" e="Introduced by"></header>
+    </field>
+    <field name="ngay_nghi" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày nghỉ việc" e="Date of Leaving"></header>
+    </field>
+    <field name="ly_do_nghi">
+      <header v="Lý do nghỉ" e="Reason for Leaving"></header>
+      <items style="AutoComplete" controller="hrResigningReason" reference="ten_ldnv%l" key="status ='1'" check="1 = 1" information="ma_ldnv$hrdmldnv.ten_ldnv%l" new="Default"/>
+    </field>
+    <field name="ten_ldnv%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ghi_chu_tt" rows="2">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 100, 100, 130"/>
+      <item value="11000: [nguoi_tiep_nhan].Label, [nguoi_tiep_nhan]"/>
+      <item value="11000: [nguon_tuyen_dung].Label, [nguon_tuyen_dung]"/>
+      <item value="11000: [nguoi_gioi_thieu].Label, [nguoi_gioi_thieu]"/>
+      <item value="110--1: [ngay_nghi].Label, [ngay_nghi], [stt_rec]"/>
+      <item value="110100: [ly_do_nghi].Label, [ly_do_nghi], [ten_ldnv%l]"/>
+      <item value="110000: [ghi_chu_tt].Label, [ghi_chu_tt]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if @ngay_nghi is not null begin
+  if exists(select 1 from hrnv where stt_rec = @stt_rec and ((ngay_vao > @ngay_nghi) or ((ngay_chinh_thuc is not null) and ngay_chinh_thuc > @ngay_nghi))) or
+    exists(select 1 from hreqtlvht where stt_rec = @stt_rec and ngay_tu > @ngay_nghi) begin
+    select 'ngay_nghi' as field, case when @@language = 'v' then N'Ngày nghỉ nhỏ hơn ngày vào công ty, ngày vào chính thức hoặc giá trị không đúng.' else N'Invalid Date of Leaving.' end as message
+    return
+  end
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+declare @statusWork varchar(32)
+if @ngay_nghi is not null begin
+  select @statusWork = rtrim(val) from options where name = 'm_tt_nghi_viec'
+  update hrnv set status = '0', tinh_trang_nv = @statusWork where stt_rec = @stt_rec
+end else begin
+  select @statusWork = rtrim(val) from options where name = 'm_tt_lam_viec'
+  update hrnv set status = '1', tinh_trang_nv = @statusWork where stt_rec = @stt_rec
+end
+update hrnv set ngay_hh_tv = case when ngay_chinh_thuc is null then ngay_nghi else case when ngay_nghi is null then ngay_chinh_thuc else case when ngay_chinh_thuc > ngay_nghi then ngay_nghi else ngay_chinh_thuc end end end where stt_rec = @stt_rec
+select '' as message, '' as field, 'show$ViewPanelEmployeeID(this);' as script
+]]>
+      </text>
+    </command>
+  </commands>
+</dir>

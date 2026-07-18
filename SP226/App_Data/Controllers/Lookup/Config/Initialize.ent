@@ -1,0 +1,69 @@
+﻿<!ENTITY d1 "dmtk">
+<!ENTITY d2 "dmkh">
+
+<!ENTITY d3 "dmvt">
+<!ENTITY d4 "vdmsp">
+
+<!ENTITY d5 "dmbp">
+<!ENTITY d6 "dmvv">
+<!ENTITY d7 "dmhd">
+<!ENTITY d8 "dmphi">
+<!ENTITY d9 "dmku">
+<!ENTITY da "vxdmbp">
+
+<!ENTITY k1 "tk">
+<!ENTITY k2 "ma_kh">
+
+<!ENTITY k3 "ma_vt">
+<!ENTITY k4 "ma_vt">
+
+<!ENTITY k5 "ma_bp">
+<!ENTITY k6 "ma_vv">
+<!ENTITY k7 "ma_hd">
+<!ENTITY k8 "ma_phi">
+<!ENTITY k9 "ma_ku">
+<!ENTITY ka "ma_bp">
+
+<!ENTITY r1 "if not exists(select 1 from ">
+<!ENTITY r2 " where ">
+<!ENTITY r3 " = @@pattern and (@@criteria)) begin select '' as [return]; return end">
+
+<!ENTITY h " and (@@criteria)">
+
+<!ENTITY q1 "declare @q varchar(1024)">
+<!ENTITY q2 "exec FastBusiness$System$GetUnitFilter ">
+<!ENTITY q3 ", @@userID, @@admin, '">
+<!ENTITY q4 "replace(replace(@unit$Filter$, '{0}', '">
+<!ENTITY q5 "', 'ma_dvcs', '', '', @q output, 1; select @q as value">
+<!ENTITY q6 "', 'ma_dvcs', '', '', @q output, 2; select @q as value">
+
+<!ENTITY g1 "&q1;, @unit varchar(32)
+select @unit = case when @action = 'New' then @@unit else @value end
+&q2;@unit&q3;">
+<!ENTITY g2 "', '">
+<!ENTITY g3 "', 'ma_dvcs', 'ds_dvcs', '">
+<!ENTITY g4 "dv', @q output
+select @q as value">
+<!ENTITY g5 "select &q4;">
+<!ENTITY g6 "'), '{1}', '">
+<!ENTITY g7 "') as value">
+<!ENTITY g8 "&q1;
+&q2;@value&q3;">
+<!ENTITY g9 "', @q output
+select @q as value">
+
+<!ENTITY Query "GetUnitFilter">
+
+<!ENTITY Reference SYSTEM ".\Include\Reference.xml">
+
+<!ENTITY Controller.Voucher SYSTEM ".\Include\Voucher.xml">
+<!ENTITY Controller.Balance SYSTEM ".\Include\Balance.xml">
+<!ENTITY Controller.Site SYSTEM ".\Include\Site.xml">
+<!ENTITY Controller.Asset SYSTEM ".\Include\Asset.xml">
+<!ENTITY Controller.Tool SYSTEM ".\Include\Tool.xml">
+<!ENTITY Controller.Supply SYSTEM ".\Include\Supply.xml">
+<!ENTITY Controller.Unit SYSTEM ".\Include\Unit.xml">
+<!ENTITY Controller.Parent SYSTEM ".\Include\Parent.xml">
+
+<!ENTITY Controller.List SYSTEM ".\Include\List.xml">
+<!ENTITY Controller.Dir SYSTEM ".\Include\Dir.xml">

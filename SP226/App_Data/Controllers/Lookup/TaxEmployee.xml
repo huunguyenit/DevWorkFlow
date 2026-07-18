@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="phns" code="ma_ns" name="ten_ns%l" order="ma_ns" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục nhân viên" e="Employee List"></header>
+
+  <fields>
+    <field name="ma_ns" allowSorting="true" allowFilter="true">
+      <header v="Mã nhân viên" e="Employee ID"></header>
+    </field>
+    <field name="ten_ns%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên nhân viên" e = "Employee Name"></header>
+    </field>
+  </fields>
+</lookup>

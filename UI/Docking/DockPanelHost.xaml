@@ -1,0 +1,17 @@
+<UserControl x:Class="UI.Docking.DockPanelHost"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:shell="clr-namespace:UI.ViewModels.Shell">
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Style="{StaticResource IdeDockHeaderStyle}">
+            <TextBlock Text="{Binding Title}"
+                       FontSize="11" FontWeight="SemiBold"
+                       Foreground="{StaticResource FgMutedBrush}"
+                       VerticalAlignment="Center"/>
+        </Border>
+        <Grid Background="{StaticResource SidebarBgBrush}">
+            <TextBlock Style="{StaticResource IdePlaceholderTextStyle}"
+                       Text="{Binding PlaceholderMessage}"/>
+        </Grid>
+    </DockPanel>
+</UserControl>

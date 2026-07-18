@@ -1,0 +1,204 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY % GridInitialize SYSTEM "..\Include\Grid.ent">
+  %GridInitialize;
+
+  <!ENTITY XMLGetUOMConversion SYSTEM "..\Include\XML\GetUOMConversion.xml">
+  <!ENTITY XMLStandardDetailToolbar SYSTEM "..\Include\XML\StandardDetailToolbar.xml">
+]>
+
+<grid table="ctdm" code="stt_rec" order="stt_rec, line_nbr" type="Detail" freezeColumns="3" id="DM1" uniKey="true" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <partition table="ctdm" prime="ctdm" inquiry="ctdm" field="" expression="''" increase="{0}" default=""/>
+
+  <fields>
+    <field name="ma_vt" width="100" allowNulls="false" aliasName="a">
+      <header v="Mã hàng" e="Item"></header>
+      <handle source="dmvt.ma_vt" foreward="true"/>
+      <items style="AutoComplete" controller="Item" reference="ten_vt%l" key="status = '1'" check="1 = 1" information="ma_vt$dmvt.ten_vt%l" new="Default"/>
+      <clientScript><![CDATA[onchange="onChange$GridVoucherDetail$Item(this);"]]></clientScript>
+    </field>
+    <field name="ten_vt%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="300" aliasName="b.ten_vt">
+      <header v="Tên mặt hàng" e="Item Description"></header>
+    </field>
+    <field name="dvt" width="50" aliasName="a" allowNulls="false" >
+      <header v="Đvt" e="UOM"></header>
+      <items style="AutoComplete" controller="UOMItem" reference="ten_dvt%l" key="(ma_vt = '{$%c$%r.[ma_vt]}' or ma_vt = '*')" information="dvt$vdmvtqddvt.ten_dvt%l" normal="true"/>
+      <handle key="[nhieu_dvt]"/>
+      <clientScript><![CDATA[onchange="onChange$GridVoucherDetail$UOM(this);"]]></clientScript>
+    </field>
+    <field name="ten_dvt%l" readOnly="true" external="true" defaultValue="''" width="300" hidden="true" >
+      <header v="" e=""></header>
+    </field>
+    <field name="he_so" type="Decimal" dataFormatString="&CoefficientInputFormat;" width="0" align="right" hidden="true">
+      <header v="Hệ số" e="Coefficient"></header>
+    </field>
+
+    <field name="so_luong" type="Decimal" dataFormatString="@coefficientInputFormat" clientDefault="0" width="80">
+      <header v="Số lượng" e="Quantity"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ngay_ct1" type="DateTime" dataFormatString="@datetimeFormat" align="left" width="100">
+      <header v="Hiệu lực từ ngày" e="Effective from"></header>
+    </field>
+    <field name="ngay_ct2" type="DateTime" dataFormatString="@datetimeFormat" align="left" width="100">
+      <header v="Đến ngày" e="Effective to"></header>
+    </field>
+    <field name="tl_hh" type="Decimal" dataFormatString="#0.00" clientDefault="0" width="50">
+      <header v="Tỷ lệ hao hụt" e="Scrap Factor"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tg_th" type="Decimal" dataFormatString="#0.00" clientDefault="0" width="80" aliasName="a">
+      <header v="Thời gian thực hiện" e="Lead Time"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tl_pb" type="Decimal" dataFormatString="#0.00" clientDefault="0" width="50" aliasName="a">
+      <header v="Tỷ lệ phân bổ (%)" e="Cost Allocation Rate (%)"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="dien_giai" width="300" clientDefault="Default" aliasName="a" >
+      <header v="Diễn giải" e="Description"></header>
+    </field>
+
+    <field name="nhieu_dvt" type="Boolean" width="0" external="true" hidden="true" aliasName="b">
+      <header v="" e=""></header>
+      <handle key="[nhieu_dvt = 1]" field="ma_vt"/>
+    </field>
+
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_vt"/>
+      <field name="ten_vt%l"/>
+      <field name="dvt"/>
+      <field name="ten_dvt%l"/>
+      <field name="he_so"/>
+
+      <field name="so_luong"/>
+      <field name="tl_hh"/>
+      <field name="ngay_ct1"/>
+      <field name="ngay_ct2"/>
+      <field name="tg_th"/>
+      <field name="tl_pb"/>
+      <field name="dien_giai"/>
+
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'this._voucherCode='@@id';load$GridVoucherDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridVoucherDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$GridVoucherDetail$(g) {
+  g.add_itemValueChanged(onChange$GridVoucherDetail$);
+  g.add_onResponseComplete(on$GridVoucherDetail$ResponseComplete);
+  g.add_commandEvent(on$GridVoucherDetail$ExecuteCommand);
+  g.$a = {t_so_luong: ['t_so_luong', 'so_luong']};
+}
+function dispose$GridVoucherDetail$(g) {
+  g.$a = null;
+  try {g.remove_commandEvent(on$GridVoucherDetail$ExecuteCommand);} catch (ex) {}
+  try {g.remove_onResponseComplete(on$GridVoucherDetail$ResponseComplete);} catch (ex) {}
+  try {g.remove_itemValueChanged(onChange$GridVoucherDetail$);} catch (ex) {}
+}
+function onChange$GridVoucherDetail$Item(o) {o.grid.request(o, 'Item', 'Item', ['ma_vt']);}
+function onChange$GridVoucherDetail$UOM(o) {o.grid.request(o, 'UOM', 'UOM', ['ma_vt', 'dvt']);}
+function onChange$GridVoucherDetail$(sender, eventArgs) {
+  var o = eventArgs.get_object(), g = o.grid, f = g.get_element().parentForm, name = o.field.Name;
+  switch (name) {
+    case 'so_luong':
+	    g.validExpression(o, null, [g.$a.t_so_luong], null, 'tl_hh');
+	    break;
+    default:
+      break;
+  }
+}
+function on$GridVoucherDetail$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm;
+  switch (action) {
+    case 'AfterRemoveRow':
+      on$GridVoucherDetail$RowChange(g, f);
+      break;
+    case 'AfterCloneRow':
+      g.setItemFieldValue('stt_rec0', e.type.Value, '');
+      on$GridVoucherDetail$RowChange(g, f);
+      break;
+    default:
+      break;
+  }
+}
+function on$GridVoucherDetail$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result, o = e.type.Object, f = g.get_element().parentForm;
+  switch (context) {
+    case 'Item':
+      g.setItemGridBehavior(o, [['dvt', result[0].Value, '', true], ['he_so', 1, null, null]]);
+      g.live(o, 'dvt');
+      break;
+    case 'UOM':
+      g.setItemGridBehavior(o, [['he_so', result[0].Value, '', true]]);
+    break;
+    default:
+      break;
+  }
+}
+function on$GridVoucherDetail$RowChange(g, f) {g.executeAggregate([g.$a.t_so_luong]);}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <response>
+    &XMLGetUOMConversion;
+
+    <action id="Item">
+      <text>
+        <![CDATA[
+if exists(select 1 from dmvt where ma_vt = @ma_vt) begin
+  select dvt from dmvt where ma_vt = @ma_vt
+  return
+end
+]]>
+      </text>
+    </action>
+  </response>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from @@prime$partition$current a left join dmvt b on a.ma_vt = b.ma_vt where @@whereClause order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  &XMLStandardDetailToolbar;
+</grid>

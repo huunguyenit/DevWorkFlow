@@ -1,0 +1,113 @@
+<UserControl x:Class="UI.Views.Pages.SqlStudioPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ctrl="clr-namespace:UI.Views.Controls"
+             xmlns:vm="clr-namespace:UI.ViewModels">
+    <UserControl.InputBindings>
+        <KeyBinding Key="F5" Command="{Binding ExecuteCommand}"/>
+        <KeyBinding Key="S" Modifiers="Control" Command="{Binding SaveCommand}"/>
+    </UserControl.InputBindings>
+
+    <DockPanel>
+        <!-- Toolbar -->
+        <Border DockPanel.Dock="Top" Background="{StaticResource IdeRibbonBgBrush}"
+                BorderBrush="{StaticResource IdeBorderBrush}" BorderThickness="0,0,0,1"
+                Padding="8,4">
+            <DockPanel>
+                <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{Binding ExecuteCommand}"
+                            ToolTip="Execute (F5) — nếu bôi đen thì chỉ chạy vùng chọn">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="Play" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding ExecuteButtonLabel}" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{Binding CancelCommand}" ToolTip="Cancel" Margin="4,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="Stop" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="Cancel" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{Binding SaveCommand}" ToolTip="Save (Ctrl+S)" Margin="4,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="ContentSaveOutline" Width="16" Height="16" VerticalAlignment="Center"/>
+                            <TextBlock Text="Save" Margin="6,0,0,0" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
+
+                    <Rectangle Width="1" Fill="{StaticResource IdeBorderBrush}" Margin="10,2"/>
+
+                    <TextBlock Text="Target:" VerticalAlignment="Center" Margin="0,0,6,0"
+                               Foreground="{StaticResource FgMutedBrush}" FontSize="11"/>
+                    <ComboBox ItemsSource="{Binding ConnectionTargets}"
+                              SelectedItem="{Binding SelectedTarget, Mode=TwoWay}"
+                              DisplayMemberPath="Display"
+                              MinWidth="280" MaxWidth="420"
+                              VerticalAlignment="Center"
+                              FontSize="12"
+                              ToolTip="Sys hoặc App DB (1 sys có thể nhiều app)"/>
+                </StackPanel>
+
+                <TextBlock Text="{Binding Status}" DockPanel.Dock="Right"
+                           VerticalAlignment="Center" HorizontalAlignment="Right"
+                           Foreground="{StaticResource FgMutedBrush}" FontSize="11"
+                           TextTrimming="CharacterEllipsis" Margin="12,0,0,0"/>
+            </DockPanel>
+        </Border>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" MinHeight="120"/>
+                <RowDefinition Height="4"/>
+                <RowDefinition Height="*" MinHeight="100"/>
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0" BorderBrush="{StaticResource IdeBorderBrush}" BorderThickness="0,0,0,1">
+                <ctrl:BindableSqlEditor
+                    BoundText="{Binding ScriptText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedScript="{Binding SelectedScript, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            </Border>
+
+            <GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch"
+                          Background="{StaticResource IdeBorderBrush}"
+                          ResizeDirection="Rows"/>
+
+            <TabControl Grid.Row="2" Background="{StaticResource WorkspaceBgBrush}">
+                <TabItem Header="Messages">
+                    <TextBox Text="{Binding MessagesText, Mode=OneWay}"
+                             IsReadOnly="True" TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"
+                             FontFamily="Cascadia Code, Consolas"
+                             FontSize="12" BorderThickness="0"
+                             Padding="8" Background="Transparent"
+                             Foreground="{StaticResource FgBrush}"/>
+                </TabItem>
+                <TabItem Header="Results">
+                    <DockPanel>
+                        <ListBox DockPanel.Dock="Left" Width="140"
+                                 ItemsSource="{Binding ResultSets}"
+                                 SelectedItem="{Binding SelectedResultSet}"
+                                 DisplayMemberPath="Header"
+                                 BorderThickness="0,0,1,0"
+                                 BorderBrush="{StaticResource IdeBorderBrush}"
+                                 Background="Transparent"/>
+                        <DataGrid ItemsSource="{Binding SelectedResultView}"
+                                  AutoGenerateColumns="True"
+                                  IsReadOnly="True"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  HeadersVisibility="Column"
+                                  GridLinesVisibility="Horizontal"
+                                  AlternatingRowBackground="#F7F9FC"
+                                  BorderThickness="0"
+                                  FontSize="12"/>
+                    </DockPanel>
+                </TabItem>
+            </TabControl>
+        </Grid>
+    </DockPanel>
+</UserControl>

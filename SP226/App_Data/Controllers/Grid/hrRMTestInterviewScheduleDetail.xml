@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLStandardDetailToolbar SYSTEM "..\Include\XML\StandardDetailToolbar.xml">
+]>
+
+<grid table="hrrmlichct" code="ma_dot, stt_rec0" order="ma_dot, line_nbr" type="Detail" freezeColumns="3" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+
+  <fields>
+    <field name="ma_vong" width="100" allowNulls="false" aliasName="a">
+      <header v="Mã vòng thi" e="Round Code"></header>
+      <items style="AutoComplete" controller="hrRMRoundExamination" reference="ten_vong%l" key="status = '1'" check="1 = 1" information="ma_vong$hrdmvongtd.ten_vong%l"/>
+    </field>
+    <field name="ten_vong%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_vtr" width="100" allowNulls="false" aliasName="a">
+      <header v="Mã vị trí" e="Position Code"></header>
+      <items style="AutoComplete" controller="hrPosition" reference="ten_vtr%l" key="status = '1' and ma_vtr in (select ma_vtr from hrrmdotct where ma_dot = '{[$ma_dot]}')" check="ma_vtr in (select ma_vtr from hrrmdotct where ma_dot = '{[$ma_dot]}')"/>
+    </field>
+    <field name="ten_vtr%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="150" aliasName="b">
+      <header v="Tên vị trí" e="Position Name"></header>
+    </field>
+
+    <field name="nguoi_pv" width="150" aliasName="a">
+      <header v="Người phỏng vấn" e="Interviewer"></header>
+    </field>
+    <field name="ngay_pv" type="DateTime" dataFormatString="@datetimeFormat" align="left" width="100" clientDefault="Default" allowNulls="false" aliasName="a">
+      <header v="Ngày phỏng vấn" e="Date of Interview"></header>
+    </field>
+    <field name="thoi_gian_pv" width="150" aliasName="a">
+      <header v="Thời gian phỏng vấn" e="Time of Interview"></header>
+    </field>
+    <field name="dia_diem_pv" width="300" aliasName="a">
+      <header v="Địa điểm phỏng vấn" e="Place of Interview"></header>
+    </field>
+    <field name="noi_dung_pv" width="300" aliasName="a">
+      <header v="Nội dung phỏng vấn" e="Content"></header>
+    </field>
+    <field name="ghi_chu" width="300" aliasName="a">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+
+    <field name="ma_dot" isPrimaryKey="true" width="0" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_vong"/>
+      <field name="ten_vong%l"/>
+      <field name="ma_vtr"/>
+      <field name="ten_vtr%l"/>
+      <field name="nguoi_pv"/>
+      <field name="ngay_pv"/>
+      <field name="thoi_gian_pv"/>
+      <field name="dia_diem_pv"/>
+      <field name="noi_dung_pv"/>
+      <field name="ghi_chu"/>
+
+      <field name="ma_dot"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$GridVoucherDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridVoucherDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[     
+function load$GridVoucherDetail$(g) {g.add_commandEvent(on$GridVoucherDetail$ExecuteCommand);}
+function dispose$GridVoucherDetail$(g) {try {g.remove_commandEvent(on$GridVoucherDetail$ExecuteCommand);} catch (ex) {}}
+function on$GridVoucherDetail$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm;
+  switch (action) {
+    case 'AfterCloneRow':
+      g.setItemFieldValue('stt_rec0', e.type.Value, '');
+      break;
+    default:
+      break;
+  }
+}
+]]>
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from @@table a with(nolock) left join hrvt b with(nolock) on a.ma_vtr = b.ma_vtr where @@whereClause order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  &XMLStandardDetailToolbar;
+</grid>

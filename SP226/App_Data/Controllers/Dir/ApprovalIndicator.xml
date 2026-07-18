@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dir [
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+]>
+
+<dir table="dmttcttg" code="loai_duyet, u_status" order="loai_duyet, u_status" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="khai báo trạng thái duyệt" e="Approval Indicator"></title>
+  <fields>
+    <field name="loai_duyet" isPrimaryKey="true" allowNulls="false" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="u_status" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã trạng thái duyệt" e="Code"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="u_status_name" allowNulls="false">
+      <header v="Tên trạng thái duyệt" e="Description"></header>
+    </field>
+    <field name="u_status_name2">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value = "120, 30, 70, 100, 100, 130, 0"/>
+      <item value = "110---1: [u_status].Label, [u_status], [loai_duyet]"/>
+      <item value = "110000: [u_status_name].Label, [u_status_name]"/>
+      <item value = "110000: [u_status_name2].Label, [u_status_name2]"/>
+
+      <item value = "111000: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$FormApprovalIndicator(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+select 'scatter$FormApprovalIndicator(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormApprovalIndicator(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$recordHasBeenChanged nvarchar(512), @$updateConflict nvarchar(512), @$deleteConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Trạng thái duyệt <span class="Highlight">%s</span> đã có hoặc lồng nhau trong danh mục khai báo trạng thái duyệt .' else N'The approval indicator <span class="Highlight">%s</span> is invalid or already exists.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Trạng thái duyệt <span class="Highlight">%s</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The approval indicator <span class="Highlight">%s</span> has been modified or deleted by another user.' end
+select @$updateConflict = case when @@language = 'v' then N'Trạng thái duyệt <span class="Highlight">%s</span> đã phát sinh, không thể sửa được.' else N'Cannot edit the approval indicator <span class="Highlight">%s</span>. It has already been used.' end
+select @$deleteConflict = case when @@language = 'v' then N'Trạng thái duyệt <span class="Highlight">%s</span> đã phát sinh, không thể xóa được.' else N'Cannot delete the approval indicator <span class="Highlight">%s</span>. It has already been used.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where loai_duyet = @loai_duyet and u_status = @u_status) begin
+  select 'u_status' as field, replace(@$exists, '%s', rtrim(@u_status)) as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID, @s_status = '9', @xtype = 'U'
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+select @loai_duyet as loai_duyet
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select 1 from @@table where loai_duyet = $loai_duyet.OldValue and u_status = $u_status.OldValue) begin
+  select 'u_status' as field, replace(@$recordHasBeenChanged, '%s', rtrim($u_status.OldValue)) as message
+  return
+end
+if @u_status <> $u_status.OldValue begin
+  if exists(select 1 from @@table where loai_duyet = @loai_duyet and u_status = @u_status) begin
+    select 'u_status' as field, replace(@$exists, '%s', rtrim(@u_status)) as message
+    return
+  end
+  
+  if exists(select 1 from dmquyen a join dmquyenct b on a.ma_quyen = b.ma_quyen where (b.status = $u_status.OldValue or b.status2 = $u_status.OldValue or b.status0 = $u_status.OldValue) and a.loai_duyet = @loai_duyet) begin
+    select 'u_status' as field, replace(@$updateConflict, '%s', rtrim($u_status.OldValue)) as message
+    return
+  end
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where loai_duyet = @loai_duyet and u_status = @u_status
+]]>
+      </text>
+    </command>
+
+    <command event ="Deleting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where loai_duyet = @loai_duyet and u_status = @u_status and xtype = 'S') begin
+  select '' as script, '$NotAuthorized' as message
+  return
+end
+
+if exists(select 1 from dmquyen a join dmquyenct b on a.ma_quyen = b.ma_quyen where (b.status = @u_status or b.status2 = @u_status or b.status0 = @u_status) and a.loai_duyet = @loai_duyet) begin
+  select replace(@$deleteConflict, '%s', rtrim(@u_status)) as message
+  return
+end
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$FormApprovalIndicator(f) {
+  f.add_onResponseComplete(on$FormApprovalIndicator$ResponseComplete);
+  setDefaultValue$FormApprovalIndicator(f);
+}
+function scatter$FormApprovalIndicator(f) {setDefaultValue$FormApprovalIndicator(f);}
+function close$FormApprovalIndicator(f) {try {f.remove_onResponseComplete(on$FormApprovalIndicator$ResponseComplete)} catch (ex) {}}
+function on$FormApprovalIndicator$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'u_status');
+      break;
+    default:
+      break;
+  }
+}
+function setDefaultValue$FormApprovalIndicator(f) {if (f._action == 'New') {f.setItemValue('loai_duyet',  f.grid._approvalType);}}
+]]>
+      &ScriptIrregular;
+    </text>
+  </script>
+</dir>

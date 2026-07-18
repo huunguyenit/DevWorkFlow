@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="mdmky" code="ma_ky" name="ten_ky%l" order="ma_ky" xmlns="urn:schemas-fast-com:data-lookup">
+
+  <header v="Danh mục kỳ hoạch định" e="Time Bucket List"></header>
+
+  <fields>
+    <field name="ma_ky" allowSorting="true" allowFilter="true">
+      <header v="Mã kỳ" e="Period Code"></header>
+    </field>
+
+    <field name="ten_ky%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên kỳ" e = "Period Name"></header>
+    </field>
+  </fields>
+
+</lookup>

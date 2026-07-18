@@ -1,0 +1,1 @@
+ and dbo.FastBusiness$Function$CheckSiteRights(@voucherCode, @unitCode, @ma_kho, @@userID, @@admin) = 1

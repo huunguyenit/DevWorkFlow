@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Hành vi click object Database → mở SQL Studio.
+  click=1: single click | click=2: double click
+  mode: create | alter | dropCreate
+  script: file trong Config/SQL
+  dropTemplate: tiền tố khi mode=dropCreate (placeholder {full_name}, {schema}, {name}, {type_code})
+-->
+<objectActions>
+  <action kind="Table" click="1" mode="create"
+          script="table_columns.sql"
+          title="{schema}.{name} — CREATE TABLE" />
+  <action kind="Table" click="2" mode="dropCreate"
+          script="table_columns.sql"
+          title="{schema}.{name} — DROP + CREATE TABLE"
+          dropTemplate="IF OBJECT_ID(N'{full_name}', N'U') IS NOT NULL&#xA;    DROP TABLE {quoted_name};&#xA;GO&#xA;&#xA;" />
+
+  <action kind="View" click="1" mode="alter"
+          script="object_definition.sql"
+          title="{schema}.{name} — ALTER VIEW" />
+  <action kind="View" click="2" mode="dropCreate"
+          script="object_definition.sql"
+          title="{schema}.{name} — DROP + CREATE VIEW"
+          dropTemplate="IF OBJECT_ID(N'{full_name}', N'V') IS NOT NULL&#xA;    DROP VIEW {quoted_name};&#xA;GO&#xA;&#xA;" />
+
+  <action kind="Function" click="1" mode="alter"
+          script="object_definition.sql"
+          title="{schema}.{name} — ALTER FUNCTION" />
+  <action kind="Function" click="2" mode="dropCreate"
+          script="object_definition.sql"
+          title="{schema}.{name} — DROP + CREATE FUNCTION"
+          dropTemplate="IF OBJECT_ID(N'{full_name}') IS NOT NULL&#xA;    DROP FUNCTION {quoted_name};&#xA;GO&#xA;&#xA;" />
+
+  <action kind="Procedure" click="1" mode="alter"
+          script="object_definition.sql"
+          title="{schema}.{name} — ALTER PROCEDURE" />
+  <action kind="Procedure" click="2" mode="dropCreate"
+          script="object_definition.sql"
+          title="{schema}.{name} — DROP + CREATE PROCEDURE"
+          dropTemplate="IF OBJECT_ID(N'{full_name}', N'P') IS NOT NULL&#xA;    DROP PROCEDURE {quoted_name};&#xA;GO&#xA;&#xA;" />
+</objectActions>

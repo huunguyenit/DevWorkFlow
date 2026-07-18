@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY Controller "rptPickListStatusReport">
+  <!ENTITY XMLWhenFilterLoading SYSTEM "..\Include\XML\WhenFilterLoading.xml">
+  <!ENTITY XMLWhenFilterClosing SYSTEM "..\Include\XML\WhenFilterClosing.xml">
+
+  <!ENTITY OutlineCss SYSTEM "..\Include\Javascript\OutlineCss.txt">
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+  <!ENTITY JavascriptReportFilter SYSTEM "..\Include\Javascript\ReportFilter.txt">
+]>
+
+<dir id="1" type="Report" cache="true" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="Điều kiện lọc" e="Filter Condition"/>
+  <fields>
+    <field name="ngay" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" aliasName="fromDate" defaultValue="new Date()">
+      <header v="Đến ngày" e="Report Date"></header>
+    </field>
+
+    <field name="ma_kho">
+      <header v="Mã Kho" e="Site ID"></header>
+      <items style="AutoComplete" controller="Site" reference="ten_kho%l" key="status = '1'" check="1=1"/>
+    </field>
+    <field name="ten_kho%l" readOnly="true" external="true">
+      <header v="" e=""></header>
+    </field>
+    
+    <field name="ma_kh">
+      <header v="Mã NCC" e="Supplier ID"></header>
+      <items style="AutoComplete" controller="Customer" reference="ten_kh%l" key="status = '1' and (cc_yn=1 or nv_yn=1)" check="cc_yn=1 or nv_yn=1"/>
+    </field>
+    <field name="ten_kh%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    
+    <field name="ma_vt">
+      <header v="Mặt hàng" e="Item Code"></header>
+      <items style="AutoComplete" controller="Item" reference="ten_vt%l" key="status = '1'" check="1=1"/>
+    </field>
+    <field name="ten_vt%l" readOnly="true" external="true">
+      <header v="" e=""></header>
+    </field>
+
+
+    <field name="ma_dvcs">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="Lookup" controller="Unit" key="status = '1'" check="1 = 1"/>
+    </field>
+    <field name="mau_bc" clientDefault="10" categoryIndex="1">
+      <header v="Mẫu báo cáo" e="Report Form"/>
+      <items style="DropDownList">
+        <item value="10">
+          <text v="Mẫu chuẩn" e="Standard Form"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;</clientScript>
+    </field>
+
+  </fields>
+
+  <views>
+    <view id="Dir" height="210">
+      <item value="120, 30, 70, 100, 100, 130, 0"/>
+      <item value="110: [ngay].Label, [ngay]"/>
+      <item value="110100: [ma_kho].Label, [ma_kho], [ten_kho%l]"/>
+      <item value="110100: [ma_kh].Label, [ma_kh], [ten_kh%l]"/>
+      <item value="110100: [ma_vt].Label, [ma_vt], [ten_vt%l]"/>
+      <item value="11000: [ma_dvcs].Label, [ma_dvcs]"/>
+      <item value="11000: [mau_bc].Label, [mau_bc]"/>
+    </view>
+  </views>
+
+  <commands>
+    &XMLWhenFilterLoading;
+    &XMLWhenFilterClosing;
+
+    <command event="Processing">
+      <text>
+        <![CDATA[
+select @ngay as ngay
+exec zrpt_thdh @ngay, @ma_kho, @ma_kh, @ma_vt, @ma_dvcs, @@language, @@userID, @@admin
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &JavascriptReportFilter;
+      &OutlineEntry;
+      <![CDATA[/* <flatten type="Javascript"> */
+function active$VoucherFilter$(sender) {
+  sender.add_onResponseComplete(on$Filter$ResponseComplete);
+  changeLookupReadonly(sender, 'ma_dvcs');
+}
+function close$VoucherFilter$(sender) {
+  try {sender.remove_onResponseComplete(on$Filter$ResponseComplete);} catch (ex) {}
+}
+function on$Filter$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      var g = f.grid, dFrom = f.getItem('ngay').value;
+      g._alterTitle = [null, [['%d1', dFrom, true]]];
+      remove$GridReport$Filter(g);
+      break;
+    default:
+      break;
+  }
+}/* </flatten> */
+]]>
+    </text>
+  </script>
+
+  &OutlineCss;
+</dir>

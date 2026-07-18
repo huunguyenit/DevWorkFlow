@@ -1,0 +1,280 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dir [
+  <!ENTITY CommandWhenBeforeLoad "
+if @@view = 0 begin
+  if @@action = 'Edit' begin
+    if exists(select 1 from hredt where stt_rec = @stt_rec and stt_rec0 = @stt_rec0 and tag = 1) begin
+      select '' as script, case when @@language = 'V' then N'Bản ghi này được chuyển từ phân hệ khác sang, không thể sửa hoặc xóa được.' else N'Can not edit or delete this record, It was inserted automatically.' end as message
+      return
+    end
+  end
+end
+  ">
+]>
+
+<dir table="hredt" code="stt_rec, stt_rec0" order="stt_rec, stt_rec0" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thông tin các khóa học ngắn hạn" e="Training Courses Information"></title>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" hidden="true" readOnly="true" allowNulls="false">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"></items>
+    </field>
+
+    <field name="ma_khoa" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã khóa học" e="Course Code"></header>
+      <items style="AutoComplete" controller="hrTMCourseInformation" reference="ten_khoa%l" key="1=1" check="1=1" information="ma_khoa$hrdtkh.ten_khoa%l"/>
+      <clientScript><![CDATA[onchange="onChange$TrainCourseInfor(this);"]]></clientScript>
+    </field>
+    <field name="ten_khoa%l" external="true" defaultValue="''" readOnly="true">
+      <header v="Tên khóa học" e="Course Name"></header>
+    </field>
+    <field name="ma_mh" external="true" defaultValue="''" disabled="true">
+      <header v="Môn học" e="Subject"></header>
+    </field>
+    <field name="ten_mh%l" external="true" defaultValue="''" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="loai_hinh_dt" external="true" defaultValue="''" disabled="true">
+      <header v="Loại hình đào tạo" e="Training Type"></header>
+    </field>
+    <field name="ten_loai%l" external="true" defaultValue="''" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_dvdt" external="true" defaultValue="''" disabled="true">
+      <header v="Đơn vị đào tạo" e="Training Provider"></header>
+    </field>
+    <field name="ten_dvdt%l" external="true" defaultValue="''" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_hoc1" type="DateTime" external="true" defaultValue="null" dataFormatString="@datetimeFormat" align="left" disabled="true">
+      <header v="Ngày học từ" e="Training Date from"></header>
+      <footer v="Ngày học từ/đến" e="Training Date from/to"/>
+    </field>
+    <field name="ngay_hoc2" type="DateTime" external="true" defaultValue="null" dataFormatString="@datetimeFormat" align="left" disabled="true">
+      <header v="Ngày học đến" e="Training Date to"></header>
+    </field>
+    <field name="so_gio" type="Decimal" dataFormatString="### ### ##0.00" external="true" defaultValue="0" disabled="true">
+      <header v="Tổng số giờ học" e="No. of Training Hours"/>
+      <items style="Numeric"></items>
+    </field>
+
+    <field name="diem" type="Decimal" dataFormatString="@markInputFormat" defaultValue="0">
+      <header v="Điểm" e="Mark"/>
+      <items style="Numeric"></items>
+    </field>
+    <field name="xep_loai">
+      <header v="Xếp loại" e="Grade"></header>
+      <items style="AutoComplete" reference="ten_xl%l" controller="hrTMGradeList" key="status = '1'" check="status = '1'" information="ma_loai$hrdmxldt.ten_loai%l"/>
+    </field>
+    <field name="ten_xl%l" external="true" hidden="true" defaultValue="''" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="dat_yn" type="Boolean" clientDefault="1">
+      <header v="Kết quả" e="Result"/>
+      <items style="CheckBox"/>
+    </field>
+    <field name="chung_chi">
+      <header v="Chứng chỉ" e="Certificate"></header>
+    </field>
+    <field name="ngay_cap" type="DateTime" dataFormatString="@datetimeFormat" align="left">
+      <header v="Ngày cấp" e="Date of Issue"></header>
+    </field>
+    <field name="ngay_hl" type="DateTime" dataFormatString="@datetimeFormat" align="left">
+      <header v="Hiệu lực từ ngày" e="Effective Date from"></header>
+      <footer v="Ngày hiệu lực từ/đến" e="Effective Date from/to"/>
+    </field>
+    <field name="ngay_hh" type="DateTime" dataFormatString="@datetimeFormat" align="left">
+      <header v="Hiệu lực đến ngày" e="Effective Date to"></header>
+    </field>
+    <field name="ghi_chu" rows="2">
+      <header v="Ghi chú" e="Description"/>
+    </field>
+    <field name="ten_dt%l" external="true" hidden="true" disabled="true" defaultValue="''">
+      <header v="" e=""/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 100, 100, 130, 0"/>
+      <item value="1101001: [ma_khoa].Label, [ma_khoa], [ten_khoa%l], [stt_rec]"/>
+      <item value="1101001: [ma_mh].Label, [ma_mh], [ten_mh%l], [stt_rec0]"/>
+      <item value="1101001: [loai_hinh_dt].Label, [loai_hinh_dt], [ten_loai%l], [line_nbr]"/>
+      <item value="110100: [ma_dvdt].Label, [ma_dvdt], [ten_dvdt%l]"/>
+      <item value="1101: [ngay_hoc1].Discription, [ngay_hoc1], [ngay_hoc2]"/>
+      <item value="110: [so_gio].Label, [so_gio]"/>
+      <item value="110: [diem].Label, [diem]"/>
+      <item value="110100: [xep_loai].Label, [xep_loai], [ten_xl%l]"/>
+      <item value="11: [dat_yn].Label, [dat_yn]"/>
+      <item value="110000: [chung_chi].Label, [chung_chi]"/>
+      <item value="110: [ngay_cap].Label, [ngay_cap]"/>
+      <item value="1101: [ngay_hl].Discription, [ngay_hl], [ngay_hh]"/>
+      <item value="110000: [ghi_chu].Label, [ghi_chu]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+declare @message nvarchar(4000)
+]]>&CommandWhenBeforeLoad;<![CDATA[
+select @message = 'set$ViewPanelEmployeeID(this);loading$PITrainingCourses(this);'
+select isnull(@message,'') as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+declare @message nvarchar(4000)
+]]>&CommandWhenBeforeLoad;<![CDATA[
+select @message = 'set$ViewPanelEmployeeID(this);'
+select isnull(@message,'') as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="InitExternalFields">
+      <text>
+        <![CDATA[
+declare @ma_khoa varchar(33)
+select @ma_khoa = ma_khoa from hredt where stt_rec = @stt_rec and stt_rec0 = @stt_rec0
+if exists(select 1 from hrdtkh where ma_khoa = @ma_khoa) begin
+  select a.ma_mh, b.ten_mh%l, a.loai_hinh_dt, d.ten_loai%l, a.ma_dvdt, c.ten_dvdt%l, a.ngay_hoc1, a.ngay_hoc2, a.so_gio
+		from hrdtkh a with(nolock) 
+		  left join hrdmmh b on a.ma_mh = b.ma_mh 
+		  left join hrdmdvdt c on a.ma_dvdt = c.ma_dvdt 
+		  left join hrdmlhdt d on a.loai_hinh_dt = d.ma_loai
+		where ma_khoa = @ma_khoa
+  return
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'closing$PITrainingCourses(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$deleteConflict nvarchar(512), @$exists nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã khóa học <span class="Highlight">%s</span> đã có hoặc lồng nhau hoặc không hợp lệ.' else N'The course code <span class="Highlight">%s</span> is invalid or already exists.' end
+select @$deleteConflict = case when @@language = 'V' then N'Bản ghi này được chuyển từ phân hệ khác sang, không thể xóa được.' else N'Can not delete this record, It was inserted automatically.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where stt_rec = @stt_rec and ma_khoa = @ma_khoa and tag = 0) begin
+  select 'ma_khoa' as field, replace(@$exists, '%s', rtrim(@ma_khoa)) as message
+  return
+end
+
+if exists(select 1 from @@table where stt_rec = @stt_rec) select @stt_rec0 = max(stt_rec0), @line_nbr = max(line_nbr) from @@table where stt_rec = @stt_rec
+  else select @stt_rec0 = '000', @line_nbr = 0
+  
+exec dbo.FastBusiness$HRM$GetRowID @stt_rec0 output, @line_nbr output
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID, @tag = 0
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+select @stt_rec0 as stt_rec0
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where stt_rec = @stt_rec and stt_rec0 <> @stt_rec0 and ma_khoa = @ma_khoa and tag = 0) begin
+  select 'ma_khoa' as field, replace(@$exists, '%s', rtrim(@ma_khoa)) as message
+  return
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec and stt_rec0 = @stt_rec0 and tag = 0
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+if exists(select 1 from hredt where stt_rec = @stt_rec and stt_rec0 = @stt_rec0 and tag = 1) begin
+  select @$deleteConflict as message
+  return
+end
+]]>
+      </text>
+    </command>
+
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function loading$PITrainingCourses(f) {f.add_onResponseComplete(on$PITrainingCourses$ResponseComplete);}
+function closing$PITrainingCourses(f) {try {f.remove_onResponseComplete(on$PITrainingCourses$ResponseComplete);} catch (ex) {}}
+function on$PITrainingCourses$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+		case 'Course':
+		  f.setItemValues('ma_mh, ten_mh%l, loai_hinh_dt, ten_loai%l, ma_dvdt, ten_dvdt%l, ngay_hoc1, ngay_hoc2, so_gio',
+		    [result[0].Value, result[1].Value, result[2].Value, result[3].Value, result[4].Value, result[5].Value, result[6].Value, result[7].Value, result[8].Value]);
+      break;
+    default:
+      break;
+  }
+}
+function onChange$TrainCourseInfor(o) {o.parentForm.request('Course', 'Course', ['ma_khoa']);}
+]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="Course">
+      <text>
+        <![CDATA[
+if exists(select 1 from hrdtkh where ma_khoa = @ma_khoa) begin
+  select a.ma_mh, b.ten_mh%l, a.loai_hinh_dt, d.ten_loai%l, a.ma_dvdt, c.ten_dvdt%l, a.ngay_hoc1, a.ngay_hoc2, a.so_gio
+		from hrdtkh a with(nolock) 
+		  left join hrdmmh b on a.ma_mh = b.ma_mh 
+		  left join hrdmdvdt c on a.ma_dvdt = c.ma_dvdt 
+		  left join hrdmlhdt d on a.loai_hinh_dt = d.ma_loai
+		where ma_khoa = @ma_khoa
+  return
+end
+]]>
+      </text>
+    </action>
+  </response>
+</dir>

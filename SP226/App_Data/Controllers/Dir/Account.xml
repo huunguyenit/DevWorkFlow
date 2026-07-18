@@ -1,0 +1,402 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY Identification "Account">
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+  <!ENTITY OutlineCss SYSTEM "..\Include\Javascript\OutlineCss.txt">
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+
+  <!ENTITY ParentAccountMessage "
+select 'tk_me' as field, replace(@$parentAccount$Conflict, '$s', rtrim(@tk_me)) as message
+return">
+
+  <!ENTITY % CheckDir SYSTEM "..\Include\CheckDir.ent">
+  %CheckDir;
+  <!ENTITY CheckDirParameterParentAccount "'Account', @tk_me">
+  <!ENTITY CheckDirQueryParentAccount "
+    &ParentAccountMessage;">
+  <!ENTITY CheckDirParameterUpdating "'Account', $tk.OldValue">
+  <!ENTITY CheckDirQueryUpdating "
+    select @message as message
+    return">
+  <!ENTITY CheckDirParameterDeleting "'Account', @tk">
+  <!ENTITY CheckDirQueryDeleting "
+    select @message as message
+    return">
+
+  <!ENTITY AccountBalanceFields "abs(du_no_nt00) + abs(du_co_nt00) + abs(du_no00) + abs(du_co00) + abs(du_no_nt1) + abs(du_co_nt1) + abs(du_no1) + abs(du_co1)">
+  <!ENTITY CheckParentAccount "
+if @tk_me &lt;&gt; '' begin
+  if exists(select 1 from cdtk where tk = @tk_me and &AccountBalanceFields; > 0) begin &ParentAccountMessage; end
+  if exists(select 1 from ct00 where tk = @tk_me) begin &ParentAccountMessage; end
+  &CheckDirProcessParentAccount;
+end">
+  <!ENTITY CheckARAPAccount "
+if not exists(select 1 from options where name = 'm_tk_cn_list' and dbo.ff_Inlist(@tk, rtrim(val)) = @tk_cn) begin
+  select 'tk_cn' as field, @$whenARAPCheckFail as message
+  return
+end">
+
+  <!ENTITY CheckChildAccountAndParentAccount "
+if exists(select 1 from options where name = 'm_tk_long_yn' and val = '1') begin
+  if (@tk_me &lt;&gt; '' and charindex(rtrim(@tk_me), rtrim(@tk)) &lt;&gt; 1) begin
+    select 'tk' as field, @$childAccount$Conflict as message
+    return
+  end
+end">
+  <!ENTITY UpdateParentAccountType "
+if @loai_tk = 1 update dmtk set loai_tk = 0 where tk = @tk_me">
+
+  <!ENTITY RevertAccountBalance "
+if @tk_me &lt;&gt; '' delete cdtk where tk = @tk_me and &AccountBalanceFields; = 0">
+
+  <!ENTITY % Control.Unit SYSTEM "..\Include\Unit.ent">
+  %Control.Unit;
+  %Control.Unit.Include.Account;
+  %Control.Unit.Ignore;
+
+  <!ENTITY c "AccountUnitDetail">
+  <!ENTITY h1 "566">
+  <!ENTITY h2 "150">
+  <!ENTITY k "tk">
+  <!ENTITY i "8">
+  <!ENTITY Tag "dmtk">
+]>
+
+<dir table="dmtk" code="tk" order="tk" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="tài khoản" e="Account"></title>
+  <fields>
+    <field name="tk" isPrimaryKey="true" dataFormatString="@upperCaseFormat" clientDefault="&ClientDefault;" allowNulls="false">
+      <header v="Tài khoản" e="Account"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ten_tk" clientDefault="&ClientDefault;" allowNulls="false">
+      <header v="Tên tài khoản" e="Description"></header>
+    </field>
+    <field name="ten_tk2" clientDefault="&ClientDefault;">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+    <field name="ten_ngan" categoryIndex="&GeneralCategoryIndex;">
+      <header v="Tên ngắn" e="Short Name"></header>
+    </field>
+    <field name="ten_ngan2" categoryIndex="&GeneralCategoryIndex;">
+      <header v="Tên ngắn khác" e="Other Short Name"></header>
+    </field>
+    <field name="tk_me" clientDefault="Default" categoryIndex="&GeneralCategoryIndex;">
+      <header v="Tài khoản mẹ" e="Parent Account"></header>
+      <items style="AutoComplete" controller="Account" reference="ten_tk_me%l" key="status = '1'" check="1 = 1" information="tk$dmtk.ten_tk%l" new="Default"/>
+    </field>
+    <field name="ten_tk_me%l" clientDefault="Default" readOnly="true" external="true" defaultValue="''" categoryIndex="&GeneralCategoryIndex;">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nt" clientDefault="Default" allowNulls="false" categoryIndex="&GeneralCategoryIndex;">
+      <header v="Mã nt" e="Currency"></header>
+      <clientScript><![CDATA[onchange="onChangeCurrency]]>&Identification;<![CDATA[(this);"]]></clientScript>
+      <items style="AutoComplete" controller="Currency" reference="ten_nt%l" key="status = '1'" check="1=1" information="ma_nt$dmnt.ten_nt%l"/>
+    </field>
+    <field name="ten_nt%l" clientDefault="Default" readOnly="true" hidden="false" external="true" defaultValue="''" categoryIndex="&GeneralCategoryIndex;">
+      <header v="" e=""></header>
+    </field>
+    <field name="tk_cn" type="Byte" dataFormatString="0, 1" clientDefault="Default" defaultValue="0" align="right" categoryIndex="&GeneralCategoryIndex;">
+      <header v="Tk theo dõi công nợ" e="AR/AP Account"></header>
+      <footer v="1 - Theo dõi công nợ, 0 - Không theo dõi công nợ" e="1 - AR/AP Account, 0 - Non AR/AP Account"></footer>
+      <items style="Mask"/>
+    </field>
+    <field name="tk_sc" type="Byte" dataFormatString="0, 1" clientDefault="Default" defaultValue="1" align="right" categoryIndex="&GeneralCategoryIndex;">
+      <header v="Tài khoản sổ cái" e="GL Account"></header>
+      <footer v="1 - Tk sổ cái, 0 - Không phải tài khoản sổ cái" e="1 - G/L Account, 0 - Non G/L Account"></footer>
+      <items style="Mask"/>
+    </field>
+    <field name="nh_tk0" categoryIndex="&GeneralCategoryIndex;">
+      <header v="Loại tài khoản" e="Account Type"></header>
+      <items style="AutoComplete" controller="AccountType" reference="ten_nh_tk0%l" key="status = '1'" check="1=1" information="ma_nh$dmnhtk0.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_tk0%l" readOnly="true" external="true" defaultValue="''" categoryIndex="&GeneralCategoryIndex;">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_tk2" categoryIndex="&GeneralCategoryIndex;">
+      <header v="Nhóm tài khoản" e="Account Group"></header>
+      <items style="AutoComplete" controller="AccountGroup" reference="ten_nh_tk2%l" key="loai_nh = 2 AND status = '1'" check="loai_nh = 2" information="ma_nh$dmnhtk.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_tk2%l" readOnly="true" external="true" defaultValue="''" categoryIndex="&GeneralCategoryIndex;">
+      <header v="" e=""></header>
+    </field>
+    <field name="loai_cl_no" type="Byte" columns="3" categoryIndex="&GeneralCategoryIndex;">
+      <header v="Pp tính tggs nợ" e="Debit Ex. Rate Type"></header>
+      <clientScript>&OnSelectionOutline;</clientScript>
+      <items style="DropDownList">
+        <item value="0">
+          <text v="Không tính chênh lệch" e="None"/>
+        </item>
+        <item value="1">
+          <text v="Trung bình tháng" e="Monthly Average"/>
+        </item>
+        <item value="2">
+          <text v="Đích danh" e="Specific"/>
+        </item>
+        <item value="3">
+          <text v="Nhập trước xuất trước" e="FIFO"/>
+        </item>
+        <item value="4">
+          <text v="Trung bình di động" e="Moving Average"/>
+        </item>
+      </items>
+    </field>
+    <field name="loai_cl_co" type="Byte" columns="3" categoryIndex="&GeneralCategoryIndex;">
+      <header v="Pp tính tggs có" e="Credit Ex. Rate Type"></header>
+      <clientScript>&OnSelectionOutline;</clientScript>
+      <items style="DropDownList">
+        <item value="0">
+          <text v="Không tính chênh lệch" e="None"/>
+        </item>
+        <item value="1">
+          <text v="Trung bình tháng" e="Monthly Average"/>
+        </item>
+        <item value="2">
+          <text v="Đích danh" e="Specific"/>
+        </item>
+        <item value="3">
+          <text v="Nhập trước xuất trước" e="FIFO"/>
+        </item>
+        <item value="4">
+          <text v="Trung bình di động" e="Moving Average"/>
+        </item>
+      </items>
+    </field>
+
+    &UnitFields;
+
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true" categoryIndex="&BottomCategoryIndex;">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    &View;
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+declare @baseCurrency varchar(32)
+select @baseCurrency = rtrim(val) from options where name = 'm_ma_nt0'
+if exists(select * from @@table where tk = @tk and ma_nt = @baseCurrency) begin
+  select 'this._baseCurrency=''' + @baseCurrency + ''';onChangeCurrency]]>&Identification;<![CDATA[(this.getItem(''ma_nt''));active$FormAccount(this);' as message
+  return
+end else begin
+  select 'this._baseCurrency=''' + @baseCurrency + ''';active$FormAccount(this);' as message
+  return
+end]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormAccount(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+select 'onChangeCurrency]]>&Identification;<![CDATA[(this.getItem(''ma_nt''));' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$containConflict nvarchar(512), @$updateConflict nvarchar(512), @$recordHasBeenChanged nvarchar(512), @$deleteConflict nvarchar(512), @$parentAccount$Conflict nvarchar(512), @$whenARAPCheckFail nvarchar(512), @$updateWhenHasChildren nvarchar(512), @$deleteWhenHasChildren nvarchar(512), @$coincidentConflict nvarchar(512), @$childAccount$Conflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Tài khoản <span class="Highlight">%s</span> đã có trong danh mục tài khoản.' else N'The account <span class="Highlight">%s</span> already exists.' end
+select @$containConflict = case when @@language = 'v' then N'Tài khoản <span class="Highlight">%s</span> lồng nhau với một tài khoản khác cùng cấp.' else N'The account <span class="Highlight">%s</span> is nested with an existing one in the same level.' end
+select @$updateConflict = case when @@language = 'v' then N'Tài khoản <span class="Highlight">%s</span> đã phát sinh, không thể sửa được.' else N'Cannot edit the account <span class="Highlight">%s</span>. It has already been used.' end
+select @$deleteConflict = case when @@language = 'v' then N'Tài khoản <span class="Highlight">%s</span> đã phát sinh, không thể xóa được.' else N'Cannot delete the account <span class="Highlight">%s</span>. It has already been used.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Tài khoản <span class="Highlight">%s</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The account <span class="Highlight">%s</span> has been modified or deleted by another user.' end
+select @$parentAccount$Conflict = case when @@language = 'v' then N'Tài khoản mẹ <span class="Highlight">$s</span> đã phát sinh, không thể lưu được.' else N'Cannot save the parent account <span class="Highlight">$s</span>. It has already been used.' end
+select @$coincidentConflict = case when @@language = 'v' then N'Tài khoản mẹ và con không được trùng nhau.' else N'Invalid parent account. It is coincident with account.' end
+
+select @$whenARAPCheckFail = case when @@language = 'v' then N'Kiểm tra lại khai báo của tài khoản công nợ này.' else N'Check AR/AP information of this account' end
+select @$updateWhenHasChildren = case when @@language = 'v' then N'Tài khoản <span class="Highlight">%s</span> đã có các tài khoản con, không sửa được trường tài khoản.' else N'Sub-account of <span class="Highlight">%s</span> has been made, cannot edit the account field.' end
+select @$deleteWhenHasChildren = case when @@language = 'v' then N'Tài khoản <span class="Highlight">%s</span> đã có các tài khoản con, không xóa được.' else N'Sub-account of <span class="Highlight">%s</span> has been made, cannot delete this account.' end
+
+select @$childAccount$Conflict = case when @@language = 'v' then N'Các ký tự bắt đầu của tài khoản phải được khai báo trùng so với tài khoản mẹ.' else N'The ordinal number of each sub-account must be added to the right of the number of its parent account.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        &CheckChildAccountAndParentAccount;
+        &CheckARAPAccount;
+        &CheckParentAccount;
+        <![CDATA[
+if exists(select * from @@table where tk = @tk) begin
+  select 'tk' as field, replace(@$exists, '%s', rtrim(@tk)) as message
+  return
+end
+
+select @loai_tk = case when exists(select * from @@table where tk_me = @tk) then 0 else 1 end
+select @bac_tk = case when @tk_me = '' then 1 else isnull((select bac_tk from @@table where tk = @tk_me), 0) + 1 end
+if exists(select * from @@table where bac_tk = @bac_tk and ((tk like rtrim(@tk) + '%') or (@tk like rtrim(tk) + '%'))) begin
+  select 'tk' as field, replace(@$containConflict, '%s', rtrim(@tk)) as message
+  return
+end
+]]>&UnitBeforeInsert;<![CDATA[
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+        &UpdateParentAccountType;
+        &RevertAccountBalance;
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        &UnitPostInsert;
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        &CheckChildAccountAndParentAccount;
+        &CheckARAPAccount;
+        <![CDATA[
+if @tk <> $tk.OldValue and exists(select 1 from @@table where tk_me = $tk.OldValue) begin
+  select 'tk' as field, replace(@$updateWhenHasChildren, '%s', rtrim($tk.OldValue)) as message
+  return
+end
+
+if not exists(select 1 from @@table where tk = $tk.OldValue) begin
+  select 'tk' as field, replace(@$recordHasBeenChanged, '%s', rtrim($tk.OldValue)) as message
+  return
+end
+
+if @tk <> $tk.OldValue begin
+  if exists(select 1 from @@table where tk = @tk and tk <> $tk.OldValue) begin
+    select 'tk' as field, replace(@$exists, '%s', rtrim(@tk)) as message
+    return
+  end
+
+  declare @message nvarchar(255)
+  select @message  = replace(@$updateConflict, '%s', rtrim($tk.OldValue))
+  if exists(select 1 from cdtk where tk = $tk.OldValue and ]]>&AccountBalanceFields;<![CDATA[ > 0) begin
+    select @message as message
+    return
+  end
+  if exists(select 1 from ct00 where tk = $tk.OldValue) begin
+    select @message as message
+    return
+  end
+
+]]>&CheckDirProcessUpdating;<![CDATA[
+end
+
+if exists(select 1 from @@table where tk_me <> @tk_me and tk = $tk.OldValue) begin]]>&CheckParentAccount;<![CDATA[ end
+
+declare @bac_tk int
+select @bac_tk = case when @tk_me = '' then 1 else isnull((select bac_tk from @@table where tk = @tk_me), 0) + 1 end
+if exists(select 1 from @@table where tk <> $tk.OldValue and bac_tk = @bac_tk and ((tk like rtrim(@tk) + '%') or (@tk like rtrim(tk) + '%'))) begin
+  select 'tk' as field, replace(@$containConflict, '%s', rtrim(@tk)) as message
+  return
+end
+
+if @tk = @tk_me begin
+  select 'tk_me', @$coincidentConflict as message
+  return
+end
+if @tk <> $tk.OldValue delete cdtk where tk = $tk.OldValue and ]]>&AccountBalanceFields;<![CDATA[ = 0
+if exists(select 1 from @@table where tk_me <> @tk_me and tk = $tk.OldValue) begin]]>&RevertAccountBalance;<![CDATA[ end
+]]>
+        &UnitBeforeUpdate;
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+declare @loai_tk int
+select @loai_tk = case when exists(select * from @@table where tk_me = @tk) then 0 else 1 end
+update @@table set loai_tk = @loai_tk, bac_tk = @bac_tk, datetime2 = getdate(), user_id2 = @@userID where tk = @tk
+]]>
+        &UnitPostUpdate;
+        &UpdateParentAccountType;
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+declare @message nvarchar(255), @parentAccount varchar(32)
+if exists(select 1 from @@table where tk_me = @tk) begin
+  select replace(@$deleteWhenHasChildren, '%s', rtrim(@tk)) as message
+  return
+end
+
+select @message  = replace(@$deleteConflict, '%s', rtrim(@tk))
+if exists(select 1 from cdtk where tk = @tk and ]]>&AccountBalanceFields;<![CDATA[ > 0) begin
+  select @message as message
+  return
+end
+if exists(select 1 from ct00 where tk = @tk) begin
+  select @message as message
+  return
+end
+]]>&CheckDirProcessDeleting;<![CDATA[
+select @parentAccount = tk_me from @@table where tk = @tk
+if @parentAccount <> '' begin
+  if not exists(select 1 from @@table where tk_me = @parentAccount and tk <> @tk) update @@table set loai_tk = 1 where tk = @parentAccount
+end
+delete cdtk where tk = @tk and ]]>&AccountBalanceFields;<![CDATA[ = 0
+]]>
+        &UnitPostDelete;
+      </text>
+    </command>
+
+    <command event ="Checking">
+      <text>
+        &UnitCheck;
+      </text>
+    </command>
+
+  </commands>
+
+  <script>
+    <text>
+      &ScriptQueryData;
+      &OutlineEntry;
+      <![CDATA[
+function active$FormAccount(f) {f.add_onResponseComplete(on$FormAccount$ResponseComplete);]]>&ActiveForm;<![CDATA[}
+function close$FormAccount(f) {try {f.remove_onResponseComplete(on$FormAccount$ResponseComplete)} catch (ex) {};]]>&CloseForm;<![CDATA[}
+function on$FormAccount$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'tk');
+      break;
+    default:
+      break;
+  }
+}
+function onChangeCurrency]]>&Identification;<![CDATA[(o) {
+  var f = o.parentForm, value;
+  if (f._action == 'View') return;
+  value = (o.value.toUpperCase() == f._baseCurrency.toUpperCase());
+  f.getItem('loai_cl_no').disabled = value;
+  f.getItem('loai_cl_co').disabled = value;
+}
+]]>
+      &TabChanged;
+      &ScriptIrregular;
+    </text>
+  </script>
+
+  &OutlineCss;
+</dir>

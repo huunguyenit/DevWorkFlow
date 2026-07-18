@@ -1,0 +1,34 @@
+<UserControl x:Class="UI.Views.Bottom.ReferencesPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:bottom="clr-namespace:UI.ViewModels.Bottom">
+
+    <DockPanel Background="{StaticResource EditorBgBrush}">
+        <Border DockPanel.Dock="Top" Background="{StaticResource CodePaneHeaderBrush}"
+                Padding="8,3" BorderBrush="{StaticResource IdeBorderBrush}" BorderThickness="0,0,0,1">
+            <DockPanel>
+                <TextBlock Text="REFERENCES" FontSize="11" FontWeight="SemiBold"
+                           Foreground="{StaticResource FgMutedBrush}" VerticalAlignment="Center"/>
+                <TextBlock DockPanel.Dock="Right" Text="{Binding References.Count, StringFormat='({0})'}"
+                           FontSize="11" Foreground="{StaticResource FgMutedBrush}"
+                           HorizontalAlignment="Right"/>
+            </DockPanel>
+        </Border>
+
+        <ListBox ItemsSource="{Binding References}"
+                 BorderThickness="0" Background="Transparent" FontSize="11"
+                 MouseDoubleClick="ReferencesList_MouseDoubleClick">
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type bottom:ReferenceItemVm}">
+                    <StackPanel Orientation="Horizontal" Margin="2,2">
+                        <md:PackIcon Kind="LinkVariant" Width="14" Height="14"
+                                     Foreground="#1565C0" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                        <TextBlock Text="{Binding Display}" TextWrapping="Wrap"
+                                   Foreground="{StaticResource FgBrush}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="vtdmtn" code="ma_tn" name="ten_tn%l" order="ma_tn" xmlns="urn:schemas-fast-com:data-lookup">
+
+  <header v="Danh mục chỉ tiêu" e="Pattern"></header>
+
+  <fields>
+    <field name="ma_tn" allowSorting="true" allowFilter="true" >
+      <header v="Mã chỉ tiêu" e="Pattern Code"></header>
+    </field>
+
+    <field name="ten_tn%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên chỉ tiêu" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY CommandWhenBeforeLoad "
+if @@view = 0 begin
+  if @@action = 'Edit' begin
+    if exists(select 1 from hrepv where stt_rec = @stt_rec and stt_rec0 = @stt_rec0 and tag = 1) begin
+      select '' as script, case when @@language = 'V' then N'Bản ghi này được chuyển từ phân hệ khác sang, không thể sửa hoặc xóa được.' else N'Can not edit or delete this record, It was inserted automatically.' end as message
+      return
+    end
+  end
+end
+  ">
+]>
+
+<dir table="hrepv" code="stt_rec, stt_rec0" order="stt_rec0" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="kết quả phỏng vấn" e="Recruitment Interview"></title>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" hidden="true" readOnly="true" allowNulls="false">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"></items>
+    </field>
+
+    <field name="ma_pv" allowNulls="false">
+      <header v="Loại phỏng vấn" e="Interview Code"></header>
+      <items style="AutoComplete" controller="hrRMInterview" reference="ten_pv%l" key="status = '1'" check="1=1" information="ma_pv$hrdmpv.ten_pv%l"/>
+    </field>
+    <field name="ten_pv%l" external="true" defaultValue="''" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_pv" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày phỏng vấn" e="Interview Date"></header>
+    </field>
+    <field name="diem" type="Decimal" dataFormatString="@markInputFormat" defaultValue="0">
+      <header v="Điểm" e="Mark"/>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ma_kq">
+      <header v="Kết quả" e="Result"></header>
+      <items style="AutoComplete" controller="hrRMResult" reference="ten_kq%l" key="status = '1'" check="1=1" information="ma_kq$hrdmkq.ten_kq%l"/>
+    </field>
+    <field name="ten_kq%l" external="true" defaultValue="''" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="trong_so" type="Int32" dataFormatString="### ### ##0">
+      <header v="Trọng số (%)" e="Weight (%)"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ghi_chu" rows="2">
+      <header v="Ghi chú" e="Description"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 100, 100, 100, 130, 0, 0"/>
+      <item value="1110011: [ma_pv].Label, [ma_pv], [ten_pv%l], [stt_rec], [stt_rec0]"/>
+      <item value="11: [ngay_pv].Label, [ngay_pv]"/>
+      <item value="11: [diem].Label, [diem]"/>
+      <item value="11100: [ma_kq].Label, [ma_kq], [ten_kq%l]"/>
+      <item value="11: [trong_so].Label, [trong_so]"/>
+      <item value="11000: [ghi_chu].Label, [ghi_chu]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+declare @message nvarchar(4000), @resultCode varchar(33), @resultName nvarchar(511)
+]]>&CommandWhenBeforeLoad;<![CDATA[
+select @resultCode = rtrim(ma_kq), @resultName = case when @@language = 'V' then rtrim(ten_kq) else rtrim(ten_kq2) end from hrdmkq where ma_kq = '1'
+select @message = 'this._resultCode = ''' + @resultCode + ''';this._resultName = ''' + replace(replace(isnull(@resultName, ''), '\', '\\'), '''', '\''') + ''';set$ViewPanelEmployeeID(this);active$PITestResult(this);'
+select isnull(@message,'') as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+declare @message nvarchar(4000)
+]]>&CommandWhenBeforeLoad;<![CDATA[
+select @message = 'set$ViewPanelEmployeeID(this);scatter$PITestResult(this);'
+select isnull(@message,'') as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$deleteConflict nvarchar(512), @$exists nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Nội dung phỏng vấn <span class="Highlight">%s1</span> và ngày <span class="Highlight">%s2</span> đã có hoặc lồng nhau hoặc không hợp lệ.' else N'The interview code <span class="Highlight">%s1</span> and date <span class="Highlight">%s2</span> is invalid or already exists.' end
+select @$deleteConflict = case when @@language = 'V' then N'Bản ghi này được chuyển từ phân hệ khác sang, không thể xóa được.' else N'Can not delete this record, It was inserted automatically.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+declare @d nvarchar(10)
+if exists(select 1 from @@table where stt_rec = @stt_rec and ma_pv = @ma_pv and isnull(ngay_pv, '') = isnull(@ngay_pv, '') and tag = 0) begin
+  select @d = case when @ngay_pv is not null then convert(char(10), @ngay_pv, 103) else '/ /' end
+  select 'ma_pv' as field, replace(replace(@$exists, '%s1', rtrim(@ma_pv)), '%s2', rtrim(@d)) as message
+  return
+end
+
+if exists(select 1 from @@table where stt_rec = @stt_rec) select @stt_rec0 = max(stt_rec0), @line_nbr = max(line_nbr) from @@table where stt_rec = @stt_rec
+  else select @stt_rec0 = '000', @line_nbr = 0
+  
+exec dbo.FastBusiness$HRM$GetRowID @stt_rec0 output, @line_nbr output
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID, @tag = 0
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+select @stt_rec0 as stt_rec0
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+declare @d nvarchar(10)
+if exists(select 1 from @@table where stt_rec = @stt_rec and stt_rec0 <> @stt_rec0 and ma_pv = @ma_pv and isnull(ngay_pv, '') = isnull(@ngay_pv, '') and tag = 0) begin
+  select @d = case when @ngay_pv is not null then convert(char(10), @ngay_pv, 103) else '/ /' end
+  select 'ma_pv' as field, replace(replace(@$exists, '%s1', rtrim(@ma_pv)), '%s2', rtrim(@d)) as message
+  return
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec and stt_rec0 = @stt_rec0 and tag = 0
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+if exists(select 1 from hrepv where stt_rec = @stt_rec and stt_rec0 = @stt_rec0 and tag = 1) begin
+  select @$deleteConflict as message
+  return
+end
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$PIInterviewResult(f) {setDefault$PIInterviewResult$Value(f);}
+function scatter$PIInterviewResult(f) {setDefault$PIInterviewResult$Value(f);}
+function setDefault$PIInterviewResult$Value(f) {if (f._action == 'New') f.setItemValues('ma_kq, ten_kq%l', [f._resultCode, f._resultName]);}
+]]>
+    </text>
+  </script>
+</dir>

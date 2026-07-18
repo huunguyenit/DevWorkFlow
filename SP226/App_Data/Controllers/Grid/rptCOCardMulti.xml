@@ -1,0 +1,139 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLStandardReportToolbar SYSTEM "..\Include\XML\StandardReportToolbar.xml">
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+  <!ENTITY ScriptTagReport SYSTEM "..\Include\Javascript\TagReport.txt">
+
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+]>
+
+<grid type="Report" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Thẻ giá thành cho nhiều sản phẩm" e="Cost of Product Card for Items"></title>
+  <subTitle v="Từ kỳ %p1 năm %y1 đến %p2 năm %y2%s..." e="Period from %p1 Year %y1 to %p2 Year %y2%s..."></subTitle>
+  <fields>
+    <field name="tag" type="Boolean" width="60" filterSource="Tag">
+      <header v="&lt;div onclick=&quot;toggle$Grid(this);&quot; style=&quot;cursor:pointer;background-position:3px 3px;&quot; class=&quot;HeaderArrowImage&quot;&gt;Chọn&lt;/div&gt;" e="&lt;div onclick=&quot;toggle$Grid(this);&quot; style=&quot;cursor:pointer;background-position:3px 3px;&quot; class=&quot;HeaderArrowImage&quot;&gt;Select&lt;/div&gt;"></header>
+      <clientScript><![CDATA[onclick="onChange$SelectedValue(this);"]]></clientScript>
+    </field>
+    <field name="stt" type="Int64" dataFormatString="### ### ###" width="60" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Stt" e="No."></header>
+    </field>
+    <field name="ma_sp" width="100" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Mã sản phẩm" e="Product Code"></header>
+    </field>
+    <field name="ten_vt" width="300" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Tên sản phẩm" e="Product Name"></header>
+    </field>
+    <field name="ma_bp" width="100" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Bộ phận" e="Department"></header>
+    </field>
+    <field name="so_lsx" width="100" align="right" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Số lsx" e="MO Number"></header>
+    </field>
+
+    <field name="sl_tp" type="Decimal" width="100" dataFormatString="@quantityViewFormat" allowSorting="true" allowFilter="&GridReportAllowFilter.Number;" aggregate="Sum" readOnly="true">
+      <header v="Số lượng" e="Quantity"></header>
+    </field>
+    <field name="gia_nt" type="Decimal" width="100" dataFormatString="@foreignCurrencyPriceViewFormat" allowSorting="true" allowFilter="&GridReportAllowFilter.Number;" readOnly="true">
+      <header v="Giá nt" e="FC Price"></header>
+    </field>
+    <field name="tien_nt" type="Decimal" width="120" dataFormatString="@foreignCurrencyAmountViewFormat" allowSorting="true" allowFilter="&GridReportAllowFilter.Number;" aggregate="Sum" readOnly="true">
+      <header v="Tiền nt" e="FC Amount"></header>
+    </field>
+
+    <field name="gia" type="Decimal" width="100" dataFormatString="@baseCurrencyPriceViewFormat" allowSorting="true" allowFilter="&GridReportAllowFilter.Number;" readOnly="true">
+      <header v="Giá" e="Price"></header>
+    </field>
+    <field name="tien" type="Decimal" width="120" dataFormatString="@baseCurrencyAmountViewFormat" allowSorting="true" allowFilter="&GridReportAllowFilter.Number;" aggregate="Sum" readOnly="true">
+      <header v="Tiền" e="Amount"></header>
+    </field>
+
+    <field name="xKey" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="tag"/>
+      <field name="stt"/>
+      <field name="ma_sp"/>
+      <field name="ten_vt"/>
+      <field name="ma_bp"/>
+      <field name="so_lsx"/>
+
+      <field name="sl_tp"/>
+      <field name="gia_nt"/>
+      <field name="tien_nt"/>
+      <field name="gia"/>
+      <field name="tien"/>
+
+      <field name="xKey"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$GridReport$(this); load$CheckingReport$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Scattering">
+      <text>
+        <![CDATA[select 'scatter$GridReport$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridReport$(this); dispose$CheckingReport$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$CheckingReport$(g) {
+  g._$k = [];
+  g._$i = g._getColumnOrder('xKey');
+  g._$t = g._getColumnOrder('tag');
+  g._$f = 'keys';
+  g.add_commandEvent(on$GridReport$ExecuteCommand);
+}
+function scatter$GridReport$(g){
+  fill$Grid(g, true);
+  if (g._rowCount > 0){
+    g._activeRow = g._rowCount;
+    g._activeColumn = g._$t;
+    g._activeCell = g._getItem(g._activeRow, g._activeColumn);
+  }
+}
+function dispose$CheckingReport$(g) {
+  g._$k = g._$i = g._$t = g._$f = null;
+  try {g.remove_commandEvent(on$GridReport$ExecuteCommand);} catch (ex) {}
+}
+function on$GridReport$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'Print':
+      e.type.cancelEvent = !isCheck$Grid(g);
+      init$ExportKey(g, ',');
+      break;
+    default:
+      break;
+  }
+}
+/* </flatten> */]]>
+      &JavascriptReportInit;
+      &ScriptTagReport;
+    </text>
+  </script>
+
+  &XMLStandardReportToolbar;
+
+</grid>

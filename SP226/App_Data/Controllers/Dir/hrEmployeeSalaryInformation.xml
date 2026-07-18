@@ -1,0 +1,534 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY ScriptQueryData SYSTEM "..\Include\Javascript\QueryData.txt">
+
+  <!ENTITY % Extender SYSTEM "..\Include\Extender.ent">
+  %Extender;
+  %Extender.Include.hrEmployeeSalaryInformation;
+  %Extender.Ignore;
+]>
+
+<dir table="hrnv" code="stt_rec" order="stt_rec" type="Voucher" name="cookie" check="true" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thông tin lương nhân viên" e="Employee Salary Information Input"></title>
+  <partition table="hrnv" prime="hrnv" field="stt_rec" expression="''" default=""/>
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" allowNulls="false" dataFormatString="@upperCaseFormat" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Mask"/>
+    </field>
+
+    <field name="ma_nv">
+      <header v="Mã nhân viên" e="Employee ID"></header>
+    </field>
+    <field name="ho_nv" readOnly="true">
+      <header v="Họ nhân viên" e="Last Name"></header>
+    </field>
+    <field name="ten_nv" readOnly="true">
+      <header v="Tên nhân viên" e="First Name"></header>
+      <footer v="Họ và tên" e="Employee Name"></footer>
+    </field>
+    <field name="ho_ten" external="true" defaultValue="rtrim(ho_nv) + space(1) + ten_nv" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="ngay_vao" type="DateTime" dataFormatString="@datetimeFormat" inactivate="true">
+      <header v="Ngày vào công ty" e="Join Date"></header>
+    </field>
+    <field name="bo_phan" readOnly="true">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="AutoComplete" controller="hrDepartment" reference="ten_bp%l" information="ma_bp$hrbp.ten_bp%l"/>
+    </field>
+    <field name="ten_bp%l" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="vi_tri" readOnly="true">
+      <header v="Vị trí công việc" e="Position"></header>
+      <items style="AutoComplete" controller="hrPosition" reference="ten_vtr%l" information="ma_vtr$hrvt.ten_vtr%l" new="Default"/>
+    </field>
+    <field name="ten_vtr%l" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="tk_nh" clientDefault="Default" external="true" defaultValue="''" allowContain="true">
+      <header v="Tk ngân hàng" e="Bank Account"></header>
+    </field>
+    <field name="ma_nh" clientDefault="Default" external="true" defaultValue="''" allowContain="true">
+      <header v="Ngân hàng" e="Bank Code"></header>
+      <items style="AutoComplete" controller="hrBankList" reference="ten_nh%l" key="status = '1'" check="1=1" information="ma_nh$hrdmnh.ten_nh%l"/>
+    </field>
+    <field name="ten_nh%l" clientDefault="Default" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nt" clientDefault="Default" external="true" defaultValue="''" allowContain="true" allowNulls="false" inactivate="true">
+      <header v="Loại tiền" e="Currency"></header>
+      <items style="AutoComplete" controller="Currency" reference="ten_nt%l" key="status = '1'" check="1=1" information="ma_nt$dmnt.ten_nt%l"/>
+    </field>
+    <field name="ten_nt%l" clientDefault="Default" readOnly="true" external="true" defaultValue="''" hidden="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="loai_luong" dataFormatString="1, 2, 3, 9" clientDefault="1" align="right" categoryIndex="1" external="true" defaultValue="1" allowContain="true">
+      <header v="Loại lương" e="Salary Category"></header>
+      <footer v="1 - Thời gian, 2 - Sản phẩm, 3 - Khoán, 9 - Khác" e="1 - By Time, 2 - Product, 3 - Piece Rate, 9 - Other"></footer>
+      <items style="Mask"/>
+    </field>
+    <field name="kieu_tinh" dataFormatString="1, 0" clientDefault="1" align="right" categoryIndex="1" external="true" defaultValue="1" allowContain="true">
+      <header v="Kiểu tính" e="Calculating Way"></header>
+      <footer v="1 - Tính theo ngày làm việc, 0 - Không" e="1 - By Working Day, 2 - Not by Working Day"></footer>
+      <items style="Mask"/>
+    </field>
+
+    <field name="ma_ngach" categoryIndex="1" external="true" defaultValue="''" allowContain="true">
+      <header v="Ngạch lương" e="Pay Grade"></header>
+      <items style="AutoComplete" controller="hrPayGradeList" reference="ten_ngach%l" key="status = '1'" check="1=1" information="ma_ngach$hrdmnl.ten_ngach%l"></items>
+    </field>
+    <field name="ten_ngach%l" readOnly="true" external="true" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_bac" categoryIndex="1" external="true" defaultValue="''" allowContain="true">
+      <header v="Bậc lương" e="Rank of Salary"></header>
+      <items style="AutoComplete" controller="hrPayrollLevel" reference="ten_bac%l" key="status = '1'" check="1=1" information="ma_bac$hrdmbl.ten_bac%l"></items>
+    </field>
+    <field name="ten_bac%l" readOnly="true" external="true" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+    <field name="he_so_luong" type="Decimal" dataFormatString="##0.00" clientDefault="0" categoryIndex="1" external="true" defaultValue="0" allowContain="true">
+      <header v="Hệ số lương" e="Salary Coefficient"></header>
+      <footer v="&lt;div class=&quot;Break&quot;/&gt;" e="&lt;div class=&quot;Break&quot;/&gt;"></footer>
+      <items style="Numeric"/>
+    </field>
+    <field name="he_so_dc" type="Decimal" dataFormatString="##0.00" clientDefault="0" categoryIndex="1" external="true" defaultValue="0" hidden="true" readOnly="true" allowContain="true">
+      <header v="Hệ số điều chỉnh" e="Adj. Coefficient"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_khoan" type="Decimal" dataFormatString="@generalCurrencyAmountInputFormat" clientDefault="0" allowContain="true" categoryIndex="1" external="true" defaultValue="0">
+      <header v="Tiền khoán" e="Piece Rate Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="phu_cap" type="Decimal" dataFormatString="@generalCurrencyAmountInputFormat" clientDefault="0" allowContain="true" categoryIndex="1" external="true" defaultValue="0">
+      <header v="Phụ cấp" e="Allowance"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tro_cap" type="Decimal" dataFormatString="@generalCurrencyAmountInputFormat" clientDefault="0" allowContain="true" categoryIndex="1" external="true" defaultValue="0">
+      <header v="Trợ cấp" e="Benefit"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="he_so1" type="Decimal" dataFormatString="##0.00" clientDefault="0" categoryIndex="1" external="true" defaultValue="0" allowContain="true">
+      <header v="Hệ số 1" e="Coefficient 1"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="he_so2" type="Decimal" dataFormatString="##0.00" clientDefault="0" categoryIndex="1" external="true" defaultValue="0" allowContain="true">
+      <header v="Hệ số 2" e="Coefficient 2"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="he_so3" type="Decimal" dataFormatString="##0.00" clientDefault="0" categoryIndex="1" external="true" defaultValue="0" allowContain="true">
+      <header v="Hệ số 3" e="Coefficient 3"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="tien1" type="Decimal" dataFormatString="@generalCurrencyAmountInputFormat" clientDefault="0" allowContain="true" categoryIndex="1" external="true" defaultValue="0">
+      <header v="Tiền 1" e="Amount 1"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien2" type="Decimal" dataFormatString="@generalCurrencyAmountInputFormat" clientDefault="0" allowContain="true" categoryIndex="1" external="true" defaultValue="0">
+      <header v="Tiền 2" e="Amount 2"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien3" type="Decimal" dataFormatString="@generalCurrencyAmountInputFormat" clientDefault="0" allowContain="true" categoryIndex="1" external="true" defaultValue="0">
+      <header v="Tiền 3" e="Amount 3"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="hrttctluong" allowNulls="true" external="true" clientDefault="0" defaultValue="0" rows="258" filterSource="Tidy" categoryIndex="3">
+      <header v="" e=""></header>
+      <label v="Chi tiết" e="Detail"></label >
+      <items style="Grid" controller="hrEmployeeSalaryInformationDetail" row="1">
+        <item value="ForeignKey">
+          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+        </item>
+      </items>
+    </field>
+
+    <field name="hrttctpc" allowNulls="true" external="true" clientDefault="0" defaultValue="0" rows="258" filterSource="Tidy" categoryIndex="4">
+      <header v="" e=""></header>
+      <label v="Phụ cấp" e="Allowance"></label >
+      <items style="Grid" controller="hrEmployeeSalaryInformationAllowanceDetail" row="1">
+        <item value="ForeignKey">
+          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+        </item>
+      </items>
+    </field>
+
+    <field name="hrttctluongbh" allowNulls="true" external="true" clientDefault="0" defaultValue="0" rows="258" filterSource="Tidy" categoryIndex="5">
+      <header v="" e=""></header>
+      <label v="Bảo hiểm" e="Insurance"></label >
+      <items style="Grid" controller="hrEmployeeSalaryInformationInsuranceDetail" row="1">
+        <item value="ForeignKey">
+          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+        </item>
+      </items>
+    </field>
+
+    <field name="hrttdkluong" allowNulls="true" external="true" clientDefault="0" defaultValue="0" rows="258" filterSource="Tidy" categoryIndex="6">
+      <header v="" e=""></header>
+      <label v="Lương dự kiến" e="Planned Salary"></label >
+      <items style="Grid" controller="hrEmployeeSalaryInformationPlanned" row="1">
+        <item value="ForeignKey">
+          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+        </item>
+      </items>
+    </field>
+
+    <field name="hrttctluongnet" external="true" clientDefault="0" defaultValue="0" rows="258" filterSource="Tidy" categoryIndex="18">
+      <header v="" e=""></header>
+      <label v="Khác" e="Other"></label >
+      <items style="Grid" controller="hrEmployeeSalaryInformationNetGross" row="1">
+        <item value="ForeignKey">
+          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+        </item>
+      </items>
+    </field>
+
+    <field name="stt" external="true" defaultValue="0" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ten_gt" external="true" defaultValue="''" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_sinh" type="DateTime" dataFormatString="@datetimeFormat" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ten_ttnv%l" external="true" defaultValue="''" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="cookie" external="true" hidden="true" readOnly="true" defaultValue="''" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+
+    &ListField;
+    &PostField;
+  </fields>
+
+  <views>
+    <view id="Dir" height="319" anchor="5" split="7">
+      <item value="100, 30, 20, 50, 100, 100, 137, 8, 108, 50, 50, 0, 0, 0, 0, 0, 0"/>
+      <item value="1100100-110-11111: [ma_nv].Label, [ma_nv], [ho_ten], [ngay_vao].Label, [ngay_vao], [cookie], [stt], [ten_gt], [ngay_sinh], [ten_ttnv%l]"/>
+      <item value="1100000-110---111: [bo_phan].Label, [ten_bp%l], [ma_nt].Label, [ma_nt], [ten_nt%l], [stt_rec], [bo_phan]"/>
+      <item value="1100000---------1: [vi_tri].Label, [ten_vtr%l], [vi_tri]"/>
+      <item value="1100000-------11-: [tk_nh].Label, [tk_nh], [ho_nv], [ten_nv]"/>
+      <item value="1100100----------: [ma_nh].Label, [ma_nh], [ten_nh%l]"/>
+
+      <item value="111000000000: [loai_luong].Label, [loai_luong], [loai_luong].Description"/>
+      <item value="111000000000: [kieu_tinh].Label, [kieu_tinh], [kieu_tinh].Description"/>
+      <item value="110010000000: [ma_ngach].Label, [ma_ngach], [ten_ngach%l]"/>
+      <item value="110010000000: [ma_bac].Label, [ma_bac], [ten_bac%l]"/>
+      <item value="1100-11----1: [he_so_luong].Label, [he_so_luong], [tien_khoan].Label, [tien_khoan], [he_so_dc]"/>
+      <item value="1100-11: [phu_cap].Label, [phu_cap], [tro_cap].Label, [tro_cap]"/>
+      <item value="1000000000: [he_so_luong].Description"/>
+      <item value="1100: [he_so1].Label, [he_so1]"/>
+      <item value="1100: [he_so2].Label, [he_so2]"/>
+      <item value="1100: [he_so3].Label, [he_so3]"/>
+      <item value="1100: [tien1].Label, [tien1]"/>
+      <item value="1100: [tien2].Label, [tien2]"/>
+      <item value="1100: [tien3].Label, [tien3]"/>
+
+      <item value="1: [hrttctluong]"/>
+      <item value="1: [hrttctpc]"/>
+      <item value="1: [hrttctluongbh]"/>
+      <item value="1: [hrttdkluong]"/>
+      <item value="1: [hrttctluongnet]"/>
+
+      &ListView;
+      &PostView;
+
+      <categories>
+        <category index="1" columns="100, 30, 20, 50, 137, 100, 100, 0, 8, 108, 50, 50, 0" anchor="8" split="8">
+          <header v="Thông tin chính" e="Information"/>
+        </category>
+        <category index="3" columns="769" anchor="1">
+          <header v="Chi tiết" e="Detail"/>
+        </category>
+        <category index="4" columns="769" anchor="1">
+          <header v="Phụ cấp" e="Allowance"/>
+        </category>
+        <category index="5" columns="769" anchor="1">
+          <header v="Bảo hiểm" e="Insurance"/>
+        </category>
+        <category index="6" columns="769" anchor="1">
+          <header v="Lương dự kiến" e="Planned Salary"/>
+        </category>
+
+        &ListCategory;
+        &PostCategory;
+        <category index="18" columns="769" anchor="1">
+          <header v="Khác" e="Other"/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    &ListShowing;
+
+    <command event="Initialize">
+      <text>
+        <![CDATA[
+select 'this._externalLength = ''' + rtrim(prec) + ''';' as message from syscolumns where name = 'tk_nh' and id = object_id('hrttluong')
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'load$EmployeeSalaryInformation(this);' as  message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$EmployeeSalaryInformation(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="InitExternalFields">
+      <text>
+        <![CDATA[
+declare @cookie varchar(32), @tk_nh varchar(32), @ma_nh varchar(32), @ten_nh nvarchar(511), @ma_nt varchar(32), @loai_luong varchar(32), @kieu_tinh char(1), @he_so_luong numeric(5, 2), @he_so_dc numeric(5, 2)
+declare @phu_cap numeric(16, 2), @tro_cap numeric(16, 2), @tien_khoan numeric(16, 2), @he_so1 numeric(5, 2), @he_so2 numeric(5, 2), @he_so3 numeric(5, 2), @tien1 numeric(16, 2), @tien2 numeric(16, 2), @tien3 numeric(16, 2)
+declare @ma_ngach varchar(33), @ten_ngach nvarchar(511), @ten_ngach2 nvarchar(511), @ma_bac varchar(33), @ten_bac nvarchar(511), @ten_bac2 nvarchar(511)
+
+select @cookie = convert(varchar(19), datetime2, 121) from hrnv where stt_rec = @stt_rec
+if exists(select 1 from hrttluong where stt_rec = @stt_rec) begin
+  select @tk_nh = tk_nh, @ma_nh = ma_nh, @ma_nt = ma_nt, @loai_luong = loai_luong, @kieu_tinh = kieu_tinh, @ma_ngach = ma_ngach, @ma_bac = ma_bac, @he_so_luong = he_so_luong, @he_so_dc = he_so_dc,
+      @phu_cap = phu_cap, @tro_cap = tro_cap, @tien_khoan = tien_khoan, @he_so1 = he_so1, @he_so2 = he_so2, @he_so3 = he_so3, @tien1 = tien1, @tien2 = tien2, @tien3 = tien3
+    from hrttluong where stt_rec = @stt_rec
+  select @ten_ngach = ten_ngach, @ten_ngach2 = ten_ngach2 from hrdmnl where ma_ngach = @ma_ngach
+  select @ten_bac = ten_bac, @ten_bac2 = ten_bac2 from hrdmbl where ma_bac = @ma_bac
+end else begin
+  select @ma_nt = rtrim(val) from options where name = 'm_ma_nt0'
+
+  insert into hrttluong (stt_rec, tk_nh, ma_nh, ngan_hang, ma_nt, loai_luong, kieu_tinh, ma_ngach, ma_bac, he_so_luong, he_so_dc, phu_cap, tro_cap, tien_khoan, he_so1, he_so2, he_so3, tien1, tien2, tien3, datetime0, datetime2, user_id0, user_id2)
+    select @stt_rec, '', '', '', @ma_nt, '1', '1', '', '', 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, getdate(), getdate(), 0, 0
+
+  select @tk_nh = '', @ma_nh = '', @ten_nh = '', @loai_luong = '1', @kieu_tinh = '1', @ma_ngach = '', @ma_bac = '', @ten_bac = '', @ten_bac2 = '', @he_so_luong = 0, @he_so_dc = 1,
+    @phu_cap = 0, @tro_cap = 0, @tien_khoan = 0, @he_so1 = 0, @he_so2 = 0, @he_so3 = 0, @tien1 = 0, @tien2 = 0, @tien3 = 0
+end
+if @ma_nh <> '' select @ten_nh = ten_nh%l from hrdmnh where ma_nh = @ma_nh
+
+
+select @tk_nh as tk_nh, @ma_nh as ma_nh, isnull(@ten_nh, '') as ten_nh%l, @ma_nt as ma_nt, @loai_luong as loai_luong, @kieu_tinh as kieu_tinh, @ma_ngach as ma_ngach, @ten_ngach as ten_ngach, @ten_ngach2 as ten_ngach2, @ma_bac as ma_bac, @ten_bac as ten_bac, @ten_bac2 as ten_bac2, @he_so_luong as he_so_luong, @he_so_dc as he_so_dc,
+  @phu_cap as phu_cap, @tro_cap as tro_cap, @tien_khoan as tien_khoan, @he_so1 as he_so1, @he_so2 as he_so2, @he_so3 as he_so3, @tien1 as tien1, @tien2 as tien2, @tien3 as tien3, @cookie as cookie
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+declare @ten_nh nvarchar(511)
+if @$ma_nh <> '' select @ten_nh = ten_nh from hrdmnh where ma_nh = @$ma_nh
+if exists(select 1 from hrttluong where stt_rec = @stt_rec) begin
+  update hrttluong set tk_nh = @$tk_nh, ma_nh = @$ma_nh, ngan_hang = isnull(@ten_nh, ''), ma_nt = @$ma_nt, loai_luong = @$loai_luong, kieu_tinh = @$kieu_tinh, ma_ngach = @$ma_ngach, ma_bac = @$ma_bac, he_so_luong = @$he_so_luong, he_so_dc = @$he_so_dc,
+      phu_cap = @$phu_cap, tro_cap = @$tro_cap, tien_khoan = @$tien_khoan,
+      he_so1 = @$he_so1, he_so2 = @$he_so2, he_so3 = @$he_so3,
+      tien1 = @$tien1, tien2 = @$tien2, tien3 = @$tien3,
+      datetime2 = getdate(), user_id2 = @@userID
+    where stt_rec = @stt_rec
+end else begin
+  insert into hrttluong (stt_rec, tk_nh, ma_nh, ngan_hang, ma_nt, loai_luong, kieu_tinh, ma_ngach, ma_bac, he_so_luong, he_so_dc, phu_cap, tro_cap, tien_khoan, he_so1, he_so2, he_so3, tien1, tien2, tien3, datetime0, datetime2, user_id0, user_id2)
+    select @stt_rec, @$tk_nh, @$ma_nh, isnull(@ten_nh, ''), @$ma_nt, @$loai_luong, @$kieu_tinh, @$ma_ngach, @$ma_bac, @$he_so_luong, @$he_so_dc, @$phu_cap, @$tro_cap, @$tien_khoan, @$he_so1, @$he_so2, @$he_so3, @$tien1, @$tien2, @$tien3, getdate(), getdate(), @@userID, @@userID
+end
+
+if $hrttctluong.NewValue <> $hrttctluong.OldValue begin
+  update @hrttctluong set stt_rec = @stt_rec
+  delete hrttctluong where stt_rec = @stt_rec
+  insert into hrttctluong select * from @hrttctluong
+end
+if $hrttctpc.NewValue <> $hrttctpc.OldValue begin
+  update @hrttctpc set stt_rec = @stt_rec
+  delete hrttctpc where stt_rec = @stt_rec
+  insert into hrttctpc select * from @hrttctpc
+end
+if $hrttctluongbh.NewValue <> $hrttctluongbh.OldValue begin
+  update @hrttctluongbh set stt_rec = @stt_rec
+  delete hrttctluongbh where stt_rec = @stt_rec
+  insert into hrttctluongbh select * from @hrttctluongbh
+end
+if $hrttdkluong.NewValue <> $hrttdkluong.OldValue begin
+  update @hrttdkluong set stt_rec = @stt_rec
+  delete hrttdkluong where stt_rec = @stt_rec
+  insert into hrttdkluong select * from @hrttdkluong
+end
+if $hrttctluongnet.NewValue <> $hrttctluongnet.OldValue begin
+  update @hrttctluongnet set stt_rec = @stt_rec
+  delete hrttctluongnet where stt_rec = @stt_rec
+  insert into hrttctluongnet select * from @hrttctluongnet
+end
+/*
+]]>
+      </text>
+    </command>
+    <command event="Updated">
+      <text>
+        <![CDATA[
+*/
+declare @$warning nvarchar(4000)
+select @$warning = ''
+]]>
+        &ListDeclare;
+        &ListWarning;
+        &ListCommand;
+        &ListQuery;
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[
+var f = this, id = f.get_id(), g1 = f.getItem('hrttctluong')._controlBehavior, g2 = f.getItem('hrttctluongbh')._controlBehavior;
+var g3 = f.getItem('hrttctpc')._controlBehavior, g4 = f.getItem('hrttdkluong')._controlBehavior, g5 = f.getItem('hrttctluongnet')._controlBehavior;
+var v = this._language == 'v', e1 = (v ? 'Mã phụ cấp và hiệu lực từ ngày đã có trong phần thông tin chi tiết, không thể lưu được.' : 'Invalid allowance and effective date from, it already exists.');
+var e0 = (v ? 'Trường <span class="Highlight">Đến ngày</span> phải lớn hơn hoặc bằng <span class="Highlight">Hiệu lực từ ngày</span>.' : '<span class="Highlight">Effective Date to</span> must not be before the <span class="Highlight">Effective Date From</span>.');
+var d1 = g3._getColumnOrder('ngay_hl_tu'), d2 = g3._getColumnOrder('ngay_hl_den');
+
+if (f._checked) {
+  if (g1._rowCount >= 2) check$EmployeeSalaryInformation$DataGrid(f, g1, 'hrttctluong', 'ngay_hl');
+  for (var row = 1; row <= g3._rowCount; row ++) {
+    if (g3._getItemValue(row, d1) > g3._getItemValue(row, d2) && g3._getItemValue(row, d2) != null) {
+      g3._errorObject = g3._getItem(row, d2);
+      $func.hideWait(id);
+      f._checked = false;
+      $message.show(e0, String.format('$find(\'{0}\').focus(\'hrttctpc\');$find(\'{1}\')._errorObject.focus()', id, g3.get_id()));
+      break;
+    }
+  }
+  if (g2._rowCount >= 2) check$EmployeeSalaryInformation$DataGrid(f, g2, 'hrttctluongbh', 'ngay_hl');
+  if (g4._rowCount >= 2) check$EmployeeSalaryInformation$DataGrid(f, g4, 'hrttdkluong', 'ngay_hl');
+  if (g5._rowCount >= 2) check$EmployeeSalaryInformation$DataGrid(f, g5, 'hrttctluongnet', 'ngay_hl');
+}
+
+if (f._checked) {
+  var a = query$Select(g3, 'count$1 $groupBy ma_pc, ngay_hl_tu');
+  for (var i = 0; i < a.length; i++) {
+    if (a[i][2] > 1) {
+      f._checked = false;
+      $func.hideWait(id);
+      $message.show(e1, String.format('$find(\'{0}\').focus(\'hrttctpc\');$find(\'{1}\')._focusWhenTabChanged()', id, g3.get_id()));
+      break;
+    }
+  }
+}
+]]>
+        &ListChecking;
+        &PostChecking;
+      </text>
+    </command>
+
+  </commands>
+
+  <script>
+    <text>
+      &ScriptQueryData;
+      <![CDATA[
+function load$EmployeeSalaryInformation(f) {
+  var l = f._language == 'v' ? '' : '2';
+  f.setReadOnlyFields('ma_nv, bo_phan, vi_tri, bac_quan_ly, ho_ten, ten_bp' + l + ', ten_vtr' + l + ', ngay_vao');
+
+  f.getItem('tk_nh').maxLength = parseInt(f._externalLength);
+  f.getItem('tk_nh').focus();
+
+  f.add_commandEvent(on$EmployeeSalaryInformation$ExecuteCommand);
+  f._tabContainer.add_activeTabChanged(onChange$Voucher$Tab);
+  f._tabContainer._loaded = true;
+  ]]>&ListCreate;<![CDATA[
+  ]]>&PostCreate;<![CDATA[
+}
+function close$EmployeeSalaryInformation(f) {
+  try {f.remove_commandEvent(on$EmployeeSalaryInformation$ExecuteCommand);} catch (ex) {}
+  if (f._tabContainer) try {f._tabContainer.remove_activeTabChanged(onChange$Voucher$Tab);} catch (ex) {}
+  ]]>&ListDispose;<![CDATA[
+  ]]>&PostDispose;<![CDATA[
+}
+function onChange$Voucher$Tab(sender, e) {
+  sender.parentForm.focusWhenTabChanged(['loai_luong', 'hrttctluong', 'hrttctpc', 'hrttctluongbh', 'hrttdkluong']]>&ListTabChange;&PostTabChange;<![CDATA[, 'hrttctluongnet']);
+  ]]>&PostTabFocus;<![CDATA[
+}
+function on$EmployeeSalaryInformation$ExecuteCommand(sender, e) {
+  var action = e.type.Action, f = sender;
+  var g = f.getItem('hrttctluong')._controlBehavior, y = f.getItem('hrttctpc')._controlBehavior, z = f.getItem('hrttctluongbh')._controlBehavior;
+  var p = f.getItem('hrttdkluong')._controlBehavior, n = f.getItem('hrttctluongnet')._controlBehavior;
+  switch (action) {
+    case 'Gather':
+      g.setSequenceNumber('line_nbr');
+      g.setContinuance('stt_rec0');
+      y.setSequenceNumber('line_nbr');
+      y.setContinuance('stt_rec0');
+      z.setSequenceNumber('line_nbr');
+      z.setContinuance('stt_rec0');
+      p.setSequenceNumber('line_nbr');
+      p.setContinuance('stt_rec0');
+      n.setSequenceNumber('line_nbr');
+      n.setContinuance('stt_rec0');
+      break;
+    case 'Shown':
+      ]]>&ListShown;<![CDATA[
+      ]]>&PostShown;<![CDATA[
+      break;
+    default:
+      break;
+  }
+}
+function on$Voucher$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    ]]>&ListResponseTicket;<![CDATA[
+    default:
+      break;
+  }
+}
+function check$EmployeeSalaryInformation$DataGrid(f, g, d, s1) {
+  var id = f.get_id(), gID = g.get_id(), v = f._language == 'v';
+  var e1 = (v ? 'Trường <span class="Highlight">Hiệu lực từ ngày</span> chưa nhập hoặc giá trị không hợp lệ.' : 'Field <span class="Highlight">Effective from</span> must not be blank or has invalid value.');
+  var t1 = g._getColumnOrder(s1);
+  if (f._checked) {
+    for (var i = 1; i < g._rowCount; i++) {
+      if (!f._checked) break;
+      for (var j = i + 1; j <= g._rowCount; j++) {
+        var d1 = g._getItemValue(i, t1).valueOf(), d2 = g._getItemValue(j, t1).valueOf();
+        if (d1 == d2) {
+          g._errorWarningObject = g._getItem(j, t1);
+          $func.hideWait(id);
+          $message.show(e1, String.format('$find(\'{0}\').focus(\'{1}\');$find(\'{2}\')._errorWarningObject.focus()', id, d, gID));
+          f._checked = false;
+          break;
+        }
+      }
+    }
+  }
+}
+]]>
+      &ListScript;
+      &PostScript;
+    </text>
+  </script>
+
+  <css>
+    <text>
+      <![CDATA[
+.Break{margin:1px 0 1px 8px;padding:0;height:1px;overflow:hidden;display:block;background-color:white;border-top:1px solid #CED3DE;}
+.LabelDescription{color:#73A6DE;}
+]]>
+    </text>
+  </css>
+
+</dir>

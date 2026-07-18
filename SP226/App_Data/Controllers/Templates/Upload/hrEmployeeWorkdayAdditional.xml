@@ -1,0 +1,110 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+  <!ENTITY TimeInOutError "
+if @r is not null begin
+  select replace(@message, '&#37;r', @@delta + @r) as message
+  return
+end
+">
+
+  <!ENTITY WarningFieldV "ngày">
+  <!ENTITY WarningFieldE "the date">
+  <!ENTITY LockedDateJoin ", @@table b">
+  <!ENTITY LockedDateKey "a.ngay_ks >= b.ngay">
+  <!ENTITY CheckLockedBeforeImport SYSTEM "..\..\Include\Command\HRMCheckLockedBeforeImport.txt">
+
+  <!ENTITY Checking "@@checking">
+  <!ENTITY Inserting "@@inserting">
+  <!ENTITY Updating "@@updating">
+]>
+
+<import xmlns="urn:schemas-fast-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="5"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$hrEmployeeWorkdayAdditionalImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$hrEmployeeWorkdayAdditionalImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+    <baseTable value="hrbscong,hrnv"/>
+    <table value="hrbscong" alias="a"/>
+    <temporary value="#k" alias="b"/>
+  </setting>
+
+  <fields identity="true" name="stt">
+    <field name="ma_nv" column="A" isPrimaryKey="true" allowNulls="false" reference="1.ma_nv" upperCase="true" check="ma_nv not in (select ma_nv from hrnv)" insertValue="None" updateValue="None"/>
+    <field name="ma_bp" column="C" allowNulls="false" upperCase="true" check="ma_bp not in (select ma_bp from hrbp)" updateValue="None"/>
+    <field name="ngay" column="D" isPrimaryKey="true" allowNulls="false" type="DateTime" updateValue="None"/>
+    <field name="ma_ca" column="E" isPrimaryKey="true" allowNulls="false" upperCase="true" check="ma_ca not in (select ma_ca from hrdmca)" updateValue="None"/>
+    <field name="ma_ca_ct" column="F" isPrimaryKey="true" allowNulls="false" upperCase="true" updateValue="None"/>
+    <field name="ma_cong" column="G" isPrimaryKey="true" allowNulls="false" upperCase="true" check="ma_cong not in (select ma_cong from hrdmcong)" updateValue="None"/>
+    <field name="gio_tu" column="H" isPrimaryKey="true" allowNulls="false" check="isdate(gio_tu) = 0 or charindex(':', gio_tu) = 0" updateValue="None"/>
+    <field name="hs_tu" column="I" type="Boolean"/>
+    <field name="gio_den" column="J" allowNulls="false" check="isdate(gio_den) = 0 or charindex(':', gio_den) = 0"/>
+    <field name="hs_den" column="K" type="Boolean"/>
+    <field name="so_gio" column="L" allowNulls="false" type="Decimal"/>
+    <field name="tg_di_muon" column="M" type="Decimal"/>
+    <field name="tg_ve_som" column="N" type="Decimal"/>
+    <field name="ma_ly_do" column="O" upperCase="true" check="ma_ly_do &lt;&gt; '' and ma_ly_do not in (select ma_ly_do from hrdmldtca)"/>
+    <field name="ghi_chu" column="P"/>
+    <field name="stt_rec" updateValue="None"/>
+
+    <field name="tg_tu" column="None" type="DateTime" insertValue="cast(convert(varchar(8), a.ngay, 112) + ' ' + a.gio_tu as datetime) + case when a.hs_tu = 1 then 1 else 0 end" updateValue="None"/>
+    <field name="tg_den" column="None" type="DateTime" insertValue="cast(convert(varchar(8), a.ngay, 112) + ' ' + a.gio_den as datetime) + case when a.hs_den = 1 then 1 else 0 end" updateValue="cast(convert(varchar(8), b.ngay, 112) + ' ' + b.gio_den as datetime) + case when b.hs_den = 1 then 1 else 0 end"/>
+
+    <field name="datetime0" column="None" type="DateTime" insertValue="getdate()" updateValue="None"/>
+    <field name="datetime2" column="None" type="DateTime" insertValue="getdate()" updateValue="getdate()"/>
+    <field name="user_id0" column="None" type="Int" insertValue="@@userID" updateValue="None"/>
+    <field name="user_id2" column="None" type="Int" insertValue="@@userID" updateValue="@@userID"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+declare @q nvarchar(4000), @key nvarchar(4000), @message nvarchar(4000), @join nvarchar(1023), @field varchar(32)
+declare @user int, @admin bit, @sys varchar(32), @r int
+select @admin = @@admin, @user = @@userID, @sys = '@@sysDatabaseName', @key = ''
+select @message = case when @@language = 'V' then N'Giá trị tại cột <span class="Highlight">Giờ vào</span> phải nhỏ hơn cột <span class="Highlight">Giờ ra</span>, dòng <span class="Highlight">%r</span>.' else N'Invalid value in column <span class="Highlight">Time in</span> must be less than column <span class="Highlight">Time out</span>, row <span class="Highlight">%r</span>.' end
+
+update @@table set gio_tu = '0' + gio_tu where len(gio_tu) < 5
+update @@table set gio_den = '0' + gio_den where len(gio_den) < 5
+
+-- Checking
+]]>&CheckLockedBeforeImport;&Checking;<![CDATA[
+
+select @field = 'ma_nv', @r = min(stt) from @@table a where not exists (select 1 from hrnv b where a.ma_nv = b.ma_nv and (@admin = 1 or b.bo_phan in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @user)))]]>&Error;<![CDATA[
+select @field = 'gio_tu', @r = min(stt) from @@table where dateadd(day, case when hs_tu = 0 then 0 else 1 end, convert(datetime, gio_tu, 114)) >= dateadd(day, case when hs_den = 0 then 0 else 1 end, convert(datetime, gio_den, 114))]]>&TimeInOutError;<![CDATA[
+
+if @admin = 0 begin
+  if @type = '1' begin
+    if @@sysDatabaseName.dbo.FastBusiness$System$GetAuthorize(@admin, @user, 'hrEmployeeWorkdayAdditional', 'Edit') = 0 select @type = '0'
+  end
+end
+
+update @@table set stt_rec = b.stt_rec from @@table a join hrnv b with(nolock) on a.ma_nv = b.ma_nv
+
+if @type = '0' delete @@table from @@table a where exists(select 1 from hrbscong b where a.stt_rec = b.stt_rec and a.ngay = b.ngay and a.ma_ca = b.ma_ca and a.ma_ca_ct = b.ma_ca_ct and a.ma_cong = b.ma_cong and a.gio_tu = b.gio_tu)
+select a.* into #k from @@table a where exists(select 1 from hrbscong b where a.stt_rec = b.stt_rec and a.ngay = b.ngay and a.ma_ca = b.ma_ca and a.ma_ca_ct = b.ma_ca_ct and a.ma_cong = b.ma_cong and a.gio_tu = b.gio_tu)
+delete @@table from @@table a where exists(select 1 from #k b where a.stt_rec = b.stt_rec and a.ngay = b.ngay and a.ma_ca = b.ma_ca and a.ma_ca_ct = b.ma_ca_ct and a.ma_cong = b.ma_cong and a.gio_tu = b.gio_tu)
+
+-- Insert
+]]>&Inserting;<![CDATA[
+
+-- Update
+if @type = '1' begin
+  update hrbscong set @@list from hrbscong a join #k b on a.stt_rec = b.stt_rec and a.ngay = b.ngay and a.ma_ca = b.ma_ca and a.ma_ca_ct = b.ma_ca_ct and a.ma_cong = b.ma_cong and a.gio_tu = b.gio_tu
+end
+]]>
+    </text>
+  </processing>
+
+</import>

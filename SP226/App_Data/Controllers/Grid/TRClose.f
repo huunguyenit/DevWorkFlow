@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY ScriptTag SYSTEM "..\Include\Javascript\Tag.txt">
+  <!ENTITY XMLStandardVoucherToolbar SYSTEM "..\Include\XML\StandardVoucherToolbar.xml">
+  <!ENTITY Tag "cast(0 as bit) as tag">
+
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+]>
+
+<grid table="hrdtyc" code="stt_rec" order="ngay_ct, so_ct" type="Voucher" id="H07" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Đóng phiếu yêu cầu đào tạo" e="Training Request Close"></title>
+  <subTitle v="Cập nhật phiếu yêu cầu đào tạo: đóng, bỏ đóng..." e="Close, Cancel Training Request..."></subTitle>
+  <partition table="hridtyc" prime="hrdtyc" inquiry="hridtyc" field="ngay_ct" expression="''" increase="{0}" default=""/>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" width="0" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_ct" width="80" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="&Tag;" type="Boolean" width="60" filterSource="Tag">
+      <header v="&lt;div onclick=&quot;toggle$Grid(this);&quot; style=&quot;cursor:pointer;background-position:3px 3px;&quot; class=&quot;HeaderArrowImage&quot;&gt;Chọn&lt;/div&gt;" e="&lt;div onclick=&quot;toggle$Grid(this);&quot; style=&quot;cursor:pointer;background-position:3px 3px;&quot; class=&quot;HeaderArrowImage&quot;&gt;Select&lt;/div&gt;"></header>
+      <clientScript><![CDATA[<Encrypted>&96EB7KSJ4WpQv9tz7CWyJbtHo3Q0hC+ZW+BSt29RDWP80Vcedfyf9uv/1yggap7nO4MFdA1VF5YBLaFiF/rXPQ==</Encrypted>]]></clientScript>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="@datetimeFormat" width="100" readOnly="true" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Ngày" e="Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="so_ct" width="100" align="right" readOnly="true" hyperlinkFormatString="~/AppHandler/Voucher.ashx Query: {Name: '[ma_ct]', Value: '[stt_rec]'}" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Số" e="Number"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_bp" width="100" aliasName="a" readOnly="true" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Bộ phận" e="Department"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ten_bp%l" width="300" external="true" aliasName="b" readOnly="true" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Tên bộ phận" e="Description"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt_rec"/>
+      <field name="ma_ct"/>
+      <field name="&Tag;"/>
+      <field name="ngay_ct"/>
+      <field name="so_ct"/>
+      <field name="ma_bp"/>
+      <field name="ten_bp%l"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[<Encrypted>&3H7kPWBUT0Qgbr/0jUL75/LoBZviloreISoXiuNrsxnQxz1nixKWWZTMuX0kWwFNf3r7XNPX9TByWwLXAuvs0A==</Encrypted>]]>
+      </text>
+    </command>
+
+    <command event ="Scattering">
+      <text>
+        <![CDATA[<Encrypted>&3H7kPWBUT0Qgbr/0jUL753W7sVkJn1qX8G5AYCGuxo27k7doDhOZ6XpLfnT0eqn9wQ+/VVs1oUSBRCadbvlPbYSzBcawku2T2vsU1Q3RHV8=</Encrypted>]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[<Encrypted>&3H7kPWBUT0Qgbr/0jUL753ZOxbIC+LxbnrSHSw7x7wObkPS2H/Bx4sZhA2uYq2nGvDFzd4RWXLmwgc3k4lAkrqBSb8y/ZKu8bw12Es+n/4c=</Encrypted>]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[<Encrypted>&ubZtUSPJWC7E3qu5YQA22QsMhJE1WhHzxQMYzOCHGGsG8HAAYp9TCFPr+4cvAtgf9lFENc95FGxH4cNVebk/MsnvWfKSKH/igBEfQoCU6oGH9q04imUEQXHYheFIhwi6Rc285EDg2z37b/D9UDlT6S2jEW18ihnWf3WGbBonq2g=</Encrypted>]]>&Tag;<![CDATA[<Encrypted>&LSWvf7rDTAb/Sg/3CW6egcX1kpT/6OsU9X9CKyYGs5W8FG/tU1cEnCatgKHLE0T7fgIeiHW7cceXoTIn3/CsgGVODht1syTpob+XUL4Abhbny2cZ3hKf4owBQI7F+7Iphz9zEsckNsmbq/aCp8k0J9vhdLRFYNEUUS4EwoDm+iNvYdyUYkga0LOeVrlq5AW5oFa48DR5/puSef6QJD8YGKfjVJ66HwCRIR2EZyv13clPmoNGXrzh6z0dDvt8A/Lr4lyrz33y8Sa80L69xDZgXFWyr8dHm3eeSqrvm3OrvAX/5yws8tdSp8nFCuQtOudlBTERUtc4Q92zAAIunIQCoWrMielA5TRGdt7TTiTgSMu9utuKqWirwAllKMepYIZAv1spWdZBfDcd9cbXg58CqqgJK9DBLwk4kNr3XNIb+q4VANeRmrdrMDTascQ+in2hKX1jOo6+jn9KgF/NbHC+8HPdxlym0Be2TIgrelu60K0KeQg9QQd0ihPaK4SYv+kyvQInK4PNen57mdiCWFwwaVXhTmBmYCyVed3fBjjZrvazEgTfYYD/f5dnU+TMwLK4AVi8RoNo/N5JFILSV12Nf+5vu6xTDAIan3rxeZzvraLpFl0nTc4DummXqdtTDGKOUhmgh8gp+MJ4HInuRVwGi222EovXTnTF8jPuHWk9v3bn7GS6/td455sC7aXjGDea5SiPTHiy5FxR31VP25NVv6mmP/dmdXHxHs2o78n/5dmg5Xm49CutEYS1DqZQn6kTa+IdTqI5CeUXsDHA3vF8RCTOiamgZtHGe3qeKvqWpjjBAW0IaunPnQpcJL/DkLACASVnUAB0s2aqPIMEGxRD9+S5LBqXMXR7WN88rU8vNQywwh9BDzX5DT9bFcVBpNp8Fyn2B1Sf5cM1L++aJX1SU/AOYEwyvHmQChgVAZzIGQNf6W6Ik+zbzoPIj9IZetR7FqJsuvaoAszba9coON/U77kVVrwLoqbz7pZE1tL639n3jAV+xya3p8EIxq7sO1ch9xFhJQgTuPQf2e9mVkFfBg==</Encrypted>]]>
+      &ScriptTag;
+    </text>
+  </script>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Loading">
+      <text>
+        <![CDATA[<Encrypted>&Er6kBCOukK5FxLFOw1tnB8I/3UF6nW9jF2yNn7MDyVTRbbW3G47hr2UL+B7ULcAqbdE0VpLI/lpK01kvP7GRGxkDatAeO4oVLuLDDs1RSDo46j7V1vpCTIZEe/Na7B+vNyDaQ2wgEIdcQdlW7Fnbz+SlfQFHi/qP4kwLxqDnJIqdLOEDlgQ+IORGM+UU7zFmgrogmIy5DGgvZ7F/K+lqPltvxCv21nt1tjaXSbC0tmDIiwGmES2sgQ9HacEKuGRQv7om/fv0mc4HkIDmYmGw/tdpy9I8r+AC5RaYgp9S9CU=</Encrypted>]]>
+      </text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        <![CDATA[<Encrypted>&mESLYKUGR/20AFH6ZrQMuy83kk4airzT8cLd6DkoBHsHr8bQEfqUbrQsGv8NCLM6nl+vDHXRwBTncCiRCPlSLiqTUkTto9F+7eKk8nA/6hy5jygT0GvOrGQt071y8c7qggENPPe7PQ4pogTO2xqgBmPGlvmzsyZm6qwg3Z7No+N4wjyDd0bCfig0QxEqLEkBZnwOWNUsi543eX6cCYb/mlrR0tNo6V8ZeFBv7dcDx78Kr9feUuRSC1AaceFS5cyQaBWHe9OcVu+RPCVZ1mZjXWchtPQsNBDdum6VkO91bhZiD+K3Rq+Zy+xkueRpwCpsWDH0PGNSzl9Ls1h6FQRIUIrEm/TViQoL1zfRsFHpzI54IVR/HXz2zv9Mo6lhNk3l6Ji2PK8eSxgg0AiyyBIHNqBLrPuW2/Eg2fxDOyhgiatdHBuF3dYanzJqiJUGU1hL4hoFGbEFALoznWsbYkMWabV/K3/6pU51RMeHC/G1Hma6XxAPKSRBE8YcfE6J9NN4dFuZevqKiww01z4wLe3iMI9KcIBSXsJoCIMwK0/rILL5B74UQecIT5gnsUkxTTqpF1YXdM96byC+fXiXfgSf0MqR6tTHZ6+Il0TMhlJTfXMF4P5PMR5VJhvDB2o+vC0xbeOXftGk8scl1IoR/HA4B3TUj82IydLzjPqXG3mg2kMCbQaZo1jt77CPvQ1KLUH9mrdwcmSjmW77ecGV4LcBgw==</Encrypted>]]>
+      </text>
+    </query>
+  </queries>
+
+  <response>
+    <action id="Close">
+      <text>
+        <![CDATA[<Encrypted>&mESLYKUGR/20AFH6ZrQMuyRdN+kfvkY1IgtqEhmCoOhSdJ5Nkmgu1rlGWpmZ/1Vnesap7r76h447zXleBB1HmSYetitblB1cQunGx/+xk41gfu50kyeiiIGhpEWSzbGMuBKhQPBYx+AZxLFaCp1TG30tKWOVFytVNjDCMQMjAecqv54FOXFGTO9eQl/Ajw784FWm9FN1b0KZpc/ck8xLJN2p9AazK9HYYhPj9JEI9Hj4YK6xbPUPN+hp66TSaVAwh73C2ZO48fhVH8BVhV0MRq8A7I4ZsKHzkn3AoA9fwXSIIbosZKzg4EmxZAwYGASMVGb4vsXuvwpzpgFP1gZ76XaKKX7/M2A61IKZtRRCKuE=</Encrypted>]]>
+      </text>
+    </action>
+
+    <action id="Cancel">
+      <text>
+        <![CDATA[<Encrypted>&mESLYKUGR/20AFH6ZrQMuyRdN+kfvkY1IgtqEhmCoOhSdJ5Nkmgu1rlGWpmZ/1Vnesap7r76h447zXleBB1HmSYetitblB1cQunGx/+xk41gfu50kyeiiIGhpEWSzbGMuBKhQPBYx+AZxLFaCp1TG30tKWOVFytVNjDCMQMjAecqv54FOXFGTO9eQl/Ajw784FWm9FN1b0KZpc/ck8xLJN2p9AazK9HYYhPj9JEI9Hh6yCNhPuCiLIb1hW7TW65+i//6uiU39ZrQzloWIFYXtYfUCZzmgjdbbJJdmhdOFXs4g/H6NQFZEp2GEiuthpmvkFpYcxxxejnbTk5+X5luNhLkKe9AAodW+kHgnFB4goo=</Encrypted>]]>
+      </text>
+    </action>
+  </response>
+
+  <css>
+    <text>
+      <![CDATA[<Encrypted>&mESLYKUGR/20AFH6ZrQMu6SycXjKTM6ycMLJVwbRiKBeDiB7+d5+EXZCGDYuvG8PGnzqXlo8mzQAMq+Cr0wgMPJh7uiXOWRK4KKkZ4j8P4PeBYZCwAheDAlbp5qpvIMCsoQbkw9pclkVT/marGHI8j4CJ+6XHYquIZKu6B5NXkJm/PflxrRByJl4KMOb90OaNEZaWlc4lyqpxGtKAQ1Xg8144TmO0DADDSk+FtKPkdEL2GhvDk13WCLXY3OvW0biXdrbW0d+fcUUKwbJmu7T2g==</Encrypted>]]>
+    </text>
+  </css>
+
+  <toolbar>
+    <button command="Close">
+      <title v="Đóng$" e="Close$"></title>
+    </button>
+    <button command="Cancel">
+      <title v="Bỏ đóng$$75" e="Cancel$"></title>
+    </button>
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"/>
+    </button>
+  </toolbar>
+</grid>

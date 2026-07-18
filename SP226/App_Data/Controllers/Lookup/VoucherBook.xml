@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="v20dmnk" code="ma_nk" name="ten_nk%l" order="ma_nk" xmlns="urn:schemas-fast-com:data-lookup">
+
+  <header v="Danh mục quyển chứng từ" e="Voucher Book List"></header>
+
+  <fields>
+    <field name="ma_nk" allowSorting="true" allowFilter="true" >
+      <header v="Mã quyển" e="Code"></header>
+    </field>
+
+    <field name="ten_nk%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên quyển" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

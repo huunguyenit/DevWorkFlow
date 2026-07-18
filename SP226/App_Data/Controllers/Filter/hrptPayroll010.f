@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY XMLWhenFilterLoading SYSTEM "..\Include\XML\WhenFilterLoading.xml">
+  <!ENTITY XMLWhenFilterClosing SYSTEM "..\Include\XML\WhenFilterClosing.xml">
+
+  <!ENTITY OutlineCss SYSTEM "..\Include\Javascript\OutlineCss.txt">
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+  <!ENTITY JavascriptReportFilter SYSTEM "..\Include\Javascript\ReportFilter.txt">
+]>
+
+<dir id="1" type="Report" cache="true" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="Điều kiện lọc" e="Filter Condition"></title>
+  <fields>
+    <field name="ky" type="Decimal" dataFormatString="#0" allowNulls="false" aliasName="fromPeriod" defaultValue="(new Date()).getMonth() + 1;">
+      <header v="Kỳ" e="Period"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="nam" type="Decimal" dataFormatString="###0" allowNulls="false">
+      <header v="Năm" e="Year"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ma_bp0" onDemand="true" allowNulls="false">
+      <header v="Bộ phận quản lý" e="Admin Dept"></header>
+      <items style="AutoComplete" controller="hrDepartment" reference="ten_bp0%l" key="(@@admin = 1 or ma_bp in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)) and status = '1'" check="@@admin = 1 or ma_bp in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)"/>
+    </field>
+    <field name="ten_bp0%l" readOnly="true" external="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_bp" onDemand="true">
+      <header v="Bộ phận tính lương" e="Payment Dept"></header>
+      <items style="AutoComplete" controller="hrDepartment" reference="ten_bp%l" key="(@@admin = 1 or ma_bp in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)) and status = '1'" check="@@admin = 1 or ma_bp in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)"/>
+    </field>
+    <field name="ten_bp%l" readOnly="true" external="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nv" onDemand="true">
+      <header v="Nhân viên" e="Employee"></header>
+      <items style="AutoComplete" controller="hrEmployee" reference="ten_nv" key="(@@admin = 1 or bo_phan in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)) and status = '1'" check="@@admin = 1 or bo_phan in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)"/>
+    </field>
+    <field name="ten_nv" readOnly="true" external="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="nh_bp1" onDemand="true">
+      <header v="Nhóm bộ phận" e="Department Group"></header>
+      <items style="AutoComplete" controller="hrDepartmentGroup" reference="ten_nhbp1%l" key="status='1' and loai_nh=1" check="loai_nh=1"/>
+    </field>
+    <field name="ten_nhbp1%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_bp2" onDemand="true">
+      <header v="" e=""></header>
+      <items style="AutoComplete" controller="hrDepartmentGroup" reference="ten_nhbp2%l" key="status='1' and loai_nh=2" check="loai_nh=2"/>
+    </field>
+    <field name="ten_nhbp2%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_bp3" onDemand="true">
+      <header v="" e=""></header>
+      <items style="AutoComplete" controller="hrDepartmentGroup" reference="ten_nhbp3%l" key="status='1' and loai_nh=3" check="loai_nh=3"/>
+    </field>
+    <field name="ten_nhbp3%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="nh_nv1" onDemand="true">
+      <header v="Nhóm nhân viên 1" e="Employee Group 1"></header>
+      <footer v="Nhóm nhân viên" e="Employee Group"/>
+      <items style="AutoComplete" controller="hrEmployeeGroup" reference="ten_nh_nv1%l" key="status = '1' and loai_nh = 1" check="loai_nh = 1"/>
+    </field>
+    <field name="ten_nh_nv1%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_nv2" onDemand="true">
+      <header v="Nhóm nhân viên 2" e="Employee Group 2"></header>
+      <items style="AutoComplete" controller="hrEmployeeGroup" reference="ten_nh_nv2%l" key="status = '1' and loai_nh = 2" check="loai_nh = 2"/>
+    </field>
+    <field name="ten_nh_nv2%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_nv3" onDemand="true">
+      <header v="Nhóm nhân viên 3" e="Employee Group 3"></header>
+      <items style="AutoComplete" controller="hrEmployeeGroup" reference="ten_nh_nv3%l" key="status = '1' and loai_nh = 3" check="loai_nh = 3"/>
+    </field>
+    <field name="ten_nh_nv3%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nh">
+      <header v="Ngân hàng" e="Bank"></header>
+      <items style="AutoComplete" controller="hrBankList" reference="ten_nh%l" key="status = '1'" check="1=1"/>
+    </field>
+    <field name="ten_nh%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nt">
+      <header v="Mã ngoại tệ" e="Currency"></header>
+      <items style="AutoComplete" controller="Currency" reference="ten_nt%l" key="status = '1'" check="1=1"/>
+    </field>
+    <field name="ten_nt%l" readOnly="true" external="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ten_co_dau" dataFormatString="0, 1" clientDefault="1" align="right">
+      <header v="Tên nhân viên có dấu" e="Name with tone marks"/>
+      <footer v="1 - Có, 0 - Không" e="1 - Yes, 0 - No"></footer>
+      <items style="Mask"/>
+    </field>
+
+    <field name="mau_bc">
+      <header v="Mẫu báo cáo" e="Report Form"/>
+      <items style="DropDownList">
+        <item value="10">
+          <text v="Mẫu chuẩn" e="Standard Form"/>
+        </item>
+        <item value="20">
+          <text v="Mẫu ngoại tệ" e="FC Form"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;</clientScript>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="282">
+      <item value="120, 30, 10, 60, 100, 100, 130, 0, 0, 0"/>
+      <item value="110-------: [ky].Label, [ky]"/>
+      <item value="110-------: [nam].Label, [nam]"/>
+      <item value="11001000: [ma_bp0].Label, [ma_bp0], [ten_bp0%l]"/>
+      <item value="11001001--: [ma_bp].Label, [ma_bp], [ten_bp%l], [ten_nhbp1%l]"/>
+      <item value="11001000--: [ma_nv].Label, [ma_nv], [ten_nv]"/>
+      <item value="110011-1--: [nh_bp1].Label, [nh_bp1], [nh_bp2], [nh_bp3], [ten_nhbp2%l]"/>
+      <item value="110011-111: [nh_nv1].Description, [nh_nv1], [nh_nv2], [nh_nv3], [ten_nh_nv1%l], [ten_nh_nv2%l], [ten_nh_nv3%l]"/>
+      <item value="11001000--: [ma_nh].Label, [ma_nh], [ten_nh%l]"/>
+      <item value="11001000: [ma_nt].Label, [ma_nt], [ten_nt%l]"/>
+      <item value="111000: [ten_co_dau].Label, [ten_co_dau], [ten_co_dau].Description"/>
+      <item value="110000-1--: [mau_bc].Label, [mau_bc], [ten_nhbp3%l]"/>
+    </view>
+  </views>
+
+  <commands>
+    &XMLWhenFilterLoading;
+    &XMLWhenFilterClosing;
+    <command event="Processing">
+      <text>
+        <![CDATA[<Encrypted>&JFAg3c674j2f8bRB56rmcKMncSxMfZsjYKb/X2R7Svv5Azs9traVUOeN4OPSnBBA2QZXK6qrqkvaNboApsgmUeuQv9+XbaIW8+04PmSRK2uRnNw1AY/WqoKSSj9HsRo1VdpP+h0d7I4lELt2qFaiqawZYmkXcYzk33YL9DzG28q1uGdS2uexcu2ftA10I16ckJcx+gUWHEvmgmcobGp0ClrceKpyay/HynqvWPi8fDvPiBhNyl8YgHYWzzieC2/N3nCnydRGBnTjRvHMW4FSNA==</Encrypted>]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &JavascriptReportFilter;
+      &OutlineEntry;
+      <![CDATA[<Encrypted>&urCjYVIWi8oLG4/CqhNJtQyWw6Bu7pN1Fgrd4RHwv9xRnrlhXuDgxTtGSli+OTTcAAGkRxZIu89b+M7/NN1NdBirwQHi7tkqUAOMzr9Gima9qJq7vTY0TwPIze/IVIn3+ZA21jR4YJpfGpVLjaU2NttnqfzAVBqyPMdg1J/Noim/H4fQLzcptoeQvuUvXyvK3JqnazUzue3oOZaB5QawdpTD7JaWM9fwZQLh39oRER0E+VBOtpp+UbCuhf/q2EYVBfjvOPglnSmtlXAbYxEmbkRas4CBThmkSIb+kvEnHsVq7Ij4m5R/0p7wHR3pFLC6dvYywpSN5csborwXohgLJvSerx3uTXcbMJgl9s4fGdN3v/a3Q+G5WV4CRze+DG943b+tqfWEjG6YPOEln/BQCIrV1wUPe1URnWkg0Ag5kEqvxfuplrOtjrrjvqyz8TVEFjy3WmwCYvh7d/nf/HS6ILBYMHu69PMJ4q0UkGRuzaqbjYp37QsQN2YArPcRb8BoHXTHRutGd2IBmFGRYoy/ofPHX3teY6QMSOa343ngZo8RQeVsOCy4ul2V6Nv/pAQa</Encrypted>]]>
+    </text>
+  </script>
+
+  &OutlineCss;
+</dir>

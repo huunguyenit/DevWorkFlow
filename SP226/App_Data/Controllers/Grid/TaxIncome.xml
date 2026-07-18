@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLStandardDetailToolbar SYSTEM "..\Include\XML\StandardDetailToolbar.xml">
+]>
+
+<grid table="ctns3" code="ma_ns, stt_rec0" order="ma_ns, line_nbr" type="Detail" freezeColumns="3" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <partition table="ctns3" prime="ctns3" field="" expression="''" increase="{0}" default=""/>
+
+  <fields>
+    <field name="loai_tn" type="Byte" width="50" dataFormatString="0, 1" clientDefault="0" align="right">
+      <header v="Không bao gồm thuế" e="Exclude Tax"></header>
+      <items style="Mask"></items>
+    </field>
+    <field name="ho_tro_bh" type="Byte" width="50" dataFormatString="0, 1" clientDefault="0" align="right">
+      <header v="Hỗ trợ tiền bảo hiểm" e="Support Insurance Amount"></header>
+      <items style="Mask"></items>
+      <handle key="[loai_tn]"/>
+    </field>
+    <field name="ngay_hl" type="DateTime" dataFormatString="@datetimeFormat" align="left" width="100" allowNulls="false">
+      <header v="Ngày hiệu lực" e="Effective Date"></header>
+    </field>
+    <field name="dien_giai" width="300">
+      <header v="Diễn giải" e="Description"></header>
+    </field>
+    <field name="ma_ns" isPrimaryKey="true" readOnly="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="loai_tn"/>
+      <field name="ho_tro_bh"/>
+      <field name="ngay_hl"/>
+      <field name="dien_giai"/>
+      <field name="ma_ns"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$TaxIncome$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$TaxIncome$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function load$TaxIncome$(g) {
+  g.add_itemValueChanged(onChange$TaxIncome$);
+  g.add_commandEvent(on$TaxIncome$ExecuteCommand);
+  g.$a = {ho_tro_bh: '[ho_tro_bh]:=0', '[loai_tn] == 0']};
+}
+function dispose$TaxIncome$(g) {
+  try {g.remove_commandEvent(on$TaxIncome$ExecuteCommand);} catch (ex) {}
+  try {g.remove_itemValueChanged(onChange$TaxIncome$);} catch (ex) {}
+}
+function on$TaxIncome$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm, g = f.getItem('d3')._controlBehavior;
+	switch (action) {
+    case 'AfterCloneRow':
+      g.setItemFieldValue('stt_rec0', e.type.Value, '');
+      break;
+    default:
+      break;
+  }
+}
+function onChange$TaxIncome$(sender, eventArgs) {
+  var o = eventArgs.get_object(), g = o.grid, f = g.get_element().parentForm, name = o.field.Name;
+  switch (name) {
+    case 'loai_tn':
+      g.executeExpression(o, [g.$a.ho_tro_bh]);
+      break;
+    default:
+      break;
+  }
+}
+]]>
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from @@prime$partition$current where @@whereClause order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  &XMLStandardDetailToolbar;
+</grid>

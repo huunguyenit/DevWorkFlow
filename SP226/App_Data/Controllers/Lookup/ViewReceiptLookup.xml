@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE lookup [
+  <!ENTITY FilterInitialize SYSTEM "..\Include\FilterInitialize.xml">
+  <!ENTITY FilterQuery SYSTEM "..\Include\FilterQuery.xml">
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+  <!ENTITY Controller "'StockDetail'">
+
+  <!ENTITY % CheckRelative SYSTEM "..\Include\CheckRelative.ent">
+  %CheckRelative;
+  <!ENTITY CheckRelativeParameter "'ViewReceiptLookup', 'Lookup', '*'">
+  <!ENTITY CheckRelativeQuery "set @$primeFilter = '1 = 0'">
+]>
+
+<lookup table="r70$000000" code="so_ct" name="stt_rec_id" order="ngay_ct, so_ct, stt_rec, stt_rec0" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Xem phiếu nhập" e="Lookup"></header>
+  <fields>
+    <field name="so_ct" align="right" allowFilter="true">
+      <header v="Số phiếu" e="Voucher No."></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy" allowFilter="true">
+      <header v="Ngày" e="Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_kho" allowFilter="true">
+      <header v="Mã kho" e="Site"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="stt_rec">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0">
+      <header v="" e=""></header>
+    </field>
+    <field name="sl_nhap" type="Decimal" dataFormatString="### ### ### ### ###.000" align="right" allowFilter="true">
+      <header v="Số lượng" e="Quantity"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="gia_nt" type="Decimal" dataFormatString="### ### ### ### ###.00" align="right" allowFilter="true">
+      <header v="Giá nt" e="FC Price"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_nt" allowFilter="true">
+      <header v="Mã nt" e="Currency Code"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="gia" type="Decimal" dataFormatString="### ### ### ### ##0" align="right" allowFilter="true">
+      <header v="Giá" e="Price"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="stt_rec_id">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @queryWhereClause nvarchar(4000), @queryFormClause nvarchar(4000), @unit varchar(128), @siteKey NVARCHAR(4000)
+select @unit = case when @ma_dvcs = '' then @@unit else @ma_dvcs end, @queryFormClause = ''
+select @queryWhereClause = 'a.nxt = 1 and a.ma_vt = ''' +  replace(@ma_vt, '''', '''''') + ''' and a.ma_ct = ''' +  replace(@ma_ct, '''', '''''') + ''''
+
+exec FastBusiness$System$GetSiteFilter 'a.ma_kho', @ma_kho, null, @@userID, @@admin, @siteKey output
+if @siteKey is not null select @queryWhereClause = @queryWhereClause + ' and ' + @siteKey
+
+if @ma_kho <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_kho = ''' + replace(rtrim(@ma_kho), '''', '''''') + ''''
+if @ma_vi_tri <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_vi_tri = ''' + replace(rtrim(@ma_vi_tri), '''', '''''') + ''''
+if @ma_lo <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_lo = ''' + replace(rtrim(@ma_lo), '''', '''''') + ''''
+]]>&FilterInitialize;&CheckRelativeProcess;&FilterQuery;<![CDATA[
+exec FastBusiness$App$Voucher$View @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem,
+  'a.so_ct,a.ngay_ct,a.ma_kho,a.stt_rec,a.stt_rec0,a.sl_nhap,a.gia_nt,a.ma_nt,a.gia,a.stt_rec+'',''+a.stt_rec0 as stt_rec_id',
+  @queryFormClause, @queryWhereClause, @ngay_ct1, @ngay_ct2, @unit, 0, 1, @@userID
+]]>
+      </text>
+    </query>
+  </queries>
+</lookup>

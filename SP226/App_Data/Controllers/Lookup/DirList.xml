@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dirtransferlist" code="id" name="description%l" order="id" xmlns="urn:schemas-fast-com:data-lookup">
+
+  <header v="Danh sách chức năng" e="Function List"></header>
+
+  <fields>
+    <field name="id" allowSorting="true" allowFilter="true">
+      <header v="Mã" e="Code"></header>
+    </field>
+
+    <field name="description%l" allowSorting="true" allowFilter="true">
+      <header v="Tên chức năng" e = "Description"></header>
+    </field>
+  </fields>
+
+</lookup>

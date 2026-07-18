@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<dir table="hreqtlbhdk" code="stt_rec, stt_rec0" order="stt_rec0" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thông tin lương dự kiến" e="Planned Salary Information"></title>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"></items>
+    </field>
+
+    <field name="ngay_thay_doi" type="DateTime" dataFormatString="@datetimeFormat" align="left" aliasName="fromDate" defaultValue="newDate()" allowNulls="false">
+      <header v="Ngày thay đổi từ" e="Change Date from"></header>
+      <footer v="Ngày thay đổi từ/đến" e="Change Date from/to"/>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$StartDate(this.parentForm);"]]></clientScript>
+    </field>
+    <field name="ngay_thay_doi2" type="DateTime" dataFormatString="@datetimeFormat" align="left">
+      <header v="Ngày thay đổi đến" e="Change Date to"></header>
+    </field>
+    <field name="loai_thay_doi" allowNulls="false">
+      <header v="Loại thay đổi" e="Reason for Change"></header>
+      <items style="AutoComplete" controller ="hrSIChangeType" key="status = 1" check="1 = 1" reference="ten_loai%l" information="ma_loai$hrdmltdbh.ten_loai%l" new="Default"></items>
+    </field>
+    <field name="ten_loai%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="cap_bac" categoryIndex="1">
+      <header v="Cấp bậc" e="Level"></header>
+    </field>
+    <field name="chuc_danh" categoryIndex="1">
+      <header v="Chức danh nghề" e="Job Title"></header>
+    </field>
+    <field name="don_vi" categoryIndex="1">
+      <header v="Đơn vị" e="Unit"></header>
+    </field>
+    <field name="dia_chi" categoryIndex="1">
+      <header v="Địa chỉ" e="Address"></header>
+    </field>
+
+    <field name="hs_luong" type="Decimal" dataFormatString="##0.00" categoryIndex="1">
+      <header v="Hệ số lương" e="Salary Coefficient"></header>
+      <items style="Numeric"></items>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$Coefficient(this.parentForm);"]]></clientScript>
+    </field>
+    <field name="hs_pc_chuc_vu" type="Decimal" dataFormatString="##0.00" categoryIndex="1">
+      <header v="Hệ số pc chức vụ" e="Position Coeff."></header>
+      <items style="Numeric"></items>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$Coefficient(this.parentForm);"]]></clientScript>
+    </field>
+    <field name="hs_pc_vuot_khung" type="Decimal" dataFormatString="##0.00" categoryIndex="1">
+      <header v="Hs pc vượt khung(%)" e="Off-scale Coeff.(%)"></header>
+      <items style="Numeric"></items>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$Coefficient(this.parentForm);"]]></clientScript>
+    </field>
+    <field name="hs_pc_tham_nien" type="Decimal" dataFormatString="##0.00" categoryIndex="1">
+      <header v="Hệ số pc thâm niên(%)" e="Seniority Coeff.(%)"></header>
+      <items style="Numeric"></items>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$Coefficient(this.parentForm, this);"]]></clientScript>
+    </field>
+    <field name="hs_pc_khu_vuc" type="Decimal" dataFormatString="##0.00" categoryIndex="1">
+      <header v="Hệ số pc khu vực" e="Region Coeff."></header>
+      <items style="Numeric"></items>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$Coefficient(this.parentForm);"]]></clientScript>
+    </field>
+    <field name="t_he_so" type="Decimal" dataFormatString="##0.00" categoryIndex="1">
+      <header v="Tổng hệ số" e="Total Coefficient"></header>
+      <items style="Numeric"></items>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$MinimumSalary(this.parentForm);"]]></clientScript>
+    </field>
+    <field name="luong_toi_thieu" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="1">
+      <header v="Lương tối thiểu" e="Minimum Salary"></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$MinimumSalary(this.parentForm, this);"]]></clientScript>
+    </field>
+    <field name="luong_co_ban" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="1">
+      <header v="Lương cơ bản" e="Basic Salary"></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$BaseSalary(this.parentForm);"]]></clientScript>
+    </field>
+    <field name="ty_le_bhxh" type="Decimal" dataFormatString="##0.00" categoryIndex="2">
+      <header v="Tỷ lệ đóng BHXH (%)" e="SI Contri. Rate (%)"></header>
+      <items style="Numeric"></items>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$Rate(this, 'tien_bhxh');"]]></clientScript>
+    </field>
+    <field name="tien_bhxh" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="2">
+      <header v="Tiền BHXH" e="SI Premium"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ty_le_bhyt" type="Decimal" dataFormatString="##0.00" categoryIndex="2">
+      <header v="Tỷ lệ đóng BHYT (%)" e="HI Contri. Rate (%)"></header>
+      <items style="Numeric"></items>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$Rate(this, 'tien_bhyt');"]]></clientScript>
+    </field>
+    <field name="tien_bhyt" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="2">
+      <header v="Tiền BHYT" e="HI Premium"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ty_le_bhtn" type="Decimal" dataFormatString="##0.00" categoryIndex="2">
+      <header v="Tỷ lệ đóng BHTN (%)" e="UI Contri. Rate (%)"></header>
+      <items style="Numeric"></items>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$Rate(this, 'tien_bhtn');"]]></clientScript>
+    </field>
+    <field name="tien_bhtn" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="2">
+      <header v="Tiền BHTN" e="UI Premium"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ty_le_kpcd" type="Decimal" dataFormatString="##0.00" categoryIndex="2">
+      <header v="Tỷ lệ đóng KPCĐ (%)" e="Union Due Rate (%)"></header>
+      <items style="Numeric"></items>
+      <clientScript><![CDATA[onchange="onChange$BSPlannedForm$Rate(this, 'tien_kpcd');"]]></clientScript>
+    </field>
+    <field name="tien_kpcd" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="2">
+      <header v="Tiền KPCĐ" e="Union Dues"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="can_cu" categoryIndex="2">
+      <header v="Căn cứ đóng" e="Payment Basis"></header>
+    </field>
+    <field name="ghi_chu" rows="2" categoryIndex="2">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="256" anchor="8">
+      <item value="120, 30, 70, 100, 100, 30, 100, 0, 0"/>
+      <item value="1101----1: [ngay_thay_doi].Description, [ngay_thay_doi], [ngay_thay_doi2], [stt_rec]"/>
+      <item value="11010000: [loai_thay_doi].Label, [loai_thay_doi], [ten_loai%l]"/>
+
+      <item value="110000001: [cap_bac].Label, [cap_bac], [stt_rec0]"/>
+      <item value="110000001: [chuc_danh].Label, [chuc_danh], [line_nbr]"/>
+      <item value="11000000: [don_vi].Label, [don_vi]"/>
+      <item value="11000000: [dia_chi].Label, [dia_chi]"/>
+      <item value="110: [hs_luong].Label, [hs_luong]"/>
+
+      <item value="110-101: [hs_pc_chuc_vu].Label, [hs_pc_chuc_vu], [hs_pc_vuot_khung].Label, [hs_pc_vuot_khung]"/>
+      <item value="110-101: [hs_pc_khu_vuc].Label, [hs_pc_khu_vuc], [hs_pc_tham_nien].Label, [hs_pc_tham_nien]"/>
+      <item value="110: [t_he_so].Label, [t_he_so]"/>
+      <item value="110: [luong_toi_thieu].Label, [luong_toi_thieu]"/>
+      <item value="110: [luong_co_ban].Label, [luong_co_ban]"/>
+
+      <item value="110-101: [ty_le_bhxh].Label, [ty_le_bhxh], [tien_bhxh].Label, [tien_bhxh]"/>
+      <item value="110-101: [ty_le_bhyt].Label, [ty_le_bhyt], [tien_bhyt].Label, [tien_bhyt]"/>
+      <item value="110-101: [ty_le_bhtn].Label, [ty_le_bhtn], [tien_bhtn].Label, [tien_bhtn]"/>
+      <item value="110-101: [ty_le_kpcd].Label, [ty_le_kpcd], [tien_kpcd].Label, [tien_kpcd]"/>
+
+      <item value="11000000: [can_cu].Label, [can_cu]"/>
+      <item value="11000000: [ghi_chu].Label, [ghi_chu]"/>
+
+      <categories>
+        <category index="1" columns="120, 30, 70, 100, 100, 30, 100, 0, 0" anchor="8">
+          <header v="Thông tin chung" e="General"/>
+        </category>
+        <category index="2" columns="120, 30, 70, 100, 100, 30, 100, 0, 0" anchor="8">
+          <header v="Thông tin bảo hiểm" e="Insurance Information"/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+declare @c varchar(8), @n decimal(16, 4)
+select @n = luong_tt from hrdmlttc where ngay_hl = (select max(ngay_hl) as ngay_hl from hrdmlttc where ngay_hl <= getdate())
+select @n = isnull(@n, 0)
+
+select @c = rtrim(val) from options where ma_phan_he = 'HR' and name = 'm_si_loai_nn';
+select 'this._defaultSalary = ' + rtrim(@n) + ';this._salaryType = ''' + @c + ''';set$ViewPanelEmployeeID(this);load$BSPlannedForm(this);' as message
+return
+    ]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+select 'set$ViewPanelEmployeeID(this);scatter$BSPlannedForm(this);' as message
+return
+        ]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$invalid nvarchar(512), @$ho_ten nvarchar(256)
+
+select @$ho_ten= ten from vhrnv where stt_rec = @stt_rec
+select @$exists = case when @@language = 'v' then N'Ngày thay đổi đã có hoặc không hợp lệ.' else N'The change date is invalid or already exists.' end
+select @$invalid = case when @@language = 'v' then N'Thời gian thay đổi của nhân viên <span class="Highlight">%s1</span> bị lồng nhau với khai báo khác.' else N'The effective time of employee <span class="Highlight">%s1</span> is invalid.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where stt_rec = @stt_rec 
+    and ((ngay_thay_doi = @ngay_thay_doi)
+          or (ngay_thay_doi <= @ngay_thay_doi2 and ngay_thay_doi2 >= @ngay_thay_doi)
+          or (ngay_thay_doi2 is null and ngay_thay_doi between @ngay_thay_doi and @ngay_thay_doi2)
+          or (@ngay_thay_doi2 is null and @ngay_thay_doi between ngay_thay_doi and ngay_thay_doi2)
+        )
+  ) begin
+  select 'ngay_thay_doi' as field, @$exists as message
+  return
+end
+
+if exists(select 1 from @@table where stt_rec = @stt_rec) select @stt_rec0 = max(stt_rec0), @line_nbr = max(line_nbr) from @@table where stt_rec = @stt_rec
+  else select @stt_rec0 = '000', @line_nbr = 0
+  
+exec dbo.FastBusiness$HRM$GetRowID @stt_rec0 output, @line_nbr output
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+select @stt_rec0 as stt_rec0
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where stt_rec = @stt_rec and stt_rec0 <> @stt_rec0
+    and ((ngay_thay_doi = @ngay_thay_doi)
+          or (ngay_thay_doi <= @ngay_thay_doi2 and ngay_thay_doi2 >= @ngay_thay_doi)
+          or (ngay_thay_doi2 is null and ngay_thay_doi between @ngay_thay_doi and @ngay_thay_doi2)
+          or (@ngay_thay_doi2 is null and @ngay_thay_doi between ngay_thay_doi and ngay_thay_doi2)
+        )
+  ) begin
+  select 'ngay_thay_doi' as field, @$exists as message
+  return
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec and stt_rec0 = @stt_rec0
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$BSPlannedForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[
+var f = this, id = f.get_id(), v = f._language == 'v', d1 = f.getItemValue('ngay_thay_doi'), d2 = f.getItemValue('ngay_thay_doi2');
+if (d2 != null && d1 > d2) {
+  var e = 'ngay_thay_doi2';
+  f._checked = false;
+  $func.hideWait(f.get_id());
+  $message.show(String.format($df.getResources(f._language, 'Message.RequiredField'), f.getItem(e).field.Label), String.format('$find(\'{0}\').getItem(\'{1}\').focus()', f.get_id(), e));
+}
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[  
+function load$BSPlannedForm(f) {
+  f.add_onResponseComplete(on$BSPlannedForm$ResponseComplete);
+  f._tabContainer.add_activeTabChanged(onChange$Voucher$Tab);
+  f._tabContainer._loaded = true;
+  set$BSPlannedFormDefaultValue(f);
+}
+function scatter$BSPlannedForm(f) {set$BSPlannedFormDefaultValue(f);}
+function close$BSPlannedForm(f) {
+  if (f._tabContainer) try {f._tabContainer.remove_activeTabChanged(onChange$Voucher$Tab);} catch (ex) {}
+  try {f.remove_onResponseComplete(on$BSPlannedForm$ResponseComplete);} catch (ex) {}
+}
+function on$BSPlannedForm$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'MinimumSalary':
+      f.setItemValues('luong_toi_thieu, ty_le_bhxh, ty_le_bhyt, ty_le_bhtn', [result[0].Value, result[1].Value, result[2].Value, result[3].Value]);
+      onChange$BSPlannedForm$MinimumSalary(f);
+      break;
+    default:
+      break;
+  }
+}
+function set$BSPlannedFormDefaultValue(f) { 
+  if (f._action == 'New') {
+    f.setItemValue('ngay_thay_doi', new Date());
+    f.setItemValue('luong_toi_thieu', f._defaultSalary);
+    onChange$BSPlannedForm$MinimumSalary(f);
+  }
+  var a = ['hs_luong', 'hs_pc_chuc_vu', 'hs_pc_vuot_khung', 'hs_pc_tham_nien', 'hs_pc_khu_vuc', 't_he_so', 'luong_toi_thieu'], v = (f._salaryType != '1');
+  for (var i = 0; i < a.length; i++) {
+    f.getItem(a[i]).disabled = v;
+  }
+}
+function onChange$BSPlannedForm$StartDate(f) {f.request('MinimumSalary', 'MinimumSalary', ['stt_rec', 'ngay_thay_doi']);}
+function onChange$BSPlannedForm$MinimumSalary(f, o) {
+  if ((f._salaryType == '1') && (f.getItemValue('t_he_so') != 0)) {
+    f.executeExpression(['[luong_co_ban]:=[t_he_so]*[luong_toi_thieu]']);
+    onChange$BSPlannedForm$BaseSalary(f);
+    if (o) {
+      if (o.field.Name == 'luong_toi_thieu') f.live(f.getItem('luong_co_ban'));
+    }
+  }
+}
+function onChange$BSPlannedForm$BaseSalary(f) {
+  var a = [['ty_le_bhxh', 'tien_bhxh'], ['ty_le_bhyt', 'tien_bhyt'], ['ty_le_bhtn', 'tien_bhtn'], ['ty_le_kpcd', 'tien_kpcd']];
+  for (var i = 0; i < a.length; i++) {
+    onChange$BSPlannedForm$Rate(f.getItem(a[i][0]), a[i][1]);
+  }
+}
+function onChange$BSPlannedForm$Coefficient(f, o) {
+  f.executeExpression(['[t_he_so]:=[hs_luong]+[hs_pc_chuc_vu]+[hs_pc_vuot_khung]/100+[hs_pc_tham_nien]/100+[hs_pc_khu_vuc]'];
+  onChange$BSPlannedForm$MinimumSalary(f);
+  if (o) {
+    if (o.field.Name == 'hs_pc_tham_nien') f.live(f.getItem('t_he_so'));
+  }
+}
+function onChange$BSPlannedForm$Rate(o, c) {
+  var f = o.parentForm;
+  e = '[' + c + ']:=[' + o.field.Name + ']*[luong_co_ban]/100';
+  f.executeExpression([e]);
+  f.live(f.getItem(c));
+}
+function onChange$Voucher$Tab(sender, e) {sender.parentForm.focusWhenTabChanged(['cap_bac', 'ty_le_bhxh']);}
+]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="MinimumSalary">
+      <text>
+        <![CDATA[
+declare @luong_tt decimal(16, 4), @tl_bhxh numeric(5, 2), @tl_bhyt numeric(5, 2), @tl_bhtn numeric(5, 2)
+select @luong_tt = luong_tt from hrdmlttc where ngay_hl = (select max(ngay_hl) as ngay_hl from hrdmlttc where ngay_hl <= @ngay_thay_doi)
+
+if exists (select 1 from options where name = 'm_si_trich_bh' and val = '0') begin  
+  if exists (select 1 from hrttctxh where stt_rec = @stt_rec and ngay_hl_tu <= @ngay_thay_doi and (ngay_hl_den is null or ngay_hl_den >= @ngay_thay_doi))
+    select @tl_bhxh = tl_bhxh0 + tl_bhxh1 from hrdmtlbh where ngay_hl = (select max(ngay_hl) as ngay_hl from hrdmtlbh where ngay_hl <= @ngay_thay_doi)
+  if exists (select 1 from hrttctyt where stt_rec = @stt_rec and ngay_hl_tu <= @ngay_thay_doi and (ngay_hl_den is null or ngay_hl_den >= @ngay_thay_doi))
+    select @tl_bhyt = tl_bhyt0 + tl_bhyt1 from hrdmtlbh where ngay_hl = (select max(ngay_hl) as ngay_hl from hrdmtlbh where ngay_hl <= @ngay_thay_doi)
+  if exists (select 1 from hrttcttn where stt_rec = @stt_rec and ngay_hl_tu <= @ngay_thay_doi and (ngay_hl_den is null or ngay_hl_den >= @ngay_thay_doi))
+    select @tl_bhtn = tl_bhtn0 + tl_bhtn1 from hrdmtlbh where ngay_hl = (select max(ngay_hl) as ngay_hl from hrdmtlbh where ngay_hl <= @ngay_thay_doi)
+end else begin
+  select @tl_bhxh = tl_bhxh0 + tl_bhxh1, @tl_bhyt = tl_bhyt0 + tl_bhyt1, @tl_bhtn = tl_bhtn0 + tl_bhtn1 from hrdmtlbh where ngay_hl = (select max(ngay_hl) as ngay_hl from hrdmtlbh where ngay_hl <= @ngay_thay_doi)
+end
+
+select isnull(@luong_tt, 0) as luong_tt, isnull(@tl_bhxh, 0) as tl_bhxh, isnull(@tl_bhyt, 0) as tl_bhyt, isnull(@tl_bhtn, 0) as tl_bhtn
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+</dir>

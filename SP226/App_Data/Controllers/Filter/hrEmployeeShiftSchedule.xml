@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY JavascriptReportFilter SYSTEM "..\Include\Javascript\ReportFilter.txt">
+]>
+
+<dir table="hrca$000000" code="stt_rec_nv" order="stt_rec_nv" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="Điều kiện lọc" e="Filter Condition"></title>
+
+  <fields>
+    <field name="thang" type="Decimal" dataFormatString="#0" allowNulls="false">
+      <header v="Tháng" e="Month"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="nam" type="Decimal" dataFormatString="###0" allowNulls="false">
+      <header v="Năm" e="Year"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ma_bp" allowNulls="false">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="AutoComplete" controller="hrDepartment" reference="ten_bp%l" key="(@@admin = 1 or ma_bp in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)) and status = '1'" check="@@admin = 1 or ma_bp in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)"/>
+      <clientScript><![CDATA[onchange="onchange$ShiftScheduleFilter$Deparment(this);"]]></clientScript>
+    </field>
+    <field name="ten_bp%l" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nv" onDemand="true">
+      <header v="Nhân viên" e="Employee"></header>
+      <items style="AutoComplete" controller="hrEmployee" reference="ten_nv" key="bp_ref like case when '{$%c[bp_ref]}' &lt;&gt; '' then '{$%c[bp_ref]}%' else '''' end and status = '1'" check="bp_ref like case when '{$%c[bp_ref]}' &lt;&gt; '' then '{$%c[bp_ref]}%' else '''' end"/>
+    </field>
+    <field name="ten_nv" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_vtr" onDemand="true">
+      <header v="Vị trí công việc" e="Position"></header>
+      <items style="AutoComplete" controller="hrPosition" reference="ten_vtr%l" key="status = '1'" check="1 = 1" information="ma_vtr$hrvt.ten_vtr%l"/>
+    </field>
+    <field name="ten_vtr%l" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="bac_ql" onDemand="true">
+      <header v="Bậc quản lý" e="Job Grade"></header>
+      <items style="AutoComplete" controller="hrManagerLevel" reference="ten_bac_ql%l" key="status = '1'" check="1 = 1">
+      </items>
+    </field>
+    <field name="ten_bac_ql%l" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="bp_ref" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 40, 60, 100, 230"/>
+      <item value="11: [thang].Label, [thang]"/>
+      <item value="11--1: [nam].Label, [nam], [bp_ref]"/>
+      <item value="11010: [ma_bp].Label, [ma_bp], [ten_bp%l]"/>
+      <item value="11010: [ma_nv].Label, [ma_nv], [ten_nv]"/>
+      <item value="11010: [ma_vtr].Label, [ma_vtr], [ten_vtr%l]"/>
+      <item value="11010: [bac_ql].Label, [bac_ql], [ten_bac_ql%l]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+declare @ngay_ks varchar(8)
+select @ngay_ks = convert(varchar(8), ngay_ks, 112) from dmstt
+select 'this._lockedDate = ''' + @ngay_ks + ''';active$ShiftScheduleFilter(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$ShiftScheduleFilter(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+declare @d varchar(512), @keyDept nvarchar(4000), @keyData nvarchar(4000)
+select @d = ''
+if exists(select 1 from dmstt where @nam >= year(ngay_gh1) and @nam <= year(ngay_gh2)) begin
+  select top 0 ma_bp, ngay into #ngaynghi from hrdmngaynghi
+  select @keyDept = 'bp_ref like ''' + replace(@bp_ref, '''', '') + '%''', @keyData = 'a.status = 1 and month(a.ngay) = ' + replace(ltrim(@thang), '''', '''''') + ' and year(a.ngay) = ' + replace(ltrim(@nam), '''', '''''')
+  insert into #ngaynghi exec FastBusiness$HRM$DepartmentGetData @keyDept, 'hrdmngaynghi', 'ngay', @keyData, '', 0
+
+  select @d = @d + rtrim(day(ngay)) + ',' from #ngaynghi
+  select @d = substring(@d, 0, len(@d))
+end
+
+select '' as field, '' as message, 'this.grid._nonWorking = ''' + @d + ''';remove$GridReport$Filter(this.grid);' as script
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[
+var id = this.get_id(), m = this.getItemValue('thang');
+if (m < 1 || m > 12) {
+  this._checked = false;
+  $func.hideWait(id);
+  $message.show(this._language == 'v' ? 'Trường <span class="Highlight">Tháng</span> chưa nhập hoặc giá trị nhập không hợp lệ.' : 'Field <span class="Highlight">Month</span> must not be blank or has invalid value.', String.format('$find(\'{0}\').focus(\'{1}\');', id, 'thang'));
+}
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &JavascriptReportFilter;
+      <![CDATA[/* <flatten type="Javascript"> */
+function active$ShiftScheduleFilter(f) {
+  f.add_onResponseComplete(on$ShiftScheduleFilter$ResponseComplete);
+  f.getItem('thang').value = (new Date()).getMonth() + 1;
+  f.getItem('nam').value = (new Date()).getFullYear();
+}
+function close$ShiftScheduleFilter(f) {try {f.remove_onResponseComplete(on$ShiftScheduleFilter$ResponseComplete);} catch (ex) {}}
+function onchange$ShiftScheduleFilter$Deparment(o) {o.parentForm.request('Reference', 'Reference', ['ma_bp']);}
+function on$ShiftScheduleFilter$ResponseComplete(f, e) {
+  var f = e.object, g = f.grid, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Reference':
+      f.setItemControlBehavior('bp_ref', result[0].Value, true);
+      f.setReferenceKeyFilter('ma_nv');
+      break;
+    case 'Checking':
+      g._refreshMemvars = true;
+      g._month = f.getItemValue('thang');
+      g._year = f.getItemValue('nam');
+      g._dept = f.getItemValue('ma_bp');
+      g._staff = f.getItemValue('ma_nv');
+      g._pos = f.getItemValue('ma_vtr');
+      g._grade = f.getItemValue('bac_ql');
+      g._deptRef = f.getItemValue('bp_ref');
+      g._deptName = f.getItemValue('ten_bp%l');
+
+      var d = new Date(g._year, g._month, 0), day = d.getDate();
+      var b = f._lockedDate >= (g._year.toString() + (g._month > 9 ? g._month.toString() : '0' + g._month.toString()) + '01');
+      g._denyEdit = b;
+      if (b) g._denyMessage = ((f._language == 'v') ? 'Đã khóa số liệu, kiểm tra lại ngày khóa sổ.' : 'Data is locked, you must modify system locked date.');
+      g._hiddenFields = [
+        {Fields: 'n31', Value: (day == 30 || day == 29 || day == 28)},
+        {Fields: 'n30', Value: (day == 29 || day == 28)},
+        {Fields: 'n29', Value: (day == 28)},
+      ];
+      g._alterTitle = [null, [['%s1', g._month, true], ['%s2', g._year, true], ['%s3', g._deptName, true]]];
+      break;
+    default:
+      break;
+  }
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="Reference">
+      <text>
+        <![CDATA[
+declare @b varchar(128)
+select @b = ''
+if exists(select 1 from hrbp where ma_bp = @ma_bp) select @b = bp_ref from hrbp where ma_bp = @ma_bp
+select @b as value
+return
+]]>
+      </text>
+    </action>
+  </response>
+</dir>

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmpv" code="ma_pv" name="ten_pv%l" order="ma_pv" xmlns="urn:schemas-fast-com:data-lookup">
+	<header v="Danh mục loại phỏng vấn" e="Interview List"/>
+  <fields>
+		<field name="ma_pv" allowSorting="true" allowFilter="true">
+			<header v="Mã loại" e="Code"></header>
+		</field>
+		<field name="ten_pv%l" allowSorting="true" allowFilter="true">
+			<header v="Tên loại" e="Description"></header>
+		</field>
+  </fields>
+</lookup>

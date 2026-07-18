@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dir [
+  <!ENTITY % Unit SYSTEM "..\Include\Unit.ent">
+  %Unit;
+  <!ENTITY % CompactMode SYSTEM "..\Include\CompactMode.ent">
+  %CompactMode;
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+]>
+
+<dir table="dmdvcs" code="ma_dvcs" order="ma_dvcs" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="đơn vị" e="Unit"></title>
+  <fields>
+    <field name="ma_dvcs" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã đơn vị" e="Unit Code"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ten_dvcs" allowNulls="false">
+      <header v="Tên đơn vị" e="Description"></header>
+    </field>
+    <field name="ten_dvcs2">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 100, 230"/>
+      <item value="110: [ma_dvcs].Label, [ma_dvcs]"/>
+      <item value="11000: [ten_dvcs].Label, [ten_dvcs]"/>
+      <item value="11000: [ten_dvcs2].Label, [ten_dvcs2]"/>
+      <item value="11100: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    &UnitListFormShowing;
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$FormUnit(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormUnit(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$updateConflict nvarchar(512), @$recordHasBeenChanged nvarchar(512), @$deleteConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã đơn vị <span class="Highlight">%s</span> đã có hoặc lồng nhau trong danh mục đơn vị cơ sở.' else N'The unit <span class="Highlight">%s</span> is invalid or already exists.' end
+select @$updateConflict = case when @@language = 'v' then N'Mã đơn vị <span class="Highlight">%s</span> đã phát sinh, không thể sửa được.' else N'Cannot edit the unit <span class="Highlight">%s</span>. It has already been used.' end
+select @$deleteConflict = case when @@language = 'v' then N'Mã đơn vị <span class="Highlight">%s</span> đã phát sinh, không thể xóa được.' else N'Cannot delete the unit <span class="Highlight">%s</span>. It has already been used.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Mã đơn vị <span class="Highlight">%s</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The unit <span class="Highlight">%s</span> has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select * from @@table where ((ma_dvcs like rtrim(@ma_dvcs) + '%') or rtrim(@ma_dvcs) like rtrim(ma_dvcs) + '%'))
+  begin
+    select 'ma_dvcs' as field, replace(@$exists, '%s', rtrim(@ma_dvcs)) as message
+    return
+  end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        &Control.Unit.Inserted;
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select * from @@table where ma_dvcs = $ma_dvcs.OldValue) begin
+  select 'ma_dvcs' as field, replace(@$recordHasBeenChanged, '%s', rtrim($ma_dvcs.OldValue)) as message
+  return
+end
+  
+if @ma_dvcs <> $ma_dvcs.OldValue begin
+  if exists(select * from @@table where ((ma_dvcs like rtrim(@ma_dvcs) + '%') or rtrim(@ma_dvcs) like rtrim(ma_dvcs) + '%') and ma_dvcs <> $ma_dvcs.OldValue) begin
+    select 'ma_dvcs' as field, replace(@$exists, '%s', rtrim(@ma_dvcs)) as message
+    return
+  end
+
+  declare @message nvarchar(255)
+  select @message  = replace(@$updateConflict, '%s', rtrim($ma_dvcs.OldValue))
+  if exists(select 1 from ct00 where ma_dvcs = $ma_dvcs.OldValue) begin
+    select 'ma_dvcs' as field, @message as message
+    return
+  end
+  if exists(select 1 from cdtk where ma_dvcs = $ma_dvcs.OldValue) begin
+    select 'ma_dvcs' as field, @message as message
+    return
+  end
+  if exists(select 1 from cdkh where ma_dvcs = $ma_dvcs.OldValue) begin
+    select 'ma_dvcs' as field, @message as message
+    return
+  end
+  if exists(select 1 from cdvt a join dmkho b on a.ma_kho = b.ma_kho where b.ma_dvcs = $ma_dvcs.OldValue) begin
+    select 'ma_dvcs' as field, @message as message
+    return
+  end
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_dvcs = @ma_dvcs
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+declare @message nvarchar(255)
+select @message  = replace(@$deleteConflict, '%s', rtrim(@ma_dvcs))
+if exists(select 1 from ct00 where ma_dvcs = @ma_dvcs) begin
+  select @message as message
+  return
+end
+if exists(select 1 from cdtk where ma_dvcs = @ma_dvcs) begin
+  select @message as message
+  return
+end
+if exists(select 1 from cdkh where ma_dvcs = @ma_dvcs) begin
+  select @message as message
+  return
+end
+if exists(select 1 from cdvt a join dmkho b on a.ma_kho = b.ma_kho where b.ma_dvcs = @ma_dvcs) begin
+  select @message as message
+  return
+end
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$FormUnit(f) {f.add_onResponseComplete(on$FormUnit$ResponseComplete);}
+function close$FormUnit(f) {try {f.remove_onResponseComplete(on$FormUnit$ResponseComplete)} catch (ex) {}}
+function on$FormUnit$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'ma_dvcs');
+      var o = f.getItem('ma_dvcs');
+      if(f._checked && ($func.trim(o.value).indexOf(' ', 0) >= 0 || o.value.indexOf('.', 0) >= 0)) {
+        var msg = (f._language == 'v' ? 'Trường <span class="Highlight">{0}</span> không được phép có khoảng trắng hoặc chứa ký tự: <span class="Highlight">[.]</span>.' : 'Field <span class="Highlight">{0}</span> cannot contain blank or any of the following character: <span class="Highlight">[.]</span>.');
+        msg = String.format(msg, o.field.Label);
+        $message.show(msg, String.format('$find(\'{0}\').focus(\'{1}\');', f._id, o.field.Name));
+        f._checked = false;
+      }
+      break;
+    default:
+      break;
+  }
+}      
+]]>
+      &ScriptIrregular;
+    </text>
+  </script>
+
+</dir>

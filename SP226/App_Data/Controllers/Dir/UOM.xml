@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dir [
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+
+  <!ENTITY % Irregular SYSTEM "..\Include\CompactMode.ent">
+  %Irregular;
+]>
+
+<dir table="dmdvt" code="dvt" order="dvt" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="đơn vị tính" e="Unit of Measure"></title>
+  <fields>
+    <field name="dvt" isPrimaryKey="true" allowNulls="false">
+      <header v="Đvt" e="UOM"></header>
+    </field>
+    <field name="ten_dvt" allowNulls="false">
+      <header v="Tên đvt" e="Description"></header>
+    </field>
+    <field name="ten_dvt2">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true" categoryIndex="9">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 330"/>
+      <item value="110: [dvt].Label, [dvt]"/>
+      <item value="1100: [ten_dvt].Label, [ten_dvt]"/>
+      <item value="1100: [ten_dvt2].Label, [ten_dvt2]"/>
+      <item value="1110: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$FormUOM(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormUOM(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$updateConflict nvarchar(512), @$recordHasBeenChanged nvarchar(512), @$deleteConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Đơn vị tính <span class="Highlight">%s</span> đã có hoặc lồng nhau trong danh mục đơn vị tính.' else N'The unit of measure <span class="Highlight">%s</span> is invalid or already exists.' end
+select @$updateConflict = case when @@language = 'v' then N'Đơn vị tính <span class="Highlight">%s</span> đã phát sinh, không thể sửa được.' else N'Cannot edit the unit of measure <span class="Highlight">%s</span>. It has already been used.' end
+select @$deleteConflict = case when @@language = 'v' then N'Đơn vị tính <span class="Highlight">%s</span> đã phát sinh, không thể xóa được.' else N'Cannot delete the unit of measure <span class="Highlight">%s</span>. It has already been used.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Đơn vị tính <span class="Highlight">%s</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The unit of measure <span class="Highlight">%s</span> has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select * from @@table where ((dvt like rtrim(@dvt) + '%') or rtrim(@dvt) like rtrim(dvt) + '%')) begin
+  select 'dvt' as field, replace(@$exists, '%s', rtrim(@dvt)) as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select * from @@table where dvt = $dvt.OldValue) begin
+  select 'dvt' as field, replace(@$recordHasBeenChanged, '%s', rtrim($dvt.OldValue)) as message
+  return
+end
+
+if @dvt <> $dvt.OldValue begin
+  if exists(select * from @@table where ((dvt like rtrim(@dvt) + '%') or rtrim(@dvt) like rtrim(dvt) + '%') and dvt <> $dvt.OldValue) begin
+    select 'dvt' as field, replace(@$exists, '%s', rtrim(@dvt)) as message
+    return
+  end
+  if exists(select * from dmvt where dvt = $dvt.OldValue) or exists(select * from dmqddvt where dvt = $dvt.OldValue) begin
+    select 'dvt' as field, replace(@$updateConflict, '%s', rtrim($dvt.OldValue)) as message
+    return
+  end
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where dvt = @dvt
+]]>
+      </text>
+    </command>
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+if exists(select * from dmvt where dvt = @dvt) or exists(select * from dmqddvt where dvt = @dvt) begin
+  select replace(@$deleteConflict, '%s', rtrim(@dvt)) as message
+  return
+end
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function active$FormUOM(f) {f.add_onResponseComplete(on$FormUOM$ResponseComplete);}
+function close$FormUOM(f) {try {f.remove_onResponseComplete(on$FormUOM$ResponseComplete)} catch (ex) {}}
+/* </flatten> */
+
+function on$FormUOM$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'dvt', true, ]]>&Irregular.UOM;<![CDATA[);
+      break;
+    default:
+      break;
+  }
+}
+]]>
+      &ScriptIrregular;
+    </text>
+  </script>
+
+</dir>

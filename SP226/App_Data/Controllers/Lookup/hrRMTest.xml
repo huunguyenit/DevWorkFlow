@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmktr" code="ma_ktr" name="ten_ktr%l" order="ma_ktr" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục loại kiểm tra" e="Test List"/>
+  <fields>
+    <field name="ma_ktr" allowSorting="true" allowFilter="true">
+      <header v="Mã loại" e="Code"></header>
+    </field>
+    <field name="ten_ktr%l" allowSorting="true" allowFilter="true">
+      <header v="Tên loại" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

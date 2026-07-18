@@ -1,0 +1,637 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY XMLWhenVoucherInit SYSTEM "..\Include\XML\WhenVoucherInit.xml">
+  <!ENTITY XMLWhenVoucherNavigating SYSTEM "..\Include\XML\WhenVoucherNavigating.xml">
+  <!ENTITY XMLWhenVoucherClosing SYSTEM "..\Include\XML\WhenVoucherClosing.xml">
+  <!ENTITY XMLGetVoucherNumber SYSTEM "..\Include\XML\GetVoucherNumber.xml">
+  <!ENTITY XMLGetContactInfo SYSTEM "..\Include\XML\GetContactInfo.xml">
+  <!ENTITY XMLVoucherBookAndNumberFields SYSTEM "..\Include\XML\VoucherBookAndNumberFields.txt">
+  <!ENTITY CommandWhenVoucherLoading SYSTEM "..\Include\Command\WhenVoucherLoading.txt">
+  <!ENTITY CommandWhenVoucherBeforeEdit SYSTEM "..\Include\Command\WhenVoucherBeforeEdit.txt">
+  <!ENTITY CommandWhenVoucherBeforeDelete SYSTEM "..\Include\Command\WhenVoucherBeforeDelete.txt">
+  <!ENTITY CommandRecordHasBeenChanged SYSTEM "..\Include\Command\RecordHasBeenChanged.txt">
+  <!ENTITY CommandCheckVoucherHandleBeforeSave SYSTEM "..\Include\Command\CheckVoucherHandleBeforeSave.txt">
+  <!ENTITY CommandCheckVoucherHandleBeforeEdit SYSTEM "..\Include\Command\CheckVoucherHandleBeforeEdit.txt">
+  <!ENTITY CommandCheckVoucherHandleBeforeDelete SYSTEM "..\Include\Command\CheckVoucherHandleBeforeDelete.txt">
+  <!ENTITY CommandCheckLockedDate SYSTEM "..\Include\Command\CheckClosingDate.txt">
+  <!ENTITY CommandCheckVoucherNumber SYSTEM "..\Include\Command\ExternalCheckVoucherNumber.txt">
+  <!ENTITY CommandGetIdentityNumber SYSTEM "..\Include\Command\GetIdentityNumber.txt">
+  <!ENTITY CommandGetVoucherNumber SYSTEM "..\Include\Command\GetVoucherNumber.txt">
+  <!ENTITY CommandSetVoucherNumber SYSTEM "..\Include\Command\SetVoucherNumber.txt">
+  <!ENTITY CommandShowWarningMessage SYSTEM "..\Include\Command\ShowWarningMessage.txt">
+  <!ENTITY CommandQueryVoucherNumber SYSTEM "..\Include\Command\QueryVoucherNumber.txt">
+  <!ENTITY CommandScatterVoucherNumber SYSTEM "..\Include\Command\ScatterVoucherNumber.txt">
+  <!ENTITY ScriptVoucherInit SYSTEM "..\Include\Javascript\VoucherInit.txt">
+  <!ENTITY ScriptVoucherNumber SYSTEM "..\Include\Javascript\VoucherNumber.txt">
+  <!ENTITY VoucherNumberLoading SYSTEM "..\Include\Javascript\WhenVoucherNumberLoading.txt">
+  <!ENTITY VoucherNumberScattering SYSTEM "..\Include\Javascript\WhenVoucherNumberScattering.txt">
+  <!ENTITY VoucherNumberReading SYSTEM "..\Include\Javascript\WhenVoucherNumberReading.txt">
+
+  <!ENTITY ExternalInitVoucherNumber SYSTEM "..\Include\Command\ExternalInitVoucherNumber.txt">
+
+  <!ENTITY % SplitIssuingOrder SYSTEM "..\Include\SplitIssuingOrder.ent">
+  %SplitIssuingOrder;
+
+  <!ENTITY CommandCheckVoucherFlowBeginTag "exists(select 1 from d66$$partition$current where stt_rec = @stt_rec and (abs(sl_xuat) + abs(sl_hd) + abs(sl_giao) > 0)) begin">
+  <!ENTITY CommandCheckVoucherFlowEndTag "'$NotAuthorized' as message return end">
+  <!ENTITY CommandCheckVoucherFlowBeforeUpdate "if @@view = 0 and @@action = 'Edit' and &CommandCheckVoucherFlowBeginTag; select @message as script, &CommandCheckVoucherFlowEndTag;">
+  <!ENTITY CommandCheckVoucherFlowBeforeDelete "if &CommandCheckVoucherFlowBeginTag; select &CommandCheckVoucherFlowEndTag;">
+
+  <!ENTITY IncludeCheckUnderZeroStock SYSTEM "..\Include\Command\CheckUnderZeroStock.txt">
+  <!ENTITY CommandCheckUnderZeroStock "if @loai_ct = '1' begin &IncludeCheckUnderZeroStock; end">
+
+  <!ENTITY UpdateCurrentStock SYSTEM "..\Include\Command\UpdateCurrentStock.txt">
+  <!ENTITY ReviseCurrentStock SYSTEM "..\Include\Command\ReviseCurrentStock.txt">
+  <!ENTITY DeleteCurrentStock SYSTEM "..\Include\Command\DeleteCurrentStock.txt">
+
+  <!ENTITY % VoucherEndUpdated SYSTEM "..\Include\VoucherEndUpdated.ent">
+  %VoucherEndUpdated;
+
+  <!ENTITY FastBusiness.Encryption.Begin "">
+  <!ENTITY BeforeVoucherUpdate "if exists(select 1 from @@prime$partition$previous where stt_rec = @stt_rec and status &lt;&gt; '0' and loai_ct &lt;&gt; '2') exec FastBusiness$Voucher$BeforeUpdate$SI @@prime$partition$previous, d66$$partition$previous, @stt_rec, @@action, @@userID">
+  <!ENTITY AfterVoucherUpdate "if exists(select 1 from @@prime$partition$current where stt_rec = @stt_rec and status &lt;&gt; '0' and loai_ct &lt;&gt; '2') exec FastBusiness$Voucher$AfterUpdate$SI @@prime$partition$current, d66$$partition$current, @stt_rec, @@action, @@userID">
+  <!ENTITY FastBusiness.Encryption.End "">
+
+  <!ENTITY DetailVariable "@d66">
+  <!ENTITY DetailStockType "1">
+  <!ENTITY DetailTable "d66$$partition$current">
+  <!ENTITY StockType "2">
+  <!ENTITY DeclareStock "declare @stock int
+select @stock = -1">
+  <!ENTITY DeclarePost "declare @post bit
+select @post = case when @status = '2' then 1 else 0 end">
+
+  <!ENTITY FastBusiness.Encryption.Begin "">
+  <!ENTITY AfterUpdate "
+exec FastBusiness$App$Voucher$UpdateInquiryTable @@id, '@@inquiry$partition$current', '@@prime$partition$current', 'd66$$partition$current', 'stt_rec', @stt_rec, @@operation
+exec FastBusiness$App$Voucher$UpdateGrandTable @@id, '@@master', '@@prime$partition$current', 'stt_rec', @stt_rec, 1
+exec FastBusiness$App$Voucher$UpdateGeneral @@id, 'm66$$partition$current', 'd66$$partition$current', '@@inquiry$partition$current', '@@prime$partition$current', @stt_rec
+update @@master set loai_ct = @loai_ct where stt_rec = @stt_rec
+">
+
+  <!ENTITY Post "
+if @loai_ct &lt;&gt; '1' begin
+  update d66$$partition$current set stt_rec_lx = '', stt_rec0lx = '', lx_so = '', lx_ln = 0 where stt_rec = @stt_rec
+end
+
+if (@loai_ct = '1' and @status &lt;&gt; '0') begin
+  exec FastBusiness$Voucher$Posting$Inventory 'm66$$partition$current', 'd66$$partition$current', 'r90$$partition$current', @stt_rec, @@id,
+    'ct_dc, gia_nt01, gia01, gia_nt0, gia0, tien_nt0, tien0, cp_thue_yn, px_gia_dd, pn_gia_tb',
+    'so_seri, ma_khon, ma_vi_trin, so_dh2, so_dh3, ma_nv, tk_du, stt_rec_px, stt_rec0px, stt_rec_dc, so_seri0',
+    'gia_nt1 = b.gia_nt, gia_nt21 = b.gia_nt2, gia1 = b.gia, gia21 = b.gia2, tien_nhap = 0, tien_nt_n = 0, tien_xuat = b.tien, tien_nt_x = b.tien_nt',
+    '', @stock, &StockType;
+
+  insert into r90$$partition$current select * from ct90 where stt_rec = @stt_rec
+end">
+
+  <!ENTITY Delete "
+delete ct90 where stt_rec = @stt_rec
+#IF '$partition$current' &lt;&gt; '$partition$previous' #THEN
+  delete r90$$partition$previous where stt_rec = @stt_rec
+#ELSE
+  delete r90$$partition$current where stt_rec = @stt_rec
+#END">
+  <!ENTITY FastBusiness.Encryption.End "">
+
+  <!ENTITY % VoucherDeleteLog SYSTEM "..\Include\VoucherDeleteLog.ent">
+  %VoucherDeleteLog;
+
+  <!ENTITY % Extender SYSTEM "..\Include\Extender.ent">
+  %Extender;
+  %Extender.Include.SITran;
+  %Extender.Ignore;
+
+  <!ENTITY % VoucherEditLog SYSTEM "..\Include\VoucherEditLog.ent">
+  %VoucherEditLog;
+]>
+
+<dir table="m66$000000" code="stt_rec" order="ngay_ct, so_ct" id="DX1" type="Voucher" uniKey="true" navigation="true" name="cookie" check="true" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="phiếu xuất bán" e="Pick List"></title>
+  <partition table="c66$000000" prime="m66$" inquiry="i66$" field="ngay_ct" expression="convert(char(6), {0}, 112)" increase="dateadd(month, 1, {0})" default="000000"/>
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_gd" allowNulls="false" clientDefault="Default">
+      <header v="Mã giao dịch" e="Transaction Code"></header>
+      <items style="AutoComplete" controller="TransactionCode" reference="ten_gd%l" key="ma_ct = @@id and status = '1'&SplitIssuingOrderKeyVoucherType;" check="ma_ct = @@id&SplitIssuingOrderKeyVoucherType;" information="ma_gd$dmmagd.ten_gd%l" row="1"/>
+      <clientScript><![CDATA[onchange="onChange$Voucher$Transaction(this);"]]></clientScript>
+    </field>
+    <field name="ten_gd%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_kh" allowNulls="false">
+      <header v="Mã khách" e="Customer"></header>
+      <items style="AutoComplete" controller="Customer" reference="ten_kh%l" key="(kh_yn = 1 or nv_yn = 1) and status = '1'" check="kh_yn = 1 or nv_yn = 1" information="ma_kh$dmkh.ten_kh%l" new="Default"/>
+      <clientScript><![CDATA[onchange="onChange$Voucher$Customer(this);"]]></clientScript>
+    </field>
+    <field name="ten_kh%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ong_ba">
+      <header v="Người nhận" e="Recipient"></header>
+    </field>
+    <field name="dien_giai">
+      <header v="Diễn giải" e="Memo"></header>
+    </field>
+
+    <field name="ma_nt" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="loai_ct" hidden="true" width="0" clientDefault="&SplitIssuingOrderPickListVoucherType;">
+      <header v="" e=""></header>
+    </field>
+
+    &XMLVoucherBookAndNumberFields;
+
+    <field name="so_ct" dataFormatString="@upperCaseFormat" align="right" allowNulls="false">
+      <header v="Số chứng từ" e="Voucher Number"></header>
+      <items style="Mask"/>
+    </field>
+
+    <field name="ngay_lct" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false">
+      <header v="Ngày lập" e="Date"></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="so_lx" dataFormatString="@upperCaseFormat" align="right" external="true" defaultValue="''" categoryIndex="18" disabled="true">
+      <header v="Số lệnh xuất" e="Issuing Number"></header>
+    </field>
+
+    <field name="ngay_lx" type="DateTime" dataFormatString="@datetimeFormat" external="true" defaultValue="''" categoryIndex="18" disabled="true">
+      <header v="Ngày" e="Date"></header>
+    </field>
+
+    <field name="status" inactivate="true" clientDefault="0">
+      <header v="Trạng thái" e="Status"></header>
+      &SplitIssuingOrderFieldStatus;
+    </field>
+
+    <field name="d66" external="true" clientDefault="0" defaultValue="0" rows="242" allowNulls="false" filterSource="Tidy" categoryIndex="1">
+      <header v="" e=""></header>
+      <label v="Chi tiết" e="Detail"></label >
+      <items style="Grid" controller="SIDetail" row="1">
+        <item value="ForeignKey">
+          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+        </item>
+      </items>
+    </field>
+
+    <field name="t_so_luong" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="0" categoryIndex="-1" disabled="true">
+      <header v="Tổng cộng" e="Total"></header>
+      <items style="Numeric"/>
+    </field>
+
+    &ListField;
+    &PostField;
+
+    <field name="ma_dvcs" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="cookie" external="true" hidden="true" readOnly="true" defaultValue="''" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="302" anchor="6" split="6">
+      <item value="100, 100, 100, 37, 100, 100, 8, 58, 42, 8, 100, 0, 0"/>
+      <item value="111000-100111: [ma_kh].Label, [ma_kh], [ten_kh%l], [so_ct].Label, [so_ct], [stt_rec], [ma_nk]"/>
+      <item value="11-----1001-1: [ong_ba].Label, [ong_ba], [ngay_lct].Label, [ngay_lct], [ngay_ct]"/>
+      <item value="111000-1100--: [ma_gd].Label, [ma_gd], [ten_gd%l], [status].Label, [status]"/>
+      <item value="110000-----11: [dien_giai].Label, [dien_giai], [ma_nt], [loai_ct]"/>
+
+      <item value="1: [d66]"/>
+
+      &ListView;
+      &PostView;
+
+      <item value="11--11-------: [so_lx].Label, [so_lx], [ngay_lx].Label, [ngay_lx]"/>
+      <item value="------101011: [t_so_luong].Label, [t_so_luong], [ma_dvcs], [cookie]"/>
+
+      <categories>
+        <category index="1" columns="769" anchor="1">
+          <header v="Chi tiết" e="Detail"/>
+        </category>
+
+        &ListCategory;
+        &PostCategory;
+
+        <category index="18" columns="100, 100, 100, 100, 37, 100, 8, 58, 42, 8, 100, 0, 0" anchor="4" split="6">
+          <header v="Khác" e="Other"/>
+        </category>
+        <category index="-1" columns="100, 100, 100, 37, 200, 8, 58, 42, 8, 100, 0, 0" anchor="5">
+          <header v="" e=""/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    &XMLWhenVoucherInit;
+    &ListShowing;
+
+    <command event="Loading">
+      <text>
+        &CommandWhenVoucherLoading;
+        &CommandGetVoucherNumber;
+        <![CDATA[
+declare @message nvarchar(4000)
+]]>&CommandQueryVoucherNumber;<![CDATA[ + ';active$Voucher$(this);']]>
+        &CommandCheckVoucherHandleBeforeEdit;
+        &CommandCheckVoucherFlowBeforeUpdate;
+        &CommandWhenVoucherBeforeEdit;
+        <![CDATA[
+select @message as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        &CommandGetVoucherNumber;
+        <![CDATA[
+declare @message nvarchar(4000)
+]]>&CommandScatterVoucherNumber;<![CDATA[ + ';scatter$Voucher$(this);']]>
+        &CommandCheckVoucherHandleBeforeEdit;
+        &CommandCheckVoucherFlowBeforeUpdate;
+        &CommandWhenVoucherBeforeEdit;
+        <![CDATA[
+select @message as message
+return
+]]>
+      </text>
+    </command>
+
+    &XMLWhenVoucherNavigating;
+
+    <command event="InitExternalFields">
+      <text>
+        <![CDATA[
+declare @orderID varchar(32), @orderNumber varchar(32), @orderDate smalldatetime
+select @orderID = max(stt_rec_lx) from d66$$partition$current where stt_rec = @stt_rec and stt_rec_lx <> ''
+if isnull(@orderID, '') = '' select @orderNumber = '', @orderDate = null
+  else select @orderNumber = so_ct, @orderDate = ngay_ct from c66$000000 where stt_rec = @orderID
+]]>
+        &ExternalInitVoucherNumber;<![CDATA[, @orderNumber as so_lx, @orderDate as ngay_lx
+return
+]]>
+      </text>
+    </command>
+
+    &XMLWhenVoucherClosing;
+
+    <command event="Inserting">
+      <text>
+        &CommandCheckLockedDate;
+        &CommandCheckVoucherHandleBeforeSave;
+        &CommandCheckVoucherNumber;
+        &CommandCheckUnderZeroStock;
+        &CommandGetIdentityNumber;
+        <![CDATA[
+select @ma_dvcs = @@unit, @ma_ct = @@id, @ngay_ct = @ngay_lct, @ty_gia = 1, @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+update @d66 set stt_rec = @stt_rec, ma_ct = @ma_ct, ngay_ct = @ngay_ct, so_ct = @so_ct
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+insert into d66$$partition$current select * from @d66
+]]>
+        &AfterUpdate;
+        &DeclareStock;
+        &DeclarePost;
+        &UpdateCurrentStock;
+        &Post;
+        &AfterVoucherUpdate;
+        <![CDATA[
+exec FastBusiness$App$IncreaseVoucherNumber @ma_nk, @@id, @so_ct
+]]>
+        &ListDeclare;
+        &ListWarning;
+        &ListCommand;
+        &PostInserted;
+        &ListQuery;<![CDATA[, @stt_rec as stt_rec, @@unit as ma_dvcs else
+select @stt_rec as stt_rec, @@unit as ma_dvcs
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        &CommandRecordHasBeenChanged;
+        &CommandCheckLockedDate;
+        &CommandCheckVoucherHandleBeforeSave;
+        &CommandCheckVoucherNumber;
+        &CommandCheckUnderZeroStock;
+        &VoucherWhenBeforeUpdateLog;
+        &BeforeVoucherUpdate;
+        <![CDATA[
+#IF '$partition$current' <> '$partition$previous' #THEN
+  insert into @@prime$partition$current select * from @@prime$partition$previous where stt_rec = @stt_rec
+  #IF $d66.NewValue = $d66.OldValue #THEN
+    insert into d66$$partition$current select * from d66$$partition$previous where stt_rec = @stt_rec
+    delete d66$$partition$previous where stt_rec = @stt_rec
+  #END
+  delete @@prime$partition$previous where stt_rec = @stt_rec
+  delete @@inquiry$partition$previous where stt_rec = @stt_rec
+#END
+
+#IF $d66.NewValue = $d66.OldValue #THEN
+  update d66$$partition$current set stt_rec = @stt_rec, ngay_ct = @ngay_ct, so_ct = @so_ct, ma_ct = @@id where stt_rec = @stt_rec
+#ELSE
+  update @d66 set stt_rec = @stt_rec, ngay_ct = @ngay_ct, so_ct = @so_ct, ma_ct = @@id
+  delete d66$$partition$previous where stt_rec = @stt_rec
+#END
+
+declare @revise int
+select @revise = 1
+#IF $d66.NewValue = $d66.OldValue #THEN
+  if exists(
+    select 1 from @@prime$partition$current where stt_rec = @stt_rec and loai_ct = @loai_ct and (case when status = '0' then 0 else 1 end = case when @status = '0' then 0 else 1 end)
+  ) select @revise = 0
+#END
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+#IF $d66.NewValue <> $d66.OldValue #THEN
+  insert into d66$$partition$current select * from @d66
+#END
+update @@prime$partition$current set ngay_ct = ngay_lct, ty_gia = 1, datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec
+]]>
+        &AfterUpdate;
+        &DeclareStock;
+        &DeclarePost;
+        <![CDATA[
+if @revise = 1 begin
+  #IF $d66.NewValue = $d66.OldValue #THEN
+    ]]>&ReviseCurrentStock;<![CDATA[
+  #ELSE
+    ]]>&UpdateCurrentStock;<![CDATA[
+  #END
+end
+]]>
+        &Delete;
+        &Post;
+        &AfterVoucherUpdate;
+        &EndUpdatedVoucherNumber;
+        &ListDeclare;
+        &ListWarning;
+        &ListCommand;
+        &ListQuery;
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        &CommandCheckVoucherHandleBeforeDelete;
+        &CommandCheckVoucherFlowBeforeDelete;
+        &CommandWhenVoucherBeforeDelete;
+        &BeforeVoucherUpdate;
+        <![CDATA[
+delete @@inquiry$partition$current where stt_rec = @stt_rec]]>&VoucherLogKey;<![CDATA[
+delete d66$$partition$current where stt_rec = @stt_rec]]>&VoucherLogKey;<![CDATA[
+delete @@master where stt_rec = @stt_rec]]>&VoucherLogKey;<![CDATA[
+]]>
+        &DeclareStock;
+        &DeleteCurrentStock;
+        &Delete;
+        &VoucherLogUpdateStatus;
+        &VoucherLogBeginComment;
+      </text>
+    </command>
+
+    <command event="Deleted">
+      <text>
+        &VoucherLogEndComment;
+        <![CDATA[
+declare @invoke nvarchar(4000)
+select @invoke = ''
+]]>&ListDeleted;<![CDATA[
+]]>&PostDeleted;<![CDATA[
+select @invoke as invoke
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[/* <flatten type="Javascript"> */
+var f = this, id = f.get_id(), n1 = 0, n2 = 0, n3 = 0, v = f._language == 'v', g = f.getItem('d66')._controlBehavior;
+var l1 = g._getColumnOrder('stt_rec_lx'), l2 = g._getColumnOrder('stt_rec_hd'), l3 = g._getColumnOrder('stt_rec_dh');
+var e1 = (v ? 'Mã giao dịch hoặc xử lý không đúng.' : 'Invalid transaction code.');
+var e2 = (v ? 'Thông tin mã khách của phiếu xuất phải giống với lệnh xuất kho, đơn hàng hoặc hóa đơn.' : 'Pick List should have same customer information as Issuing Order, Sales Order or Sales Invoice.');
+var e3 = (v ? 'Dữ liệu trong chi tiết không được lấy từ nhiều lệnh xuất kho.' : 'Data in grid form should not be extracted from Issuing Orders.');
+var e4 = (v ? 'Dữ liệu trong chi tiết chỉ được lấy số liệu từ lệnh xuất kho, đơn hàng hoặc hóa đơn.' : 'Data in grid form must be extracted from Issuing Order, Sales Order or Sales Invoice.');
+
+if($func.trim(f.getItemValue('loai_ct')) == f.getItemValue('status')) {
+  $func.hideWait(id);
+  $message.show(e1, String.format('$find(\'{0}\').getItem(\'ma_gd\').focus()', id));
+  f._checked = false;
+}
+
+if (f._checked) {
+  var t = f.getItemValue('ma_kh'), c = '', q = ($func.trim(f.getItemValue('loai_ct')) == '1');
+  for (var i = 1; i <= g._rowCount; i++) {
+    var v1 = (g._getItemValue(i, l1) != ''), v2 = (g._getItemValue(i, l2) != ''), v3 = (g._getItemValue(i, l3) != '');
+    if (v1 || v2 || v3) {
+      var u = g._getItem(i, 1)._customerIdentity;
+      if (!u) u = (f._action == 'Edit') ? f._customerIdentity : t;
+      if (t != u) {
+        $func.hideWait(id);
+        $message.show(e2, String.format('$find(\'{0}\').getItem(\'ma_kh\').focus()', id));
+        f._checked = false;
+        break;
+      }
+      if (f._checked) {
+        if (v1) {if (n1 == 0) n1 = 1;}
+        else {
+          if (v2) {if (n2 == 0) n2 = 1;}
+          else {
+            if (v3) {if (n3 == 0) n3 = 1;}
+          }
+        }
+      }
+    }
+    if (!c && q && v1) c = g._getItemValue(i, l1);
+    if (c && v1) {
+      if (c != g._getItemValue(i, l1)) {
+        g._errorMultiIssueObject = g._getItem(1, g._getColumnOrder('ma_vt'));
+        $func.hideWait(id);
+        $message.show(e3, String.format('$find(\'{0}\').focus(\'d66\');$find(\'{1}\')._errorMultiIssueObject.focus()', id, g.get_id()));
+        f._checked = false;
+        break;
+      }
+    }
+  }
+}
+
+if (f._checked) {
+  if (n1 + n2 + n3 > 1) {
+    f._errorWarningObject = g._getItem(1, g._getColumnOrder('ma_vt'));
+    $func.hideWait(id);
+    $message.show(e4, String.format('var f = $find(\'{0}\');f.focus(\'d66\');f._errorWarningObject.focus()', id));
+    f._checked = false;
+  }
+}
+
+f.setItemValue('ngay_ct', f.getItemValue('ngay_lct'));
+/* </flatten> */]]>
+        &ListChecking;
+        &PostChecking;
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &ScriptVoucherInit;
+      &ScriptVoucherNumber;
+      <![CDATA[
+function init$Voucher$(f) {initialize(f, 'ong_ba', 'ma_gd', 'loai_ct', 'status');]]>&SplitIssuingOrderSetKey;<![CDATA[}
+function active$Voucher$(f) {
+  objectBehavior$Voucher$Number.create(f, 'so_ct', 'ma_nk', 'ngay_lct', 'ma_dvcs');
+  f.getItem('d66')._controlBehavior.add_onRender(on$Voucher$GridRender);
+  f.add_onResponseComplete(on$Voucher$ResponseComplete);
+  f.add_commandEvent(on$Voucher$ExecuteCommand);
+  f._tabContainer.add_activeTabChanged(onChange$Voucher$Tab);
+  f._tabContainer._loaded = true;
+  set$Voucher$DefaultValue(f);
+  ]]>&SplitIssuingOrderReferenceKey;<![CDATA[
+  ]]>&VoucherLogHandleStatus;<![CDATA[
+  ]]>&ListCreate;<![CDATA[
+  ]]>&PostCreate;<![CDATA[
+}
+function scatter$Voucher$(f) {
+  f._voucherNumberBehavior.setFormLayout();
+  set$Voucher$DefaultValue(f);
+  ]]>&VoucherLogHandleStatus;<![CDATA[
+}
+function close$Voucher$(f) {
+  try {f.remove_commandEvent(on$Voucher$ExecuteCommand);} catch (ex) {}
+  try {f.remove_onResponseComplete(on$Voucher$ResponseComplete);} catch (ex) {}
+  try {f.getItem('d66')._controlBehavior.remove_onRender(on$Voucher$GridRender);} catch (ex) {}
+  objectBehavior$Voucher$Number.dispose(f);
+  if (f._tabContainer) try {f._tabContainer.remove_activeTabChanged(onChange$Voucher$Tab);} catch (ex) {}
+  ]]>&ListDispose;<![CDATA[
+  ]]>&PostDispose;<![CDATA[
+}
+function on$Voucher$ExecuteCommand(sender, e) {
+  var action = e.type.Action, f = sender, g = f.getItem('d66')._controlBehavior;
+  switch (action) {
+    case 'Check':
+      break;
+    case 'Gather':
+      g.setSequenceNumber('line_nbr');
+      g.setContinuance('stt_rec0');
+      break;
+    case 'Shown':
+      ]]>&ListShown;<![CDATA[
+      ]]>&PostShown;<![CDATA[
+      break;
+    case 'Explore':
+      var o = f.getItem('status');
+]]>&SplitIssuingOrderExplore;<![CDATA[
+]]>&VoucherLogHandleStatusExplore;<![CDATA[;
+      break;
+    default:
+      break;
+  }
+}
+function onChange$Voucher$Tab(sender, e) {
+  sender.parentForm.focusWhenTabChanged(['d66']]>&ListTabChange;&PostTabChange;<![CDATA[, 'so_lx']);
+  ]]>&PostTabFocus;<![CDATA[
+}
+/* <flatten type="Javascript"> */
+function onChange$Voucher$Customer(o) {o.parentForm.request('Customer', 'Customer', ['ma_kh'], o);}
+function onChange$Voucher$Transaction(o) {o.parentForm.request('Transaction', 'Transaction', ['ma_gd'], o);}
+/* </flatten> */
+function on$Voucher$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result, g = f.getItem("d66")._controlBehavior;
+  switch (context) {
+    case 'Loading':]]>
+      &VoucherNumberLoading;<![CDATA[
+      break;
+    case 'Scattering':]]>
+      &VoucherNumberScattering;<![CDATA[
+      ]]>&ListScattering;<![CDATA[
+      ]]>&PostScattering;<![CDATA[
+      break;
+]]>
+      &VoucherNumberReading;
+      <![CDATA[
+    case 'Customer':
+      f.setItemControlBehavior('ong_ba', result[0].Value, null, true);
+      f.live(f.getItem('ong_ba'));
+      break;
+    case 'Transaction':
+      f.setItemValue('loai_ct', result[0].Value);
+      set$Voucher$GridColumns(g);
+      break;
+    case 'Navigating':
+      ]]>&ListRefresh;<![CDATA[
+      ]]>&PostRefresh;<![CDATA[
+      break;
+    ]]>&ListResponseTicket;<![CDATA[
+    default:
+      break;
+  }
+}
+function set$Voucher$DefaultValue(f) {
+  if (f._action == 'New') {
+    f.setItemValue('ngay_lct', new Date());
+    f.setItemValue('ma_nt', f._baseCurrency);
+  }
+  if (f._action == 'Edit') f._customerIdentity = f.getItemValue('ma_kh');
+  if (f._action != 'View') try {
+    var o = f.getItem('status');
+]]>&SplitIssuingOrderDefaultValue;<![CDATA[
+  } catch (ex) {}
+}
+/* <flatten type="Javascript"> */
+function on$Voucher$GridRender(sender, eventArgs) {set$Voucher$GridColumns(eventArgs.grid);}
+function set$Voucher$GridColumns(g) {
+  var f = g.get_element().parentForm, v = $func.trim(f.getItemValue('loai_ct'));
+  g._setColumnVisible(g._getColumnOrder('sl_xuat'), (v == 2));
+  g._setColumnVisible(g._getColumnOrder('sl_hd'), (v != 2));
+  g._setColumnVisible(g._getColumnOrder('sl_giao'), (v != 2));
+}
+/* </flatten> */]]>
+      &ListScript;
+      &PostScript;
+    </text>
+  </script>
+
+  <response>
+    &XMLGetContactInfo;
+
+    <action id="Transaction">
+      <text>
+        <![CDATA[
+select rtrim(loai_ct) as loai_ct from dmmagd where ma_ct = 'DX1' and ma_gd = @ma_gd
+return
+]]>
+      </text>
+    </action>
+    <action id="Reading">
+      <text>
+        &CommandSetVoucherNumber;
+      </text>
+    </action>
+
+    &XMLGetVoucherNumber;
+    &ListTicket;
+  </response>
+
+</dir>

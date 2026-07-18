@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmnx" code="ma_nx" name="ten_nx%l" order="ma_nx"  xmlns="urn:schemas-fast-com:data-lookup">
+
+  <header v="Danh mục nhập xuất" e="Reason List"></header>
+
+  <fields>
+    <field name="ma_nx" allowSorting="true" allowFilter="true">
+      <header v="Mã nx" e="Reason Code"></header>
+    </field>
+    <field name="ten_nx%l" allowSorting="true" allowFilter="true">
+      <header v="Tên nx" e="Description"></header>
+    </field>
+  </fields>
+
+</lookup>

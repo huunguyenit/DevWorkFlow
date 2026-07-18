@@ -1,0 +1,21 @@
+﻿<!ENTITY % Conditional.PrintVATDetail "IGNORE">
+<!ENTITY % Conditional.DetailTax SYSTEM "..\..\Include\DetailTax.txt">
+
+<![%Conditional.PrintVATDetail;[
+  <!ENTITY PrintVATField SYSTEM "..\Include\VATDetailField.xml">
+  <!ENTITY PrintVATFile "SVTran_03a">
+  <!ENTITY PrintVATFileList "rptPrintSVTran_04a">
+  <!ENTITY PrintVATFileMulti "rptPrintSVTran_03a">
+  <!ENTITY PrintVATType ", 1">
+]]>
+
+<![%Conditional.DetailTax;[
+  <!ENTITY PrintVATData ", 1">
+]]>
+
+<!ENTITY PrintVATField "">
+<!ENTITY PrintVATFile "SVTran_03">
+<!ENTITY PrintVATFileList "rptPrintSVTran_04">
+<!ENTITY PrintVATFileMulti "rptPrintSVTran_03">
+<!ENTITY PrintVATType ", 0">
+<!ENTITY PrintVATData ", 0">

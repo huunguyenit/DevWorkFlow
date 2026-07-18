@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+]>
+
+<dir table="dmctns" code="ma_ct" order="stt, ma_ct" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="chỉ tiêu ngân sách" e="Budget Article"></title>
+  <fields>
+    <field name="ma_ct" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã chỉ tiêu" e="Article Code"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ten_ct" allowNulls="false">
+      <header v="Tên chỉ tiêu" e="Description"></header>
+    </field>
+    <field name="ten_ct2">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+    <field name="ds_tk" clientDefault="Default" dataFormatString="@upperCaseFormat">
+      <header v="Ds tài khoản" e="Accounts"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ds_tk_du" clientDefault="Default" dataFormatString="@upperCaseFormat">
+      <header v="Ds tài khoản đối ứng" e="Reference Accounts"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ds_tk_gt" clientDefault="Default" dataFormatString="@upperCaseFormat">
+      <header v="Ds tk không giảm trừ" e="Non-deduction Acc."></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ds_ma_phi" clientDefault="Default">
+      <header v="Ds mã phí" e="Expenses"></header>
+      <items style="Lookup" controller="Expense" key="status = '1'" check="1 = 1"/>
+    </field>
+    <field name="cong_no" dataFormatString="1, 2" clientDefault="Default" defaultValue="1" align="right">
+      <header v="Loại" e="Type"></header>
+      <footer v="1 - Nợ, 2 - Có" e="1 - Debit, 2 - Credit"></footer>
+      <items style="Mask"/>
+    </field>
+    <field name="stt" type="Decimal" dataFormatString="# ##0" defaultValue="0">
+      <header v="Stt sắp xếp" e="Ordinal Number"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ghi_chu">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="8, 112, 30, 60, 10, 60, 30, 30, 210"/>
+      <item value="1010-----: [ma_ct].Label, [ma_ct]"/>
+      <item value="101000000: [ten_ct].Label, [ten_ct]"/>
+      <item value="101000000: [ten_ct2].Label, [ten_ct2]"/>
+      <item value="101000000: [ds_tk].Label, [ds_tk]"/>
+      <item value="101000000: [ds_tk_du].Label, [ds_tk_du]"/>
+      <item value="101000000: [ds_tk_gt].Label, [ds_tk_gt]"/>
+      <item value="101000000: [ds_ma_phi].Label, [ds_ma_phi]"/>
+      <item value="101100000: [cong_no].Label, [cong_no], [cong_no].Description"/>
+      <item value="101000000: [ghi_chu].Label, [ghi_chu]"/>
+      <item value="1010-----: [stt].Label, [stt]"/>
+      <item value="101100000: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$CashFlowArticles(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$CashFlowArticles(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$recordHasBeenChanged nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã chỉ tiêu <span class="Highlight">%s1</span> đã có hoặc lồng nhau trong danh mục chỉ tiêu ngân sách.' else N'The article code <span class="Highlight">%s1</span> is invalid or already exists.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Mã chỉ tiêu <span class="Highlight">%s1</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The record consisting of code <span class="Highlight">%s1</span> has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where ((ma_ct like rtrim(@ma_ct) + '%') or rtrim(@ma_ct) like rtrim(ma_ct) + '%')) begin
+  select 'ma_ct' as field, replace(@$exists, '%s1', rtrim(@ma_ct)) as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select * from @@table where ma_ct = $ma_ct.OldValue) begin
+  select 'ma_ct' as field, replace(@$recordHasBeenChanged, '%s1', rtrim($ma_ct.OldValue)) as message
+  return
+end
+if @ma_ct <> $ma_ct.OldValue begin
+  if exists(select 1 from @@table where ((ma_ct like rtrim(@ma_ct) + '%') or rtrim(@ma_ct) like rtrim(ma_ct) + '%') and ma_ct <> $ma_ct.OldValue) begin
+    select 'ma_ct' as field, replace(@$exists, '%s1', rtrim(@ma_ct)) as message
+    return
+  end
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_ct = @ma_ct
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$CashFlowArticles(f) {f.add_onResponseComplete(on$CashFlowArticles$ResponseComplete);}
+function close$CashFlowArticles(f) {try {f.remove_onResponseComplete(on$CashFlowArticles$ResponseComplete)} catch (ex) {}}
+function on$CashFlowArticles$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'ma_ct');
+      break;
+    default:
+      break;
+  }
+}
+]]>
+      &ScriptIrregular;
+    </text>
+  </script>
+
+</dir>

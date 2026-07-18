@@ -1,0 +1,521 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY OutlineCss SYSTEM "..\Include\Javascript\OutlineCss.txt">
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+  <!ENTITY CommandGetIdentityNumber SYSTEM "..\Include\Command\GetIdentityNumber.txt">
+
+  <!ENTITY ControlFocus "buoc_tinh">
+  <!ENTITY ControlOptions "
+if not exists(select 1 from options where name = 'm_gia_nh_kho' and val = '1')
+	  select @show = replace(@show, 'nhom_kho', ''), @allow_null = replace(@allow_null, 'nhom_kho', '')
+if not exists(select 1 from options where name = 'm_gia_vt' and val = '2')
+	  select @show = replace(@show, 'ma_kho', ''), @allow_null = replace(@allow_null, 'ma_kho', '')
+">
+  <!ENTITY ControlExtension "
+if exists(select 1 from options where name = 'm_gia_vt' and val &lt;&gt; '1') or exists(select 1 from options where name = 'm_gia_nh_kho' and val &lt;&gt; '1')
+	  select @show = replace(@show, 'nhom_kho', ''), @allow_null = replace(@allow_null, 'nhom_kho', '')
+if exists(select 1 from options where name = 'm_gia_vt' and val &lt;&gt; '2')
+	  select @show = replace(@show, 'ma_kho', ''), @allow_null = replace(@allow_null, 'ma_kho', '')
+">
+  <!ENTITY CostingUnitFunction SYSTEM "..\Include\Javascript\CostingUnitFunction.txt">
+]>
+
+<dir table="xdmtgt" code="stt_rec" order="ma_dvcs, buoc_tinh" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thông tin tính giá thành" e="Costing Calculation Parameters"></title>
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_dvcs" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="AutoComplete" controller="Unit" reference="ten_dvcs%l" key="ma_dvcs in (select ma_dvcs from sysunitrights where user_id = @@userID and r_new = 1) and status = '1'" check="ma_dvcs in (select ma_dvcs from sysunitrights where user_id = @@userID and r_new = 1)" information="ma_dvcs$dmdvcs.ten_dvcs%l"/>
+      <clientScript><![CDATA[onchange="onChange$Unit(this)";]]></clientScript>
+    </field>
+    <field name="ten_dvcs%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="buoc_tinh" type="Decimal" dataFormatString="#0" allowNulls="false">
+      <header v="Bước" e="Step"></header>
+      <items style="Numeric"></items>
+    </field>
+
+    <field name="id">
+      <header v="Chương trình" e="Program"></header>
+      <items style="DropDownList">
+        <item value="">
+          <text v="" e=""/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;<![CDATA[onchange="onChange$AdvancedCalculation$CostCalculateForm(this)";]]></clientScript>
+    </field>
+
+    <field name="ma_gd">
+      <header v="Mã giao dịch" e="Transaction Code"></header>
+      <items style="AutoComplete" controller="TransactionCode" reference="ten_gd%l" key="ma_ct = 'PND' and status = '1'" check="ma_ct = 'PND'" information="ma_gd$dmmagd.ten_gd%l" row="1"/>
+    </field>
+    <field name="ten_gd%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_bp">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="AutoComplete" controller="Department" reference="ten_bp%l" key="status = '1'" check="1=1" information="ma_bp$vxdmbp.ten_bp%l"/>
+    </field>
+    <field name="ten_bp%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="loai_yt">
+      <header v="Loại yếu tố" e="Factor Type"></header>
+      <items style="AutoComplete" controller="FactorType" reference="ten_loai_yt%l" key="status = '1'" check="1 = 1" information="ma_loai$xdmloaiyt.ten_loai%l"/>
+    </field>
+    <field name="ten_loai_yt%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_yt">
+      <header v="Yếu tố" e="Factor"/>
+      <items style="Lookup" controller="Factor" key="(exists (select 1 from options where name ='m_gt_dvcs' and val = 0) or ma_dvcs = '{$%c[ma_dvcs]}') and status = '1' and (kieu_yt = case when '{$%c[id]}' = '7' then '1' else kieu_yt end)" check="(exists (select 1 from options where name ='m_gt_dvcs' and val = 0) or ma_dvcs = '{$%c[ma_dvcs]}') and kieu_yt = case when '{$%c[id]}' = '7' then '1' else kieu_yt end" information ="ma_yt$xdmyt.ten_yt%l"/>
+    </field>
+    <field name="ma_kho">
+      <header v="Mã kho" e="Site"></header>
+      <items style="AutoComplete" controller="Site" reference="ten_kho%l" key="(ma_dvcs in (select ma_dvcs from sysunitrights where user_id = @@userID and r_access = 1)) and (not exists(select 1 from syssiterights where user_id = @@userID) or ma_kho in (select ma_kho from syssiterights where user_id = @@userID)) and status = '1'" check="(ma_dvcs in (select ma_dvcs from sysunitrights where user_id = @@userID and r_access = 1)) and (not exists(select 1 from syssiterights where user_id = @@userID) or ma_kho in (select ma_kho from syssiterights where user_id = @@userID))" information="ma_kho$dmkho.ten_kho%l"/>
+    </field>
+    <field name="ten_kho%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="nhom_kho">
+      <header v="Nhóm kho" e="Site Group"></header>
+      <items style="AutoComplete" controller="SiteGroup" reference="ten_nhom_kho%l" key="ma_nh in (select ma_nh from dmkho where isnull(ma_nh, '') &lt;&gt; ''and ma_dvcs in (select ma_dvcs from sysunitrights where user_id = @@userID and r_new = 1)) and status = '1'" check="ma_nh in (select ma_nh from dmkho where isnull(ma_nh, '') &lt;&gt; ''and ma_dvcs in (select ma_dvcs from sysunitrights where user_id = @@userID and r_new = 1))" information="ma_nh$dmnhkho.ten_nh%l"/>
+    </field>
+    <field name="ten_nhom_kho%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="loai_vt">
+      <header v="Loại vật tư" e="Item Type"></header>
+      <items style="AutoComplete" controller="ItemType" reference="ten_loai_vt%l" key="status = '1'" check="1 = 1" information="ma_loai_vt$dmloaivt.ten_loai_vt%l"/>
+    </field>
+    <field name="ten_loai_vt%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_vt1">
+      <header v="Nhóm vật tư 1" e="Item Group 1"></header>
+      <items style="AutoComplete" controller="ItemGroup" reference="ten_nh_vt1%l" key="loai_nh = 1 and status = '1'" check="loai_nh = 1" information="ma_nh$dmnhvt.ten_nh%l"/>
+      <footer v="Nhóm vật tư" e="Item Group"></footer>
+    </field>
+    <field name="ten_nh_vt1%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_vt2">
+      <header v="Nhóm vật tư 2" e="Item Group 2"></header>
+      <items style="AutoComplete" controller="ItemGroup" reference="ten_nh_vt2%l" key="loai_nh = 2 and status = '1'" check="loai_nh = 2" information="ma_nh$dmnhvt.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_vt2%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_vt3">
+      <header v="Nhóm vật tư 3" e="Item Group 3"></header>
+      <items style="AutoComplete" controller="ItemGroup" reference="ten_nh_vt3%l" key="loai_nh = 3 and status = '1'" check="loai_nh = 3" information="ma_nh$dmnhvt.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_vt3%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="tao_pxcl" dataFormatString="0, 1, 2" clientDefault="1" align="right">
+      <header v="Phiếu xuất chênh lệch" e="Create Issue"></header>
+      <footer v="0 - Không tạo, 1 - Tạo khi không còn tồn kho, 2 - Tất cả các trường hợp" e="0 - None, 1 - When No Inventory, 2 - All"></footer>
+      <items style="Mask"/>
+    </field>
+    <field name="tk_cl">
+      <header v="Tài khoản chênh lệch" e="Difference Account"></header>
+      <items style="AutoComplete" controller="Account" reference="ten_tk_cl%l" key="loai_tk = 1 and status = '1'" check="loai_tk = 1" information="tk$dmtk.ten_tk%l" new="Default" row="1"/>
+    </field>
+    <field name="ten_tk_cl%l" readOnly="true" hidden="false" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="status" dataFormatString="0, 1" clientDefault="0" align="right" inactivate="true" hidden="false">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+
+    <field name="stored_name%l" clientDefault="Default" readOnly="true" hidden="false" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="tinh_trang%l" clientDefault="Default" readOnly="true" hidden="false" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="nguoi_tinh" clientDefault="Default" readOnly="true" hidden="false" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay" type="DateTime" dataFormatString="dd/MM/yyyy hh:mm:ss" clientDefault="Default" readOnly="true" hidden="false" external="true" defaultValue="NULL">
+      <header v="" e=""></header>
+    </field>
+    <field name="buoc_tinh2" clientDefault="Default" readOnly="true" hidden="false" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="132">
+      <item value="120, 30, 70, 100, 100, 130, 0"/>
+      <item value="1101000: [ma_dvcs].Label, [ma_dvcs], [ten_dvcs%l]"/>
+      <item value="11----1: [buoc_tinh].Label, [buoc_tinh], [stt_rec]"/>
+      <item value="1100001: [id].Label, [id], [stored_name%l]"/>
+      <item value="1101001: [ma_gd].Label, [ma_gd], [ten_gd%l], [tinh_trang%l]"/>
+      <item value="1101001: [ma_bp].Label, [ma_bp], [ten_bp%l], [nguoi_tinh]"/>
+      <item value="1101001: [loai_yt].Label, [loai_yt], [ten_loai_yt%l], [ngay]"/>
+      <item value="11000--: [ma_yt].Label, [ma_yt]"/>
+      <item value="110100-: [ma_kho].Label, [ma_kho], [ten_kho%l]"/>
+      <item value="1101001: [nhom_kho].Label, [nhom_kho], [ten_nhom_kho%l], [ten_nh_vt1%l]"/>
+      <item value="1101001: [loai_vt].Label, [loai_vt], [ten_loai_vt%l], [ten_nh_vt2%l]"/>
+      <item value="11011-1: [nh_vt1].Description, [nh_vt1], [nh_vt2], [nh_vt3], [ten_nh_vt3%l]"/>
+      <item value="1110001: [tao_pxcl].Label, [tao_pxcl], [tao_pxcl].Description, [buoc_tinh2]"/>
+      <item value="1101001: [tk_cl].Label, [tk_cl], [ten_tk_cl%l], [status]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+declare @storedID nvarchar(4000), @show nvarchar(4000), @allow_null nvarchar(4000), @form nvarchar(4000), @name nvarchar(4000), @idDefault int
+declare @message nvarchar(4000), @unitName nvarchar(1023), @costUnit char(1)
+
+select top 1 @idDefault = id from xdmgt order by stt
+select @form = '', @name = ''
+
+select @form = @form + rtrim(id) + char(255), @name = @name + case when lower(@@language) = 'v' then rtrim(stored_name) else rtrim(stored_name2) end + char(255) from xdmgt where status = '1' order by stt
+select @form = left(@form, len(@form) - 1), @name = left(@name, len(@name) - 1)
+
+if @@action = 'Edit' select @storedID = id from @@table where stt_rec = @stt_rec
+select @show = show, @allow_null = allow_null from xdmgt where id = isnull(@storedID, @idDefault)
+
+select @costUnit = rtrim(val) from options where name = 'm_gt_dvcs'
+if isnull(@storedID, @idDefault) = 3 begin]]>&ControlExtension;<![CDATA[ end
+  else begin]]>&ControlOptions;<![CDATA[ end
+select @message = 'f = this; f._costUnit=' + case when @costUnit = '1' then 'true' else 'false' end + ';f._itemValue=''' + rtrim(@form) + ''';f._itemText=''' + dbo.FastBusiness$Function$EncodeScript(@name) + ''';initForm(this);'
+select @message = @message + 'f._show = ''' + isnull(@show, '') + '''; f._allowNull = ''' + isnull(@allow_null, '') + '''; validCostCalculate(f, 1);'
+if @costUnit = '1' begin
+  select @unitName = case when @@language = 'v' then ten_dvcs else ten_dvcs2 end from dmdvcs where ma_dvcs = @@unit
+  select @message = @message + 'f._unitCode=''' + @@unit + ''';f._unitName=''' + replace(replace(isnull(@unitName, ''), '\', '\\'), '''', '\''') + ''';'
+end else begin
+  select @message = @message + 'f._controlFocus = f.getItem('']]>&ControlFocus;<![CDATA['');setObjectFormHidden(f, ''ma_dvcs'', false);'
+end
+
+select @message as message
+return
+]]>
+      </text>
+    </command>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+if @@view = 0 begin
+  if @@action = 'Edit' begin
+    if exists(select 1 from options where name = 'm_gt_dvcs' and val = '1') begin
+      if @@admin <> 1 begin
+        declare @ma_dvcs varchar(33)
+        select @ma_dvcs = ma_dvcs from @@table where stt_rec = @stt_rec
+        if not exists(select 1 from sysunitrights where user_id = @@userID and ma_dvcs = @ma_dvcs and r_edit = 1) begin
+          select '' as script, '$NotAuthorized' as message
+          return
+        end
+      end
+    end
+  end
+end
+
+declare @step int, @storedID nvarchar(4000), @idDefault int
+select top 1 @idDefault = id from xdmgt order by stt
+if @@action = 'Edit' select @storedID = id from @@table where stt_rec = @stt_rec
+if not exists (select 1 from options where name = 'm_gt_dvcs' and val = '1') select @step = max(buoc_tinh) + 1 from @@table
+select 'this._step = ' + rtrim(isnull(@step, 0)) + ';setIndexCostCalculateForm(this, ' + isnull(@storedID, rtrim(@idDefault)) + '); active$AdvancedCalculation(this);setValueDefault(f);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+if @@view = 0 begin
+  if @@action = 'Edit' begin
+    if exists(select 1 from options where name = 'm_gt_dvcs' and val = '1') begin
+      if @@admin <> 1 begin
+        declare @ma_dvcs varchar(33)
+        select @ma_dvcs = ma_dvcs from @@table where stt_rec = @stt_rec
+        if not exists(select 1 from sysunitrights where user_id = @@userID and ma_dvcs = @ma_dvcs and r_edit = 1) begin
+          select '' as script, '$NotAuthorized' as message
+          return
+        end
+      end
+    end
+  end
+end
+declare @storedID nvarchar(4000), @show nvarchar(4000), @allow_null nvarchar(4000), @step int, @message nvarchar(4000), @idDefault int
+select top 1 @idDefault = id from xdmgt order by stt
+
+if @@action = 'Edit' select @storedID = id from @@table where stt_rec = @stt_rec
+select @show = show, @allow_null = allow_null from xdmgt where id = isnull(@storedID, @idDefault)
+if isnull(@storedID, @idDefault) = 3 begin]]>&ControlExtension;<![CDATA[ end
+  else begin]]>&ControlOptions;<![CDATA[ end
+select @message = 'f._show = ''' + isnull(@show, '') + '''; f._allowNull = ''' + isnull(@allow_null, '') + ''';setIndexCostCalculateForm(this, ' + isnull(@storedID, '0') + '); validCostCalculate(f, 1);'
+if not exists (select 1 from options where name = 'm_gt_dvcs' and val = '1') select @step = max(buoc_tinh) + 1 from @@table
+select @message = @message + 'this._step = ' + rtrim(isnull(@step, 0)) + ';setValueDefault(f);'
+
+select @message as message
+return
+]]>
+      </text>
+    </command>
+    <command event ="Checking">
+      <text>
+        <![CDATA[
+var f = this, o = f.getItem('id');
+f.getItem('buoc_tinh2').value = f.getItem('buoc_tinh').value.toString();
+f.getItem('stored_name%l').value = o.options[o.selectedIndex].text;
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @costUnit char(1), @$recordHasBeenChanged nvarchar(512), @$exists nvarchar(512), @$exists2 nvarchar(512)
+select @costUnit = rtrim(val) from options where name = 'm_gt_dvcs'
+
+select @$exists = case when @@language = 'v' then N'Bước thứ <span class="Highlight">%s1</span> của đơn vị <span class="Highlight">%s2</span> đã có, không thể lưu được.' else N'Step <span class="Highlight">%s1</span> of unit <span class="Highlight">%s2</span> is already exists.' end
+select @$exists2 = case when @@language = 'v' then N'Bước thứ <span class="Highlight">%s</span> đã có, không thể lưu được.' else N'Step <span class="Highlight">%s</span> is already exists.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Bản ghi hiện thời đã được sửa hoặc xóa bởi người sử dụng khác.' else N'This item has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+declare @wsID varchar(1)
+select @wsID = rtrim(val) from options where upper(name) = 'M_WS_ID'
+select @stt_rec = max(stt_rec) from @@table
+select @stt_rec = @wsID + case when @stt_rec is null then '000000001' else replace(str(cast(substring(@stt_rec, 2, 9) as bigint) + 1, 9), ' ', '0') end + 'TGT'
+
+if exists (select 1 from @@table where ma_dvcs = @ma_dvcs and buoc_tinh = @buoc_tinh) begin
+  if @costUnit = '1' select 'ma_dvcs' as field, replace(replace(@$exists, '%s1', rtrim(@buoc_tinh)), '%s2', rtrim(@ma_dvcs)) as message
+  else select 'buoc_tinh' as field, replace(@$exists2, '%s', rtrim(@buoc_tinh)) as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+select '' as message, @stt_rec as stt_rec
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+declare @ma_dvcsOld varchar(33), @buoc_tinhOld int
+select @ma_dvcsOld = ma_dvcs, @buoc_tinhOld = buoc_tinh from @@table where stt_rec = @stt_rec
+
+if not exists(select * from @@table where ma_dvcs = @ma_dvcsOld and buoc_tinh = @buoc_tinhOld) begin
+  select case when @costUnit = '1' then 'ma_dvcs' else 'buoc_tinh' end as field, @$recordHasBeenChanged as message
+  return
+end
+if @ma_dvcs <> @ma_dvcsOld or @buoc_tinh <> @buoc_tinhOld
+  begin
+    if exists(select * from @@table where (not (ma_dvcs = @ma_dvcsOld and buoc_tinh = @buoc_tinhOld)) and ((ma_dvcs = @ma_dvcs and buoc_tinh = @buoc_tinh)))
+      begin
+        if @costUnit = '1' select 'ma_dvcs' as field, replace(replace(@$exists, '%s1', rtrim(@buoc_tinhOld)), '%s2', rtrim(@ma_dvcsOld)) as message
+        else select 'buoc_tinh' as field, replace(@$exists2, '%s', rtrim(@buoc_tinh)) as message
+        return
+      end
+  end
+]]>
+      </text>
+    </command>
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+
+    <command event ="Deleting">
+      <text>
+        <![CDATA[
+if exists(select 1 from options where name = 'm_gt_dvcs' and val = '1') begin
+  if @@admin <> 1 begin
+    declare @ma_dvcs varchar(33)
+    select @ma_dvcs = ma_dvcs from @@table where stt_rec = @stt_rec
+    if not exists(select 1 from sysunitrights where user_id = @@userID and ma_dvcs = @ma_dvcs and r_del = 1) begin
+      select '$NotAuthorized' as message
+      return
+    end
+  end
+end
+]]>
+      </text>
+    </command>
+    <command event ="Deleted">
+      <text>
+        <![CDATA[
+delete xcttgt where stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &OutlineEntry;
+      <![CDATA[
+function active$AdvancedCalculation(f) {
+  f.add_onResponseComplete(on$AdvancedCalculation$ResponseComplete);
+  validCostCalculate(f, 1);
+}
+
+function closeFormDir(f) {try {f.remove_onResponseComplete(on$AdvancedCalculation$ResponseComplete);} catch (ex) {}}
+function on$AdvancedCalculation$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'CostCalculate':
+      f._show = result[0].Value;
+      f._allowNull = result[1].Value;
+      validCostCalculate(f, false);
+      break;
+    case 'Unit':
+      f.getItem('buoc_tinh').value = result[0].Value;
+      break;
+    default:
+      break;
+  }
+}
+function onChange$AdvancedCalculation$CostCalculateForm(o) {o.parentForm.request('CostCalculate', 'CostCalculate', ['id']);}
+function onChange$Unit(o) {
+  var f = o.parentForm;
+  if (f._action == 'New') f.request('Unit', 'Unit', ['ma_dvcs']);
+  f.setReferenceKeyFilter('ma_bp');
+  f.setReferenceKeyFilter('ma_yt');
+  f.setReferenceKeyFilter('tk_cl');
+}
+
+function setItemDisable(f, c, v) {
+  var a = c.split(',');
+  for (var i = 0; i < a.length; i++) {
+    if ($func.trim(a[i]) != '') {
+      var o = f.getItem($func.trim(a[i]));
+      if (o.a) $common.setVisible(o.a, !v);
+      o.disabled = v;
+    }
+  }
+}
+function setValueDefault(f) {if (f._action == 'New') f.getItem('buoc_tinh').value = f._step;}
+function setItemAllowNulls(f, c, v) {
+  var a = c.split(','), o, grandNode;
+  for (var i = 0; i < a.length; i++) {
+    if ($func.trim(a[i]) != '') {
+      o = f.getItem($func.trim(a[i]));
+      o.field.AllowNulls = !v
+      grandNode = o.parentNode.parentNode;
+      if (v) {
+        Sys.UI.DomElement.addCssClass(grandNode, 'Required');
+        Sys.UI.DomElement.addCssClass(grandNode, f._id);
+      }
+      else Sys.UI.DomElement.removeCssClass(grandNode, 'Required');
+    }
+  }
+}
+function validCostCalculate(f, v) {
+  var a = 'ma_gd, ma_bp, loai_yt, ma_yt, ma_kho, nhom_kho, loai_vt, nh_vt1, nh_vt2, nh_vt3, tao_pxcl, tk_cl';
+  var t = getFiledFocus(a, f._show);
+  window.setTimeout(String.format('setFocusWhenCostCalculateChange(\'{0}\', \'{1}\', {2});', f._id, t, v), 2);
+  setItemDisable(f, a, true);
+  setItemAllowNulls(f, a, false);
+  if (f._show) {
+    setItemDisable(f, f._show, false);
+    if (f._allowNull) {setItemAllowNulls(f, f._allowNull, true);}
+  }
+  else {
+    setItemDisable(f, a, true);
+  }
+  if (f._show.indexOf('ma_bp') != -1) f.setReferenceKeyFilter('ma_bp');
+  if (f._show.indexOf('ma_yt') != -1) f.setReferenceKeyFilter('ma_yt');
+  if (f._show.indexOf('tk_cl') != -1) f.setReferenceKeyFilter('tk_cl');
+}
+function getFiledFocus(c, s) {
+  var a = c.split(',');
+  for (var i = 0; i < a.length; i++) {
+    if (s.indexOf($func.trim(a[i])) > -1)
+    return $func.trim(a[i]);
+  }
+  return '';
+}
+function setFocusWhenCostCalculateChange(id, a, v) {
+	var f = $find(id);
+  var t1 = f.getItem('buoc_tinh'), t2, t3 = f.getItem('ma_gd');
+  if (a == '') {t2 = f._findButton('Ok');}
+  else {t2 = f.getItem(a);}
+  if (!v) {
+    if (t1.live){t1.focus();}
+    else {if (t3.live) {t2.disabled = false; t2.focus();}}
+  }
+}
+function setIndexCostCalculateForm(f, a) {
+  var o = f.getItem('id');
+  var index = 0;
+  for (var i = 0; i < o.length; i++) {
+    if (o[i].value == a) {
+      index = i;
+      break;
+    }
+  }
+  o.options[index].selected = true;
+}
+
+function initForm(f) {
+  var o = f.getItem('id'), value = f._itemValue.split(String.fromCharCode(255)), text = f._itemText.split(String.fromCharCode(255));
+  for (var i = 0; i < value.length; i++) {o.options[i] = new Option(text[i], value[i]);}
+}
+]]>
+      &CostingUnitFunction;
+    </text>
+  </script>
+
+  <response>
+    <action id="CostCalculate">
+      <text>
+        <![CDATA[
+if exists(select 1 from xdmgt where id = @id) begin
+  declare @show varchar(4000), @allow_null varchar(4000)
+  select @show = show, @allow_null = allow_null from xdmgt where id = @id
+  if @id = 3 begin]]>&ControlExtension;<![CDATA[ end
+    else begin]]>&ControlOptions;<![CDATA[ end
+  select @show as c1, @allow_null as c2
+  return
+end
+]]>
+      </text>
+    </action>
+
+    <action id="Unit">
+      <text>
+        <![CDATA[
+declare @buoc int
+if exists(select 1 from dmdvcs where ma_dvcs = @ma_dvcs) begin
+  select @buoc = max(buoc_tinh) from xdmtgt where ma_dvcs = @ma_dvcs
+end
+select isnull(@buoc, -1) + 1 as c
+]]>
+      </text>
+    </action>
+  </response>
+
+  &OutlineCss;
+</dir>

@@ -1,0 +1,396 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dir [
+  <!ENTITY Check "if @@view = 0 begin
+  if @@action = 'Edit' begin
+    if @@admin &lt;&gt; 1 begin
+      if not exists(select 1 from sysunitrights where user_id = @@userID and ma_dvcs = @ma_dvcs and r_edit = 1) begin
+        select @message as script, '$NotAuthorized' as message
+        return
+      end
+    end
+  end
+end
+select @message as message
+return">
+  <!ENTITY k0 "nam = $nam.OldValue and ma_dvcs = $ma_dvcs.OldValue and ma_bp = $ma_bp.OldValue and ma_vv = $ma_vv.OldValue and ma_ct = $ma_ct.OldValue and lan = $lan.OldValue">
+  <!ENTITY k1 "@nam = $nam.OldValue and @ma_dvcs = $ma_dvcs.OldValue and @ma_bp = $ma_bp.OldValue and @ma_vv = $ma_vv.OldValue and @ma_ct = $ma_ct.OldValue and @lan = $lan.OldValue">
+  <!ENTITY k2 "nam = @nam and ma_dvcs = @ma_dvcs and ma_bp = @ma_bp and ma_vv = @ma_vv and ma_ct = @ma_ct and lan = @lan">
+]>
+
+<dir table="glns" code="nam, ma_dvcs, ma_bp, ma_vv, ma_ct, lan" order="nam, ma_dvcs, ma_bp, ma_vv, ma_ct" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="dự toán ngân sách" e="Budget Planning"></title>
+  <fields>
+    <field name="nam" type="Decimal" isPrimaryKey="true" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ma_dvcs" allowNulls="false" isPrimaryKey="true" clientDefault="Default" inactivate="true" disabled="true">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="AutoComplete" controller="Unit" reference="ten_dvcs%l" row="1" key="status = '1'" check="1 = 1" information="ma_dvcs$dmdvcs.ten_dvcs%l"/>
+    </field>
+    <field name="ten_dvcs%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_bp" isPrimaryKey="true" dataFormatString="@upperCaseFormat" onDemand="true">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="AutoComplete" controller="Department" reference="ten_bp%l" key="status = '1'" check="1 = 1" information="ma_bp$dmbp.ten_bp%l"/>
+    </field>
+    <field name="ten_bp%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_vv" isPrimaryKey="true" dataFormatString="@upperCaseFormat" onDemand="true">
+      <header v="Vụ việc" e="Job"></header>
+      <items style="AutoComplete" controller="Job" reference="ten_vv%l" key="status = '1'" check="1 = 1" information="ma_vv$dmvv.ten_vv%l"/>
+    </field>
+    <field name="ten_vv%l" readOnly="true" external="true" defaultValue="''" >
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_ct" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false" clientDefault="Default">
+      <header v="Mã chỉ tiêu" e="Article Code"></header>
+      <items style="AutoComplete" controller="BudgetArticle" reference="ten_ct%l" key="status = '1'" check="1 = 1" information="ma_ct$dmctns.ten_ct%l"/>
+      <footer v="&lt;div class=&quot;Break&quot;/&gt;" e="&lt;div class=&quot;Break&quot;/&gt;"></footer>
+    </field>
+    <field name="ten_ct%l" readOnly="true" external="true" defaultValue="''" clientDefault="Default">
+      <header v="" e=""></header>
+    </field>
+    <field name="lan" type="Decimal" dataFormatString="#0" isPrimaryKey="true">
+      <header v="Lần chỉnh sửa" e="Revision"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="tien_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat">
+      <header v="Kế hoạch năm" e="Annual Planning"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat">
+      <header v="" e=""></header>
+      <footer v="&lt;div class=&quot;LabelDescription&quot;&gt;Ngoại tệ&lt;/div&gt;" e="&lt;div class=&quot;LabelDescription&quot;&gt;FC&lt;/div&gt;"></footer>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt01" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" categoryIndex="1">
+      <header v="Kỳ 01" e="Period 01"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien01" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="1">
+      <header v="" e=""></header>
+      <footer v="&lt;div id=&quot;baseCurrencyID&quot; class=&quot;LabelDescription&quot;&gt;Hạch toán&lt;/div&gt;" e="&lt;div id=&quot;baseCurrencyID&quot; class=&quot;LabelDescription&quot;&gt;BC&lt;/div&gt;"></footer>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt02" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" categoryIndex="1">
+      <header v="Kỳ 02" e="Period 02"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien02" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="1">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt03" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" categoryIndex="1">
+      <header v="Kỳ 03" e="Period 03"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien03" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="1">
+      <header v="Kỳ 03" e="Period 03"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt04" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" categoryIndex="2">
+      <header v="Kỳ 04" e="Period 04"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien04" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="2">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt05" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" categoryIndex="2">
+      <header v="Kỳ 05" e="Period 05"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien05" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="2">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt06" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" categoryIndex="2">
+      <header v="Kỳ 06" e="Period 06"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien06" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="2">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt07" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" categoryIndex="3">
+      <header v="Kỳ 07" e="Period 07"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien07" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="3">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt08" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" categoryIndex="3">
+      <header v="Kỳ 08" e="Period 08"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien08" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="3">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt09" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" categoryIndex="3">
+      <header v="Kỳ 09" e="Period 09"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien09" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="3">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt10" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" categoryIndex="4">
+      <header v="Kỳ 10" e="Period 10"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien10" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="4">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt11" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" categoryIndex="4">
+      <header v="Kỳ 11" e="Period 11"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien11" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="4">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt12" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" categoryIndex="4">
+      <header v="Kỳ 12" e="Period 12"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien12" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" categoryIndex="4">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="t_tien_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" disabled="true" categoryIndex="-1">
+      <header v="Tổng cộng" e="Total"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="t_tien" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" disabled="true" categoryIndex="-1">
+      <header v="Tổng cộng" e="Total"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="stt" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="88">
+      <item value="120, 30, 70, 100, 100, 130, 0"/>
+      <item value="1101001: [ma_dvcs].Label, [ma_dvcs], [ten_dvcs%l], [stt]"/>
+      <item value="110100: [ma_bp].Label, [ma_bp], [ten_bp%l]"/>
+      <item value="110100: [ma_vv].Label, [ma_vv], [ten_vv%l]"/>
+      <item value="110100: [ma_ct].Label, [ma_ct], [ten_ct%l]"/>
+      <item value="11----: [lan].Label, [lan]"/>
+      <item value="100000: [ma_ct].Description"/>
+      <item value="-101-1: [tien].Description, [tien01].Description, [nam]"/>
+      <item value="1101--: [tien_nt].Label, [tien_nt], [tien]"/>
+      <item value="1101--: [tien_nt01].Label, [tien_nt01], [tien01]"/>
+      <item value="1101--: [tien_nt02].Label, [tien_nt02], [tien02]"/>
+      <item value="1101--: [tien_nt03].Label, [tien_nt03], [tien03]"/>
+      <item value="1101--: [tien_nt04].Label, [tien_nt04], [tien04]"/>
+      <item value="1101--: [tien_nt05].Label, [tien_nt05], [tien05]"/>
+      <item value="1101--: [tien_nt06].Label, [tien_nt06], [tien06]"/>
+      <item value="1101--: [tien_nt07].Label, [tien_nt07], [tien07]"/>
+      <item value="1101--: [tien_nt08].Label, [tien_nt08], [tien08]"/>
+      <item value="1101--: [tien_nt09].Label, [tien_nt09], [tien09]"/>
+      <item value="1101--: [tien_nt10].Label, [tien_nt10], [tien10]"/>
+      <item value="1101--: [tien_nt11].Label, [tien_nt11], [tien11]"/>
+      <item value="1101--: [tien_nt12].Label, [tien_nt12], [tien12]"/>
+      <item value="1101--: [t_tien_nt].Label, [t_tien_nt], [t_tien]"/>
+      <categories>
+        <category index="1" columns="120, 30, 70, 100, 100, 130">
+          <header v="Quý 1" e="Quarter 1"/>
+        </category>
+        <category index="2" columns="120, 30, 70, 100, 100, 130">
+          <header v="Quý 2" e="Quarter 2"/>
+        </category>
+        <category index="3" columns="120, 30, 70, 100, 100, 130">
+          <header v="Quý 3" e="Quarter 3"/>
+        </category>
+        <category index="4" columns="120, 30, 70, 100, 100, 130">
+          <header v="Quý 4" e="Quarter 4"/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+declare @baseCurrency varchar(32)
+select @baseCurrency = rtrim(val) from options where name = 'm_ma_nt0'
+select 'this._baseCurrency = ''' + @baseCurrency + '''; initForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        <![CDATA[
+declare @message nvarchar(4000), @unitName nvarchar(1023), @fiscalMonth varchar(2)
+select @unitName = case when @@language = 'v' then ten_dvcs else ten_dvcs2 end from dmdvcs where ma_dvcs = @@unit
+select @message = 'this._unitCode=''' + @@unit + ''';this._unitName=''' + replace(replace(isnull(@unitName, ''), '\', '\\'), '''', '\''') + ''';activeForm(this);'
+]]>
+        &Check;
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+declare @message nvarchar(4000)
+select @message = 'scatterForm(this);'
+]]>
+        &Check;
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'closeForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$recordHasBeenChanged nvarchar(512)
+select @$exists = case when @@language = 'v' then N'<span class="Highlight">Dự toán ngân sách đang cập nhật đã được khai báo</span>, không lưu được.' else N'<span class="Highlight">This item already exists</span>, it can not be saved.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Bản ghi hiện thời đã được sửa hoặc xóa bởi người sử dụng khác.' else N'This item has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where ]]>&k2;<![CDATA[) begin
+  select 'ma_bp' as field, @$exists as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select * from @@table where ]]>&k0;<![CDATA[) begin
+  select 'ma_bp' as field, @$recordHasBeenChanged as message
+  return
+end
+  
+if not (]]>&k1;<![CDATA[) begin
+  if exists(select 1 from @@table where (not (]]>&k0;<![CDATA[)) and (]]>&k2;<![CDATA[)) begin      
+    select 'ma_bp' as field, @$exists as message
+    return
+  end
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ]]>&k2;<![CDATA[
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+if @@admin <> 1 begin
+  if not exists(select 1 from sysunitrights where user_id = @@userID and ma_dvcs = @ma_dvcs and r_del = 1) begin
+    select '$NotAuthorized' as message
+    return
+  end
+end
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function initForm(f) {
+  $get("baseCurrencyID").innerHTML = f._baseCurrency;
+  f._controlFocus = f.getItem('ma_bp');
+}
+function activeForm(f) {
+  setFormDefaultValue(f);
+  f.add_onResponseComplete(on$Form$ResponseComplete);    
+  onChange$Budget$Dir$Handlers(f, true);
+  f._tabContainer.add_activeTabChanged(onTabChanged);
+  f._tabContainer._loaded = true;
+
+}
+function scatterForm(f) {setFormDefaultValue(f);}
+function closeForm(f) {
+  if (f._tabContainer) try {f._tabContainer.remove_activeTabChanged(onTabChanged);} catch (ex) {}
+  try {onChange$Budget$Dir$Handlers(f, false);} catch (ex) {}
+  try {f.remove_onResponseComplete(on$Form$ResponseComplete);} catch (ex) {}
+}
+function setFormDefaultValue(f) {
+  if (f._action == 'New') {
+    var d = new Date(f.grid._year.toString());
+    f.setItemValues('nam, ma_dvcs', [f.grid._year, f._unitCode]);
+    f.getItem('ten_dvcs%l').value = f._unitName;
+  }
+}
+function onTabChanged(sender, e) {sender.parentForm.focusWhenTabChanged(['tien_nt01', 'tien_nt04', 'tien_nt07', 'tien_nt10']);}
+function onChange$Budget$Dir$Handlers(f, type) {
+  for (var i = 1; i <= 12; i++) {
+    var c = $func.numberFormat(i, '00');
+    if (type) {
+      $addHandler(f.getItem('tien' + c), 'change', on$ObjectBaseCurrency$Budget$DirChange);
+      $addHandler(f.getItem('tien_nt' + c), 'change', on$ObjectForeignCurrency$Budget$DirChange);
+    }
+    else {
+      $removeHandler(f.getItem('tien_nt' + c), 'change', on$ObjectForeignCurrency$Budget$DirChange);
+      $removeHandler(f.getItem('tien' + c), 'change', on$ObjectBaseCurrency$Budget$DirChange);
+    }
+  }
+}
+function on$ObjectBaseCurrency$Budget$DirChange(e) {on$ObjectCurrency$Budget$DirChange(e.target.parentForm, true);}
+function on$ObjectForeignCurrency$Budget$DirChange(e) {on$ObjectCurrency$Budget$DirChange(e.target.parentForm, false);}
+function on$ObjectCurrency$Budget$DirChange(f, type) {
+  var e = (type ? '[t_tien]:=' : '[t_tien_nt]:=');
+  for (var i = 1; i <= 12; i++) {e+= '[' + (type ? 'tien' : 'tien_nt') + $func.numberFormat(i, '00') + ']' + (i == 12 ? '' : '+');}
+  f.executeExpression([e]);
+}
+function on$Form$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Loading':
+      break;
+    case 'Scattering':
+      setFormDefaultValue(f);
+      break;
+    default:
+      break;
+  }
+}
+]]>
+    </text>
+  </script>
+  <css>
+    <text>
+      <![CDATA[
+.Break{margin:1px 0 1px 8px;padding:0;height:1px;overflow:hidden;display:block;background-color:white;border-top:1px solid #CED3DE;}      
+.LabelDescription{text-align:right;color:#73A6DE;width:100%;}
+]]>
+    </text>
+  </css>
+</dir>

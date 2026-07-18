@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY UnitGrid SYSTEM "..\Include\XML\UnitGrid.txt">
+  <!ENTITY k "tk">
+]>
+
+<grid table="dmtkdv" code="&k;, ma_dvcs" order="line_nbr" type="Detail" xmlns="urn:schemas-fast-com:data-grid">
+  &UnitGrid;
+</grid>

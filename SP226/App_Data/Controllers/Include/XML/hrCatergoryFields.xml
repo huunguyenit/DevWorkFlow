@@ -1,0 +1,15 @@
+<field name="loai_pn">
+  <header v="Loại phân nhóm" e="Catergory Group"></header>
+  <items style="AutoComplete" controller="hrDeptCategoryType" reference="ten_loai%l" key="status = '1'" check="1=1" information="ma_loai$hrloaipnbp.ten_loai%l"/>
+  <clientScript><![CDATA[onchange="onChange$Filter$Type(this);"]]></clientScript>
+</field>
+<field name="ten_loai%l" readOnly="true" external="true" defaultValue="''">
+  <header v="" e=""></header>
+</field>
+<field name="ma_pn">
+  <header v="Mã phân nhóm" e="Category Code"></header>
+  <items style="AutoComplete" controller="hrDepartmentCategory" reference="ten_pn%l" key="status = '1' and ma_loai = '{$%c[loai_pn]}'" check="ma_loai = '{$%c[loai_pn]}'" information="ma_pn$hrpnbp.ten_pn%l"/>
+</field>
+<field name="ten_pn%l" readOnly="true" external="true" defaultValue="''">
+  <header v="" e=""></header>
+</field>

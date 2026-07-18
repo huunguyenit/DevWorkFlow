@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="vhrrmhs" code="ma_hs" name="ten" order="ma_hs" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục ứng viên" e="Applicant Profile List"></header>
+  <fields>
+    <field name="ma_hs" allowSorting="true" allowFilter="true">
+      <header v="Mã ứng viên" e="Applicant ID"></header>
+    </field>
+    <field name="ten" allowSorting="true" allowFilter="true">
+      <header v="Tên" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

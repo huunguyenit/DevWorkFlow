@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master, develop]
+  pull_request:
+    branches: [main, master, develop]
+
+jobs:
+  build-test:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Restore
+        run: dotnet restore DevWorkFlow.slnx
+
+      - name: Build
+        run: dotnet build DevWorkFlow.slnx --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test DevWorkFlow.slnx --no-build --configuration Release --verbosity normal
+        env:
+          FBO_PROGRAM_PATH: ${{ github.workspace }}/SP226

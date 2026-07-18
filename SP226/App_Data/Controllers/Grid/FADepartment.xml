@@ -1,0 +1,149 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY DowloadScript SYSTEM "..\Include\Javascript\DownloadScript.txt">
+
+  <!ENTITY TransferID "FADepartment">
+  <!ENTITY CreateTicket "declare @ticket varchar(32), @filename varchar(128), @description nvarchar(128)
+select @ticket = lower(replace(newid(),'-',''))
+if @@language = 'v' select @filename = 'FADepartment.xlsx', @description = N'Danh mục bộ phận sử dụng TSCĐ'
+else select @filename = 'FADepartment2.xlsx', @description = N'Fixed Asset Using Department List'
+insert into @@sysDatabaseName..ticket values(@ticket, @@userID, '&TransferID;', @filename, @description, '@@appDatabaseName', getdate());">
+]>
+
+<grid table="dmbpts" code="ma_bp" order="ma_bp" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Danh mục bộ phận sử dụng TSCĐ" e="Fixed Asset Using Department List"></title>
+  <subTitle v="Cập nhật thông tin bộ phận sử dụng TSCĐ: thêm, sửa, xóa..." e="Add New, Edit, Delete Fixed Asset Using Department..."></subTitle>
+
+  <fields>
+    <field name="ma_bp" isPrimaryKey="true" width="100" allowSorting="true" allowFilter="true">
+      <header v="Mã bộ phận" e="Code"></header>
+    </field>
+    <field name="ten_bp%l" width="300" allowSorting="true" allowFilter="true">
+      <header v="Tên bộ phận" e="Description"></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_bp"/>
+      <field name="ten_bp%l"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        &CreateTicket;<![CDATA[
+select 'this._authorize = ' + rtrim(@@sysDatabaseName.dbo.FastBusiness$System$GetAuthorize(@@admin, @@userID, 'FADepartment', 'New')) + ';this._key = ''' + @ticket + ''';load$GridFADepartment(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridFADepartment(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function load$GridFADepartment(g) {
+  g.add_onResponseComplete(on$GridFADepartment$ResponseComplete);  
+  g.add_commandEvent(on$GridFADepartment$ExecuteCommand);
+}
+function dispose$GridFADepartment(g) {
+  try {g.remove_commandEvent(on$GridFADepartment$ExecuteCommand);} catch (ex) {}
+  try {g.remove_onResponseComplete(on$GridFADepartment$ResponseComplete);} catch (ex) {}  
+}
+function on$GridFADepartment$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'ImportData':
+      show$Form(g, 'FADepartmentImport');
+      break;
+    case 'Download':
+      request$Download(g, action);
+      break;
+    default:
+      break;
+  }
+}
+function on$GridFADepartment$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result, o = e.type.Object;
+  switch (context) {
+    case 'Download':
+      g._key = result[0].Value;
+      break;
+    default:
+      break;
+  }
+}
+function show$Form(g, c) {(g._authorize == 1) ? g.showForm(c) : $message.show($df.getResources(g._language, "Message.NotAccess"));}
+]]>
+      &DowloadScript;
+    </text>
+  </script>
+
+  <css>
+    <text>
+      <![CDATA[
+div.ImportData{background-image:url(../images/Upload.png);background-repeat:no-repeat;background-position:0 0;}
+div.ImportDataOverGreen{background-position:0 -22px;}
+div.Download{background-image:url(../Images/Download.png);background-repeat:no-repeat;background-position:0 0;}
+div.DownloadOverGreen{background-position:0 -22px;}
+]]>
+    </text>
+  </css>
+
+  <response>
+    <action id="Download">
+      <text>
+        &CreateTicket;<![CDATA[
+select @ticket as value
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+  <toolbar>
+    <button command="New">
+      <title v="Toolbar.New" e="Toolbar.New"></title>
+    </button>
+    <button command="Edit">
+      <title v="Toolbar.Edit" e="Toolbar.Edit"></title>
+    </button>
+    <button command="Delete">
+      <title v="Toolbar.Delete" e="Toolbar.Delete"></title>
+    </button>
+    <button command="View">
+      <title v="Toolbar.View" e="Toolbar.View"></title>
+    </button>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"/>
+    </button>
+
+    <button command="-">
+      <title v="-" e="-"/>
+    </button>
+
+    <button command="ImportData">
+      <title v="Lấy dữ liệu từ tệp..." e="Import Data from File..."></title>
+    </button>
+    <button command="Download">
+      <title v="Tải tệp mẫu..." e="Download Template File..."/>
+    </button>
+
+    <button command="Separate">
+      <title v="-" e="-"/>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+</grid>

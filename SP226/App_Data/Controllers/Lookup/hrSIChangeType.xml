@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmltdbh" code="ma_loai" name="ten_loai%l" order="ma_loai" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục loại thay đổi BHXH" e="SI Change Type List"></header>
+  <fields>
+    <field name="ma_loai" allowSorting="true" allowFilter="true">
+      <header v="Mã loại" e="SI Change Type"></header>
+    </field>
+    <field name="ten_loai%l" allowSorting="true" allowFilter="true">
+      <header v="Tên loại" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

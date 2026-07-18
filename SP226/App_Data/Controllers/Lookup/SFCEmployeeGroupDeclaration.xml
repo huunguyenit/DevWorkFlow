@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="vsfkbnhnc" code="ma_nh" name="ten_nh%l" order="ma_nh" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Khai báo nhóm nhân công" e="Labor Group Declaration"></header>
+  <fields>
+    <field name="ma_nh" allowSorting="true" allowFilter="true">
+      <header v="Mã nhóm" e="Group"></header>
+    </field>
+    <field name="ten_nh%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên nhóm" e = "Description"></header>
+    </field>
+    <field name="ngay_hl" type="DateTime" dataFormatString="dd/MM/yyyy">
+      <header v="Hiệu lực từ ngày" e="Effective Start"></header>
+    </field>
+  </fields>
+</lookup>

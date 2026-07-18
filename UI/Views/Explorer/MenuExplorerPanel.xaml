@@ -1,0 +1,34 @@
+<UserControl x:Class="UI.Views.Explorer.MenuExplorerPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ex="clr-namespace:UI.Views.Explorer">
+
+    <DockPanel Background="{StaticResource SidebarBgBrush}">
+        <Border DockPanel.Dock="Top" Style="{StaticResource IdeDockHeaderStyle}">
+            <DockPanel>
+                <TextBlock Text="MENU" FontSize="11" FontWeight="SemiBold"
+                           Foreground="{StaticResource FgMutedBrush}"
+                           VerticalAlignment="Center"/>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    <Button Style="{StaticResource IconButtonStyle}" Width="24" Height="24"
+                            Command="{Binding RefreshMenuCommand}" ToolTip="Refresh menu">
+                        <md:PackIcon Kind="Refresh" Width="14" Height="14"/>
+                    </Button>
+                    <Button Style="{StaticResource IconButtonStyle}" Width="24" Height="24"
+                            Command="{Binding SelectProgramCommand}" ToolTip="Chọn Program">
+                        <md:PackIcon Kind="FolderOpenOutline" Width="14" Height="14"/>
+                    </Button>
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <TextBlock DockPanel.Dock="Top" Text="{Binding ProgramName}"
+                   FontSize="12" FontWeight="SemiBold" Margin="8,6,8,2"
+                   Foreground="{StaticResource FgBrightBrush}"
+                   TextTrimming="CharacterEllipsis"/>
+
+        <ex:ExplorerTreePanel NodeActivated="ExplorerTreePanel_NodeActivated"/>
+    </DockPanel>
+</UserControl>

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLWhenReportLoading SYSTEM "..\Include\XML\WhenReportLoading.xml">
+  <!ENTITY XMLWhenReportClosing SYSTEM "..\Include\XML\WhenReportClosing.xml">
+  <!ENTITY XMLStandardReportToolbar SYSTEM "..\Include\XML\StandardReportToolbar.xml">
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+
+  <!ENTITY % Repetition SYSTEM "..\Include\Repetition.ent">
+  %Repetition;
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+]>
+
+<grid type="Report" filter="&Repetition.Key.005;" valid="systotal = 1" repetition="&Repetition.Key.006;" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Báo cáo tình hình kiểm kê" e="Stocktaking Status Report"></title>
+  <subTitle v="Từ ngày %d1 đến ngày %d2, số yêu cầu: %s..." e="Date from %d1 to %d2, Request No.: %s ..."></subTitle>
+  <fields>
+    <field name="stt" type="Int16" width="60" dataFormatString="####" allowSorting="true" allowFilter="true">
+      <header v="Stt" e="No."></header>
+    </field>
+    <field name="nhom_vt" width="100" allowSorting="true" allowFilter="true">
+      <header v="Mã nhóm vật tư" e="Item Group"></header>
+      <footer v="Mã loại vật tư" e="Item Type"></footer>
+    </field>
+    <field name="ten_nhom_vt" width="300" allowSorting="true" allowFilter="true">
+      <header v="Tên nhóm vật tư" e="Item Group Name"></header>
+      <footer v="Tên loại vật tư" e="Item Type Name"></footer>
+    </field>
+    <field name="dien_giai2" width="300" allowSorting="true" allowFilter="true">
+      <header v="Diễn giải" e="Description"></header>
+    </field>
+    <field name="sl_can_kk" type="Decimal" dataFormatString="@quantityViewFormat" allowSorting="true" clientDefault="0" width="100" aggregate="Sum" allowFilter="&GridListAllowFilter.Number;">
+      <header v="Sl mặt hàng cần kiểm kê" e="Quantity Needs to Count"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="sl_da_kk" type="Decimal" dataFormatString="@quantityViewFormat" allowSorting="true" clientDefault="0" width="100" aggregate="Sum" allowFilter="&GridListAllowFilter.Number;">
+      <header v="Sl mặt hàng đã kiểm kê" e="Counted Quantity"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="sl_con_kk" type="Decimal" dataFormatString="@quantityViewFormat" allowSorting="true" clientDefault="0" width="100" aggregate="Sum" allowFilter="&GridListAllowFilter.Number;">
+      <header v="Sl mặt hàng còn phải kiểm kê" e="Quantity Remains to be Counted"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ty_trong" type="Decimal" width="100" dataFormatString="###.00" allowSorting="true" allowFilter="&GridListAllowFilter.Number;">
+      <header v="Tỷ trọng (%)" e="Density (%)"></header>
+      <items style="Numeric"></items>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt"/>
+      <field name="nhom_vt"/>
+      <field name="ten_nhom_vt"/>
+      <field name="dien_giai2"/>
+      <field name="sl_can_kk"/>
+      <field name="sl_da_kk"/>
+      <field name="sl_con_kk"/>
+      <field name="ty_trong"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event ="Showing">
+      <text>
+        <![CDATA[
+select 'init$GridReport$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    &XMLWhenReportLoading;
+    &XMLWhenReportClosing;
+  </commands>
+
+  <script>
+    <text>
+      &JavascriptReportInit;
+      <![CDATA[/* <flatten type="Javascript"> */
+function init$GridReport$(g) {
+  g._externalHeaderFields = [];
+  changeHeader$GridReport(g, 'nhom_vt', g._t == '0');
+  changeHeader$GridReport(g, 'ten_nhom_vt', g._t == '0');
+}
+function changeHeader$GridReport(g, c, v) {
+  var i = g._getColumnOrder(c), field = g._fields[i - 1];
+  if (!field._saveHeaderText) field._saveHeaderText = field.HeaderText;
+    else field.HeaderText = field._saveHeaderText;
+  if (v) {
+    field.HeaderText = field.FooterText;
+    Array.add(g._externalHeaderFields, {Index: field.Index, Header: field.HeaderText});
+  }
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  &XMLStandardReportToolbar;
+</grid>

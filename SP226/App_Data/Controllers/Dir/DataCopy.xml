@@ -1,0 +1,380 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY OutlineCss SYSTEM "..\Include\Javascript\OutlineCss.txt">
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+  <!ENTITY Key "declare @rk varchar(16)
+select @rk = rkey from @@sysDatabaseName..userinfo2 where id = @@userID">
+
+  <!ENTITY % TransferData SYSTEM "..\Include\TransferData.ent">
+  %TransferData;
+  <!ENTITY % CompactMode SYSTEM "..\Include\CompactMode.ent">
+  %CompactMode;
+
+  <!ENTITY VoucherCodeNotUse "'BPT', 'BPC', 'T04', 'PD5'">
+  <!ENTITY VoucherCodeUse "'CC1', 'CC2', 'TS1', 'PC0', 'PC9', 'PT0', 'PT9', 'HD0', 'PN0', 'T02', 'T03', 'PT8', 'PC8'">
+
+  <!ENTITY CheckStatusBeforeEdit "
+if &TransferType; = 2 and @@action = 'New' begin
+    select '' as script, '$NotAuthorized' as message
+    return
+end else begin
+  if @@view = 0 begin
+    if @@action = 'Edit' begin
+      if not exists(select 1 from @@table where id = @id and status in ('0', '1') and user_id0 = @@userID) begin
+        select '' as script, '$NotAuthorized' as message
+        return
+      end
+    end
+  end
+end
+">
+]>
+
+<dir table="dmscsl" code="id" order="id" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="khai báo sao chép số liệu" e="Item"></title>
+  <fields>
+    <field name="id" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="loai" clientDefault="1">
+      <header v="Loại" e="Type"></header>
+      <items style="DropDownList" >
+        <item value="1">
+          <text v="Chứng từ" e="Voucher"/>
+        </item>
+        <item value="2">
+          <text v="Danh mục" e="List"/>
+        </item>
+        <item value="3">
+          <text v="Số dư, lũy kế" e="Opening, Accumulation"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;<![CDATA[onchange="onChange$Type(this)";]]></clientScript>
+    </field>
+    <field name="ngay_tao0" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày tạo từ" e="Created Date from"></header>
+      <footer v="Ngày tạo từ/đến" e="Created Date from/to"></footer>
+    </field>
+    <field name="ngay_tao2" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày tạo đến" e="Created Date to"></header>
+    </field>
+    <field name="ngay_sua0" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày sửa từ" e="Modified Date from"></header>
+      <footer v="Ngày sửa từ/đến" e="Modified Date from/to"></footer>
+    </field>
+    <field name="ngay_sua2" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày sửa đến" e="Modified Date to"></header>
+    </field>
+    <field name="ngay_ct0" allowNulls="false" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày chứng từ từ" e="Voucher Date from"></header>
+      <footer v="Ngày chứng từ từ/đến" e="Voucher Date from/to"></footer>
+    </field>
+    <field name="ngay_ct2" allowNulls="false" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày chứng từ đến" e="Voucher Date to"></header>
+    </field>
+    <field name="delete_yn" type="Boolean" defaultValue="cast(0 as bit)">
+      <header v="Xóa chứng từ trước khi sao chép số liệu" e="Delete Target Data"></header>
+      <clientScript><![CDATA[onchange="onChange$Delete(this)";]]></clientScript>
+    </field>
+    <field name="ngay_xoa0" allowNulls="false" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày xóa từ" e="Delete Date from"></header>
+      <footer v="Ngày xóa từ/đến" e="Delete Date from/to"></footer>
+    </field>
+    <field name="ngay_xoa2" allowNulls="false" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày xóa đến" e="Delete Date to"></header>
+    </field>
+    <field name="dir_list">
+      <header v="Danh sách danh mục" e="Dir List"></header>
+      <items style="Lookup" controller="DirList" key="status = '1'&Operation.And;&FieldsFilter;" check="status = '1'&Operation.And;&FieldsFilter;"/>
+    </field>
+    <field name="ma_ct">
+      <header v="Danh sách chứng từ" e="Voucher List"></header>
+      <items style="Lookup" controller="Voucher" key="((voucher_yn = '1' and dbo.ff_ExactInlist(ma_ct, '') = 0 and ma_ct not in (&VoucherCodeNotUse;) and ma_phan_he not in ('TX', 'HR')) or (ma_ct in (&VoucherCodeUse;))) and wedition &lt;&gt; '9' and status = '1'" check="((voucher_yn = '1' and dbo.ff_ExactInlist(ma_ct, '') = 0 and ma_ct not in (&VoucherCodeNotUse;) and ma_phan_he not in ('TX', 'HR')) or (ma_ct in (&VoucherCodeUse;))) and wedition &lt;&gt; '9'"/>
+    </field>
+    <field name="ma_dvcs">
+      <header v="Danh sách đơn vị" e="Unit List" ></header>
+      <items style="Lookup" controller="Unit" key="status = '1'" check="1 = 1"/>
+    </field>
+    <field name="overwrite_yn" type="Boolean" defaultValue="cast(0 as bit)">
+      <header v="Chép đè" e="Overwrite"></header>
+    </field>
+    <field name="status" dataFormatString="0, 1" clientDefault="0" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="0 - Chưa xử lý, 1 - Đặt lịch" e="0 - No Action, 1 - Schedule"></footer>
+      <items style="Mask"/>
+    </field>
+    <field name="status_name%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="kieu_chuyen" inactivate="true">
+      <header v="" e="" ></header>
+    </field>
+
+    <field name="cpass" external="true" defaultValue="''">
+      <header v="Xác nhận mật khẩu" e="Confirm Password"></header>
+      <clientScript><![CDATA[type="password" onchange="genHash(this);"]]></clientScript>
+    </field>
+    <field name="chkpass" type="Int32" external="true" hidden="true" readOnly="true" defaultValue="0" allowContain="true">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="64">
+      <item value="120, 25, 5, 70, 100, 100, 130, 0"/>
+      <item value="11000--1: [loai].Label, [loai], [id]"/>
+      <item value="11001: [ngay_tao0].Description, [ngay_tao0], [ngay_tao2]"/>
+      <item value="11001: [ngay_sua0].Description, [ngay_sua0], [ngay_sua2]"/>
+      <item value="11001: [ngay_ct0].Description, [ngay_ct0], [ngay_ct2]"/>
+      <item value="-110000: [delete_yn], [delete_yn].Label"/>
+      <item value="11001: [ngay_xoa0].Description, [ngay_xoa0], [ngay_xoa2]"/>
+      <item value="11000--1: [cpass].Label, [cpass], [chkpass]"/>
+      <item value="1100000: [dir_list].Label, [dir_list]"/>
+      <item value="1100000: [ma_ct].Label, [ma_ct]"/>
+      <item value="1100000: [ma_dvcs].Label, [ma_dvcs]"/>
+      <item value="-110000111: [overwrite_yn], [overwrite_yn].Label, [status], [status_name%l], [kieu_chuyen]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$script nvarchar(512), @$updateDeny nvarchar(512)
+select @$updateDeny = case when @@language = 'v' then N'Mật khẩu xác nhận không đúng.' else N'Confirmation password is invalid.' end
+select @$script = 'revertPassword(this, "%s");'
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        &CheckStatusBeforeEdit;
+        &Key;
+        <![CDATA[
+select 'this._key = ''' + @rk + ''';active$DataCopy(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$DataCopy(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        &CheckStatusBeforeEdit;
+        &Key;
+        <![CDATA[
+select 'this._key = ''' + @rk + ''';active$DataCopy(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if @delete_yn = 1 begin
+  declare @c bit
+  exec @@sysDatabaseName..FastBusiness$System$CheckSum @@userID, @$chkpass, 0, @c output
+  if @c = 0 begin
+    select 'cpass' as field, @$updateDeny as message, replace(@$script, '%s', 'cpass') as script
+    return
+  end
+end
+
+select @id = isnull(max(id) + 1, 1) from @@table
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID, @ngay_tao = convert(varchar, getdate(), 111)
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+update @@table set ma_so = left(newid(),8), database_nguon = ']]>&DatabaseSource;<![CDATA[', database_dich = '@@appDatabaseName' where id = @id
+select '' as message, @id as id
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if @delete_yn = 1 begin
+  declare @c bit
+  exec @@sysDatabaseName..FastBusiness$System$CheckSum @@userID, @$chkpass, 0, @c output
+  if @c = 0 begin
+    select 'cpass' as field, @$updateDeny as message, replace(@$script, '%s', 'cpass') as script
+    return
+  end
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID, database_nguon = ']]>&DatabaseSource;<![CDATA[', database_dich = '@@appDatabaseName' where id = @id
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+if not exists(select 1 from @@table where id = @id and user_id0 = @@userID) begin
+  select '' as script, '$NotAuthorized' as message
+  return
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[
+var f = this, o = f.getItem('cpass');
+if (f.getItemValue('delete_yn')) {
+  o.oldValue = o.value;
+  o.value = '';
+checkFieldEntry(f, o);
+}
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &OutlineEntry;
+      <![CDATA[
+function active$DataCopy(f) {
+  f.add_onResponseComplete(on$DataCopy$ResponseComplete);
+  changeLookupReadonly(f, 'ma_ct', true);
+  changeLookupReadonly(f, 'ma_dvcs', true);
+  if (f._action != 'View') {
+    if (f._action == 'New') {
+      validValue(f);
+    }
+    disableFields(f);
+    f.getItem('loai').focus();
+    f.setItemValue('kieu_chuyen', ']]>&TransferType;<![CDATA[')
+  }
+}
+function close$DataCopy(f) {try {f.remove_onResponseComplete(on$DataCopy$ResponseComplete);} catch (ex) {}}
+function on$DataCopy$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result, g = f.grid;
+  switch (context) {
+    case 'Checking':
+      break;
+    default:
+      break;
+  }
+}
+
+function validFields(f) {
+  validValue(f);
+  disableFields(f);
+}
+
+function onChange$Type(o) {
+  validFields(o.parentForm);
+}
+
+function onChange$Delete(o) {
+  var f = o.parentForm;
+  if(f.getItemValue('delete_yn')) {
+    f.setItemValues('ngay_xoa0, ngay_xoa2', [f.getItemValue('ngay_ct0'), f.getItemValue('ngay_ct2')]);
+    setItemDisable(f, 'ngay_xoa0, ngay_xoa2, cpass', false);
+    setItemAllowNulls(f, 'ngay_xoa0, ngay_xoa2, cpass', false);
+  }
+  else {
+    f.setItemValues('ngay_xoa0, ngay_xoa2, cpass', [null, null, null];
+    setItemDisable(f, 'ngay_xoa0, ngay_xoa2, cpass', true);
+    setItemAllowNulls(f, 'ngay_xoa0, ngay_xoa2, cpass', true);
+  }
+}
+
+function disableFields(f) {
+  var v = f.getItemValue('loai') != '1', v1 = f.getItemValue('delete_yn'), v2 = f.getItemValue('loai') != '2', t1 = 'ngay_ct0, ngay_ct2, ma_ct, ma_dvcs, delete_yn', t2 = 'ngay_tao0, ngay_tao2, ngay_sua0, ngay_sua2', t3 = 'ngay_xoa0, ngay_xoa2, cpass', t4 = 'ngay_ct0, ngay_ct2', t5 = 'dir_list';
+  setItemDisable(f, t1, v);
+  setItemDisable(f, t2, !v);
+  setItemDisable(f, t3, !v1);
+  setItemDisable(f, t5, v2);
+  setItemAllowNulls(f, t4, v);
+  setItemAllowNulls(f, t3, !v1);
+}
+
+function validValue(f) {
+  var d = new Date();
+  if (f.getItemValue('loai') != '1') {
+    f.setItemValues('ngay_ct0, ngay_ct2, ngay_xoa0, ngay_xoa2, cpass, delete_yn', [null, null, null, null, null, false]);
+  } else {
+    f.setItemValues('ngay_tao0, ngay_tao2, ngay_sua0, ngay_sua2, ngay_ct0, ngay_ct2, ngay_xoa0, ngay_xoa2, cpass, delete_yn', [null, null, null, null, d, d, null, null, null, false]);
+  }
+}
+
+function setItemAllowNulls(f, c, v) {
+  var a = c.split(','), o, grandNode;
+  for (var i = 0; i < a.length; i++) {
+    if ($func.trim(a[i]) != '') {
+      o = f.getItem($func.trim(a[i]));
+      o.field.AllowNulls = v
+      grandNode = o.parentNode.parentNode;
+      if (!v) {
+        Sys.UI.DomElement.addCssClass(grandNode, 'Required');
+        Sys.UI.DomElement.addCssClass(grandNode, f._id);
+      }
+      else Sys.UI.DomElement.removeCssClass(grandNode, 'Required');
+    }
+  }
+}
+
+function setItemDisable(f, c, v) {
+  var a = c.split(',');
+  for (var i = 0; i < a.length; i++) {
+    if ($func.trim(a[i]) != '') {
+      var o = f.getItem($func.trim(a[i]));
+      if (o.a) $common.setVisible(o.a, !v);
+      o.disabled = v;
+    }
+  }
+}
+
+function genHash(o) {
+  var f = o.parentForm, p = $func.trim(MD5(o.value));
+  f.getItem('chkpass').value = CRC32($func.trim(f._key).substr(0, 8) + p.substr(1, p.length - 2));
+}
+function checkFieldEntry(f, o, force) {
+  if (force) o = f.getItem(o);
+  var v = force ? o.value : o.oldValue;
+  if (f._checked && !v) {
+    f._checked = false;
+    $func.hideWait(f.get_id());
+    $message.show(String.format($df.getResources(f._language, 'Message.RequiredField'), o.field.Label), String.format('revertPassword(\'{0}\', \'\', true); $find(\'{0}\').focus(\'{1}\');', f.get_id(), o.field.Name));
+  }
+}
+function revertPassword(f, name, force) {
+  if (force) f = $find(f);
+  var o = f.getItem('cpass');
+  if (o.oldValue) o.value = o.oldValue;
+  f.getItem('cpass').focus();
+}
+]]>
+    </text>
+  </script>
+  &OutlineCss;
+</dir>

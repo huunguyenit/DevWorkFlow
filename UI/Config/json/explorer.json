@@ -1,0 +1,36 @@
+{
+    "filterDebounceMs": 300,
+    "filterMinLength": 1,
+    "preloadOnFilter": true,
+    "expandOnFolderClick": true,
+    "searchScanFilesystem": true,
+    "searchMaxHits": 400,
+    "activationDelayMs": 200,
+    "folderIcon": "FolderOutline",
+    "fileIcon": "FileOutline",
+    "folderIconColor": "#e5d619",
+    "fileIconColor": "#b92222",
+    "showFileBadges": false,
+    "preferredRootFolders": [
+        "App_Data",
+        "Main",
+        "ClientScript",
+        "Css",
+        "Images",
+        "Help",
+        "AppHandler",
+        "AppService",
+        "Upload"
+    ],
+    "explorerFileExtensions": [
+        ".xml",
+        ".f",
+        ".aspx",
+        ".js",
+        ".css",
+        ".sql"
+    ],
+    "hiddenRootFolders": [
+        "bin"
+    ]
+}

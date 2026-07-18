@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmpbky" code="ma_bt" name="ten_bt" order="ma_bt" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Bút toán phân bổ định kỳ" e="Periodic Transaction"></header>
+  <fields>
+    <field name="ma_bt" allowSorting="true" allowFilter="true" >
+      <header v="Mã" e="Code"></header>
+    </field>
+    <field name="ten_bt" allowSorting="true" allowFilter="true">
+      <header v ="Tên" e = "Description"></header>
+    </field>
+  </fields>
+</lookup>

@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE lookup [
+  <!ENTITY FilterInitialize SYSTEM "..\Include\FilterInitialize.xml">
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+  <!ENTITY Controller "'SATran'">
+
+  <!ENTITY % CheckRelative SYSTEM "..\Include\CheckRelative.ent">
+  %CheckRelative;
+  <!ENTITY CheckRelativeParameter "'PIAllocatedLookup', 'Lookup', 'PITran'">
+  <!ENTITY CheckRelativeQuery "set @$primeFilter = '1 = 0'">
+]>
+
+<lookup table="m93$000000" code="so_ct" name="stt_rec" order="ngay_ct, so_ct, stt_rec" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Chọn phiếu nhu cầu" e="Select Supplier Allocation"></header>
+  <fields>
+    <field name="so_ct" align="right" allowFilter="true">
+      <header v="Số phiếu" e="Allocated No."></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="stt_rec">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy" allowFilter="true">
+      <header v="Ngày phiếu nhu cầu" e="Allocated Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+  </fields>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @unit varchar(128), @custID varchar(64)
+select @custID = '%#10$' + @ma_kh + '#%', @unit = case when @ma_dvcs = '' then @@unit else @ma_dvcs end
+]]>&FilterInitialize;&CheckRelativeProcess;<![CDATA[
+exec FastBusiness$App$Voucher$Finding 'PD5', 'c93$000000', 'm93$', 'i93$', 'ngay_ct', 'convert(char(6), {0}, 112)', 'dateadd(month, 1, {0})', '000000',
+  @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem, '', @custID, 'stt_rec',
+  'so_ct,stt_rec,ngay_ct',
+  'so_ct,stt_rec,ngay_ct',
+  '', 'ngay_ct, so_ct', 1, @@userID, 1,
+  @ngay_ct1, @ngay_ct2, '', '', '1', '0', @unit, default, default, default, default, default, default, default, @$primeJoin, @$primeFilter]]>
+      </text>
+    </query>
+  </queries>
+</lookup>

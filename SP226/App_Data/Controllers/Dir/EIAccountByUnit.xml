@@ -1,0 +1,143 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dir [
+  <!ENTITY k0 "@ma_dvcs = $ma_dvcs.OldValue and @ngay_hl = $ngay_hl.OldValue">
+  <!ENTITY k1 "ma_dvcs = @ma_dvcs and ngay_hl = @ngay_hl">
+  <!ENTITY k2 "ma_dvcs = $ma_dvcs.OldValue and ngay_hl = $ngay_hl.OldValue">
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+]>
+
+<dir table="tkhddtdv" code="ma_dvcs" order="ma_dvcs" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="tài khoản kết nối" e="Account Information"></title>
+  <fields>
+    <field name="ma_dvcs" allowNulls="false" isPrimaryKey="true">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="AutoComplete" controller="Unit" reference="ten_dvcs%l" key="status = '1'" check="1 = 1" information="ma_dvcs$dmdvcs.ten_dvcs%l"/>
+    </field>
+    <field name="ten_dvcs%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_hl" isPrimaryKey="true" type="DateTime" dataFormatString="@datetimeFormat" align="left" allowNulls="false">
+      <header v="Ngày hiệu lực" e="Effective Date"></header>
+    </field>
+    <field name="ma_kn" allowNulls="false">
+      <header v="Tài khoản" e="Account"></header>
+      <items style="AutoComplete" controller="EIAccount" reference="ten_kn%l" normal="true" key="status = '1'" check="1 = 1" information="ma_kn$tkhddt.ten_kn%l"/>
+    </field>
+    <field name="ten_kn%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="status" allowNulls="false" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 100, 230"/>
+      <item value="11010: [ma_dvcs].Label, [ma_dvcs], [ten_dvcs%l]"/>
+      <item value="110: [ngay_hl].Label, [ngay_hl]"/>
+      <item value="11010: [ma_kn].Label, [ma_kn], [ten_kn%l]"/>
+      <item value="111000: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$ElAccountByUnit(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$ElAccountByUnit(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$recordHasBeenChanged nvarchar(512), @$updateConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã đơn vị <span class="Highlight">%s1</span>, ngày hiệu lực <span class="Highlight">%s2</span> đã có hoặc lồng nhau trong khai báo tài khoản hóa đơn điện tử theo đơn vị cơ sở.' else N'The record consisting of unit <span class="Highlight">%s1</span>, effective date <span class="Highlight">%s2</span> is invalid or already exists.' end
+select @$updateConflict = case when @@language = 'v' then N'Đơn vị <span class="Highlight">%s</span> đã khai báo sử dụng tài khoản kết nối.' else N'The record consisting of unit <span class="Highlight">%s</span> is already active on this account.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Mã đơn vị <span class="Highlight">%s1</span>, ngày hiệu lực <span class="Highlight">%s2</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The record consisting of unit <span class="Highlight">%s1</span>, effective date <span class="Highlight">%s2</span> has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if @status = 1 and exists(select * from @@table where ma_dvcs = @ma_dvcs and status = 1) begin
+  select 'status' as field, replace(@$updateConflict, '%s', rtrim(@ma_dvcs)) as message
+  return
+end
+if exists(select * from @@table where ]]>&k1;<![CDATA[) begin
+  select 'ma_dvcs' as field, replace(replace(@$exists, '%s1', rtrim(@ma_dvcs)), '%s2', rtrim(convert(char(10), @ngay_hl, 103))) as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if @status = 1 and exists(select * from @@table where not (]]>&k2;<![CDATA[) and ma_dvcs = @ma_dvcs and status = 1) begin
+  select 'status' as field, replace(@$updateConflict, '%s', rtrim(@ma_dvcs)) as message
+  return
+end
+
+if not exists(select * from @@table where ]]>&k2;<![CDATA[) begin
+  select 'ma_dvcs' as field, replace(replace(@$recordHasBeenChanged, '%s1', rtrim($ma_dvcs.OldValue)), '%s2', rtrim(convert(char(10), cast($ngay_hl.OldValue as smalldatetime), 103))) as message
+  return
+end
+
+if not (]]>&k0;<![CDATA[) begin
+  if exists(select * from @@table where not (]]>&k2;<![CDATA[) and (]]>&k1;<![CDATA[)) begin
+    select 'ma_dvcs' as field, replace(replace(@$exists, '%s1', rtrim(@ma_dvcs)), '%s2', rtrim(convert(char(10), @ngay_hl, 103))) as message
+    return
+  end
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ]]>&k1;
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$ElAccountByUnit(f) {f.add_onResponseComplete(on$ElAccountByUnit$ResponseComplete);}
+function close$ElAccountByUnit(f) {try {f.remove_onResponseComplete(on$ElAccountByUnit$ResponseComplete)} catch (ex) {}}
+function on$ElAccountByUnit$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'ma_dvcs');
+      break;
+    default:
+      break;
+  }
+}      
+]]>
+      &ScriptIrregular;
+    </text>
+  </script>
+
+</dir>

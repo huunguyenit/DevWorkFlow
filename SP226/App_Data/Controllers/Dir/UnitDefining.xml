@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY CheckTaxCodeCondition "@ma_so_thue &lt;&gt; ''">
+  <!ENTITY CheckTaxCodeConditionExt "">
+  <!ENTITY CheckTaxCodeConditionByVAT "">
+  <!ENTITY CheckTaxCodeFieldValue "@ma_so_thue">
+  <!ENTITY CheckTaxCodeTableValue "default">
+  <!ENTITY CheckTaxCodeTableQuerySelectWarning "select @$scriptConflict = @$scriptConflict + @$taxCodeInvalidConflict">
+  <!ENTITY % CheckTaxCode SYSTEM "..\Include\CheckTaxCode.ent">
+  %CheckTaxCode;
+]>
+
+<dir table="dmdvcskb" code="ma_dvcs" order="ma_dvcs" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="khai báo thông tin theo đơn vị cơ sở" e="Unit Information"></title>
+  <fields>
+    <field name="ma_dvcs" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="AutoComplete" controller="Unit" reference="ten_dvcs%l" key="@@admin = 1 or ma_dvcs in (select ma_dvcs from sysunitrights where user_id = @@userID and r_access = 1) and status = '1'" check="@@admin = 1 or ma_dvcs in (select ma_dvcs from sysunitrights where user_id = @@userID and r_access = 1)" information="ma_dvcs$dmdvcs.ten_dvcs%l"/>
+    </field>
+    <field name="ten_dvcs%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_so_thue">
+      <header v="Mã số thuế" e="Tax Code"></header>
+    </field>
+    <field name="so_dt">
+      <header v="Số điện thoại" e="Telephone"></header>
+    </field>
+
+    <field name="tk_nh">
+      <header v="Tài khoản ngân hàng" e="Bank Account"></header>
+    </field>
+    <field name="ten_gd">
+      <header v="Tên giám đốc" e="Director's Name"></header>
+    </field>
+    <field name="ten_gd2">
+      <header v="" e=""></header>
+    </field>
+    <field name="ten_ktt">
+      <header v="Tên kế toán trưởng" e="Chief Accountant"></header>
+    </field>
+    <field name="ten_ktt2">
+      <header v="" e=""></header>
+    </field>
+    <field name="ten_tq">
+      <header v="Tên thủ quỹ" e="Cashier"></header>
+    </field>
+    <field name="ten_tq2">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="x_dt_sp" type="Boolean" clientDefault="Default">
+      <header v="&lt;div id=&quot;hidden_label&quot;&gt;Tính giá thành theo&lt;/&gt;" e="&lt;div id=&quot;hidden_label&quot;&gt;Calculate Cost of Product Group by&lt;/&gt;"></header>
+      <footer v="Sản phẩm" e="Product"/>
+    </field>
+    <field name="x_dt_bp" type="Boolean" clientDefault="Default">
+      <header v="Bộ phận" e="Department"></header>
+      <footer v="&lt;div id=&quot;hidden_line&quot;class=&quot;Break&quot;/&gt;" e="&lt;div id=&quot;hidden_line&quot;class=&quot;Break&quot;/&gt;"></footer>
+    </field>
+    <field name="x_dt_lsx" type="Boolean" clientDefault="Default">
+      <header v="Lệnh sản xuất" e="MO Number"></header>
+      <footer v="&lt;div id=&quot;hidden_line2&quot; class=&quot;Break&quot;/&gt;" e="&lt;div id=&quot;hidden_line2&quot; class=&quot;Break&quot;/&gt;"></footer>
+    </field>
+
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="8, 112, 25, 5, 70, 115, 215"/>
+      <item value="1010010: [ma_dvcs].Label, [ma_dvcs], [ten_dvcs%l]"/>
+      <item value="10100: [ma_so_thue].Label, [ma_so_thue]"/>
+      <item value="10100: [so_dt].Label, [so_dt]"/>
+      <item value="1010000: [tk_nh].Label, [tk_nh]"/>
+      <item value="1010001: [ten_gd].Label, [ten_gd], [ten_gd2]"/>
+      <item value="1010001: [ten_ktt].Label, [ten_ktt], [ten_ktt2]"/>
+      <item value="1010001: [ten_tq].Label, [ten_tq], [ten_tq2]"/>
+
+      <item value="1000000: [x_dt_bp].Description"/>
+      <item value="10000: [x_dt_sp].Label"/>
+      <item value="-11: [x_dt_sp].Description, [x_dt_sp]"/>
+      <item value="-11: [x_dt_bp].Label, [x_dt_bp]"/>
+      <item value="-11: [x_dt_lsx].Label, [x_dt_lsx]"/>
+      <item value="1000000: [x_dt_lsx].Description"/>
+      <item value="10101000: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+if not exists(select 1 from options where name = 'm_dtgt_dvcs' and val = '1') begin
+  select 'var f = this;setObjectFormHidden(f, [''x_dt_lsx'', ''x_dt_bp'', ''x_dt_sp'', ''hidden_line'', ''hidden_line2'', ''hidden_label'']);' as message
+  return
+end]]>
+      </text>
+    </command>
+    <command event="Declare">
+      <text>
+        &CheckTaxCodeDeclare;
+        <![CDATA[
+declare @$exists nvarchar(512), @$recordHasBeenChanged nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Đơn vị <span class="Highlight">%s</span> đã có trong danh sách khai báo thông tin theo đơn vị cơ sở.' else N'The unit <span class="Highlight">%s</span> already exists.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Bản ghi hiện thời đã được sửa hoặc xóa bởi người sử dụng khác.' else N'This item has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        &CommandCheckTaxCodeBeforeSave;
+        <![CDATA[
+if exists(select 1 from @@table where ma_dvcs = @ma_dvcs) begin
+  select 'ma_dvcs' as field, replace(@$exists, '%s', rtrim(@ma_dvcs)) as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+declare @info nvarchar(4000)
+select @info = 'Structure/App/Entity.txt' + char(255) + replace(@ma_dvcs, ',', char(253))
+]]>&CommandListCheckTaxCodeWarningMessage;<![CDATA[, 'KK.Update.CreateFile(' + @info + ')' as invoke else
+select '' as message, 'KK.Update.CreateFile(' + @info + ')' as invoke
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        &CommandCheckTaxCodeBeforeSave;
+        <![CDATA[
+if not exists(select 1 from @@table where ma_dvcs = $ma_dvcs.OldValue) begin
+  select 'ma_dvcs' as field, replace(@$recordHasBeenChanged, '%s', rtrim($ma_dvcs.OldValue)) as message
+  return
+end
+
+if @ma_dvcs <> $ma_dvcs.OldValue begin
+  if exists(select 1 from @@table where ma_dvcs = @ma_dvcs) begin
+    select 'ma_dvcs' as field, replace(@$exists, '%s', rtrim(@ma_dvcs)) as message
+    return
+  end
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_dvcs = @ma_dvcs
+declare @info nvarchar(4000)
+select @info = 'Structure/App/Entity.txt' + char(255) + replace(@ma_dvcs, ',', char(253))
+]]>&CommandListCheckTaxCodeWarningMessage;<![CDATA[, 'KK.Update.CreateFile(' + @info + ')' as invoke else
+select '' as message, 'KK.Update.CreateFile(' + @info + ')' as invoke
+return
+]]>
+      </text>
+    </command>
+
+    <command event ="Deleted">
+      <text>
+        <![CDATA[
+declare @info nvarchar(4000)
+select @info = 'Structure/App/Entity.txt' + char(255) + replace(@ma_dvcs, ',', char(253))
+select '' as message, 'KK.Update.CreateFile(' + @info + ')' as invoke
+return
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &ScriptCheckTaxCode;
+      <![CDATA[/* <flatten type="Javascript"> */
+function setObjectFormHidden(f, c) {
+  for (var i = 0; i < c.length; i++) {
+    var o = i < 3 ? f.getItem(c[i]) : $get(c[i]);
+    $common.setVisible(o.parentNode.parentNode.parentNode, false);
+  }
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+  <css>
+    <text>
+      <![CDATA[
+.Break{margin:1px 0 1px 8px;padding:0;height:1px;overflow:hidden;display:block;background-color:white;border-top:1px solid #CED3DE;}
+.LabelDescription{color:#73A6DE;}
+]]>
+    </text>
+  </css>
+</dir>

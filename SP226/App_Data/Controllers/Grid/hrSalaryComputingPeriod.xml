@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+]>
+
+<grid table="vhrky" filter="(@@admin = 1 or ma_bp in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID))" code="nam, ky, ma_bp" order="ma_bp, ky, nam" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Khai báo kỳ tính lương" e="Salary Computing Period"></title>
+  <subTitle v="Khai báo kỳ tính lương năm %y: mới, sửa, xóa..." e="Add New, Edit, Delete Item Year %y..."></subTitle>
+  <fields>
+    <field name="nam" isPrimaryKey="true" type="Decimal" width="0" hidden="true">
+      <header v="Năm" e="Year"></header>
+    </field>
+    <field name="ma_bp" isPrimaryKey="true" width="100" allowSorting="true" allowFilter="true">
+      <header v="Mã bộ phận" e="Department"/>
+    </field>
+    <field name="ten_bp%l" width="300" allowSorting="true" allowFilter="true">
+      <header v="Tên bộ phận" e="Description"></header>
+    </field>
+    <field name="ky" isPrimaryKey="true" type="Decimal" width="60" allowSorting="true" allowFilter="&GridListAllowFilter.Number;">
+      <header v="Kỳ" e="Period"></header>
+    </field>
+    <field name="ngay_tu" type="DateTime" dataFormatString="@datetimeFormat" width="100" allowSorting="true" allowFilter="true">
+      <header v="Từ ngày" e="Date from"></header>
+    </field>
+    <field name="ngay_den" type="DateTime" dataFormatString="@datetimeFormat" width="100" allowSorting="true" allowFilter="true">
+      <header v="Đến ngày" e="Date to"></header>
+    </field>
+    <field name="so_ngay" type="Decimal" dataFormatString="##.00" width="100" allowSorting="true" allowFilter="&GridListAllowFilter.Number;">
+      <header v="Số ngày" e="Regular Days"/>
+      <items style="Numeric"></items>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="nam"/>
+      <field name="ma_bp"/>
+      <field name="ten_bp%l"/>
+      <field name="ky"/>
+      <field name="ngay_tu"/>
+      <field name="ngay_den"/>
+      <field name="so_ngay"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'this._authorize = ' + rtrim(@@sysDatabaseName.dbo.FastBusiness$System$GetAuthorize(@@admin, @@userID, 'hrSalaryComputingPeriod', 'New')) + ';load$SalaryComputingPeriod$(this);' as message
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'dispose$SalaryComputingPeriod$(this);' as message
+return
+]]>
+      </text>
+    </command>
+  </commands>
+
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$SalaryComputingPeriod$(g) {g.add_commandEvent(on$SalaryComputingPeriod$ExecuteCommand);}
+function dispose$SalaryComputingPeriod$(g) {try {g.remove_commandEvent(on$SalaryComputingPeriod$ExecuteCommand);} catch (ex) {}}
+function on$SalaryComputingPeriod$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'CreatePeriod':
+      showCopyForm(g, 'hrSalaryComputingCreatePeriod', g._authorize);
+			break;
+		case 'CopyYear':
+      showCopyForm(g, 'hrSalaryComputingCopyYear', g._authorize);
+			break;
+    default:
+			break;
+  }
+}
+function showCopyForm(g, c, v) {if (v == 1) g.showForm(c) else $message.show($df.getResources(g._language, "Message.NotAccess"));}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <css>
+    <text>
+      <![CDATA[
+div.CreatePeriod{background-image:url(../images/Shift.png);background-repeat:no-repeat;background-position:0 0;}
+div.CopyYear{background-image:url(../images/Shift.png);background-repeat:no-repeat;background-position:-22px 0;}
+div.TextCreatePeriod{background-image:url(../images/TextAsterisk.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.TextCopyYear{background-image:url(../images/TextClone.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.CreatePeriodOverGreen, div.CopyYearOverGreen, div.TextCreatePeriodOverGreen, div.TextCopyYearOverGreen{background-position-y:-22px;}
+]]>
+    </text>
+  </css>
+
+  <toolbar>
+    <button command="New">
+      <title v="Toolbar.New" e="Toolbar.New"></title>
+    </button>
+    <button command="Edit">
+      <title v="Toolbar.Edit" e="Toolbar.Edit"></title>
+    </button>
+    <button command="Delete">
+      <title v="Toolbar.Delete" e="Toolbar.Delete"></title>
+    </button>
+    <button command="View">
+      <title v="Toolbar.View" e="Toolbar.View"></title>
+    </button>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"/>
+    </button>
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"></title>
+    </button>
+    <button command="Separate">
+      <title v="-" e="-"/>
+    </button>
+    <button command="CreatePeriod">
+      <title v="Tạo kỳ theo tháng$$90" e="Create Period$$90"></title>
+    </button>
+    <button command="CopyYear">
+      <title v="Sao chép số liệu năm trước$$90" e="Copy Data of Previous Year$"></title>
+    </button>
+    <button command="Separate">
+      <title v="-" e="-"/>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+</grid>

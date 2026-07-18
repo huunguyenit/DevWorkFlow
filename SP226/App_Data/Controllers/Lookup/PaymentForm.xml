@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmmauunc" code="ma_mau" name="ten_mau%l" order="ma_mau" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh sách mẫu ủy nhiệm chi" e="Payment Form List"></header>
+  <fields>
+    <field name="ma_mau" allowSorting="true" allowFilter="true">
+      <header v="Mã mẫu" e="Code"></header>
+    </field>
+    <field name="ten_mau%l" allowSorting="true" allowFilter="true">
+      <header v="Tên mẫu" e="Description"></header>
+    </field>
+  </fields>
+</lookup>
+

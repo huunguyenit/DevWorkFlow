@@ -1,0 +1,497 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY XMLWhenVoucherInit SYSTEM "..\Include\XML\WhenVoucherInit.xml">
+  <!ENTITY XMLWhenVoucherNavigating SYSTEM "..\Include\XML\WhenVoucherNavigating.xml">
+  <!ENTITY XMLWhenVoucherCopying SYSTEM "..\Include\XML\WhenStockCopying.xml">
+  <!ENTITY XMLWhenVoucherClosing SYSTEM "..\Include\XML\WhenVoucherClosing.xml">
+  <!ENTITY XMLGetVoucherNumber SYSTEM "..\Include\XML\GetVoucherNumber.xml">
+  <!ENTITY CommandWhenVoucherBeforeEdit SYSTEM "..\Include\Command\WhenVoucherBeforeEdit.txt">
+  <!ENTITY CommandWhenVoucherBeforeDelete SYSTEM "..\Include\Command\WhenVoucherBeforeDelete.txt">
+  <!ENTITY CommandRecordHasBeenChanged SYSTEM "..\Include\Command\RecordHasBeenChanged.txt">
+  <!ENTITY CommandCheckVoucherHandleBeforeSave SYSTEM "..\Include\Command\CheckVoucherHandleBeforeSave.txt">
+  <!ENTITY CommandCheckVoucherHandleBeforeEdit SYSTEM "..\Include\Command\CheckVoucherHandleBeforeEdit.txt">
+  <!ENTITY CommandCheckVoucherHandleBeforeDelete SYSTEM "..\Include\Command\CheckVoucherHandleBeforeDelete.txt">
+  <!ENTITY CommandCheckLockedDate SYSTEM "..\Include\Command\CheckLockedDate.txt">
+  <!ENTITY CommandGetIdentityNumber SYSTEM "..\Include\Command\GetIdentityNumber.txt">
+  <!ENTITY CommandGetVoucherNumber SYSTEM "..\Include\Command\GetVoucherNumber.txt">
+  <!ENTITY CommandSetVoucherNumber SYSTEM "..\Include\Command\SetVoucherNumber.txt">
+  <!ENTITY CommandShowWarningMessage SYSTEM "..\Include\Command\ShowWarningMessage.txt">
+  <!ENTITY CommandScatterVoucherNumber SYSTEM "..\Include\Command\ScatterVoucherNumber.txt">
+  <!ENTITY ScriptVoucherNumber SYSTEM "..\Include\Javascript\VoucherNumber.txt">
+  <!ENTITY VoucherNumberLoading SYSTEM "..\Include\Javascript\WhenVoucherNumberLoading.txt">
+  <!ENTITY VoucherNumberScattering SYSTEM "..\Include\Javascript\WhenVoucherNumberScattering.txt">
+  <!ENTITY VoucherNumberReading SYSTEM "..\Include\Javascript\WhenVoucherNumberReading.txt">
+
+  <!ENTITY APVController "hrRMApproval">
+  <!ENTITY APVApprovalType "02801">
+  <!ENTITY APVDetailTable "d10">
+  <!ENTITY APVHisTable "hrarmyc">
+  <!ENTITY APVCheckCategory "rtrim(@ma_bp) + char(253) + rtrim(@t_so_luong)">
+  <!ENTITY APVVisibleStatusNum "3">
+  <!ENTITY APVHiddenStatusNum "2">
+  <!ENTITY APVStatusNoAction "0">
+  <!ENTITY APVStatusOpen "1">
+  <!ENTITY APVStatusApprove "2">
+  <!ENTITY APVStatusClose "3">
+  <!ENTITY APVStatusPending "9">
+  <!ENTITY APVCategoryIndex "9">
+  <!ENTITY APVXMLFields SYSTEM "..\Include\XML\APVXMLFields.txt">
+  <!ENTITY APVXMLViews SYSTEM "..\Include\XML\APVXMLViews.txt">
+  <!ENTITY APVXMLCategoryIndex SYSTEM "..\Include\XML\APVXMLCategoryIndex.txt">
+  <!ENTITY APVInitExternalFieldsDeclare SYSTEM "..\Include\Command\APVInitExternalFieldsDeclare.txt">
+  <!ENTITY APVInitExternalFieldsSelect SYSTEM "..\Include\Command\APVInitExternalFieldsSelect.txt">
+  <!ENTITY APVCheckApprove SYSTEM "..\Include\Command\APVCheckApprove.txt">
+  <!ENTITY APVApprove SYSTEM "..\Include\Command\APVApprove.txt">
+  <!ENTITY APVMailApproveInsert SYSTEM "..\Include\Command\APVMailApproveInsert.txt">
+  <!ENTITY APVMailApproveUpdate SYSTEM "..\Include\Command\APVMailApproveUpdate.txt">
+  <!ENTITY APVDelete SYSTEM "..\Include\Command\APVDelete.txt">
+  <!ENTITY APVWhenVoucherCopying SYSTEM "..\Include\Javascript\APVWhenVoucherCopying.txt">
+  <!ENTITY APVSetVoucherDefaultValue SYSTEM "..\Include\Javascript\APVSetVoucherDefaultValue.txt">
+  <!ENTITY APVSetReadOnlyFields SYSTEM "..\Include\Javascript\APVSetReadOnlyFields.txt">
+  <!ENTITY APVHandleStatus SYSTEM "..\Include\Javascript\APVHandleStatus.txt">
+  <!ENTITY APVAddStatus SYSTEM "..\Include\Javascript\APVAddStatus.txt">
+  <!ENTITY APVFunctionScript SYSTEM "..\Include\Javascript\APVFunctionScript.txt">
+
+  <!ENTITY ScriptQueryData SYSTEM "..\Include\Javascript\QueryData.txt">
+  <!ENTITY ScriptVoucherInit SYSTEM "..\Include\Javascript\VoucherInit.txt">
+
+  <!ENTITY ExternalCheckVoucherNumber SYSTEM "..\Include\Command\ExternalCheckVoucherNumber.txt">
+  <!ENTITY CommandCheckVoucherNumber "declare @ma_nk varchar(33)
+select @ma_nk = ''
+&ExternalCheckVoucherNumber;
+">
+
+  <!ENTITY % VoucherEndUpdated SYSTEM "..\Include\VoucherEndUpdated.ent">
+  %VoucherEndUpdated;
+
+  <!ENTITY FastBusiness.Encryption.Begin "">
+  <!ENTITY AfterUpdate "exec FastBusiness$App$Voucher$UpdateInquiryTable @@id, 'hrirmyc', 'hrrmyc', 'hrrmycct', 'stt_rec', @stt_rec, @@operation">
+  <!ENTITY FastBusiness.Encryption.End "">
+
+  <!ENTITY % PostNotifyApproval SYSTEM "..\Include\PostNotifyApprovalVoucher.ent">
+  %PostNotifyApproval;
+  <!ENTITY PostNotifyGroup "11">
+  <!ENTITY PostNotifyCreate "exec hs_CreateNotifyRMReq @stt_rec, 'hrrmyc', 'hrrmycct', '#notifyContent'">
+
+  <!ENTITY % VoucherDeleteLog SYSTEM "..\Include\VoucherDeleteLog.ent">
+  %VoucherDeleteLog;
+
+  <!ENTITY % Extender SYSTEM "..\Include\Extender.ent">
+  %Extender;
+  %Extender.Include.hrRMRequest;
+  %Extender.Ignore;
+
+  <!ENTITY % VoucherEditLog SYSTEM "..\Include\VoucherEditLog.ent">
+  %VoucherEditLog;
+]>
+
+<dir table="hrrmyc" code="stt_rec" order="ngay_ct, so_ct" id="H10" type="Voucher" uniKey="true" replication="1" navigation="true" name="cookie" check="true" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="yêu cầu tuyển dụng" e="Recruitment Request Form"></title>
+  <partition table="hrrmyc" prime="hrrmyc" inquiry="hrirmyc" field="ngay_ct" expression="''" increase="{0}" default=""/>
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_bp" allowNulls="false">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="AutoComplete" controller="hreDepartment" reference="ten_bp%l" key="status = '1'" check="1 = 1" information="ma_bp$hrbp.ten_bp%l"/>
+    </field>
+    <field name="ten_bp%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ong_ba">
+      <header v="Người yêu cầu" e="Requested by"></header>
+    </field>
+    <field name="dien_giai">
+      <header v="Nội dung" e="Content"></header>
+    </field>
+
+    <field name="so_ct" dataFormatString="@upperCaseFormat" align="right" allowNulls="false">
+      <header v="Số phiếu" e="Request No."></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="@datetimeFormat" align="left" allowNulls="false">
+      <header v="Ngày lập" e="Date"></header>
+    </field>
+
+    <field name="status" inactivate="true" clientDefault="0">
+      <header v="Trạng thái" e="Status"></header>
+      <items style="DropDownList">
+        <item value="0">
+          <text v="0. Lập chứng từ" e="0. No Action"/>
+        </item>
+        <item value="1">
+          <text v="1. Chờ duyệt" e="1. Open"/>
+        </item>
+        <item value="2">
+          <text v="2. Duyệt" e="2. Approve"/>
+        </item>
+        <item value="3">
+          <text v="3. Đóng" e="3. Close"/>
+        </item>
+        <item value="9">
+          <text v="9. Đang duyệt" e="9. Pending"/>
+        </item>
+        &VoucherLogStatusField;
+      </items>
+    </field>
+
+    <field name="d10" allowNulls="false" external="true" clientDefault="0" defaultValue="0" rows="266" filterSource="Tidy" categoryIndex="1">
+      <header v="" e=""></header>
+      <label v="Chi tiết" e="Detail"></label>
+      <items style="Grid" controller="hrRMRequestDetail" row="1">
+        <item value="ForeignKey">
+          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+        </item>
+      </items>
+    </field>
+
+    &APVXMLFields;
+
+    <field name="t_so_luong" type="Decimal" dataFormatString="### ##0" clientDefault="0" categoryIndex="-1">
+      <header v="Tổng cộng" e="Total"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="ma_dvcs" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="cookie" external="true" hidden="true" readOnly="true" defaultValue="''" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nk" external="true" hidden="true" readOnly="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+
+    &ListField;
+    &PostField;
+  </fields>
+
+  <views>
+    <view id="Dir" height="326" anchor="3" split="6">
+      <item value="100, 100, 100, 137, 100, 8, 58, 42, 8, 100, 0, 0"/>
+      <item value="1110011001-1: [ma_bp].Label, [ma_bp], [ten_bp%l], [stt_rec], [so_ct].Label, [so_ct], [ma_nk]"/>
+      <item value="11----1001--: [ong_ba].Label, [ong_ba], [ngay_ct].Label, [ngay_ct]"/>
+      <item value="110000110011: [dien_giai].Label, [dien_giai], [status].Label, [status], [ma_dvcs], [cookie]"/>
+
+      <item value="1: [d10]"/>
+
+      &APVXMLViews;
+      &ListView;
+      &PostView;
+
+      <item value="------1-10 : [t_so_luong].Label, [t_so_luong]"/>
+
+      <categories>
+        <category index="1" columns="769" anchor="1">
+          <header v="Chi tiết" e="Detail"/>
+        </category>
+        &APVXMLCategoryIndex;
+        &ListCategory;
+        &PostCategory;
+      </categories>
+    </view>
+
+  </views>
+
+  <commands>
+    &XMLWhenVoucherInit;
+    &ListShowing;
+
+    <command event="Loading">
+      <text>
+        &CommandGetVoucherNumber;
+        <![CDATA[
+declare @message nvarchar(4000)]]>
+        <![CDATA[select @message = 'this._voucherCode='@@id';this._voucherNumber=''' + @voucherNumber + '''' + ';this._isVoucherBook=0;active$Voucher$(this);']]>
+        &CommandCheckVoucherHandleBeforeEdit;
+        &CommandWhenVoucherBeforeEdit;
+        <![CDATA[
+select @message as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        &CommandGetVoucherNumber;
+        <![CDATA[
+declare @message nvarchar(4000)
+]]>&CommandScatterVoucherNumber;<![CDATA[ + ';scatter$Voucher$(this);']]>
+        &CommandCheckVoucherHandleBeforeEdit;
+        &CommandWhenVoucherBeforeEdit;
+        <![CDATA[
+select @message as message
+return
+]]>
+      </text>
+    </command>
+
+    &XMLWhenVoucherNavigating;
+
+    <command event="InitExternalFields">
+      <text>
+        <![CDATA[
+declare @cookie varchar(32), @departmentCode varchar(32), @departmentName nvarchar(512)
+select @departmentCode = ma_bp from @@prime$partition$current where stt_rec = @stt_rec
+select @departmentName = ten_bp%l from hrbp where ma_bp = @departmentCode
+
+select @cookie = convert(varchar(19), datetime2, 121) from @@prime$partition$current where stt_rec = @stt_rec
+]]>&APVInitExternalFieldsDeclare;<![CDATA[
+select '' as so_ct0$, '' as so_ct1$, '' as so_ct2$, @cookie as cookie, isnull(@departmentName, '') as ten_bp%l, ]]>&APVInitExternalFieldsSelect;<![CDATA[
+return
+]]>
+      </text>
+    </command>
+
+    &XMLWhenVoucherCopying;
+    &XMLWhenVoucherClosing;
+
+    <command event="Inserting">
+      <text>
+        &APVCheckApprove;
+        &CommandCheckLockedDate;
+        &CommandCheckVoucherHandleBeforeSave;
+        &CommandCheckVoucherNumber;
+        &CommandGetIdentityNumber;
+        <![CDATA[
+select @ma_dvcs = @@unit, @ma_ct = @@id, @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+update @d10 set stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[insert into hrrmycct select * from @d10]]>
+        &AfterUpdate;
+        <![CDATA[exec FastBusiness$App$IncreaseVoucherNumber '', @@id, @so_ct]]>
+        &ListDeclare;
+        &APVApprove;
+        &APVMailApproveInsert;
+        &ListWarning;
+        &ListCommand;
+        &PostInserted;
+        &ListQuery;<![CDATA[, @stt_rec as stt_rec, @@unit as ma_dvcs
+  else select '' as message, '' as field, @stt_rec as stt_rec, @@unit as ma_dvcs
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        &CommandRecordHasBeenChanged;
+        &CommandCheckLockedDate;
+        &CommandCheckVoucherHandleBeforeSave;
+        &CommandCheckVoucherNumber;
+        &APVCheckApprove;
+        <![CDATA[
+declare @$updateConflict nvarchar(512)
+select @$updateConflict = case when @@language = 'v' then N'Yêu cầu tuyển dụng đã phát sinh, không thể sửa được.' else N'Cannot edit this recruitment request. It has already been used.' end
+if exists(select 1 from hrrmycct where stt_rec = @stt_rec and sl_dot > 0) begin
+  select @$updateConflict as message
+  return
+end
+]]>&VoucherWhenBeforeUpdateLog;<![CDATA[
+#IF $d10.NewValue <> $d10.OldValue #THEN
+  update @d10 set stt_rec = @stt_rec
+  delete hrrmycct where stt_rec = @stt_rec
+#END
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+#IF $d10.NewValue <> $d10.OldValue #THEN
+  insert into hrrmycct select * from @d10
+#END
+update @@prime set datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec
+]]>
+        &AfterUpdate;
+        &ListDeclare;
+        &APVApprove;
+        &APVMailApproveUpdate;
+        &EndUpdatedVoucherNumber;
+        &ListWarning;
+        &ListCommand;
+        &ListQuery;<![CDATA[
+  else select '' as message, '' as field, @invoke as invoke, @script as script
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        &CommandCheckVoucherHandleBeforeDelete;
+        &CommandWhenVoucherBeforeDelete;
+        <![CDATA[
+declare @$deleteConflict nvarchar(512)
+select @$deleteConflict = case when @@language = 'v' then N'Yêu cầu tuyển dụng đã phát sinh, không thể xóa được.' else N'Cannot delete this recruitment request. It has already been used.' end
+if exists(select 1 from hrrmycct where stt_rec = @stt_rec and sl_dot > 0) begin
+  select @$deleteConflict as message
+  return
+end
+
+delete @@inquiry where stt_rec = @stt_rec]]>&VoucherLogKey;<![CDATA[
+delete hrrmycct where stt_rec = @stt_rec]]>&VoucherLogKey;<![CDATA[
+delete @@master where stt_rec = @stt_rec]]>&VoucherLogKey;<![CDATA[
+]]>
+        &APVDelete;
+        &VoucherLogUpdateStatus;
+        &VoucherLogBeginComment;
+      </text>
+    </command>
+
+    <command event="Deleted">
+      <text>
+        &VoucherLogEndComment;
+        <![CDATA[
+declare @invoke nvarchar(4000)
+select @invoke = ''
+]]>&ListDeleted;<![CDATA[
+]]>&PostDeleted;<![CDATA[
+select @invoke as invoke
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[/* <flatten type="Javascript"> */
+var f = this, id = f.get_id(), g = f.getItem("d10")._controlBehavior, l = g._getColumnOrder('so_luong'), v = f._language == 'v';
+var e = (v ? 'Trường <span class="Highlight">Số lượng</span> phải lớn hơn 0.' : 'Field <span class="Highlight">Quanlity</span> must be larger than 0.');
+for (var r = 1; r <= g._rowCount; r++) {
+  if (g._getItemValue(r, l) <= 0) {
+    g._errorZeroQuantity = g._getItem(r, l);
+    $func.hideWait(id);
+    $message.show(e, String.format('$find(\'{0}\').focus(\'d10\');$find(\'{1}\')._errorZeroQuantity.focus()', id, g.get_id()));
+    f._checked = false;
+    break;
+  }
+}
+/* </flatten> */]]>
+        &ListChecking;
+        &PostChecking;
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &ScriptQueryData;
+      &ScriptVoucherInit;
+      <![CDATA[/* <flatten type="Javascript"> */
+function init$Voucher$(f) {initialize(f, 'ong_ba', null, null, null);}
+/* </flatten> */
+function active$Voucher$(f) {
+  objectBehavior$Voucher$Number.create(f, 'so_ct', 'ma_nk');
+  f.add_onResponseComplete(on$Voucher$ResponseComplete);
+  f.add_commandEvent(on$Voucher$ExecuteCommand);
+  f._tabContainer.add_activeTabChanged(onChange$Voucher$Tab);
+  f._tabContainer._loaded = true;
+  set$Voucher$DefaultValue(f);
+  ]]> &APVSetReadOnlyFields;
+      &APVHandleStatus;
+      &VoucherLogHandleStatus;
+      &ListCreate;
+      &PostCreate;
+      <![CDATA[
+}
+function scatter$Voucher$(f) {
+  f._voucherNumberBehavior.setFormLayout();
+  set$Voucher$DefaultValue(f);
+  ]]>&APVSetReadOnlyFields;<![CDATA[
+  ]]>&VoucherLogHandleStatus;<![CDATA[
+}
+function close$Voucher$(f) {
+  try {f.remove_commandEvent(on$Voucher$ExecuteCommand);} catch (ex) {}
+  try {f.remove_onResponseComplete(on$Voucher$ResponseComplete);} catch (ex) {}
+  if (f._tabContainer) try {f._tabContainer.remove_activeTabChanged(onChange$Voucher$Tab);} catch (ex) {}
+  objectBehavior$Voucher$Number.dispose(f);
+  ]]>&ListDispose;<![CDATA[
+  ]]>&PostDispose;<![CDATA[
+}
+function on$Voucher$ExecuteCommand(sender, e) {
+  var action = e.type.Action, f = sender, g = f.getItem('d10')._controlBehavior;
+  switch (action) {
+    case 'Shown':
+      ]]>&ListShown;<![CDATA[
+      ]]>&PostShown;<![CDATA[
+      break;
+    case 'Gather':
+      g.setSequenceNumber('line_nbr');
+      g.setContinuance('stt_rec0');
+      break;
+    case 'Explore':
+      ]]>&APVAddStatus;<![CDATA[
+      ]]>&VoucherLogHandleStatusExplore;<![CDATA[
+      break;
+    default:
+      break;
+  }
+}
+
+function onChange$Voucher$Tab(sender, e) {
+  sender.parentForm.focusWhenTabChanged(['d10', 'nguoi_duyet']]>&ListTabChange;&PostTabChange;<![CDATA[]);
+  ]]>&PostTabFocus;<![CDATA[
+}
+
+]]>&ScriptVoucherNumber;<![CDATA[
+function on$Voucher$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Loading':]]>
+      &VoucherNumberLoading;
+      &APVSetVoucherDefaultValue;<![CDATA[
+      break;
+    case 'Scattering':]]>
+      &VoucherNumberScattering;
+      &APVSetVoucherDefaultValue;
+      &ListScattering;
+      &PostScattering;<![CDATA[
+      break;
+]]>
+      &VoucherNumberReading;
+      <![CDATA[
+      break;
+    case 'Navigating':
+      ]]>&ListRefresh;<![CDATA[
+      ]]>&PostRefresh;<![CDATA[
+      break;
+    ]]>&ListResponseTicket;<![CDATA[
+    default:
+      break;
+  }
+}
+/* <flatten type="Javascript"> */
+function set$Voucher$DefaultValue(f) {
+  var o = f.getItem('status');
+  if (f._action == 'New') f.setItemValue('ngay_ct', new Date());
+}
+/* </flatten> */
+function when$VoucherCopying(f) {
+]]>&APVWhenVoucherCopying;<![CDATA[
+}
+]]>
+      &APVFunctionScript;
+      &ListScript;
+      &PostScript;
+    </text>
+  </script>
+
+  <response>
+    <action id="Reading">
+      <text>
+        &CommandSetVoucherNumber;
+      </text>
+    </action>
+
+    &XMLGetVoucherNumber;
+    &ListTicket;
+  </response>
+</dir>

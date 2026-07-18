@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmcpnh" code="ma_cp" name="ten_cp%l" order="ma_cp" xmlns="urn:schemas-fast-com:data-lookup">
+
+  <header v="Danh mục phí ngân hàng" e="Bank Charges List"></header>
+
+  <fields>
+    <field name="ma_cp" allowSorting="true" allowFilter="true">
+      <header v="Mã phí" e="Code"></header>
+    </field>
+    <field name="ten_cp%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên phí" e = "Description"></header>
+    </field>
+  </fields>
+
+</lookup>

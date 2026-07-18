@@ -1,0 +1,378 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+  <!ENTITY ScriptTagReport SYSTEM "..\Include\Javascript\TagReport.txt">
+  <!ENTITY Tag "cast(0 as bit) as tag">
+
+  <!ENTITY CreateTicket "declare @ticket varchar(32)
+select @ticket = lower(replace(newid(),'-',''))
+insert into @@sysDatabaseName..ticket values(@ticket, @@userID, '&TransferID;', '','', '@@appDatabaseName', getdate());">
+
+  <!ENTITY Key "declare @rk varchar(16)
+select @rk = lower(left(replace(newid(),'-',''), 16))
+update @@sysDatabaseName..userinfo2 set rkey = @rk where id = @@userID">
+
+  <!ENTITY % TransferData SYSTEM "..\Include\TransferData.ent">
+  %TransferData;
+  <!ENTITY TransferID "DataCopy">
+  <!ENTITY CommandCheckLockedDate "
+declare @$d smalldatetime
+select a.ngay_ct0, b.ngay_ks into #scsl from dmscsl a left join dmdvcsks b on a.ma_dvcs = '' or dbo.ff_ExactInlist(b.ma_dvcs, a.ma_dvcs) = 1 where exists(select 1 from @s where patindex('&#37;,'+ rtrim(a.id) + ',&#37;', text) > 0) and a.loai = 1
+select @$d = min(ngay_ct0) from #scsl
+if exists(select 1 from dmstt where ngay_ks >= @$d) begin
+  select 2 as value
+  return
+end
+if exists(select 1 from #scsl where ngay_ks >= ngay_ct0) begin
+  select 2 as value
+  return
+end">
+]>
+
+<grid table="vdmscsl" code="stt_rec" order="id" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Sao chép số liệu" e="Data Copy"></title>
+  <subTitle v="%s" e="%s"></subTitle>
+
+  <fields>
+    <field name="id" isPrimaryKey="true" width="0" hidden="true" readOnly="true">
+      <header v="" e=""/>
+    </field>
+    <field name="&Tag;" type="Boolean" width="60" filterSource="tag">
+      <header v="&lt;div onclick=&quot;toggle$Grid(this);&quot; style=&quot;cursor:pointer;background-position:3px 3px;&quot; class=&quot;HeaderArrowImage&quot;&gt;Chọn&lt;/div&gt;" e="&lt;div onclick=&quot;toggle$Grid(this);&quot; style=&quot;cursor:pointer;background-position:3px 3px;&quot; class=&quot;HeaderArrowImage&quot;&gt;Select&lt;/div&gt;"></header>
+      <clientScript><![CDATA[onclick="onChange$SelectedValue(this);"]]></clientScript>
+    </field>
+    <field name="ngay_ct0" type="DateTime" readOnly="true" dataFormatString="@datetimeFormat" width="100" allowSorting="true" allowFilter="true">
+      <header v="Từ ngày" e="From Date"></header>
+    </field>
+    <field name="ngay_ct2" type="DateTime" readOnly="true" dataFormatString="@datetimeFormat" width="100" allowSorting="true" allowFilter="true">
+      <header v="Đến ngày" e="To Date"></header>
+    </field>
+    <field name="loai" width="80" readOnly="true" allowSorting="true" allowFilter="true">
+      <header v="Loại" e="Type"/>
+    </field>
+    <field name="ma_ct" width="150" readOnly="true" allowSorting="true" allowFilter="true">
+      <header v="Danh sách chứng từ" e="Voucher List"></header>
+    </field>
+    <field name="ma_dvcs" width="150" readOnly="true" allowSorting="true" allowFilter="true">
+      <header v="Danh sách đơn vị" e="Unit List"/>
+    </field>
+    <field name="status" width="0" readOnly="true" hidden="true" allowSorting="true" allowFilter="true">
+      <header v="" e=""/>
+    </field>
+    <field name="status_name%l" width="100" readOnly="true" allowSorting="true" allowFilter="true" hyperlinkFormatString="~/AppHandler/View.ashx Query: {Page: 'query_scsl', Controller: 'DataCopy', Name: '[id]', Value: '[id] + this._queryFilterString'}, Script: 'beforeDrillDown$DataCopy(this);'">
+      <header v="Trạng thái" e="Status"/>
+    </field>
+    <field name="ngay_th" type="DateTime" dataFormatString="dd/MM/yyyy HH:mm:ss" width="130" readOnly="true" allowSorting="true">
+      <header v="Ngày thực hiện" e="Performed Date"></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="id"/>
+      <field name="&Tag;"/>
+      <field name="ngay_ct0"/>
+      <field name="ngay_ct2"/>
+      <field name="loai"/>
+      <field name="ma_ct"/>
+      <field name="ma_dvcs"/>
+      <field name="status"/>
+      <field name="status_name%l"/>
+      <field name="ngay_th"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+select 'hiddenToolbars(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        &CreateTicket;
+        &Key;<![CDATA[
+select 'this._authorize = ' + rtrim(@@sysDatabaseName.dbo.FastBusiness$System$GetAuthorize(@@admin, @@userID, ']]>&TransferID;<![CDATA[', 'New')) + ';this._key = ''' + @ticket + ''';load$GridReport$(this);load$CheckingReport$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridReport$(this);dispose$CheckingReport$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Scattering">
+      <text>
+        <![CDATA[select 'scatter$GridReport$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function load$CheckingReport$(g) {
+  g._$k = [];
+  g._$i = g._getColumnOrder('id');
+  g._$t = g._getColumnOrder(']]>&Tag;'<![CDATA[);
+  g._$f = 'keys';
+  g.add_commandEvent(on$GridReport$ExecuteCommand);
+  g.add_onResponseComplete(on$GridReport$ResponseComplete);
+}
+function dispose$CheckingReport$(g) {
+  g._$k = g._$i = g._$t = null;
+  try {g.remove_commandEvent(on$GridReport$ExecuteCommand);} catch (ex) {}
+  try {g.remove_onResponseComplete(on$GridReport$ResponseComplete);} catch (ex) {}
+}
+function scatter$GridReport$(g) {
+  fill$Grid(g, true);
+}
+function on$GridReport$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'BeforeRemoveRow':
+      var k = Array.indexOf(g._$k, g._getItemValue(g._activeRow, g._getColumnOrder('id')));
+      if (k != -1) Array.removeAt(g._$k, k);
+      break;
+    case 'Upload':
+      if (]]>&TransferType;<![CDATA[== 2) {
+        show$Form(g, ']]>&TransferID;<![CDATA[Import');
+      }
+      break;
+    case 'Download':
+      if (]]>&TransferType;<![CDATA[== 1 && g._activeRow > 0) {
+        var t0 = g._getItemValue(g._activeRow, g._getColumnOrder('status'));
+        if (t0 != '3') {
+          var e = g._language == 'v' ? 'Số liệu vẫn chưa được cập nhật.' : 'Data has not been uploaded yet.';
+          $message.show(e, String.format('$find(\'{0}\')._activeCell.focus();', g.get_id()));
+          break;
+        }
+        g.showForm('DataCopyDownload');
+      }
+      break;
+    case 'Calculate':
+    case 'Register':
+    case 'Cancel':
+      var s = ',' + g._$k.join(',') + ',';
+      if (isCheck$Grid(g)) g.request(g, action, action, [['s', 'Infinite', s]]);
+      break;
+    case 'ViewCode':
+      if (g._activeRow > 0) {
+        g._viewID = g._getItemValue(g._activeRow, g._getColumnOrder('id'));
+        g.showForm('DataCopyViewCode');
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+function on$GridReport$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result, o = e.type.Object, v = (g._language == 'v');
+  var m0 = v ? 'Chương trình đã thực hiện xong.' : 'The process was completed successfully.';
+  var m1 = v ? 'Dữ liệu không hợp lệ.' : 'Invalid Data.';
+  var m2 = v ? 'Đã khóa số liệu, kiểm tra lại ngày giới hạn hoặc ngày khóa sổ.' : 'Data is locked, you must modify system locked date.';
+  if (context == 'Cancel') s = '';
+  switch (context) {
+    case 'Download':
+      var r = $get('requestFormData');
+      if (!r) r = $func.requestFormData();
+      var query = '?a=1&t=' + ']]>&TransferID;<![CDATA[Export' + '&k=' + g._key;
+      r.action = $func.resolveClientUrl('~/AppHandler/Transfer.ashx' + query, g._baseUrl);
+      if (!$func.isIE) r.target = '_blank';
+      r.submit();
+      g._key = result[0].Value;
+      if (g._activeCell) g._activeCell.focus();
+      break;
+    case 'Calculate':
+    case 'Register':
+    case 'Cancel':
+      switch (result[0].Value) {
+        case 0:
+          $message.show(m1);
+          break;
+        case 2:
+          $message.show(m2);
+          break;
+        default:
+          g._$k = [];
+          g.goToPage(-1);
+          $message.show(m0);
+          break;
+        }
+      break;
+    default:
+      break;
+  }
+}
+
+function hiddenToolbars(g) {
+  switch (]]>&TransferType;<![CDATA[) {
+    case 1:
+      hiddenToolbarButton(g, ['Upload']);
+      break;
+    case 2:
+      hiddenToolbarButton(g, ['Download', 'New', 'ViewCode']);
+      break;
+    case 3:
+      hiddenToolbarButton(g, ['Upload', 'Download', 'ViewCode']);
+      break;
+    default:
+      break;
+  }
+  if (']]>&TransferProcess;<![CDATA[' == '1') hiddenToolbarButton(g, ['Cancel', 'Register']);
+  if (']]>&TransferProcess;<![CDATA[' == '2') hiddenToolbarButton(g, ['Calculate']);
+}
+function hiddenToolbarButton(g, a) {
+  for (var i = 0; i < a.length; i += 1) {
+    for (var j = g._toolbar.length - 1; j >= 0; j--) {
+      if (g._toolbar[j][0] == a[i]) Array.removeAt(g._toolbar, j);
+    }
+  }
+}
+
+function request$Download(g, a) {g.request(g, 'Download', a, [['id', 'String', g._getItemValue(g._activeRow, g._getColumnOrder('id'))], ['keyTicket', 'String', g._key]]);}
+function show$Form(g, c) {(g._authorize == 1) ? g.showForm(c) : $message.show($df.getResources(g._language, "Message.NotAccess"));}
+
+function beforeDrillDown$DataCopy(g) {
+  if ((g._getItemValue(g._activeRow, g._getColumnOrder('status')) != '2' && g._getItemValue(g._activeRow, g._getColumnOrder('status')) != '3') || !($func.trim(g._getItemValue(g._activeRow, g._activeColumn)))) g._args.cancelEvent = true;
+}
+]]>
+      &JavascriptReportInit;
+      &ScriptTagReport;
+    </text>
+  </script>
+
+  <response>
+    <action id="Calculate">
+      <text>
+        <![CDATA[
+declare @invoke nvarchar(4000), @id nvarchar(4000)
+if exists(select 1 from dmscsl a join @s b on patindex('%,'+ rtrim(a.id) + ',%', b.text) > 0 where (a.status <> '0' and status <> '1') or kieu_chuyen <> ']]>&TransferType;<![CDATA[' or user_id0 <> @@userID) begin
+  select 0 as value
+  return
+end
+]]>&CommandCheckLockedDate;<![CDATA[
+select id into #s from dmscsl where exists(select 1 from @s where patindex('%,'+ rtrim(id) + ',%', text) > 0) and (status = '0' or status = '1') and kieu_chuyen = ']]>&TransferType;<![CDATA[' and user_id0 = @@userID
+select @id = ''
+select @id = @id + case when @id = '' then '' else char(255) end + rtrim(id) from #s
+select @invoke = 'TransferData.TransferData.TransferDatabase(]]>&TransferType;<![CDATA[,' + @id + ')'
+select '' as message, @invoke as invoke
+return
+]]>
+      </text>
+    </action>
+
+    <action id="Register">
+      <text>
+        <![CDATA[
+if exists(select 1 from dmscsl a join @s b on patindex('%,'+ rtrim(a.id) + ',%', b.text) > 0 where a.status <> '0' or user_id0 <> @@userID) begin
+  select 0 as value
+  return
+end
+]]>&CommandCheckLockedDate;<![CDATA[
+update dmscsl set status = '1' where exists(select 1 from @s where patindex('%,'+ rtrim(id) + ',%', text) > 0) and status = 0 and user_id0 = @@userID
+select 1 as value
+return
+]]>
+      </text>
+    </action>
+
+    <action id="Cancel">
+      <text>
+        <![CDATA[
+update dmscsl set status = '0' where exists(select 1 from @s where patindex('%,'+ rtrim(id) + ',%', text) > 0) and status = 1 and user_id0 = @@userID
+select 1 as value
+return
+]]>
+      </text>
+    </action>
+
+    <action id="Download">
+      <text>
+        <![CDATA[
+declare @ticket varchar(32), @filename varchar(128), @description nvarchar(128)
+select @ticket = lower(replace(newid(),'-',''))
+select @filename = rtrim(file_key) + '.zip', @description = replace(replace(replace(convert(varchar(19), getdate(), 126), '-', ''), 'T', ''), ':', '') from dmscsl where id = @id
+update @@sysDatabaseName..ticket set filename = @filename, description = @description where ticket = @keyTicket
+insert into @@sysDatabaseName..ticket values(@ticket, @@userID, ']]>&TransferID;<![CDATA[', '','', '@@appDatabaseName', getdate())
+select @ticket as value
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+  <toolbar>
+    <button command="New">
+      <title v="Toolbar.New" e="Toolbar.New"></title>
+    </button>
+    <button command="Edit">
+      <title v="Toolbar.Edit" e="Toolbar.Edit"></title>
+    </button>
+    <button command="Delete">
+      <title v="Toolbar.Delete" e="Toolbar.Delete"></title>
+    </button>
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"></title>
+    </button>
+    <button command="View">
+      <title v="Toolbar.View" e="Toolbar.View"></title>
+    </button>
+
+    <button command="-">
+      <title v="-" e="-"/>
+    </button>
+
+    <button command="ViewCode">
+      <title v="Xem mã số" e="View Code"></title>
+    </button>
+    <button command="Calculate">
+      <title v="Sao chép số liệu...$$90" e="Copy$"></title>
+    </button>
+    <button command="Register">
+      <title v="Đặt lịch" e="Schedule"></title>
+    </button>
+    <button command="Cancel">
+      <title v="Hủy" e="Cancel"></title>
+    </button>
+
+    <button command="Upload">
+      <title v="Tải dữ liệu từ tệp..." e="Upload"></title>
+    </button>
+    <button command="Download">
+      <title v="Tải dữ liệu xuống..." e="Download"/>
+    </button>
+
+    <button command="SeparateFreeze">
+      <title v="-" e="-"/>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+
+  <css>
+    <text>
+      <![CDATA[
+div.ViewCode{background-image:url(../Images/Password.png);background-repeat:no-repeat;background-position:0 0;}
+div.Calculate{background-image:url(../images/Calculate.png);background-repeat:no-repeat;background-position:0 0;}
+div.TextCalculate{background-image:url(../images/TextCalculate.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.Register{background-image:url(../images/command.png);background-repeat:no-repeat;background-position:0 0;}
+div.Cancel{background-image:url(../images/Operation.png);background-repeat:no-repeat;background-position:-22px 0;}
+div.Upload{background-image:url(../images/Upload.png);background-repeat:no-repeat;background-position:0 0;}
+div.Download{background-image:url(../Images/Download.png);background-repeat:no-repeat;background-position:0 0;}
+div.ViewCodeOverGreen, div.CalculateOverGreen, div.TextCalculateOverGreen, div.RegisterOverGreen, div.CancelOverGreen, div.UploadOverGreen, div.DownloadOverGreen{background-position-y:-22px;}
+]]>
+    </text>
+  </css>
+</grid>

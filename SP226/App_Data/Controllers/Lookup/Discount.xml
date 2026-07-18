@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmck" code="ma_ck" name="ten_ck%l" order="ma_ck" xmlns="urn:schemas-fast-com:data-lookup">
+
+  <header v="Danh mục chiết khấu" e="Discount List"></header>
+
+  <fields>
+    <field name="ma_ck" allowSorting="true" allowFilter="true">
+      <header v="Mã chiết khấu" e="Code"></header>
+    </field>
+
+    <field name="ten_ck%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên chiết khấu" e = "Description"></header>
+    </field>
+
+
+  </fields>
+
+</lookup>

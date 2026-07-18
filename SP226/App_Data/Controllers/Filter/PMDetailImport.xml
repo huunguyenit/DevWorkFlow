@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY Identity "PMDetailImportForm">
+  <!ENTITY UploadButtonCss SYSTEM "..\Include\XML\ImageUploadForm.txt">
+
+  <!ENTITY UploadCreateTicket SYSTEM "..\Include\XML\UploadCreateTicket.txt">
+  <!ENTITY UploadField SYSTEM "..\Include\XML\UploadField.txt">
+  <!ENTITY UploadCommand SYSTEM "..\Include\Command\UploadCommand.txt">
+  <!ENTITY UploadScript SYSTEM "..\Include\Javascript\UploadScript.txt">
+
+  <!ENTITY ImportUserDefinedFields "ma_vv, ma_bp, so_lsx, ma_sp, ma_hd, ma_phi, ma_ku">
+  <!ENTITY % UserDefinedImport SYSTEM "..\Include\Javascript\UserDefinedImport.ent">
+  %UserDefinedImport;
+
+  <!ENTITY % BaseCurrency SYSTEM "..\Include\BaseCurrency.ent">
+  %BaseCurrency;
+]>
+
+<dir table="d72$000000" code="stt_rec" order="ngay_ct, so_ct" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="Lấy dữ liệu từ tệp" e="Import Data From File"></title>
+
+  <fields>
+    &UploadField;
+    <field name="ticket" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 100, 100, 100, 30, 0"/>
+      <item value="11000101: [upload].Label, [upload], [upload].Description, [ticket]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'this._unit='@@unit';active$]]>&Identity;<![CDATA[(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$]]>&Identity;<![CDATA[(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[
+var f = this, g = f.grid, w = g.get_element().parentForm, k = f.getItem('ticket').value;
+var fileName = get$]]>&Identity;<![CDATA[FileName($get('fileupload').value), allowExt = 'xlsx';
+var err = (this._language == 'v' ? 'Định dạng tệp không đúng.' : 'Invalid file type.');
+if (fileName != '') {
+  var ext = fileName.split('.').pop();
+  if (allowExt.indexOf(ext.toLowerCase()) < 0) {
+    f._checked = false;
+    $message.show(err);
+  }
+  else {
+    init$]]>&Identity;<![CDATA[IFrame(f);
+    var importMemvars = [], unit = (w._action == 'New') ? f._unit : w.getItem('ma_dvcs').value;
+    create$]]>&Identity;<![CDATA[Memvar(importMemvars, 'ma_dvcs', [unit]);
+    var form = $get('uploadForm'), query = {Language: f._language, Controller: g._controller, Key: k, Memvars: importMemvars, Time: new Date().getTime().toString()};
+    $get('query', form).value = Sys.Serialization.JavaScriptSerializer.serialize(query);
+    form.action = $func.resolveClientUrl('~/AppHandler/Import.ashx', g._baseUrl);
+    form.target = g._controller + '_IFrame';
+    form.submit();
+    f.request('GetTicket', 'GetTicket', []);
+    f._checked = false;
+    window.setTimeout(function() {f._busy = true; $func.showWait(f.get_id());}, 50);
+  }
+}
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &UploadScript;
+      <![CDATA[
+function init$]]>&Identity;<![CDATA[(f) {
+  var g = f.grid;
+  document.body._form = f;
+  $get('fileupload').value = '';
+  f.getItem('upload').field.AllowNulls = false;
+  $get(f.get_id() + '_form_upload').style.color = 'grey';
+  f.request('GetTicket', 'GetTicket', []);
+}
+function on$]]>&Identity;<![CDATA[$ResponseComplete(f, e) {
+  var f = e.object, g = f.grid, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'GetTicket':
+      f.setItemValue('ticket', result[0].Value);
+      break;
+    default:
+	  break;
+  }
+}
+function set$Grid$ImportResult(z) {
+  var g = z.grid, f = z.form, w = g.get_element().parentForm, result = z.result, row = g._rowCount, first = true, i1 = 9, i2 = 11, i3 = 15, i4 = 19, i5 = 23;
+  var refIndex = ]]>&PMDetailImportFields.RefIndex;<![CDATA[, editItemAccountIndex = ]]>&PMDetailImportFields.EditItemAccountIndex;<![CDATA[, multiUOMIndex = ]]>&PMDetailImportFields.MultiUOMIndex;<![CDATA[, taxDebitIndex = ]]>&PMDetailImportFields.TaxDebitIndex;<![CDATA[;
+  var c0 = g._getColumnOrder('ma_vt'), c1 = g._getColumnOrder('dvt'), c2 = g._getColumnOrder('ma_kho'), c3 = g._getColumnOrder('ma_vi_tri'), c4 = g._getColumnOrder('ma_lo');
+  var c5 = g._getColumnOrder('ma_thue_nk'), c6 = g._getColumnOrder('tk_thue_nk'), c7 = g._getColumnOrder('ma_thue_ttdb'), c8 = g._getColumnOrder('tk_thue_ttdb'), c9 = g._getColumnOrder('ma_thue'), c10 = g._getColumnOrder('tk_thue'), c11 = g._getColumnOrder('tk_vt');
+
+  ]]>&ImportUserDefinedDeclare;<![CDATA[
+  var beginUDIndex = 11;
+
+  var fields = 'ma_vt, ten_vt%l, dvt, he_so, ma_kho, ma_vi_tri, ma_lo, so_luong, gia_nt0, tien_nt0, gia_nt3, tien_nt3, ma_thue_nk, thue_suat_nk, tk_thue_nk, nk_nt, ma_thue_ttdb, thue_suat_ttdb, tk_thue_ttdb, ttdb_nt, ma_thue, thue_suat, tk_thue, thue_nt,';
+  fields += 'tk_vt, ' + ']]>&ImportUserDefinedFields;<![CDATA[' + ', gia_ton, vi_tri_yn, lo_yn, tao_lo]]>&PMDetailImportFields.Process;<![CDATA[';
+
+  for (var i = 0; i < result.length; i++) {
+    var ins = true, row = g._rowCount, importItems = result[i];
+    if (first && row > 0) if (g.blankMemvar(row)) {ins = false; first = false;}
+    if (ins) g._appendRow(null, true);
+    row = g._rowCount;
+    var o = g._getItem(row, c0);
+    o.row = row;
+    insert$Import$Items(g, fields, row, importItems);
+
+    var ref = importItems[refIndex];
+    var itemID = g._getItemValue(row, c0), itemName = g._getItemValue(row, c0 + 1), b0 = (itemName != '' || itemID == '');
+    var itemGridBehavior = [
+        ['ma_vt', itemID, [itemName, b0], true],
+        ['dvt', g._getItemValue(row, c1), ['', ref.substr(0, 1) == '1'], true],
+        ['ma_kho', g._getItemValue(row, c2), ['', ref.substr(1, 1) == '1'], true],
+        ['ma_vi_tri', g._getItemValue(row, c3), ['', ref.substr(2, 1) == '1'], true],
+        ['ma_lo', g._getItemValue(row, c4), ['', ref.substr(3, 1) == '1'], true],
+
+        ['ma_thue_nk', g._getItemValue(row, c5), ['', ref.substr(4, 1) == '1'], true],
+        ['tk_thue_nk', g._getItemValue(row, c6), ['', ref.substr(5, 1) == '1'], true],
+
+        ['ma_thue_ttdb', g._getItemValue(row, c7), ['', ref.substr(6, 1) == '1'], true],
+        ['tk_thue_ttdb', g._getItemValue(row, c8), ['', ref.substr(7, 1) == '1'], true],
+
+        ['ma_thue', g._getItemValue(row, c9), ['', ref.substr(8, 1) == '1'], true],
+        ['tk_thue', g._getItemValue(row, c10), ['', ref.substr(9, 1) == '1'], true],
+
+        ['tk_vt', g._getItemValue(row, c11), ['', ref.substr(10, 1) == '1'], true]
+    ];
+    ]]>&ImportUserDefinedSetItem;<![CDATA[
+
+    ]]>&PMDetailImportFields.ConditionalBegin;<![CDATA[
+    if (!importItems[i1]) g.executeExpression(o, [g.$a.tien_nt0]);
+    if (!importItems[i2]) g.executeExpression(o, [g.$a.tien_nt3]);
+    if (!importItems[i3]) g.executeExpression(o, [g.$a.nk_nt]);
+    if (!importItems[i4]) g.executeExpression(o, [g.$a.ttdb_nt]);
+    if (!importItems[i5]) g.executeExpression(o, [g.$a.thue_nt]);
+
+    g.executeExpression(o, [g.$a.gia0_tg, g.$a.tien0_tg, g.$a.gia3_tg, g.$a.tien3_tg, g.$a.nk_tg, g.$a.ttdb_tg, g.$a.thue_tg]);
+    ]]>&PMDetailImportFields.ConditionalEnd;<![CDATA[
+
+    $func.setObjectWhen(g._getItem(row, c1), importItems[multiUOMIndex]);
+    $func.setObjectWhen(g._getItem(row, c10), importItems[taxDebitIndex]);
+    $func.setObjectWhen(g._getItem(row, c11), importItems[editItemAccountIndex]);
+  }
+  g.executeAggregate([g.$a.t_so_luong, g.$a.t_tien_nt0, g.$a.t_tien0, g.$a.t_tien_nt3, g.$a.t_tien3, g.$a.t_nk_nt, g.$a.t_nk, g.$a.t_ttdb_nt, g.$a.t_ttdb]);
+  w.executeExpression([g.$a.t_tt_nt, g.$a.t_tt]);
+
+  g._focusWhenTabChanged();
+  f._busy = false;
+  parent.$func.hideWait(f.get_id());
+  f.completion(true);
+  z.parentNode.removeChild(z);
+}
+function insert$Import$Items(g, fields, row, value) {
+  var field = fields.split(',');
+  for (var i = 0; i < field.length; i++) {
+    var column = g._getColumnOrder(parent.$func.trim(field[i]));
+    if (column > 0) g._setItemValue(row, column, value[i]);
+  }
+}
+]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="GetTicket">
+      <text>
+        &UploadCreateTicket;<![CDATA[
+select @ticket as value
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+  &UploadButtonCss;
+</dir>

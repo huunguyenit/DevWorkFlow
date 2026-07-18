@@ -1,0 +1,475 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY Identification "Customer">
+  <!ENTITY XMLSuggestion SYSTEM "..\Include\XML\Suggestion.xml">
+  <!ENTITY ScriptSuggestion SYSTEM "..\Include\Javascript\Suggestion.txt">
+
+  <!ENTITY CheckTaxCodeBeginTag "select @$typeConflict = rtrim(val) from options where name = 'm_kt_mst_trung' and val &lt;&gt; '0'
+if @ma_so_thue &lt;&gt; '' and @$typeConflict is not null and exists(select 1 from @@table where ma_so_thue = @ma_so_thue">
+
+  <!ENTITY CheckTaxCodeEndTag ") begin
+  if @$typeConflict = '2' begin
+    select 'ma_so_thue' as field, replace(@$taxCodeConflict, '&#37;s', replace(replace(replace(rtrim(@ma_so_thue), '&amp;', '&amp;' + 'amp;'), '&lt;', '&amp;' + 'lt;'), '&gt;', '&amp;' + 'gt;')) as message
+    return
+  end else select @$scriptConflict = @$scriptConflict + replace(@$taxCodeConflict, '&#37;s', replace(replace(replace(rtrim(@ma_so_thue), '&amp;', '&amp;' + 'amp;'), '&lt;', '&amp;' + 'lt;'), '&gt;', '&amp;' + 'gt;'))
+end">
+
+  <!ENTITY % EIOptions SYSTEM "..\Include\EIOptions.ent">
+  %EIOptions;
+
+  <!ENTITY % Control.Unit SYSTEM "..\Include\Unit.ent">
+  %Control.Unit;
+  %Control.Unit.Include.Customer;
+  %Control.Unit.Ignore;
+  <!ENTITY c "CustomerUnitDetail">
+  <!ENTITY h1 "566">
+  <!ENTITY h2 "214">
+  <!ENTITY k "ma_kh">
+  <!ENTITY i "8">
+  <!ENTITY Tag "dmkh">
+
+  <!ENTITY % Nested SYSTEM "..\Include\Nested.ent">
+  %Nested;
+
+  <!ENTITY CheckTaxCodeCondition "@ma_so_thue &lt;&gt; ''">
+  <!ENTITY CheckTaxCodeConditionExt "select @tax_check_yn = @khong_kt_mst">
+  <!ENTITY CheckTaxCodeConditionByVAT "">
+  <!ENTITY CheckTaxCodeFieldValue "@ma_so_thue">
+  <!ENTITY CheckTaxCodeTableValue "default">
+  <!ENTITY CheckTaxCodeTableQuerySelectWarning "select @$scriptConflict = @$scriptConflict + case when @$scriptConflict &lt;&gt; '' then space(1) else '' end + @$taxCodeInvalidConflict">
+  <!ENTITY % CheckTaxCode SYSTEM "..\Include\CheckTaxCode.ent">
+  %CheckTaxCode;
+
+  <!ENTITY % APICompanyInformation SYSTEM "..\Include\APICompanyInformation.ent">
+  %APICompanyInformation;
+
+  <!ENTITY % CheckValidEmail SYSTEM "..\Include\CheckValidEmail.ent">
+  %CheckValidEmail;
+  <!ENTITY CheckValidEmail.FieldName "e_mail">
+  <!ENTITY CheckValidEmail.MultiEmail "true">
+]>
+
+<dir table="dmkh" code="ma_kh" order="ma_kh" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thông tin khách hàng" e="Customer"></title>
+  <fields>
+    <field name="ma_kh" isPrimaryKey="true" dataFormatString="@upperCaseFormat" clientDefault="&ClientDefault;" allowNulls="false">
+      <header v="Mã khách" e="Customer ID"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ten_kh" allowNulls="false">
+      <header v="Tên khách hàng" e="Customer Name"></header>
+    </field>
+    <field name="ten_kh2" categoryIndex="9">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+    <field name="dia_chi">
+      <header v="Địa chỉ" e="Address"></header>
+    </field>
+    <field name="ma_so_thue" dataFormatString="@upperCaseFormat">
+      <header v="Mã số thuế" e="Tax Code"></header>
+      <footer v="Mã số &lt;u&gt;t&lt;/u&gt;huế" e="&lt;u&gt;T&lt;/u&gt;ax Code"></footer>
+      <clientScript>&APICompanyInformationClientScript;</clientScript>
+      <items style="Mask"/>
+    </field>
+
+    <field name="ma_nvbh" categoryIndex="2">
+      <header v="Nv bán hàng" e="Sales Employee"></header>
+      <items style="AutoComplete" controller="SalesEmployee" reference="ten_nvbh%l" key="status = '1'" check="1=1" information="ma_nvbh$dmnvbh.ten_nvbh%l"/>
+    </field>
+    <field name="ten_nvbh%l" readOnly="true" external="true" defaultValue="''" categoryIndex="2">
+      <header v="" e=""></header>
+    </field>
+    <field name="doi_tac" categoryIndex="1">
+      <header v="Đối tác" e="Partner"></header>
+      <footer v="&lt;div class=&quot;Break&quot;/&gt;" e="&lt;div class=&quot;Break&quot;/&gt;"></footer>
+    </field>
+    <field name="tk" clientDefault="Default" categoryIndex="1">
+      <header v="Tài khoản ngầm định" e="Default Account"></header>
+      <items style="AutoComplete" controller="Account" reference="ten_tk%l" key="loai_tk = 1 and status = '1'" check="loai_tk = 1" information="tk$dmtk.ten_tk%l" new="Default"/>
+    </field>
+    <field name="ten_tk%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+    <field name="tk_dc" clientDefault="Default" categoryIndex="1">
+      <header v="Tài khoản nhập mua" e="Purchase Account"></header>
+      <items style="AutoComplete" controller="Account" reference="ten_tk_dc%l" key="loai_tk = 1 and status = '1'" check="loai_tk = 1" information="tk$dmtk.ten_tk%l" new="Default"/>
+    </field>
+    <field name="ten_tk_dc%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_tt" clientDefault="Default" categoryIndex="2">
+      <header v="Mã thanh toán" e="Default Term"></header>
+      <items style="AutoComplete" controller="Term" reference="ten_tt%l" key="status = '1'" check="1 = 1" information="ma_tt$dmtt.ten_tt%l"/>
+    </field>
+    <field name="ten_tt%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" categoryIndex="2">
+      <header v="" e=""></header>
+    </field>
+    <field name="t_tien_cn" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" categoryIndex="2">
+      <header v="Giới hạn tiền nợ" e="Credit Limit"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ngay_gh" type="DateTime" dataFormatString="@datetimeFormat" align="left" categoryIndex="2">
+      <header v="Đến ngày" e="To Date"></header>
+    </field>
+    <field name="kh_yn" type="Boolean" clientDefault="Default" defaultValue="true" categoryIndex="1">
+      <header v="Khách hàng" e="Customer"></header>
+    </field>
+    <field name="cc_yn" type="Boolean" clientDefault="Default" defaultValue="true" categoryIndex="1">
+      <header v="Nhà cung cấp" e="Supplier"></header>
+    </field>
+    <field name="nv_yn" type="Boolean" align="" clientDefault="Default" defaultValue="true" categoryIndex="1">
+      <header v="Nhân viên" e="Employee"></header>
+    </field>
+    <field name="nh_kh1" clientDefault="Default" categoryIndex="1">
+      <header v="Nhóm khách hàng 1" e="Customer Group 1"></header>
+      <items style="AutoComplete" controller="CustomerGroup" reference="ten_nh_kh1%l" key="loai_nh = 1 and status = '1'" check="loai_nh = 1" information="ma_nh$dmnhkh.ten_nh%l"/>
+      <footer v="Nhóm 1, 2, 3" e="Group 1, 2, 3"></footer>
+    </field>
+    <field name="ten_nh_kh1%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_kh2" clientDefault="Default" categoryIndex="1">
+      <header v="Nhóm khách hàng 2" e="Customer Group 2"></header>
+      <items style="AutoComplete" controller="CustomerGroup" reference="ten_nh_kh2%l" key="loai_nh = 2 and status = '1'" check="loai_nh = 2" information="ma_nh$dmnhkh.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_kh2%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_kh3" clientDefault="Default" categoryIndex="1">
+      <header v="Nhóm khách hàng 3" e="Customer Group 3"></header>
+      <items style="AutoComplete" controller="CustomerGroup" reference="ten_nh_kh3%l" key="loai_nh = 3 and status = '1'" check="loai_nh = 3" information="ma_nh$dmnhkh.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_kh3%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_kh9" clientDefault="Default" categoryIndex="2">
+      <header v="Nhóm khách tính giá" e="Customer Price Class"></header>
+      <items style="AutoComplete" controller="CustomerPriceClass" reference="ten_nh_kh9%l" key="status = '1'" check="1 = 1" information="ma_nh$dmnhkh2.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_kh9%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''" categoryIndex="2">
+      <header v="" e=""></header>
+    </field>
+    <field name="dien_thoai" categoryIndex="1">
+      <header v="Điện thoại" e="Phone Number"></header>
+    </field>
+    <field name="fax" categoryIndex="1">
+      <header v="Số gửi bản sao &lt;span class=&quot;LabelDescription&quot;&gt;(Fax)&lt;/span&gt;" e="Fax Number"></header>
+    </field>
+    <field name="e_mail" categoryIndex="1">
+      <header v="Thư &lt;span class=&quot;LabelDescription&quot;&gt;(Email)&lt;/span&gt;" e="Email"></header>
+      <footer v="Thư &lt;span class=&quot;LabelDescription&quot;&gt;(Email)&lt;/span&gt;, trang chủ" e="Email and Home Page"></footer>
+    </field>
+    <field name="home_page" categoryIndex="1">
+      <header v="Trang chủ" e="Home Page"></header>
+    </field>
+    <field name="tk_nh" dataFormatString="@upperCaseFormat" categoryIndex="2">
+      <header v="Tài khoản ngân hàng" e="Bank Account"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ngan_hang" categoryIndex="2">
+      <header v="Tên ngân hàng" e="Bank Name"></header>
+    </field>
+    <field name="tinh_thanh" categoryIndex="2">
+      <header v="Tỉnh thành" e="Province/City"></header>
+    </field>
+    <field name="ghi_chu" rows="2" categoryIndex="9">
+      <header v="Ghi chú" e="Note"></header>
+      <footer v="&lt;div class=&quot;Break&quot;/&gt;" e="&lt;div class=&quot;Break&quot;/&gt;"></footer>
+    </field>
+    <field name="khong_kt_mst" type="Boolean" inactivate="true" categoryIndex="9">
+      <header v="Không kiểm tra mã số thuế" e="Not Check Tax Code"></header>
+    </field>
+
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true" categoryIndex="-1">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+
+    &UnitFields;
+  </fields>
+
+  <views>
+    <view id="Dir" height="274" anchor="&j;">
+      <item value="120, 30, 45, 25, 65, 45, 30, 25, 65, 75, 25, 0"/>
+      <item value="1100: [ma_kh].Label, [ma_kh]"/>
+      <item value="11000000000: [ten_kh].Label, [ten_kh]"/>
+      <item value="11000000000: [ten_kh2].Label, [ten_kh2]"/>
+      <item value="11000000000: [dia_chi].Label, [dia_chi]"/>
+      <item value="1100: [ma_so_thue].Footer, [ma_so_thue]"/>
+
+      <item value="10100--------: [doi_tac].Label, [doi_tac]"/>
+      <item value="1010010000000: [tk].Label, [tk], [ten_tk%l]"/>
+      <item value="1010010000000: [tk_dc].Label, [tk_dc], [ten_tk_dc%l]"/>
+      <item value="1000000000000: [doi_tac].Description"/>
+      <item value="1111001100000: [kh_yn], [kh_yn].Label, [cc_yn], [cc_yn].Label, [nv_yn], [nv_yn].Label"/>
+      <item value="1000000000000: [doi_tac].Description"/>
+      <item value="1010010000000: [nh_kh1].Label, [nh_kh1], [ten_nh_kh1%l]"/>
+      <item value="1010010000000: [nh_kh2].Label, [nh_kh2], [ten_nh_kh2%l]"/>
+      <item value="1010010000000: [nh_kh3].Label, [nh_kh3], [ten_nh_kh3%l]"/>
+      <item value="1000000000000: [doi_tac].Description"/>
+      <item value="10100-1000100: [dien_thoai].Label, [dien_thoai], [fax].Label, [fax]"/>
+      <item value="1010000010000: [e_mail].Description, [e_mail], [home_page]"/>
+
+      <item value="11001000000: [ma_tt].Label, [ma_tt], [ten_tt%l]"/>
+
+      <item value="11001000000: [ma_nvbh].Label, [ma_nvbh], [ten_nvbh%l]"/>
+      <item value="11001000000: [nh_kh9].Label, [nh_kh9], [ten_nh_kh9%l]"/>
+      <item value="1100-------: [t_tien_cn].Label, [t_tien_cn]"/>
+      <item value="1100-------: [ngay_gh].Label, [ngay_gh]"/>
+      <item value="1100-------: [tk_nh].Label, [tk_nh]"/>
+      <item value="11000000000: [ngan_hang].Label, [ngan_hang]"/>
+      <item value="11000000000: [tinh_thanh].Label, [tinh_thanh]"/>
+
+      &UnitViews;
+
+      <item value="-1100000000: [khong_kt_mst], [khong_kt_mst].Label"/>
+      <item value="11000000000: [ghi_chu].Label, [ghi_chu]"/>
+      <item value="11100000000: [status].Label, [status], [status].Description"/>
+
+      <categories>
+        <category index="1" columns="30, 90, 30, 45, 25, 30, 30, 40, 40, 25, 65, 75, 25, 0">
+          <header v="Thông tin chính" e="General"/>
+        </category>
+        <category index="2" columns="120, 30, 45, 25, 65, 45, 30, 25, 65, 75, 25, 0" anchor="&j;">
+          <header v="Thanh toán" e="Payment"/>
+        </category>
+
+        &UnitCategory;
+
+        <category index="9" columns="120, 30, 45, 25, 65, 45, 30, 25, 65, 75, 25, 0" anchor="&j;">
+          <header v="Khác" e="Other"/>
+        </category>
+      </categories>
+    </view>
+
+    <view id="Form">
+      <item value="120, 30, 45, 25, 65, 45, 30, 25, 65, 75, 25, 0, 0"/>
+      <item value="1100---------: [ma_kh].Label, [ma_kh]"/>
+      <item value="11000000000--: [ten_kh].Label, [ten_kh]"/>
+      <item value="11000000000--: [ten_kh2].Label, [ten_kh2]"/>
+      <item value="11000000000--: [dia_chi].Label, [dia_chi]"/>
+      <item value="1100---------: [ma_so_thue].Footer, [ma_so_thue]"/>
+      <item value="1100--100101-: [doi_tac].Label, [doi_tac], [ma_nvbh].Label, [ma_nvbh], [ten_nvbh%l]"/>
+      <item value="1100--1001011: [tk].Label, [tk], [ma_tt].Label, [ma_tt], [ten_tk%l], [ten_tt%l]"/>
+      <item value="11001--------: [tk_dc].Label, [tk_dc], [ten_tk_dc%l]"/>
+      <item value="1100--10010--: [t_tien_cn].Label, [t_tien_cn],[ngay_gh].Label, [ngay_gh]"/>
+      <item value="1000000000000: [ghi_chu].Description"/>
+      <item value="-101-101-111-: [kh_yn].Label, [kh_yn], [cc_yn].Label, [cc_yn], [nv_yn].Label, [nv_yn], [ten_nh_kh2%l]"/>
+      <item value="1100-100-1011: [nh_kh1].Description, [nh_kh1], [nh_kh2], [nh_kh3], [ten_nh_kh3%l], [ten_nh_kh1%l]"/>
+      <item value="11001000000--: [nh_kh9].Label, [nh_kh9], [ten_nh_kh9%l]"/>
+      <item value="1100--10010--: [dien_thoai].Label, [dien_thoai], [fax].Label, [fax]"/>
+      <item value="11000010000--: [e_mail].Description, [e_mail], [home_page]"/>
+      <item value="11001010000--: [tk_nh].Label, [tk_nh], [ngan_hang].Label, [ngan_hang]"/>
+      <item value="----1010000--: [tinh_thanh].Label, [tinh_thanh]"/>
+      <item value="-1100000000: [khong_kt_mst], [khong_kt_mst].Label"/>
+      <item value="11000000000--: [ghi_chu].Label, [ghi_chu]"/>
+      <item value="11100000000--: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+if not exists(select 1 from options where name = 'm_kt_mst' and val <> '0') begin
+  select 'var o = this.getItem(''khong_kt_mst''); $common.setVisible(o.parentNode.parentNode.parentNode, false);' as message
+  return
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        &APICompanyInformationCommandLoadingDeclare;
+        <![CDATA[
+select 'active$FormCustomer(this);]]>&APICompanyInformationCommandLoadingSelect;<![CDATA[' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormCustomer(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        &CheckTaxCodeDeclare;
+        <![CDATA[
+declare @$exists nvarchar(512), @$updateConflict nvarchar(512), @$recordHasBeenChanged nvarchar(512), @$deleteConflict nvarchar(512), @$taxCodeConflict nvarchar(512), @$typeConflict nvarchar(512), @$taxFieldUpdateConflict nvarchar(512), @$eMailFieldUpdateConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Khách hàng <span class="Highlight">%s</span> ]]>&Customer.Nested.Message.v;<![CDATA[ trong danh mục.' else N'The customer <span class="Highlight">%s</span> is ]]>&Customer.Nested.Message.e;<![CDATA[.' end
+select @$updateConflict = case when @@language = 'v' then N'Khách hàng <span class="Highlight">%s</span> đã phát sinh, không thể sửa được.' else N'Cannot edit the customer <span class="Highlight">%s</span>. It has already been used.' end
+select @$deleteConflict = case when @@language = 'v' then N'Khách hàng <span class="Highlight">%s</span> đã phát sinh, không thể xóa được.' else N'Cannot delete the customer <span class="Highlight">%s</span>. It has already been used.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Khách hàng <span class="Highlight">%s</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The customer <span class="Highlight">%s</span> has been modified or deleted by another user.' end
+select @$taxCodeConflict = case when @@language = 'v' then N'Mã số thuế <span class="Highlight">%s</span> đã có trong danh mục.' else N'The tax code <span class="Highlight">%s</span> is already exists.' end, @$scriptConflict = '', @$typeConflict = null
+
+select @$taxFieldUpdateConflict = case when @@language = 'v' then N'Trường <span class="Highlight">Mã số thuế</span> chưa nhập hoặc giá trị nhập không hợp lệ.' else N'Field <span class="Highlight">Tax Code</span> must not be blank or has invalid value.' end
+select @$eMailFieldUpdateConflict = case when @@language = 'v' then N'Trường <span class="Highlight">Thư (Email)</span> chưa nhập hoặc giá trị nhập không hợp lệ.' else N'Field <span class="Highlight">Emai</span> must not be blank or has invalid value.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select * from @@table where ]]>&Customer.Nested.Key.a;<![CDATA[) begin
+  select 'ma_kh' as field, replace(@$exists, '%s', rtrim(@ma_kh)) as message
+  return
+end
+]]>&CheckTaxCodeBeginTag;&CheckTaxCodeEndTag;&CommandCheckTaxCodeBeforeSave;&UnitBeforeInsert;<![CDATA[
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event ="Inserted">
+      <text>
+        &UnitPostInsert;
+        &CommandListCheckTaxCodeWarning;
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select * from @@table where ma_kh = $ma_kh.OldValue) begin
+  select 'ma_kh' as field, replace(@$recordHasBeenChanged, '%s', rtrim($ma_kh.OldValue)) as message
+  return
+end
+
+if @ma_kh <> $ma_kh.OldValue begin
+  if exists(select * from @@table where ]]>&Customer.Nested.Key.a;<![CDATA[ and ma_kh <> $ma_kh.OldValue) begin
+    select 'ma_kh' as field, replace(@$exists, '%s', rtrim(@ma_kh)) as message
+    return
+  end
+
+  declare @message nvarchar(255)
+  select @message  = replace(@$updateConflict, '%s', rtrim($ma_kh.OldValue))
+  if exists(select * from cdkh where ma_kh = $ma_kh.OldValue) begin
+    select @message as message
+    return
+  end
+
+  if exists(select * from ct00 where ma_kh = $ma_kh.OldValue) begin
+    select @message as message
+    return
+  end
+end
+]]>&CheckTaxCodeBeginTag;<![CDATA[ and ma_kh <> $ma_kh.OldValue]]>&CheckTaxCodeEndTag;<![CDATA[
+]]>
+        &CommandCheckTaxCodeBeforeSave;
+        &EICustomerCheckUpdateConflict;
+        &UnitBeforeUpdate;
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_kh = @ma_kh
+]]>
+        &UnitPostUpdate;
+        &CommandListCheckTaxCodeWarning;
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+declare @message nvarchar(255)
+select @message  = replace(@$deleteConflict, '%s', rtrim(@ma_kh))
+if exists(select * from cdkh where ma_kh = @ma_kh) begin
+  select @message as message
+  return
+end
+
+]]>&EICustomerWhenDeleting;<![CDATA[
+
+if exists(select * from ct00 where ma_kh = @ma_kh) begin
+  select @message as message
+  return
+end
+]]>
+        &UnitPostDelete;
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        &CheckValidEmailCommandChecking;
+        <![CDATA[
+if (!(this.getItem('kh_yn').checked) && !(this.getItem('cc_yn').checked) && !(this.getItem('nv_yn').checked)) {
+  var _message = (this._language == 'v' ? 'Chưa khai báo thông tin: khách hàng, nhà cung cấp hoặc nhân viên.' : 'One of customer, supplier or employee field must be checked.');
+  this._checked = false;
+  $func.hideWait(this.get_id());
+  $message.show(_message, String.format('$find(\'{0}\').getItem(\'kh_yn\').focus();', this.get_id()));
+}
+]]>
+        &UnitCheck;
+      </text>
+    </command>
+
+  </commands>
+
+  <script>
+    <text>
+      &ScriptQueryData;
+      <![CDATA[
+function active$FormCustomer(f) {
+  objectBehavior$Dir$Code.create(f, 'ma_kh', 'ma_kh', 'dmkh');
+  f.add_onResponseComplete(on$FormCustomer$ResponseComplete);
+  if (f._tabContainer) {
+    f._tabContainer.add_activeTabChanged(onTabChanged]]>&Identification;<![CDATA[);
+    f._tabContainer._loaded = true;
+  }
+}
+function close$FormCustomer(f) {
+  try {f.remove_onResponseComplete(on$FormCustomer$ResponseComplete)} catch (ex) {}
+  objectBehavior$Dir$Code.dispose(f);
+  if (f._tabContainer) try {f._tabContainer.remove_activeTabChanged(onTabChanged]]>&Identification;<![CDATA[);} catch (ex) {}
+}
+/* <flatten type="Javascript"> */
+function on$FormCustomer$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Suggestion':
+      objectBehavior$Dir$Code.suggestion(f, result[0].Value);
+      break;
+    case 'Checking':
+      objectBehavior$Dir$Code.checkCode(f);
+      break;
+    default:
+      break;
+  }
+}
+/* </flatten> */
+function onTabChanged]]>&Identification;<![CDATA[(f, e) {f.parentForm.focusWhenTabChanged(['doi_tac', 'ma_tt']]>&UnitTab;<![CDATA[, 'ten_kh2']);}
+]]>
+      &APICompanyInformationFunction;
+      &ScriptCheckTaxCode;
+      &ScriptSuggestion;
+      &CheckValidEmailFunction;
+    </text>
+  </script>
+
+  <response>
+    &XMLSuggestion;
+  </response>
+
+  <css>
+    <text>
+      <![CDATA[
+.Break{margin:1px 0 1px 8px;padding:0;height:1px;overflow:hidden;display:block;background-color:white;border-top:1px solid #CED3DE;}
+.LabelDescription{color:#73A6DE;}
+]]>
+    </text>
+  </css>
+</dir>

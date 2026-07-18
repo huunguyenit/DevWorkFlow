@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLStandardDetailToolbar SYSTEM "..\Include\XML\StandardDetailToolbar.xml">
+]>
+
+<grid table="hrrmcc" code="ma_hs" order="ma_hs, line_nbr" type="Detail" freezeColumns="3" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <fields>
+    <field name="ma_hs" isPrimaryKey="true" allowNulls="false" readOnly="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="chung_chi" allowNulls="false" width="150">
+      <header v="Tên chứng chỉ" e="Certificate Name"></header>
+    </field>
+    <field name="diem" width="100">
+      <header v="Điểm" e="Score"></header>
+    </field>
+    <field name="xep_loai" width="100">
+      <header v="Xếp loại" e="Grade"></header>
+    </field>
+    <field name="ngay_cap" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" width="100" align="left">
+      <header v="Ngày cấp" e="Date of Issue"></header>
+    </field>
+    <field name="ngay_tu" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" width="100" align="left">
+      <header v="Hiệu lực từ" e="Effective Date from"></header>
+    </field>
+    <field name="ngay_den" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" width="100" align="left">
+      <header v="Đến" e="To"></header>
+    </field>
+    <field name="ghi_chu" width="300">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+
+    <field name="stt_rec0" isPrimaryKey="true" hidden="true" width="0" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" hidden="true" width="0" allowContain="true" clientDefault="1" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"></items>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_hs"/>
+      <field name="chung_chi"/>
+      <field name="diem"/>
+      <field name="xep_loai"/>
+      <field name="ngay_cap"/>
+      <field name="ngay_tu"/>
+      <field name="ngay_den"/>
+      <field name="ghi_chu"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$hrRMApplicantProfileInputDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$hrRMApplicantProfileInputDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[     
+function load$hrRMApplicantProfileInputDetail$(g) {g.add_commandEvent(on$hrRMApplicantProfileInputDetail$ExecuteCommand);}
+function dispose$hrRMApplicantProfileInputDetail$(g) {try {g.remove_commandEvent(on$hrRMApplicantProfileInputDetail$ExecuteCommand);} catch (ex) {}}
+function on$hrRMApplicantProfileInputDetail$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm, o = e.type.Object;
+  switch (action) {
+    case 'AfterCloneRow':
+      g.setItemFieldValue('stt_rec0', e.type.Value, '');
+      break;
+    default:
+      break;
+  }
+}
+]]>
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from @@table where @@whereClause order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  &XMLStandardDetailToolbar;
+</grid>

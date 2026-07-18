@@ -1,0 +1,33 @@
+<field name="ma_kh" column="A" isPrimaryKey="true" allowNulls="false" upperCase="true" updateValue="None"/>
+<field name="ten_kh" column="B" allowNulls="false"/>
+<field name="ten_kh2" column="C"/>
+<field name="dia_chi" column="D"/>
+<field name="ma_so_thue" column="E" upperCase="true" check="&EIImportCheckTax;"/>
+<field name="doi_tac" column="F"/>
+<field name="ma_nvbh" column="G" check="ma_nvbh &lt;&gt; '' and ma_nvbh not in (select ma_nvbh from dmnvbh)"/>
+<field name="tk" column="H" check="tk &lt;&gt; '' and tk not in (select tk from dmtk where loai_tk = 1)"/>
+<field name="tk_dc" column="I" check="tk_dc &lt;&gt; '' and tk_dc not in (select tk from dmtk where loai_tk = 1)"/>
+<field name="ma_tt" column="J" check="ma_tt &lt;&gt; '' and ma_tt not in (select ma_tt from dmtt)"/>
+<field name="t_tien_cn" column="K" type="Decimal"/>
+<field name="ngay_gh" column="L" type="DateTime"/>
+<field name="kh_yn" column="M" type="Boolean" defaultValue="true" check="kh_yn = 0 and cc_yn = 0 and nv_yn = 0"/>
+<field name="cc_yn" column="N" type="Boolean" defaultValue="true"/>
+<field name="nv_yn" column="O" type="Boolean" defaultValue="true"/>
+<field name="nh_kh1" column="P" check="nh_kh1 &lt;&gt; '' and nh_kh1 not in (select ma_nh from dmnhkh where loai_nh = 1)"/>
+<field name="nh_kh2" column="Q" check="nh_kh2 &lt;&gt; '' and nh_kh2 not in (select ma_nh from dmnhkh where loai_nh = 2)"/>
+<field name="nh_kh3" column="R" check="nh_kh3 &lt;&gt; '' and nh_kh3 not in (select ma_nh from dmnhkh where loai_nh = 3)"/>
+<field name="nh_kh9" column="S" check="nh_kh9 &lt;&gt; '' and nh_kh9 not in (select ma_nh from dmnhkh2)"/>
+<field name="dien_thoai" column="T"/>
+<field name="fax" column="U"/>
+<field name="e_mail" column="V" check="&EIImportCheckEmail;"/>
+<field name="home_page" column="W"/>
+<field name="tk_nh" column="X" upperCase="true"/>
+<field name="ngan_hang" column="Y"/>
+<field name="tinh_thanh" column="Z"/>
+<field name="ghi_chu" column="AA" maxLength="256"/>
+
+<field name="status" column="None" insertValue="'1'" updateValue="None"/>
+<field name="datetime0" column="None" type="DateTime" insertValue="getdate()" updateValue="None"/>
+<field name="datetime2" column="None" type="DateTime" insertValue="getdate()" updateValue="getdate()"/>
+<field name="user_id0" column="None" type="Int" insertValue="@@userID" updateValue="None"/>
+<field name="user_id2" column="None" type="Int" insertValue="@@userID" updateValue="@@userID"/>

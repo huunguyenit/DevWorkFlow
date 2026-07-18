@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLStandardDetailToolbar SYSTEM "..\Include\XML\StandardDetailToolbar.xml">
+]>
+
+<grid table="ctctts" code="stt_rec" order="stt_rec, line_nbr" type="Detail" freezeColumns="3" id="TS1" uniKey="true" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <partition table="ctctts" prime="ctctts" inquiry="its" field="ngay_ct" expression="''" increase="{0}" default=""/>
+  <fields>
+    <field name="ten_ptkt" width="300" allowNulls="false">
+      <header v="Tên phụ tùng kèm theo" e="Spare Parts"></header>
+    </field>
+    <field name="dvt" width="50" allowNulls="false">
+      <header v="Đvt" e="UOM"></header>
+    </field>
+    <field name="so_luong" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="0" width="100">
+      <header v="Số lượng" e="Quantity"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="gia_tri_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" width="100">
+      <header v="Giá trị nt" e="FC Value"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="gia_tri" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" width="100">
+      <header v="Giá trị" e="Value"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ten_ptkt"/>
+      <field name="dvt"/>
+      <field name="so_luong"/>
+      <field name="gia_tri_nt"/>
+      <field name="gia_tri"/>
+
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'this._voucherCode='@@id';load$GridVoucherAttached$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridVoucherAttached$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+/* <flatten type="Javascript"> */
+function load$GridVoucherAttached$(g) {
+  g.add_itemValueChanged(onChange$GridVoucherAttached$);
+  g.add_commandEvent(on$GridVoucherAttached$ExecuteCommand);
+  g.$a = {gia_tri: '[gia_tri]:=[gia_tri_nt]*[$ty_gia]'};
+}
+function dispose$GridVoucherAttached$(g) {
+  g.$a = null;
+  try {g.remove_commandEvent(on$GridVoucherAttached$ExecuteCommand);} catch (ex) {}
+  try {g.remove_itemValueChanged(onChange$GridVoucherAttached$);} catch (ex) {}
+}
+function onChange$GridVoucherAttached$(sender, eventArgs) {
+  var o = eventArgs.get_object(), g = o.grid, f = g.get_element().parentForm, name = o.field.Name;
+  switch (name) {
+    case 'gia_tri_nt':
+      g.validExpression(o, [g.$a.gia_tri]);
+      break;
+    default:
+      break;
+  }
+}
+function on$GridVoucherAttached$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm;
+  switch (action) {
+    case 'AfterRemoveRow':
+      break;
+    case 'AfterCloneRow':
+      g.setItemFieldValue('stt_rec0', e.type.Value, '');
+      break;
+    default:
+      break;
+  }
+}
+/* </flatten> */
+ ]]>
+    </text>
+  </script>
+
+  &XMLStandardDetailToolbar;
+</grid>

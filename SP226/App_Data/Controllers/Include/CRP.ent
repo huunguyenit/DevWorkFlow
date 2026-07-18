@@ -1,0 +1,13 @@
+﻿<!ENTITY % Conditional.CRP SYSTEM "..\Include\MPS.txt">
+
+<![%Conditional.CRP;[
+  <!ENTITY CRPFields SYSTEM "..\Include\XML\CRPFields.txt">
+  <!ENTITY CRPView SYSTEM "..\Include\XML\CRPViews.xml">
+  <!ENTITY CRPLookup "">
+  <!ENTITY CRPExtension ", default, default, '1'">
+]]>
+
+<!ENTITY CRPFields "">
+<!ENTITY CRPView "">
+<!ENTITY CRPLookup " and loai_ct &lt;&gt; '9'">
+<!ENTITY CRPExtension "">

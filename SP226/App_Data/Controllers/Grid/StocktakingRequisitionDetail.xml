@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLStandardDetailToolbar SYSTEM "..\Include\XML\StandardDetailToolbar.xml">
+]>
+
+<grid table="kkycct" code="stt_rec" order="stt_rec, line_nbr" type="Detail" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    
+    <field name="ma_kho" allowNulls="false" width="80" aliasName="a">
+      <header v="Mã kho" e="Site"></header>
+      <items style="AutoComplete" controller="Site" reference="ten_kho%l" key="status = '1'" check="1=1" information="ma_kho$dmkho.ten_kho%l"/>
+    </field>
+    <field name="ten_kho%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="300" aliasName="b">
+      <header v="Tên kho" e="Description"></header>
+    </field>
+    
+    <field name="ton_yn" type="Boolean" width="60" clientDefault="Default" defaultValue="1">
+      <header v="Vật tư còn tồn" e="Availability Item"></header>
+    </field>
+    
+    <field name="vi_tri_yn" type="Boolean" width="60">
+      <header v="Theo vị trí" e="Location"></header>
+    </field>
+    <field name="lo_yn" type="Boolean" width="60">
+      <header v="Theo lô" e="Lot"></header>
+    </field>
+    
+    <field name="loai_vt" width="100" aliasName="a">
+      <header v="Loại vật tư" e="Item Type"></header>
+      <items style="AutoComplete" controller="ItemType" reference="ten_loai_vt%l" key="status = '1'" check="1 = 1" information="ma_loai_vt$dmloaivt.ten_loai_vt%l"/>
+    </field>
+    <field name="ten_loai_vt%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="0" hidden="true" aliasName="c">
+      <header v="" e=""></header>
+    </field>
+    
+    <field name="nh_vt1" width="100" aliasName="a">
+      <header v="Nhóm vật tư 1" e="Item Group 1"></header>
+      <items style="AutoComplete" controller="ItemGroup" reference="ten_nh_vt1%l" key="loai_nh = 1 and status = '1'" check="loai_nh = 1" information="ma_nh$dmnhvt.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_vt1%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_vt2" width="100" aliasName="a">
+      <header v="Nhóm vật tư 2" e="Item Group 2"></header>
+      <items style="AutoComplete" controller="ItemGroup" reference="ten_nh_vt2%l" key="loai_nh = 2 and status = '1'" check="loai_nh = 2" information="ma_nh$dmnhvt.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_vt2%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="nh_vt3" width="100" aliasName="a">
+      <header v="Nhóm vật tư 3" e="Item Group 3"></header>
+      <items style="AutoComplete" controller="ItemGroup" reference="ten_nh_vt3%l" key="loai_nh = 3 and status = '1'" check="loai_nh = 3" information="ma_nh$dmnhvt.ten_nh%l"/>
+    </field>
+    <field name="ten_nh_vt3%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+      
+      <field name="ma_kho"/>
+      <field name="ten_kho%l"/>
+      
+      <field name="ton_yn"/>
+      <field name="vi_tri_yn"/>
+      <field name="lo_yn"/>
+      
+      <field name="loai_vt"/>
+      <field name="ten_loai_vt%l"/>
+      <field name="nh_vt1"/>
+      <field name="ten_nh_vt1%l"/>
+      <field name="nh_vt2"/>
+      <field name="ten_nh_vt2%l"/>
+      <field name="nh_vt3"/>
+      <field name="ten_nh_vt3%l"/>
+      
+      <field name="line_nbr"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$GridInventoryRequestDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[select 'scatter$GridInventoryRequestDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridInventoryRequestDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function load$GridInventoryRequestDetail$(g) {
+  g.add_commandEvent(on$GridInventoryRequestDetail$ExecuteCommand);
+  set$GridDefaultValue(g);
+}
+function scatter$GridInventoryRequestDetail$(g) {set$GridDefaultValue(g);}
+function dispose$GridInventoryRequestDetail$(g) {try {g.remove_commandEvent(on$GridInventoryRequestDetail$ExecuteCommand);} catch (ex) {}}
+function on$GridInventoryRequestDetail$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm;  
+  switch (action) {
+    case 'AfterCloneRow':
+      g.setItemFieldValue('stt_rec0', e.type.Value, '');
+      break;
+    default:
+      break;
+  }
+}
+function set$GridDefaultValue(g) {
+  var f = g.get_element().parentForm, v = f._action == 'New';
+  if (v) g._setItemValue(1, g._getColumnOrder('ton_yn'), 1);
+}
+]]>
+    </text>
+  </script>
+
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from @@table a left join dmkho b on a.ma_kho = b.ma_kho left join dmloaivt c on a.loai_vt = c.ma_loai_vt left join dmnhvt d on a.nh_vt1 = d.ma_nh and d.loai_nh = 1 left join dmnhvt e on a.nh_vt2 = e.ma_nh and e.loai_nh = 2 left join dmnhvt f on a.nh_vt3 = f.ma_nh and f.loai_nh = 3 where stt_rec = @stt_rec order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  &XMLStandardDetailToolbar;
+</grid>

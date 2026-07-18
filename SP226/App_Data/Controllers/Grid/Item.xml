@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY DowloadScript SYSTEM "..\Include\Javascript\DownloadScript.txt">
+
+  <!ENTITY TransferID "Item">
+  <!ENTITY FastBusiness.Encryption.Begin "">
+  <!ENTITY CreateTicket "declare @ticket varchar(32), @filename varchar(128), @description nvarchar(128), @compactMode char(1)
+if exists(select 1 from options where name = 'm_compact_mode' and val = '1') select @compactMode = '1' else select @compactMode = '0'
+select @ticket = lower(replace(newid(),'-',''))
+if @@language = 'v' select @filename = case when @compactMode = '0' then 'Item.xlsx' else 'Item3.xlsx' end, @description = N'Danh mục hàng hóa - vật tư'
+else select @filename = case when @compactMode = '0' then 'Item2.xlsx' else 'Item4.xlsx' end, @description = N'Item List'
+&UnitConversionFilenameImport;
+insert into @@sysDatabaseName..ticket values(@ticket, @@userID, '&TransferID;', @filename, @description, '@@appDatabaseName', getdate());">
+  <!ENTITY FastBusiness.Encryption.End "">
+
+  <!ENTITY % UnitConversion SYSTEM "..\Include\UnitConversion.ent">
+  %UnitConversion;
+
+  <!ENTITY % Control.Unit SYSTEM "..\Include\Unit.ent">
+  %Control.Unit;
+  %Control.Unit.Include.Item;
+  %Control.Unit.Ignore;
+
+  <!ENTITY k "ma_vt">
+  <!ENTITY Tag "dmvt">
+]>
+
+<grid table="dmvt" code="ma_vt" order="ma_vt" filter="&UnitFilter;" initialize="&UnitQuery;" xmlns="urn:schemas-fast-com:data-grid">
+
+  <title v="Danh mục hàng hóa - vật tư" e="Item List"></title>
+  <subTitle v="Cập nhật hàng hóa, vật tư: thêm, sửa, xóa..." e="Add, Edit, Delete Item..."></subTitle>
+
+  <fields>
+    <field name="ma_vt" isPrimaryKey="true" width="100" dataFormatString="X" allowSorting="true" allowFilter="true">
+      <header v="Mã vật tư" e="Item Code"></header>
+    </field>
+    <field name="ten_vt%l" width="300" allowSorting="true" allowFilter="true">
+      <header v="Tên vật tư" e="Description"></header>
+    </field>
+    <field name="dvt" width="80" allowSorting="true" allowFilter="true">
+      <header v="Đvt" e="UOM"></header>
+    </field>
+    <field name="gia_ton" type="Byte" width="120" allowSorting="true" allowFilter="true">
+      <header v="Cách tính giá" e="Valuation Method"></header>
+    </field>
+
+    <field name="tk_vt" width="100" allowSorting="true" allowFilter="true">
+      <header v="Tk vật tư" e="Account"></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_vt"/>
+      <field name="ten_vt%l"/>
+      <field name="dvt"/>
+      <field name="gia_ton"/>
+      <field name="tk_vt"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        &CreateTicket;<![CDATA[
+select 'this._authorize = ' + rtrim(@@sysDatabaseName.dbo.FastBusiness$System$GetAuthorize(@@admin, @@userID, 'Item', 'New')) + ';this._key = ''' + @ticket + ''';load$Grid(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$Grid(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$Grid(g) {
+  g.add_onResponseComplete(on$GridItem$ResponseComplete);
+  g.add_commandEvent(on$GridItem$ExecuteCommand);
+}
+function dispose$Grid(g) {
+  try {g.remove_commandEvent(on$GridItem$ExecuteCommand);} catch (ex) {}
+  try {g.remove_onResponseComplete(on$GridItem$ResponseComplete);} catch (ex) {}
+}
+function on$GridItem$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'ImportData':
+      show$Form(g, 'ItemImport');
+      break;
+    case 'Download':
+      request$Download(g, action);
+      break;
+    default:
+      break;
+  }
+}
+function on$GridItem$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result, o = e.type.Object;
+  switch (context) {
+    case 'Download':
+      g._key = result[0].Value;
+      break;
+    default:
+      break;
+  }
+}
+function show$Form(g, c) {(g._authorize == 1) ? g.showForm(c) : $message.show($df.getResources(g._language, "Message.NotAccess"));}
+/* </flatten> */]]>
+      &DowloadScript;
+    </text>
+  </script>
+
+  <css>
+    <text>
+      <![CDATA[
+div.ImportData{background-image:url(../images/Upload.png);background-repeat:no-repeat;background-position:0 0;}
+div.ImportDataOverGreen{background-position:0 -22px;}
+div.Download{background-image:url(../Images/Download.png);background-repeat:no-repeat;background-position:0 0;}
+div.DownloadOverGreen{background-position:0 -22px;}
+]]>
+    </text>
+  </css>
+
+  <response>
+    <action id="Download">
+      <text>
+        &CreateTicket;<![CDATA[
+select @ticket as value
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+
+  <toolbar>
+    <button command="New">
+      <title v="Toolbar.New" e="Toolbar.New"></title>
+    </button>
+    <button command="Edit">
+      <title v="Toolbar.Edit" e="Toolbar.Edit"></title>
+    </button>
+    <button command="Delete">
+      <title v="Toolbar.Delete" e="Toolbar.Delete"></title>
+    </button>
+    <button command="View">
+      <title v="Toolbar.View" e="Toolbar.View"></title>
+    </button>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"/>
+    </button>
+
+    <button command="-">
+      <title v="-" e="-"/>
+    </button>
+
+    <button command="ImportData">
+      <title v="Lấy dữ liệu từ tệp..." e="Import Data from File..."></title>
+    </button>
+    <button command="Download">
+      <title v="Tải tệp mẫu..." e="Download Template File..."/>
+    </button>
+
+    <button command="Separate">
+      <title v="-" e="-"/>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+
+</grid>

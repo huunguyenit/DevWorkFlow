@@ -1,0 +1,443 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="OriginalFile" content="CDTran.doc" />
+<title>Tính lương</title>
+<link rel="stylesheet" href="fast.css" type="text/css" />
+<script type="text/javascript" language="JavaScript">
+//<![CDATA[
+function reDo() {
+  if (innerWidth !=origWidth || innerHeight !=origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion)==4) && (navigator.appName=="Netscape")) {
+	origWidth=innerWidth;
+	origHeight=innerHeight;
+	onresize=reDo;
+}
+onerror=null; 
+//]]>
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute;
+left:0px;
+top:0px;
+z-index:4;
+visibility:hidden; }
+-->
+</style>
+<script type="text/javascript" language="javascript1.2" src="whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="whlang.js"></script>
+<script type="text/javascript" language="javascript1.2" src="whtopic.js"></script>
+</head>
+<body>
+<p id="td1">Tính lương, các khoản phải trả theo lương và thuế TNCN</p>
+
+
+
+<p id="pic"><img src="Vie\hrSalaryComputation.png"/></p>
+<p id="td2">Các khai báo, nhập liệu hoặc xử lý cần thực hiện trước khi tính lương</p>
+<p id="p2">Để kết quả tính lương, các khoản phải trả theo lương và thuế TNCN được chính xác và dễ kiểm soát, người sử dụng cần kiểm tra thực hiện 
+các khai báo, nhập liệu hoặc xử lý cần thực hiện trước khi tính lương. Các bước cần kiểm soát có thể là:</p>
+<ul class="lo_2">
+- Xây dựng danh mục công: Liên quan giữa phân hệ chấm công và tiền lương là công. Khi xây dựng mã công phải chiếu theo nguyên tắc: 
+Hệ số công có khác nhau không? Các quyền lợi khác có khác nhau không? Nếu câu trả lời là có thì buộc phải có các mã công tương ứng;<br/> 	
+- Tính công (nếu có các loại lương phụ thuộc số liệu chấm công);<br/> 	
+- Các loại lương cần khai báo tương ứng trong thông tin lương của từng nhân viên;<br/> 	
+- Các đối tượng tính thuế TNCN cần khai báo tương ứng trong thông tin thuế TNCN của từng nhân viên;<br/>
+- ...
+</ul>
+<p id="td2">Lập luận chung về tính lương và các khoản phải trả theo lương</p>
+<p id="td3">Kỳ tính lương</p>
+<p id="p3">Kỳ tính lương được khai báo từ ngày đến ngày, không phụ thuộc năm tài chính hay tháng dương lịch. Chương trình sẽ xét tất cả các vấn đề có ngày hiệu lực liên quan.<br/>
+Số ngày công một tháng theo quy định có thể khai báo trong kỳ tính lương 
+hoặc sử dụng trong tham số tùy chọn (nếu không khai báo giá trị trong kỳ tính lương).</p>
+
+
+<p id="td3">Tính lương theo ngoại tệ  </p>
+<p id="p3">Đối với nhân viên tính lương theo ngoại tệ thì khi tính lương sẽ qui đổi về đồng tiền hạch toán theo tỷ giá khai báo
+ trong “Danh mục tỷ giá tính lương” (có xét ngày hiệu lực) cho tất cả các chỉ tiêu. </p>
+
+<p class="note"> Lưu ý: <br/>
+- Các chỉ tiêu liên quan đến thuế TNCN, các chỉ tiêu nhập ở phần “Cập nhập phát sinh thu nhập/giảm trừ theo biểu lũy tiến”) do đã nhập cả ngoại tệ và 
+tiền hạch toán nên sẽ không chịu ảnh hưởng của quy luật này; <br/>
+- Khi tính lương, các khoản bảo hiểm, KPCĐ thì qui đổi theo tỷ giá trong “Danh mục tỷ giá tính bảo hiểm”. Để đồng nhất giữa bảng lương và báo cáo thuế TNCN, 
+các khoản bảo hiểm, KPCĐ - khi khai báo trong "Khai báo thu nhập cho loại lương" - phải được khai báo Loại 2 (tỷ giá tính bảo hiểm)<br/>
+</p>
+
+<p id="td3">Vấn đề xét hiệu lực các thông tin</p>
+<p id="p3">Một số thông tin liên quan ngày hiệu lực, chương trình sẽ áp dụng theo ngày hiệu lực nhỏ hơn hoặc bằng (&lt;=) và gần nhất với ngày cuối của kỳ tính lương.
+Ví dụ: Lương tối thiểu, Hệ số lương, Lương bảo hiểm, Tỷ lệ đóng BHXH (BHYT, KPCĐ), tiền đóng BHXH (BHYT, KPCĐ) chênh lệch </p>
+
+<p id="td3">Quyền, bảo mật và các giới hạn xử lý</p>
+<p id="p3">
+- Chỉ được tính lương cho các nhân viên thuộc bộ phận được quyền. Đề nghị xem thêm <a href=hrAccessRighLogic.htm> Lập luận về phân quyền sử dụng 
+trong phân hệ nhân sự</a> <br/>
+
+- Kiểm tra ngày khóa sổ khi tính lương <!--(ngày khóa sổ thuộc HRM)-->: nếu "Ngày bắt đầu" của kỳ tính lương (được khai báo ở chức năng “Khai báo kỳ tính lương”) nhỏ hơn hoặc bằng (&lt;=) “Ngày khóa sổ” thì
+ không tính và cảnh báo “Đã khóa số liệu, kiểm tra lại ngày khóa sổ”;
+- Đối với nhân viên nghỉ việc: chỉ tính lương cho những nhân viên có “Ngày nghỉ việc” sau “Ngày từ” của kỳ tính lương;
+</p>
+
+<p id="td3">Các loại lương </p>
+<p id="p3">Khai báo trong "Cập nhật thông tin lương nhân viên". Bao gồm:</p>
+
+<ul class="lo_2">
+- Loại 1 - Thời gian: Dùng để tính các loại lương theo thời gian (Tính theo ngày làm việc hoặc không);<br/> 	
+- Loại 2 - Sản phẩm: Dùng để tính các loại lương theo sản phẩm (theo bộ phận hoặc cá nhân);<br/>
+- Loại 3 - Khoán: Dùng để tính các loại lương khoán (Tính theo ngày làm việc hoặc không);<br/>
+- Loại 9 - Khác: Trong trường hợp một loại công có nhiều cách tính phụ thuộc vào bộ phận cụ thể, để chương trình xác định đúng loại lương cần tính cho bộ phận, 
+cần khai báo loại 9 và khai báo theo bộ phận tại chức năng "Khai báo chi tiết loại lương theo công";</ul>
+<p class="note">Lưu ý: <br/>
+- Với các loại lương có theo ngày làm việc, cần khai báo loại công và chấm công cho đúng tương ứng, nếu không, kết quả tính sẽ sai;<br/>
+- Lập luận của lương "Loại 9 - Khác", áp dụng trong tính toán nhiều loại lương có liên quan đến công làm việc, người sử dụng cần ghi nhớ để áp dụng linh hoạt.
+</p>
+<p id="td3">Cách tính các mã loại lương kiểu hệ thống (kiểu=0 - hệ thống)</p>
+<p id="p3">Các loại lương hệ thống là các loại lương có tính chất tổng quát, sử dụng phổ biến trong thực tế. Các mã lương này được 
+khai báo sẵn trong "Khai báo loại lương", người dùng không thể chỉnh sửa cách tính toán. Các mã lương hệ thống bao gồm:</p>
+<p class="node">L00	- Lương cơ bản	</p>
+<p class="node_d">Công thức: </p>
+<p class="fml">Lương cơ bản=Lương tối thiểu * Hệ số lương</p>
+<p class="note">
+- Ưu tiên lấy theo lương tối thiểu vùng, nếu không khai báo thì lấy theo lương tối thiểu chung. Chỉ lấy lương tối thiểu có ngày hiệu lực nhỏ hơn hoặc bằng 
+(&lt;=) và gần nhất so với ngày cuối của kỳ tính lương;<br/>
+- Hệ số lương kinh doanh: được nhập tại chức năng “Cập nhật thông lương nhân viên/Chi tiết”, chỉ lấy hệ số có ngày hiệu lực nhỏ hơn hoặc bằng (&lt;=)
+và gần nhất so với ngày cuối của kỳ tính lương. Trường hợp không khai báo thông tin trong “Chi tiết” thì áp dụng ở ngăn “Thông tin chính”. 
+ Trường hợp trong kỳ tính lương có nhiều hệ số lương khác nhau thì áp dụng theo hệ số lương sau cùng.
+</p>
+
+<p class="node">L01	- Lương theo thời gian	</p>
+<p class="node_d">Công thức tính lương theo thời gian có phụ thuộc theo ngày làm việc:</p>
+<p class="fml">(Lương tối thiểu * Hệ số lương kinh doanh * Số ngày công * Hệ số công) / (Tổng số ngày công một tháng theo quy định)</p>
+<p class="note">
+- 	Ưu tiên lấy theo lương tối thiểu vùng, nếu không khai báo có thì lấy theo lương tối thiểu chung. Chỉ lấy lương tối thiểu có ngày hiệu lực nhỏ hơn 
+hoặc bằng (&lt;=) và gần nhất so với ngày cuối của kỳ tính lương.<br/>
+- 	Hệ số lương kinh doanh:  được nhập tại chức năng “Cập nhật thông lương nhân viên/Chi tiết”, chỉ lấy các hệ số có ngày hiệu lực nhỏ hơn hoặc bằng (&lt;=) 
+so với ngày cuối của kỳ tính lương. Trường hợp không có thông tin trong ngăn “Chi tiết” thì áp dụng ở “Thông tin chính”;<br/>
+- 	Số ngày công: Theo kết quả chấm công của nhân viên. Chỉ tính cho những mã công có “Loại công”=1 – “Trong giờ qui định” và có  “Loại lương”=1 – “Theo thời gian”. 
+Nếu loại lương theo công của từng bộ phận thì áp dụng loại lương trong “Khai báo loại lương cho công” (nếu “Loại lương”=9 – Khác);<br/>
+-	Hệ số công: khai báo trong “Danh mục ký hiệu chấm công”;<br/>
+- Tổng số ngày công một tháng theo quy định: được nhập tại chức năng “Khai báo kỳ tính lương” (nếu có khai báo), nếu không khai báo (để trống nhưng có nhập kỳ tính lương) 
+thì lấy theo tham số tùy chọn “Tổng số ngày công một kỳ”;<br/>
+-	Trường hợp trong kỳ tính lương có nhiều hệ số lương khác nhau, chương trình sẽ tính toán chi tiết cho từng mức khác nhau.
+</p>
+
+<p class="node_d">Công thức tính lương theo thời gian không phụ thuộc theo ngày làm việc:</p>
+<p class="fml">(Lương tối thiểu * Hệ số lương kinh doanh)</p>
+
+<p class="note">
+- Ưu tiên lấy theo lương tối thiểu vùng, nếu không khai báo thì lấy theo lương tối thiểu chung. Chỉ áp dụng lương tối thiểu có ngày hiệu lực nhỏ hơn
+ hoặc bằng (&lt;=) và gần nhất so với ngày cuối của kỳ tính lương;<br/>
+- Hệ số lương kinh doanh: được nhập tại chức năng “Cập nhật thông lương nhân viên/Chi tiết”, chỉ lấy hệ số có ngày hiệu lực nhỏ hơn hoặc bằng (&lt;=)
+và gần nhất so với ngày cuối của kỳ tính lương. Trường hợp không khai báo thông tin trong “Chi tiết” thì áp dụng ở ngăn “Thông tin chính”. 
+Trường trong 1 kỳ tính lương có nhiều hệ số lương kinh doanh khác nhau, chương trình sẽ tính toán chi tiết cho từng mức khác nhau đó. 
+Khi đó, công thức tính phải chia tổng số ngày trong kỳ tính lương (bao gồm cả ngày nghỉ) và nhân lại cho số ngày ứng với mỗi mức khác nhau đó;.
+</p>
+
+<p class="node">L11	- Lương sản phẩm cá nhân	</p>
+<p class="node_d">Công thức:</p>
+<p class="fml">Đơn giá sản phẩm * Số lượng sản phẩm cá nhân</p>
+<p class="note">
+- Đơn giá sản phẩm: được nhập tại chức năng “Cập nhật đơn giá sản phẩm”, có xét ngày hiệu lực của đơn giá, 1 kỳ có thể có nhiều đơn giá khác nhau;<br/>
+- Số lượng sản phẩm cá nhân: được nhập tại chức năng “Cập nhật số lượng sản phẩm cá nhân”, có thể làm tại bộ phận khác. 
+Với số lượng sản phẩm của nhân viên tại bộ phận khác, phải có số liệu chấm công tại bộ phận với bộ phận tương ứng;<br/>
+- Các mã công phải có “Loại lương” là 2 – “Theo sản phẩm”. 
+</p>
+<p class="node">L12	- Lương sản phẩm theo bộ phận	</p>
+<p class="node_d">Công thức:</p>
+<p class="fml">Đơn giá sản phẩm * Số lượng sản phẩm bộ phận * [(Số giờ công thuộc bộ phận i * Hệ số công * Hệ số bộ phận)]/
+[Tổng hệ số giờ công của các nhân viên thuộc bộ phận đang tính]</p>
+<p class="note">
+- Đơn giá sản phẩm: được nhập tại chức năng “Cập nhật đơn giá tiền lương”, có xét ngày hiệu lực của đơn giá, 1 kỳ có thể có nhiều đơn giá khác nhau;<br/>
+- Số lượng sản phẩm bộ phận: được nhập tại chức năng “Cập nhật số lượng sản phẩm bộ phận”;<br/>
+- Trong công thức trên, biểu thức "(Số giờ công thuộc bộ phận i * Hệ số công * Hệ số bộ phận)" thể hiện lương sản phẩm bộ phận phân bổ cho từng nhân viên;<br/>
+- Các mã công phải có “Loại lương” là 2 – “Theo sản phẩm”. ;<br/>
+- Hệ số bộ phận: được nhập tại chức năng “Cập nhật hệ số theo bộ phận”, áp dụng hệ số gần nhất so với ngày kết thúc của kỳ tính lương.
+
+</p>
+<p class="node">L21	- Lương khoán	</p>
+<p class="node_d">Công thức tính lương khoán có phụ thuộc theo ngày làm việc:</p>
+<p class="fml">(Tiền khoán * Số ngày công * Hệ số công) / (Tổng số ngày công một tháng theo quy định)</p>
+
+<p class="note">
+- Tiền khoán: được nhập tại chức năng “Cập nhật thông tin lương nhân viên/Chi tiết”, chỉ áp dụng tiền khoán có ngày hiệu lực nhỏ hơn hoặc bằng (&lt;=)
+ so với ngày cuối của kỳ tính lương. Trường hợp không nhập trong ngăn “Chi tiết” thì áp dụng tại ngăn “Thông tin chính”;<br/>
+- Số ngày công: tham chiếu  kết quả chấm công của nhân viên. Chỉ áp dụng những mã công thỏa điều kiện [có “Loại công”=1 – “Trong giờ qui định” 
+và có  “Loại lương”=3 – “Khoán”. Nếu loại lương theo công của từng bộ phận thì áp dụng loại lương trong “Khai báo loại lương cho công” 
+(nếu “Loại lương”=9 – Khác);<br/>
+- Hệ số công: được khai báo trong “Danh mục ký hiệu chấm công”);<br/>
+- Tổng số ngày công một tháng theo quy định: được nhập tại chức năng “Khai báo kỳ tính lương” (nếu có khai báo), nếu không khai báo (có nhập kỳ tính
+ lương nhưng để trống giá trị số ngày công một tháng) 
+thì lấy theo tham số tùy chọn “Tổng số ngày công một kỳ”;<br/>
+- Trường hợp trong kỳ tính lương có nhiều mức lương khoán khác nhau thì chương trình tính toán chi tiết cho từng mức khác nhau.
+
+</p>
+
+<p class="node_d">Lương khoán không phụ thuộc theo ngày làm việc: trong trường hợp này sẽ áp dụng trực tiếp giá trị "Tiền khoán" 
+được nhập tại chức năng “Cập nhật thông tin lương nhân viên/Chi tiết”. Chỉ áp dụng tiền khoán có ngày hiệu lực nhỏ hơn hoặc 
+bằng (&lt;=) so với ngày cuối của kỳ tính lương. Trường hợp không nhập trong ngăn “Chi tiết” thì áp dụng tại ngăn “Thông tin chính”</p>
+
+<p class="note">
+Trường trong 1 kỳ tính lương có nhiều mức lương khoán khác nhau thì yêu cầu tính toán chi tiết cho từng mức khác nhau. 
+Khi đó, công thức tính sẽ chia tổng số ngày trong kỳ tính lương (bao gồm cả ngày nghỉ) và nhân lại cho số ngày ứng với mỗi mức tiền khoán khác nhau đó.
+</p>
+
+<p class="node">L31	- Lương bổ sung theo giờ	</p>
+<p class="node_d">Dùng trong những trường hợp nhân viên được hưởng lương bổ sung do làm việc thuộc ca đặc biệt. Công thức:</p>
+<p class="fml">Đơn giá giờ công * Số giờ công</p>
+<p class="note">
+- Đơn giá giờ công: được nhập tại chức năng “Cập nhật đơn giá giờ công” (chi tiết theo mã công, bộ phận), chỉ áp dụng các đơn giá có ngày hiệu lực 
+nhỏ hơn hoặc bằng (&lt;=) so với ngày phát sinh của giờ công trong kỳ tính lương;<br/>
+- Số giờ công: lấy trong tệp lưu kết quả chấm công của nhân viên. Chỉ tính cho những mã công được khai báo ở chức năng “Cập nhật đơn giá giờ công” còn hiệu lực.
+</p>
+
+<p class="node">L51	- Lương tăng ca thời gian	</p>
+<p class="fml">(Lương tối thiểu * Hệ số lương kinh doanh * Số ngày công * Hệ số công) / (Tổng số ngày công một tháng theo quy định)</p>
+
+<p class="note">
+- Công thức tính: tương tự như công thức tính “Lương thời gian” (có “Kiểu tính”=1 – “Tính theo ngày làm việc”);<br/> 
+- Xét cho từng mã công thỏa điều kiện “Loại công” có “Tính chất”=2 - “Tăng ca” và có “Loại lương”=1 – “Thời gian”;<br/> 
+- Nếu loại lương theo công của từng bộ phận thì áp dụng loại lương trong “Khai báo loại lương cho công” 
+(nếu “Loại lương”=9 – Khác).
+</p>
+<p class="node">L52	- Lương vượt tăng ca sản phẩm	</p>
+<p class="node_d">Công thức:</p>
+<p class="fml">Lương tăng ca, thêm giờ phần vượt (lương sản phẩm cá nhân) + Lương tăng ca, thêm giờ phần vượt (lương sản phẩm bộ phận)</p>
+
+<p class="node_d">	Trong đó:</p>
+<p class="fml">(L52A) Lương (sản phẩm cá nhân) tăng ca, thêm giờ phần vượt=Lương sản phẩm cá nhân bộ phận i * Số giờ công tăng ca của mã công i * 
+(Hệ số công tăng ca của mã công i – 1)/ (Tổng số giờ công thường bộ phận i + Tổng số giờ công tăng ca bộ phận i)</p>
+
+<p class="note">
+- Biểu thức (bộ phận i, công i): Công thức tính chi tiết theo từng mã bộ phận, mã công;<br/>
+- Lương sản phẩm cá nhân bộ phận i: Kế thừa kết quả chỉ tiêu “Lương sản phẩm cá nhân” liên quan đến bộ phận i;<br/>
+- Số giờ công tăng ca của mã công i: số giờ công của mã công i thỏa điều kiện “Loại công” có “Tính chất công”=2 – “Tăng ca” và có “Loại lương”=2 – “Sản phẩm” 
+liên quan đến bộ phận i.  Nếu loại lương theo công của từng bộ phận thì áp dụng loại lương trong “Khai báo loại lương cho công” ;<br/>
+- Hệ số công tăng ca của mã công i: lấy “Hệ số công” của mã công tăng ca i (khai báo trong “Danh mục ký hiệu chấm công”);<br/>
+- Tổng số giờ công thường: cộng tổng số giờ công của các mã công thỏa điều kiện có “Loại lương” là 2 – “Sản phẩm”, có “Tính chất” 1 hoặc 2 (tức công làm việc) 
+và “Loại công” với “Tính chất loại công”=1 - “Trong giờ qui định” liên quan đến bộ phận i;<br/>
+- Tổng số giờ công tăng ca: cộng tổng số giờ công của các mã công thỏa điều kiện “Loại công” có “Tính chất”=2 - “Tăng ca” và có “Loại lương”=2 – “Sản phẩm”
+ liên quan đến bộ phận i;
+</p>
+<p class="fml">(L52B) Lương (sản phẩm bộ phận) tăng ca, thêm giờ=Lương sản phẩm bộ phận phân bổ cho cá nhân i * Số giờ công tăng ca của mã công i *
+(Hệ số công tăng ca của mã công i – 1)/ (Tổng số giờ công thường bộ phận i + Tổng số giờ công tăng ca bộ phận i)</p>
+<p class="note">- Lương (sản phẩm bộ phận) tăng ca, thêm giờ tính tương tự như “Lương tăng ca, thêm giờ (lương sản phẩm cá nhân)”, 
+chỉ khác là dùng chỉ tiêu “Lương sản phẩm bộ phận” (phân bổ cho cá nhân) thay cho chỉ tiêu “Lương sản phẩm cá nhân” trong công thức (L52A).
+</p>
+<p class="node">L53	- Lương tăng ca khoán	</p>
+<p class="node_d">Công thức:</p>
+<p class="fml">(Tiền khoán * Số ngày công * Hệ số công) / (Tổng số ngày công một tháng theo quy định)</p>
+<p class="note">
+- Công thức tính: tương tự như công thức tính “Lương khoán” (có “Kiểu tính”=1 – “Tính theo ngày làm việc”);<br/> 
+- Xét cho từng mã công thỏa điều kiện “Loại công” có “Tính chất”=2 - “Tăng ca”) và có “Loại lương”=3 – “Khoán”;<br/> 
+- Nếu loại lương theo công của từng bộ phận thì áp dụng loại lương trong “Khai báo loại lương cho công” (nếu “Loại lương”=9 – Khác).
+</p>
+<p class="node">L54	- Lương vượt sản phẩm ban đêm	</p>
+<p class="node_d">Công thức:</p>
+<p class="fml">(L54A) Lương ca đêm phần vượt (lương sản phẩm cá nhân) + (L54B) Lương ca đêm phần vượt (lương sản phẩm bộ phận)</p>
+<p class="note">
+- Phần vượt này có lập luận tương tự như mã lương L52 - Lương vượt tăng ca sản phẩm, chỉ khác là mã công i thỏa điều kiện có 
+“Tính chất công”=2 - “Ban đêm” thay vì "Tăng ca".</p>
+<p class="node">L71	- Tiền khen thưởng theo hệ số	</p>
+<p class="node_d">Công thức:</p>
+
+<p class="fml">(L01 + L11 + L12 + L21 - L51 - L53) * Hệ số loại khen thưởng</p>
+<p class="note">
+L01 - Lương theo thời gian (xem hướng dẫn trên)<br/> 
+L11 - Lương sản phẩm cá nhân (xem hướng dẫn trên)<br/>  
+L12 - Lương sản phẩm theo bộ phận (xem hướng dẫn trên)<br/> 
+L21 - Lương khoán (xem hướng dẫn trên)<br/> 
+L51 - Lương tăng ca thời gian (xem hướng dẫn trên)<br/> 
+L53 - Lương tăng ca khoán (xem hướng dẫn trên)<br/> 
+- Hệ số khen thưởng được cập nhật tại chức năng "Danh mục loại khen thưởng", loại khen thưởng dành cho cá nhân được cập nhật tại "Cập nhật đánh giá khen thưởng".
+</p>
+
+
+
+<p class="node">P00	- Tiền phụ cấp	/ P10	- Tiền trợ cấp</p>
+<p class="node_d">Dùng để tính các phụ cấp (trợ cấp) chung, không chi tiết theo mã phụ cấp (trợ cấp) hoặc không có hiệu lực theo ngày. Áp dụng mức phụ cấp khai báo trong 
+“Cập nhật thông tin lương nhân viên” </p>
+<p class="note">
+Các phụ cấp khác, xem hướng dẫn mã chỉ tiêu "P20 - Phụ cấp khác".
+</p>
+<p class="node">P20	- Phụ cấp khác	</p>
+<p class="node_d">Công thức:</p>
+<p class="fml">Tỷ lệ phụ cấp * lương cơ bản (kinh doanh) + Tiền phụ cấp</p>
+<p class="note">
+- Tỷ lệ phụ cấp: áp dụng "Tỷ lệ lcb (%)" ở chức năng “Danh mục phụ cấp”;<br/> 
+- Tiền phụ cấp: áp dụng giá trị "Tiền phụ cấp" ở chức năng “Danh mục phụ cấp”;<br/> 
+- Chương trình có xét các mức hiệu lực của các mã phụ cấp
+</p>
+
+<p class="node">P30	- Thưởng /P40	- Phạt</p>
+<p class="node_d">-	Tiền thưởng, phạt: số liệu được cập nhật tại chức năng “Cập nhật thông tin thưởng, phạt”, chỉ áp dụng các phát sinh có ngày thuộc kỳ tính lương.</p>
+
+<p class="node">P50	- Thu nhập khác	/ P60	- Giảm trừ khác</p>
+<p class="node_d">Tiền thu nhập, giảm trừ khác: được nhập tại chức năng “Cập nhật thông tin thu nhập, giảm trừ khác”, chỉ áp dụng các phát sinh có ngày thuộc kỳ tính lương</p>
+
+<p class="node">B00	- Lương đóng bảo hiểm	</p>
+<p class="node_d">Công thức tính trong trường hợp có nhập thông tin trong ngăn “Bảo hiểm” (“Cập nhật thông tin lương nhân viên”):</p>
+<p class="fml">Hệ số lương bảo hiểm * Lương tối thiểu + Lương bảo hiểm </p>
+
+<p class="node_d">Công thức tính trong trường hợp không nhập thông tin trong ngăn “Bảo hiểm” (“Cập nhật thông tin lương nhân viên”):</p>
+<p class="fml">Hệ số lương kinh doanh * Lương tối thiểu</p>
+<p class="note">
+- Hệ số lương bảo hiểm: được nhập tại chức năng “Cập nhật thông tin lương nhân viên/Bảo hiểm”, chỉ áp dụng hệ số có ngày hiệu lực 
+nhỏ hơn hoặc bằng (&lt;=) và gần nhất với ngày cuối của kỳ tính lương;<br/>
+- Lương bảo hiểm: được nhập tại chức năng “Cập nhật thông tin lương nhân viên/Bảo hiểm”, chỉ áp dụng lương bảo hiểm có ngày hiệu lực 
+nhỏ hơn hoặc bằng (&lt;=) và gần nhất với ngày cuối của kỳ tính lương;<br/>
+- Lương tối thiểu: Ưu tiên áp dụng theo lương tối thiểu vùng, nếu không khai báo theo vùng thì áp dụng theo lương tối thiểu chung. 
+Chỉ áp dụng lương tối thiểu có ngày hiệu lực nhỏ hơn và gần nhất với ngày cuối của kỳ tính lương.
+</p>
+
+<p class="node">B01	- Bảo hiểm xã hội	</p>
+<p class="node_d">Công thức:</p>
+<p class="fml">Lương cơ bản (bảo hiểm) * (Tỷ lệ % BHXH cá nhân) </p>
+<p class="note">
+Lương cơ bản được nhập tại chức năng “Cập nhật thông tin lương nhân viên/Bảo hiểm”, Tỷ lệ % BHXH cá nhân được nhập tại chức năng "Khai báo tỷ lệ đóng bảo hiểm, công đoàn". 
+Khi tính có xét theo ngày hiệu lực.
+</p>
+<p class="node">B02	- Bảo hiểm y tế	</p>
+<p class="node_d">Công thức:</p>
+<p class="fml">Lương cơ bản (bảo hiểm) * (Tỷ lệ % BHYT cá nhân)</p>
+<p class="note">Lương cơ bản được nhập tại chức năng “Cập nhật thông tin lương nhân viên/Bảo hiểm”, Tỷ lệ % BHYT cá nhân được nhập tại chức năng 
+"Khai báo tỷ lệ đóng bảo hiểm, công đoàn". 
+Khi tính có xét theo ngày hiệu lực.
+</p>
+<p class="node">B03	- Bảo hiểm thất nghiệp	</p>
+<p class="node_d">Công thức:</p>
+<p class="fml">Lương cơ bản (bảo hiểm) * (Tỷ lệ % BHTN cá nhân)</p>
+<p class="note">Lương cơ bản được nhập tại chức năng “Cập nhật thông tin lương nhân viên/Bảo hiểm”, Tỷ lệ % BHTN cá nhân được nhập tại chức năng
+ "Khai báo tỷ lệ đóng bảo hiểm, công đoàn". 
+Khi tính có xét theo ngày hiệu lực.
+
+</p>
+<p class="node">C01	- Kinh phí công đoàn	</p>
+<p class="node_d">Công thức:</p>
+<p class="fml">Lương cơ bản (bảo hiểm) * (Tỷ lệ % KPCĐ cá nhân)</p>
+<p class="note">- Lương cơ bản được nhập tại chức năng “Cập nhật thông tin lương nhân viên/Bảo hiểm”, Tỷ lệ % KPCĐ cá nhân được nhập tại chức năng
+ "Khai báo tỷ lệ đóng bảo hiểm, công đoàn". 
+Khi tính có xét theo ngày hiệu lực;<br/>
+- Nếu khai báo tại trường “Phí công đoàn” trong chức năng “Cập nhật thông tin bảo hiểm, công đoàn” thì áp dụng luôn giá trị này (không tính theo các công thức trên).
+</p>
+<p class="node">C09	- Chênh lệch đóng bảo hiểm và kinh phí công đoàn	</p>
+<p class="node_d">Công thức:</p>
+<p class="fml">Chênh lệch BHXH + Chênh lệch BHYT + Chênh lệch BHTN + Chênh lệch KPCĐ</p>
+<p class="node_d">Chi tiết cách tính</p>
+<p class="fml">Chênh lệch BHXH(BHYT/BHTN/KPCĐ)=Tiền đóng chênh lệch * (tỷ lệ BHXH(BHYT/BHTN/KPCĐ) công ty / 100) </p>
+<p class="note">
+- Tiền đóng chênh lệch: được nhập tại chức năng “Cập nhật thông tin lương nhân viên/Bảo hiểm”, 
+chỉ áp dụng tiền đóng chênh lệch có ngày hiệu lực nhỏ hơn hoặc bằng (&lt;=) và gần nhất với ngày cuối của kỳ tính lương;<br/>
+- Tỷ lệ bhxh công ty: được nhập tại chức năng “Cập nhật thông tin bảo hiểm, công đoàn” (phần công ty), chỉ áp dụng tỷ lệ có ngày hiệu lực nhỏ hơn hoặc bằng (&lt;=) 
+và gần nhất với ngày cuối của kỳ tính lương;
+
+</p>
+<p class="node">D01	- Chênh lệch lương tăng ca, thêm giờ	</p>
+<p class="node_d">Phần chênh lệch này dùng để làm căn cứ giảm trừ thu nhập tính thuế TNCN. Tính chi tiết cho từng mã công tăng ca (không chi tiết theo bộ phận). <br/>
+Mã lương này bao gồm: </p>
+<ul class="lo_2">
+- Phần vượt lương tăng ca, thêm giờ (lương theo thời gian) <br/>
+- Phần vượt lương tăng ca, thêm giờ (lương khoán) <br/> 
+- Phần vượt lương tăng ca, thêm giờ (lương sản phẩm)
+</ul>
+<p class="node_d">Công thức chung cho lương thời gian và lương khoán:</p>
+<p class="fml">(Kết quả lương tăng ca, thêm giờ/Hệ số công) x (Hệ số công – 1)</p>
+<p class="note">
+- Chỉ tính cho các mã công tăng ca thuộc chỉ tiêu “Lương tăng ca, thêm giờ” và có Loại lương theo thời gian (hoặc khoán);<br/>
+</p>
+<p class="node_d">Phần vượt lương tăng ca, thêm giờ (lương sản phẩm): kế thừa kết quả chỉ tiêu “Lương sản phẩm tăng ca, thêm giờ (phần vượt)” 
+(Xem cách tính mã lương "L52 - Lương vượt tăng ca sản phẩm ").</p>
+
+<p class="node">D02	- Chênh lệch lương ca đêm	</p>
+<p class="node_d">	Phần chênh lệch này dùng để làm căn cứ giảm trừ thu nhập tính thuế TNCN. Tính chi tiết cho từng mã công ca đêm (công thường) 
+(không chi tiết theo bộ phận).<br/>
+Mã lương này bao gồm: </p>
+<ul class="lo_2">
+- Phần vượt lương ca đêm (lương theo thời gian) <br/>
+- Phần vượt lương ca đêm (lương khoán) <br/> 
+- Phần vượt lương ca đêm (lương sản phẩm).
+</ul>
+
+<p class="node_d">Công thức chung cho lương thời gian và lương khoán:</p>
+<p class="fml">(Kết quả công ca đêm/Hệ số công) x (Hệ số công – 1)</p>
+
+<p class="note">
+- Chỉ tính cho các mã công ca đêm thuộc chỉ tiêu lương  “Lương theo thời gian”  (hoặc khoán) và có “Tính chất”=2 – “Ban đêm”.</p>
+
+<p class="node_d">Phần vượt công ca đêm (lương sản phẩm): kế thừa kết quả chỉ tiêu “Lương sản phẩm ca đêm (phần vượt)”. 
+(Xem cách tính mã lương  "L54 - Lương vượt sản phẩm ban đêm")</p>
+<p class="node">U00	- Tạm ứng	</p>
+<p class="node_d">Được nhập tại chức năng “Cập nhật tạm ứng”, chỉ áp dụng các phát sinh có ngày thuộc kỳ tính lương</p>
+
+<p id="td3">Cách tính các mã loại lương kiểu hệ số (1 - Hệ số)	</p>
+<p id="p3">Khai báo thêm trong "Khai báo loại lương". Dùng khi cần thiết phải thêm một mã loại lương không có sẵn trong các loại hệ thống. 
+Cách dùng là sẽ gán một giá trị cố định cho loại lương.</p>
+<p class="node_d">Xem thêm cách tính các mã loại lương hệ số tại:  <b> <a href=hrPayType.htm> Khai báo loại lương</a></b></p>
+
+<p id="td3">Cách tính các mã loại lương kiểu công thức (2 - Công thức)	</p>
+<p id="p3">Khai báo thêm trong "Khai báo loại lương". Dùng để tính toán các mã lương trung gian trong trường hợp mã lương có kiểu 0 và 1 không tính ra trực tiếp được.</p>
+<p class="node_d">Xem thêm cách khai báo các công thức cho loại lương này tại:  <b> <a href=hrPayType.htm> Khai báo loại lương</a></b></p>
+
+<p id="td2">Lập luận chung về tính thuế TNCN </p>
+<!--
+<p id="td3">Liên quan các phân hệ</p>
+<p id="p3">Chức năng tính thuế tại phân hệ chấm công tiền lương được sử dụng trong trường hợp doanh nghiệp có sử dụng tổ hợp phân hệ "Chấm công - Tiền lương". 
+Trường hợp khác, sẽ sử dụng chức năng báo cáo thuế TNCN tại phân hệ kế toán tổng hợp.</p>
+-->
+<p id="td3">Nguyên tắc ghi nhận mã chỉ tiêu tương ứng các đối tượng tính thuế</p>
+<p id="p3">Khi tính thuế TNCN, cần xác định thu nhập tính thuế cho đối tượng nào, trong khi kết quả tính lương chỉ cho biết mã loại lương. Trong thực tế, một loại
+lương có thể thuộc nhiều loại thu nhập thuộc các đối tượng tính thuế khác nhau. Vì thế cần thiết phải khai báo để chương trình nhận biết được các mã thu nhập.<br/>
+Để xác định cần có các thông tin sau:
+</p>
+
+<ul class="lo_2">
+- Thông tin xác định loại đối tượng tính thuế: khai báo trong "Cập nhật thông tin thuế TNCN cho nhân viên". Cần khai báo các thông tin: 
+	Đối tượng (1 - Cư trú, 2 - Không cư trú), Hợp đồng lao động: (1 - Từ 3 tháng trở lên, 0 - Nhỏ hơn 3 tháng);<br/>
+- Mã thu nhập tính thuế cho từng đối tượng: đã khai báo tại "Danh mục chỉ tiêu thu nhập/giảm trừ";<br/>
+- Khai báo liên kết giữa các mã lương và loại đối tượng tính thuế: khai báo "Chỉ tiêu thu nhập cho loại lương". 
+Khi tính lương, dựa vào mã nhân viên sẽ biết được đối tượng, xét khai báo "Chỉ tiêu thu nhập cho loại lương" trong cột tương ứng sẽ biết được mã thu nhập.
+Như vậy có thể tính chính xác thu nhập tính thuế của đối tượng.
+</ul>
+
+<p id="p3">Cách gán một mã lương cho các đối tượng cần tính thuế: một mã lương có thể thuộc 3 đối tượng. Cần khai báo chi tiết các đối tượng cho từng mã lương, 
+một mã lương có thể phải khai báo cả 3 đối tượng:</p>
+<ul class="lo_2">
+-	Mã Chỉ tiêu lũy tiến (cư trú, lũy tiến): chỉ chọn những mã thu nhập thuộc: “Đối tượng”=1 – Cư trú, “Hợp đồng lao động”=1 – Trên 3 tháng. 
+;<br/>
+-	Chỉ tiêu toàn phần (cư trú, toàn phần): chỉ chọn những mã thu nhập thuộc: “Đối tượng”=1 – Cư trú, “Hợp đồng lao động”=2 – Dưới 3 tháng;<br/>
+-	Mã chỉ tiêu không cư trú: chỉ chọn những mã thu nhập thuộc: “Đối tượng”=2 – Không cư trú.
+</ul>
+
+
+<p class="note"> Lưu ý: <br/>
+Các thu nhập tính thuế TNCN nhưng không xuất phát từ việc tính lương sẽ được cập nhật thủ công (theo nhân viên và mã thu nhập cụ thể). 
+(các chỉ tiêu nhập ở phần “Cập nhập phát sinh thu nhập/giảm trừ theo biểu lũy tiến” và "Cập nhật phát sinh theo biểu thuế toàn phần").
+</p>
+
+<p id="td3">Nguyên tắc ghi nhận tỷ giá (nếu đối tượng có đồng tiền tính lương là ngoại tệ)</p>
+<p id="p3">Đối với nhân viên tính lương theo ngoại tệ, khi tính thuế cũng phải qui đổi về đồng tiền hạch toán theo tỷ giá khai báo trong
+ “Danh mục tỷ giá tính lương” cho tất cả các chỉ tiêu thu nhập, giảm trừ. Tùy theo khai báo cách tính tỷ giá 
+ (khai báo ở chức năng “Khai báo chỉ tiêu thu nhập cho loại lương”), sẽ có cách tính tương ứng:</p>
+<ul class="lo_2">
+- Nếu “Loại chỉ tiêu”=1 – Thu nhập: theo tỷ giá tính lương;<br/>
+- Nếu “Loại chỉ tiêu”=2 – Bảo hiểm: theo tỷ giá tính bảo hiểm;
+</ul>
+<p class="note"> Lưu ý: <br/>
+- Các chỉ tiêu liên quan đến thuế TNCN, các chỉ tiêu nhập ở phần “Cập nhập phát sinh thu nhập/giảm trừ theo biểu lũy tiến”) do đã nhập cả ngoại tệ và 
+tiền hạch toán nên sẽ không chịu ảnh hưởng của quy luật này; <br/>
+- Khi tính lương, các khoản bảo hiểm, KPCĐ thì qui đổi theo tỷ giá trong “Danh mục tỷ giá tính bảo hiểm”. Để đồng nhất giữa bảng lương và báo cáo thuế TNCN, 
+các khoản bảo hiểm, KPCĐ - khi khai báo trong "Khai báo thu nhập cho loại lương" - phải được khai báo Loại 2 (tỷ giá tính bảo hiểm)<br/>
+</p>
+
+
+<script type="text/javascript" src="setPageFooter.js"> 
+</script>
+</body>
+</html>
+

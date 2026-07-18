@@ -1,0 +1,316 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+  <!ENTITY ScriptTagReport SYSTEM "..\Include\Javascript\TagReport.txt">
+  <!ENTITY Code  "HK1">
+  <!ENTITY CommandCheckLockedDate  "
+declare @$lockedDate nvarchar(512), @$NotAuthorized nvarchar(512), @$d smalldatetime
+select @$d = dateadd(m, 1, cast(str(@nam, 4) + replace(str(@ky, 2), ' ', '0') + '01' as smalldatetime)) - 1
+select @$lockedDate = case when @@language = 'v' then N'Đã khóa số liệu, kiểm tra lại ngày giới hạn hoặc ngày khóa sổ.' else N'Data is locked, you must modify system locked date.' end
+select @$NotAuthorized = case when @@language = 'v' then N'Chưa có &lt;span class=&quot;Highlight&quot;&gt;quyền thực hiện chức năng này&lt;/span&gt; hoặc &lt;span class=&quot;Highlight&quot;&gt;truy cập bị từ chối&lt;/span&gt;. Liên hệ với người quản trị hệ thống nếu bạn có thể được truy cập vào chức năng này.' else N'You are &lt;span class=&quot;Highlight&quot;&gt;not authorized&lt;/span> or you &lt;span class=&quot;Highlight&quot;&gt;do not have permission&lt;/span&gt; to execute this action. Contact the System administrator if you believe you should be able to execute this action.' end
+if exists(select 1 from dmstt where ngay_ks >= @$d) begin
+  select 'ky' as field, @$lockedDate as message
+  return
+end
+if @ma_dvcs &lt;&gt; '' begin
+  if exists(select 1 from dmdvcsks where charindex(',' + rtrim(ma_dvcs) + ',', ',' + replace(@ma_dvcs, ' ', '') + ',') &gt; 0 and ngay_ks &gt;= @$d) begin
+    select 'ky' as field, @$lockedDate as message
+    return
+  end
+end
+">
+]>
+
+<grid type="Report" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Bút toán kết chuyển lương" e="Salary Transaction"></title>
+  <subTitle v="Kỳ: %p, năm: %y..." e="Period: %p, Year: %y..."></subTitle>
+  <fields>
+    <field name="tag" type="Boolean" width="60" filterSource="Tag">
+      <header v="&lt;div onclick=&quot;toggle$Grid(this);&quot; style=&quot;cursor:pointer;background-position:3px 3px;&quot; class=&quot;HeaderArrowImage&quot;&gt;Chọn&lt;/div&gt;" e="&lt;div onclick=&quot;toggle$Grid(this);&quot; style=&quot;cursor:pointer;background-position:3px 3px;&quot; class=&quot;HeaderArrowImage&quot;&gt;Select&lt;/div&gt;"></header>
+      <clientScript><![CDATA[onclick="onChange$SelectedValue(this);"]]></clientScript>
+    </field>
+    <field name="ma_dvcs" width="100" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Đơn vị" e="Unit"></header>
+    </field>
+    <field name="stt" type="Decimal" width="100" allowSorting="true" allowFilter="true" allowNulls="true" readOnly="true">
+      <header v="Số thứ tự" e="Ordinal Number"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ten_bt" width="300" allowFilter="true" allowSorting="true" readOnly="true">
+      <header v="Tên bút toán" e="Description"></header>
+    </field>
+    <field name="tk_no" width="100" allowFilter="true" allowSorting="true" readOnly="true">
+      <header v="Tài khoản nợ" e="Debit Account"></header>
+    </field>
+    <field name="tk_co" width="100" allowFilter="true" allowSorting="true" readOnly="true">
+      <header v="Tài khoản có" e="Credit Account"></header>
+    </field>
+    <field name="ma_loai_lg" width="100" allowFilter="true" allowSorting="true" readOnly="true">
+      <header v="Mã loại lương" e="Pay Type"></header>
+    </field>
+    <field name="ten_loai_lg%l" width="300" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Tên loại lương" e="Pay Type Name"></header>
+    </field>
+    <field name="ma_bp" width="100" allowFilter="true" allowSorting="true" readOnly="true">
+      <header v="Mã bộ phận" e="Department"></header>
+    </field>
+    <field name="ten_bp%l" width="300" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Tên bộ phận" e="Department Name"></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="tag"/>
+      <field name="ma_dvcs"/>
+      <field name="stt"/>
+      <field name="ten_bt"/>
+      <field name="tk_no"/>
+      <field name="tk_co"/>
+      <field name="ma_loai_lg"/>
+      <field name="ten_loai_lg%l"/>
+      <field name="ma_bp"/>
+      <field name="ten_bp%l"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$GridReport$(this);load$CheckingReport$(this);' as message
+return]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridReport$(this);dispose$CheckingReport$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Scattering">
+      <text>
+        <![CDATA[select 'scatter$GridReport$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$CheckingReport$(g) {
+  g._$k = [];
+  g._$u = [];
+  g._$i = g._getColumnOrder('stt');
+  g._$d = g._getColumnOrder('ma_dvcs');
+  g._$t = g._getColumnOrder('tag');
+  g.add_onResponseComplete(on$GridReport$ResponseComplete);
+  g.add_commandEvent(on$GridReport$ExecuteCommand);
+}
+
+function dispose$CheckingReport$(g) {
+  g._$k = g._$u = g._$i = g._$d = g._$t = null;
+  try {g.remove_commandEvent(on$GridReport$ExecuteCommand);} catch (ex) {}
+  try {g.remove_onResponseComplete(on$GridReport$ResponseComplete);} catch (ex) {}
+}
+function scatter$GridReport$(g){
+  fill$Grid(g, true);
+  if (g._rowCount > 0){
+    g._activeRow = g._rowCount;
+    g._activeColumn = g._$t;
+    g._activeCell = g._getItem(g._activeRow, g._activeColumn);
+	}
+}
+function on$GridReport$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'CreateTrans':
+      request$Transaction(g, '1');
+      break;
+    case 'DeleteTrans':
+      request$Transaction(g, '9');
+      break;
+    default:
+      break;
+  }
+}
+function on$GridReport$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result, o = e.type.Object;
+  switch (context) {
+    case 'Transaction':
+      if (result[0].Value != '') $message.show(result[1].Value, String.format('$find(\'{0}\')._focusWhenTabChanged();', g.get_id()));
+        else {
+          g._$k = [];
+          g._$u = [];
+          g.goToPage(-1);
+        }
+      break;
+    default:
+      break;
+  }
+}
+function request$Transaction(g, t) {
+  if (g._rowCount == 0) return;
+  var r = (g._activeCell ? g._activeRow : 1), s = g._$k.join(',') + ',', su = g._$u.join(',') + ',', o = g._getItemValue(r, g._$t);
+  o.row = r;
+  if (isCheck$Grid(g)) g.request(o, 'Transaction', 'Transaction', [['ky', 'Decimal', g._period], ['nam', 'Decimal', g._year], ['ma_dvcs', 'String', g._unit], ['s', 'Infinite', s], ['su', 'Infinite', su], ['type', 'String', t]]);
+}
+
+function isCheck$Grid(g) {
+  var msg = (g._language == 'v' ? 'Chưa có bản ghi nào được chọn, phải đánh dấu trước khi thực hiện chức năng này.' : 'No record selected, please select at least one record to process.');
+  if (g._$k.length == 0) {
+    $message.show(msg, String.format('$find(\'{0}\')._focusWhenTabChanged();', g.get_id()));
+    return false;
+  }
+  return true;
+}
+function fill$Grid(g, f) {
+  if (f && g._$k.length == 0) return;
+  for (var r = 1; r <= g._rowCount; r++) {
+    var k = row$Key(g, r, g._$i), i = Array.indexOf(g._$k, k);
+    g._setItemValue(r, g._$t, (i > -1));
+  }
+}
+function init$ExportKey(g, c) {
+  var p = (c ? c : ''), keys = p + g._$k.join(',') + p, v = g._filterMemvars, i = $func.findMemvarIndex(g._$f, v);
+  if (i > -1) {
+    var memvar = v[i];
+    memvar.NewValue = memvar.Compressed ? $func.compress(keys) : keys;
+  }
+}
+function toggle$Grid(o) {
+  var c = o.parentNode.parentNode.parentNode.id, g = $find($func.left(c, c.length - 11));
+  for (var r = 1; r <= g._rowCount; r++) {
+    if (!g._getItem(r, g._$t).disabled) {
+      var k = row$Key(g, r, g._$i), p = row$Key(g, r, g._$d), i = Array.indexOf(g._$k, k);
+      if (i == -1) Array.add(g._$k, k), Array.add(g._$u, p);
+        else Array.removeAt(g._$k, i), Array.removeAt(g._$u, i);
+      g._setItemValue(r, g._$t, (i == -1));
+    }
+  }
+
+  init$ExportKey(g);
+  if (g._rowCount <= 0) return;
+  else {
+    g._activeRow = g._rowCount;
+    g._activeColumn = g._$t;
+    g._activeCell = g._getItem(g._activeRow, g._activeColumn);
+    g._focusWhenTabChanged();
+  }
+}
+function onChange$SelectedValue(o) {
+  var a = o.id.split('_inputCell_'), g = o.grid;
+  if (!g) g = $find(a[0]);
+  var r = $func.getLocationCell(o)[0], k = row$Key(g, r, g._$i), p = row$Key(g, r, g._$d), i = Array.indexOf(g._$k, k);
+  if (i == -1) Array.add(g._$k, k), Array.add(g._$u, p);
+    else Array.removeAt(g._$k, i), Array.removeAt(g._$u, i);
+
+  init$ExportKey(g);
+  g._activeRow = a[1].split('.')[0];
+  g._activeColumn = a[1].split('.')[1];
+  g._activeCell = g._getItem(g._activeRow, g._activeColumn);
+}
+function row$Key(g, r, c) {return g._getItemValue(r, c);}
+/* </flatten> */]]>
+      &JavascriptReportInit;
+    </text>
+  </script>
+
+  <css>
+    <text>
+      <![CDATA[
+div.CreateTrans{background-image:url(../images/Shift.png);background-repeat:no-repeat;background-position:0 0;}
+div.DeleteTrans{background-image:url(../images/command.png);background-repeat:no-repeat;background-position:-44px 0;}
+div.TextCreateTrans{background-image:url(../images/TextAsterisk.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.TextDeleteTrans{background-image:url(../images/TextRemove.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.CreateTransOverGreen, div.DeleteTransOverGreen, div.TextCreateTransOverGreen, div.TextDeleteTransOverGreen{background-position-y:-22px;}
+]]>
+    </text>
+  </css>
+
+  <response>
+    <action id="Transaction">
+      <text>
+        &CommandCheckLockedDate;
+        <![CDATA[
+declare @q nvarchar(4000), @t nvarchar(4000), @u nvarchar(4000), @unitKey nvarchar(4000)
+select @t = text from @s
+select @t = substring(@t, 0, len(@t))
+select ltrim(data) as stt, cast('' as varchar(33)) as ma_dvcs, identity(int,1,1) as n into #t from dbo.FastBusiness$Function$System$Split(@t, ',')
+
+select @u = text from @su
+select @u = substring(@u, 0, len(@u))
+select ltrim(data) as ma_dvcs, identity(int,1,1) as n into #u from dbo.FastBusiness$Function$System$Split(@u, ',')
+update #t set ma_dvcs = b.ma_dvcs from #t a left join #u b on a.n = b.n
+
+select top 0 ma_dvcs, ma_loai_lg, ma_bp, identity(int,1,1) as stt into #k from hrbtkcl
+
+--
+if @ma_dvcs = '' begin
+  if exists(select 1 from dmdvcsks where ma_dvcs in (select a.ma_dvcs from sysunitrights a join (select distinct ma_dvcs from #t) b on a.ma_dvcs = b.ma_dvcs where user_id = @@userID) and ngay_ks >= @$d) begin
+    select 'ky' as field, @$lockedDate as message
+    return
+  end
+end
+
+--
+if @type = '1' begin
+  if @@admin <> 1 begin
+    if exists(select 1 from sysunitrights a join (select distinct ma_dvcs from #t) b on a.ma_dvcs = b.ma_dvcs where a.user_id = @@userID and a.r_new = 0) begin
+      select 'ky' as field, @$NotAuthorized as message
+      return
+    end
+  end
+
+  select @unitKey = dbo.FastBusiness$Function$System$GetUnitFilterEx('a.ma_dvcs', @ma_dvcs, @@userID, @@admin, 'New')
+  select @q = 'insert into #k(ma_dvcs, ma_loai_lg, ma_bp) select a.ma_dvcs, a.ma_loai_lg, a.ma_bp from hrbtkcl a join #t b on a.stt = b.stt' + case when @unitKey is not null then ' where ' + @unitKey else '' end + ' order by a.stt'
+  exec sp_executesql @q
+
+  exec hs_PostSalary2GL ']]>&Code;<![CDATA[', @ky, @nam, @ma_dvcs, @@userID, @@admin
+end
+
+if @type = '9' begin
+  if @@admin <> 1 begin
+    if exists(select 1 from sysunitrights a join (select distinct ma_dvcs from #t) b on a.ma_dvcs = b.ma_dvcs where a.user_id = @@userID and a.r_del = 0) begin
+      select 'ky' as field, @$NotAuthorized as message
+      return
+    end
+  end
+
+  select @unitKey = dbo.FastBusiness$Function$System$GetUnitFilterEx('a.ma_dvcs', @ma_dvcs, @@userID, @@admin, 'Delete')
+  select @q = 'insert into #k(ma_dvcs, ma_loai_lg, ma_bp) select a.ma_dvcs, a.ma_loai_lg, a.ma_bp from hrbtkcl a join #t b on a.stt = b.stt' + case when @unitKey is not null then ' where ' + @unitKey else '' end + ' order by a.stt'
+  exec sp_executesql @q
+
+  exec hs_DeleteSalaryFromGL @ky, @nam, @ma_dvcs, @@userID, @@admin
+end
+
+select '' as field, '' as message
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+  <toolbar>
+    <button command="CreateTrans">
+      <title v="Tạo bút toán kết chuyển$$90" e="Create Salary Transaction$$90"></title>
+    </button>
+    <button command="DeleteTrans">
+      <title v="Xóa bút toán kết chuyển$$90" e="Delete Salary Transaction$$90"></title>
+    </button>
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"></title>
+    </button>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"></title>
+    </button>
+    <button command="Seprate">
+      <title v="-" e="-"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+</grid>

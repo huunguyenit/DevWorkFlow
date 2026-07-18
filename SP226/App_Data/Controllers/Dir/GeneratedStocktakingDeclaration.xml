@@ -1,0 +1,208 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY Check "
+#IF @@view = 0 #THEN
+  #IF @@action = 'Edit' #THEN
+    #IF @@admin &lt;&gt; 1 #THEN
+      if not exists(select 1 from sysunitrights where user_id = @@userID and ma_dvcs = @ma_dvcs and r_edit = 1) begin
+        select '' as fields, '$NotAuthorized' as message
+        return
+      end
+    #END
+  #END
+#END
+">
+]>
+
+<dir table="dmclkktd" code="ma_dvcs" order="ma_dvcs" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thông tin nhập xuất chênh lệch kiểm kê tự động" e="Auto Generation of Stock Variance Information Declaration"></title>
+  <fields>
+    <field name="ma_dvcs" allowNulls="false" isPrimaryKey="true">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="AutoComplete" controller="Unit" reference="ten_dvcs%l" key="@@admin = 1 or ma_dvcs in (select ma_dvcs from sysunitrights where user_id = @@userID and r_new = 1) and status = '1'" check="@@admin = 1 or ma_dvcs in (select ma_dvcs from sysunitrights where user_id = @@userID and r_new = 1)" information="ma_dvcs$dmdvcs.ten_dvcs%l"/>
+      <clientScript><![CDATA[onchange="onChange$Unit(this)";]]></clientScript>
+    </field>
+    <field name="ten_dvcs%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="ma_kh_thieu" allowNulls="false">
+      <header v="Mã khách k.kê thiếu" e="Customer for Issue"></header>
+      <items style="AutoComplete" controller="Customer" reference="ten_kh_thieu%l" key="status = '1'" check="1 = 1" information="ma_kh$dmkh.ten_kh%l" new="Default"/>
+    </field>
+    <field name="ten_kh_thieu%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="dien_giai_thieu">
+      <header v="Diễn giải k.kê thiếu" e="Memo for Issue"></header>
+    </field>
+    <field name="tk_kk_thieu" allowNulls="false">
+      <header v="Tài khoản k.kê thiếu" e="Dr Account for Issue"></header>
+      <items style="AutoComplete" controller="Account" reference="ten_tk_kk_thieu%l" key="status = '1' and loai_tk = '1'" check="loai_tk = '1'" information="tk$dmtk.ten_tk%l" new="Default"/>
+    </field>
+    <field name="ten_tk_kk_thieu%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nx_thieu" allowNulls="false">
+      <header v="Mã nx k.kê thiếu" e="Reason for Issue"></header>
+      <items style="AutoComplete" controller="Reason" reference="ten_nx_thieu%l" check="1 = 1" information="ma_nx$dmnx.ten_nx%l"/>
+    </field>
+    <field name="ten_nx_thieu%l" readOnly="true" external="true" defaultValue="''" >
+      <header v="" e=""></header>
+    </field>
+
+    <field name="ma_kh_thua" allowNulls="false">
+      <header v="Mã khách k.kê thừa" e="Customer for Receipt"></header>
+      <items style="AutoComplete" controller="Customer" reference="ten_kh_thua%l" key="status = '1'" check="1 = 1" information="ma_kh$dmkh.ten_kh%l" new="Default"/>
+    </field>
+    <field name="ten_kh_thua%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="dien_giai_thua">
+      <header v="Diễn giải k.kê thừa" e="Memo for Receipt"></header>
+    </field>
+    <field name="tk_kk_thua" allowNulls="false">
+      <header v="Tài khoản k.kê thừa" e="Cr Account for Receipt"></header>
+      <items style="AutoComplete" controller="Account" reference="ten_tk_kk_thua%l" key="status = '1' and loai_tk = '1'" check="loai_tk = '1'" information="tk$dmtk.ten_tk%l" new="Default"/>
+    </field>
+    <field name="ten_tk_kk_thua%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nx_thua" allowNulls="false">
+      <header v="Mã nx k.kê thừa" e="Reason for Receipt"></header>
+      <items style="AutoComplete" controller="Reason" reference="ten_nx_thua%l" check="1 = 1" information="ma_nx$dmnx.ten_nx%l"/>
+    </field>
+    <field name="ten_nx_thua%l" readOnly="true" external="true" defaultValue="''" >
+      <header v="" e=""></header>
+    </field>
+
+    <field name="ghi_chu">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+
+      <item value="120, 100, 330"/>
+      <item value="111: [ma_dvcs].Label, [ma_dvcs], [ten_dvcs%l]"/>
+
+      <item value="111: [ma_kh_thieu].Label, [ma_kh_thieu], [ten_kh_thieu%l]"/>
+      <item value="110: [dien_giai_thieu].Label, [dien_giai_thieu]"/>
+      <item value="111: [tk_kk_thieu].Label, [tk_kk_thieu], [ten_tk_kk_thieu%l]"/>
+      <item value="111: [ma_nx_thieu].Label, [ma_nx_thieu], [ten_nx_thieu%l]"/>
+
+      <item value="111: [ma_kh_thua].Label, [ma_kh_thua], [ten_kh_thua%l]"/>
+      <item value="110: [dien_giai_thua].Label, [dien_giai_thua]"/>
+      <item value="111: [tk_kk_thua].Label, [tk_kk_thua], [ten_tk_kk_thua%l]"/>
+      <item value="111: [ma_nx_thua].Label, [ma_nx_thua], [ten_nx_thua%l]"/>
+
+      <item value="110: [ghi_chu].Label, [ghi_chu]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        &Check;
+        <![CDATA[
+select 'initForm(this);' as message
+return]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        &Check;
+        <![CDATA[
+select 'initForm(this);' as message
+return]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$recordHasBeenChanged nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Đơn vị <span class="Highlight">%s</span> đã có trong danh mục khai báo thông tin nhập xuất chênh lệch kiểm kê tự động.' else N'The record consisting of Unit <span class="Highlight">%s</span> already exists.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Bản ghi hiện thời đã được sửa hoặc xóa bởi người sử dụng khác.' else N'This item has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where ma_dvcs = @ma_dvcs) begin
+  select 'ma_dvcs' as field, replace(@$exists, '%s', rtrim(@ma_dvcs)) as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select 1 from @@table where ma_dvcs = $ma_dvcs.OldValue) begin
+  select 'ma_dvcs' as field, @$recordHasBeenChanged as message
+  return
+end
+if not (@ma_dvcs = $ma_dvcs.OldValue) begin
+  if exists(select 1 from @@table where (not (ma_dvcs = $ma_dvcs.OldValue)) and (ma_dvcs = @ma_dvcs)) begin
+    select 'ma_dvcs' as field, replace(@$exists, '%s', rtrim(@ma_dvcs)) as message
+    return
+  end
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_dvcs = @ma_dvcs
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+#IF @@admin <> 1 #THEN
+  if not exists(select 1 from sysunitrights where user_id = @@userID and ma_dvcs = @ma_dvcs and r_del = 1) begin
+    select '$NotAuthorized' as message
+    return
+  end
+#END
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function initForm(f) {
+  if (f._action == 'Edit') {
+    f._setReadOnly(f.getItem('ma_dvcs'), true);
+    f.getItem('ma_kh_thieu').focus();
+  }
+  f.setReferenceKeyFilter('ma_kh_thieu');
+  f.setReferenceKeyFilter('tk_kk_thieu');
+  f.setReferenceKeyFilter('ma_kh_thua');
+  f.setReferenceKeyFilter('tk_kk_thua');
+}
+function onChange$Unit(o) {
+  var f = o.parentForm;
+  f.setReferenceKeyFilter('ma_kh_thieu');
+  f.setReferenceKeyFilter('tk_kk_thieu');
+  f.setReferenceKeyFilter('ma_kh_thua');
+  f.setReferenceKeyFilter('tk_kk_thua');
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+</dir>

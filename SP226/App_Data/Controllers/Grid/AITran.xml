@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY CommandWhenWhenVoucherBeforeInit SYSTEM "..\Include\Command\WhenVoucherBeforeInit.txt">
+  <!ENTITY CommandWhenWhenVoucherBeforeAddNew SYSTEM "..\Include\Command\WhenVoucherBeforeAddNew.txt">
+  <!ENTITY CommandWhenWhenVoucherAfterInit SYSTEM "..\Include\Command\WhenVoucherAfterInit.txt">
+  <!ENTITY XMLStandardVoucherToolbar SYSTEM "..\Include\XML\ExternalVoucherToolbar.xml">
+  <!ENTITY TransferID "AITran">
+
+  <!ENTITY % Invoice SYSTEM "..\Include\Invoice.ent">
+  %Invoice;
+
+  <!ENTITY % PrintRight SYSTEM "..\Include\PrintRightGrid.ent">
+  %PrintRight;
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+]>
+
+<grid table="hddc" code="stt_rec" order="ngay_ct, so_ct" type="Voucher" id="HD5" uniKey="true" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Hóa đơn điều chỉnh thông tin" e="Adjustment Invoice"></title>
+  <subTitle v="Hóa đơn điều chỉnh thông tin: thêm, sửa, xóa..." e="Add, Edit, Delete Adjustment Invoice..."></subTitle>
+  <partition table="ihddc" prime="hddc" inquiry="ihddc" field="ngay_ct" expression="''" increase="{0}" default=""/>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" width="0" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_dvcs" width="100" aliasName="a" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Đơn vị" e="Unit"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="@datetimeFormat" width="100" aliasName="a" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Ngày" e="Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="so_ct" width="100" align="right" aliasName="a" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Số" e="Number"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_kh" width="100" aliasName="a" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Mã khách" e="Customer ID"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ten_kh%l" width="300" external="true" aliasName="b" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Tên khách" e="Customer Name"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="t_tt_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountViewFormat" allowFilter="&GridVoucherAllowFilter;" width="120" clientDefault="0" aliasName="a" aggregate="Sum">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_nt" width="100" aliasName="a" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Mã nt" e="Currency Code"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    &EIGridFields;
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt_rec"/>
+      <field name="ma_dvcs"/>
+      <field name="ngay_ct"/>
+      <field name="so_ct"/>
+      <field name="ma_kh"/>
+      <field name="ten_kh%l"/>
+      <field name="t_tt_nt"/>
+      <field name="ma_nt"/>
+
+      &EIGridViews;
+    </view>
+  </views>
+
+  <commands>
+    &XMLWhenGridShowingPrintRight;
+
+    <command event="Loading">
+      <text>
+        &CommandWhenWhenVoucherBeforeInit;
+        <![CDATA[select @message = @message + 'load$Grid(this);']]>
+        &CommandWhenWhenVoucherBeforeAddNew;
+        &CommandWhenWhenVoucherAfterInit;
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+/* <flatten type="Javascript"> */
+function load$Grid(g) {g.add_commandEvent(on$GridSalesInvoice$ExecuteCommand);}
+function dispose$Grid(g) {try {g.remove_commandEvent(on$GridSalesInvoice$ExecuteCommand);} catch (ex) {} }
+/* </flatten> */
+function on$GridSalesInvoice$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'Edit':
+      ]]>&EIGridExecuteCommandEdit;<![CDATA[
+      break;
+    default:
+      break;
+  }
+}
+]]>
+      &PrintRightScript;
+      &EIGridScript;
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[exec FastBusiness$App$Voucher$Loading
+@@id, @@master, @@prime, @@partition, @@expression, @@extension, @@pageCount, 'stt_rec', @@textList, @@textExternal, 'a left join dmkh b on a.ma_kh = b.ma_kh', @@textOrderBy, @@admin, @@userID, @@viewAccessMode, 0, @@queryString]]>&EIDefault;&EIGridQuery;
+      </text>
+    </query>
+
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        <![CDATA[exec FastBusiness$App$Voucher$Finding
+@@id, @@master, @@prime, @@inquiry, @@partition, @@expression, @@increase, @@extension, @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem,
+@@keyMaster, @@keyDetail, 'stt_rec', @@textList, @@textExternal,
+'a left join dmkh b on a.ma_kh = b.ma_kh', @@textOrderBy, @@admin, @@userID, @@viewAccessMode,
+@ngay_ct1, @ngay_ct2, @so_ct1, @so_ct2, @status, @user_id0, @ma_dvcs]]>&EIDefault;&EIDefault;&EIDefault;&EIGridQuery;
+      </text>
+    </query>
+  </queries>
+
+  &XMLStandardVoucherToolbar;
+</grid>

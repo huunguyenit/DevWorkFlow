@@ -1,0 +1,158 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY CommandWhenBalanceBeforeEdit SYSTEM "..\Include\Command\WhenBalanceBeforeEdit.txt">
+  <!ENTITY CommandWhenBalanceBeforeDelete SYSTEM "..\Include\Command\WhenBalanceBeforeDelete.txt">
+
+  <!ENTITY % ContractBalanceCustomer SYSTEM "..\Include\ContractBalanceCustomer.ent">
+  %ContractBalanceCustomer;
+]>
+
+<dir table="cdhd" code="nam, ma_dvcs, tk, ma_hd&ContractBalanceCustomerCode;" order="nam, ma_dvcs, tk, ma_hd&ContractBalanceCustomerCode;" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="số dư đầu kỳ hợp đồng" e="Contract Opening Balance"></title>
+  <fields>
+    <field name="nam" isPrimaryKey="true" type="Decimal" width="80" readOnly="true" hidden="true" allowNulls="false" dataFormatString="####">
+      <header v="Năm" e="Year"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ma_dvcs" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false" inactivate="true" disabled="true">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="AutoComplete" controller="Unit" reference="ten_dvcs%l" key="status='1'" check="1=1" information="ma_dvcs$dmdvcs.ten_dvcs%l" />
+    </field>
+    <field name="ten_dvcs%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="tk" isPrimaryKey="true" dataFormatString="@upperCaseFormat" clientDefault="Default" allowNulls="false" align="left">
+      <header v="Tài khoản" e="Account"></header>
+      <items style="AutoComplete" controller="Account" reference="ten_tk%l" key="loai_tk = 1 and status = '1'" check="loai_tk = 1" information="tk$dmtk.ten_tk%l" new="Default"/>
+      <clientScript>&ContractBalanceCustomerOnChangeAccount;</clientScript>
+    </field>
+    <field name="ten_tk%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_hd" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã hợp đồng" e="Contract"></header>
+      <items style="AutoComplete" controller="Contract" reference="ten_hd%l" key="hd_sd_pslk = 1 and status='1'" check="hd_sd_pslk = 1" information="ma_hd$dmhd.ten_hd%l" new ="Default"/>
+    </field>
+    <field name="ten_hd%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+
+    &ContractBalanceCustomerDirField;
+
+    <field name="du_no00" type ="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" align="right">
+      <header v="Dư nợ" e="Debit Balance"></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="resetOpeningBalance(this, 'du_co00');"]]></clientScript>
+    </field>
+    <field name="du_co00" type ="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" align="right">
+      <header v="Dư có" e="Credit Balance"></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="resetOpeningBalance(this, 'du_no00');"]]></clientScript>
+    </field>
+    <field name="du_no_nt00" type ="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" align="right">
+      <header v="Dư nợ ngoại tệ" e="FC Debit Balance"></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="resetOpeningBalance(this, 'du_co_nt00');"]]></clientScript>
+    </field>
+    <field name="du_co_nt00" type ="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" align="right">
+      <header v="Dư có ngoại tệ" e="FC Credit Balance"></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="resetOpeningBalance(this, 'du_no_nt00');"]]></clientScript>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 40, 30, 200, 130"/>
+      <item value="110010: [ma_dvcs].Label, [ma_dvcs], [ten_dvcs%l]"/>
+      <item value="110010: [tk].Label, [tk], [ten_tk%l]"/>
+      <item value="110010: [ma_hd].Label, [ma_hd], [ten_hd%l]"/>
+
+      &ContractBalanceCustomerDirView;
+
+      <item value="1100-1: [du_no00].Label, [du_no00], [nam]"/>
+      <item value="1100--: [du_co00].Label, [du_co00]"/>
+      <item value="1100--: [du_no_nt00].Label, [du_no_nt00]"/>
+      <item value="1100--: [du_co_nt00].Label, [du_co_nt00]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+select 'activeFormOpeningBalance(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        <![CDATA[
+declare @message nvarchar(4000), @startYear int, @unitName nvarchar(1023)
+select @startYear = nam_bd from dmstt
+select @unitName = case when @@language = 'v' then ten_dvcs else ten_dvcs2 end from dmdvcs where ma_dvcs = @@unit
+select @message = 'this._startYear=' + rtrim(@startYear) + ';this._unitCode=''' + @@unit + ''';this._unitName=''' + replace(replace(isnull(@unitName, ''), '\', '\\'), '''', '\''') + '''; initOpeningBalance(this);'
+]]>&CommandWhenBalanceBeforeEdit;<![CDATA[
+select @message as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+declare @message nvarchar(4000)
+select @message = 'initOpeningBalance(this);'
+]]>&CommandWhenBalanceBeforeEdit;<![CDATA[
+select @message as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$ContractOpeningBalanceForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+    &ContractBalanceCustomerCommand;
+    <command event="Deleting">
+      <text>
+        &CommandWhenBalanceBeforeDelete;
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &ContractBalanceCustomerScript;
+      <![CDATA[/* <flatten type="Javascript"> */
+function initOpeningBalance(f) {
+  if (f._action == 'New') {
+    f.setItemValue('nam', f._startYear);
+    var o = f.getItem('ma_dvcs');
+    o.value = f._unitCode;
+    f.getItem('ten_dvcs%l').value = f._unitName;
+  }
+}
+function resetOpeningBalance(o, c) {
+  var f = o.parentForm;
+  if (f.getItemValue(o.field.Name) != 0) f.setItemValue(c, 0);
+  f.live(f.getItem(c));
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <response>
+    &ContractBalanceCustomerResponse;
+  </response>
+
+</dir>

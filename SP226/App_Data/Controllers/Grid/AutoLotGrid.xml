@@ -1,0 +1,160 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE grid [
+  <!ENTITY Identity "AutoLot">
+]>
+
+<grid table="vdmlo" code="ma_vt, ma_lo" order="ma_vt, ma_lo" type="Detail" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <fields>
+    <field name="ma_vt" isPrimaryKey="true" width="100" readOnly="true">
+      <header v="Mã vật tư" e="Item"></header>
+    </field>
+    <field name="ma_lo" isPrimaryKey="true" width="100" readOnly="true">
+      <header v="Mã lô" e="Lot"></header>
+
+    </field>
+    <field name="ngay_nhap" type="DateTime" dataFormatString="@datetimeFormat" align="left" width="100">
+      <header v="Ngày nhập" e="Receipt Date"></header>
+      <clientScript><![CDATA[onchange="onChange$Lot$ReceiptDate(this);"]]></clientScript>
+    </field>
+    <field name="ten_lo" width="300" allowNulls="false">
+      <header v="Tên lô" e="Description"></header>
+    </field>
+    <field name="ten_lo2" width="300">
+      <header v="Tên khác" e="Other Description"></header>
+    </field>
+
+    <field name="ngay_sx" type="DateTime" dataFormatString="@datetimeFormat" align="left" width="100">
+      <header v="Ngày sản xuất" e="Manufacture Date"></header>
+    </field>
+    <field name="ngay_hhsd" type="DateTime" dataFormatString="@datetimeFormat" align="left" width="100">
+      <header v="Hạn sử dụng" e="Expiry Date"></header>
+    </field>
+    <field name="ngay_hhbh" type="DateTime" dataFormatString="@datetimeFormat" align="left" width="100">
+      <header v="Hạn bảo hành" e="Warranty Date"></header>
+    </field>
+    <field name="ma_vt2" isPrimaryKey="true" dataFormatString="@upperCaseFormat" width="100">
+      <header v="Mã phụ" e="Part Number"></header>
+      <items style="Mask"></items>
+    </field>
+
+    <field name="ghi_chu" width="300">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+    <field name="so_ngay_sp" type="Int32" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="so_ngay_bh" type="Int32" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="kieu_lo" type="Int16" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="status" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_vt"/>
+      <field name="ma_lo"/>
+      <field name="ngay_nhap"/>
+      <field name="ten_lo"/>
+      <field name="ten_lo2"/>
+
+      <field name="ngay_sx"/>
+      <field name="ngay_hhsd"/>
+      <field name="ngay_hhbh"/>
+      <field name="ma_vt2"/>
+
+      <field name="ghi_chu"/>
+      <field name="so_ngay_sp"/>
+      <field name="so_ngay_bh"/>
+      <field name="kieu_lo"/>
+      <field name="status"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$]]>&Identity;<![CDATA[Grid$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function load$]]>&Identity;<![CDATA[Grid$(g) {if (g._rowCount > 0) g._focusWhenTabChanged();}
+/* <flatten type="Javascript"> */
+function onChange$Lot$ReceiptDate(o) {
+  var g = o.grid, r = g._activeRow, d = g._getItemValue(r, g._getColumnOrder('ngay_nhap'));
+  if (!d) return;
+  g._setItemValue(r, g._getColumnOrder('ngay_hhbh'), new Date(d.getTime() + (g._getItemValue(r, g._getColumnOrder('so_ngay_bh')) * 86400000)));
+  g._setItemValue(r, g._getColumnOrder('ngay_hhsd'), g._getItemValue(r, g._getColumnOrder('kieu_lo')) == 1 ? new Date(d.getTime() + (g._getItemValue(r, g._getColumnOrder('so_ngay_sp')) * 86400000)) : null);
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+declare @ngay smalldatetime, @seq bit, @i int, @v1 nvarchar(33), @v2 nvarchar(33), @s char(1), @c varchar(1), @d varchar(32)
+select @ngay_nhap = right(rtrim(@ngay_nhap), 4) + substring(right(@ngay_nhap, 7), 1, 2) + left(@ngay_nhap, 2)
+select @ngay = convert(datetime, @ngay_nhap)
+select @d = convert(char(10), @ngay, 103)
+
+select top 0 cast(0 as int) as id, ma_vt, ma_lo, ngay_nhap, ten_lo, ten_lo2, ngay_sx, ngay_hhsd, ngay_hhbh, ma_vt2, ghi_chu, so_ngay_sp, so_ngay_bh, kieu_lo, status into #d from vdmlo
+select top 0 id, ma_vt, ma_lo, status into #r from #d
+
+select @seq = case when right(rtrim(val), 1) = '#' then 1 else 0 end from options where name = 'm_ma_lo_td'
+
+set @i = 1
+set @s = char(255)
+while @i <= dbo.FastBusiness$Function$GetWordCount(@ma_vt, @s) begin
+  select @v1 = dbo.FastBusiness$Function$GetWordNum(@ma_vt, @i, @s), @v2 = dbo.FastBusiness$Function$GetWordNum(@ma_lo, @i, @s)
+  select @c = case when @seq = 0 and @v2 = '' then '1' else '0' end
+  insert into #r values(@i, @v1, @v2, @c)
+
+  select @i = @i + 1
+end
+
+select id, ma_vt, @ngay as ngay_nhap, ma_lo into #lot from #r where ma_lo = ''
+exec FastBusiness$Voucher$AutoCreateLot '#lot'
+update #r set ma_lo = a.ma_lo from #lot a where a.id = #r.id
+
+insert into #d select a.id, a.ma_vt, a.ma_lo, @ngay,
+    N'Lô ' + rtrim(upper(a.ma_lo)) + N' ngày nhập ' + @d, N'Lot ' + rtrim(upper(a.ma_lo)) + N' Received on ' + @d,
+    @ngay, case when b.kieu_lo = 1 then (@ngay + b.so_ngay_sp) else null end, @ngay + b.so_ngay_bh, '', '', b.so_ngay_sp, b.so_ngay_bh, b.kieu_lo, a.status
+	from #r a left join dmvt b on a.ma_vt = b.ma_vt
+
+select rtrim(ma_vt) as ma_vt, rtrim(upper(ma_lo)) as ma_lo, ngay_nhap, rtrim(ten_lo) as ten_lo, rtrim(ten_lo2) as ten_lo2,
+    ngay_sx, ngay_hhsd, ngay_hhbh, rtrim(ma_vt2) as ma_vt2, rtrim(ghi_chu) as ghi_chu, so_ngay_sp, so_ngay_bh, kieu_lo, status
+  from #d
+  order by id
+
+drop table #d
+drop table #r
+drop table #lot
+return
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <toolbar>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+
+</grid>

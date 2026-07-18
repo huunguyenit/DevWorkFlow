@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmtknh" code="tknh" name="ten_nh%l" order="tknh" xmlns="urn:schemas-fast-com:data-lookup">
+
+  <header v="Danh mục tài khoản ngân hàng" e="Bank Account List"></header>
+
+  <fields>
+    <field name="tknh" allowSorting="true" allowFilter="true">
+      <header v="Tài khoản ngân hàng" e="Bank Account"></header>
+    </field>
+    <field name="ten_nh%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên ngân hàng" e = "Bank Name"></header>
+    </field>
+  </fields>
+
+</lookup>

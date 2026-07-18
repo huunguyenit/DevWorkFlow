@@ -1,0 +1,94 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY OutlineCss SYSTEM "..\Include\Javascript\OutlineCss.txt">
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+]>
+
+<dir table="hrnv" code="stt_rec" order="stt_rec" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thông tin sức khỏe" e="Health Information"></title>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_kham" type="DateTime" dataFormatString="dd/MM/yyyy">
+      <header v="Ngày khám sức khỏe" e="Health Care Date"></header>
+    </field>
+    <field name="chieu_cao" type="Decimal" dataFormatString="#0.00">
+      <header v="Chiều cao" e="Height"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="can_nang" type="Decimal" dataFormatString="#000">
+      <header v="Cân nặng" e="Weight"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="mat_phai">
+      <header v="Mắt phải" e="Right Eye"></header>
+    </field>
+    <field name="mat_trai">
+      <header v="Mắt trái" e="Left Eye"></header>
+    </field>
+    <field name="nhom_mau">
+      <header v="Nhóm máu" e="Blood Type"></header>
+      <items style="DropDownList">
+        <item value="A">
+          <text v="A" e="A"/>
+        </item>
+        <item value="B">
+          <text v="B" e="B"/>
+        </item>
+        <item value="AB">
+          <text v="AB" e="AB"/>
+        </item>
+        <item value="O">
+          <text v="O" e="O"/>
+        </item>
+        <item value="">
+          <text v="-" e="-"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;</clientScript>
+    </field>
+    <field name="loai_sk">
+      <header v="Loại sức khỏe" e="Health Type"></header>
+    </field>
+    <field name="ghi_chu_sk" rows="2">
+      <header v="Thông tin khác" e="Other Information"></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 100, 100, 100, 130"/>
+      <item value="1110: [ngay_kham].Label, [ngay_kham], [stt_rec]"/>
+      <item value="11: [chieu_cao].Label, [chieu_cao]"/>
+      <item value="11: [can_nang].Label, [can_nang]"/>
+
+      <item value="11: [mat_phai].Label, [mat_phai]"/>
+      <item value="11: [mat_trai].Label, [mat_trai]"/>
+      <item value="11: [nhom_mau].Label, [nhom_mau]"/>
+      <item value="1100: [loai_sk].Label, [loai_sk]"/>
+      <item value="11000: [ghi_chu_sk].Label, [ghi_chu_sk]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Updated">
+      <text>
+        <![CDATA[
+select '' as message, '' as field, 'show$ViewPanelEmployeeID(this);' as script
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &OutlineEntry;
+    </text>
+  </script>
+
+  &OutlineCss;
+</dir>

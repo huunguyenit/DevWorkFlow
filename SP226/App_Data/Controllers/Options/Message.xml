@@ -1,0 +1,3363 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE message [
+  <!ENTITY CssClass "&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;.ts{font-family:Verdana;font-size:8.5pt;color:#444444;border-collapse:collapse;text-align:center;}.info{font-family:Verdana;font-size:8.5pt;color:#444444;border-collapse:collapse;font-style:italic;}.r1{width:50px;text-align:left;}.r2{width:100px;text-align:left;}.r3{width:100px;text-align:right;}.r4{width:300px;text-align:left;}.r5{width:100px;background-color:#f3f3f3;text-align:right;}.r6{width:50px;background-color:#f3f3f3;text-align:left;}.r7{width:300px;background-color:#f3f3f3;text-align:left;}.r8{width:100px;background-color:#f3f3f3;text-align:left;}.r9{width:645px;text-align:left;}.h{height:20px;}&lt;/style&gt;&lt;/head&gt;">
+  <!ENTITY HeaderColor "background-color:#edede2;">
+
+  <!ENTITY NotifyCheckApproveCancel "
+if @@type in ('1', '2') and @@external &lt;&gt; '' begin
+  select * into #t from dbo.FastBusiness$Function$System$Split(@@external, '#')
+  select @xtype = data from #t where id = 1
+  select @receiveCode = data from #t where id = 2
+  select @cancelCode = data from #t where id = 3
+
+  if @@type = '1' and @xtype = '9' and not exists(select 1 from dmxn where stt_rec = @@stt_rec and user_id = @@userID and ma_nhan = @receiveCode) begin
+    select @invalid as message
+    select '' as stt_rec, 0 as userid, 0 as xtype
+    return
+  end
+
+  if @@type = '2' and @xtype = '9' and not exists(select 1 from dmxn where stt_rec = @@stt_rec and user_id = @@userID and ma_huy = @cancelCode) begin
+    select @invalid as message
+    select '' as stt_rec, 0 as userid, 0 as xtype
+    return
+  end
+end
+">
+
+  <!ENTITY % NotifyPush SYSTEM "..\Include\NotifyPush.ent">
+  %NotifyPush;
+
+  <!ENTITY % PaymentApprovalDeductible SYSTEM "..\Include\Deductible.ent">
+  %PaymentApprovalDeductible;
+
+  <!ENTITY % PaymentApprovalMessage SYSTEM "..\Include\PaymentMessage.ent">
+  %PaymentApprovalMessage;
+
+  <!ENTITY % VoucherEditLog SYSTEM "..\Include\VoucherEditLog.ent">
+  %VoucherEditLog;
+]>
+
+<message xmlns="urn:schemas-fast-com:data-message">
+  <mail>
+    <setting>
+      <isSend value="true"/>
+      <aliasName value="Fast Business Online"/>
+      <userName value="no-reply@sample.com"/>
+      <password value="MailPassword"/>
+      <host value="mail.sample.com"/>
+      <port value="587"/>
+      <isBodyHTML value="true"/>
+      <enableSSL value="true"/>
+      <clientTimeout value="60000"/>
+    </setting>
+
+    <template>
+      &PaymentApprovalMessageAction;
+
+      <action id="PurchaseRequisition" table="m91$000000" v="Phiếu nhu cầu vật tư chờ duyệt" e="Purchase requisition waiting for approval">
+        <notification v="Tình trạng duyệt phiếu nhu cầu vật tư" e="Purchase requisition approval workflow process"/>
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số phiếu" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Diễn giải" e="Memo"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_vat_tu">
+            <header v="Mã hàng" e="Item"/>
+          </field>
+          <field name="h_ten_vt">
+            <header v="Tên mặt hàng" e="Item Description"/>
+          </field>
+          <field name="h_dvt">
+            <header v="Đvt" e="UOM"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt phiếu nhu cầu vật tư" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy phiếu nhu cầu vật tư" e="Cancel"/>
+          </field>
+          <field name="sl_duyet">
+            <header v="Đã duyệt" e="Approved"/>
+          </field>
+          <field name="so_luong">
+            <header v="Số lượng" e="Quantity"/>
+          </field>
+          <field name="h_gia">
+            <header v="Đơn giá" e="Price"/>
+          </field>
+          <field name="h_tien">
+            <header v="Thành tiền" e="Amount"/>
+          </field>
+          <field name="h_t_tien">
+            <header v="Tổng tiền" e="Total Amount"/>
+          </field>
+          <field name="h_in_words">
+            <header v="Bằng chữ" e="In Words"/>
+          </field>
+          <field name="h_xstatus">
+            <header v="Trạng thái" e="Status"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Phiếu yêu cầu này đã được duyệt, hủy hoặc thay đổi thông tin." e="This purchase requisition has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="external">
+          <text>
+            <![CDATA[
+if @@external <> '' begin
+  select * into #t from dbo.FastBusiness$Function$System$Split(@@external, '#')
+  delcare @code varchar(32)
+  select @code = data from #t where id = 4
+  select cdata as appDatabaseName from entity where code in (select entity_code from notify where code = @code)
+end
+]]>
+          </text>
+        </query>
+
+        <query id="checking">
+          <text>
+            <![CDATA[
+declare @invalid nvarchar(1024), @xtype int, @receiveCode varchar(32), @cancelCode varchar(32)
+select @invalid = case when @@language = 'V' then N'Phiếu yêu cầu này đã được duyệt, hủy hoặc thay đổi thông tin.' else N'This purchase requisition has been approved, canceled or changed by another user.' end
+]]>&NotifyCheckApproveCancel;<![CDATA[
+
+if @@type = '0' begin
+  exec rs_UnPostPRAuthorize @@userID, @@stt_rec, '@@sysDatabaseName', @@language, ]]>&NotifyPushFlag;<![CDATA[
+  return
+end
+
+if @@type = '2' begin
+  exec rs_PostPRAuthorize '1', '2', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, default, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+if @@type = '1' begin
+  exec rs_PostPRAuthorize '1', '1', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, default, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+]]>
+          </text>
+        </query>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @l char(1)
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @@contactID
+create table #msg (smsg varchar(10), msg0 nvarchar(4000), msg1 nvarchar(4000), msg2 nvarchar(4000), msg3 nvarchar(4000), msg4 nvarchar(4000), msg5 nvarchar(4000), msg6 nvarchar(4000), msg7 nvarchar(4000), msg8 nvarchar(4000), msg9 nvarchar(4000))
+insert into #msg exec FastBusiness$App$GetApprovalDetail @@stt_rec, '1', 'PR1', @l, 1, 1
+
+select ltrim(so_ct) as so_ct, ma_nt, convert(varchar(12), b.ngay_ct, 103) as ngay_ct,
+    convert(varchar(32), b.datetime2, 121) as datetime2, dien_giai, dien_thoai, e_mail, d_language,
+    upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy, m.smsg, m.msg0, m.msg1, m.msg2, m.msg3, m.msg4, m.msg5, m.msg6, m.msg7, m.msg8, m.msg9
+  from @@sysDatabaseName..userinfo2 a, @@table b, dmxn c, #msg m
+  where a.id = @@contactID and b.stt_rec = @@stt_rec and b.stt_rec = c.stt_rec and a.id = c.user_id
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+declare @priceFormat varchar(32), @amountFormat varchar(32), @r tinyint
+declare @t table(field varchar(32), format varchar(128))
+insert into @t select 'so_luong', rtrim(val) from options where name = 'm_ip_sl'
+insert into @t select 'sl_duyet', rtrim(val) from options where name = 'm_ip_sl'
+select @r = val from options where name = 'm_round_sl'
+
+if exists(select 1 from options where name = 'm_ma_nt0' and rtrim(val) = @@ma_nt) begin
+  select @amountFormat = rtrim(val) from options where name = 'm_ip_tien'
+  select @priceFormat = rtrim(val) from options where name = 'm_ip_gia'
+end else begin
+  select @amountFormat = rtrim(val) from options where name = 'm_ip_tien_nt'
+  select @priceFormat = rtrim(val) from options where name = 'm_ip_gia_nt'
+end
+
+insert into @t select 'gia', @priceFormat
+insert into @t select 'tien', @amountFormat
+
+select a.ma_vt, case @@language when 'v' then b.ten_vt else b.ten_vt2 end as ten_vt, a.dvt,
+    cast(sl_duyet as varchar) as sl_duyet, cast(so_luong as varchar) as so_luong, cast(a.gia_nt as varchar) as gia, cast(tien_nt as varchar) as tien,
+    case @@language when 'v' then c.xstatus_name else c.xstatus_name2 end as xstatus
+  from @@table a left join dmvt b on a.ma_vt = b.ma_vt left join dmttct2 c on c.ma_ct = 'PR1' and a.xstatus = c.xstatus where stt_rec = @@stt_rec order by a.stt_rec0
+select * from @t
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+declare @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+
+if exists(select 1 from options where name = 'm_ma_nt0' and rtrim(val) = @@ma_nt) select @amountFormat = rtrim(val) from options where name = 'm_ip_tien'
+else select @amountFormat = rtrim(val) from options where name = 'm_ip_tien_nt'
+
+insert into @t select 't_tt_nt', @amountFormat
+
+select cast(t_tien_nt as varchar) as t_tt_nt from @@table where stt_rec = @@stt_rec
+select * from @t
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+exec rs_PostPRAuthorize '1', '1', @@contactID, @@stt_rec, '@@sysDatabaseName', default, default, default, default, default, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+exec rs_PostPRAuthorize '1', '2', @@contactID, @@stt_rec, '@@sysDatabaseName', default, default, default, default, default, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_dien_giai}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_vat_tu}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_vt}</td><td style="width:50px;]]>&HeaderColor;<![CDATA[">{!h_dvt}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!sl_duyet}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!so_luong}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_gia}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_xstatus}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!ma_vt}</td><td class="{!s1}">{!ten_vt}</td><td class="{!s2}">{!dvt}</td><td class="{!s3}">{!sl_duyet}</td><td class="{!s3}">{!so_luong}</td><td class="{!s3}">{!gia}</td><td class="{!s3}">{!tien}</td><td class="{!s0}">{!xstatus}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+<tr class="h"><td colspan="6" style="text-align: right;">{!h_t_tien}</td><td class="r3">{!t_tt_nt}</td><td></td></tr>
+</table>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_in_words}</td><td class="r9">{!in_words}</td></tr></table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+      </action>
+
+      <action id="ImportPurchaseOrder" table="m95$000000" v="Đơn hàng nhập khẩu chờ duyệt" e="Import purchase order waiting for approval">
+        <notification v="Tình trạng duyệt đơn hàng nhập khẩu" e="Import purchase order approval workflow process"/>
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số đơn hàng" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Diễn giải" e="Memo"/>
+          </field>
+          <field name="h_nha_cc">
+            <header v="Nhà cung cấp" e="Supplier"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_vat_tu">
+            <header v="Mã hàng" e="Item"/>
+          </field>
+          <field name="h_ten_vt">
+            <header v="Tên mặt hàng" e="Item Description"/>
+          </field>
+          <field name="h_dvt">
+            <header v="Đvt" e="UOM"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt đơn hàng" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy đơn hàng" e="Cancel"/>
+          </field>
+          <field name="so_luong">
+            <header v="Số lượng" e="Quantity"/>
+          </field>
+          <field name="h_gia">
+            <header v="Đơn giá" e="Price"/>
+          </field>
+          <field name="h_tien">
+            <header v="Thành tiền" e="Amount"/>
+          </field>
+          <field name="h_t_tien">
+            <header v="Tiền hàng" e="Amount"/>
+          </field>
+          <field name="h_t_cp">
+            <header v="Chi phí" e="Charges"/>
+          </field>
+          <field name="h_t_nk">
+            <header v="Thuế nhập khẩu" e="Import Tax"/>
+          </field>
+          <field name="h_t_ttdb">
+            <header v="Thuế tiêu thụ đb" e="Excise Tax"/>
+          </field>
+          <field name="h_t_gtgt">
+            <header v="Thuế gtgt" e="VAT Amount"/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tổng tiền" e="Total Amount"/>
+          </field>
+          <field name="h_in_words">
+            <header v="Bằng chữ" e="In Words"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Đơn hàng nhập khẩu này đã được duyệt, hủy hoặc thay đổi thông tin." e="This import purchase order has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="external">
+          <text>
+            <![CDATA[
+if @@external <> '' begin
+  select * into #t from dbo.FastBusiness$Function$System$Split(@@external, '#')
+  delcare @code varchar(32)
+  select @code = data from #t where id = 4
+  select cdata as appDatabaseName from entity where code in (select entity_code from notify where code = @code)
+end
+]]>
+          </text>
+        </query>
+
+        <query id="checking">
+          <text>
+            <![CDATA[
+declare @invalid nvarchar(1024), @xtype int, @receiveCode varchar(32), @cancelCode varchar(32)
+select @invalid = case when @@language = 'V' then N'Đơn hàng nhập khẩu này đã được duyệt, hủy hoặc thay đổi thông tin.' else N'This import purchase order has been approved, canceled or changed by another user.' end
+]]>&NotifyCheckApproveCancel;<![CDATA[
+
+declare @p varchar(1)
+set @p = right(@@stt_rec, 1)
+if @@type = '0' begin
+  exec rs_UnPostPOAuthorize @p, @@userID, @@stt_rec, '@@sysDatabaseName', @@language, ]]>&NotifyPushFlag;<![CDATA[
+  return
+end
+
+if @@type = '2' begin
+  exec rs_PostPOAuthorize @p, '2', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+if @@type = '1' begin
+  exec rs_PostPOAuthorize @p, '1', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+]]>
+          </text>
+        </query>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @id int, @l varchar(8)
+select @id = @@contactID
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @id
+
+create table #msg (smsg varchar(10), msg0 nvarchar(4000), msg1 nvarchar(4000), msg2 nvarchar(4000), msg3 nvarchar(4000), msg4 nvarchar(4000), msg5 nvarchar(4000), msg6 nvarchar(4000), msg7 nvarchar(4000), msg8 nvarchar(4000), msg9 nvarchar(4000))
+insert into #msg exec FastBusiness$App$GetApprovalDetail @@stt_rec, '2', 'PO2', @l, 1, 1
+
+select ltrim(so_ct) as so_ct, ma_nt,
+convert(varchar(12), a.ngay_ct, 103) as ngay_ct,
+convert(varchar(32), a.datetime2, 121) as datetime2,
+case @l when 'v' then d.ten_kh else d.ten_kh2 end as ten_kh, dien_giai, b.dien_thoai, b.e_mail, b.d_language,
+    upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy, m.smsg, m.msg0, m.msg1, m.msg2, m.msg3, m.msg4, m.msg5, m.msg6, m.msg7, m.msg8, m.msg9
+  from @@table a, @@sysDatabaseName..userinfo2 b, dmxn c, dmkh d, #msg m
+  where a.stt_rec = @@stt_rec and b.id = @id and a.stt_rec = c.stt_rec and a.ma_kh = d.ma_kh and b.id = c.user_id
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+declare @priceFormat varchar(32), @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+insert into @t select 'so_luong', rtrim(val) from options where name = 'm_ip_sl'
+
+if exists(select 1 from options where name = 'm_ma_nt0' and rtrim(val) = @@ma_nt) begin
+  select @amountFormat = rtrim(val) from options where name = 'm_ip_tien'
+  select @priceFormat = rtrim(val) from options where name = 'm_ip_gia'
+end else begin
+  select @amountFormat = rtrim(val) from options where name = 'm_ip_tien_nt'
+  select @priceFormat = rtrim(val) from options where name = 'm_ip_gia_nt'
+end
+
+insert into @t select 'gia', @priceFormat
+insert into @t select 'tien', @amountFormat
+
+select a.ma_vt, case @@language when 'v' then b.ten_vt else b.ten_vt2 end as ten_vt, a.dvt,
+    cast(so_luong as varchar) as so_luong, cast(gia_nt as varchar) as gia, cast(tien_nt as varchar) as tien
+  from @@table a left join dmvt b on a.ma_vt = b.ma_vt where stt_rec = @@stt_rec order by a.stt_rec0
+select * from @t
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+declare @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+
+if exists(select 1 from options where name = 'm_ma_nt0' and rtrim(val) = @@ma_nt) select @amountFormat = rtrim(val) from options where name = 'm_ip_tien'
+else select @amountFormat = rtrim(val) from options where name = 'm_ip_tien_nt'
+
+insert into @t select 't_tien_nt', @amountFormat
+insert into @t select 't_cp_nt', @amountFormat
+insert into @t select 't_nk_nt', @amountFormat
+insert into @t select 't_ttdb_nt', @amountFormat
+insert into @t select 't_thue_nt', @amountFormat
+insert into @t select 't_tt_nt', @amountFormat
+
+select cast(t_tien_nt as varchar) as t_tien_nt, cast(t_cp_nt as varchar) as t_cp_nt,
+    cast(t_nk_nt as varchar) as t_nk_nt, cast(t_ttdb_nt as varchar) as t_ttdb_nt,
+    cast(t_thue_nt as varchar) as t_thue_nt, cast(t_tt_nt as varchar) as t_tt_nt
+  from @@table where stt_rec = @@stt_rec
+
+select * from @t
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @p varchar(1)
+set @p = right(@@stt_rec, 1)
+exec rs_PostPOAuthorize @p, '1', @@contactID, @@stt_rec, '@@sysDatabaseName', default, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @p varchar(1)
+set @p = right(@@stt_rec, 1)
+exec rs_PostPOAuthorize @p, '2', @@contactID, @@stt_rec, '@@sysDatabaseName', default, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_nha_cc}</td><td class="r4">{!ten_kh}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_dien_giai}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_vat_tu}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_vt}</td><td style="width:50px;]]>&HeaderColor;<![CDATA[">{!h_dvt}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!so_luong}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_gia}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!ma_vt}</td><td class="{!s1}">{!ten_vt}</td><td class="{!s2}">{!dvt}</td><td class="{!s3}">{!so_luong}</td><td class="{!s3}">{!gia}</td><td class="{!s3}">{!tien}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_tien}</td><td class="r3">{!t_tien_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_cp}</td><td class="r3">{!t_cp_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_nk}</td><td class="r3">{!t_nk_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_ttdb}</td><td class="r3">{!t_ttdb_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_gtgt}</td><td class="r3">{!t_thue_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_tt}</td><td class="r3">{!t_tt_nt}</td></tr>
+</table>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_in_words}</td><td class="r9">{!in_words}</td></tr></table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+
+      </action>
+
+      <action id="DomesticPurchaseOrder" table="m94$000000" v="Đơn hàng mua trong nước chờ duyệt" e="Domestic purchase order waiting for approval">
+        <notification v="Tình trạng duyệt đơn hàng mua trong nước" e="Domestic purchase order approval workflow process"/>
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số đơn hàng" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_nha_cc">
+            <header v="Nhà cung cấp" e="Supplier"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Diễn giải" e="Memo"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_vat_tu">
+            <header v="Mã hàng" e="Item"/>
+          </field>
+          <field name="h_ten_vt">
+            <header v="Tên mặt hàng" e="Item Description"/>
+          </field>
+          <field name="h_dvt">
+            <header v="Đvt" e="UOM"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt đơn hàng" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy đơn hàng" e="Cancel"/>
+          </field>
+          <field name="so_luong">
+            <header v="Số lượng" e="Quantity"/>
+          </field>
+          <field name="h_gia">
+            <header v="Đơn giá" e="Price"/>
+          </field>
+          <field name="h_tien">
+            <header v="Thành tiền" e="Amount"/>
+          </field>
+          <field name="h_t_tien">
+            <header v="Tiền hàng" e="Amount"/>
+          </field>
+          <field name="h_t_thue">
+            <header v="Thuế" e="Tax Amount"/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tổng cộng" e="Total Amount"/>
+          </field>
+          <field name="h_in_words">
+            <header v="Bằng chữ" e="In Words"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Đơn hàng trong nước này đã được duyệt, hủy hoặc thay đổi thông tin." e="This domestic purchase order has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="external">
+          <text>
+            <![CDATA[
+if @@external <> '' begin
+  select * into #t from dbo.FastBusiness$Function$System$Split(@@external, '#')
+  delcare @code varchar(32)
+  select @code = data from #t where id = 4
+  select cdata as appDatabaseName from entity where code in (select entity_code from notify where code = @code)
+end
+]]>
+          </text>
+        </query>
+
+        <query id="checking">
+          <text>
+            <![CDATA[
+declare @invalid nvarchar(1024), @xtype int, @receiveCode varchar(32), @cancelCode varchar(32)
+select @invalid = case when @@language = 'V' then N'Đơn hàng mua trong nước này đã được duyệt, hủy hoặc thay đổi thông tin.' else N'This domestic purchase order has been approved, canceled or changed by another user.' end
+]]>&NotifyCheckApproveCancel;<![CDATA[
+
+declare @p varchar(1)
+set @p = right(@@stt_rec, 1)
+if @@type = '0' begin
+  exec rs_UnPostPOAuthorize @p, @@userID, @@stt_rec, '@@sysDatabaseName', @@language, ]]>&NotifyPushFlag;<![CDATA[
+  return
+end
+if @@type = '2' begin
+  exec rs_PostPOAuthorize @p, '2', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+if @@type = '1' begin
+  exec rs_PostPOAuthorize @p, '1', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+]]>
+          </text>
+        </query>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @id int, @l varchar(8)
+select @id = @@contactID
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @id
+
+create table #msg (smsg varchar(10), msg0 nvarchar(4000), msg1 nvarchar(4000), msg2 nvarchar(4000), msg3 nvarchar(4000), msg4 nvarchar(4000), msg5 nvarchar(4000), msg6 nvarchar(4000), msg7 nvarchar(4000), msg8 nvarchar(4000), msg9 nvarchar(4000))
+insert into #msg exec FastBusiness$App$GetApprovalDetail @@stt_rec, '2', 'PO1', @l, 1, 1
+
+select ltrim(so_ct) as so_ct, ma_nt, convert(varchar(12), a.ngay_ct, 103) as ngay_ct,
+    convert(varchar(32), a.datetime2, 121) as datetime2, case @l when 'v' then d.ten_kh else d.ten_kh2 end as ten_kh,
+    dien_giai, b.dien_thoai, b.e_mail, b.d_language, upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy, m.smsg, m.msg0, m.msg1, m.msg2, m.msg3, m.msg4, m.msg5, m.msg6, m.msg7, m.msg8, m.msg9
+  from @@table a, @@sysDatabaseName..userinfo2 b, dmxn c, dmkh d, #msg m
+  where a.stt_rec = @@stt_rec and b.id = @id and a.stt_rec = c.stt_rec and a.ma_kh = d.ma_kh and b.id = c.user_id
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+declare @priceFormat varchar(32), @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+insert into @t select 'so_luong', rtrim(val) from options where name = 'm_ip_sl'
+
+if exists(select 1 from options where name = 'm_ma_nt0' and rtrim(val) = @@ma_nt) begin
+  select @amountFormat = rtrim(val) from options where name = 'm_ip_tien'
+  select @priceFormat = rtrim(val) from options where name = 'm_ip_gia'
+end else begin
+  select @amountFormat = rtrim(val) from options where name = 'm_ip_tien_nt'
+  select @priceFormat = rtrim(val) from options where name = 'm_ip_gia_nt'
+end
+
+insert into @t select 'gia', @priceFormat
+insert into @t select 'tien', @amountFormat
+
+select a.ma_vt, case @@language when 'v' then b.ten_vt else b.ten_vt2 end as ten_vt, a.dvt,
+    cast(so_luong as varchar) as so_luong, cast(gia_nt as varchar) as gia, cast(tien_nt as varchar) as tien
+  from @@table a left join dmvt b on a.ma_vt = b.ma_vt where stt_rec = @@stt_rec order by a.stt_rec0
+
+select * from @t
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+declare @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+
+if exists(select 1 from options where name = 'm_ma_nt0' and rtrim(val) = @@ma_nt) select @amountFormat = rtrim(val) from options where name = 'm_ip_tien'
+else select @amountFormat = rtrim(val) from options where name = 'm_ip_tien_nt'
+
+insert into @t select 't_tien_nt', @amountFormat
+insert into @t select 't_thue_nt', @amountFormat
+insert into @t select 't_tt_nt', @amountFormat
+
+select cast(t_tien_nt as varchar) as t_tien_nt,
+cast(t_thue_nt as varchar) as t_thue_nt,
+cast(t_tt_nt as varchar) as t_tt_nt
+from @@table where stt_rec = @@stt_rec
+
+select * from @t
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @p varchar(1)
+set @p = right(@@stt_rec, 1)
+exec rs_PostPOAuthorize @p, '1', @@contactID, @@stt_rec, '@@sysDatabaseName', default, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @p varchar(1)
+set @p = right(@@stt_rec, 1)
+exec rs_PostPOAuthorize @p, '2', @@contactID, @@stt_rec, '@@sysDatabaseName', default, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_nha_cc}</td><td class="r4">{!ten_kh}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_dien_giai}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_vat_tu}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_vt}</td><td style="width:50px;]]>&HeaderColor;<![CDATA[">{!h_dvt}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!so_luong}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_gia}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!ma_vt}</td><td class="{!s1}">{!ten_vt}</td><td class="{!s2}">{!dvt}</td><td class="{!s3}">{!so_luong}</td><td class="{!s3}">{!gia}</td><td class="{!s3}">{!tien}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_tien}</td><td class="r3">{!t_tien_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_thue}</td><td class="r3">{!t_thue_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_tt}</td><td class="r3">{!t_tt_nt}</td></tr>
+</table>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_in_words}</td><td class="r9">{!in_words}</td></tr></table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+
+      </action>
+
+      <action id="SOApproval" table="m64$000000" v="Đơn hàng bán chờ duyệt" e="Sales order waiting for approval">
+        <notification v="Tình trạng duyệt đơn hàng bán" e="Sales order workflow process"/>
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số đơn hàng" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_khach_hang">
+            <header v="Khách hàng" e="Customer"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Diễn giải" e="Memo"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_vat_tu">
+            <header v="Mã hàng" e="Item"/>
+          </field>
+          <field name="h_ten_vt">
+            <header v="Tên mặt hàng" e="Item Description"/>
+          </field>
+          <field name="h_dvt">
+            <header v="Đvt" e="UOM"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt đơn hàng" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy đơn hàng" e="Cancel"/>
+          </field>
+          <field name="so_luong">
+            <header v="Số lượng" e="Quantity"/>
+          </field>
+          <field name="h_gia">
+            <header v="Đơn giá" e="Price"/>
+          </field>
+          <field name="h_tien">
+            <header v="Thành tiền" e="Amount"/>
+          </field>
+          <field name="h_t_tien">
+            <header v="Tiền hàng" e="Amount"/>
+          </field>
+          <field name="h_t_thue">
+            <header v="Thuế" e="Tax Amount"/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tổng cộng" e="Total Amount"/>
+          </field>
+          <field name="h_in_words">
+            <header v="Bằng chữ" e="In Words"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Đơn hàng bán này đã được duyệt, hủy hoặc thay đổi thông tin." e="This sales order has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="checking">
+          <text>
+            <![CDATA[
+declare @invalid nvarchar(1024), @xtype int, @receiveCode varchar(32), @cancelCode varchar(32)
+select @invalid = case when @@language = 'V' then N'Đơn hàng bán này đã được duyệt, hủy hoặc thay đổi thông tin.' else N'This sales order has been approved, canceled or changed by another user.' end
+]]>&NotifyCheckApproveCancel;<![CDATA[
+
+declare @voucherType varchar(32)
+select @voucherType = '00915'
+if @@type = '0' begin
+  exec FastBusiness$APV$SO$UnPostAuthorize @voucherType, @@userID, @@stt_rec, '@@sysDatabaseName', @@language, ]]>&NotifyPushFlag;<![CDATA[
+  return
+end
+if @@type = '1' begin
+  exec FastBusiness$APV$SO$PostAuthorize @voucherType, '1', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+if @@type = '2' begin
+  exec FastBusiness$APV$SO$PostAuthorize @voucherType, '2', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+]]>
+          </text>
+        </query>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @id int, @l varchar(8)
+select @id = @@contactID
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @id
+
+create table #msg (smsg varchar(10), msg0 nvarchar(4000), msg1 nvarchar(4000), msg2 nvarchar(4000), msg3 nvarchar(4000), msg4 nvarchar(4000), msg5 nvarchar(4000), msg6 nvarchar(4000), msg7 nvarchar(4000), msg8 nvarchar(4000), msg9 nvarchar(4000))
+insert into #msg exec FastBusiness$APV$SO$GetApprovalDetail @@stt_rec, '00915', @l, 1, 1
+
+select ltrim(so_ct) as so_ct, ma_nt, convert(varchar(12), a.ngay_ct, 103) as ngay_ct,
+    convert(varchar(32), a.datetime2, 121) as datetime2, case @l when 'v' then d.ten_kh else d.ten_kh2 end as ten_kh,
+    dien_giai, b.dien_thoai, b.e_mail, b.d_language, upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy, m.smsg, m.msg0, m.msg1, m.msg2, m.msg3, m.msg4, m.msg5, m.msg6, m.msg7, m.msg8, m.msg9
+  from @@table a, @@sysDatabaseName..userinfo2 b, dmxn c, dmkh d, #msg m
+  where a.stt_rec = @@stt_rec and b.id = @id and a.stt_rec = c.stt_rec and a.ma_kh = d.ma_kh and b.id = c.user_id
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+declare @priceFormat varchar(32), @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+insert into @t select 'so_luong', rtrim(val) from options where name = 'm_ip_sl'
+
+if exists(select 1 from options where name = 'm_ma_nt0' and rtrim(val) = @@ma_nt) begin
+  select @amountFormat = rtrim(val) from options where name = 'm_ip_tien'
+  select @priceFormat = rtrim(val) from options where name = 'm_ip_gia'
+end else begin
+  select @amountFormat = rtrim(val) from options where name = 'm_ip_tien_nt'
+  select @priceFormat = rtrim(val) from options where name = 'm_ip_gia_nt'
+end
+
+insert into @t select 'gia', @priceFormat
+insert into @t select 'tien', @amountFormat
+
+select a.ma_vt, case @@language when 'v' then b.ten_vt else b.ten_vt2 end as ten_vt, a.dvt,
+    cast(so_luong as varchar) as so_luong, cast(gia_nt2 as varchar) as gia, cast(tien_nt2 as varchar) as tien
+  from @@table a left join dmvt b on a.ma_vt = b.ma_vt where stt_rec = @@stt_rec order by a.stt_rec0
+
+select * from @t
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+declare @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+
+if exists(select 1 from options where name = 'm_ma_nt0' and rtrim(val) = @@ma_nt) select @amountFormat = rtrim(val) from options where name = 'm_ip_tien'
+else select @amountFormat = rtrim(val) from options where name = 'm_ip_tien_nt'
+
+insert into @t select 't_tien_nt', @amountFormat
+insert into @t select 't_thue_nt', @amountFormat
+insert into @t select 't_tt_nt', @amountFormat
+
+select cast(t_tien_nt2 as varchar) as t_tien_nt,
+cast(t_thue_nt as varchar) as t_thue_nt,
+cast(t_tt_nt as varchar) as t_tt_nt
+from @@table where stt_rec = @@stt_rec
+
+select * from @t
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '00915'
+exec FastBusiness$APV$SO$PostAuthorize @voucherType, '1', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '00915'
+exec FastBusiness$APV$SO$PostAuthorize @voucherType, '2', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_khach_hang}</td><td class="r4">{!ten_kh}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_dien_giai}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_vat_tu}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_vt}</td><td style="width:50px;]]>&HeaderColor;<![CDATA[">{!h_dvt}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!so_luong}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_gia}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!ma_vt}</td><td class="{!s1}">{!ten_vt}</td><td class="{!s2}">{!dvt}</td><td class="{!s3}">{!so_luong}</td><td class="{!s3}">{!gia}</td><td class="{!s3}">{!tien}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_tien}</td><td class="r3">{!t_tien_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_thue}</td><td class="r3">{!t_thue_nt}</td></tr>
+<tr class="h"><td colspan="5" style="text-align: right;">{!h_t_tt}</td><td class="r3">{!t_tt_nt}</td></tr>
+</table>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_in_words}</td><td class="r9">{!in_words}</td></tr></table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+
+      </action>
+
+      <action id="DCApproval" table="m52$000000" v="Đề nghị chi tiền chờ duyệt" e="Supplier Payment Request waiting for approval">
+        <notification v="Tình trạng duyệt đề nghị chi tiền" e="Supplier Payment Request workflow process"/>
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số chứng từ" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_ma_kh">
+            <header v="Khách hàng" e="Customer"/>
+          </field>
+          <field name="h_ly_do">
+            <header v="Lý do thanh toán" e="Memo"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_tk">
+            <header v="Tk nợ" e="Debit Account"/>
+          </field>
+          <field name="h_ten_tk">
+            <header v="Tên tài khoản" e="Account Description"/>
+          </field>
+          <field name="h_so_hd">
+            <header v="Số hóa đơn" e="Invoice No."/>
+          </field>
+          <field name="h_ngay_hd">
+            <header v="Ngày hóa đơn" e="Invoice Date"/>
+          </field>
+          <field name="h_tien_hd_nt">
+            <header v="Tiền trên hóa đơn" e="Invoice Amount"/>
+          </field>
+          <field name="h_ma_nt_i">
+            <header v="Ngoại tệ" e="Currency"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt đề nghị chi tiền" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy đề nghị chi tiền" e="Cancel"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Diễn giải" e="Description"/>
+          </field>
+          <field name="h_tien">
+            <header v="Tiền" e="Amount"/>
+          </field>
+          <field name="h_t_tien">
+            <header v="Tiền" e="Amount"/>
+          </field>
+          <field name="h_t_thue">
+            <header v="Thuế" e="Tax Amount"/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tổng thanh toán" e="Total"/>
+          </field>
+          <field name="h_in_words">
+            <header v="Bằng chữ" e="In Words"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Đề nghị chi tiền này đã được duyệt, hủy hoặc thay đổi thông tin." e="This supplier payment request has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="checking">
+          <text>
+            <![CDATA[
+declare @invalid nvarchar(1024), @xtype int, @receiveCode varchar(32), @cancelCode varchar(32)
+select @invalid = case when @@language = 'V' then N'Đề nghị chi này đã được duyệt, hủy hoặc thay đổi thông tin.' else N'This supplier payment request has been approved, canceled or changed by another user.' end
+]]>&NotifyCheckApproveCancel;<![CDATA[
+
+declare @voucherType varchar(32)
+select @voucherType = '00630'
+if @@type = '0' begin
+  exec FastBusiness$APV$UnPostAuthorize @voucherType, @@userID, @@stt_rec, '@@sysDatabaseName', @@language, ]]>&NotifyPushFlag;<![CDATA[
+  return
+end
+if @@type = '1' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+if @@type = '2' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+]]>
+          </text>
+        </query>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @id int, @l varchar(8)
+select @id = @@contactID
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @id
+
+create table #msg (smsg varchar(10), msg0 nvarchar(4000), msg1 nvarchar(4000), msg2 nvarchar(4000), msg3 nvarchar(4000), msg4 nvarchar(4000), msg5 nvarchar(4000), msg6 nvarchar(4000), msg7 nvarchar(4000), msg8 nvarchar(4000), msg9 nvarchar(4000))
+insert into #msg exec FastBusiness$APV$GetApprovalDetail @@stt_rec, '00630', @l, 1, 1
+
+select case when loai_ct = '1' then 'body2' else 'body' end as bodyID, ltrim(so_ct) as so_ct, ma_nt, convert(varchar(12), a.ngay_ct, 103) as ngay_ct,
+    convert(varchar(32), a.datetime2, 121) as datetime2, case @l when 'v' then d.ten_kh else d.ten_kh2 end as ten_kh,
+    dien_giai, b.dien_thoai, b.e_mail, b.d_language, upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy, m.smsg, m.msg0, m.msg1, m.msg2, m.msg3, m.msg4, m.msg5, m.msg6, m.msg7, m.msg8, m.msg9
+  from @@table a, @@sysDatabaseName..userinfo2 b, dmxn c, dmkh d, #msg m
+  where a.stt_rec = @@stt_rec and b.id = @id and a.stt_rec = c.stt_rec and a.ma_kh = d.ma_kh and b.id = c.user_id
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+declare @amountFormat varchar(32), @strSQL nvarchar(4000), @typeVC varchar(32), @tableMaster varchar(33), @field varchar(512), @join varchar(512), @currency varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+select @currency = val from options where name = 'm_ma_nt0'
+select @tableMaster = 'm52$' + convert(char(6), ngay_ct, 112) from c52$000000 where stt_rec = @@stt_rec
+select @strSQL = 'select top 1 @typeVC = loai_ct from ' + @tableMaster + ' where stt_rec = '@@stt_rec''
+exec sp_executesql @strSQL, N'@typeVC varchar(32) output', @typeVC = @typeVC output
+
+if exists(select 1 from options where name = 'm_ma_nt0' and rtrim(val) = @@ma_nt) begin
+  select @amountFormat = rtrim(val) from options where name = 'm_ip_tien'
+end else begin
+  select @amountFormat = rtrim(val) from options where name = 'm_ip_tien_nt'
+end
+
+insert into @t select 'tien', @amountFormat
+insert into @t select 'tien_hd_nt', @amountFormat
+
+select @join = case
+  when @typeVC = '1' then ' left join cttt30 d on a.stt_rec_tt = d.stt_rec'
+  else ' left join dmtk b on a.tk_no = b.tk'
+end
+
+select @field = case
+  when @typeVC = '1' then ', rtrim(isnull(d.so_ct, '''')) as so_hd, convert(varchar(12), d.ngay_ct, 103) as ngay_hd, case when d.ma_nt = '''' then d.t_tt else d.t_tt_nt end as tien_hd_nt, case when isnull(d.ma_nt, '''') = '''' then ''' + @currency + ''' else d.ma_nt end as ma_nt_i'
+  else ',' + case when @@language = 'v' then 'b.ten_tk' else 'b.ten_tk2' end + ' as ten_tk'
+end
+
+select @strSQL = 'select a.tk_no as tk, a.dien_giai, cast(tien_nt as varchar) as tien' + @field
+select @strSQL = @strSQL + ' from @@table a ' + @join
+select @strSQL = @strSQL + ' where a.stt_rec = '@@stt_rec' order by a.line_nbr'
+exec sp_executesql @strSQL
+select * from @t
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+declare @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+
+if exists(select 1 from options where name = 'm_ma_nt0' and rtrim(val) = @@ma_nt) select @amountFormat = rtrim(val) from options where name = 'm_ip_tien'
+else select @amountFormat = rtrim(val) from options where name = 'm_ip_tien_nt'
+
+insert into @t select 't_tien_nt', @amountFormat
+insert into @t select 't_thue_nt', @amountFormat
+insert into @t select 't_tt_nt', @amountFormat
+
+select cast(t_tien_nt as varchar) as t_tien_nt,
+cast(t_thue_nt as varchar) as t_thue_nt,
+cast(t_tt_nt as varchar) as t_tt_nt
+from @@table where stt_rec = @@stt_rec
+
+select * from @t
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '00630'
+exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '00630'
+exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ma_kh}</td><td class="r4">{!ten_kh}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ly_do}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tk}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_tk}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_dien_giai}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!tk}</td><td class="{!s1}">{!ten_tk}</td><td class="{!s1}">{!dien_giai}</td><td class="{!s3}">{!tien}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+<tr class="h"><td colspan="3" style="text-align: right;">{!h_t_tien}</td><td class="r3">{!t_tien_nt}</td></tr>
+<tr class="h"><td colspan="3" style="text-align: right;">{!h_t_thue}</td><td class="r3">{!t_thue_nt}</td></tr>
+<tr class="h"><td colspan="3" style="text-align: right;">{!h_t_tt}</td><td class="r3">{!t_tt_nt}</td></tr>
+</table>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_in_words}</td><td class="r9">{!in_words}</td></tr></table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+        <body2>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ma_kh}</td><td class="r4">{!ten_kh}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ly_do}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_so_hd}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ngay_hd}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tk}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_dien_giai}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien_hd_nt}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ma_nt_i}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!so_hd}</td><td class="{!s0}" style="text-align: center;">{!ngay_hd}</td><td class="{!s0}">{!tk}</td><td class="{!s1}">{!dien_giai}</td><td class="{!s3}">{!tien_hd_nt}</td><td class="{!s0}">{!ma_nt_i}</td><td class="{!s3}">{!tien}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+<tr class="h"><td colspan="6" style="text-align: right;">{!h_t_tien}</td><td class="r3">{!t_tien_nt}</td></tr>
+<tr class="h"><td colspan="6" style="text-align: right;">{!h_t_thue}</td><td class="r3">{!t_thue_nt}</td></tr>
+<tr class="h"><td colspan="6" style="text-align: right;">{!h_t_tt}</td><td class="r3">{!t_tt_nt}</td></tr>
+</table>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_in_words}</td><td class="r9">{!in_words}</td></tr></table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body2>
+
+      </action>
+
+      <action id="DTApproval" table="m57$000000" v="Đề nghị thu tiền chờ duyệt" e="Customer Payment Request waiting for approval">
+        <notification v="Tình trạng duyệt đề nghị thu tiền" e="Customer Payment Request Approval workflow process"/>
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số chứng từ" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_ma_kh">
+            <header v="Khách hàng" e="Customer"/>
+          </field>
+          <field name="h_ly_do">
+            <header v="Lý do thanh toán" e="Memo"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_tk">
+            <header v="Tk có" e="Credit Account"/>
+          </field>
+          <field name="h_ten_tk">
+            <header v="Tên tài khoản" e="Account Description"/>
+          </field>
+          <field name="h_so_hd">
+            <header v="Số hóa đơn" e="Invoice No."/>
+          </field>
+          <field name="h_ngay_hd">
+            <header v="Ngày hóa đơn" e="Invoice Date"/>
+          </field>
+          <field name="h_tien_hd_nt">
+            <header v="Tiền trên hóa đơn" e="Invoice Amount"/>
+          </field>
+          <field name="h_ma_nt_i">
+            <header v="Ngoại tệ" e="Currency"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt đề nghị thu tiền" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy đề nghị thu tiền" e="Cancel"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Diễn giải" e="Description"/>
+          </field>
+          <field name="h_tien">
+            <header v="Tiền" e="Amount"/>
+          </field>
+          <field name="h_t_tien">
+            <header v="Tiền" e="Amount"/>
+          </field>
+          <field name="h_t_thue">
+            <header v="Thuế" e="Tax Amount"/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tổng thanh toán" e="Total"/>
+          </field>
+          <field name="h_in_words">
+            <header v="Bằng chữ" e="In Words"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Đề nghị thu tiền này đã được duyệt, hủy hoặc thay đổi thông tin." e="This customer payment request has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="checking">
+          <text>
+            <![CDATA[
+declare @invalid nvarchar(1024), @xtype int, @receiveCode varchar(32), @cancelCode varchar(32)
+select @invalid = case when @@language = 'V' then N'Đề nghị thu này đã được duyệt, hủy hoặc thay đổi thông tin.' else N'This customer payment request has been approved, canceled or changed by another user.' end
+]]>&NotifyCheckApproveCancel;<![CDATA[
+
+declare @voucherType varchar(32)
+select @voucherType = '00625'
+if @@type = '0' begin
+  exec FastBusiness$APV$UnPostAuthorize @voucherType, @@userID, @@stt_rec, '@@sysDatabaseName', @@language, ]]>&NotifyPushFlag;<![CDATA[
+  return
+end
+if @@type = '1' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+if @@type = '2' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+]]>
+          </text>
+        </query>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @id int, @l varchar(8)
+select @id = @@contactID
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @id
+
+create table #msg (smsg varchar(10), msg0 nvarchar(4000), msg1 nvarchar(4000), msg2 nvarchar(4000), msg3 nvarchar(4000), msg4 nvarchar(4000), msg5 nvarchar(4000), msg6 nvarchar(4000), msg7 nvarchar(4000), msg8 nvarchar(4000), msg9 nvarchar(4000))
+insert into #msg exec FastBusiness$APV$GetApprovalDetail @@stt_rec, '00625', @l, 1, 1
+
+select case when loai_ct = '1' then 'body2' else 'body' end as bodyID, ltrim(so_ct) as so_ct, ma_nt, convert(varchar(12), a.ngay_ct, 103) as ngay_ct,
+    convert(varchar(32), a.datetime2, 121) as datetime2, case @l when 'v' then d.ten_kh else d.ten_kh2 end as ten_kh,
+    dien_giai, b.dien_thoai, b.e_mail, b.d_language, upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy, m.smsg, m.msg0, m.msg1, m.msg2, m.msg3, m.msg4, m.msg5, m.msg6, m.msg7, m.msg8, m.msg9
+  from @@table a, @@sysDatabaseName..userinfo2 b, dmxn c, dmkh d, #msg m
+  where a.stt_rec = @@stt_rec and b.id = @id and a.stt_rec = c.stt_rec and a.ma_kh = d.ma_kh and b.id = c.user_id
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+declare @amountFormat varchar(32), @strSQL nvarchar(4000), @typeVC varchar(32), @tableMaster varchar(33), @field varchar(512), @join varchar(512), @currency varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+select @currency = val from options where name = 'm_ma_nt0'
+select @tableMaster = 'm57$' + convert(char(6), ngay_ct, 112) from c57$000000 where stt_rec = @@stt_rec
+select @strSQL = 'select top 1 @typeVC = loai_ct from ' + @tableMaster + ' where stt_rec = '@@stt_rec''
+exec sp_executesql @strSQL, N'@typeVC varchar(32) output', @typeVC = @typeVC output
+
+if exists(select 1 from options where name = 'm_ma_nt0' and rtrim(val) = @@ma_nt) begin
+  select @amountFormat = rtrim(val) from options where name = 'm_ip_tien'
+end else begin
+  select @amountFormat = rtrim(val) from options where name = 'm_ip_tien_nt'
+end
+
+insert into @t select 'tien', @amountFormat
+insert into @t select 'tien_hd_nt', @amountFormat
+
+select @join = case
+  when @typeVC = '1' then ' left join cttt20 d on a.stt_rec_tt = d.stt_rec'
+  else ' left join dmtk b on a.tk_co = b.tk'
+end
+
+select @field = case
+  when @typeVC = '1' then ', rtrim(isnull(d.so_ct, '''')) as so_hd, convert(varchar(12), d.ngay_ct, 103) as ngay_hd, case when d.ma_nt = '''' then d.t_tt else d.t_tt_nt end as tien_hd_nt, case when isnull(d.ma_nt, '''') = '''' then ''' + @currency + ''' else d.ma_nt end as ma_nt_i'
+  else ',' + case when @@language = 'v' then 'b.ten_tk' else 'b.ten_tk2' end + ' as ten_tk'
+end
+
+select @strSQL = 'select a.tk_co as tk, a.dien_giai, cast(tien_nt as varchar) as tien' + @field
+select @strSQL = @strSQL + ' from @@table a ' + @join
+select @strSQL = @strSQL + ' where a.stt_rec = '@@stt_rec' order by a.line_nbr'
+exec sp_executesql @strSQL
+select * from @t
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+declare @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+
+if exists(select 1 from options where name = 'm_ma_nt0' and rtrim(val) = @@ma_nt) select @amountFormat = rtrim(val) from options where name = 'm_ip_tien'
+else select @amountFormat = rtrim(val) from options where name = 'm_ip_tien_nt'
+
+insert into @t select 't_tt_nt', @amountFormat
+
+
+select cast(t_tien_nt as varchar) as t_tt_nt from @@table where stt_rec = @@stt_rec
+
+select * from @t
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '00625'
+exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '00625'
+exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ma_kh}</td><td class="r4">{!ten_kh}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ly_do}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tk}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_tk}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_dien_giai}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!tk}</td><td class="{!s1}">{!ten_tk}</td><td class="{!s1}">{!dien_giai}</td><td class="{!s3}">{!tien}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+<tr class="h"><td colspan="3" style="text-align: right;">{!h_t_tien}</td><td class="r3">{!t_tt_nt}</td></tr>
+</table>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_in_words}</td><td class="r9">{!in_words}</td></tr></table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+        <body2>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ma_kh}</td><td class="r4">{!ten_kh}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ly_do}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_so_hd}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ngay_hd}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tk}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_dien_giai}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien_hd_nt}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ma_nt_i}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_tien}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!so_hd}</td><td class="{!s0}" style="text-align: center;">{!ngay_hd}</td><td class="{!s0}">{!tk}</td><td class="{!s1}">{!dien_giai}</td><td class="{!s3}">{!tien_hd_nt}</td><td class="{!s0}">{!ma_nt_i}</td><td class="{!s3}">{!tien}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+<tr class="h"><td colspan="6" style="text-align: right;">{!h_t_tien}</td><td class="r3">{!t_tt_nt}</td></tr>
+</table>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_in_words}</td><td class="r9">{!in_words}</td></tr></table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body2>
+
+      </action>
+
+      <action id="MRApproval" table="m87$000000" v="Phiếu yêu cầu lĩnh vật tư chờ duyệt" e="Material Requisition waiting for approval">
+        <notification v="Tình trạng duyệt phiếu yêu cầu lĩnh vật tư" e="Material Requisition workflow process"/>
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số phiếu" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Diễn giải" e="Memo"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_vat_tu">
+            <header v="Mã hàng" e="Item"/>
+          </field>
+          <field name="h_ten_vt">
+            <header v="Tên mặt hàng" e="Item Description"/>
+          </field>
+          <field name="h_dvt">
+            <header v="Đvt" e="UOM"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt phiếu yêu cầu lĩnh vật tư" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy phiếu yêu cầu lĩnh vật tư" e="Cancel"/>
+          </field>
+          <field name="so_luong">
+            <header v="Số lượng" e="Quantity"/>
+          </field>
+          <field name="h_t_so_luong">
+            <header v="Tổng số lượng" e="Total Quantity"/>
+          </field>
+          <field name="h_xstatus">
+            <header v="Trạng thái" e="Status"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Phiếu yêu cầu lĩnh vật tư này đã được duyệt, hủy hoặc thay đổi thông tin." e="This Material requisition has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="checking">
+          <text>
+            <![CDATA[
+declare @invalid nvarchar(1024), @xtype int, @receiveCode varchar(32), @cancelCode varchar(32)
+select @invalid = case when @@language = 'V' then N'Phiếu yêu cầu lĩnh vật tư này đã được duyệt, hủy hoặc thay đổi thông tin.' else N'This Material requisition has been approved, canceled or changed by another user.' end
+]]>&NotifyCheckApproveCancel;<![CDATA[
+
+declare @voucherType varchar(32)
+select @voucherType = '01510'
+if @@type = '0' begin
+  exec FastBusiness$APV$UnPostAuthorize @voucherType, @@userID, @@stt_rec, '@@sysDatabaseName', @@language, ]]>&NotifyPushFlag;<![CDATA[
+  return
+end
+if @@type = '1' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+if @@type = '2' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+]]>
+          </text>
+        </query>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @l char(1)
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @@contactID
+create table #msg (smsg varchar(10), msg0 nvarchar(4000), msg1 nvarchar(4000), msg2 nvarchar(4000), msg3 nvarchar(4000), msg4 nvarchar(4000), msg5 nvarchar(4000), msg6 nvarchar(4000), msg7 nvarchar(4000), msg8 nvarchar(4000), msg9 nvarchar(4000))
+insert into #msg exec FastBusiness$APV$GetApprovalDetail @@stt_rec, '01510', @l, 1, 1
+
+select ltrim(so_ct) as so_ct, ma_nt, convert(varchar(12), b.ngay_ct, 103) as ngay_ct,
+    convert(varchar(32), b.datetime2, 121) as datetime2, dien_giai, dien_thoai, e_mail, d_language,
+    upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy, m.smsg, m.msg0, m.msg1, m.msg2, m.msg3, m.msg4, m.msg5, m.msg6, m.msg7, m.msg8, m.msg9
+  from @@sysDatabaseName..userinfo2 a, @@table b, dmxn c, #msg m
+  where a.id = @@contactID and b.stt_rec = @@stt_rec and b.stt_rec = c.stt_rec and a.id = c.user_id
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+declare @priceFormat varchar(32), @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+insert into @t select 'so_luong', rtrim(val) from options where name = 'm_ip_sl'
+
+select a.ma_vt as ma_vt, case @@language when 'v' then b.ten_vt else b.ten_vt2 end as ten_vt, a.dvt, cast(so_luong as varchar) as so_luong
+  from @@table a left join dmvt b on a.ma_vt = b.ma_vt where stt_rec = @@stt_rec order by a.stt_rec0
+
+select * from @t
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+declare @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+
+insert into @t select 't_tt_nt', rtrim(val) from options where name = 'm_ip_sl'
+
+select cast(t_so_luong as varchar) as t_tt_nt from @@table where stt_rec = @@stt_rec
+select * from @t
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '01510'
+exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '01510'
+exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_dien_giai}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_vat_tu}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_vt}</td><td style="width:50px;]]>&HeaderColor;<![CDATA[">{!h_dvt}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!so_luong}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!ma_vt}</td><td class="{!s1}">{!ten_vt}</td><td class="{!s2}">{!dvt}</td><td class="{!s3}">{!so_luong}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+<tr class="h"><td colspan="3" style="text-align: right;">{!h_t_so_luong}</td><td class="r3">{!t_tt_nt}</td></tr>
+</table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+
+      </action>
+
+      <action id="S2Approval" table="ms2$000000" v="Yêu cầu sản xuất chờ duyệt" e="Work Order waiting for approval">
+        <notification v="Tình trạng duyệt yêu cầu sản xuất" e="Work Order workflow process"/>
+        <fields>
+          <field name="h_so_ct">
+            <header v="Yêu cầu" e="Work Order"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+
+          <field name="h_so_lsx">
+            <header v="Lệnh sản xuất" e="MO"/>
+          </field>
+          <field name="h_ma_sp">
+            <header v="Sản phẩm" e="Product"/>
+          </field>
+          <field name="h_ma_ca">
+            <header v="Ca" e="Working Shift"/>
+          </field>
+          <field name="h_ngay_bd">
+            <header v="Ngày bắt đầu" e="Start Date"/>
+          </field>
+
+          <field name="h_sl_yc">
+            <header v="Sl yêu cầu" e="Work Order Q'ty"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Diễn giải" e="Memo"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_cd">
+            <header v="Công đoạn" e="Operation"/>
+          </field>
+          <field name="h_ten_cd">
+            <header v="Tên công đoạn" e="Operation Name"/>
+          </field>
+          <field name="so_luong">
+            <header v="Số lượng" e="Quantity"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt yêu cầu sản xuất" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy yêu cầu sản xuất" e="Cancel"/>
+          </field>
+
+          <field name="h_xstatus">
+            <header v="Trạng thái" e="Status"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Yêu cầu sản xuất này đã được duyệt, hủy hoặc thay đổi thông tin." e="This Work Order has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="checking">
+          <text>
+            <![CDATA[
+declare @invalid nvarchar(1024), @xtype int, @receiveCode varchar(32), @cancelCode varchar(32)
+select @invalid = case when @@language = 'V' then N'Yêu cầu sản xuất này đã được duyệt, hủy hoặc thay đổi thông tin.' else N'This Work Order has been approved, canceled or changed by another user.' end
+]]>&NotifyCheckApproveCancel;<![CDATA[
+
+declare @voucherType varchar(32), @tableDetail varchar(33), @tableMaster varchar(33), @partition varchar(6)
+select @partition = convert(char(6), ngay_ct, 112) from cs2$000000 where stt_rec = @@stt_rec
+select @voucherType = '01520', @tableDetail = 'ds2$' + @partition, @tableMaster = 'ms2$' + @partition
+if @@type = '0' begin
+  exec FastBusiness$APV$UnPostAuthorize @voucherType, @@userID, @@stt_rec, '@@sysDatabaseName', @@language, ]]>&NotifyPushFlag;<![CDATA[
+  exec fs_PostS2Tran @tableMaster, @tableDetail, @@stt_rec
+  return
+end
+if @@type = '1' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  exec fs_PostS2Tran @tableMaster, @tableDetail, @@stt_rec
+  return
+end
+if @@type = '2' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  exec fs_PostS2Tran @tableMaster, @tableDetail, @@stt_rec
+  return
+end
+]]>
+          </text>
+        </query>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @l char(1)
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @@contactID
+create table #msg (smsg varchar(10), msg0 nvarchar(4000), msg1 nvarchar(4000), msg2 nvarchar(4000), msg3 nvarchar(4000), msg4 nvarchar(4000), msg5 nvarchar(4000), msg6 nvarchar(4000), msg7 nvarchar(4000), msg8 nvarchar(4000), msg9 nvarchar(4000))
+insert into #msg exec FastBusiness$APV$GetApprovalDetail @@stt_rec, '01520', @l, 1, 1
+
+select ma_lsx, convert(varchar(12), b.ngay_ct, 103) as ngay_ct, convert(varchar(32), b.datetime2, 121) as datetime2, cast(b.sl_yc as varchar) as sl_yc, b.dien_giai, dien_thoai, e_mail, d_language,
+    upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy, m.smsg, m.msg0, m.msg1, m.msg2, m.msg3, m.msg4, m.msg5, m.msg6, m.msg7, m.msg8, m.msg9
+  , x.dien_giai as so_lsx, v.ten_vt, v.ten_vt2, b.ma_ca
+  from @@sysDatabaseName..userinfo2 a, @@table b, dmxn c, #msg m, phsx x, dmvt v
+  where a.id = @@contactID and b.stt_rec = @@stt_rec and b.stt_rec = c.stt_rec and a.id = c.user_id and b.stt_rec_lsx = x.stt_rec and b.ma_sp = v.ma_vt
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+declare @t table(field varchar(32), format varchar(128))
+insert into @t select 'so_luong', rtrim(val) from options where name = 'm_ip_sl'
+
+select a.ma_cd, case @@language when 'v' then c.ten_cd else c.ten_cd2 end as ten_cd
+    , cast(so_luong as varchar) as so_luong, isnull(convert(varchar(12), a.ngay_bd, 103), '') as ngay_bd
+  from @@table a
+	  left join cs2$000000 b on a.stt_rec = b.stt_rec
+	  left join ctrt c on a.ma_cd = c.ma_cd and b.ma_lo_trinh = c.ma_lo_trinh
+  where a.stt_rec = @@stt_rec
+  order by a.stt_rec0
+
+select * from @t
+]]>
+            </text>
+          </command>
+
+          <command id="footer">
+            <text>
+              <![CDATA[
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32), @tableDetail varchar(33), @tableMaster varchar(33), @partition varchar(6)
+select @partition = convert(char(6), ngay_ct, 112) from cs2$000000 where stt_rec = @@stt_rec
+select @voucherType = '01520', @tableDetail = 'ds2$' + @partition, @tableMaster = 'ms2$' + @partition
+exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+exec fs_PostS2Tran @tableMaster, @tableDetail, @@stt_rec
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32), @tableDetail varchar(33), @tableMaster varchar(33), @partition varchar(6)
+select @partition = convert(char(6), ngay_ct, 112) from cs2$000000 where stt_rec = @@stt_rec
+select @voucherType = '01520', @tableDetail = 'ds2$' + @partition, @tableMaster = 'ms2$' + @partition
+exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+exec fs_PostS2Tran @tableMaster, @tableDetail, @@stt_rec
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!ma_lsx}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_lsx}</td><td class="r9">{!so_lsx}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ma_sp}</td><td class="r9">{!ten_vt}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ma_ca}</td><td class="r9">{!ma_ca}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_sl_yc}</td><td class="r4">{!sl_yc}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_dien_giai}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1">
+<tr class="h">
+<td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_cd}</td>
+<td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_cd}</td>
+<td style="width:100px;]]>&HeaderColor;<![CDATA[">{!so_luong}</td>
+<td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ngay_bd}</td>
+</tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h">
+<td class="{!s0}">{!ma_cd}</td>
+<td class="{!s1}">{!ten_cd}</td>
+<td class="{!s3}">{!so_luong}</td>
+<td class="{!s3}" style="text-align:center;">{!ngay_bd}</td>
+</tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+</table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}">
+<td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td>
+<td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td>
+</tr>
+</table>
+</body>
+</html>
+]]>
+            </text>
+          </footer>
+        </body>
+
+      </action>
+
+      <action id="hrTMApproval" table="hrdtyc" v="Phiếu yêu cầu đào tạo chờ duyệt" e="Training Request waiting for approval">
+        <notification v="Tình trạng duyệt phiếu yêu cầu đào tạo" e="Training Request workflow process"/>
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số phiếu" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Nội dung" e="Content"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_ma_nv">
+            <header v="Mã nhân viên" e="Employee ID"/>
+          </field>
+          <field name="h_ten_nv">
+            <header v="Họ và tên" e="Employee Name"/>
+          </field>
+          <field name="h_ten_vtr">
+            <header v="Vị trí công việc" e="Job Position"/>
+          </field>
+          <field name="h_ma_mh">
+            <header v="Môn học" e="Subject"/>
+          </field>
+          <field name="h_ngay_tu">
+            <header v="Yêu cầu từ ngày" e="From Date"/>
+          </field>
+          <field name="h_ngay_den">
+            <header v="Đến ngày" e="To Date"/>
+          </field>
+          <field name="h_loai_hinh_dt">
+            <header v="Loại hình đào tạo" e="Training Type"/>
+          </field>
+          <field name="h_ghi_chu">
+            <header v="Ghi chú" e="Note"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt phiếu yêu cầu đào tạo" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy phiếu yêu cầu đào tạo" e="Cancel"/>
+          </field>
+          <field name="h_xstatus">
+            <header v="Trạng thái" e="Status"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Phiếu yêu cầu đào tạo này đã được duyệt, hủy hoặc thay đổi thông tin." e="This Training Request has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="checking">
+          <text>
+            <![CDATA[
+declare @invalid nvarchar(1024), @xtype int, @receiveCode varchar(32), @cancelCode varchar(32)
+select @invalid = case when @@language = 'V' then N'Phiếu yêu cầu đào tạo này đã được duyệt, hủy hoặc thay đổi thông tin.' else N'This Training Request has been approved, canceled or changed by another user.' end
+]]>&NotifyCheckApproveCancel;<![CDATA[
+
+declare @voucherType varchar(32)
+select @voucherType = '02501'
+if @@type = '0' begin
+  exec FastBusiness$APV$UnPostAuthorize @voucherType, @@userID, @@stt_rec, '@@sysDatabaseName', @@language, ]]>&NotifyPushFlag;<![CDATA[
+  return
+end
+if @@type = '1' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+if @@type = '2' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+]]>
+          </text>
+        </query>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @l char(1)
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @@contactID
+create table #msg (smsg varchar(10), msg0 nvarchar(4000), msg1 nvarchar(4000), msg2 nvarchar(4000), msg3 nvarchar(4000), msg4 nvarchar(4000), msg5 nvarchar(4000), msg6 nvarchar(4000), msg7 nvarchar(4000), msg8 nvarchar(4000), msg9 nvarchar(4000))
+insert into #msg exec FastBusiness$APV$GetApprovalDetail @@stt_rec, '02501', @l, 1, 1
+
+select ltrim(so_ct) as so_ct, convert(varchar(12), b.ngay_ct, 103) as ngay_ct,
+    convert(varchar(32), b.datetime2, 121) as datetime2, dien_giai, dien_thoai, e_mail, d_language,
+    upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy, m.smsg, m.msg0, m.msg1, m.msg2, m.msg3, m.msg4, m.msg5, m.msg6, m.msg7, m.msg8, m.msg9
+  from @@sysDatabaseName..userinfo2 a, @@table b, dmxn c, #msg m
+  where a.id = @@contactID and b.stt_rec = @@stt_rec and b.stt_rec = c.stt_rec and a.id = c.user_id
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+declare @priceFormat varchar(32), @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+insert into @t select 'so_luong', rtrim(val) from options where name = 'm_ip_sl'
+
+select b.ma_nv as ma_nv, b.ten as ten_nv, case @@language when 'v' then isnull(c.ten_vtr, '') else isnull(c.ten_vtr2, '') end as ten_vtr, ma_mh, convert(varchar(12), a.ngay_tu, 103) as ngay_tu, convert(varchar(12), a.ngay_den, 103) as ngay_den, loai_hinh_dt, a.ghi_chu
+  from @@table a left join vhrnv b on a.stt_rec_nv = b.stt_rec left join hrvt c on b.vi_tri = c.ma_vtr where a.stt_rec = @@stt_rec order by a.stt_rec0
+
+select * from @t
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+declare @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+
+insert into @t select 't_tt_nt', rtrim(val) from options where name = 'm_ip_sl'
+
+select * from @t
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '02501'
+exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '02501'
+exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_dien_giai}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ma_nv}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_nv}</td><td style="width:150px;]]>&HeaderColor;<![CDATA[">{!h_ten_vtr}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ma_mh}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ngay_tu}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ngay_den}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_loai_hinh_dt}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ghi_chu}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!ma_nv}</td><td class="{!s1}">{!ten_nv}</td><td class="{!s1}">{!ten_vtr}</td><td class="{!s0}">{!ma_mh}</td><td class="{!s0}">{!ngay_tu}</td><td class="{!s0}">{!ngay_den}</td><td class="{!s0}">{!loai_hinh_dt}</td><td class="{!s1}">{!ghi_chu}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+</table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+
+      </action>
+
+      <action id="hrRMApproval" table="hrrmyc" v="Phiếu yêu cầu tuyển dụng chờ duyệt" e="Recruitment Request waiting for approval">
+        <notification v="Tình trạng duyệt phiếu yêu cầu tuyển dụng" e="Recruitment Request workflow process"/>
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số phiếu" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Nội dung" e="Content"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_ma_vtr">
+            <header v="Mã vị trí" e="Position Code"/>
+          </field>
+          <field name="h_ten_vtr">
+            <header v="Tên vị trí công việc" e="Position Name"/>
+          </field>
+          <field name="h_so_luong">
+            <header v="Số lượng" e="Quantity"/>
+          </field>
+          <field name="h_ky_nang_yc">
+            <header v="Kỹ năng yêu cầu" e="Required Skills"/>
+          </field>
+          <field name="h_ngay_tu">
+            <header v="Yêu cầu từ ngày" e="From Date"/>
+          </field>
+          <field name="h_ngay_den">
+            <header v="Đến ngày" e="To Date"/>
+          </field>
+          <field name="h_ghi_chu">
+            <header v="Ghi chú" e="Note"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt phiếu yêu cầu tuyển dụng" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy phiếu yêu cầu tuyển dụng" e="Cancel"/>
+          </field>
+          <field name="h_t_so_luong">
+            <header v="Tổng cộng" e="Total Quantity"/>
+          </field>
+          <field name="h_xstatus">
+            <header v="Trạng thái" e="Status"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Phiếu yêu cầu tuyển dụng này đã được duyệt, hủy hoặc thay đổi thông tin." e="This Recruitment Request has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="checking">
+          <text>
+            <![CDATA[
+declare @invalid nvarchar(1024), @xtype int, @receiveCode varchar(32), @cancelCode varchar(32)
+select @invalid = case when @@language = 'V' then N'Phiếu yêu cầu tuyển dụng này đã được duyệt, hủy hoặc thay đổi thông tin.' else N'This Recruitment Request has been approved, canceled or changed by another user.' end
+]]>&NotifyCheckApproveCancel;<![CDATA[
+
+declare @voucherType varchar(32)
+select @voucherType = '02801'
+if @@type = '0' begin
+  exec FastBusiness$APV$UnPostAuthorize @voucherType, @@userID, @@stt_rec, '@@sysDatabaseName', @@language, ]]>&NotifyPushFlag;<![CDATA[
+  return
+end
+if @@type = '1' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+if @@type = '2' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+]]>
+          </text>
+        </query>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @l char(1)
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @@contactID
+create table #msg (smsg varchar(10), msg0 nvarchar(4000), msg1 nvarchar(4000), msg2 nvarchar(4000), msg3 nvarchar(4000), msg4 nvarchar(4000), msg5 nvarchar(4000), msg6 nvarchar(4000), msg7 nvarchar(4000), msg8 nvarchar(4000), msg9 nvarchar(4000))
+insert into #msg exec FastBusiness$APV$GetApprovalDetail @@stt_rec, '02801', @l, 1, 1
+
+select ltrim(so_ct) as so_ct, convert(varchar(12), b.ngay_ct, 103) as ngay_ct,
+    convert(varchar(32), b.datetime2, 121) as datetime2, dien_giai, dien_thoai, e_mail, d_language,
+    upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy, m.smsg, m.msg0, m.msg1, m.msg2, m.msg3, m.msg4, m.msg5, m.msg6, m.msg7, m.msg8, m.msg9
+  from @@sysDatabaseName..userinfo2 a, @@table b, dmxn c, #msg m
+  where a.id = @@contactID and b.stt_rec = @@stt_rec and b.stt_rec = c.stt_rec and a.id = c.user_id
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+declare @priceFormat varchar(32), @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+insert into @t select 'so_luong', rtrim(val) from options where name = 'm_ip_sl'
+
+select b.ma_vtr, case @@language when 'v' then b.ten_vtr else b.ten_vtr2 end as ten_vtr, cast(so_luong as varchar) as so_luong, a.ky_nang_yc, convert(varchar(12), a.ngay_tu, 103) as ngay_tu, convert(varchar(12), a.ngay_den, 103) as ngay_den, a.ghi_chu
+  from @@table a left join hrvt b on a.ma_vtr = b.ma_vtr where a.stt_rec = @@stt_rec order by a.stt_rec0
+
+select * from @t
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+declare @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+
+insert into @t select 't_tt_nt', rtrim(val) from options where name = 'm_ip_sl'
+
+select cast(t_so_luong as varchar) as t_tt_nt from @@table where stt_rec = @@stt_rec
+select * from @t
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '02801'
+exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '02801'
+exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_dien_giai}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ma_vtr}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_vtr}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ky_nang_yc}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ngay_tu}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ngay_den}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ghi_chu}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_so_luong}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!ma_vtr}</td><td class="{!s1}">{!ten_vtr}</td><td class="{!s0}">{!ky_nang_yc}</td><td class="{!s0}">{!ngay_tu}</td><td class="{!s0}">{!ngay_den}</td><td class="{!s1}">{!ghi_chu}</td><td class="{!s3}">{!so_luong}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+<tr class="h"><td colspan="6" style="text-align: right;">{!h_t_so_luong}</td><td class="r3">{!t_tt_nt}</td></tr>
+</table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+
+      </action>
+
+      <action id="hrTSRequisitionApproval" table="hrccyccp" v="Phiếu yêu cầu cấp phát công cụ, dụng cụ chờ duyệt" e="Tool &#38; Supply Requisition waiting for approval">
+        <notification v="Tình trạng duyệt yêu cầu cấp phát công cụ, dụng cụ" e="Tool &#38; Supply Requisition workflow process"/>
+        <fields>
+          <field name="h_so_ct">
+            <header v="Số yêu cầu" e="Number"/>
+          </field>
+          <field name="h_ngay_ct">
+            <header v="Ngày" e="Date"/>
+          </field>
+          <field name="h_dien_giai">
+            <header v="Diễn giải" e="Description"/>
+          </field>
+          <field name="h_alink">
+            <header v="Đường dẫn duyệt" e="Link for approval"/>
+          </field>
+          <field name="h_clink">
+            <header v="Đường dẫn hủy" e="Link for cancellation"/>
+          </field>
+          <field name="h_ma_nv">
+            <header v="Mã nhân viên" e="Employee ID"/>
+          </field>
+          <field name="h_ten_nv">
+            <header v="Họ và tên" e="Employee Name"/>
+          </field>
+          <field name="h_ma_cc">
+            <header v="Mã công cụ" e="Tool &#38; Supply Code"/>
+          </field>
+          <field name="h_ten_cc">
+            <header v="Tên công cụ" e="Tool &#38; Supply Name"/>
+          </field>
+          <field name="h_so_luong">
+            <header v="Số lượng" e="Quantity"/>
+          </field>
+          <field name="h_ngay_hh">
+            <header v="Ngày hết hạn" e="Expiry Date"/>
+          </field>
+          <field name="h_ghi_chu">
+            <header v="Ghi chú" e="Note"/>
+          </field>
+          <field name="h_approve">
+            <header v="Duyệt phiếu yêu cầu cấp phát công cụ, dụng cụ" e="Approve"/>
+          </field>
+          <field name="h_cancel">
+            <header v="Hủy phiếu yêu cầu cấp phát công cụ, dụng cụ" e="Cancel"/>
+          </field>
+          <field name="h_xstatus">
+            <header v="Trạng thái" e="Status"/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="Chương trình đã thực hiện xong." e="The process completed successfully."/>
+          </state>
+          <state id="invalid">
+            <label v="Phiếu yêu cầu cấp phát công cụ, dụng cụ này đã được duyệt, hủy hoặc thay đổi thông tin." e="This Tool &#38; Supply Requisition has been approved, canceled or changed by another user."/>
+          </state>
+        </messages>
+
+        <query id="checking">
+          <text>
+            <![CDATA[
+declare @invalid nvarchar(1024), @xtype int, @receiveCode varchar(32), @cancelCode varchar(32)
+select @invalid = case when @@language = 'V' then N'Phiếu yêu cầu cấp phát công cụ, dụng cụ này đã được duyệt, hủy hoặc thay đổi thông tin.' else N'This Tool & Supply Requisition has been approved, canceled or changed by another user.' end
+]]>&NotifyCheckApproveCancel;<![CDATA[
+
+declare @voucherType varchar(32)
+select @voucherType = '02601'
+if @@type = '0' begin
+  exec FastBusiness$APV$UnPostAuthorize @voucherType, @@userID, @@stt_rec, '@@sysDatabaseName', @@language, ]]>&NotifyPushFlag;<![CDATA[
+  return
+end
+if @@type = '1' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+if @@type = '2' begin
+  exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@userID, @@stt_rec, '@@sysDatabaseName', @@language, default, default, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+  return
+end
+]]>
+          </text>
+        </query>
+
+        <query id="report">
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @l char(1)
+select @l = d_language from @@sysDatabaseName..userinfo2 where id = @@contactID
+create table #msg (smsg varchar(10), msg0 nvarchar(4000), msg1 nvarchar(4000), msg2 nvarchar(4000), msg3 nvarchar(4000), msg4 nvarchar(4000), msg5 nvarchar(4000), msg6 nvarchar(4000), msg7 nvarchar(4000), msg8 nvarchar(4000), msg9 nvarchar(4000))
+insert into #msg exec FastBusiness$APV$GetApprovalDetail @@stt_rec, '02601', @l, 1, 1
+
+select ltrim(so_ct) as so_ct, convert(varchar(12), b.ngay_ct, 103) as ngay_ct,
+    convert(varchar(32), b.datetime2, 121) as datetime2, dien_giai, dien_thoai, e_mail, d_language,
+    upper(ma_nhan) as ma_nhan, upper(ma_huy) as ma_huy, m.smsg, m.msg0, m.msg1, m.msg2, m.msg3, m.msg4, m.msg5, m.msg6, m.msg7, m.msg8, m.msg9
+  from @@sysDatabaseName..userinfo2 a, @@table b, dmxn c, #msg m
+  where a.id = @@contactID and b.stt_rec = @@stt_rec and b.stt_rec = c.stt_rec and a.id = c.user_id
+]]>
+            </text>
+          </command>
+          <command id="detail">
+            <text>
+              <![CDATA[
+declare @priceFormat varchar(32), @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+insert into @t select 'so_luong', rtrim(val) from options where name = 'm_ip_sl'
+
+select b.ma_nv as ma_nv, b.ten as ten_nv, a.ma_cc, case @@language when 'v' then isnull(c.ten_cc, '') else isnull(c.ten_cc2, '') end as ten_cc, cast(so_luong as varchar) as so_luong, isnull(convert(varchar(12), a.ngay_hh, 103), ' / /    ') as ngay_hh, a.ghi_chu
+  from @@table a left join vhrnv b on a.stt_rec_nv = b.stt_rec left join hrcc c on a.ma_cc = c.ma_cc where a.stt_rec = @@stt_rec order by a.stt_rec0
+
+select * from @t
+]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[
+declare @amountFormat varchar(32)
+declare @t table(field varchar(32), format varchar(128))
+
+insert into @t select 't_tt_nt', rtrim(val) from options where name = 'm_ip_sl'
+
+select * from @t
+]]>
+            </text>
+          </command>
+        </query>
+
+        <query id="process">
+          <command id="approve">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '02601'
+exec FastBusiness$APV$PostAuthorize @voucherType, '1', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+          <command id="cancel">
+            <text>
+              <![CDATA[
+declare @voucherType varchar(32)
+select @voucherType = '02601'
+exec FastBusiness$APV$PostAuthorize @voucherType, '2', @@contactID, @@stt_rec, '@@sysDatabaseName', @@language, default, 1, default, ]]>&NotifyPushFlag;<![CDATA[, ]]>&VoucherApproveLog;<![CDATA[
+]]>
+            </text>
+          </command>
+        </query>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html>]]>&CssClass;<![CDATA[
+<body>
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h"><td style="width:120px;text-align:left;">{!h_so_ct}</td><td class="r4">{!so_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_ngay_ct}</td><td class="r4">{!ngay_ct}</td></tr>
+<tr class="h"><td style="width:120px;text-align:left;">{!h_dien_giai}</td><td class="r9">{!dien_giai}</td></tr>
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#003399;">{!h_alink}</td><td class="r4" style="color:#003399;"><a href="{!alink}" style="color:#003399;" target="_blank">{!h_approve}</a></td></tr>
+</table>
+<br />
+<table class="ts" border="1" cellspacing="1" cellpadding="1"><tr class="h"><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ma_nv}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_nv}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_ma_cc}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ten_cc}</td><td style="width:100px;]]>&HeaderColor;<![CDATA[">{!h_so_luong}</td><td style="width:80px;]]>&HeaderColor;<![CDATA[">{!h_ngay_hh}</td><td style="width:300px;]]>&HeaderColor;<![CDATA[">{!h_ghi_chu}</td></tr>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[
+<tr class="h"><td class="{!s0}">{!ma_nv}</td><td class="{!s1}">{!ten_nv}</td><td class="{!s0}">{!ma_cc}</td><td class="{!s1}">{!ten_cc}</td><td class="{!s3}">{!so_luong}</td><td class="{!s0}" style="text-align:center;">{!ngay_hh}</td><td class="{!s1}">{!ghi_chu}</td></tr>
+]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[
+</table>
+<div style="padding-top:4px;display:{!smsg};" class="info r9">{!msg0}{!msg1}{!msg2}{!msg3}{!msg4}{!msg5}{!msg7}{!msg8}{!msg9}</div>
+<br />
+<table class="ts" border="0" cellpadding="1" cellspacing="1">
+<tr class="h" style="display:{!slink}"><td style="width:120px;text-align:left;color:#FF3300;">{!h_clink}</td><td class="r4" style="color:#FF3300;"><a href="{!clink}" style="color:#FF3300;" target="_blank">{!h_cancel}</a></td></tr>
+</table>
+</body></html>
+]]>
+            </text>
+          </footer>
+        </body>
+
+      </action>
+
+      <action id="Event" table="sysevents" v="Fast Business Online: Thêm mới, sửa thông tin công việc / sự kiện" e="Fast Business Online: Add/Edit Task/Event">
+        <fields>
+          <field name="h_event_yn">
+            <header v="Loại" e="Type"/>
+          </field>
+          <field name="h_text">
+            <header v="Tên" e="Name"/>
+          </field>
+          <field name="h_start_date">
+            <header v="Bắt đầu" e="Start"/>
+          </field>
+          <field name="h_end_date">
+            <header v="Kết thúc" e="End"/>
+          </field>
+          <field name="h_details">
+            <header v="Chi tiết" e="Detail"/>
+          </field>
+
+          <field name="h_created">
+            <header v="Được tạo bởi" e="Created By"/>
+          </field>
+          <field name="t_created">
+            <header v="Thời gian tạo" e="Date Created"/>
+          </field>
+          <field name="h_modified">
+            <header v="Được sửa bởi" e="Last Modified By"/>
+          </field>
+          <field name="t_modified">
+            <header v="Thời gian sửa" e="Date Modified"/>
+          </field>
+        </fields>
+
+        <query id="report">
+          <command id="language">
+            <text>
+              <![CDATA[
+select top 1 a.d_language from vsysuserinfo a join sysevents b on a.id = case when @@action = 'New' then b.user_id0 else b.user_id2 end and b.id = @@xcode
+]]>
+            </text>
+          </command>
+
+          <command id="email">
+            <text>
+              <![CDATA[
+select top 1 e_mail as mto, '' as mcc, '' as mbc from vsysuserinfo a join sysevents b on a.id = case when @@action = 'New' then b.user_id0 else b.user_id2 end and b.id = @@xcode
+]]>
+            </text>
+          </command>
+
+          <command id="master">
+            <text>
+              <![CDATA[
+declare @aText nvarchar(10), @bText nvarchar(10), @cText nvarchar(50), @name nvarchar(255), @datetime varchar(50), @task nvarchar(128), @event nvarchar(128)
+select @task = case when @@language = 'v' then N'Công việc' else N'Task' end, @event = case when @@language = 'v' then N'Sự kiện' else N'Event' end
+
+select @aText = case when @@language = 'v' then N'Thêm' else N'New' end, @bText = case when @@language = 'v' then N'Sửa' else N'Edit' end, @cText = case when @@language = 'v' then N' công việc / sự kiện' else N' Task/Event' end
+select @name = comment from vsysuserinfo a left join sysevents b on a.id = case when @@action = 'New' then b.user_id0 else b.user_id2 end where b.id = @@xcode
+select @datetime = case when @@action = 'New' then (convert(varchar(10), datetime0, 103) + ' ' + convert(varchar(8), datetime0, 108)) else (convert(varchar(10), datetime2, 103) + ' ' + convert(varchar(8), datetime2, 108)) end from sysevents where id = @@xcode
+
+select top 1 case when @@action = 'New' then 'block' else 'none' end as new, case when @@action = 'New' then 'none' else 'block' end as edit,
+  case when @@action = 'New' then @aText + @cText else @bText + @cText end as info, case when event_yn = 0 then @task else @event end as event_yn,
+  text, ((convert(varchar(10), start_date, 103) + ' ' + convert(varchar(8), start_date, 108))) as start_date,
+  ((convert(varchar(10), end_date, 103) + ' ' + convert(varchar(8), end_date, 108))) as end_date, details,
+  @name as name, @datetime as datetime from sysevents where  id = @@xcode
+]]>
+            </text>
+          </command>
+
+          <command id="detail">
+            <text>
+              <![CDATA[select 1 as temp]]>
+            </text>
+          </command>
+          <command id="footer">
+            <text>
+              <![CDATA[]]>
+            </text>
+          </command>
+        </query>
+
+        <success>
+          <command>
+            <text>
+              <![CDATA[
+]]>
+            </text>
+          </command>
+        </success>
+
+        <body>
+          <header>
+            <text>
+              <![CDATA[
+<html><head><style type="text/css">.dc{padding:10px;font-family:Verdana;font-size:12px;color:#444444;}.dc1{font-size:11px}</style>
+</head><body><div class="dc">{!info}</div>
+<div class="dc dc1">
+  <p style="display:{!new}"><i>{!h_created}: {!name}<br/>{!t_created}: {!datetime}</i></p>
+  <p style="display:{!edit}"><i>{!h_modified}: {!name}<br/>{!t_modified}: {!datetime}</i></p>
+  <p><div style="height:1px;width:350px;border-bottom:1px solid #666666;"></div></p>
+  <p>{!h_event_yn}: <i>{!event_yn}</i></p>
+  <p>{!h_text}: <i>{!text}</i></p>
+  <p>{!h_start_date}: <i>{!start_date}</i></p>
+  <p>{!h_end_date}: <i>{!end_date}</i></p>
+  <p>{!h_details}: <i>{!details}</i></p>
+</div>
+]]>
+            </text>
+          </header>
+
+          <detail>
+            <text>
+              <![CDATA[]]>
+            </text>
+          </detail>
+
+          <footer>
+            <text>
+              <![CDATA[</body></html>]]>
+            </text>
+          </footer>
+        </body>
+      </action>
+    </template>
+  </mail>
+
+  <sms>
+    <setting>
+      <isSend value="true"/>
+      <isReceive value="true"/>
+      <allowMultiMessage value="true"/>
+      <portName value="COM1"/>
+      <baudRate value="9600"/>
+      <dataBits value="8"/>
+      <maxLength value="160"/>
+      <delayTime value="2000"/>
+      <readTimeout value="300"/>
+      <writeTimeout value="300"/>
+      <dueTime value="500"/>
+      <approveIntervalTime value="15"/>
+      <processIntervalTime value="15"/>
+      <simulation value="false"/>
+      <external value="false"/>
+      <errorMessage value="Tin nhan khong hop le hoac da duoc duyet, huy boi nguoi khac (This message is invalid or canceled or changed by another user)."/>
+    </setting>
+
+    <template>
+      <action id="PurchaseRequisition" table="m91$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="PYC So: " e="PR#: "/>
+          </field>
+          <field name="h_t_tien">
+            <header v="Tong tien: " e="Total Amount: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_tien} {!t_tt_nt} {!ma_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="ImportPurchaseOrder" table="m95$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="Don hang: " e="Order#: "/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tong tien: " e="Total Amount: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_tt} {!t_tt_nt} {!ma_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="DomesticPurchaseOrder" table="m94$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="Don hang: " e="Order#: "/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tong tien: " e="Total Amount: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_tt} {!t_tt_nt} {!ma_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="SOApproval" table="m64$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="Don hang: " e="Sales Order#: "/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tong tien: " e="Total Amount: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_tt} {!t_tt_nt} {!ma_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="DCApproval" table="m52$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="De nghi chi: " e="Supplier Payment Request#: "/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tong tien: " e="Total Amount: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_tt} {!t_tt_nt} {!ma_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="DTApproval" table="m57$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="De nghi thu: " e="Customer Payment Request#: "/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tong tien: " e="Total Amount: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_tt} {!t_tt_nt} {!ma_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="CDApproval" table="m51$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="Phieu chi tien mat: " e="Cash Disbursement: "/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tong tien: " e="Total Amount: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_tt} {!t_tt_nt} {!ma_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="CPApproval" table="m56$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="Giay bao no: " e="Bank Debit Advice: "/>
+          </field>
+          <field name="h_t_tt">
+            <header v="Tong tien: " e="Total Amount: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_tt} {!t_tt_nt} {!ma_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="MRApproval" table="m87$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="PYC So: " e="MR#: "/>
+          </field>
+          <field name="h_t_so_luong">
+            <header v="Tong so luong: " e="Total Quantity: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_so_luong} {!t_tt_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="S2Approval" table="ms2$000000">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="YC So: " e="WO#: "/>
+          </field>
+          <field name="h_sl_yc">
+            <header v="So luong: " e="WO Quantity: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!ma_lsx}
+{!dien_giai}
+{!h_sl_yc} {!sl_yc}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="hrTMApproval" table="hrdtyc">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="PDT So: " e="TM#: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="hrRMApproval" table="hrrmyc">
+        <fields>
+          <field name="h_de_nghi">
+            <header v="PTD So: " e="RM#: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+          <field name="h_t_so_luong">
+            <header v="Tong so luong: " e="Total Quantity: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_de_nghi} {!so_ct}
+{!dien_giai}
+{!h_t_so_luong} {!t_tt_nt}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="hrTSRequisitionApproval" table="hrccyccp">
+        <fields>
+          <field name="h_yeu_cau">
+            <header v="PYC So: " e="TS#: "/>
+          </field>
+          <field name="h_ma_nhan">
+            <header v="Ma duyet: " e="Aprroval Code: "/>
+          </field>
+          <field name="h_ma_huy">
+            <header v="Ma huy: " e="Cancel Code: "/>
+          </field>
+          <field name="h_t_so_luong">
+            <header v="Tong so luong: " e="Total Quantity: "/>
+          </field>
+        </fields>
+
+        <messages>
+          <state id="complete">
+            <label v="He thong da thuc hien xong." e="The process completed successfully."/>
+          </state>
+        </messages>
+
+        <content>
+          <text>
+            <![CDATA[{!h_yeu_cau} {!so_ct}
+{!dien_giai}
+{!h_ma_nhan} {!ma_nhan}
+{!h_ma_huy} {!ma_huy}
+]]>
+          </text>
+        </content>
+      </action>
+
+      <action id="Leave" prefix="L" expire="5" table="">
+        <queries>
+          <query id="Checking">
+            <text>
+              <![CDATA[
+-- Check Request
+if exists(select 1 from @@sysDatabaseName..sms where right(sender, 9) = right(@@sender, 9) and status = '1') return
+
+-- Delete
+delete @@sysDatabaseName..dbxn from @@sysDatabaseName..dbxn a, @@sysDatabaseName..sms b where (a.code = b.ma_nhan or a.code = b.ma_huy) and b.status in ('2', '9')
+delete @@sysDatabaseName..sms where ((status = '0' or status = '1') and datediff(day, sent, getdate()) > @@expire) or (status = '9')
+
+-- Declare
+declare @q nvarchar(4000), @message varchar(512), @content varchar(512), @group varchar(256), @s varchar(256), @d varchar(256), @v varchar(256)
+declare @approve varchar(6), @cancel varchar(6), @m varchar(2), @y varchar(4), @leaveDay varchar(6), @leaveDate varchar(256), @i int, @j int, @dayLeft numeric(5, 2)
+declare @l1 char(1), @l2 char(1), @userID int, @managerID int, @manager char(16), @name nvarchar(128), @employeeID varchar(32), @stt_rec char(13), @startDate smalldatetime, @leaveDays numeric(5, 2)
+declare @z table(id int identity(1, 1), value varchar(128))
+
+select @approve = lower(left(newid(), 6)), @cancel = lower(left(newid(), 6)), @manager = '', @name = '', @v = '', @d = '', @i = 0, @j = 0
+select @s = @@message + space(1), @m = replace(str(month(getdate()), 2), ' ', '0'), @y = rtrim(year(getdate()))
+
+-- Leave Date
+while charindex(space(1), @s) > 0 begin
+	select @v = rtrim(substring(@s, 0, charindex(space(1), @s))), @s = right(@s, len(@s) - len(@v))
+	insert into @z select @v
+end
+select @i = count(*) from @z
+
+if @i = 0 or @i > 3 return
+if @i = 1 and exists(select 1 from @z where lower(rtrim(value)) = lower(@@action)) select @leaveDay = '1', @leaveDate = convert(varchar(10), getdate() + 1, 103)
+if @i = 2 select @leaveDay = '1', @leaveDate = value from @z where id = 2
+if @i = 3 begin
+  select @leaveDay = value from @z where id = 2
+  select @leaveDate = value from @z where id = 3
+end
+
+-- Check Leave Days
+if exists(
+  select 1 from (
+    select case
+      when left(@leaveDay, 1) in ('+', '-', '.', '') then 0 when right(@leaveDay, 1) in ('+', '-', '.') then 0
+      else isnumeric(@leaveDay + case when charindex('.', @leaveDay) > 0 then '' else '.' end + '0e0') end v
+  ) a where v = 0
+) return
+--if charindex('.', @leaveDay) > 0 and replace(@leaveDay, left(@leaveDay, charindex('.', @leaveDay)), '') <> '5' return
+
+if charindex('.', @leaveDay) > 0 begin
+  declare @l varchar(32)
+  select @l = rtrim(replace(@leaveDay, left(@leaveDay, charindex('.', @leaveDay)), ''))
+  if (@l = '00' or len(@l) > 2) return
+end
+
+-- Check Date
+if charindex('/', @leaveDate) > 0 begin
+	select @s = @leaveDate
+	while charindex('/', @s) > 0 select @s = right(@s, len(@s) - len(left(@s, charindex('/', @s)))), @j = @j + 1
+	if @j > 2 return else select @leaveDate = @leaveDate + case @j when 1 then '/' + @y else '' end
+end else select @leaveDate = @leaveDate + '/' + @m + '/' + @y
+if isnumeric(right(@leaveDate, 4)) <> 1 return
+
+select @v = right(@leaveDate, 4), @d = replace(@leaveDate, '/' + @v, '')
+select @v = @v + replace(str(right(@d, charindex('/', reverse(@d)) - 1), 2), ' ', '0') + replace(str(left(@leavedate, charindex('/', @leavedate) - 1), 2), ' ', '0')
+if isdate(@v) <> 1 return else select @leaveDate = convert(varchar(10), convert(smalldatetime, @v, 103), 103)
+select @startDate = convert(smalldatetime, @leaveDate, 103), @leaveDays = cast(@leaveDay as numeric(5, 2))
+
+-- Group, Content
+if exists(select 1 from hrnv where status = '1' and right(replace(rtrim(dien_thoai_dd), ' ', ''), 9) = right(@@sender, 9)) begin
+	select @stt_rec = stt_rec, @employeeID = rtrim(ma_nv), @userID = user_id, @manager = nv_ql, @name = rtrim(ho_nv) + space(1) + rtrim(ten_nv)
+	  from hrnv where right(replace(rtrim(dien_thoai_dd), ' ', ''), 9) = right(@@sender, 9)
+	select @l1 = rtrim(d_language) from @@sysDatabaseName..userinfo2 where id = @userID
+	select @group = rtrim(dien_thoai_dd), @managerID = user_id from hrnv where ma_nv = @manager
+	if isnull(@group, '') = '' return
+	select @l2 = rtrim(d_language) from @@sysDatabaseName..userinfo2 where id = @managerID
+	select @l1 = isnull(@l1, 'v'), @l2 = isnull(@l2, 'v'), @name = dbo.FastBusiness$Function$Message$ConvertToUnsign(@name)
+end else return
+
+if @startDate <= getdate() begin
+  delete @@sysDatabaseName..sms where action = @@action and sent = @@sent and status = '0'
+  select @message = case when @l1 = 'v' then 'Ngay xin nghi phep khong hop le.' else 'The requested date for leave is invalid.' end
+  select @message as message, @@sender as sender
+  return
+end
+
+-- Leave Day Left
+exec FastBusiness$HRM$Message$Leave @@sender, @employeeID, @startDate, @leaveDays, @dayLeft output, '@@sysDatabaseName'
+
+if @leaveDays > @dayLeft begin
+  delete @@sysDatabaseName..sms where action = @@action and sent = @@sent and status = '0'
+  select @message = case when @l1 = 'v' then 'So ngay phep xin nghi khong hop le.' else 'The number of day(s) requested for leave is invalid.' end
+  select @message as message, @@sender as sender
+  return
+end
+
+if exists(select 1 from hrphepdd where stt_rec = @stt_rec and ngay_bd >= cast(convert(char(8), getdate(), 112) as smalldatetime))
+  or exists(select 1 from dmxn where stt_rec = @stt_rec) begin
+    delete @@sysDatabaseName..sms where action = @@action and sent = @@sent and status = '0'
+    select @message = case when @l1 = 'v' then 'Ban da co yeu cau xin nghi phep truoc do, nen khong duoc duyet.' else 'You have already had a leave request.' end
+    select @message as message, @@sender as sender
+    return
+end else insert into dmxn(stt_rec, ma_nhan, ma_huy, user_id) select @stt_rec, @approve, @cancel, 0
+
+select @message = case when @l1 = 'v' then 'Thong tin ban gui da duoc chuyen cho quan ly xem xet.' else 'Your request has been sent to your supervisor for approval.' end
+if @l2 = 'v' begin
+  select @content = 'Nhan vien %s1 xin nghi ' + case when @leaveDay > '1' then ' %s2 ngay phep, bat dau tu %s3.' else 'phep ngay %s3.' end
+  select @content = @content + char(13) + 'So du phep trong nam cua %s1 con: %s4 ngay.'
+  select @content = @content + char(13) + 'De duyet nhan %s5 de huy nhan %s6.'
+end else begin
+  select @content = '%s1 requests to leave ' + case when @leaveDay > '1' then ' in %s2 day(s) from %s3.' else 'on %s3.' end
+  select @content = @content + char(13) + 'The annual leave balance of %s1 is %s4 day(s).'
+  select @content = @content + char(13) + 'To approve the request, send %s5, to reject the request, send %s6.'
+end
+select @content = replace(replace(replace(@content, '%s1', @name), '%s2', rtrim(@leaveDay)), '%s3', @leaveDate)
+select @content = replace(replace(replace(@content, '%s4', cast(@dayLeft as float)), '%s5', @approve), '%s6', @cancel)
+
+insert into @@sysDatabaseName..dbxn select @approve, @@action, '@@appDatabaseName'
+insert into @@sysDatabaseName..dbxn select @cancel, @@action, '@@appDatabaseName'
+update @@sysDatabaseName..sms set ma_nhan = @approve, ma_huy = @cancel, so_ngay = @leaveDays, ngay_bd = @startDate, status = 1 where action = @@action and sent = @@sent
+select @message as message, @@sender as sender, @content as content, @group as groups
+return
+]]>
+            </text>
+          </query>
+
+          <query id="Processing">
+            <text>
+              <![CDATA[
+declare @message varchar(512), @sender varchar(512), @content varchar(512), @group varchar(256)
+declare @userID int, @managerID int, @manager char(16), @l1 char(1), @l2 char(1), @status char(1)
+declare @startDate smalldatetime, @leaveDays numeric(5, 2), @stt_rec char(13), @stt_rec0 char(13), @approve varchar(6), @cancel varchar(6)
+select @message = '', @sender = '', @group = '', @content = ''
+
+if exists(select 1 from @@sysDatabaseName..sms where ma_nhan = @@message or ma_huy = @@message) begin
+  if exists(select 1 from @@sysDatabaseName..sms where (ma_nhan = @@message or ma_huy = @@message) and datediff(day, sent, getdate()) > @@expire) return
+  select @leaveDays = so_ngay, @startDate = ngay_bd from @@sysDatabaseName..sms where ma_nhan = @@message or ma_huy = @@message
+end else return
+
+if exists(select 1 from dmxn where ma_nhan = @@message or ma_huy = @@message) begin
+  select @stt_rec = stt_rec, @approve = ma_nhan, @cancel = ma_huy, @status = case when ma_nhan = @@message then '2' else '9' end from dmxn where ma_nhan = @@message or ma_huy = @@message
+end else return
+
+if exists(select 1 from hrnv where stt_rec = @stt_rec) begin
+  select @sender = rtrim(dien_thoai_dd), @manager = nv_ql, @userID = user_id from hrnv where stt_rec = @stt_rec
+  if isnull(@sender, '') = '' return
+  select @l1 = rtrim(d_language) from @@sysDatabaseName..userinfo2 where id = @userID
+  select @stt_rec0 = stt_rec, @managerID = user_id, @group = rtrim(dien_thoai_dd) from hrnv where ma_nv = @manager
+	if isnull(@group, '') = '' or isnull(@stt_rec0, '') = '' return
+	select @l2 = rtrim(d_language) from @@sysDatabaseName..userinfo2 where id = @managerID
+  select @l1 = isnull(@l1, 'v'), @l2 = isnull(@l2, 'v')
+end else return
+
+if @l1 = 'v' select @message = case when @status = '2' then 'Yeu cau cua ban da duoc duyet.' else 'Yeu cau cua ban khong duoc duyet.' end
+  else select @message = case when @status = '2' then 'Your request had approved.' else 'Your request had canceled.' end
+select @content = case when @l2 = 'v' then 'He thong da thuc hien xong.' else 'The process completed successfully.' end
+
+delete dmxn where stt_rec = @stt_rec
+delete @@sysDatabaseName..dbxn where code = @approve or code = @cancel
+
+if @status = '2' begin
+  insert into hrphepdd(stt_rec, so_ngay, ngay_bd, stt_rec0, datetime0, datetime2, user_id0, user_id2, status)
+    select @stt_rec, @leaveDays, @startDate, @stt_rec0, getdate(), getdate(), @managerID, @managerID, '0'
+  delete @@sysDatabaseName..sms where ma_nhan = @@message or ma_huy = @@message
+end else update @@sysDatabaseName..sms set status = @status where ma_nhan = @@message or ma_huy = @@message
+
+select @message as message, @sender as sender, @content as content, @group as groups
+return
+]]>
+            </text>
+          </query>
+        </queries>
+      </action>
+    </template>
+  </sms>
+
+</message>

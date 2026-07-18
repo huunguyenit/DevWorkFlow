@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmqt" code="ma_qt" name="ten_qt%l" order="ma_qt" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục quốc tịch" e="Nationality List"></header>
+
+  <fields>
+    <field name="ma_qt" allowSorting="true" allowFilter="true">
+      <header v="Mã quốc tịch" e="Nationality Code"></header>
+    </field>
+    <field name="ten_qt%l" allowSorting="true" allowFilter="true">
+      <header v="Tên quốc tịch" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

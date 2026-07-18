@@ -1,0 +1,4 @@
+function onChange$Filter$Type(o){
+  var f = o.parentForm;
+  f.setReferenceKeyFilter('ma_pn');
+}

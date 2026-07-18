@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY XMLGridCommandExtension SYSTEM "..\Include\XML\GridCommandExtension.xml">
+]>
+
+<dir table="hrebcm" code="stt_rec, stt_rec0" order="stt_rec0" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="bậc nghề nghiệp chuyên môn" e="Speciality Level"></title>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" hidden="true" readOnly="true" allowNulls="false">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"></items>
+    </field>
+
+    <field name="ma_cm" allowNulls="false">
+      <header v="Chuyên môn" e="Speciality"></header>
+      <items style="AutoComplete" controller ="hrSpecialist" key="status = 1" check="1 = 1" reference="ten_cm%l" information="ma_cm$hrdmcm.ten_cm%l" new="Default"/>
+    </field>
+    <field name="ten_cm%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""/>
+    </field>
+    <field name="mac_dinh_yn" type="Boolean" defaultValue="cast(0 as bit)">
+      <header v="Chuyên môn chính" e="Main Speciality"/>
+      <items style="CheckBox"/>
+    </field>
+    <field name="ma_bac" allowNulls="false">
+      <header v="Bậc" e="Level"/>
+      <items style="AutoComplete" controller ="hrSpecialistLevel" key="status = 1" check="1 = 1" reference="ten_bac%l" information="ma_bac$hrdmbcm.ten_bac%l" new="Default"/>
+    </field>
+    <field name="ten_bac%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""/>
+    </field>
+    <field name="ngay_hl" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false">
+      <header v="Ngày hiệu lực" e="Effective Date"></header>
+    </field>
+    <field name="ghi_chu" rows="2">
+      <header v="Ghi chú" e="Note"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 100, 230, 0"/>
+      <item value="110101: [ma_cm].Label, [ma_cm], [ten_cm%l], [stt_rec]"/>
+      <item value="11---1: [mac_dinh_yn].Label, [mac_dinh_yn], [line_nbr]"/>
+      <item value="110101: [ma_bac].Label, [ma_bac], [ten_bac%l], [stt_rec0]"/>
+      <item value="110---: [ngay_hl].Label, [ngay_hl]"/>
+      <item value="11000-: [ghi_chu].Label, [ghi_chu]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'set$ViewPanelEmployeeID(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+select 'set$ViewPanelEmployeeID(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã đã có hoặc lồng nhau hoặc không hợp lệ.' else N'The code is invalid or already exists.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where stt_rec = @stt_rec and ma_cm = @ma_cm and ma_bac = @ma_bac)
+  begin
+    select 'ma_cm' as field, @$exists as message
+    return
+  end
+
+if exists(select 1 from @@table where stt_rec = @stt_rec) select @stt_rec0 = max(stt_rec0), @line_nbr = max(line_nbr) from @@table where stt_rec = @stt_rec
+  else select @stt_rec0 = '000', @line_nbr = 0
+  
+exec dbo.FastBusiness$HRM$GetRowID @stt_rec0 output, @line_nbr output
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+select @stt_rec0 as stt_rec0
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where stt_rec = @stt_rec and (ma_cm = @ma_cm and ma_bac = @ma_bac) and (stt_rec0 <> @stt_rec0))
+  begin
+    select 'ma_cm' as field, @$exists as message
+    return
+  end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec and stt_rec0 = @stt_rec0
+]]>
+      </text>
+    </command>
+  </commands>
+
+</dir>

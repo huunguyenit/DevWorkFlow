@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="tdmthuetp" code="ma_thue" name="ten_thue%l" order="ma_thue" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục biểu thuế toàn phần" e="Complete Tariff"></header>
+  <fields>
+    <field name="ma_thue" allowSorting="true" allowFilter="true">
+      <header v="Mã thuế" e="Tax Code"></header>
+    </field>
+
+    <field name="ten_thue%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên thuế" e = "Tax Name"></header>
+    </field>
+  </fields>
+</lookup>

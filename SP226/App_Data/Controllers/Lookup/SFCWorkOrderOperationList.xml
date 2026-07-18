@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="vsfctwo" code="ma_cd" name="ten_cd%l" order="ma_cd" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục công đoạn" e="Operation List"></header>
+  <fields>
+    <field name="ma_cd" allowSorting="true" allowFilter="true">
+      <header v="Mã công đoạn" e="Operation List"></header>
+    </field>
+    <field name="ten_cd%l" allowSorting="true" allowFilter="true">
+      <header v="Tên công đoạn" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

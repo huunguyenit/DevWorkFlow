@@ -1,0 +1,108 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="OriginalFile" content="CDTran.doc" />
+<title>Cập nhật danh sách lao động tham gia bảo hiểm</title>
+<link rel="stylesheet" href="fast.css" type="text/css" />
+<script type="text/javascript" language="JavaScript">
+//<![CDATA[
+function reDo() {
+  if (innerWidth !=origWidth || innerHeight !=origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion)==4) && (navigator.appName=="Netscape")) {
+	origWidth=innerWidth;
+	origHeight=innerHeight;
+	onresize=reDo;
+}
+onerror=null; 
+//]]>
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute;
+left:0px;
+top:0px;
+z-index:4;
+visibility:hidden; }
+-->
+</style>
+<script type="text/javascript" language="javascript1.2" src="whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="whlang.js"></script>
+<script type="text/javascript" language="javascript1.2" src="whtopic.js"></script>
+</head>
+<body>
+<p id="td1">Cập nhật danh sách lao động tham gia bảo hiểm</p>
+
+
+<p id="pic"><img src="Vie\hrInsuranceInformationChangesInput.png"/></p> 
+<p id="p1">Cập nhật danh sách lao động tham gia bảo hiểm dùng để tạo số liệu cho báo cáo "Danh sách Lao động tham gia BHXH, BHYT".</p>
+<p class="node">Ngày thay đổi</p>
+<p class="node_d">Dựa vào ngày thay đổi để lấy lương tối thiểu trong “Danh mục lương tối thiểu chung" trong công thức tính "Lương" phía dưới.</p>
+<p class="node">Loại thay đổi</p>
+<p class="node_d">Để xác định số liệu các dòng chỉ tiêu của báo cáo. Bao gồm:</p>
+<ul class="lo_2">	
+- X1 Tăng lao động: nhập trong trường hợp tăng mới lao động, nhập lương ở phần thông tin mới, nhập tỷ lệ bảo hiểm (BHXH, BHYT, BHTN) tăng;<br/>
+- X2 Giảm lao động: nhập trong trường hợp giảm lao động (nhân viên nghỉ việc, nghỉ thai sản,...), nhập lương ở phần thông tin cũ, nhập tỷ lệ bảo hiểm (BHXH, BHYT, BHTN) giảm;<br/>
+- X3 Tăng lương: nhập trong trường hợp tăng lương đóng bảo hiểm, nhập lương ở phần thông tin cũ và mới, nhập tỷ lệ bảo hiểm (BHXH, BHYT, BHTN) tăng;<br/>
+- X4 Giảm lương: nhập trong trường hợp giảm lương đóng bảo hiểm, nhập lương ở phần thông tin cũ và mới, nhập tỷ lệ bảo hiểm (BHXH, BHYT, BHTN) giảm;<br/>
+- X5 Tăng BHYT: Nhập trong trường hợp nhân viên nghỉ việc không trả lại thẻ bảo hiểm y tế, nhập lương ở phần thông tin mới, nhập tỷ lệ bảo hiểm y tế tăng 
+(Lưu ý: Trước đó phải nhập giảm lao động để giảm quỹ lương đóng);<br/>
+- X6 Giảm BHYT: nhập trong trường hợp giảm bhyt, nhập lương ở phần thông tin cũ, nhập tỷ lệ bảo hiểm y tế giảm;<br/>
+- X7 Tăng BHTN: nhập trong trường hợp tăng bhtn, nhập lương ở phần thông tin mới, nhập tỷ lệ bảo hiểm thất nghiệp tăng;<br/>
+- X8 Giảm BHTN: nhập trong trường hợp giảm bhtn, nhập lương ở phần thông tin cũ, nhập tỷ lệ bảo hiểm thất nghiệm giảm;<br/>
+- X9 Thay đổi thông tin: nhập trong trường hợp thay đổi thông tin chức danh, công việc, nghề, điều kiện, nơi làm việc, nhập thông tin ở trường thông tin cũ, thông tin mới
+.</ul>
+
+<p class="node">Không trả thẻ BHYT</p>
+<p class="node_d">Để đánh dấu "X" trong báo cáo (cột "Không trả thẻ"). Nhập khi có giảm lao động.</p>
+<p class="node">Ngày từ/đến</p>
+<p class="node_d">Dùng làm căn cứ để tính toán biến động quỹ lương phát sinh tháng hiện hành, số điều chỉnh số phải đóng và biến động số lượng lao động trong kỳ. Nếu số liệu 
+không làm ảnh hưởng quỹ lương phát sinh tháng hiện hành thì không nhập ngày đến và ngược lại.</p>
+<p class="node">Thông tin cũ/Thông tin mới</p>
+<p class="node_d">Dùng để nhập các hệ số lương, phụ cấp để tính cột "lương". Trong trường hợp tham số “Thực hiện theo bảng lương nhà nước”=“1 – Có”  thì mới nhập 
+được các thông tin này để tính "Lương". Trường hợp ngược lại người dùng tự nhập "Lương". </p>
+<p class="node">Hs lương cơ bản, Phụ cấp chức vụ, Phụ cấp khu vực, Phụ cấp vượt khung, Phụ cấp thâm niên</p>
+<p class="node_d">Dùng để tính trong công thức tính "Lương" phía dưới. Trong trường hợp tham số “Thực hiện theo bảng lương nhà nước”=“1 – Có”  thì mới nhập 
+được các thông tin này để tính "Lương". Trường hợp ngược lại người dùng tự nhập "Lương".</p>
+<p class="note">Chú ý:<br/>
+- Hs lương cơ bản, Phụ cấp chức vụ, Phụ cấp khu vực: được nhập dưới dạng số, ví dụ nhập 1 sẽ hiểu là 1;<br/>
+- Phụ cấp vượt khung/Phụ cấp thâm niên được nhập dưới dạng %, ví dụ nhập 1 sẽ hiểu là 1%</p>
+
+<p class="node">Mức đóng trần cũ</p>
+<p class="node_d">
+Dùng trong trường hợp nhân viên có mức lương cao hơn mức trần đóng bảo hiểm (theo quy định là áp dụng mức trần) nhưng giữa các kỳ có thay đổi mức trần. 
+Việc nhập "Mức đóng trần cũ" để chương trình tính chính xác giá trị tăng quỹ lương đóng bảo hiểm (Mức đóng trần mới - Mức đóng trần cũ).
+</p>
+<!--
+<p class="note">Chú ý:<br/>
+- Khi tăng lao động, tăng BHYT, BHTN thì nhập mức lương mới, mức cũ nhập 0;<br/>
+- Khi tăng mức đóng thì nhập cả mức lương cũ và mức mới;<br/>
+- Khi giảm lao động hoặc giảm mức đóng thì nhập mức lương cũ, lương cữ nhập 0;<br/>
+- Khi có thay đổi mức trần đóng bảo hiểm, phải nhập 1 bản ghi cập nhật thay đổi giữa mức cũ và mới<br/>
+.
+</p>
+-->
+<p class="node">Lương
+</p>
+<p class="node_d">	Trường hợp tham số “Thực hiện theo bảng lương nhà nước”=“1 – Có”  thì:</p>
+
+<p class="fml"> Lương=(hệ số lương + phụ cấp chức vụ + phụ cấp vượt khung/100 + phụ cấp thâm niên/100 + phụ cấp khác) * lương tối thiểu chung</p>
+<p class="node_d">	Dựa vào ngày thay đổi để lấy lương tối thiểu trong “Danh mục lương tối thiểu chung".</p>
+<p class="node_d">	Trường hợp tham số “Thực hiện theo bảng lương nhà nước”=“0 –Không” thì tự nhập lương.</p>
+<p class="node">Tăng/Giảm</p>
+<p class="node_d">Nhập tỷ lệ tăng hoặc giảm (Tỷ lệ BHXH/Tỷ lệ BHYT/Tỷ lệ BHTN) để lên số liệu biến động quỹ lương phát sinh tháng hiện hành.</p>
+<p class="node">Tỷ lệ BHXH/Tỷ lệ BHYT/Tỷ lệ BHTN</p>
+<p class="node_d">Nhập để lên số liệu tại các cột tỷ lệ thu và tính toán các biến động lương phát sinh tháng hiện hành.</p>
+<p class="node">Thông tin cũ/Thông tin mới</p>
+<p class="node_d">
+Để nhập các thông tin liên quan chỉ tiêu "Thay đổi thông tin" (phải chọn "Loại thay đổi" là "Thay đổi thông tin").
+</p>
+<script type="text/javascript" src="setPageFooter.js"></script>
+</body>
+</html>

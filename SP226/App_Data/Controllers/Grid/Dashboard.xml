@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<grid table="dmstt" code="stt_rec" order="stt_rec" filter="1=0" xmlns="urn:schemas-fast-com:data-grid">
+
+  <title v="Dashboard" e="Dashboard"></title>
+  <subTitle v="..." e="..."></subTitle>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" width="100" dataFormatString="X" allowSorting="true" allowFilter="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt_rec"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'document._grid = this;' as message return
+]]>
+      </text>
+    </command>
+  </commands>
+</grid>

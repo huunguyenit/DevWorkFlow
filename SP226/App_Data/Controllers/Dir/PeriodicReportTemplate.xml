@@ -1,0 +1,496 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY OutlineCss SYSTEM "..\Include\Javascript\OutlineCss.txt">
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+]>
+
+<dir table="dmthongbao" code="ma_tb" order="ma_tb" database="Sys" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="mẫu báo cáo" e="Report Template"></title>
+  <fields>
+    <field name="ma_tb" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã mẫu báo cáo" e="Report Template Code"></header>
+      <footer v="&lt;div class=&quot;Break&quot;/&gt;" e="&lt;div class=&quot;Break&quot;/&gt;"></footer>
+      <items style="Mask"></items>
+    </field>
+    <field name="ten_tb" allowNulls="false">
+      <header v="Tên mẫu báo cáo" e="Report Template Name"></header>
+    </field>
+    <field name="ten_tb2">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+
+    <field name="ma_loai_tb" hidden="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="type" clientDefault="0" type="Int32">
+      <header v="Loại" e="Type"></header>
+      <items style="DropDownList">
+        <item value="0">
+          <text v="Cố định" e="Fixed"/>
+        </item>
+        <item value="1">
+          <text v="Hàng tuần" e="Every Week"/>
+        </item>
+        <item value="2">
+          <text v="Hàng tháng" e="Every Month"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;<![CDATA[onchange="onChange$Type$NotifyListFormDir(this.parentForm);"]]></clientScript>
+    </field>
+
+    <field name="d_tu_ngay" type="DateTime" dataFormatString="@datetimeFormat" align="left">
+      <header v="Từ ngày" e="Date From"></header>
+      <footer v="Ngày từ/đến" e="Date From/to"></footer>
+    </field>
+    <field name="d_den_ngay" type="DateTime" dataFormatString="@datetimeFormat" align="left">
+      <header v="Đến ngày" e="Date To"></header>
+    </field>
+
+    <field name="c_tu_ngay_w" clientDefault="1" type="Int32">
+      <header v="Theo tuần" e="By week"></header>
+      <items style="DropDownList">
+        <item value="1">
+          <text v="Thứ hai" e="Monday"/>
+        </item>
+        <item value="2">
+          <text v="Thứ ba" e="Tuesday"/>
+        </item>
+        <item value="3">
+          <text v="Thứ tư" e="Wednesday"/>
+        </item>
+        <item value="4">
+          <text v="Thứ năm" e="Thursday"/>
+        </item>
+        <item value="5">
+          <text v="Thứ sáu" e="Friday"/>
+        </item>
+        <item value="6">
+          <text v="Thứ bảy" e="Saturday"/>
+        </item>
+        <item value="7">
+          <text v="Chủ nhật" e="Sunday"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;</clientScript>
+    </field>
+
+    <field name="c_den_ngay_w" clientDefault="1" type="Int32">
+      <header v="" e=""></header>
+      <items style="DropDownList">
+        <item value="1">
+          <text v="Thứ hai" e="Monday"/>
+        </item>
+        <item value="2">
+          <text v="Thứ ba" e="Tuesday"/>
+        </item>
+        <item value="3">
+          <text v="Thứ tư" e="Wednesday"/>
+        </item>
+        <item value="4">
+          <text v="Thứ năm" e="Thursday"/>
+        </item>
+        <item value="5">
+          <text v="Thứ sáu" e="Friday"/>
+        </item>
+        <item value="6">
+          <text v="Thứ bảy" e="Saturday"/>
+        </item>
+        <item value="7">
+          <text v="Chủ nhật" e="Sunday"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;</clientScript>
+    </field>
+
+    <field name="c_tu_ngay" type="Decimal" dataFormatString="#0">
+      <header v="Ngày trong tháng từ" e="Day of month from"></header>
+      <footer v="Ngày trong tháng" e="Day of month"></footer>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ngay_cuoi_thang_tu" type="Boolean" defaultValue="cast(0 as bit)">
+      <header v="Ngày cuối tháng" e="End of Month"></header>
+      <clientScript>&OnSelectionOutline;<![CDATA[onclick="onChange$Type$NotifyListFormDir(this.parentForm);"]]></clientScript>
+    </field>
+    <field name="c_den_ngay" type="Decimal" dataFormatString="#0">
+      <header v="Ngày trong tháng đến" e="Day of month to"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ngay_cuoi_thang_den" type="Boolean" defaultValue="cast(0 as bit)">
+      <header v="Ngày cuối tháng" e="End of Month"></header>
+      <clientScript>&OnSelectionOutline;<![CDATA[onclick="onChange$Type$NotifyListFormDir(this.parentForm);"]]></clientScript>
+    </field>
+
+    <field name="d_ngay_bc" type="DateTime" dataFormatString="@datetimeFormat" align="left">
+      <header v="Ngày báo cáo" e="Date"></header>
+    </field>
+
+    <field name="c_ngay_bc_w" clientDefault="1" type="Int32">
+      <header v="Theo tuần" e="By week"></header>
+      <items style="DropDownList">
+        <item value="1">
+          <text v="Thứ hai" e="Monday"/>
+        </item>
+        <item value="2">
+          <text v="Thứ ba" e="Tuesday"/>
+        </item>
+        <item value="3">
+          <text v="Thứ tư" e="Wednesday"/>
+        </item>
+        <item value="4">
+          <text v="Thứ năm" e="Thursday"/>
+        </item>
+        <item value="5">
+          <text v="Thứ sáu" e="Friday"/>
+        </item>
+        <item value="6">
+          <text v="Thứ bảy" e="Saturday"/>
+        </item>
+        <item value="7">
+          <text v="Chủ nhật" e="Sunday"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;</clientScript>
+    </field>
+
+    <field name="c_ngay_bc" type="Decimal" dataFormatString="#0">
+      <header v="Ngày trong tháng" e="Day of month"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ngay_cuoi_thang_bc" type="Boolean" defaultValue="cast(0 as bit)">
+      <header v="Ngày cuối tháng" e="End of Month"></header>
+      <clientScript>&OnSelectionOutline;<![CDATA[onclick="onChange$Type$NotifyListFormDir(this.parentForm);"]]></clientScript>
+    </field>
+
+    <field name="tk" dataFormatString="@upperCaseFormat">
+      <header v="Tài khoản" e="Account"></header>
+      <items style="Mask"></items>
+    </field>
+
+    <field name="ma_kh" dataFormatString="@upperCaseFormat">
+      <header v="Mã khách" e="Customer"></header>
+      <items style="Mask"></items>
+    </field>
+
+    <field name="so_ngay" type="Decimal" dataFormatString="###0" clientDefault="3">
+      <header v="Số ngày cảnh báo" e="Days of Warning"></header>
+      <items style="Numeric"></items>
+    </field>
+
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="132">
+      <item value="120, 30, 20, 50, 100, 100, 130, 0, 0"/>
+      <item value="1100: [ma_tb].Label, [ma_tb]"/>
+      <item value="110000001: [ten_tb].Label, [ten_tb], [ma_loai_tb]"/>
+      <item value="11000000: [ten_tb2].Label, [ten_tb2]"/>
+
+      <item value="1000000: [ma_tb].Description"/>
+      <item value="11000: [type].Label, [type]"/>
+
+      <item value="11001---: [d_tu_ngay].Description, [d_tu_ngay], [d_den_ngay]"/>
+      <item value="11001---: [c_tu_ngay_w].Label, [c_tu_ngay_w], [c_den_ngay_w]"/>
+      <item value="11110000: [c_tu_ngay].Label, [c_tu_ngay], [ngay_cuoi_thang_tu], [ngay_cuoi_thang_tu].Label"/>
+      <item value="11110000: [c_den_ngay].Label, [c_den_ngay], [ngay_cuoi_thang_den], [ngay_cuoi_thang_den].Label"/>
+
+      <item value="1100----: [d_ngay_bc].Label, [d_ngay_bc]"/>
+      <item value="1100----: [c_ngay_bc_w].Label, [c_ngay_bc_w]"/>
+      <item value="11110000: [c_ngay_bc].Label, [c_ngay_bc], [ngay_cuoi_thang_bc], [ngay_cuoi_thang_bc].Label"/>
+
+      <item value="1100: [tk].Label, [tk]"/>
+      <item value="1100: [ma_kh].Label, [ma_kh]"/>
+      <item value="1100: [so_ngay].Label, [so_ngay]"/>
+      <item value="11100000: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+declare @hide nvarchar(4000)
+select @hide = replace(hide, '''', '') from dmthongbao a join dmloaitb b on a.ma_loai_tb = b.ma_loai_tb where ma_tb = @ma_tb
+select 'var f = this; f._$hide = ''' + isnull(@hide, '') + ''';setFormLayout(f, 1);' as message
+return
+]]>
+      </text>
+    </command>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'active$NotifyList(this);' as message
+return]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[select 'scatter$NotifyList(this);' as message
+return]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$NotifyList(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$recordHasBeenChanged nvarchar(512)
+select @$exists = case when @@language = 'v' then N'<span class="Highlight">Thông tin đang cập nhật đã được khai báo</span>, không lưu được.' else N'<span class="Highlight">This item already exists</span>, it can not be saved.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Bản ghi hiện thời đã được sửa hoặc xóa bởi người sử dụng khác.' else N'This item has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where ma_tb = @ma_tb) begin
+  select 'ma_tb' as field, @$exists as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select 1 from @@table where ma_tb = $ma_tb.OldValue) begin
+  select 'ma_tb' as field, @$recordHasBeenChanged as message
+  return
+end
+if @ma_tb <> $ma_tb.OldValue begin
+  if exists(select 1 from @@table where (not (ma_tb = $ma_tb.OldValue)) and (ma_tb = @ma_tb)) begin
+    select 'ma_tb' as field, @$exists as message
+    return
+  end
+end
+]]>
+      </text>
+    </command>
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_tb = @ma_tb
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[/* <flatten type="Javascript"> */
+var f = this, u = f.getItemValue('ma_loai_tb'), v1 = f.getItemValue('ngay_cuoi_thang_tu'), v2 = f.getItemValue('ngay_cuoi_thang_den'), v3 = f.getItemValue('ngay_cuoi_thang_bc');
+if (u == '001' && !v1) if (f._checked) checkValue(f, 'c_tu_ngay');
+if (u == '001' && !v2) if (f._checked) checkValue(f, 'c_den_ngay');
+if (u != '001' && !v3) if (f._checked) checkValue(f, 'c_ngay_bc');
+/* </flatten> */]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &OutlineEntry;
+      <![CDATA[/* <flatten type="Javascript"> */
+function active$NotifyList(f) {
+  f.add_onResponseComplete(on$NotifyList$ResponseComplete);
+  f.setItemValue('ma_loai_tb', f.grid._notifyType);
+  setFormLayout(f, 1);
+  onChange$Type$NotifyListFormDir(f);
+}
+function scatter$NotifyList(f) {
+  f.setItemValue('ma_loai_tb', f.grid._notifyType);
+  setFormLayout(f, 1);
+  onChange$Type$NotifyListFormDir(f);
+}
+function close$NotifyList(f) {try {f.remove_onResponseComplete(on$NotifyList$ResponseComplete);} catch (ex) {}}
+function on$NotifyList$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+     case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'ma_tb');
+      break;
+    default:
+      break;
+  }
+}
+function setFormLayout(f, v) {
+  if (f._action == 'View') return;
+
+  var g = f.grid;
+  var a = 'd_tu_ngay, c_tu_ngay, ngay_cuoi_thang_tu, c_tu_ngay_w, d_den_ngay, c_den_ngay, ngay_cuoi_thang_den, c_den_ngay_w, d_ngay_bc, c_ngay_bc, ngay_cuoi_thang_bc, c_ngay_bc_w, so_ngay, tk, ma_kh';
+
+  if (f._action == 'New' || f._action == 'Edit') {
+    setObjectFormHidden(f, 'd_ngay_bc, c_ngay_bc, ngay_cuoi_thang_bc, c_ngay_bc_w', g._notifyType == '002' || g._notifyType == '003' || g._notifyType == '004');
+    setObjectFormHidden(f, 'd_tu_ngay, c_tu_ngay, ngay_cuoi_thang_tu, c_tu_ngay_w, d_den_ngay, c_den_ngay, ngay_cuoi_thang_den, c_den_ngay_w', g._notifyType == '001');
+
+    setObjectFormHidden(f, 'so_ngay', g._$days);
+    setObjectFormHidden(f, 'tk', g._$account);
+    setObjectFormHidden(f, 'ma_kh', g._$customer);
+  } else {
+    setObjectFormHidden(f, a, v);
+    setItemAllowNulls(f, a, v);
+    if (f._$hide) {setObjectFormHidden(f, f._$hide, !v);}
+  }
+}
+
+function onChange$Type$NotifyListFormDir(f){
+  var t = f.getItemValue('type'), u = f.grid._notifyType;
+  switch (u) {
+    case '001':
+      setItemDisable(f, 'd_tu_ngay, d_den_ngay', t != 0 || t == 2, true);
+      setItemDisable(f, 'c_tu_ngay_w, c_den_ngay_w', t == 0 || t == 2, true);
+      setItemDisable(f, 'ngay_cuoi_thang_tu, ngay_cuoi_thang_den', t == 0 || t == 1);
+
+      setItemDisable(f, 'c_tu_ngay', f.getItemValue('ngay_cuoi_thang_tu') || t == 0 || t == 1, true);
+      setItemDisable(f, 'c_den_ngay', f.getItemValue('ngay_cuoi_thang_den') || t == 0 || t == 1, true);
+      setItemDisable(f, 'tk', false);
+
+      setItemAllowNulls(f, 'd_ngay_bc, so_ngay', true);
+      break;
+    case '002':
+      setItemDisable(f, 'd_ngay_bc', t != 0, true);
+      setItemDisable(f, 'ngay_cuoi_thang_bc', t == 0 || t == 1);
+
+      setItemDisable(f, 'c_ngay_bc', f.getItemValue('ngay_cuoi_thang_bc') || t == 0 || t == 1, true);
+      setItemDisable(f, 'c_ngay_bc_w', t == 0 || t == 2, true);
+      setItemDisable(f, 'tk, ma_kh', false);
+
+      setItemAllowNulls(f, 'so_ngay', false);
+      setItemAllowNulls(f, 'c_tu_ngay, d_tu_ngay, c_den_ngay, d_den_ngay', true);
+      break;
+    case '003':
+      setItemDisable(f, 'd_ngay_bc', t != 0, true);
+      setItemDisable(f, 'ngay_cuoi_thang_bc', t == 0 || t == 1);
+
+      setItemDisable(f, 'c_ngay_bc', f.getItemValue('ngay_cuoi_thang_bc') || t == 0 || t == 1, true);
+      setItemDisable(f, 'c_ngay_bc_w', t == 0 || t == 2, true);
+      setItemDisable(f, 'tk, ma_kh', false);
+
+      setItemAllowNulls(f, 'so_ngay', false);
+      setItemAllowNulls(f, 'c_tu_ngay, d_tu_ngay, c_den_ngay, d_den_ngay', true);
+      break;
+    case '004':
+      setItemDisable(f, 'd_ngay_bc', t != 0, true);
+      setItemDisable(f, 'ngay_cuoi_thang_bc', t == 0 || t == 1);
+
+      setItemDisable(f, 'c_ngay_bc', f.getItemValue('ngay_cuoi_thang_bc') || t == 0 || t == 1, true);
+      setItemDisable(f, 'c_ngay_bc_w', t == 0 || t == 2, true);
+      setItemDisable(f, 'tk', false);
+
+      setItemAllowNulls(f, 'so_ngay, c_tu_ngay, d_tu_ngay, c_den_ngay, d_den_ngay', true);
+      break;
+    default:
+      break;
+  }
+}
+function setItemDisable(f, c, v, force) {
+  var a = c.split(',');
+  for (var i = 0; i < a.length; i++) {
+    if ($func.trim(a[i]) != '') {
+      var o = f.getItem($func.trim(a[i]));
+      if (o.a) $common.setVisible(o.a, !v);
+      o.disabled = v;
+      if(v) {
+        switch (o.field.Type) {
+          case 'DateTime':
+            f.setItemValue($func.trim(a[i]), null);
+            break;
+          case 'Boolean':
+            f.setItemValue($func.trim(a[i]), false);
+            break;
+          case 'String':
+            o.value = '';
+            break;
+          case 'Decimal':
+            f.setItemValue($func.trim(a[i]), 0);
+            break;
+          default:
+            break;
+        }
+      }
+    }
+  }
+  if (force) setItemAllowNulls(f, c, v);
+}
+function setItemAllowNulls(f, c, v) {
+  var a = c.split(','), o, grandNode;
+  for (var i = 0; i < a.length; i++) {
+    if ($func.trim(a[i]) != '') {
+      o = f.getItem($func.trim(a[i]));
+      o.field.AllowNulls = v
+      if (o.a) $common.setVisible(o.a, !v);
+      grandNode = o.parentNode.parentNode;
+      if (!v) {
+        Sys.UI.DomElement.addCssClass(grandNode, 'Required');
+        Sys.UI.DomElement.addCssClass(grandNode, f._id);
+      }
+      else {
+        Sys.UI.DomElement.removeCssClass(grandNode, 'Required');
+        Sys.UI.DomElement.removeCssClass(grandNode, f._id);
+      }
+    }
+  }
+}
+function setObjectFormHidden(f, c, v) {
+  var a = c.split(','), o, grandNode;
+  for (var i = 0; i < a.length; i++) {
+    if ($func.trim(a[i]) != '') {
+      o = f.getItem($func.trim(a[i]));
+      grandNode = o.parentNode.parentNode;
+      if (!v) $common.setVisible(o.parentNode.parentNode.parentNode, false);
+    }
+  }
+}
+function checkValue(f, field) {
+  var a = field.split(','), t = f.getItemValue('type');
+  for (var i = 0; i < a.length; i++) {
+    var e = null, name = $func.trim(a[i]), o = f.getItem(name), c = o.value, l = o.field.Label;
+    if (c.length > 0) {
+      if (c.indexOf(',') >= 0) return showError(f, l, name);
+      if (t == 2) if (c < 1 || c > 31) return showError(f, l, name);
+    }
+  }
+  return true;
+}
+function showError(f, l, name) {
+  var id = f.get_id(), msg = (f._language == 'v' ? 'Trường <span class="Highlight">{0}</span> chưa nhập hoặc giá trị nhập không hợp lệ.' : 'Field <span class="Highlight">{0}</span> must not be blank or has invalid value.');
+  msg = String.format(msg, l);
+  f._checked = false;
+  $func.hideWait(id);
+  $message.show(msg, String.format('$find(\'{0}\').getItem(\'' + name + '\').focus();', id));
+  return false;
+}
+/* </flatten> */]]>
+      &ScriptIrregular;
+    </text>
+  </script>
+
+  <css>
+    <text>
+      <![CDATA[
+.SelectionOutline{outline-style:dotted;outline-width:1px;}
+.Break{margin:1px 0 1px 8px;padding:0;height:1px;overflow:hidden;display:block;background-color:white;border-top:1px solid #CED3DE;}
+.LabelDescription{color:#73A6DE;}
+]]>
+    </text>
+  </css>
+</dir>

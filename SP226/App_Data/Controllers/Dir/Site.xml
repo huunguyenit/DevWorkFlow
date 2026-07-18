@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dir [
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+]>
+
+<dir table="dmkho" code="ma_kho" order="ma_kho" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="kho hàng" e="Site"></title>
+  <fields>
+    <field name="ma_dvcs" allowNulls="false">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="AutoComplete" controller="Unit" reference="ten_dvcs%l" key="status = '1'" check="1 = 1" information="ma_dvcs$dmdvcs.ten_dvcs%l"/>
+    </field>
+    <field name="ten_dvcs%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_kho" isPrimaryKey="true" allowNulls="false" dataFormatString="@upperCaseFormat">
+      <header v="Mã kho" e="Site Code"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ten_kho" allowNulls="false">
+      <header v="Tên kho" e="Description"></header>
+    </field>
+    <field name="ten_kho2">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+    <field name="dai_ly_yn" type="Boolean">
+      <header v="Đại lý" e="Agent"></header>
+    </field>
+    <field name="ma_nh" clientDefault="Default" filterSource="Optional">
+      <header v="Nhóm kho" e="Site Group"></header>
+      <items style="AutoComplete" controller="SiteGroup" reference="ten_nh%l" key="status = '1'" check="1 = 1" information="ma_nh$dmnhkho.ten_nh%l"/>
+    </field>
+    <field name="ten_nh%l" readOnly="true" external="true" clientDefault="Default" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ghi_chu" rows="2" >
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true" >
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 25, 5, 70, 330"/>
+      <item value="11001: [ma_dvcs].Label, [ma_dvcs],[ten_dvcs%l]"/>
+      <item value="1100: [ma_kho].Label, [ma_kho]"/>
+      <item value="11000: [ten_kho].Label, [ten_kho]"/>
+      <item value="11000: [ten_kho2].Label, [ten_kho2]"/>
+      <item value="11: [dai_ly_yn].Label, [dai_ly_yn]"/>
+      <item value="11001: [ma_nh].Label, [ma_nh], [ten_nh%l]"/>
+      <item value="11000: [ghi_chu].Label, [ghi_chu]"/>
+      <item value="11010: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+declare @siteMethod varchar(1), @unitName nvarchar(1023)
+select @siteMethod = rtrim(val) from options where name = 'm_gia_nh_kho'
+select @siteMethod = isnull(@siteMethod, '0')
+select @unitName = case when @@language = 'v' then ten_dvcs else ten_dvcs2 end from dmdvcs where ma_dvcs = @@unit
+select 'this._siteMethod=' + @siteMethod + '; this._unitCode=''' + @@unit + ''';this._unitName=''' + replace(replace(isnull(@unitName, ''), '\', '\\'), '''', '\''') + '''; initUnitSite(this);active$FormSite(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormSite(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+select 'initUnitSite(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$updateConflict nvarchar(512), @$recordHasBeenChanged nvarchar(512), @$deleteConflict nvarchar(512), @$siteGroupConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã kho hàng <span class="Highlight">%s</span> đã có hoặc lồng nhau trong danh mục kho hàng.' else N'The site <span class="Highlight">%s</span> is invalid or already exists.' end
+select @$updateConflict = case when @@language = 'v' then N'Mã kho hàng <span class="Highlight">%s</span> đã phát sinh, không thể sửa được.' else N'Cannot edit the site <span class="Highlight">%s</span>. It has already been used.' end
+select @$deleteConflict = case when @@language = 'v' then N'Mã kho hàng <span class="Highlight">%s</span> đã phát sinh, không thể xóa được.' else N'Cannot delete the site <span class="Highlight">%s</span>. It has already been used.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Mã kho hàng <span class="Highlight">%s</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The site <span class="Highlight">%s</span> has been modified or deleted by another user.' end
+select @$siteGroupConflict = case when @@language = 'v' then N'Nhóm kho <span class="Highlight">%s</span> đã khai báo trên đơn vị khác, không cập nhật được.' else N'Cannot update the site group <span class="Highlight">%s</span>. It has already been used by another unit.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where ((ma_kho like rtrim(@ma_kho) + '%') or rtrim(@ma_kho) like rtrim(ma_kho) + '%')) begin
+  select 'ma_kho' as field, replace(@$exists, '%s', rtrim(@ma_kho)) as message
+  return
+end
+
+if @ma_nh <> '' and exists(select 1 from @@table where ma_nh = @ma_nh and ma_dvcs <> @ma_dvcs) begin
+  select 'ma_nh' as field, replace(@$siteGroupConflict, '%s', rtrim(@ma_nh)) as message
+  return
+end
+
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+declare @max int
+select @max = max(id) + 1 from dmkho
+update @@table set id = isnull(@max, 1) where ma_kho = @ma_kho
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select 1 from @@table where ma_kho = $ma_kho.OldValue) begin
+  select 'ma_kho' as field, replace(@$recordHasBeenChanged, '%s', rtrim($ma_kho.OldValue)) as message
+  return
+end
+
+if @ma_kho <> $ma_kho.OldValue begin
+  if exists(select 1 from @@table where ((ma_kho like rtrim(@ma_kho) + '%') or rtrim(@ma_kho) like rtrim(ma_kho) + '%') and ma_kho <> $ma_kho.OldValue) begin
+    select 'ma_kho' as field, replace(@$exists, '%s', rtrim(@ma_kho)) as message
+    return
+  end
+  if exists(select 1 from cdvt where ma_kho = $ma_kho.OldValue) or exists(select 1 from ct70 where ma_kho = $ma_kho.OldValue)
+      or exists(select 1 from cdvt2 where ma_kho = $ma_kho.OldValue) or exists(select 1 from ct90 where ma_kho = $ma_kho.OldValue)
+      or exists(select 1 from syssiterights where ma_kho = $ma_kho.OldValue) or exists(select 1 from syssiterights2 where ma_kho = $ma_kho.OldValue) begin
+    select 'ma_kho' as field, replace(@$updateConflict, '%s', rtrim($ma_kho.OldValue)) as message
+    return
+  end
+end
+
+if @ma_nh <> '' and exists(select 1 from @@table where ma_kho <> $ma_kho.OldValue and ma_nh = @ma_nh and ma_dvcs <> @ma_dvcs) begin
+  select 'ma_nh' as field, replace(@$siteGroupConflict, '%s', rtrim(@ma_nh)) as message
+  return
+end
+]]>
+      </text>
+    </command>
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_kho = @ma_kho
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+if exists(select 1 from cdvt where ma_kho = @ma_kho) or exists(select 1 from ct70 where ma_kho = @ma_kho)
+    or exists(select 1 from cdvt2 where ma_kho = @ma_kho) or exists(select 1 from ct90 where ma_kho = @ma_kho)
+    or exists(select 1 from syssiterights where ma_kho = @ma_kho) or exists(select 1 from syssiterights2 where ma_kho = @ma_kho) begin
+  select replace(@$deleteConflict, '%s', rtrim(@ma_kho)) as message
+  return
+end
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function initUnitSite(f) {
+  var o = f.getItem('ma_nh');
+  o.field.AllowNulls = (f._siteMethod != 1);
+  if (!o.field.AllowNulls) {
+    var grandNode = o.parentNode.parentNode;
+    Sys.UI.DomElement.addCssClass(grandNode, 'Required');
+    Sys.UI.DomElement.addCssClass(grandNode, $func.replace(f._id, '.', '_'));
+  }
+  if (f._action == 'New') {
+    o = f.getItem('ma_dvcs');
+    o.value = f._unitCode;
+    f.getItem('ten_dvcs%l').value = f._unitName;
+    f.live(o);
+  }
+}
+function active$FormSite(f) {f.add_onResponseComplete(on$FormSite$ResponseComplete);}
+function close$FormSite(f) {try {f.remove_onResponseComplete(on$FormSite$ResponseComplete)} catch (ex) {}}
+function on$FormSite$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'ma_kho');
+      break;
+    default:
+      break;
+  }
+}
+/* </flatten> */]]>
+      &ScriptIrregular;
+    </text>
+  </script>
+
+</dir>

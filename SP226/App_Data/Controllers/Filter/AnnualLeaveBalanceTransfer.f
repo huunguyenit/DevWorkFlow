@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY XMLWhenFilterLoading SYSTEM "..\Include\XML\WhenFilterLoading.xml">
+  <!ENTITY CommandCheckLockedDate SYSTEM "..\Include\Command\TransferLockedDate.txt">
+  <!ENTITY Calc "
+declare @type int
+select @type = case when @loai = '1' then 1 else 0 end
+exec hs_ConvertAnnualLeave2NextYear @nam, @ma_bp, @type, @@userID, @@admin, @@sysDatabaseName">
+]>
+
+<dir xmlns="urn:schemas-fast-com:data-dir">
+  <title v="Kết chuyển số phép của nhân viên sang năm sau" e="Transfer Annual Leave Balance to Next Year"></title>
+  <fields>
+    <field name="nam" type="Decimal" dataFormatString="###0" allowNulls="false" aliasName="Year" defaultValue="(new Date()).getFullYear()">
+      <label v="Từ năm" e="From Year"></label>
+      <header v="đến năm %s" e="To Year %s"></header>
+      <footer v="&lt;span style=&quot;color:#666666;&quot; id='idf_nam'>&lt;/span>" e="&lt;span style=&quot;color:#666666;&quot; id='idf_nam'>&lt;/span>"></footer>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[<encrypted>%wHpQRA6PRzsPbGcovtYqZQmGKJgWbmL4/ZOIYPvhdBzZnGKhA+LPlBUV29pJoyFgBXD6tOz9CZJGNi67KvKuJQ==</encrypted>]]></clientScript>
+    </field>
+    <field name="ma_bp" onDemand="true">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="AutoComplete" controller="hrDepartment" reference="ten_bp%l" key="(@@admin = 1 or ma_bp in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)) and status = '1'" check="@@admin = 1 or ma_bp in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)"/>
+    </field>
+    <field name="ten_bp%l" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="loai" dataFormatString="1, 2" clientDefault="1" align="right" allowNulls="false">
+      <header v="Loại" e="Type"></header>
+      <footer v="1 - Kết chuyển, 2 - Xóa kết chuyển" e="1 - Transfer, 2 - Delete"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 10, 50, 40, 100, 200"/>
+      <item value="1101000: [nam].Label, [nam], [nam].Description"/>
+      <item value="1100100: [ma_bp].Label, [ma_bp], [ten_bp%l]"/>
+      <item value="111000: [loai].Label, [loai], [loai].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    &XMLWhenFilterLoading;
+
+    <command event="Inserting">
+      <text>
+        &CommandCheckLockedDate;
+        &Calc;
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[<encrypted>%24U0NVrwptuJiahRI7m70Jm9ipjJmxPMRQmnJy2kiBZj27JGGSYSd3/ubDHaKvIo5wVoNWKXf60qYNi5nxDGSzRaWwEExV7gXfTf5J0DRuRT0+3fkIuJ4N0/cetOQX8/FOSH3pDRsbmQZzesbakFRljvOlTZ1GdDTw81oZRBiKgGEPzCsZJLdRE2PbMm+ThoAvM9zFkNt+OXIJGtk3YmRRNkZ733oXSojW5t/Vi4GcMHW6DHnr5GCU6T/8zOFkxG</encrypted>]]>
+    </text>
+  </script>
+</dir>

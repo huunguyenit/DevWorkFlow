@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<lookup table="dbcontroller" code="controller" name="dien_giai%l" order="controller" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh sách loại chức năng" e="Function Type List"></header>
+  <fields>
+    <field name="controller" allowSorting="true" allowFilter="true">
+      <header v="Mã" e="Code"></header>
+    </field>
+    <field name="dien_giai%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên loại" e = "Description"></header>
+    </field>
+  </fields>
+</lookup>

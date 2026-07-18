@@ -1,0 +1,8 @@
+﻿<!ENTITY % Conditional.ConfigDynamicEvents SYSTEM "..\Include\ConfigDynamicEvents.txt">
+
+<![%Conditional.ConfigDynamicEvents;[
+  <!ENTITY ConfigDynamicEventsReference "APTran, ARTran, ASTran, CBTran, CDTran, CITran, CKTran, CPTran, CRTran, DCTran, DTTran, GLTran, GRTran, IPTran, IRTran, ISTran, ITTran, JPTran, JRTran, PATran, PFTran, PGTran, PMTran, PSTran, PVTran, PXTran, SDTran, SPTran, SRTran, SVTran, VATran">
+  <!ENTITY ConfigDynamicImportChecking "exec FastBusiness$Generate$DynamicImportChecking '@@table', '&Code;', '&ConfigDynamicVoucherType;', &ConfigDynamicType;, '@@sysDatabaseName', @field output, @r output &Error;">
+]]>
+<!ENTITY ConfigDynamicEventsReference "">
+<!ENTITY ConfigDynamicImportChecking "">

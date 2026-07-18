@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLStandardDetailToolbar SYSTEM "..\Include\XML\StandardDetailToolbar.xml">
+]>
+
+<grid table="hrttctpc" code="stt_rec, stt_rec0" order="stt_rec, line_nbr" type="Detail" freezeColumns="3" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <partition table="hrttctpc" prime="hrttctpc" field="" expression="''" increase="{0}" default=""/>
+
+  <fields>
+    <field name="ma_pc" allowNulls="false" width="100" aliasName="a">
+      <header v="Mã phụ cấp" e="Allowance"></header>
+      <items style="AutoComplete" controller="hrAllowance" reference="ten_pc%l" key="kieu_pc = '2' and status = '1'" check="kieu_pc = '2'" information="ma_pc$hrdmpc.ten_pc%l"/>
+    </field>
+    <field name="ten_pc%l" readOnly="true" external="true" inactivate="true" width="300" aliasName="b">
+      <header v="Tên phụ cấp" e="Description"></header>
+    </field>
+    <field name="ty_le" type="Decimal" dataFormatString="#0.00" width="100" aliasName="a">
+      <header v="Tỷ lệ lcb (%)" e="Base Salary Rate (%)"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien" type="Decimal" dataFormatString="@generalCurrencyAmountInputFormat" clientDefault="0" width="120" aliasName="a">
+      <header v="Tiền phụ cấp" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ngay_hl_tu" type="DateTime" dataFormatString="@datetimeFormat" align="left" width="100" allowNulls="false">
+      <header v="Hiệu lực từ ngày" e="Effective Date From"></header>
+    </field>
+    <field name="ngay_hl_den" type="DateTime" dataFormatString="@datetimeFormat" align="left" width="100">
+      <header v="Đến ngày" e="Effective Date to"></header>
+    </field>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_pc"/>
+      <field name="ten_pc%l"/>
+      <field name="ty_le"/>
+      <field name="tien"/>
+      <field name="ngay_hl_tu"/>
+      <field name="ngay_hl_den"/>
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$GridAllowanceDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridAllowanceDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function load$GridAllowanceDetail$(g) {g.add_commandEvent(on$GridAllowanceDetail$ExecuteCommand);}
+function dispose$GridAllowanceDetail$(g) {try {g.remove_commandEvent(on$GridAllowanceDetail$ExecuteCommand);} catch (ex) {}}
+function on$GridAllowanceDetail$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm;
+	switch (action) {
+    case 'AfterCloneRow':
+      g.setItemFieldValue('stt_rec0', e.type.Value, '');
+      break;
+    default:
+      break;
+  }
+}
+]]>
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from @@prime$partition$current a left join hrdmpc b on a.ma_pc = b.ma_pc where @@whereClause order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  &XMLStandardDetailToolbar;
+</grid>

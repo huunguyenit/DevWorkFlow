@@ -1,0 +1,60 @@
+<UserControl x:Class="UI.Views.Shell.IdeMenuBar"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:cmd="clr-namespace:UI.Commands">
+    <Menu Style="{StaticResource IdeMenuBarStyle}">
+        <MenuItem Header="_File">
+            <MenuItem Header="_New" Command="{x:Static cmd:IdeCommands.New}" InputGestureText="Ctrl+N"/>
+            <MenuItem Header="_Open..." Command="{x:Static cmd:IdeCommands.Open}" InputGestureText="Ctrl+O"/>
+            <Separator/>
+            <MenuItem Header="_Save" Command="{x:Static cmd:IdeCommands.Save}" InputGestureText="Ctrl+S"/>
+            <MenuItem Header="Save A_ll" Command="{x:Static cmd:IdeCommands.SaveAll}" InputGestureText="Ctrl+Shift+S"/>
+            <Separator/>
+            <MenuItem Header="E_xit" Command="{x:Static cmd:IdeCommands.Exit}" InputGestureText="Alt+F4"/>
+        </MenuItem>
+        <MenuItem Header="_Edit">
+            <MenuItem Header="_Undo" Command="{x:Static cmd:IdeCommands.Undo}" InputGestureText="Ctrl+Z"/>
+            <MenuItem Header="_Redo" Command="{x:Static cmd:IdeCommands.Redo}" InputGestureText="Ctrl+Y"/>
+            <Separator/>
+            <MenuItem Header="Cu_t" Command="{x:Static cmd:IdeCommands.Cut}" InputGestureText="Ctrl+X"/>
+            <MenuItem Header="_Copy" Command="{x:Static cmd:IdeCommands.Copy}" InputGestureText="Ctrl+C"/>
+            <MenuItem Header="_Paste" Command="{x:Static cmd:IdeCommands.Paste}" InputGestureText="Ctrl+V"/>
+            <MenuItem Header="_Delete" Command="{x:Static cmd:IdeCommands.Delete}"/>
+            <Separator/>
+            <MenuItem Header="_Find..." Command="{x:Static cmd:IdeCommands.Search}" InputGestureText="Ctrl+F"/>
+            <MenuItem Header="R_eplace..." Command="{x:Static cmd:IdeCommands.Replace}" InputGestureText="Ctrl+H"/>
+        </MenuItem>
+        <MenuItem Header="_View">
+            <MenuItem Header="_Explorer" Command="{x:Static cmd:IdeCommands.ToggleLeftDock}"/>
+            <MenuItem Header="_Properties" Command="{x:Static cmd:IdeCommands.ToggleRightDock}"/>
+            <MenuItem Header="_Bottom Panel" Command="{x:Static cmd:IdeCommands.ToggleBottomDock}"/>
+        </MenuItem>
+        <MenuItem Header="_Project">
+            <MenuItem Header="Open Program..." Command="{x:Static cmd:IdeCommands.Open}"/>
+        </MenuItem>
+        <MenuItem Header="_Design">
+            <MenuItem Header="_Parse" Command="{x:Static cmd:IdeCommands.Parse}"/>
+            <MenuItem Header="_Preview" Command="{x:Static cmd:IdeCommands.Preview}"/>
+            <MenuItem Header="_Entity" Command="{x:Static cmd:IdeCommands.Entity}"/>
+            <MenuItem Header="Validate XML" Command="{x:Static cmd:IdeCommands.ValidateXml}"/>
+            <Separator/>
+            <MenuItem Header="Open SQL from Form" Command="{x:Static cmd:IdeCommands.OpenSqlFromForm}"/>
+        </MenuItem>
+        <MenuItem Header="_SQL">
+            <MenuItem Header="_Execute" Command="{x:Static cmd:IdeCommands.ExecuteSql}" InputGestureText="F5"/>
+            <MenuItem Header="Open SQL from Form" Command="{x:Static cmd:IdeCommands.OpenSqlFromForm}"/>
+            <MenuItem Header="Open SQL _File..." Command="{x:Static cmd:IdeCommands.OpenSqlFile}"/>
+        </MenuItem>
+        <MenuItem Header="_Tools">
+            <MenuItem Header="_Settings" Command="{x:Static cmd:IdeCommands.Settings}"/>
+        </MenuItem>
+        <MenuItem Header="_Window">
+            <MenuItem Header="Toggle Left Dock" Command="{x:Static cmd:IdeCommands.ToggleLeftDock}"/>
+            <MenuItem Header="Toggle Right Dock" Command="{x:Static cmd:IdeCommands.ToggleRightDock}"/>
+            <MenuItem Header="Toggle Bottom Dock" Command="{x:Static cmd:IdeCommands.ToggleBottomDock}"/>
+        </MenuItem>
+        <MenuItem Header="_Help">
+            <MenuItem Header="About FBO Studio" IsEnabled="False"/>
+        </MenuItem>
+    </Menu>
+</UserControl>

@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE lookup [
+  <!ENTITY CheckAccess "
+declare @check varchar(8000), @restrict varchar(8000)
+select @check = '', @restrict = replace(isnull(restrict_users, ''), '''', '') from userinfo2 where id = @@userID
+if @@admin = 1
+  select '&amp;ÿ;status = 1 and user_yn &lt;&gt; 0 and id &lt;&gt; @@userID'
+else begin
+  if @restrict = ''
+    select '&amp;ÿ;1=0'
+  else begin
+    select @check = @check + rtrim(id) + ',' from userinfo2 where dbo.ff_ExactInlist(replace(name, '''', ''), @restrict) = 1
+	if len(@check) > 2 select @check = stuff(@check, len(@check), 1, '')
+	if @check &lt;&gt; '' select @check = ' and id in (' + @check + ')'
+	select  + '&amp;ÿ;status = 1 and user_yn &lt;&gt; 0' + @check
+  end
+end">
+]>
+
+<lookup table="userinfo2" filter="@@0" initialize="&CheckAccess;" code="name" name="comment%l" order="name" database="Sys" xmlns="urn:schemas-fast-com:data-lookup">
+
+  <header v="Người sử dụng" e="User(s)"></header>
+
+  <fields>
+    <field name="name" allowSorting="true" allowFilter="true">
+      <header v="Tên" e="Name"></header>
+    </field>
+
+    <field name="comment%l" allowSorting="true" allowFilter="true">
+      <header v ="Ghi chú" e = "Comment"></header>
+    </field>
+
+  </fields>
+
+</lookup>

@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="OriginalFile" content="CDTran.doc" />
+<title>Khai báo chi tiết ca</title>
+<link rel="stylesheet" href="fast.css" type="text/css" />
+<script type="text/javascript" language="JavaScript">
+//<![CDATA[
+function reDo() {
+  if (innerWidth !=origWidth || innerHeight !=origHeight)
+     location.reload();
+}
+if ((parseInt(navigator.appVersion)==4) && (navigator.appName=="Netscape")) {
+	origWidth=innerWidth;
+	origHeight=innerHeight;
+	onresize=reDo;
+}
+onerror=null; 
+//]]>
+</script>
+<style type="text/css">
+<!--
+div.WebHelpPopupMenu { position:absolute;
+left:0px;
+top:0px;
+z-index:4;
+visibility:hidden; }
+-->
+</style>
+<script type="text/javascript" language="javascript1.2" src="whmsg.js"></script>
+<script type="text/javascript" language="javascript" src="whver.js"></script>
+<script type="text/javascript" language="javascript1.2" src="whproxy.js"></script>
+<script type="text/javascript" language="javascript1.2" src="whutils.js"></script>
+<script type="text/javascript" language="javascript1.2" src="whlang.js"></script>
+<script type="text/javascript" language="javascript1.2" src="whtopic.js"></script>
+</head>
+<body>
+<p id="td1">Khai báo chi tiết ca
+<p id="td2">Màn hình khai báo chi tiết ca
+
+
+
+<p id="pic"><img src="Vie\hrDetailedShift.png"/></p>
+
+<p id="td2">Giải thích các thông tin quan trọng
+
+<p class="node">Chi tiết ca
+<p class="node_d">Chi tiết ca để khai báo trong trường hợp trong 1 ca có nhiều lần chấm công, hoặc nghỉ giữa ca. 
+<p class="e">Ví dụ:
+<br/>Ca hành chính ngày thường từ 8h đến 17. Giữa giờ ăn trưa có khoảng thời gian gián đoạn. Trong trường hợp này sẽ khai báo 2 ca chi tiết cho ca hành chính. 
+
+
+<p class="node">Hôm sau (Giờ vào/Giờ ra)
+<p class="node_d">	Trong trường hợp ca chính bắt đầu ngày hôm trước và kéo dài đến ngày hôm sau; hoặc ca chi tiết thuộc hẳn ngày hôm sau thì phải chọn tùy chọn này. 
+Khi lấy dữ liệu chấm công, chương trình sẽ hiểu các lần chấm công có ngày thuộc ngày hôm sau nhưng có chọn "hôm sau" sẽ là chấm công của ngày hôm trước.
+
+Trong trường hợp điều chỉnh giờ vào/ra, do chương trình không thể sửa thông tin do người dùng nhập thủ công, nên phải chọn tùy chọn "hôm sau" riêng ở chức năng điểu chỉnh. 
+Lúc đó, phải nhập ngày là ngày hôm trước, và chọn "hôm sau".
+<p class="node">Số phút đi muộn/Số phút về sớm
+<p class="node_d"> Nếu chấm công vào trễ thực tế nhỏ hơn hoặc bằng "Số phút đi muộn", chương trình xem như không đi muộn và ngược lại. <br/>
+Nếu chấm công ra sớm thực tế nhỏ hơn hoặc bằng "Số phút về sớm", chương trình xem như không về sớm và ngược lại. <br/>
+<p class="note">Lưu ý: <br/>
+Số phút đi muộn/ về sớm chỉ áp dụng cho việc xác định đi muộn/về sớm. Có thể không bị xét đi muộn/ về sớm nhưng thời gian tính công vẫn bị trừ.
+
+<p class="node">Số phút thêm
+<p class="node_d">Số phút thêm chỉ dùng cho những ca không đủ giờ nhưng vẫn tính tròn giờ. Nếu ca đã đủ giờ thì không dùng trường thông tin này.
+<p class="e">Ví dụ:
+<br/>
+Ngày thứ 7 theo quy định là làm việc 4h, nhưng công ty cho về trước 1h. Khi tính công phải tính đủ 4h. Khai báo ca (chi tiết ca) sáng thứ 7 từ 8 giờ đến 11 giờ, có số phút thêm là 60 phút.
+<p class="node">	Công
+<p class="node_d">Khai báo mã công sẽ tính cho chi tiết ca. Công được chọn nhập từ danh mục ký hiệu chấm công. Chỉ thể hiện mã công có tính chất là tăng ca (*) nếu mã ca có “Tính chất”=2 – Tăng ca;
+ Không thể hiện các mã công có tính chất là tăng ca (*) nếu mã ca có “Tính chất”=1 – “Trong giờ qui định”.
+ <p class="note">
+(*) Để biết công có tính chất là tăng ca hay không thì dựa vào thông tin “Loại công” của mã công (xem trường “Tính chất” trong "Danh mục loại công").
+
+<script type="text/javascript" src="setPageFooter.js"> 
+</script>
+</body>
+</html>

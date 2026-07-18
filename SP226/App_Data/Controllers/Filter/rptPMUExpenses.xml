@@ -1,0 +1,193 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dir [
+  <!ENTITY XMLWhenFilterLoading SYSTEM "..\Include\XML\WhenFilterLoading.xml">
+  <!ENTITY XMLWhenFilterClosing SYSTEM "..\Include\XML\WhenFilterClosing.xml">
+
+  <!ENTITY ScriptQueryFilterString SYSTEM "..\Include\Javascript\QueryFilterString.txt">
+
+  <!ENTITY OutlineCss SYSTEM "..\Include\Javascript\OutlineCss.txt">
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+  <!ENTITY ReportCircularTypeField SYSTEM "..\Include\XML\Circular\A04195\ReportCircularTypeField.xml">
+
+  <!ENTITY defaultTable "DTCPQL">
+  <!ENTITY defaultForm "DTCPQL">
+
+  <!ENTITY JavascriptReportFilter SYSTEM "..\Include\Javascript\ReportFilter.txt">
+]>
+
+<dir id="1" type="Report" cache="true" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="Điều kiện lọc" e="Filter Condition"></title>
+  <fields>
+    <field name="ngay_tu" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" aliasName="fromDate" defaultValue="new Date()">
+      <header v="Từ ngày" e="Date from"></header>
+      <footer v="Từ/đến ngày" e="Date from/to"></footer>
+    </field>
+    <field name="ngay_den" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" aliasName="toDate" defaultValue="new Date()">
+      <header v="Đến ngày" e="Date to"></header>
+    </field>
+
+    <field name="ma_vv">
+      <header v="Vụ việc" e="Job"></header>
+      <items style="AutoComplete" controller="Job" reference="ten_vv%l" key="status ='1'">
+      </items>
+    </field>
+    <field name="ten_vv%l" readOnly="true" external="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="nhom_1">
+      <header v="Nhóm vụ việc 1" e="Job Group 1"></header>
+      <items style="AutoComplete" controller="JobGroup" reference="ten_nh_1%l" key="status ='1' and loai_nh = 1" check="loai_nh = 1"></items>
+    </field>
+    <field name="ten_nh_1%l" readOnly="true" external="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="nhom_2">
+      <header v="Nhóm vụ việc 2" e="Job Group 2"></header>
+      <items style="AutoComplete" controller="JobGroup" reference="ten_nh_2%l" key="status ='1' and loai_nh = 2" check="loai_nh = 2"></items>
+    </field>
+    <field name="ten_nh_2%l" readOnly="true" external="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="nhom_3">
+      <header v="Nhóm vụ việc 3" e="Job Group 3"></header>
+      <items style="AutoComplete" controller="JobGroup" reference="ten_nh_3%l" key="status ='1' and loai_nh = 3" check="loai_nh = 3"></items>
+    </field>
+    <field name="ten_nh_3%l" readOnly="true" external="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="ma_dvcs">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="Lookup" controller="Unit" key="status = '1'" check="1 = 1"/>
+    </field>
+
+    &ReportCircularTypeField;
+
+    <field name="form" allowNulls="false">
+      <header v="Chọn báo cáo" e="Select Report"></header>
+      <items style="DropDownList">
+        <item value="">
+          <text v="" e=""/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;</clientScript>
+    </field>
+    <field name="mau_bc">
+      <header v="Mẫu báo cáo" e="Report Form"></header>
+      <items style="DropDownList">
+        <item value="10">
+          <text v="Mẫu chuẩn" e="Standard Form"/>
+        </item>
+        <item value="20">
+          <text v="Mẫu ngoại tệ" e="FC Form"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;</clientScript>
+    </field>
+
+    <field name="chitiet_yn" type="Boolean" external ="true" allowContain="true" clientDefault="true" defaultValue="true">
+      <header v="" e=""></header>
+      <footer v="Xem chi tiết công trình" e="Detail"></footer>
+      <items style="CheckBox"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 20, 40, 40, 100, 100, 130"/>
+      <item value="11001--: [ngay_tu].Description, [ngay_tu], [ngay_den]"/>
+      <item value="1100100: [ma_vv].Label, [ma_vv], [ten_vv%l]"/>
+
+      <item value="1100100: [nhom_1].Label, [nhom_1], [ten_nh_1%l]"/>
+      <item value="1100100: [nhom_2].Label, [nhom_2], [ten_nh_2%l]"/>
+      <item value="1100100: [nhom_3].Label, [nhom_3], [ten_nh_3%l]"/>
+
+      <item value="110000-: [ma_dvcs].Label, [ma_dvcs]"/>
+      <item value="110000-: [chon_tt].Label, [chon_tt]"/>
+      <item value="110000-: [form].Label, [form]"/>
+      <item value="110000-: [mau_bc].Label, [mau_bc]"/>
+
+      <item value="-110000: [chitiet_yn], [chitiet_yn].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+declare @form nvarchar(4000), @name nvarchar(4000)
+select @form = '', @name = ''
+select @form = @form + rtrim(form) + char(255), @name = @name + case when lower(@@language) = 'v' then rtrim(ten_maubc) else rtrim(ten_maubc2) end + char(255) from v20dmmaubc where ma_maubc = ']]>&defaultForm;<![CDATA['
+select @form = left(@form, len(@form) - 1), @name = left(@name, len(@name) - 1)
+select 'this._itemValue=''' + rtrim(@form) + ''';this._itemText=''' + dbo.FastBusiness$Function$EncodeScript(@name) + ''';initForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    &XMLWhenFilterLoading;
+    &XMLWhenFilterClosing;
+
+    <command event="Processing">
+      <text>
+        <![CDATA[
+select cast(@ngay_tu as smalldatetime) as tu_ngay, cast(@ngay_den as smalldatetime) as den_ngay
+exec rs_rptInvestmentSource @ngay_tu, @ngay_den, @ma_vv, @nhom_1, @nhom_2, @nhom_3, @ma_dvcs, @form, ']]>&defaultTable;<![CDATA[', @$chitiet_yn, @@language, @@userID, @@admin
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &OutlineEntry;
+      &ScriptQueryFilterString;
+      &JavascriptReportFilter;
+      <![CDATA[/* <flatten type="Javascript"> */
+function active$VoucherFilter$(f) {
+  f.add_onResponseComplete(on$Filter$ResponseComplete);
+  changeLookupReadonly(f, 'ma_dvcs');
+}
+function close$VoucherFilter$(f) {try {f.remove_onResponseComplete(on$Filter$ResponseComplete);} catch (ex) {}}
+function on$Filter$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      var g = f.grid;
+      var d1 = f.getItem('ngay_tu').value, d2 = f.getItem('ngay_den').value, x = f.getItemValue('mau_bc'), q = f.getItemValue('chon_tt');
+      g._ValueFormType = x;
+      g._hiddenFields = [
+        {Fields: 'kh_nam_nt, tien_nt, lk_dn_nt, lk_kc_nt', Value: (x == '10')},
+        {Fields: 'kh_nam, tien, lk_dn, lk_kc', Value: (x == '20')},
+        {Fields: 'chi_tieu', Value: (g._language == 'e')},
+        {Fields: 'chi_tieu2', Value: (g._language == 'v')}
+      ];
+      g._hiddenForms = [
+        {Form: [0, 1, 5, 6], Value: (q == '2')},
+        {Form: [2, 3, 7, 8], Value: (q != '2')}
+      ];
+      x = f.getItem('form').selectedIndex, y = f.getItem('form').options;
+      var formName = y[x].text;
+      g._alterTitle = [null, [['%f1', formName, true], ['%d1', d1, true], ['%d2', d2, true]]];
+      g._queryFilterString = getQueryFilterString(f, 'ngay_tu, ngay_den, ma_vv, nhom_1, nhom_2, nhom_3, ma_dvcs, form, mau_bc');
+      remove$GridReport$Filter(g);
+      break;
+    default:
+      break;
+  }
+}
+function initForm(f) {
+  var o = f.getItem('form'), value = f._itemValue.split(String.fromCharCode(255)), text = f._itemText.split(String.fromCharCode(255));
+  for (var i = 0; i < value.length; i++) {
+    o.options[i] = new Option(text[i], value[i]);
+  }
+  if (value.length > 1) o.options[1].selected = true;
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  &OutlineCss;
+</dir>

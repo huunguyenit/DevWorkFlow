@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY XMLWhenFilterLoading SYSTEM "..\Include\XML\WhenFilterLoading.xml">
+  <!ENTITY XMLWhenFilterClosing SYSTEM "..\Include\XML\WhenFilterClosing.xml">
+
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+]>
+
+<dir id="1" type="Report" cache="true" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="Điều kiện lọc" e="Filter Condition"/>
+  <fields>
+    <field name="ngay_ct1" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" aliasName="fromDate" defaultValue="new Date()">
+      <header v="Ngày yêu cầu từ" e="Counting Date from"></header>
+      <footer v="Ngày yêu cầu từ/đến" e="Counting Date from/to"></footer>
+    </field>
+    <field name="ngay_ct2" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" aliasName="toDate" defaultValue="new Date()">
+      <header v="Ngày yêu cầu đến" e="Counting Date to"></header>
+    </field>
+    <field name="so_ct" align="right" allowNulls="false">
+      <header v="Số yêu cầu" e="Voucher No."></header>
+      <items style="AutoComplete" controller="StocktakingRequisition" key="(ngay_ct between @d1 and @d2)" check="(ngay_ct between @d1 and @d2)"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="126">
+      <item value="120, 30, 70, 100, 100, 130"/>
+      <item value="1101: [ngay_ct1].Description, [ngay_ct1], [ngay_ct2]"/>
+      <item value="110: [so_ct].Label, [so_ct]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Created">
+      <text>
+        <![CDATA[
+select 'init$StockVarianceReportforConsolidate$(this);' as message from dmstt
+return
+]]>
+      </text>
+    </command>
+
+    &XMLWhenFilterLoading;
+    &XMLWhenFilterClosing;
+
+    <command event="Processing">
+      <text>
+        <![CDATA[
+declare @vcID varchar(33)
+select @vcID = stt_rec from kkyc where so_ct = @so_ct
+exec rs_rptStockVarianceReportforConsolidate @vcID, @@language, @@userID, @@admin
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+declare @$none nvarchar(512), @vcDate smalldatetime, @isLocked tinyint
+select @vcDate = ngay_ct from kkyc with(index(so_ct)) where so_ct = @so_ct and ngay_ct between @ngay_ct1 and @ngay_ct2
+if @vcDate is null begin
+  select @$none = case when @@language = 'v' then N'Không có yêu cầu kiểm kê theo điều kiện đang lọc.' else N'No data matching filter condition.' end
+  select 'so_ct' as field, isnull(@$none, '') as message
+end else begin
+  select @isLocked = case when @vcDate <= ngay_ks_kk then 1 else 0 end from dmstt
+  select '' as field, '' as message, 'on$Filter$Retrieve$QueryComplete(this, ' + str(@isLocked) + ');' as script
+end
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &OutlineEntry;
+      <![CDATA[/* <flatten type="Javascript"> */
+function init$StockVarianceReportforConsolidate$(f) {f.getItem('so_ct')._idle = true;}
+function active$VoucherFilter$(f) {
+  f.add_onResponseComplete(on$Filter$ResponseComplete);
+  f._looking = f.getItem('so_ct')._controlBehavior;
+  f._looking.add_loading(onclick$StockVarianceReportforConsolidate$Before$Loading);
+}
+function close$VoucherFilter$(f) {
+  try {f._looking.remove_loading(on$StockVarianceReportforConsolidate$Before$Loading);} catch (ex) {}
+  try {f.remove_onResponseComplete(on$Filter$ResponseComplete);} catch (ex) {}
+}
+function on$Filter$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+			var g = f.grid;
+      g._voucherNum = f.getItemValue('so_ct').toUpperCase();
+      g._alterTitle = [null, [['%s', g._voucherNum, true]]];
+      g._arrValue = [];
+	    break;
+	  default:
+      break;
+	}
+}
+
+function onclick$StockVarianceReportforConsolidate$Before$Loading(sender, e) {
+  var f = sender._element.parentForm;
+  if ((!f.validFields('ngay_ct1')) || (!f.validFields('ngay_ct2'))) e.type.cancelEvent = true;
+  else {
+    var g = f.grid, w = g.get_element().parentForm;
+    var d1 = f.getItemValue('ngay_ct1'), d2 = f.getItemValue('ngay_ct2');
+    a = [
+      {Name: 'd1', Type: 'DateTime', Value: d1},
+      {Name: 'd2', Type: 'DateTime', Value: d2}
+    ];
+    sender.set_memvars(a);
+  }
+}
+
+function on$Filter$Retrieve$QueryComplete(f, l) {
+  var g = f.grid;
+  g._denySave = l;
+  if (l == 1) g._denyMessage = f._language == 'v' ? 'Đã khóa số liệu, kiểm tra lại ngày khóa số liệu kiểm kê.' : 'Check the Stocktaking data closing date.';
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+</dir>

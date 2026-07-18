@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/docs/">
+    <File Path="docs/AI_RULES.md" />
+    <File Path="docs/ARCHITECTURE.md" />
+    <File Path="docs/DECISIONS.md" />
+    <File Path="docs/ERP_LANGUAGE_SERVICE.md" />
+    <File Path="docs/PRODUCT_VISION.md" />
+    <File Path="docs/PROJECT_STATUS.md" />
+    <File Path="docs/ROADMAP.md" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/DevWorkFlow.Application.Tests/DevWorkFlow.Application.Tests.csproj" />
+    <Project Path="tests/DevWorkFlow.Domain.Tests/DevWorkFlow.Domain.Tests.csproj" />
+  </Folder>
+  <Project Path="DevWorkFlow.Application/DevWorkFlow.Application.csproj" />
+  <Project Path="DevWorkFlow.Domain/DevWorkFlow.Domain.csproj" />
+  <Project Path="DevWorkFlow.Infrastructure/DevWorkFlow.Infrastructure.csproj" />
+  <Project Path="UI/UI.csproj" />
+</Solution>

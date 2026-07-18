@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY CommandGetIdentityNumber SYSTEM "..\Include\Command\GetIdentityNumber.txt">
+]>
+
+<dir table="hrkbctdg" code="stt_rec" order="stt_rec" id="HCT" name="cookie" check="true" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="chỉ tiêu đánh giá" e="Appraisal Criteria"></title>
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec_nv" hidden="true" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nv" allowNulls="false" external="true" defaultValue="''" allowContain="true">
+      <header v="Nhân viên" e="Employee"></header>
+      <items style="AutoComplete" controller="hrEmployee" reference="ten_nv" key="(@@admin = 1 or bo_phan in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)) and status = '1'" check="@@admin = 1 or bo_phan in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)" information="ma_nv$vhrnv.ten"/>
+      <clientScript><![CDATA[onchange="onchange$hrAMCriteria$Employee(this);"]]></clientScript>
+    </field>
+    <field name="ten_nv" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ten_bp%l" inactivate="true" external="true" defaultValue="''">
+      <header v="Bộ phận" e="Department"></header>
+    </field>
+    <field name="ten_vtr%l" inactivate="true" external="true" defaultValue="''">
+      <header v="Vị trí" e="Position"></header>
+    </field>
+    <field name="ky" type="Decimal" dataFormatString="#0" allowNulls="false" clientDefault="Default" allowContain="true">
+      <header v="Hiệu lực từ kỳ" e="Effective from Period"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="nam" type="Decimal" dataFormatString="###0" allowNulls="false" clientDefault="Default" allowContain="true">
+      <header v="Năm" e="Year"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ghi_chu">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+
+    <field name="dct" allowNulls="false" external="true" clientDefault="0" defaultValue="0" rows="283" filterSource="Tidy" categoryIndex="1">
+      <header v="" e=""></header>
+      <label v="Chi tiết" e="Detail"></label >
+      <items style="Grid" controller="hrAMCriteriaDetail" row="1">
+        <item value="ForeignKey">
+          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+        </item>
+      </items>
+    </field>
+
+    <field name="cookie" external="true" hidden="true" readOnly="true" defaultValue="''" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="343" split="7" anchor="4">
+      <item value="120, 50, 50, 100, 100, 117, 8, 58, 42, 8, 100"/>
+      <item value="110100-100111: [ma_nv].Label, [ma_nv], [ten_nv], [ky].Label, [ky], [stt_rec], [stt_rec_nv]"/>
+      <item value="110000-1001-1: [ten_bp%l].Label, [ten_bp%l], [nam].Label, [nam], [cookie]"/>
+      <item value="110000: [ten_vtr%l].Label, [ten_vtr%l]"/>
+      <item value="110000: [ghi_chu].Label, [ghi_chu]"/>
+
+      <item value="1: [dct]"/>
+
+      <categories>
+        <category index="1" columns="769" anchor="1">
+          <header v="Chi tiết" e="Detail"/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$hrAMCriteria(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+select 'scatter$hrAMCriteria(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$hrAMCriteria(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Copying">
+      <text>
+        <![CDATA[
+select '' as message, 'when$hrAMCriteriaCopying(this)' as script
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$recordHasBeenChanged nvarchar(512)
+select @$exists = case when @@language = 'V' then N'Bản ghi hiện thời đã được khai báo.' else N'The record is already exists.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Bản ghi đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The record has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="InitExternalFields">
+      <text>
+        <![CDATA[
+declare @stt_rec_nv char(13), @cookie varchar(32) 
+select @stt_rec_nv = stt_rec_nv, @cookie = convert(varchar(19), datetime2, 121) from @@table where stt_rec = @stt_rec
+if @@language = 'v' select rtrim(ma_nv) as ma_nv, rtrim(ten) as ten_nv, rtrim(ten_bp) as ten_bp, rtrim(ten_vtr) as ten_vtr, @cookie as cookie from vhrnv where stt_rec = @stt_rec_nv
+  else select rtrim(ma_nv) as ma_nv, rtrim(ten) as ten_nv, rtrim(ten_bp2) as ten_bp2, rtrim(ten_vtr2) as ten_vtr2, @cookie as cookie from vhrnv where stt_rec = @stt_rec_nv
+  
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select * from @@table where stt_rec_nv = @stt_rec_nv and nam = @nam and ky = @ky) begin
+	select 'ma_nv' as field, @$exists as message
+  return
+end
+declare @@master varchar(128)
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID, @@master = '@@table'
+]]>
+        &CommandGetIdentityNumber;
+        <![CDATA[
+update @dct set stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+insert into hrkbctdgct select * from @dct
+select @stt_rec as stt_rec
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+declare @nv_cu char(13), @nam_cu int, @ky_cu int
+select @nv_cu = stt_rec_nv, @nam_cu = nam, @ky_cu = ky from @@table where stt_rec = @stt_rec
+if not exists(select * from @@table where stt_rec_nv = @nv_cu and nam = @nam_cu and ky = @ky_cu) begin
+	select 'ma_nv' as field, @$recordHasBeenChanged as message
+  return
+end  
+if @stt_rec_nv <> @nv_cu or @nam <> @nam_cu or @ky <> @ky_cu begin
+	if exists(select * from @@table where (stt_rec_nv = @stt_rec_nv and nam = @nam and ky = @ky) and not (stt_rec_nv = @nv_cu and nam = @nam_cu and ky = @ky_cu)) begin
+		select 'ma_nv' as field, @$exists as message
+		return
+	end
+end
+if $dct.NewValue <> $dct.OldValue begin
+  delete hrkbctdgct where stt_rec = @stt_rec
+  update @dct set stt_rec = @stt_rec
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+if $dct.NewValue <> $dct.OldValue insert into hrkbctdgct select * from @dct
+update @@table set datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+delete hrkbctdgct where stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$hrAMCriteria(f) {
+  f.add_onResponseComplete(on$hrAMCriteria$ResponseComplete);
+  set$DefaultValue(f);
+}
+function scatter$hrAMCriteria(f) {set$DefaultValue(f);}
+function close$hrAMCriteria(f) {try {f.remove_onResponseComplete(on$hrAMCriteria$ResponseComplete)} catch (ex) {}}
+function set$DefaultValue(f) {
+  if (f._action != 'View') {
+    var c = (f._language == 'v' ? '' : '2');
+    f.setReadOnlyFields('ten_bp' + c + ', ten_vtr' + c);
+  }
+  if (f._action == 'New') {
+    var v = new Date();
+    f.setItemValues('ky, nam', [v.getMonth() + 1, v.getFullYear()]);
+  }
+}
+function on$hrAMCriteria$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      break;
+    case 'Employee':
+      f.setItemControlBehavior('stt_rec_nv', result[0].Value, true);
+      f.setItemControlBehavior('ten_bp%l', result[1].Value, true);
+      f.setItemControlBehavior('ten_vtr%l', result[2].Value, true);
+      break;
+    default:
+      break;
+  }
+}
+function onchange$hrAMCriteria$Employee(o) {o.parentForm.request('Employee', 'Employee', ['ma_nv']);}
+function when$hrAMCriteriaCopying(f) {f.setItemValue('stt_rec', '');}
+]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="Employee">
+      <text>
+        <![CDATA[
+if exists(select 1 from hrnv where ma_nv = @ma_nv) begin
+  select stt_rec, isnull(case when @@language = 'V' then ten_bp else ten_bp2 end, ''), isnull(case when @@language = 'V' then ten_vtr else ten_vtr2 end, '')
+    from vhrnv where ma_nv = @ma_nv
+end
+else select '', '', ''
+return
+]]>
+      </text>
+    </action>
+  </response>
+</dir>

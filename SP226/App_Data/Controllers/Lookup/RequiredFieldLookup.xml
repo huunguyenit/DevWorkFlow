@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="vdmtbbn" code="id" name="ten_truong%l" order="id" database="Sys" xmlns="urn:schemas-fast-com:data-lookup">
+
+  <header v="Danh sách trường ràng buộc nhập liệu" e="Validation Field List"></header>
+
+  <fields>
+    <field name="id" allowSorting="true" allowFilter="true">
+      <header v="Mã trường" e="Field Code"></header>
+    </field>
+    <field name="ten_truong%l" allowSorting="true" allowFilter="true">
+      <header v="Tên trường" e="Description"></header>
+    </field>
+  </fields>
+
+</lookup>

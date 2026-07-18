@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<lookup table="dbfield" code="field_id" name="ten_vung%l" order="field_id" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh sách chức năng" e="Function List"></header>
+  <fields>
+    <field name="field_id" allowSorting="true" allowFilter="true">
+      <header v="Mã" e="Code"></header>
+    </field>
+    <field name="ten_vung%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên chức năng" e = "Description"></header>
+    </field>
+  </fields>
+</lookup>

@@ -1,0 +1,462 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<dir table="hrdgth" code="stt_rec" order="stt_rec" name="cookie" check="true" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="cập nhật đánh giá thực hiện công việc" e="Performance Appraisal Information"></title>
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true" allowNulls="false">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_dg" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" defaultValue="newDate()" aliasName="date">
+      <header v="Ngày đánh giá" e="Date of Appraisal"></header>
+      <clientScript><![CDATA[onchange="onchange$AMPerformanceInfor$Appraisee$EmployeeID(this);"]]></clientScript>
+    </field>
+    <field name="ma_nv" defaultValue="''" external="true" allowNulls="false" onDemand="true" allowContain="true">
+      <header v="Nhân viên" e="Appraisee"></header>
+      <items style="AutoComplete" controller="hrEmployee" reference="ten2" key="(@@admin = 1 or bo_phan in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)) and status = '1'" check="@@admin = 1 or bo_phan in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)" information="ma_nv$vhrnv.ten"/>
+      <clientScript><![CDATA[onchange="onchange$AMPerformanceInfor$Appraisee$EmployeeID(this);"]]></clientScript>
+    </field>
+    <field name="ten2" readOnly="true" external="true" defaultValue="''" inactivate="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ten_bp%l" external="true" defaultValue="''" inactivate="true">
+      <header v="Bộ phận" e="Department"></header>
+    </field>
+    <field name="ten_vtr%l" external="true" defaultValue="''" inactivate="true">
+      <header v="Vị trí" e="Position"></header>
+    </field>
+    <field name="bac_quan_ly" external="true" defaultValue="''" inactivate="true">
+      <header v="Bậc quản lý" e="Job Grade"></header>
+    </field>
+    <field name="ma_nv_dg" external="true" defaultValue="''" allowNulls="false" onDemand="true">
+      <header v="Người đánh giá" e="Appraiser"></header>
+      <items style="AutoComplete" controller="hrEmployee" reference="ten" key="(@@admin = 1 or bo_phan in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)) and status = '1'" check="@@admin = 1 or bo_phan in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)" information="ma_nv$vhrnv.ten"/>
+      <clientScript><![CDATA[onchange="onchange$AMPerformanceInfor$EmployeeID(this);"]]></clientScript>
+    </field>
+    <field name="ten" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="ma_ky" type="Decimal" allowNulls="false" dataFormatString="#0">
+      <header v="Kỳ đánh giá" e="Appraisal Period"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="nam" type="Decimal" allowNulls="false" dataFormatString="###0">
+      <label v="Năm đánh giá" e="Year of Appraisal" />
+      <items style="Numeric"></items>
+    </field>
+    <field name="ngay_vao_cty" type="DateTime" dataFormatString="@datetimeFormat" defaultValue="null" external="true" inactivate="true">
+      <header v="Ngày vào công ty" e="Join Date"></header>
+    </field>
+    <field name="nam_lv" type="Decimal" dataFormatString="### ##0.00" defaultValue="0" external="true" inactivate="true">
+      <header v="Số năm làm việc" e="Years of Service" />
+      <items style="Numeric"></items>
+    </field>
+    <field name="nam_cv" type="Decimal" dataFormatString="### ##0.00" defaultValue="0" external="true" inactivate="true">
+      <header v="Số năm giữ chức vụ" e="Years of Cur. Position" />
+      <items style="Numeric"></items>
+    </field>
+
+    <field name="status" inactivate="true" clientDefault="1">
+      <header v="Trạng thái" e="Status"></header>
+      <items style="DropDownList">
+        <item value="0">
+          <text v="0. Lập kế hoạch" e="0. Planned"/>
+        </item>
+        <item value="1">
+          <text v="1. Tự đánh giá" e="1. Self-appraisal"/>
+        </item>
+        <item value="2">
+          <text v="2. Quản lý đánh giá" e="2. Manager Appraisal"/>
+        </item>
+        <item value="3">
+          <text v="3. Hoàn thành" e="3. Completed"/>
+        </item>
+      </items>
+    </field>
+
+    <field name="d01" external="true" clientDefault="0" defaultValue="0" rows="192" filterSource="Tidy" categoryIndex="1">
+      <header v="" e=""></header>
+      <label v="Chỉ tiêu" e="Criterion"></label>
+      <items style="Grid" controller="hrAMPerformanceInforDetail" row="1">
+        <item value="ForeignKey">
+          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+        </item>
+      </items>
+    </field>
+
+    <field name="yk_nv" categoryIndex="2">
+      <header v="Tự đánh giá" e="Self-appraisal"></header>
+    </field>
+    <field name="yk_nv2" categoryIndex="2">
+      <header v="" e=""></header>
+    </field>
+    <field name="yk_nv3" categoryIndex="2">
+      <header v="" e=""></header>
+    </field>
+    <field name="yk_nv4" categoryIndex="2">
+      <header v="" e=""></header>
+    </field>
+    <field name="yk_nv5" categoryIndex="2">
+      <header v="" e=""></header>
+    </field>
+    <field name="yk_ql_tt" categoryIndex="3">
+      <header v="Nhận xét" e="Comment"></header>
+    </field>
+    <field name="yk_ql_tt2" categoryIndex="3">
+      <header v="" e=""></header>
+    </field>
+    <field name="yk_ql_tt3" categoryIndex="3">
+      <header v="" e=""></header>
+    </field>
+    <field name="yk_ql_tt4" categoryIndex="3">
+      <header v="" e=""></header>
+    </field>
+    <field name="yk_ql_tt5" categoryIndex="3">
+      <header v="" e=""></header>
+    </field>
+    <field name="yk_ql_cc" categoryIndex="4">
+      <header v="Nhận xét" e="Comment"></header>
+    </field>
+    <field name="yk_ql_cc2" categoryIndex="4">
+      <header v="" e=""></header>
+    </field>
+    <field name="yk_ql_cc3" categoryIndex="4">
+      <header v="" e=""></header>
+    </field>
+    <field name="yk_ql_cc4" categoryIndex="4">
+      <header v="" e=""></header>
+    </field>
+    <field name="yk_ql_cc5" categoryIndex="4">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="t_diem_nv_dg" type="Decimal" dataFormatString="@markInputFormat" clientDefault="0" categoryIndex="-1" disabled="true">
+      <header v="Tổng điểm" e="Total Score"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="t_diem_ql_dg" type="Decimal" dataFormatString="@markInputFormat" clientDefault="0" categoryIndex="-1" disabled="true">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="stt_rec_nv" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec_ndg" disabled="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec_nv_old" readOnly="true" external="true" defaultValue="''" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_ky_old" type="Decimal" readOnly="true" external="true" defaultValue="0" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="nam_old" type="Decimal" readOnly="true" external="true" defaultValue="0" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="cookie" external="true" hidden="true" readOnly="true" defaultValue="''" allowContain="true" categoryIndex="-1">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="252" anchor="4" split="7">
+      <item value="100, 40, 60, 100, 137, 100, 8, 58, 50, 100"/>
+      <item value="110100-1011: [ma_nv].Label, [ma_nv], [ten2], [ma_ky].Label, [ma_ky], [stt_rec]"/>
+      <item value="110000-1011: [ten_bp%l].Label, [ten_bp%l], [nam].Label, [nam], [stt_rec_nv]"/>
+      <item value="110000-1011: [ten_vtr%l].Label, [ten_vtr%l], [ngay_dg].Label, [ngay_dg], [stt_rec_ndg]"/>
+      <item value="110000-1011: [bac_quan_ly].Label, [bac_quan_ly], [nam_lv].Label, [nam_lv], [stt_rec_nv_old]"/>
+      <item value="110----1011: [ngay_vao_cty].Label, [ngay_vao_cty], [nam_cv].Label, [nam_cv], [ma_ky_old]"/>
+      <item value="110100-1101: [ma_nv_dg].Label, [ma_nv_dg], [ten], [status].Label, [status], [nam_old]"/>
+
+      <item value="1: [d01]"/>
+
+      <item value="11000: [yk_nv].Label, [yk_nv]"/>
+      <item value="-1000: [yk_nv2]"/>
+      <item value="-1000: [yk_nv3]"/>
+      <item value="-1000: [yk_nv4]"/>
+      <item value="-1000: [yk_nv5]"/>
+
+      <item value="11000: [yk_ql_tt].Label, [yk_ql_tt]"/>
+      <item value="-1000: [yk_ql_tt2]"/>
+      <item value="-1000: [yk_ql_tt3]"/>
+      <item value="-1000: [yk_ql_tt4]"/>
+      <item value="-1000: [yk_ql_tt5]"/>
+
+      <item value="11000: [yk_ql_cc].Label, [yk_ql_cc]"/>
+      <item value="-1000: [yk_ql_cc2]"/>
+      <item value="-1000: [yk_ql_cc3]"/>
+      <item value="-1000: [yk_ql_cc4]"/>
+      <item value="-1000: [yk_ql_cc5]"/>
+
+      <item value="----101-11: [t_diem_nv_dg].Label, [t_diem_nv_dg], [t_diem_ql_dg], [cookie]"/>
+
+      <categories>
+        <category index="1" columns="769" anchor="1">
+          <header v="Chỉ tiêu" e="Criterion"/>
+        </category>
+        <category index="2" columns="100, 100, 100, 137, 100, 8, 100, 8, 100" anchor="2">
+          <header v="Ý kiến nhân viên" e="Appraisee's Opinion"/>
+        </category>
+        <category index="3" columns="100, 100, 100, 137, 100, 8, 100, 8, 100" anchor="2">
+          <header v="Ý kiến quản lý trực tiếp" e="Direct Manager's Comment"/>
+        </category>
+        <category index="4" columns="100, 100, 100, 137, 100, 8, 100, 8, 100" anchor="2">
+          <header v="Ý kiến quản lý cấp cao" e="Senior Manager's Comment"/>
+        </category>
+        <category index="-1" columns="100, 100, 100, 117, 120, 8, 100, 8, 100, 0" anchor="2">
+          <header v="" e=""/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$AMPerformanceInfor(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+select 'scatter$AMPerformanceInfor(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="InitExternalFields">
+      <text>
+        <![CDATA[
+select rtrim(a.ma_nv_dg) as ma_nv_dg, a.ten, rtrim(a.ma_nv) as ma_nv
+  , a.ten2, b.ten_bac%l as bac_quan_ly, a.ngay_vao_cty, c.ten_bp%l, d.ten_vtr%l
+  , round(isnull(dbo.FastBusiness$Function$Different$Year(a.ngay_vao_cty, a.ngay_dg), 0), 2) as nam_lv
+  , round(isnull(dbo.FastBusiness$Function$Different$Year(a.ngay_chinh_thuc, a.ngay_dg), 0), 2) as nam_cv
+  , stt_rec_nv as stt_rec_nv_old, ma_ky as ma_ky_old, nam as nam_old
+  , convert(varchar(19), a.datetime2, 121) as cookie
+  from (
+    select z.stt_rec, w.ma_nv, rtrim(w.ho_nv) + space(1) + w.ten_nv as ten2, w.ngay_vao as ngay_vao_cty, z.ngay_dg, 
+        isnull(x.bac_quan_ly, w.bac_quan_ly) as bac_quan_ly, 
+        isnull(x.bo_phan, w.bo_phan) as ma_bp, 
+        isnull(x.vi_tri, w.vi_tri) as ma_vtr, 
+        isnull(x.ngay_tu, w.ngay_chinh_thuc) as ngay_chinh_thuc, 
+        v.ma_nv as ma_nv_dg, rtrim(v.ho_nv) + space(1) + v.ten_nv as ten,
+        z.stt_rec_nv, z.ma_ky, z.nam, z.datetime2
+      from hrdgth z left join hreqtlvht x on z.stt_rec_nv = x.stt_rec and x.tinh_chat = '1'
+			    and x.ngay_tu = (select max(y.ngay_tu) from hreqtlvht y where y.stt_rec = z.stt_rec_nv and y.ngay_tu <= z.ngay_dg and y.tinh_chat = 1)
+			    left join hrnv w on z.stt_rec_nv = w.stt_rec left join hrnv v on z.stt_rec_ndg = v.stt_rec
+      where z.stt_rec = @stt_rec
+  ) a left join hrdmbql b on a.bac_quan_ly = b.ma_bac left join hrbp c on a.ma_bp = c.ma_bp left join hrvt d on a.ma_vtr = d.ma_vtr
+  
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$recordHasBeenChanged nvarchar(512), @$checkPeriod nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Kỳ đánh giá <span class="Highlight">%s1</span>, năm đánh giá <span class="Highlight">%s2</span> và nhân viên <span class="Highlight">%s3</span> đã có hoặc lồng nhau trong cập nhật đánh giá thực hiện công việc.' else N'The record consisting of appraisal period <span class="Highlight">%s1</span>, year of appraisal <span class="Highlight">%s2</span> and appraisee <span class="Highlight">%s3</span> is invalid or already exists.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Kỳ đánh giá <span class="Highlight">%s1</span>, năm đánh giá <span class="Highlight">%s2</span> và nhân viên <span class="Highlight">%s3</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The record consisting of appraisal period <span class="Highlight">%s1</span>, year of appraisal <span class="Highlight">%s2</span> and appraisee <span class="Highlight">%s3</span> has been modified or deleted by another user.' end
+select @$checkPeriod = case when @@language = 'v' then N'Trường <span class="Highlight">Kỳ đánh giá</span> chưa nhập hoặc giá trị nhập không hợp lệ.' else N'Field <span class="Highlight">Appraisal Period</span> must not be blank or has invalid value.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if not exists(select 1 from hrdmkydg where ma_ky = @ma_ky) begin
+  select 'ma_ky' as field, @$checkPeriod as message
+  return
+end
+
+if exists(select * from @@table where ma_ky = @ma_ky and nam = @nam and stt_rec_nv = @stt_rec_nv)
+  begin
+  select 'ma_ky' as field, replace(replace(replace(@$exists, '%s1', rtrim(@ma_ky)), '%s2', rtrim(@nam)), '%s3', rtrim(@$ma_nv)) as message
+    return
+  end
+  
+declare @wsID varchar(8)
+select @wsID = rtrim(val) from options where upper(name) = 'M_WS_ID'
+select @stt_rec = max(stt_rec) from @@table
+select @stt_rec = @wsID + case when @stt_rec is null then '000000001' else replace(str(cast(substring(@stt_rec, 2, 9) as bigint) + 1, 9), ' ', '0') end + 'HDG'
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+
+update @d01 set stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+insert into hrdgthct select * from @d01
+select @stt_rec as stt_rec
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select 1 from hrdmkydg where ma_ky = @ma_ky) begin
+  select 'ma_ky' as field, @$checkPeriod as message
+  return
+end
+
+if not exists(select * from @@table where ma_ky = @$ma_ky_old and nam = @$nam_old and stt_rec_nv = @$stt_rec_nv_old)
+begin
+  select 'ma_ky' as field, replace(replace(replace(@$recordHasBeenChanged, '%s1', rtrim(@$ma_ky_old)), '%s2', rtrim(@$nam_old)), '%s3', rtrim(@$ma_nv)) as message
+  return
+end
+
+if @ma_ky <> @$ma_ky_old or @nam <> @$nam_old or @stt_rec_nv <> @$stt_rec_nv_old begin
+ if exists(select * from @@table where (not (ma_ky = @$ma_ky_old and nam = @$nam_old and stt_rec_nv = @$stt_rec_nv_old)) and (ma_ky = @ma_ky and nam = @nam and stt_rec_nv = @stt_rec_nv))
+	begin
+    select 'ma_ky' as field, replace(replace(replace(@$exists, '%s1', rtrim(@ma_ky)), '%s2', rtrim(@nam)), '%s3', rtrim(@$ma_nv)) as message
+		return
+	end
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+if $d01.NewValue <> $d01.OldValue begin
+  update @d01 set stt_rec = @stt_rec
+  delete hrdgthct where stt_rec = @stt_rec
+  insert into hrdgthct select * from @d01
+end
+update @@table set datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+delete hrdgthct where stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$AMPerformanceInfor(f) {
+  f.add_onResponseComplete(on$AMPerformanceInfor$ResponseComplete);
+  f._tabContainer.add_activeTabChanged(onChange$Voucher$Tab);
+  f._tabContainer._loaded = true;
+  set$Voucher$DefaultValue(f);
+  if (f._action != 'View') {
+    var c = (f._language == 'v' ? '' : '2');
+    f.setReadOnlyFields('nam_cv,nam_lv,ngay_vao_cty,bac_quan_ly,ten_bp' + c + ',ten_vtr' + c);
+  }
+}
+function scatter$AMPerformanceInfor(f) {
+  set$Voucher$DefaultValue(f);
+  if (f._action == 'View' || f._action == 'Edit') {
+    var o = f.getItem('d01').field;
+    o.AllowContain = false;
+    o.FilterSource = 'Tidy';
+  }
+}
+function close$AMPerformanceInfor(f) {
+  try {f.remove_onResponseComplete(on$AMPerformanceInfor$ResponseComplete)} catch (ex) {}
+  if (f._tabContainer) try {f._tabContainer.remove_activeTabChanged(onChange$Voucher$Tab);} catch (ex) {}
+}
+
+function onChange$Voucher$Tab(sender, e) {sender.parentForm.focusWhenTabChanged(['d01', 'yk_nv', 'yk_ql_tt', 'yk_ql_cc']);}
+function on$AMPerformanceInfor$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Appraisee':
+      f.setItemControlBehavior('stt_rec_nv', result[0].Value, true);
+      f.setItemControlBehavior('ten_bp%l', result[1].Value, true);
+      f.setItemControlBehavior('ten_vtr%l', result[2].Value, true);
+      f.setItemControlBehavior('bac_quan_ly', result[3].Value, true);
+      f.setItemValue('ngay_vao_cty', result[4].Value);
+      f.setItemValue('nam_lv', result[5].Value);
+      f.setItemValue('nam_cv', result[6].Value);
+      if (result[7].Value && result[8].Value) {
+        f.setItemControlBehavior('stt_rec_ndg', result[7].Value, true);
+        f.setItemControlBehavior('ma_nv_dg', result[8].Value, result[9].Value, true);
+        f.live(f.getItem('ma_nv_dg'));
+      }
+      break;
+    case 'Appraiser':
+      f.setItemControlBehavior('stt_rec_ndg', result[0].Value, true);
+      break;
+    default:
+      break;
+  }
+}
+
+function set$Voucher$DefaultValue(f) {
+  if (f._action == 'New') {
+    var d = new Date();
+    f.setItemValue('ngay_dg', d);
+    f.setItemValue('ma_ky', d.getMonth() + 1);
+    f.setItemValue('nam', d.getFullYear());
+    f.live(f.getItem('ma_ky'));
+  }
+}
+function onchange$AMPerformanceInfor$EmployeeID(o) {o.parentForm.request('Appraiser', 'Appraiser', [['ma_nv', 'String', o.value]]);}
+function onchange$AMPerformanceInfor$Appraisee$EmployeeID(o) {
+  var f = o.parentForm;
+  f.request('Appraisee', 'Appraisee', [['ma_nv', 'String', f.getItemValue('ma_nv')], ['ngay_dg', 'Date', f.getItemValue('ngay_dg')]]);  
+}
+]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="Appraisee">
+      <text>
+        <![CDATA[
+if exists(select 1 from hrnv where ma_nv = @ma_nv) begin
+  declare @parentID varchar(32), @parentCode varchar(32), @parentName nvarchar(128)
+  select @parentCode = rtrim(nv_ql) from hrnv where ma_nv = @ma_nv
+  if @parentCode <> '' select @parentID = rtrim(stt_rec), @parentName = rtrim(ho_nv) + space(1) + ten_nv from hrnv where ma_nv = @parentCode
+  select @parentID = isnull(@parentID, ''), @parentCode = isnull(@parentCode, ''), @parentName = isnull(@parentName, '')
+  
+  select a.stt_rec, rtrim(d.ten_bp%l) as ten_bp, rtrim(isnull(e.ten_vtr%l, '')) as ten_vtr, rtrim(isnull(f.ten_bac%l, '')) as ten_bac, a.ngay_vao, 
+      round(isnull(dbo.FastBusiness$Function$Different$Year(a.ngay_vao, @ngay_dg), 0), 2) as nam_lv, 
+      round(isnull(dbo.FastBusiness$Function$Different$Year(a.ngay_chinh_thuc, @ngay_dg), 0), 2) as nam_cv, 
+      @parentID as stt_rec_ndg, @parentCode as ma_nv_dg, @parentName as ten_nv_dg
+    from (
+          select a.stt_rec, isnull(b.bo_phan, a.bo_phan) as bo_phan, isnull(b.vi_tri, a.vi_tri) as vi_tri, 
+              isnull(b.bac_quan_ly, a.bac_quan_ly) as bac_quan_ly, 
+              isnull(b.ngay_tu, a.ngay_chinh_thuc) as ngay_chinh_thuc, 
+              a.ngay_vao
+            from hrnv a left join hreqtlvht b on a.stt_rec = b.stt_rec and b.tinh_chat = '1'
+              and ngay_tu = ((select max(c.ngay_tu) from hreqtlvht c where c.stt_rec = a.stt_rec and c.ngay_tu <= @ngay_dg and c.tinh_chat = 1))
+            where a.ma_nv = @ma_nv) a
+    left join hrbp d on a.bo_phan = d.ma_bp left join hrvt e on a.vi_tri = e.ma_vtr left join hrdmbql f on a.bac_quan_ly = f.ma_bac
+end else select '', '', '', '', '', '', null, 0, 0, '', '', ''
+return
+]]>
+      </text>
+    </action>
+
+    <action id="Appraiser">
+      <text>
+        <![CDATA[
+if exists(select 1 from hrnv where ma_nv = @ma_nv) select stt_rec from hrnv where ma_nv = @ma_nv
+  else select ''
+return
+]]>
+      </text>
+    </action>
+  </response>
+</dir>

@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY XMLWhenFilterLoading SYSTEM "..\Include\XML\WhenFilterLoading.xml">
+  <!ENTITY XMLWhenFilterClosing SYSTEM "..\Include\XML\WhenFilterClosing.xml">
+
+  <!ENTITY OutlineCss SYSTEM "..\Include\Javascript\OutlineCss.txt">
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+  <!ENTITY CostingUnitFilterSetReadOnly SYSTEM "..\Include\Javascript\CostingUnitFilterSetReadOnly.txt">
+
+  <!ENTITY Control ",@$control = '1110'">
+  <!ENTITY CostingExternalFilterShowing SYSTEM "..\Include\Command\CostingExternalFilterShowing.txt">
+  <!ENTITY CostingUnitFilter SYSTEM "..\Include\Javascript\CostingUnitFilter.txt">
+  <!ENTITY CostingUnitFilterRespone SYSTEM "..\Include\Command\CostingUnitFilterRespone.txt">
+]>
+
+<dir id="1" type="Report" cache="true" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="Điều kiện lọc" e="Filter Condition"></title>
+  <fields>
+    <field name="ky" type="Decimal" dataFormatString="#0" allowNulls="false">
+      <header v="Kỳ" e="Period"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="nam" type="Decimal" dataFormatString="###0" allowNulls="false">
+      <header v="Năm" e="Year"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ma_sp">
+      <header v="Mã sản phẩm" e="Product Code"></header>
+      <items style="AutoComplete" controller="Product" reference="ten_sp%l" key="status = '1'" check="1 = 1"/>
+    </field>
+    <field name="ten_sp%l" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_bp">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="AutoComplete" controller="Department" reference="ten_bp%l" key="status = '1'" check="1 = 1"/>
+    </field>
+    <field name="ten_bp%l" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="so_lsx">
+      <header v="Số lệnh sản xuất" e="Manufacturing Order"></header>
+      <items style="AutoComplete" controller="MO" reference="dien_giai%l"/>
+    </field>
+    <field name="dien_giai%l" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_loai">
+      <header v="Loại yếu tố chi phí" e="Cost Factor Type"></header>
+      <items style="AutoComplete" controller="FactorType" reference="ten_loai%l" key="status = '1'" check="1 = 1"/>
+    </field>
+    <field name="ten_loai%l" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_dvcs" allowNulls="false">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="AutoComplete" reference="ten_dvcs%l" controller="Unit" key="status = '1'" check="1=1"/>
+      <clientScript><![CDATA[onchange="onChange$Report$CostUnit(this);"]]></clientScript>
+    </field>
+    <field name="ten_dvcs%l" external="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="mau_bc">
+      <header v="Mẫu báo cáo" e="Report Form"></header>
+      <items style="DropDownList">
+        <item value="10">
+          <text v="Mẫu chuẩn" e="Standard Form"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;</clientScript>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 40, 60, 200, 130"/>
+      <item value="11: [ky].Label, [ky]"/>
+      <item value="11: [nam].Label, [nam]"/>
+      <item value="11010: [ma_sp].Label, [ma_sp], [ten_sp%l]"/>
+      <item value="11010: [ma_bp].Label, [ma_bp], [ten_bp%l]"/>
+      <item value="11010: [so_lsx].Label, [so_lsx], [dien_giai%l]"/>
+      <item value="11010: [ma_loai].Label, [ma_loai], [ten_loai%l]"/>
+      <item value="11010: [ma_dvcs].Label, [ma_dvcs], [ten_dvcs%l]"/>
+      <item value="1100-: [mau_bc].Label, [mau_bc]"/>
+    </view>
+  </views>
+
+  <commands>
+    &CostingExternalFilterShowing;
+    &XMLWhenFilterLoading;
+    &XMLWhenFilterClosing;
+
+    <command event="Processing">
+      <text>
+        <![CDATA[
+select dbo.ff_GetStartDateOfCycle(@ky, @nam) as date_from
+exec rs_rptProductQuantityByFactorType @ky, @nam, @ma_sp, @ma_bp, @so_lsx, @ma_loai, @@language, @ma_dvcs, @@userID, @@admin
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &OutlineEntry;
+      &CostingUnitFilterSetReadOnly;
+      <![CDATA[
+function active$VoucherFilter$(f) {
+  f.add_onResponseComplete(on$Filter$ResponseComplete);
+  var l = (f.getItemValue('nam') == 0);
+  if (l) {
+    f.getItem('ky').value = (new Date()).getMonth() + 1;
+    f.getItem('nam').value = (new Date()).getFullYear();
+  }
+  f.live(f.getItem('ky'));
+  if (!l) onChange$Report$CostUnit(f.getItem('ma_dvcs'));
+}
+function close$VoucherFilter$(sender) {try {sender.remove_onResponseComplete(on$Filter$ResponseComplete);} catch (ex) {}}
+function on$Filter$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      var g = f.grid, x = f.getItemValue('mau_bc');
+      var d1 = f.getItem('ky').value, n1 = f.getItem('nam').value;
+      g._alterTitle = [null, [['%d1', d1, true], ['%n1', n1, true]]];
+      break;
+    case 'SetReadOnlyField':
+      setItemReadOnly(f, 'ma_bp', result[0].Value, false);
+      setItemReadOnly(f, 'so_lsx', result[1].Value, false);
+      break;
+    default:
+      break;
+  }
+}
+function onChange$Report$CostUnit(o) {if (o.parentForm._objectUnit == '1') o.parentForm.request('GetResponse', 'SetReadOnlyField', ['ma_dvcs'])}
+]]>
+      &CostingUnitFilter;
+    </text>
+  </script>
+
+  &CostingUnitFilterRespone;
+  &OutlineCss;
+</dir>

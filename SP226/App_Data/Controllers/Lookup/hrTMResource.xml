@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmnldt" code="ma_nl" name="ten_nl%l" order="ma_nl" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục nguồn lực đào tạo" e="Training Resource List"></header>
+  
+  <fields>
+    <field name="ma_nl" allowSorting="true" allowFilter="true">
+      <header v="Mã nguồn lực" e="Resource Code"></header>
+    </field>
+    <field name="ten_nl%l" allowSorting="true" allowFilter="true">
+      <header v="Tên nguồn lực" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

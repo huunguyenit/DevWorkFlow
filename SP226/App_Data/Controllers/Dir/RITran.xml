@@ -1,0 +1,719 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY % CheckSerialNumber SYSTEM "..\Include\CheckSerialNumber.ent">
+  %CheckSerialNumber;
+
+  <!ENTITY XMLWhenVoucherInit SYSTEM "..\Include\XML\WhenVoucherInit.xml">
+  <!ENTITY XMLWhenVoucherNavigating SYSTEM "..\Include\XML\WhenVoucherNavigating.xml">
+  <!ENTITY XMLWhenVoucherCopying SYSTEM "..\Include\XML\WhenStockCopying.xml">
+  <!ENTITY XMLWhenVoucherClosing SYSTEM "..\Include\XML\WhenVoucherClosing.xml">
+  <!ENTITY XMLGetVoucherNumber SYSTEM "..\Include\XML\GetVoucherNumber.xml">
+  <!ENTITY XMLVoucherBookAndNumberFields SYSTEM "..\Include\XML\VoucherBookAndNumberFields.txt">
+  <!ENTITY XMLGetExchangeRate SYSTEM "..\Include\XML\GetExchangeRate.xml">
+  <!ENTITY CommandGetTaxRate SYSTEM "..\Include\Command\GetCreditTaxRate.txt">
+  <!ENTITY CommandWhenVoucherLoading SYSTEM "..\Include\Command\WhenVoucherLoading.txt">
+  <!ENTITY CommandWhenVoucherBeforeEdit SYSTEM "..\Include\Command\WhenVoucherBeforeEdit.txt">
+  <!ENTITY CommandWhenVoucherBeforeDelete SYSTEM "..\Include\Command\WhenVoucherBeforeDelete.txt">
+  <!ENTITY CommandRecordHasBeenChanged SYSTEM "..\Include\Command\RecordHasBeenChanged.txt">
+  <!ENTITY CommandCheckVoucherHandleBeforeSave SYSTEM "..\Include\Command\CheckVoucherHandleBeforeSave.txt">
+  <!ENTITY CommandCheckVoucherHandleBeforeEdit SYSTEM "..\Include\Command\CheckVoucherHandleBeforeEdit.txt">
+  <!ENTITY CommandCheckVoucherHandleBeforeDelete SYSTEM "..\Include\Command\CheckVoucherHandleBeforeDelete.txt">
+  <!ENTITY CommandCheckLockedDate SYSTEM "..\Include\Command\CheckLockedDate.txt">
+  <!ENTITY CommandCheckVoucherNumber SYSTEM "..\Include\Command\CheckSerialNumber.txt">
+  <!ENTITY CommandGetIdentityNumber SYSTEM "..\Include\Command\GetIdentityNumber.txt">
+  <!ENTITY CommandGetVoucherNumber SYSTEM "..\Include\Command\GetVoucherNumber.txt">
+  <!ENTITY CommandSetVoucherNumber SYSTEM "..\Include\Command\SetVoucherNumber.txt">
+  <!ENTITY CommandShowWarningMessage SYSTEM "..\Include\Command\ShowWarningMessage.txt">
+  <!ENTITY CommandQueryVoucherNumber SYSTEM "..\Include\Command\QueryVoucherNumber.txt">
+  <!ENTITY CommandScatterVoucherNumber SYSTEM "..\Include\Command\ScatterVoucherNumber.txt">
+  <!ENTITY CommandExternalFieldDeclare SYSTEM "..\Include\Command\ExternalFieldDeclare.txt">
+  <!ENTITY CommandExternalFieldSelect SYSTEM "..\Include\Command\ExternalFieldSelect.txt">
+  <!ENTITY CommandExternalFieldSet SYSTEM "..\Include\Command\ExternalVoucherFieldAssign.txt">
+  <!ENTITY CommandExternalFieldQuery SYSTEM "..\Include\Command\ExternalVoucherFieldQuery.txt">
+  <!ENTITY ScriptVoucherInit SYSTEM "..\Include\Javascript\VoucherInit.txt">
+  <!ENTITY ScriptActiveVoucher SYSTEM "..\Include\Javascript\ActiveVoucherDate.txt">
+  <!ENTITY ScriptScatterVoucher SYSTEM "..\Include\Javascript\ScatterVoucher.txt">
+  <!ENTITY ScriptCloseVoucher SYSTEM "..\Include\Javascript\CloseVoucher.txt">
+  <!ENTITY ScriptVoucherNumber SYSTEM "..\Include\Javascript\VoucherNumber.txt">
+  <!ENTITY VoucherNumberLoading SYSTEM "..\Include\Javascript\WhenVoucherNumberLoading.txt">
+  <!ENTITY VoucherNumberScattering SYSTEM "..\Include\Javascript\WhenVoucherNumberScattering.txt">
+  <!ENTITY VoucherNumberReading SYSTEM "..\Include\Javascript\WhenVoucherNumberReading.txt">
+  <!ENTITY ScriptCurrency SYSTEM "..\Include\Javascript\Currency.txt">
+  <!ENTITY CurrencyDateChanged SYSTEM "..\Include\Javascript\WhenCurrencyDateChanged.txt">
+  <!ENTITY CurrencyResponse SYSTEM "..\Include\Javascript\WhenCurrencyResponse.txt">
+
+  <!ENTITY % Invoice SYSTEM "..\Include\Invoice.ent">
+  %Invoice;
+  <!ENTITY EICheckTable SYSTEM "..\Include\Command\EIEditCheckTableRITran.txt">
+  <!ENTITY EICheckDetailFieldName "dtt">
+
+  <!ENTITY % VoucherEndUpdated SYSTEM "..\Include\VoucherEndUpdated.ent">
+  %VoucherEndUpdated;
+
+  <!ENTITY FastBusiness.Encryption.Begin "">
+  <!ENTITY f ", rtrim(@invNumber) as so_ct_hd, rtrim(@invSerial) as so_seri_hd, @invDate as ngay_ct_hd, @invCustomer as ma_kh_hd, rtrim(@eOriginalNumber) as so_hd_goc, rtrim(@eOriginalSerial) as ky_hieu_hd_goc, rtrim(@eOriginalForm) as mau_hd_goc, @eOriginalReason as ly_do_dc, @eOriginalMinute as so_bb, @eOriginalDate as ngay_bb">
+  <!ENTITY AfterUpdate "exec FastBusiness$App$Voucher$UpdateInquiryTable @@id, 'ihdtt', 'hdtt', 'cthdtt', 'stt_rec', @stt_rec, @@operation">
+  <!ENTITY CommandCheckTaxBeforeEdit "
+declare @taxOverLimit numeric(16, 2), @taxOverWarning numeric(16, 2), @taxDiff numeric(16, 2), @nTaxRate int, @taxRate numeric(5, 2), @msgError nvarchar(512), @roundTax int
+
+select top 1 @taxOverLimit = rtrim(val) from options where name = 'm_limit_tax_gh'
+select top 1 @taxOverWarning = rtrim(val) from options where name = 'm_limit_tax_cb'
+select top 1 @roundTax = rtrim(val) from options where name = 'm_round_tien'
+if ((isnull(@taxOverWarning, 0) > 0) or (isnull(@taxOverLimit, 0) > 0)) begin
+  select @nTaxRate = count(*) from (select distinct thue_suat from
+#IF $dtt.NewValue = $dtt.OldValue #THEN
+  cthdtt where stt_rec = @stt_rec
+#ELSE
+  @dtt
+#END
+) a
+  select @msgError = case when @@language = 'v' then N'Tổng tiền thuế lệch &lt;span class=&quot;Highlight&quot;&gt;$s&lt;/span&gt; đơn vị so với tổng tiền nhân thuế suất. ' else N'Total tax amount is varied &lt;span class=&quot;Highlight&quot;&gt;$s&lt;/span&gt; unit(s) from the multiplication of the amount by a tax rate. ' end
+  if @nTaxRate = 1 begin
+    select top 1 @taxRate = thue_suat from
+#IF $dtt.NewValue = $dtt.OldValue #THEN
+  cthdtt where stt_rec = @stt_rec
+#ELSE
+  @dtt
+#END
+    select @taxDiff = abs(round(((@t_tien2 - @t_ck) * @taxRate) / 100, @roundTax) - (select sum(thue) from
+#IF $dtt.NewValue = $dtt.OldValue #THEN
+  cthdtt where stt_rec = @stt_rec
+#ELSE
+  @dtt
+#END
+))
+  end
+  if @taxDiff >= @taxOverLimit begin
+    select '' as field, replace(@msgError, '$s', rtrim(@taxDiff)) as message
+    return
+  end
+  if @taxDiff >= @taxOverWarning select @$warning = @$warning + replace(@msgError, '$s', rtrim(@taxDiff))
+end
+">
+  <!ENTITY FastBusiness.Encryption.End "">
+
+  <!ENTITY CheckTaxCodeCondition "@ma_so_thue &lt;&gt; ''">
+  <!ENTITY CheckTaxCodeConditionByVAT "">
+  <!ENTITY CheckTaxCodeFieldValue "@ma_so_thue">
+  <!ENTITY CheckTaxCodeTableValue "default">
+  <!ENTITY % CheckTaxCode SYSTEM "..\Include\CheckTaxCode.ent">
+  %CheckTaxCode;
+
+  <!ENTITY % ResetCustInfo SYSTEM "..\Include\ResetCustInfo.ent">
+  %ResetCustInfo;
+]>
+
+<dir table="hdtt" code="stt_rec" order="ngay_ct, so_ct" id="HD7" type="Voucher" uniKey="true" navigation="true" name="cookie" check="true" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="hóa đơn thay thế" e="Replacement Invoice"></title>
+  <partition table="hdtt" prime="hdtt" inquiry="ihdtt" field="ngay_ct" expression="''" increase="{0}" default=""/>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_kh" allowNulls="false">
+      <header v="Mã khách" e="Customer"></header>
+      <items style="AutoComplete" controller="Customer" reference="ten_kh%l" key="kh_yn = 1 and status = '1'" check="kh_yn = 1" information="ma_kh$dmkh.ten_kh%l" new="Default"/>
+      <clientScript><![CDATA[onchange="onChange$Voucher$Customer(this);"]]></clientScript>
+    </field>
+    <field name="ten_kh%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ong_ba">
+      <header v="Người mua" e="Buyer"></header>
+    </field>
+    <field name="dien_giai">
+      <header v="Diễn giải" e="Memo"></header>
+    </field>
+
+    &XMLVoucherBookAndNumberFields;
+
+    <field name="so_ct" dataFormatString="@upperCaseFormat" align="right" allowNulls="false">
+      <header v="Số chứng từ" e="Voucher Number"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="so_seri" clientDefault="Default" dataFormatString="@upperCaseFormat" align="right" allowNulls="false">
+      <header v="Ký hiệu" e="Serial Number"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ngay_lct" type="DateTime" dataFormatString="@datetimeFormat" align="left" allowNulls="false">
+      <header v="Ngày lập" e="Voucher Date"></header>
+      <clientScript><![CDATA[onchange="onChange$Voucher$VoucherDate(this);"]]></clientScript>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="@datetimeFormat" align="left" allowNulls="false" inactivate="true" readOnly="true">
+      <header v="Ngày hạch toán" e="Posting Date"></header>
+    </field>
+    <field name="ma_nt" clientDefault="Default" allowNulls="false" inactivate="true">
+      <header v="Mã nt" e="Currency"></header>
+      <items style="AutoComplete" controller="Currency" reference="ten_nt%l" key="status = '1'" check="1=1" information="ma_nt$dmnt.ten_nt%l"/>
+    </field>
+    <field name="ten_nt%l" clientDefault="Default" readOnly="true" hidden="false" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ty_gia" type="Decimal" dataFormatString="@exchangeRateInputFormat" clientDefault="Default" defaultValue="1">
+      <header v="Tỷ giá" e="Ex. Rate"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="status" inactivate="true" clientDefault="1">
+      <header v="Trạng thái" e="Status"></header>
+      <items style="DropDownList">
+        <item value="0">
+          <text v="0. Lập chứng từ" e="0. No Action"/>
+        </item>
+        <item value="1">
+          <text v="1. Thay thế" e="1. Release"/>
+        </item>
+        &CancelStatusItem;
+      </items>
+    </field>
+
+    <field name="dtt" allowNulls="false" external="true" clientDefault="0" defaultValue="0" rows="144" filterSource="Tidy" categoryIndex="1">
+      <header v="" e=""></header>
+      <label v="Chi tiết" e="Detail"></label>
+      <items style="Grid" controller="RIDetail" row="1">
+        <item value="ForeignKey">
+          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+        </item>
+      </items>
+    </field>
+    <field name="ma_tt" categoryIndex="-1">
+      <header v="Mã thanh toán" e="Credit Term"></header>
+      <footer v="Mã &lt;u&gt;t&lt;/u&gt;hanh toán" e="Credit &lt;u&gt;T&lt;/u&gt;erm"></footer>
+      <items style="AutoComplete" controller="Term" reference="ten_tt%l" key="status = '1'" check="1 = 1" information="ma_tt$dmtt.ten_tt%l"/>
+    </field>
+    <field name="ten_tt%l" readOnly="true" external="true" defaultValue="''" categoryIndex="-1">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="t_tien_nt2" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" inactivate="true" categoryIndex="-1" disabled="true">
+      <header v="Tiền hàng nt" e="FC Amount"></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="onChange$VoucherValue(this);"]]></clientScript>
+    </field>
+    <field name="t_tien2" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" inactivate="true" categoryIndex="-1" disabled="true">
+      <header v="Tiền hàng" e="Amount"></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="onChange$VoucherValue(this);"]]></clientScript>
+    </field>
+    <field name="t_thue_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" inactivate="true" clientDefault="0" categoryIndex="-1" disabled="true">
+      <header v="Tiền thuế" e="Tax Amount"></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="onChange$VoucherValue(this);"]]></clientScript>
+    </field>
+    <field name="t_thue" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" inactivate="true" clientDefault="0" categoryIndex="-1" disabled="true">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="onChange$VoucherValue(this);"]]></clientScript>
+    </field>
+    <field name="t_ck_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" inactivate="true" categoryIndex="-1" disabled="true">
+      <header v="Tiền chiết khấu" e="Discount Amount"></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="onChange$VoucherValue(this);"]]></clientScript>
+    </field>
+    <field name="t_ck" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" inactivate="true" categoryIndex="-1" disabled="true">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="onChange$VoucherValue(this);"]]></clientScript>
+    </field>
+    <field name="t_tt_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" inactivate="true" categoryIndex="-1" disabled="true">
+      <header v="Tổng thanh toán" e="Total"></header>
+      <items style="Numeric"/>
+      <clientScript><![CDATA[onchange="onChange$VoucherValue(this);"]]></clientScript>
+    </field>
+    <field name="t_tt" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" inactivate="true" categoryIndex="-1" disabled="true">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+
+    &EIFields;
+
+    <field name="ten_khthue" categoryIndex="9">
+      <header v="Tên khách hàng" e="Customer Name"></header>
+    </field>
+    <field name="dia_chithue" categoryIndex="9">
+      <header v="Địa chỉ" e="Address"></header>
+    </field>
+    <field name="ma_so_thue" dataFormatString="@upperCaseFormat" categoryIndex="9">
+      <header v="Mã số thuế" e="Tax Code"></header>
+      <items style="Mask"></items>
+    </field>
+    <field name="ghi_chuthue" categoryIndex="9">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+
+    <field name="ma_dvcs" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="cookie" external="true" hidden="true" readOnly="true" defaultValue="''" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="stt_rec_hd" hidden="true" inactivate="true" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_ct_hd" hidden="true" inactivate="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_kh_hd" hidden="true" inactivate="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="so_ct_hd" dataFormatString="@upperCaseFormat" allowNulls="false" align="right" external="true" defaultValue="''" filterSource="Ignore" inactivate="true">
+      <header v="Số hóa đơn" e="Invoice Number"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="so_seri_hd" dataFormatString="@upperCaseFormat" align="right" external="true" defaultValue="''" filterSource="Ignore" inactivate="true">
+      <header v="Ký hiệu hóa đơn" e="Invoice Serial No."></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ngay_ct_hd" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" align="left" external="true" defaultValue="''" filterSource="Ignore" inactivate="true">
+      <header v="Ngày hóa đơn" e="Invoice Date"></header>
+    </field>
+
+    <field name="so_hd_goc" dataFormatString="@upperCaseFormat" allowNulls="false" align="right" external="true" defaultValue="''" filterSource="Ignore" inactivate="true" categoryIndex="5">
+      <header v="Số tham chiếu" e="Reference Number"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="mau_hd_goc" dataFormatString="@upperCaseFormat" allowNulls="false" align="right" external="true" defaultValue="''" filterSource="Ignore" inactivate="true" categoryIndex="5">
+      <header v="Mẫu số" e="Form"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ky_hieu_hd_goc" dataFormatString="@upperCaseFormat" allowNulls="false" align="right" external="true" defaultValue="''" filterSource="Ignore" inactivate="true" categoryIndex="5">
+      <header v="Ký hiệu" e="Serial"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ngay_hd_goc" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" align="left" external="true" defaultValue="''" filterSource="Ignore" inactivate="true" categoryIndex="5">
+      <header v="Ngày" e="Date"></header>
+    </field>
+    <field name="ly_do_dc" allowNulls="false" external="true" defaultValue="''" maxLength="512" allowContain="true" categoryIndex="5">
+      <header v="Lý do điều chỉnh, thay thế" e="Reason of Adjustment, Replacement"></header>
+      <footer v="Lý do" e="Reason"></footer>
+    </field>
+    <field name="ngay_bb" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" align="left" categoryIndex="5" external="true" defaultValue="''" allowContain="true">
+      <header v="Ngày biên bản điều chỉnh, thay thế" e="Date of Adjustment, Replacement Minute"></header>
+      <footer v="Ngày biên bản" e="Date of Minute"></footer>
+      <items style="Mask"></items>
+    </field>
+    <field name="so_bb" dataFormatString="@upperCaseFormat" allowNulls="false" external="true" defaultValue="''" maxLength="32" allowContain="true" align="right" categoryIndex="5">
+      <header v="Số biên bản điều chỉnh, thay thế" e="Number of Adjustment, Replacement Minute"></header>
+      <footer v="Số biên bản" e="Number of Minute"></footer>
+      <items style="Mask"></items>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir" height="204" anchor="9" split="10">
+      <item value="100, 30, 70, 9, 120, 100, 8, 100, 0, 0, 8, 58, 42, 8, 100, 0"/>
+      <item value="1101000000-10011: [ma_kh].Label, [ma_kh], [ten_kh%l], [so_ct].Label, [so_ct], [ma_nk]"/>
+      <item value="110------1-10011: [ong_ba].Label, [ong_ba], [ma_ct_hd], [so_seri].Label, [so_seri], [stt_rec]"/>
+      <item value="110--1-1-1-10011: [so_ct_hd].Label, [so_ct_hd], [so_seri_hd].Label, [so_seri_hd], [stt_rec_hd], [ngay_lct].Label, [ngay_lct], [ngay_ct]"/>
+      <item value="110------1-11011: [ngay_ct_hd].Label, [ngay_ct_hd], [ma_kh_hd], [ty_gia].Label, [ma_nt], [ty_gia], [ma_dvcs]"/>
+      <item value="1100000000-11001: [dien_giai].Label, [dien_giai], [status].Label, [status], [cookie]"/>
+
+      <item value="1: [dtt]"/>
+
+      <item value="110-----------: [so_hd_goc].Label, [so_hd_goc]"/>
+      <item value="110-----------: [mau_hd_goc].Label, [mau_hd_goc]"/>
+      <item value="110-----------: [ky_hieu_hd_goc].Label, [ky_hieu_hd_goc]"/>
+      <item value="110-----------: [so_bb].Description, [so_bb]"/>
+      <item value="110-----------: [ngay_bb].Description, [ngay_bb]"/>
+      <item value="110000000-----: [ly_do_dc].Description, [ly_do_dc]"/>
+
+      &EIViews;
+
+      <item value="110000000-----: [ten_khthue].Label, [ten_khthue]"/>
+      <item value="110000000------: [dia_chithue].Label, [dia_chithue]"/>
+      <item value="110000000------: [ma_so_thue].Label, [ma_so_thue]"/>
+      <item value="110000000------: [ghi_chuthue].Label, [ghi_chuthue]"/>
+
+      <item value="1110000-1-10-1--: [ma_tt].Description, [ma_tt], [ten_tt%l],[t_tien2].Label, [t_tien_nt2], [t_tien2]"/>
+      <item value="--------1-10-1--: [t_ck_nt].Label, [t_ck_nt], [t_ck]"/>
+      <item value="--------1-10-1--: [t_thue_nt].Label, [t_thue_nt], [t_thue]"/>
+      <item value="--------1-10-1--: [t_tt_nt].Label, [t_tt_nt], [t_tt]"/>
+
+      <categories>
+        <category index="1" columns="769" anchor="1">
+          <header v="Chi tiết" e="Detail"/>
+        </category>
+        <category index="5" columns="100, 30, 70, 35, 52, 50, 100, 100, 0, 8, 58, 42, 8, 100, 0, 0" anchor="9" split="10">
+          <header v="Chứng từ gốc" e="Include"/>
+        </category>
+
+        &EICategory;
+
+        <category index="9" columns="100, 30, 70, 35, 52, 50, 100, 100, 0, 8, 58, 42, 8, 100, 0, 0" anchor="9" split="10">
+          <header v="Khác" e="Other"/>
+        </category>
+        <category index="-1" columns="100, 100, 100, 29, 100, 0, 0, 8, 100, 8, 58, 42, 8, 100, 0" anchor="4" split="7">
+          <header v="" e=""/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    &XMLWhenVoucherInit;
+
+    <command event="Loading">
+      <text>
+        &CommandWhenVoucherLoading;
+        &CommandGetVoucherNumber;
+        <![CDATA[
+declare @message nvarchar(4000)
+]]>&CommandQueryVoucherNumber;<![CDATA[ + ';active$Voucher$(this);']]>
+        &CommandGetTaxRate;
+        &CommandCheckVoucherHandleBeforeEdit;
+        &CommandWhenVoucherBeforeEdit;
+        &ESWhenBeforeEdit;
+        <![CDATA[
+select @message as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        &CommandGetVoucherNumber;
+        <![CDATA[
+declare @message nvarchar(4000)
+]]>&CommandScatterVoucherNumber;<![CDATA[ + ';scatter$Voucher$(this);']]>
+        &CommandCheckVoucherHandleBeforeEdit;
+        &CommandWhenVoucherBeforeEdit;
+        &ESWhenBeforeEdit;
+        <![CDATA[
+select @message as message
+return
+]]>
+      </text>
+    </command>
+
+    &XMLWhenVoucherNavigating;
+
+    <command event="Declare">
+      <text>
+        &CheckTaxCodeDeclare;
+        <![CDATA[
+declare @q nvarchar(4000), @ext char(6)
+select @ext = convert(char(6), ngay_ct, 112) from @@prime where stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+
+    <command event="InitExternalFields">
+      <text>
+        &CommandExternalFieldDeclare;<![CDATA[, @customerID varchar(32), @s nvarchar(4000), @taxRate numeric(5, 2), @taxCode varchar(32)
+, @$mTable char(64), @$eTable char(64)
+, @invID char(13), @invCode varchar(32)
+, @invNumber varchar(32), @invSerial varchar(32), @invDate smalldatetime, @invCustomer varchar(32)
+
+, @eOriginalNumber varchar(32), @eOriginalSerial varchar(32), @eOriginalForm varchar(32)
+, @eOriginalReason nvarchar(512), @eOriginalMinute varchar(32), @eOriginalDate smalldatetime
+]]>
+        &CommandExternalFieldSelect;<![CDATA[, @customerID = ma_kh, @invID = stt_rec_hd, @invCode = ma_ct_hd from @@prime$partition$current where stt_rec = @stt_rec]]>
+        &CommandExternalFieldSet;<![CDATA[
+if @invCode = 'HDA' select @$mTable = 'm81$'+ convert(char(6), (select ngay_ct from c81$000000 where stt_rec = @invID), 112), @$eTable = 'hddt00$'+ convert(char(6), (select ngay_ct from c81$000000 where stt_rec = @invID), 112)
+  else if @invCode = 'HD1' select @$mTable = 'm21$'+ convert(char(6), (select ngay_ct from c21$000000 where stt_rec = @invID), 112), @$eTable = 'hddt00$'+ convert(char(6), (select ngay_ct from c21$000000 where stt_rec = @invID), 112)
+  else if @invCode = 'HD2' select @$mTable = 'm22$'+ convert(char(6), (select ngay_ct from c22$000000 where stt_rec = @invID), 112), @$eTable = 'hddt00$'+ convert(char(6), (select ngay_ct from c22$000000 where stt_rec = @invID), 112)
+  else if @invCode = 'HD7' select @$mTable = 'hdtt', @$eTable = 'hddt00$'+ convert(char(6), (select ngay_ct from hdtt where stt_rec = @invID), 112)
+  else if @invCode = 'PXC' select @$mTable = 'm86$'+ convert(char(6), (select ngay_ct from c86$000000 where stt_rec = @invID), 112), @$eTable = 'hddt00$'+ convert(char(6), (select ngay_ct from c86$000000 where stt_rec = @invID), 112)
+  else if @invCode = 'PXD' select @$mTable = 'm26$000000', @$eTable = 'hddt00$'+ convert(char(6), (select ngay_ct from m26$000000 where stt_rec = @invID), 112)
+
+select top 0 a.so_ct, a.so_seri, a.ngay_ct, a.ma_kh, b.mau_hddt, b.so_seri_hddt, b.so_ct_hddt into #t from m81$000000 a, hddt00$000000 b
+
+if exists(select 1 from information_schema.tables where table_name = @$mTable) begin
+  select @s = '
+insert into #t (so_ct, so_seri, ngay_ct, ma_kh, mau_hddt, so_seri_hddt, so_ct_hddt)
+  select a.so_ct, a.so_seri, a.ngay_ct, a.ma_kh, b.mau_hddt, b.so_seri_hddt, b.so_ct_hddt
+    from ' + rtrim(@$mTable) + ' a left join ' + rtrim(@$eTable) + ' b on a.stt_rec = b.stt_rec
+    where a.stt_rec = @invID
+'
+  exec sp_executesql @s, N'@invID char(13)', @invID
+end
+select top 1 @invNumber = so_ct, @invSerial = so_seri, @invDate = ngay_ct, @invCustomer = ma_kh, @eOriginalNumber = so_ct_hddt, @eOriginalSerial = so_seri_hddt, @eOriginalForm = mau_hddt from #t
+select top 1 @eOriginalReason = ly_do_dc, @eOriginalMinute = so_bb, @eOriginalDate = ngay_bb from v04$000000 where stt_rec = @stt_rec
+
+select @invNumber = isnull(@invNumber, ''), @invSerial = isnull(@invSerial, ''), @invCustomer = isnull(@invCustomer, ''),
+  @eOriginalNumber = isnull(@eOriginalNumber, ''), @eOriginalSerial = isnull(@eOriginalSerial, ''), @eOriginalForm = isnull(@eOriginalForm, ''),
+  @eOriginalReason = isnull(@eOriginalReason, ''), @eOriginalMinute = isnull(@eOriginalMinute, ''), @eOriginalDate = isnull(@eOriginalDate, '')
+]]>
+        &ESInitExternalFieldsSet;
+        &CommandExternalFieldQuery;&f;&EIInitExternalFields;<![CDATA[ from dmkh where ma_kh = @customerID
+
+drop table #t
+return
+]]>
+      </text>
+    </command>
+
+    &XMLWhenVoucherCopying;
+    &XMLWhenVoucherClosing;
+
+    <command event="Inserting">
+      <text>
+        &CommandCheckLockedDate;
+        &CommandCheckVoucherHandleBeforeSave;
+        &EIWhenBeforeInsert;
+        &CommandCheckVoucherNumber;
+        &CommandCheckTaxCodeBeforeSave;
+        &CommandCheckTaxBeforeEdit;
+        &CommandGetIdentityNumber;
+        <![CDATA[
+select @ma_dvcs = @@unit, @ma_ct = @@id, @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+update @dtt set stt_rec = @stt_rec, ma_ct = @ma_ct, ngay_ct = @ngay_ct, so_ct = @so_ct
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+insert into cthdtt select * from @dtt
+insert into v04$000000 (stt_rec, ma_ct, ly_do_dc, so_bb, ngay_bb) select @stt_rec, @@id, @$ly_do_dc, @$so_bb, @$ngay_bb
+]]>
+        &ESPostInsert;
+        &AfterUpdate;
+        <![CDATA[
+exec FastBusiness$App$IncreaseVoucherNumber @ma_nk, @@id, @so_ct
+]]>&CommandShowWarningMessage;<![CDATA[, @stt_rec as stt_rec, @@unit as ma_dvcs else
+select @stt_rec as stt_rec, @@unit as ma_dvcs
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        &CommandRecordHasBeenChanged;
+        &CommandCheckLockedDate;
+        &CommandCheckVoucherHandleBeforeSave;
+        &ESWhenBeforeUpdate;
+        &CommandCheckVoucherNumber;
+        &CommandCheckTaxCodeBeforeSave;
+        &CommandCheckTaxBeforeEdit;
+        &EIWhenBeforeUpdateLog;
+        <![CDATA[
+#IF $dtt.NewValue = $dtt.OldValue #THEN
+  update cthdtt set stt_rec = @stt_rec, ngay_ct = @ngay_ct, so_ct = @so_ct, ma_ct = @@id where stt_rec = @stt_rec
+#ELSE
+  update @dtt set stt_rec = @stt_rec, ngay_ct = @ngay_ct, so_ct = @so_ct, ma_ct = @@id
+  delete cthdtt where stt_rec = @stt_rec
+#END
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+#IF $dtt.NewValue <> $dtt.OldValue #THEN
+  insert into cthdtt select * from @dtt
+#END
+
+delete v04$000000 where stt_rec = @stt_rec
+insert into v04$000000 (stt_rec, ma_ct, ly_do_dc, so_bb, ngay_bb) select @stt_rec, @@id, @$ly_do_dc, @$so_bb, @$ngay_bb
+
+update @@prime set datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec
+update @@prime set ngay_ct = ngay_lct, datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec
+]]>
+        &ESPostUpdate;
+        &PrintAdjustUpdate;
+        &AfterUpdate;
+        &EndUpdatedVoucherNumber;
+        &CommandShowWarningMessage;
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        &CommandCheckVoucherHandleBeforeDelete;
+        &CommandWhenVoucherBeforeDelete;
+        &ESWhenBeforeDelete;
+        <![CDATA[
+delete @@inquiry where stt_rec = @stt_rec
+delete cthdtt where stt_rec = @stt_rec
+delete @@master where stt_rec = @stt_rec
+delete v04$000000 where stt_rec = @stt_rec
+]]>
+        &ESPostDelete;
+        &PrintAdjustDelete;
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[/* <flatten type="Javascript"> */
+var f = this, id = f.get_id(), v = f._language == 'v';
+var e1 = (v ? 'Thông tin mã khách của chứng từ phải giống với hóa đơn bị thay thế.' : 'Replacement Voucher should have same customer information as Sales Invoice.');
+var k = $func.trim(f.getItemValue('ma_kh_hd'));
+if (k && $func.trim(f.getItemValue('ma_kh')) != k) {
+  $func.hideWait(id);
+  $message.show(e1, String.format('$find(\'{0}\').getItem(\'ma_kh\').focus()', id));
+  f._checked = false;
+  break;
+}
+/* </flatten> */]]>
+        &EISetAuthentication;
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &ScriptVoucherInit;
+      <![CDATA[
+function init$Voucher$(f) {initialize(f, 'ong_ba', null, null, 'status');}
+function active$Voucher$(f) {]]>&ScriptActiveVoucher;<![CDATA[
+  f.add_commandEvent(on$Voucher$ExecuteCommand);
+  f._tabContainer.add_activeTabChanged(onChange$Voucher$Tab);
+  f._tabContainer._loaded = true;
+  ]]>&EISetFieldsReadOnly;&EISetFormButtonEdit;&CancelStatusDefault;<![CDATA[
+  f.setReadOnlyFields('so_ct_hd, so_seri_hd, ngay_ct_hd, so_hd_goc, mau_hd_goc, ky_hieu_hd_goc');
+}
+function scatter$Voucher$(f) {]]>&ScriptScatterVoucher;<![CDATA[
+  ]]>&EISetFieldsReadOnly;&EISetFormButtonEdit;&CancelStatusDefault;<![CDATA[
+  f.setReadOnlyFields('so_ct_hd, so_seri_hd, ngay_ct_hd, so_hd_goc, mau_hd_goc, ky_hieu_hd_goc');
+}
+function close$Voucher$(f) {]]>&ScriptCloseVoucher;<![CDATA[
+  if (f._tabContainer) try {f._tabContainer.remove_activeTabChanged(onChange$Voucher$Tab);} catch (ex) {}
+}
+function on$Voucher$ExecuteCommand(sender, e) {
+  var action = e.type.Action, f = sender, g = f.getItem('dtt')._controlBehavior;
+  switch (action) {
+    case 'Gather':
+      g.setSequenceNumber('line_nbr');
+      g.setContinuance('stt_rec0');
+      break;
+    case 'Explore':
+      ]]>&CancelStatusExplore;<![CDATA[
+      break;
+    default:
+      break;
+  }
+}
+]]>&ScriptVoucherNumber;<![CDATA[
+objectBehavior$Voucher$Currency = {
+  ]]>&ScriptCurrency;<![CDATA[
+  create: function(f) {
+    var d = f.getItem('ngay_lct'), p = f.getItem('ngay_ct'), c = f.getItem('ma_nt'), r = f.getItem('ty_gia'), g = f.getItem('dtt')._controlBehavior;
+    var v = f._currencyBehavior = $create(FastBusiness.AjaxControlExtender.Currency, {id: f._id + '_currencyBehavior', currencyDate: d, referenceDate: null, exchangeRate: r, form: f, baseCurrency: f._baseCurrency, flush: true}, null, null, c);
+    v.set_currencyFields('t_tien_nt2,t_thue_nt,t_tt_nt,t_ck_nt:t_tien2,t_thue,t_tt,t_ck');
+    v.addGridFields(g, 'gia_nt,tien_nt2,ck_nt,thue_nt:gia,tien2,ck,thue');
+    v.addTotalFields(g, [
+    ['t_tien_nt2', 'tien_nt2'],
+    ['t_tien2', 'tien2'],
+    ['t_ck_nt', 'ck_nt'],
+    ['t_ck', 'ck'],
+    ['t_thue_nt', '[thue_nt]'],
+    ['t_thue', '[thue]']
+    ]);
+    v.set_referenceFields(null);
+    v.set_executeExpression(['[t_tt_nt]:=[t_tien_nt2] - [t_ck_nt]+[t_thue_nt]', '[t_tt]:=[t_tien2] - [t_ck]+[t_thue]']);
+  ]]>&CurrencyDateChanged;<![CDATA[
+  onCurrencySelected: function(sender, e) {
+    var f = sender.get_element().parentForm;
+    if (e.object._baseCurrency == e.type) {
+      var a = [['dtt', 'ma_tt']];
+      focus$Voucher$Tab(f, a);
+    }
+  }
+}
+function on$Voucher$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Loading':
+      ]]>&VoucherNumberLoading;<![CDATA[
+      break;
+    case 'Scattering':
+      ]]>&VoucherNumberScattering;<![CDATA[
+      break;
+    ]]>&VoucherNumberReading;
+      &CurrencyResponse;<![CDATA[
+    case 'Customer':
+      f.setItemControlBehavior('ten_khthue', result[0].Value, null, true);
+      f.setItemControlBehavior('ong_ba', result[1].Value, null, ]]>&ResetCustInfoFields;<![CDATA[);
+      f.setItemControlBehavior('dia_chithue', result[2].Value, null, ]]>&ResetCustInfoFields;<![CDATA[);
+      f.setItemControlBehavior('ma_so_thue', result[3].Value, null, ]]>&ResetCustInfoFields;<![CDATA[);
+      ]]>&EICustomerResponseComplete;<![CDATA[
+      f.live(f.getItem('ong_ba'));
+      break;
+    ]]>&EIResponseCompleteChecking;<![CDATA[
+    default:
+      break;
+  }
+}
+/* <flatten type="Javascript"> */
+function when$VoucherCopying(f) {
+  f.setItemValues('stt_rec, stt_rec_hd, ma_ct_hd, ma_kh_hd, so_ct_hd, so_seri_hd, ngay_ct_hd, so_hd_goc, mau_hd_goc, ky_hieu_hd_goc, ly_do_dc, so_bb, ngay_bb', ['', '', '', '', '', null, '', '', '', '', '', null]);
+  f._detailTax$VoucherCopy = true;
+}
+function onChange$Voucher$Tab(sender, e) {
+  var a = ['dtt'];
+  focus$Voucher$Tab(sender.parentForm, a);
+}
+function focus$Voucher$Tab(f, a) {
+  Array.add(a, 'so_bb');
+  if (f._usedEI) Array.add(a, 'sd_hddt_yn');
+  Array.add(a, 'ten_khthue');
+  f.focusWhenTabChanged(a);
+}
+function onChange$Voucher$Customer(o) {o.parentForm.request('Customer', 'Customer', ['ma_kh'], o);}
+function onChange$VoucherValue(o) {
+  var f = o.parentForm, c = o.field.Name;
+  switch (c) {
+    case 't_tien_nt2':
+      f.executeExpression(['[t_tien2]:=[t_tien_nt2]*[ty_gia]', '[t_tt_nt]:=[t_tien_nt2] - [t_ck_nt]+[t_thue_nt]', '[t_tt]:=[t_tien2] - [t_ck]+[t_thue]']);
+      break;
+    case 't_tien2':
+      f.executeExpression(['[t_tt]:=[t_tien2] - [t_ck]+[t_thue]']);
+      break;
+    case 't_thue_nt':
+      f.executeExpression(['[t_thue]:=[t_thue_nt]*[ty_gia]', '[t_tt_nt]:=[t_tien_nt2] - [t_ck_nt]+[t_thue_nt]', '[t_tt]:=[t_tien2] - [t_ck]+[t_thue]']);
+      f.live(f.getItem('t_thue'));
+      break;
+    case 't_thue':
+      f.executeExpression(['[t_tt]:=[t_tien2] - [t_ck]+[t_thue]']);
+      break;
+    case 't_ck_nt':
+      f.executeExpression(['[t_ck]:=[t_ck_nt]*[ty_gia]', '[t_tt_nt]:=[t_tien_nt2] - [t_ck_nt]+[t_thue_nt]', '[t_tt]:=[t_tien2] - [t_ck]+[t_thue]']);
+      break;
+    case 't_ck':
+      f.executeExpression(['[t_tt]:=[t_tien2] - [t_ck]+[t_thue]']);
+      break;
+    case 't_tt_nt':
+      f.executeExpression(['[t_tt]:=[t_tt_nt]*[ty_gia]']);
+      break;
+    default:
+      break;
+  }
+}
+function onChange$Voucher$VoucherDate(o) {o.parentForm.getItem('ngay_ct').value = o.parentForm.getItem('ngay_lct').value;}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="Reading">
+      <text>
+        &CommandSetVoucherNumber;
+      </text>
+    </action>
+
+    <action id="Customer">
+      <text>
+        <![CDATA[
+if exists(select 1 from dmkh where ma_kh = @ma_kh and kh_yn = 1) begin
+  ]]>&EICustomerResponseExists;<![CDATA[
+  select rtrim(a.ten_kh) as ten_kh, rtrim(doi_tac) as ong_ba, rtrim(a.dia_chi) as dia_chi, rtrim(a.ma_so_thue) as ma_so_thue]]>&EICustomerResponseValue;<![CDATA[ from dmkh a where a.ma_kh = @ma_kh
+  return
+end
+]]>
+      </text>
+    </action>
+
+    &XMLGetVoucherNumber;
+    &XMLGetExchangeRate;
+  </response>
+
+</dir>

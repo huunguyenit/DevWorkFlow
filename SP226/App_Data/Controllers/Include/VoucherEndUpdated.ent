@@ -1,0 +1,7 @@
+﻿<!ENTITY % Conditional.VoucherNumber SYSTEM "..\Include\VoucherNumber.txt">
+
+<![%Conditional.VoucherNumber;[
+  <!ENTITY EndUpdatedVoucherNumber "exec FastBusiness$App$IncreaseVoucherNumber @ma_nk, @@id, @so_ct">
+]]>
+
+<!ENTITY EndUpdatedVoucherNumber "">

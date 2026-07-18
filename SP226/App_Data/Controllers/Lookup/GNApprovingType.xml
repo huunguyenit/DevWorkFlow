@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="gndmloaiduyet" code="loai_duyet" name="ten_loai%l" order="loai_duyet" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục chức năng" e="Function List"></header>
+  <fields>
+    <field name="loai_duyet" allowSorting="true" allowFilter="true">
+      <header v="Mã" e="Code"></header>
+    </field>
+    <field name="ten_loai%l" allowSorting="true" allowFilter="true">
+      <header v ="Tên chức năng" e = "Description"></header>
+    </field>
+  </fields>
+</lookup>

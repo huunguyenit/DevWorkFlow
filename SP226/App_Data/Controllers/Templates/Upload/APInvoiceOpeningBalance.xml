@@ -1,0 +1,118 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+
+  <!ENTITY And "&#13;">
+  <!ENTITY Checking "@@checking">
+  <!ENTITY Inserting "@@inserting">
+  <!ENTITY Updating "@@updating">
+]>
+
+<import xmlns="urn:schemas-fast-com:data-import">
+  <setting>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$APInvoiceOpeningBalanceImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$APInvoiceOpeningBalanceImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+    <baseTable value="cttt30"/>
+    <table value="cttt30" alias="a"/>
+    <temporary value="#k" alias="b"/>
+  </setting>
+
+  <fields identity="true" name="stt">
+    <field name="ma_dvcs" column="A" isPrimaryKey="true" allowNulls="false" upperCase="true" updateValue="None" check="ma_dvcs not in (select ma_dvcs from dmdvcs where status = '1')&And;ma_dvcs in (select distinct ma_dvcs from dmdvcsks where year(ngay_ks) >= @year)&And;not exists(select 1 from cttt30 b where @@table.so_ct = b.so_ct and @@table.ngay_ct = b.ngay_ct and b.ma_ct = @voucherID) and @@table.ma_dvcs not in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_new = 1)&And;exists(select 1 from cttt30 b where @@table.so_ct = b.so_ct and @@table.ngay_ct = b.ngay_ct and b.ma_ct = @voucherID) and @@table.ma_dvcs not in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_edit = 1)" condition="&And;&And;if (@admin &lt;&gt; 1) begin&And;if (@admin &lt;&gt; 1 and @type = '1') begin" tag="&And;&And;end&And;end"/>
+    <field name="ngay_ct" column="B" isPrimaryKey="true" allowNulls="false" type="DateTime" updateValue="None"/>
+    <field name="ngay_ct0" column="C" allowNulls="false" type="DateTime"/>
+    <field name="so_ct" column="D" isPrimaryKey="true" allowNulls="false" upperCase="true" updateValue="None"/>
+    <field name="ma_kh" column="E" allowNulls="false" upperCase="true" check="ma_kh not in (select ma_kh from dmkh)"/>
+    <field name="tk" column="G" upperCase="true" check="tk not in (select tk from dmtk where tk_cn = 1 and loai_tk = 1)"/>
+    <field name="dien_giai" column="H"/>
+    <field name="ma_nt" column="I" upperCase="true" check="ma_nt not in (select ma_nt from dmnt)"/>
+    <field name="t_tt_nt" column="J" type="Decimal" insertValue="case when a.ma_nt = '' then 0 else a.t_tt_nt end" updateValue="case when b.ma_nt = '' then 0 else b.t_tt_nt end"/>
+    <field name="ty_gia" column="K" type="Decimal" defaultValue="1"/>
+    <field name="t_tt_qd0" column="L" type="Decimal"/>
+    <field name="ma_tt" column="M" upperCase="true" check="ma_tt &lt;&gt; '' and ma_tt not in (select ma_tt from dmtt)"/>
+    <field name="tat_toan" column="N" type="Decimal" defaultValue="0" check="tat_toan not in ('0', '1')"/>
+
+    <field name="stt_rec" column=""/>
+    <field name="ma_ct" column="None" insertValue="@voucherID" updateValue="None"/>
+    <field name="so_ct0" column="None" insertValue="so_ct" updateValue="b.so_ct"/>
+    <field name="t_tt" column="None" type="Decimal" insertValue="case when a.ma_nt = '' then a.t_tt_nt else round(a.t_tt_nt * a.ty_gia, @round) end" updateValue="case when b.ma_nt = '' then b.t_tt_nt else round(b.t_tt_nt * b.ty_gia, @round) end"/>
+    <field name="t_tt0" column="None" type="Decimal" insertValue="case when a.ma_nt = '' then a.t_tt_nt else round(a.t_tt_nt * a.ty_gia, @round) end" updateValue="case when b.ma_nt = '' then b.t_tt_nt else round(b.t_tt_nt * b.ty_gia, @round) end"/>
+    <field name="t_tt1" column="None" type="Decimal" insertValue="case when a.ma_nt = '' then a.t_tt_qd0 else round(a.t_tt_qd0 * a.ty_gia, @round) end" updateValue="case when b.ma_nt = '' then b.t_tt_qd0 else round(b.t_tt_qd0 * b.ty_gia, @round) end"/>
+    <field name="t_tt_nt0" column="None" type="Decimal" insertValue="case when a.ma_nt = '' then 0 else a.t_tt_nt end" updateValue="case when b.ma_nt = '' then 0 else b.t_tt_nt end"/>
+    <field name="t_tt_nt1" column="None" type="Decimal" insertValue="case when a.ma_nt = '' then 0 else a.t_tt_qd0 end" updateValue="case when b.ma_nt = '' then 0 else b.t_tt_qd0 end"/>
+    <field name="t_tt_qd" column="None" type="Decimal" insertValue="a.t_tt_qd0" updateValue="b.t_tt_qd0"/>
+
+    <field name="datetime0" column="None" type="DateTime" insertValue="getdate()" updateValue="None"/>
+    <field name="datetime2" column="None" type="DateTime" insertValue="getdate()" updateValue="getdate()"/>
+    <field name="user_id0" column="None" type="Int" insertValue="@@userID" updateValue="None"/>
+    <field name="user_id2" column="None" type="Int" insertValue="@@userID" updateValue="@@userID"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+declare @q nvarchar(4000), @message nvarchar(4000), @fields nvarchar(4000), @field varchar(32), @wsID varchar(1), @voucherID varchar(8)
+declare @user int, @admin bit, @m int, @year int, @r int, @i int, @count int, @baseCurrency varchar(10), @round int
+
+select @i = 1, @voucherID = 'PN0', @admin = @@admin, @user = @@userID, @year = nam_bd from dmstt
+select @baseCurrency = rtrim(val) from options where rtrim(name) = 'm_ma_nt0'
+select @wsID = rtrim(val) from options where rtrim(name) = 'm_ws_id'
+select @round = cast(rtrim(val) as int) from options where name = 'm_round_tien'
+select @m = character_maximum_length from information_schema.columns where table_name = 'wrkcolumns' and column_name = 'so_ct'
+
+update @@table set so_ct = space(@m - len(rtrim(so_ct))) + ltrim(so_ct), 
+    ma_nt = case when a.ma_nt <> '' then a.ma_nt else @baseCurrency end,
+    tk = case when a.tk <> '' then a.tk else b.tk end,
+    ma_tt = case when a.ma_tt <> '' then a.ma_tt else b.ma_tt end
+from @@table a left join dmkh b on a.ma_kh = b.ma_kh
+
+if @admin <> 1 begin
+  if @type = '1' begin
+    if @@sysDatabaseName.dbo.FastBusiness$System$GetAuthorize(@admin, @user, 'APInvoiceOpeningBalance', 'Edit') = 0 select @type = '0'
+  end
+end
+
+-- Checking
+]]>&Checking;<![CDATA[
+
+select @count = count(*) from @@table
+if @type = '0' delete @@table from @@table a where exists(select 1 from cttt30 b where a.ma_dvcs = b.ma_dvcs and a.ngay_ct = b.ngay_ct and a.so_ct = b.so_ct and b.ma_ct = @voucherID)
+
+update @@table set stt_rec = b.stt_rec
+  from @@table a join (select c.ma_dvcs, c.ngay_ct, c.so_ct, min(c.stt_rec) as stt_rec from cttt30 c join @@table d on c.ma_dvcs = d.ma_dvcs and c.ngay_ct = d.ngay_ct and c.so_ct = d.so_ct where c.ma_ct = @voucherID group by c.ma_dvcs, c.ngay_ct, c.so_ct) b on a.ma_dvcs = b.ma_dvcs and a.ngay_ct = b.ngay_ct and a.so_ct = b.so_ct
+
+select * into #k from @@table where stt_rec <> ''
+
+select @field = 'ma_dvcs', @r = min(a.stt) from #k a join cttt30 b on left(a.stt_rec, 10) = left(b.stt_rec_tt, 10) and b.loai_tt = 1]]>&Error;<![CDATA[
+
+delete @@table from @@table a where exists(select 1 from #k b where a.ma_dvcs = b.ma_dvcs and a.ngay_ct = b.ngay_ct and a.so_ct = b.so_ct)
+
+-- Insert
+if @count > 0 begin
+  exec FastBusiness$App$UpdateIdentityNumber @wsID, @voucherID, @count, @user, '@@table', 'stt_rec', 'stt'
+  update @@table set ma_nt = '', ty_gia = 0 where ma_nt = @baseCurrency
+  ]]>&Inserting;<![CDATA[
+end
+
+-- Update
+if @type = '1' begin
+  update #k set ma_nt = '', ty_gia = 0 where ma_nt = @baseCurrency
+  update cttt30 set @@list from cttt30 a join #k b on a.stt_rec = b.stt_rec
+end
+]]>
+    </text>
+  </processing>
+
+</import>

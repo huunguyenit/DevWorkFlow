@@ -1,0 +1,421 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY OutlineCss SYSTEM "..\Include\Javascript\OutlineCss.txt">
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+]>
+
+<dir table="hreqtlvht" code="stt_rec, stt_rec0" order="stt_rec, stt_rec0" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thông tin quá trình làm việc tại công ty" e="Current Work Information"></title>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" hidden="true" readOnly="true" allowNulls="false">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"></items>
+    </field>
+
+    <field name="loai" dataFormatString="1, 2" clientDefault="1" align="right" allowNulls="false">
+      <header v="Loại" e="Type"></header>
+      <footer v="1 - Công việc hiện tại, 2 - Trước đây" e="1 - Current Position, 2 - Previous"></footer>
+      <items style="Mask"/>
+    </field>
+    <field name="tinh_chat" dataFormatString="1, 2" clientDefault="1" align="right" allowNulls="false">
+      <header v="Tính chất" e="Nature"></header>
+      <footer v="1 - Công việc chính, 2 - Kiêm nhiệm" e="1 - Official Position, 2 - Concurrent"></footer>
+      <items style="Mask"/>
+    </field>
+    <field name="loai_thay_doi" clientDefault="1">
+      <header v="Loại thay đổi" e="Change Category"></header>
+      <items style="DropDownList">
+        <item value="1">
+          <text v="1. Tăng mới" e="1. New Employment"/>
+        </item>
+        <item value="2">
+          <text v="2. Điều chuyển bộ phận" e="2. Department Transfer"/>
+        </item>
+        <item value="3">
+          <text v="3. Điều chuyển vị trí công việc" e="3. Position Transfer"/>
+        </item>
+        <item value="4">
+          <text v="4. Ngừng việc" e="4. Suspension"/>
+        </item>
+        <item value="5">
+          <text v="5. Đi làm lại" e="5. Resume Working"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;<![CDATA[ onchange="onChange$WorkingHistory$ChangeCategory(this);"]]></clientScript>
+    </field>
+    <field name="bo_phan" allowNulls="false">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="AutoComplete" controller ="hrDepartment" key="status = 1" check="1 = 1" reference="ten_bp%l" information="ma_bp$hrbp.ten_bp%l"></items>
+    </field>
+    <field name="ten_bp%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="vi_tri" allowNulls="false">
+      <header v="Vị trí công việc" e="Position"></header>
+      <items style="AutoComplete" controller="hrPosition" reference="ten_vtr%l" key="status = '1'" check="1 = 1" information="ma_vtr$hrvt.ten_vtr%l" new="Default"/>
+      <clientScript><![CDATA[onchange="onChange$WorkingHistory$Position(this);"]]></clientScript>
+    </field>
+    <field name="ten_vtr%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="bac_quan_ly" allowNulls="false">
+      <header v="Bậc quản lý" e="Job Grade"></header>
+      <items style="AutoComplete" controller="hrManagerLevel" reference="ten_bac%l" key="status = '1'" check="1 = 1" information="ma_bac$hrdmbql.ten_bac%l" new="Default"/>
+    </field>
+    <field name="ten_bac%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="nguoi_quan_ly">
+      <header v="Người quản lý trực tiếp" e="Direct Supervisor"></header>
+      <items style="AutoComplete" controller="hrEmployee" reference="ten" key="status = '1'" check="1 = 1" information="ma_nv$vhrnv.ten"/>
+    </field>
+    <field name="ten" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_tu" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false">
+      <header v="Ngày bắt đầu" e="Start Date"></header>
+    </field>
+    <field name="ly_do">
+      <header v="Lý do thay đổi" e="Reason for Change"></header>
+    </field>
+    <field name="so_quyet_dinh">
+      <header v="Số quyết định" e="Decision No."></header>
+    </field>
+    <field name="ngay_quyet_dinh" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày quyết định" e="Date of Decision"></header>
+    </field>
+    <field name="nguoi_quyet_dinh">
+      <header v="Người quyết định" e="Decision Maker"></header>
+    </field>
+    <field name="ngay_den" type="DateTime" dataFormatString="@datetimeFormat">
+      <header v="Ngày kết thúc" e="End Date"></header>
+    </field>
+    <field name="ghi_chu" rows="2">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+    <field name="ten_loai%l" external="true" disabled="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ten_tc%l" external="true" disabled="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 100, 100, 130, 0"/>
+      <item value="1110001: [loai].Label, [loai], [loai].Description, [stt_rec]"/>
+      <item value="1110001: [tinh_chat].Label, [tinh_chat], [tinh_chat].Description, [stt_rec0]"/>
+      <item value="11000-1: [loai_thay_doi].Label, [loai_thay_doi], [line_nbr]"/>
+      <item value="1101000: [bo_phan].Label, [bo_phan], [ten_bp%l]"/>
+      <item value="1101000: [vi_tri].Label, [vi_tri], [ten_vtr%l]"/>
+      <item value="1101000: [bac_quan_ly].Label, [bac_quan_ly], [ten_bac%l]"/>
+      <item value="1101000: [nguoi_quan_ly].Label, [nguoi_quan_ly], [ten]"/>
+      <item value="110: [ngay_tu].Label, [ngay_tu]"/>
+      <item value="11000: [ly_do].Label, [ly_do]"/>
+      <item value="110: [so_quyet_dinh].Label, [so_quyet_dinh]"/>
+      <item value="110: [ngay_quyet_dinh].Label, [ngay_quyet_dinh]"/>
+      <item value="110---1: [nguoi_quyet_dinh].Label, [nguoi_quyet_dinh], [ten_loai%l]"/>
+      <item value="110---1: [ngay_den].Label, [ngay_den], [ten_tc%l]"/>
+      <item value="110000: [ghi_chu].Label, [ghi_chu]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'set$ViewPanelEmployeeID(this);active$FormWorkingHistory(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+select 'set$ViewPanelEmployeeID(this);scatter$FormWorkingHistory(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormWorkingHistory(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$dateConflict nvarchar(512), @$insertConflict nvarchar(512), @$duplicateConflict nvarchar(512), @$updateConflict nvarchar(512), @$deleteConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Ngày bắt đầu đã có hoặc không hợp lệ.' else N'The start date is invalid or already exists.' end
+select @$dateConflict = case when @@language = 'v' then N'Ngày bắt đầu không được lớn hơn ngày nghỉ.' else N'Start date must be before leaving date.' end
+select @$insertConflict = case when @@language = 'v' then N'Chưa nhập tính chất là công việc chính và loại thay đổi là tăng mới.' else N'Position nature must be official and change category must be new employment.' end
+select @$duplicateConflict = case when @@language = 'v' then N'Đã tồn tại tính chất là công việc chính và loại thay đổi là tăng mới.' else N'Position with nature as official and change category as new employment already exists.' end
+select @$updateConflict = case when @@language = 'v' then N'Tính chất phải là công việc chính và loại thay đổi phải là tăng mới.' else N'Position nature must be official and change category must be new employment.' end
+select @$deleteConflict = case when @@language = 'v' then N'Thông tin quá trình làm việc tại công ty đã phát sinh, không thể xóa được tính chất công việc chính và loại thay đổi tăng mới.' else N'Cannot delete current work information. It has already been used.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if ((@tinh_chat <> '1') or (@loai_thay_doi <> '1')) and not exists(select 1 from @@table where stt_rec = @stt_rec) begin
+  select 'loai_thay_doi' as field, @$insertConflict as message
+  return
+end
+
+if (@tinh_chat = '1' and @loai_thay_doi = '1') and exists(select 1 from @@table where stt_rec = @stt_rec and tinh_chat = '1' and loai_thay_doi = '1') begin
+  select 'loai_thay_doi' as field, @$duplicateConflict as message
+  return
+end
+
+if (@tinh_chat = '1') and exists(select * from @@table where (stt_rec = @stt_rec and tinh_chat = @tinh_chat and ngay_tu = @ngay_tu)) begin
+  select 'ngay_tu' as field, @$exists as message
+  return
+end
+
+if exists(select 1 from hrnv where stt_rec = @stt_rec and @ngay_tu > ngay_nghi) begin
+  select 'ngay_tu' as field, @$dateConflict as message
+  return
+end
+
+if (@loai = '1' and @tinh_chat = '1') and exists(select 1 from @@table where stt_rec = @stt_rec and loai = '1' and tinh_chat = '1')
+  update @@table set loai = '2' where stt_rec = @stt_rec and loai = '1' and tinh_chat = '1'
+
+if exists(select 1 from @@table where stt_rec = @stt_rec) select @stt_rec0 = max(stt_rec0), @line_nbr = max(line_nbr) from @@table where stt_rec = @stt_rec
+  else select @stt_rec0 = '000', @line_nbr = 0
+  
+exec dbo.FastBusiness$HRM$GetRowID @stt_rec0 output, @line_nbr output
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[
+if (@loai = '1' and @tinh_chat = '1') begin
+  declare @unit varchar(32), @reference varchar(512)
+  select @unit = ma_dvcs, @reference = bp_ref from hrbp where ma_bp = @bo_phan
+  update hrnv set bo_phan = @bo_phan, ma_dvcs = @unit, bp_ref = @reference, vi_tri = @vi_tri, bac_quan_ly = @bac_quan_ly, nv_ql = @nguoi_quan_ly where stt_rec = @stt_rec
+end
+if @@language = 'v' begin
+  select @stt_rec0 as stt_rec0, case @loai when '1' then N'Công việc hiện tại' else N'Công việc trước đây' end as ten_loai,
+    case @tinh_chat when '1' then N'Công việc chính' else N'Công việc kiêm nhiệm' end as ten_tc
+end else begin
+  select @stt_rec0 as stt_rec0, case @loai when '1' then N'Current Position' else N'Previous Position' end as ten_loai2,
+    case @tinh_chat when '1' then N'Official Position' else N'Concurrent Position' end as ten_tc2
+end
+update hrnv set bp_chinh_thuc0 = bo_phan, vt_chinh_thuc0 = vi_tri, ql_chinh_thuc0 = bac_quan_ly where stt_rec = @stt_rec
+update hrnv set bp_chinh_thuc0 = b.bo_phan, vt_chinh_thuc0 = b.vi_tri, ql_chinh_thuc0 = b.bac_quan_ly from hrnv a join (select a.stt_rec, a.bo_phan, a.vi_tri, a.bac_quan_ly from @@table a join (select a.stt_rec, max(a.ngay_tu) as ngay_tu from @@table a join hrnv b on a.stt_rec = b.stt_rec where a.stt_rec = @stt_rec and a.tinh_chat = '1' and a.ngay_tu <= b.ngay_chinh_thuc group by a.stt_rec) b on a.stt_rec = b.stt_rec and a.ngay_tu = b.ngay_tu) b on a.stt_rec = b.stt_rec
+  where a.stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if ((@tinh_chat <> '1') or (@loai_thay_doi <> '1')) and exists(select 1 from @@table where stt_rec = @stt_rec and (tinh_chat = '1') and (loai_thay_doi = '1') and (stt_rec0 = @stt_rec0)) begin
+  select 'loai_thay_doi' as field, @$updateConflict as message
+  return
+end
+
+if (@tinh_chat = '1' and @loai_thay_doi = '1') and exists(select 1 from @@table where stt_rec = @stt_rec and stt_rec0 <> @stt_rec0 and tinh_chat = '1' and loai_thay_doi = '1') begin
+  select 'loai_thay_doi' as field, @$duplicateConflict as message
+  return
+end
+  
+if (@tinh_chat = '1') and exists(select 1 from @@table where stt_rec = @stt_rec and (tinh_chat = @tinh_chat) and (ngay_tu = @ngay_tu) and (stt_rec0 <> @stt_rec0)) begin
+  select 'ngay_tu' as field, @$exists as message
+  return
+end
+
+if exists(select 1 from hrnv where stt_rec = @stt_rec and @ngay_tu > ngay_nghi) begin
+  select 'ngay_tu' as field, @$dateConflict as message
+  return
+end
+
+if (@loai = '1' and @tinh_chat = '1') and exists(select 1 from @@table where stt_rec = @stt_rec and loai = '1' and tinh_chat = '1' and stt_rec0 <> @stt_rec0) begin
+  update @@table set loai = '2' where stt_rec = @stt_rec and stt_rec0 <> @stt_rec0
+  update hrnv set vi_tri = '', bac_quan_ly = '', nv_ql = '' where stt_rec = @stt_rec
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+if (@loai = '1' and @tinh_chat = '1') begin
+  declare @unit varchar(32), @reference varchar(512)
+  select @unit = ma_dvcs, @reference = bp_ref from hrbp where ma_bp = @bo_phan
+  update hrnv set bo_phan = @bo_phan, ma_dvcs = @unit, bp_ref = @reference, vi_tri = @vi_tri, bac_quan_ly = @bac_quan_ly, nv_ql = @nguoi_quan_ly where stt_rec = @stt_rec
+end
+update @@table set datetime2 = getdate(), user_id2 = @@userID where stt_rec = @stt_rec and stt_rec0 = @stt_rec0
+if @@language = 'v' begin
+  select case @loai when '1' then N'Công việc hiện tại' else N'Công việc trước đây' end as ten_loai,
+    case @tinh_chat when '1' then N'Công việc chính' else N'Công việc kiêm nhiệm' end as ten_tc
+end else begin
+  select case @loai when '1' then N'Current Position' else N'Previous Position' end as ten_loai2,
+    case @tinh_chat when '1' then N'Official Position' else N'Concurrent Position' end as ten_tc2
+end
+update hrnv set bp_chinh_thuc0 = bo_phan, vt_chinh_thuc0 = vi_tri, ql_chinh_thuc0 = bac_quan_ly where stt_rec = @stt_rec
+update hrnv set bp_chinh_thuc0 = b.bo_phan, vt_chinh_thuc0 = b.vi_tri, ql_chinh_thuc0 = b.bac_quan_ly from hrnv a join (select a.stt_rec, a.bo_phan, a.vi_tri, a.bac_quan_ly from @@table a join (select a.stt_rec, max(a.ngay_tu) as ngay_tu from @@table a join hrnv b on a.stt_rec = b.stt_rec where a.stt_rec = @stt_rec and a.tinh_chat = '1' and a.ngay_tu <= b.ngay_chinh_thuc group by a.stt_rec) b on a.stt_rec = b.stt_rec and a.ngay_tu = b.ngay_tu) b on a.stt_rec = b.stt_rec
+  where a.stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+if exists(select 1 from @@table where stt_rec = @stt_rec having count(*) > 1) begin
+  if exists(select 1 from @@table where stt_rec = @stt_rec and stt_rec0 = @stt_rec0 and loai_thay_doi = '1' and tinh_chat = '1') begin
+    select @$deleteConflict as message
+    return
+  end
+end
+
+if exists(select 1 from @@table where stt_rec = @stt_rec and stt_rec0 = @stt_rec0 and loai = '1' and tinh_chat = '1')
+  update hrnv set vi_tri = '', bac_quan_ly = '', nv_ql = '' where stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+
+    <command event="Deleted">
+      <text>
+        <![CDATA[
+update hrnv set bp_chinh_thuc0 = bo_phan, vt_chinh_thuc0 = vi_tri, ql_chinh_thuc0 = bac_quan_ly where stt_rec = @stt_rec
+update hrnv set bp_chinh_thuc0 = b.bo_phan, vt_chinh_thuc0 = b.vi_tri, ql_chinh_thuc0 = b.bac_quan_ly from hrnv a join (select a.stt_rec, a.bo_phan, a.vi_tri, a.bac_quan_ly from @@table a join (select a.stt_rec, max(a.ngay_tu) as ngay_tu from @@table a join hrnv b on a.stt_rec = b.stt_rec where a.stt_rec = @stt_rec and a.tinh_chat = '1' and a.ngay_tu <= b.ngay_chinh_thuc group by a.stt_rec) b on a.stt_rec = b.stt_rec and a.ngay_tu = b.ngay_tu) b on a.stt_rec = b.stt_rec
+  where a.stt_rec = @stt_rec
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &OutlineEntry;
+      <![CDATA[
+function active$FormWorkingHistory(f) {
+  var id = f.getItemValue('stt_rec');
+  f.add_onResponseComplete(on$FormWorkingHistory$ResponseComplete);
+  if (f._action == 'New') f.request('DefautFormValue', 'DefautFormValue', [['stt_rec', 'String', id]]);
+}
+function scatter$FormWorkingHistory(f) {
+  var id = f.getItemValue('stt_rec');
+  if (f._action == 'New') f.request('DefautFormValue', 'DefautFormValue', [['stt_rec', 'String', id]]);
+}
+function close$FormWorkingHistory(f) {try {f.remove_onResponseComplete(on$FormWorkingHistory$ResponseComplete)} catch (ex) {}}
+function onChange$WorkingHistory$Position(o) {o.parentForm.request('Position', 'Position', ['vi_tri'], o);}
+function onChange$WorkingHistory$ChangeCategory(o) {
+  var f = o.parentForm, t = f.getItemValue('loai_thay_doi');
+  if ((t == '4') || (t == '5')) {f.request('Category', 'Category', ['stt_rec', 'loai', 'tinh_chat'], o);}
+}
+function on$FormWorkingHistory$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'DefautFormValue':
+      if (!result[0].Value) {
+        f.setItemValue('loai_thay_doi', 2);
+        break;
+      }
+      f.setItemControlBehavior('bo_phan', result[1].Value, result[2].Value, true);
+      f.setItemControlBehavior('vi_tri', result[3].Value, result[4].Value, true);
+      f.setItemControlBehavior('bac_quan_ly', result[5].Value, result[6].Value, true);
+      f.setItemControlBehavior('nguoi_quan_ly', result[7].Value, result[8].Value, true);
+      f.setItemValue('ngay_tu', result[9].Value);
+      break;
+    case 'Position':
+      f.setItemControlBehavior('bac_quan_ly', result[0].Value, result[1].Value, true);
+      f.live(f.getItem('bac_quan_ly'));
+      break;
+    case 'Category':
+      f.setItemControlBehavior('bo_phan', result[0].Value, result[1].Value, true);
+      f.setItemControlBehavior('vi_tri', result[2].Value, result[3].Value, true);
+      f.setItemControlBehavior('bac_quan_ly', result[4].Value, result[5].Value, true);
+      f.setItemControlBehavior('nguoi_quan_ly', result[6].Value, result[7].Value, true);
+      break;
+    default:
+      break;
+  }
+}
+]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="Position">
+      <text>
+        <![CDATA[
+if exists(select 1 from hrvt where ma_vtr = @vi_tri and ma_bac <> '') begin
+  declare @level varchar(32)
+  select @level = ma_bac from hrvt where ma_vtr = @vi_tri
+  select rtrim(@level) as ma_bac, ten_bac%l from hrdmbql where ma_bac = @level
+  return
+end
+]]>
+      </text>
+    </action>
+
+    <action id="DefautFormValue">
+      <text>
+        <![CDATA[
+declare @b bit
+if not exists(select 1 from hreqtlvht where stt_rec = @stt_rec) select @b = 1 else select @b = 0
+if (@b = 1) begin
+  select @b, rtrim(a.bo_phan) as bo_phan, case @@language when 'v' then b.ten_bp else b.ten_bp2 end,
+    rtrim(a.vi_tri) as vi_tri, case @@language when 'v' then c.ten_vtr else c.ten_vtr2 end, 
+    a.bac_quan_ly, case @@language when 'v' then d.ten_bac else d.ten_bac2 end, rtrim(nv_ql) as nv_ql, ten, ngay_vao
+  from hrnv a left join hrbp b on a.bo_phan = b.ma_bp
+    left join hrvt c on a.vi_tri = c.ma_vtr
+    left join hrdmbql d on a.bac_quan_ly = d.ma_bac
+    left join vhrnv e on a.nv_ql = e.ma_nv where a.stt_rec = @stt_rec
+  return
+end else begin 
+  select @b as value
+  return
+end
+]]>
+      </text>
+    </action>
+
+    <action id="Category">
+      <text>
+        <![CDATA[
+if exists(select 1 from hreqtlvht where stt_rec = @stt_rec and loai = @loai and tinh_chat = @tinh_chat) begin
+  select top 1 rtrim(a.bo_phan), case @@language when 'V' then b.ten_bp else b.ten_bp2 end,
+    rtrim(a.vi_tri), case @@language when 'V' then c.ten_vtr else c.ten_vtr2 end, 
+    a.bac_quan_ly, case @@language when 'V' then d.ten_bac else d.ten_bac2 end, a.nguoi_quan_ly, e.ten
+  from hreqtlvht a left join hrbp b on a.bo_phan = b.ma_bp
+    left join hrvt c on a.vi_tri = c.ma_vtr
+    left join hrdmbql d on a.bac_quan_ly = d.ma_bac
+    left join vhrnv e on a.nguoi_quan_ly = e.ma_nv
+  where a.stt_rec = @stt_rec and a.loai = @loai and a.tinh_chat = '1'
+  order by a.ngay_tu desc
+  return
+end
+]]>
+      </text>
+    </action>
+  </response>
+
+  &OutlineCss;
+</dir>

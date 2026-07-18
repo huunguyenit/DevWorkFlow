@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<dir table="kktt$0000" code="stt_rec" order="ngay_ct" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="Điều kiện lọc" e="Filter Condition"></title>
+  <fields>
+    <field name="ngay_ct1" type="DateTime" dataFormatString="@datetimeFormat" align="left" allowNulls="false" aliasName="fromDate" defaultValue="new Date()">
+      <header v="Ngày yêu cầu từ" e="Request Date from"></header>
+      <footer v="Ngày yêu cầu từ/đến" e="Request Date from/to"></footer>
+    </field>
+    <field name="ngay_ct2" type="DateTime" dataFormatString="@datetimeFormat" align="left" allowNulls="false" aliasName="toDate" defaultValue="new Date()">
+      <header v="Ngày yêu cầu đến" e="Request Date to"></header>
+    </field>
+    <field name="so_ct" align="right" allowNulls="false">
+      <header v="Số yêu cầu" e="Voucher No."></header>
+      <items style="AutoComplete" controller="StocktakingRequisition" key="(ngay_ct between @d1 and @d2)" check="(ngay_ct between @d1 and @d2)"/>
+    </field>
+    <field name="ma_kho">
+      <header v="Mã kho" e="Site"></header>
+      <items style="AutoComplete" controller="Site" reference="ten_kho%l" key="status = '1'" check="1=1" information="ma_kho$dmkho.ten_kho%l"/>
+    </field>
+    <field name="ten_kho%l" readOnly="true" external="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+  <views>
+    <view id="Dir">
+      <item value="120, 40, 60, 100, 230, 0"/>
+      <item value="1101: [ngay_ct1].Description, [ngay_ct1], [ngay_ct2]"/>
+      <item value="110: [so_ct].Label, [so_ct]"/>
+      <item value="11010: [ma_kho].Label, [ma_kho], [ten_kho%l]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Created">
+      <text>
+        <![CDATA[
+select 'init$PhysicalCountQtyUpdate$(this);' as message
+return
+]]>
+      </text>
+    </command>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$PhysicalCountQtyUpdate$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$PhysicalCountQtyUpdate$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+declare @$none nvarchar(512), @vcID varchar(33), @vcDate smalldatetime, @isLocked tinyint
+select @vcID = stt_rec, @vcDate = ngay_ct from kkyc with(index(so_ct)) where so_ct = @so_ct and ngay_ct between @ngay_ct1 and @ngay_ct2
+if @vcID is null begin
+  select @$none = case when @@language = 'v' then N'Không có yêu cầu kiểm kê theo điều kiện đang lọc.' else N'No data matching filter condition.' end
+  select 'so_ct' as field, isnull(@$none, '') as message
+end else begin
+  select @isLocked = case when @vcDate <= ngay_ks_kk then 1 else 0 end from dmstt
+  select '' as field, '' as message, 'on$Filter$Retrieve$QueryComplete(this, ''' + @vcID + ''', ''' + isnull(convert(varchar(10), @vcDate, 111), '') + ''', ' + str(@isLocked) + ');' as script
+end
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function init$PhysicalCountQtyUpdate$(f) {f.getItem('so_ct')._idle = 9;}
+function active$PhysicalCountQtyUpdate$(f) {
+  f.add_onResponseComplete(on$PhysicalCountQtyUpdate$ResponseComplete);
+  f._looking = f.getItem('so_ct')._controlBehavior;
+  f._looking.add_loading(on$InventoryLookupFilter$Before$Loading);
+  var o = f.getItem('ngay_ct1');
+  o.focus();
+  f.live(o);
+}
+function close$PhysicalCountQtyUpdate$(f) {
+  try {f._looking.remove_loading(on$InventoryLookupFilter$Before$Loading);} catch (ex) {}
+  try {f.remove_onResponseComplete(on$PhysicalCountQtyUpdate$ResponseComplete);} catch (ex) {}
+}
+function on$PhysicalCountQtyUpdate$ResponseComplete(f, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      var g = f.grid;
+      g._voucherNum = f.getItemValue('so_ct').toUpperCase();
+      g._alterTitle = [null, [['%s', g._voucherNum, true]]];
+      break;
+    default:
+      break;
+  }
+}
+
+function on$InventoryLookupFilter$Before$Loading(sender, e) {
+  var f = sender._element.parentForm;
+  if ((!f.validFields('ngay_ct1')) || (!f.validFields('ngay_ct2'))) e.type.cancelEvent = true;
+  else {
+    var g = f.grid, w = g.get_element().parentForm;
+    var d1 = f.getItemValue('ngay_ct1'), d2 = f.getItemValue('ngay_ct2');
+    a = [
+      {Name: 'd1', Type: 'DateTime', Value: d1},
+      {Name: 'd2', Type: 'DateTime', Value: d2}
+    ];
+    sender.set_memvars(a);
+  }
+}
+function on$Filter$Retrieve$QueryComplete(f, id, d, l) {
+  var g = f.grid;
+  g._denyNew = g._denyEdit = g._denyDelete = l;
+  g._voucherID = id;
+  g._voucherDate = d;
+  if (l == 1) g._denyMessage = f._language == 'v' ? 'Đã khóa số liệu, kiểm tra lại ngày khóa sổ.' : 'Data is locked, you must modify system locked date.';
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+</dir>

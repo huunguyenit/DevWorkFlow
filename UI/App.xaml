@@ -1,0 +1,29 @@
+﻿<Application x:Class="UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:UI"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:conv="clr-namespace:UI.Converters"
+             Startup="Application_Startup">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!-- Material Design Theme – Light -->
+                <md:BundledTheme BaseTheme="Light"
+                                 PrimaryColor="Blue"
+                                 SecondaryColor="LightBlue"/>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml"/>
+                <!-- App styles – light IDE / VS Designer -->
+                <ResourceDictionary Source="Themes/AppStyles.xaml"/>
+                <ResourceDictionary Source="Themes/IdeShell.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <!-- Global converters -->
+            <BooleanToVisibilityConverter      x:Key="BoolToVisibilityConverter"/>
+            <conv:NullToVisibilityConverter    x:Key="NullToVisibilityConverter"/>
+            <conv:NullOrEmptyToVisibilityConverter x:Key="NullOrEmptyToVisibilityConverter"/>
+            <conv:FormHeightConverter x:Key="FormHeightConverter"/>
+            <conv:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

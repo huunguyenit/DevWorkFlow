@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="notifygroup" code="code" name="name%l" order="code" database="Sys" xmlns="urn:schemas-fast-com:data-lookup">
+
+  <header v="Danh mục nhóm thông báo" e="Notification Group List"></header>
+
+  <fields>
+    <field name="code" allowSorting="true" allowFilter="true">
+      <header v="Mã nhóm" e="Code"></header>
+    </field>
+
+    <field name="name%l" allowSorting="true" allowFilter="true">
+      <header v="Tên nhóm" e="Description"></header>
+    </field>
+  </fields>
+
+</lookup>

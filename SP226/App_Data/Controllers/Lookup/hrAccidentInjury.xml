@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmtn" code="ma_tn" name="ten_tn%l" order="ma_tn" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục tai nạn/thương tật" e="Accident/Injury List"></header>
+  <fields>
+    <field name="ma_tn" allowSorting="true" allowFilter="true">
+      <header v="Mã tai nạn/thương tật" e="Accident/Injury"></header>
+    </field>
+    <field name="ten_tn%l" allowSorting="true" allowFilter="true">
+      <header v="Tên tai nạn/thương tật" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

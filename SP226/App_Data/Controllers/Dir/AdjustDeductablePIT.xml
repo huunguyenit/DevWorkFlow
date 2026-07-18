@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY CommandWhenBalanceBeforeEdit SYSTEM "..\Include\Command\WhenBalanceBeforeEdit.txt">
+  <!ENTITY CommandWhenBalanceBeforeDelete SYSTEM "..\Include\Command\WhenBalanceBeforeDelete.txt">
+]>
+
+<dir table="tdcthuekt2" code="nam, ma_dvcs, loai_tn, ma_ns" order="nam, ma_dvcs, loai_tn, ma_ns" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thuế khấu trừ" e="Deductible PIT"></title>
+  <fields>
+    <field name="nam" type="Decimal" isPrimaryKey="true" dataFormatString="###0" allowNulls="false" hidden="true" readOnly="true">
+      <header v="Năm" e="Year"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ma_dvcs" isPrimaryKey="true" disabled="true">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="AutoComplete" controller="Unit" reference="ten_dvcs%l" key="status='1'" check="1=1" information="ma_dvcs$dmdvcs.ten_dvcs%l" />
+    </field>
+    <field name="ten_dvcs%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="loai_tn" isPrimaryKey="true" allowNulls="false">
+      <header v="Loại thu nhập" e="Income Type"></header>
+      <items style="AutoComplete" controller="IncomeType" reference="ten_loai%l" key="status = '1'" check="1=1" information="ma_loai$tdmloaitn.ten_loai%l"/>
+    </field>
+    <field name="ten_loai%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_ns" isPrimaryKey="true" allowNulls="false">
+      <header v="Mã nhân viên" e="Employee"></header>
+      <items style="AutoComplete" controller="TaxEmployee" reference="ten_ns%l" key="status = '1' and ma_dvcs = @@unit" check="1=1" information="ma_ns$phns.ten_ns%l"/>
+    </field>
+    <field name="ten_ns%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="tnct_dc" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" align="right">
+      <header v="Thu nhập chịu thuế" e="Assessable Income"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tnct_dc_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" align="right">
+      <header v="Thu nhập chịu thuế nt" e="FC Assessable Income"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="thue_dc" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" align="right">
+      <header v="Thuế" e="Tax"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="thue_dc_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" align="right">
+      <header v="Thuế nt" e="FC Tax"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ghi_chu" rows="2">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 40, 60, 330, 0"/>
+      <item value="11011: [ma_dvcs].Label, [ma_dvcs], [ten_dvcs%l], [nam]"/>
+      <item value="1101: [loai_tn].Label, [loai_tn], [ten_loai%l]"/>
+      <item value="1101: [ma_ns].Label, [ma_ns], [ten_ns%l]"/>
+      <item value="110-: [tnct_dc].Label, [tnct_dc]"/>
+      <item value="110-: [tnct_dc_nt].Label, [tnct_dc_nt]"/>
+      <item value="110-: [thue_dc].Label, [thue_dc]"/>
+      <item value="110-: [thue_dc_nt].Label, [thue_dc_nt]"/>
+      <item value="1100: [ghi_chu].Label, [ghi_chu]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+select 'activeAdjustDeductablePIT(this);' as message
+return
+]]>
+      </text>
+    </command>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+declare @message nvarchar(4000), @lock nvarchar(4000), @unitName nvarchar(1023)
+select @lock = case when @@language = 'v' then N'Đã khóa số liệu, kiểm tra lại ngày giới hạn hoặc ngày khóa sổ' else N'Data is locked, check locked date again' end
+select @unitName = case when @@language = 'V' then ten_dvcs else ten_dvcs2 end from dmdvcs where ma_dvcs = @@unit
+select @message = 'this._unitCode=''' + @@unit + ''';this._unitName=''' + replace(replace(isnull(@unitName, ''), '\', '\\'), '''', '\''') + ''';initAdjustDeductablePIT(this);'
+]]>&CommandWhenBalanceBeforeEdit;<![CDATA[
+if @@view = 0 begin
+  if @@action = 'Edit' begin
+    if exists(select 1 from dmstt where dbo.ff_GetStartDateOfYear(@nam + 1) <= ngay_ks) 
+    begin
+		  select '' as script, @lock as message
+		  return
+    end	
+  end  
+end
+select @message as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+declare @message nvarchar(4000), @lock nvarchar(4000)
+select @lock = case when @@language = 'v' then N'Đã khóa số liệu, kiểm tra lại ngày giới hạn hoặc ngày khóa sổ' else N'Data is locked, check locked date again' end
+select @message = 'initAdjustDeductablePIT(this);'
+]]>&CommandWhenBalanceBeforeEdit;<![CDATA[
+ if @@action = 'Edit' begin
+    if exists(select 1 from dmstt where dbo.ff_GetStartDateOfYear(@nam + 1) <= ngay_ks) 
+    begin
+		  select 'loai_tn' as field, @lock as message
+		  return
+    end	
+  end  
+select @message as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$valid nvarchar(512), @$lock nvarchar(512), @$recordHasBeenChanged nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Đơn vị <span class="Highlight">%s1</span>, năm <span class="Highlight">%s2</span>, loại thu nhập <span class="Highlight">%s3</span> và mã nhân viên <span class="Highlight">%s4</span> đã có trong danh mục điều chỉnh thuế khấu trừ.' else N'The record consisting of Unit <span class="Highlight">%s1</span>, Year <span class="Highlight">%s2</span>, Income Type <span class="Highlight">%s3</span> and Employee <span class="Highlight">%s4</span> already exists.' end
+select @$valid = case when @@language = 'v' then N'<span class="Highlight">Dữ liệu không hợp lệ</span>' else N'<span class="Highlight">Invalid Data</span>' end
+select @$lock = case when @@language = 'v' then N'Đã khóa số liệu, kiểm tra lại ngày giới hạn hoặc ngày khóa sổ' else N'Data is locked, check locked date again' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Bản ghi hiện thời đã được sửa hoặc xóa bởi người sử dụng khác.' else N'This item has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select 1 from dmstt where dbo.ff_GetStartDateOfYear(@nam + 1) <= ngay_ks) begin
+  select 'loai_tn' as field, @$lock as message
+  return
+end
+if exists(select * from @@table where ma_dvcs = @ma_dvcs and nam = @nam and ma_ns = @ma_ns and loai_tn = @loai_tn) begin
+  select 'loai_tn' as field, replace(replace(replace(replace(@$exists, '%s1', rtrim(@ma_dvcs)), '%s2', rtrim(@nam)), '%s3', rtrim(@loai_tn)), '%s4', rtrim(@ma_ns)) as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if exists(select 1 from dmstt where dbo.ff_GetStartDateOfYear(@nam + 1) <= ngay_ks) begin
+  select 'loai_tn' as field, @$lock as message
+  return
+end	
+if not exists(select * from @@table where ma_dvcs = $ma_dvcs.OldValue and nam = $nam.OldValue and ma_ns = $ma_ns.OldValue and loai_tn = $loai_tn.OldValue) begin
+  select @$recordHasBeenChanged as message
+  return
+end
+if @ma_dvcs <> $ma_dvcs.OldValue or @nam <> $nam.OldValue or @ma_ns <> $ma_ns.OldValue or @loai_tn <> $loai_tn.OldValue begin
+  if exists(select * from @@table where ma_dvcs = @ma_dvcs and nam = @nam and ma_ns = @ma_ns and loai_tn = @loai_tn) begin
+    select 'loai_tn' as field, replace(replace(replace(replace(@$exists, '%s1', rtrim(@ma_dvcs)), '%s2', rtrim(@nam)), '%s3', rtrim(@loai_tn)), '%s4', rtrim(@ma_ns)) as message
+    return
+  end
+end  
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_dvcs = @ma_dvcs and nam = @nam and ma_ns = @ma_ns and loai_tn = @loai_tn
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        &CommandWhenBalanceBeforeDelete;
+        <![CDATA[
+if exists(select 1 from dmstt where dbo.ff_GetStartDateOfYear(@nam + 1) <= ngay_ks) begin
+  select @$lock as message
+  return
+end	
+]]>
+      </text>
+    </command>
+
+  </commands>
+  <script>
+    <text>
+      <![CDATA[
+function activeAdjustDeductablePIT(f) {f._controlFocus = f.getItem('loai_tn');}
+function initAdjustDeductablePIT(f) {
+  if (f._action == 'New') {
+    f.setItemValue('nam', f.grid._year);
+    var o = f.getItem('ma_dvcs');
+    o.value = f._unitCode;
+    f.getItem('ten_dvcs%l').value = f._unitName;
+    f.live(f.getItem('loai_tn'));
+  }
+}
+]]>
+    </text>
+  </script>
+
+</dir>

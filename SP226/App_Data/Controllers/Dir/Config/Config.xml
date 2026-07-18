@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE config [
+  <!ENTITY % ConfigDynamicEvents SYSTEM "..\..\Include\ConfigDynamicEvents.ent">
+  %ConfigDynamicEvents;
+]>
+<config xmlns="urn:schemas-fast-com:data-pattern">
+  <query events="Initialize, Checking, Script" reference="&ConfigDynamicEventsReference;">
+    <text>
+      <![CDATA[declare @tag varchar(32), @hiddenFields varchar(128)
+select @tag = substring('@@table', 2, 2)
+select @hiddenFields = rtrim(hide) from @@sysDatabaseName..voucherinfo where ma_ct = @@id
+exec FastBusiness$Generate$DynamicEvents @@controller, @@event, @tag, @hiddenFields, @@id, @@sysDatabaseName]]>
+    </text>
+  </query>
+</config>

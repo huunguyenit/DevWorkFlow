@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLStandardDetailToolbar SYSTEM "..\Include\XML\StandardDetailToolbar.xml">
+  <!ENTITY ScriptInsertRetrieveItems SYSTEM "..\Include\Javascript\InsertRetrieveItems.txt">
+]>
+<grid table="hrdtctnl" code="a.stt_rec" order="stt_rec, line_nbr" type="Detail" freezeColumns="2" id="H08" uniKey="true" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <partition table="hrdtctnl" prime="hrdtctnl" inquiry="hridtkh" field="ngay_ct" expression="''" increase="{0}" default=""/>
+
+  <fields>
+    <field name="ma_nl" allowNulls="false" width="100" aliasName="a">
+      <header v="Mã nguồn lực" e="Resource Code"></header>
+      <items style="AutoComplete" controller="hrTMResource" reference="ten_nl%l" key="status='1'" check="1=1" information="ma_nl$hrdmnldt.ten_nl%l"/>
+    </field>
+    <field name="ten_nl%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="300" aliasName="b">
+      <header v="Tên nguồn lực" e="Resource Name"></header>
+    </field>
+    <field name="so_luong" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="0" width="80">
+      <header v="Số lượng" e="Quantity"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ghi_chu" width="300" aliasName="a">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_nl"/>
+      <field name="ten_nl%l"/>
+      <field name="so_luong"/>
+      <field name="ghi_chu"/>
+
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$GridVoucherResource$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridVoucherResource$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+/* <flatten type="Javascript"> */
+function load$GridVoucherResource$(g) {g.add_commandEvent(on$GridVoucherResource$ExecuteCommand);}
+function dispose$GridVoucherResource$(g) {try {g.remove_commandEvent(on$GridVoucherResource$ExecuteCommand);} catch (ex) {}}
+function on$GridVoucherResource$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm;
+  switch (action) {
+    case 'AfterRemoveRow':
+      break;
+    case 'AfterCloneRow':
+      g.setItemFieldValue('stt_rec0', e.type.Value, '');
+      break;
+    default:
+      break;
+  }
+}
+/* </flatten> */
+]]>
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from @@prime$partition$current a left join hrdmnldt b on a.ma_nl = b.ma_nl where a.stt_rec = @stt_rec order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  &XMLStandardDetailToolbar;
+</grid>

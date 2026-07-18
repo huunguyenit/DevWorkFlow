@@ -1,0 +1,6 @@
+<![CDATA[
+div.ImportData{background-image:url(../images/Upload.png);background-repeat:no-repeat;background-position:0 0;}
+div.ImportDataOverGreen{background-position:0 -22px;}
+div.Download{background-image:url(../Images/Download.png);background-repeat:no-repeat;background-position:0 0;}
+div.DownloadOverGreen{background-position:0 -22px;}
+]]>

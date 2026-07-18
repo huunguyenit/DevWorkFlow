@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE lookup [
+  <!ENTITY FilterInitialize SYSTEM "..\Include\FilterInitialize.xml">
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+  <!ENTITY Controller "'hrRMRequest'">
+
+  <!ENTITY % CheckRelative SYSTEM "..\Include\CheckRelative.ent">
+  %CheckRelative;
+  <!ENTITY CheckRelativeParameter "'hrRMPeriodInfoInputRcrtLookup', 'Lookup', 'hrRMPeriodInfoInput'">
+  <!ENTITY CheckRelativeQuery "set @$primeFilter = '1 = 0'">
+]>
+
+<lookup table="hrrmyc" code="so_ct" name="stt_rec" order="ngay_ct, so_ct, stt_rec" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Chọn phiếu yêu cầu tuyển dụng" e="Select Recruitment Request Form"></header>
+  <fields>
+    <field name="so_ct" align="right" allowFilter="true">
+      <header v="Số yêu cầu" e="Request No."></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="stt_rec">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy" allowFilter="true">
+      <header v="Ngày lập" e="Request Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ten_bp%l" aliasName="b" allowFilter="true">
+      <header v="Bộ phận" e="Department"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+  </fields>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @unit varchar(128)
+select @unit = case when @ma_dvcs = '' then @@unit else @ma_dvcs end
+]]>&FilterInitialize;&CheckRelativeProcess;<![CDATA[
+exec FastBusiness$App$Voucher$Finding 'H10', 'hrirmyc', 'hrrmyc', 'hrirmyc', 'ngay_ct', '''''', '{0}', '',
+  @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem, '', '', 'stt_rec',
+  'so_ct,stt_rec,ngay_ct,ma_bp', 'so_ct,stt_rec,ngay_ct,b.ten_bp%l', ' a left join hrbp b on a.ma_bp = b.ma_bp',
+  'ngay_ct, so_ct', 1, @@userID, 1,
+  @ngay_ct1, @ngay_ct2, '', '', '2', '0', @unit, default, default, default, default, default, default, default, @$primeJoin, @$primeFilter]]>
+      </text>
+    </query>
+  </queries>
+</lookup>

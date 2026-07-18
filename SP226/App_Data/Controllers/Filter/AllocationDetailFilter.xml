@@ -1,0 +1,173 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY % ManagementObjectTransaction "INCLUDE">
+  <!ENTITY % ManagementObject SYSTEM "..\Include\ManagementObject.ent">
+  %ManagementObject;
+]>
+
+
+<dir table="dmpb1" code="stt_rec" order="stt_rec" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="Khai báo chi tiết" e="Detail"></title>
+  <fields>
+    <field name="tk">
+      <header v="Tài khoản nhận" e="Receiving Account"></header>
+    </field>
+    <field name="ten_tk%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="tk_he_so" external="true" defaultValue="''">
+      <header v="Ds tài khoản nợ" e="Debit Account"></header>
+    </field>
+    <field name="tk_du" external="true" defaultValue="''">
+      <header v="Ds tài khoản có" e="Credit Account"></header>
+    </field>
+
+    <field name="ct" external="true" clientDefault="0" defaultValue="0" rows="95" categoryIndex="1" filterSource="Tidy">
+      <header v="" e=""></header>
+      <label v="Chi tiết" e="Detail"></label >
+      <items style="Grid" controller="AllocationDetailGrid" row="1">
+      </items>
+    </field>
+
+    <field name="ma_vv" inactivate="true" categoryIndex="-1">
+      <header v="Mã vụ việc" e="Job"></header>
+    </field>
+    <field name="ten_vv%l" categoryIndex="-1" readOnly="true" external="true" defaultValue="''">
+      <header v="Tên vụ việc" e="Job Name"></header>
+    </field>
+    <field name="ma_bp" inactivate="true" categoryIndex="-1">
+      <header v="Bộ phận" e="Department"></header>
+    </field>
+    <field name="ten_bp%l" categoryIndex="-1" readOnly="true" external="true" defaultValue="''">
+      <header v="Tên bộ phận" e="Department Name"></header>
+    </field>
+    <field name="ma_hd" inactivate="true" categoryIndex="-1">
+      <header v="Mã hợp đồng" e="Contract"></header>
+    </field>
+    <field name="ten_hd%l" categoryIndex="-1" readOnly="true" external="true" defaultValue="''">
+      <header v="Tên hợp đồng" e="Contract Name"></header>
+    </field>
+
+    &ManagementObjectTranFormFields;
+  </fields>
+
+  <views>
+    <view id="Dir" height="155" anchor="5">
+      <item value="120, 30, 70, 100, 433"/>
+      <item value="11010: [tk].Label, [tk], [ten_tk%l]"/>
+      <item value="1100: [tk_he_so].Label, [tk_he_so]"/>
+      <item value="1100: [tk_du].Label, [tk_du]"/>
+
+      <item value="1: [ct]"/>
+
+      <item value="11010: [ma_vv].Label, [ma_vv], [ten_vv%l]"/>
+      <item value="11010: [ma_bp].Label, [ma_bp], [ten_bp%l]"/>
+      <item value="11010: [ma_hd].Label, [ma_hd], [ten_hd%l]"/>
+
+      &ManagementObjectTranFormViews;
+
+      <categories>
+        <category index="1" columns="769" anchor="1">
+          <header v="Chi tiết" e="Detail"/>
+        </category>
+        <category index="-1" columns="120, 30, 70, 100, 433" anchor="5">
+          <header v="" e=""/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Initialize">
+      <text>
+        <![CDATA[
+select 'this._denyFocus=true;' as message
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$AddAccountForm$(this);' as message
+return
+]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$AddAccountForm$(this);' as message
+return
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function active$AddAccountForm$(f) {
+  var g = f.grid, z = f.getItem('ct')._controlBehavior, p = g.get_element().parentForm;
+  setDefaultForm(f);
+  f.add_onResponseComplete(on$AddAccountForm$ResponseComplete);
+  z.live;
+}
+function close$AddAccountForm$(f) {try {f.remove_onResponseComplete(on$AddAccountForm$ResponseComplete);} catch (ex) {}}
+function on$AddAccountForm$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      set$AddAccountForm$FlowScript(f);
+      break;
+    default:
+      break;
+  }
+}
+function set$AddAccountForm$FlowScript(f) {
+  var p = f.grid.get_element().parentForm;
+  f._flowScript = 'complete(this)';
+  if (p._action != 'View') insert$AddAccountForm$Retrieve$Data(f);
+}
+function insert$AddAccountForm$Retrieve$Data(f) {
+  var g = f.getItem('ct')._controlBehavior, z = f.grid;
+  var s1, s2, s3, c1 = g._getColumnOrder('ds_tk_no'), c2 = g._getColumnOrder('ds_tk_co'), c3 = g._getColumnOrder('cong_tru'), s = '', e, index = 1;
+  for (var r = 1; r <= g._rowCount; r++) {
+    s1 = g._getItemValue(r, c1);
+    s2 = g._getItemValue(r, c2);
+    s3 = g._getItemValue(r, c3);
+
+    if (s1.indexOf('&') != -1) s1 = s1.replace(/&/g, '');
+    if (s2.indexOf('&') != -1) s2 = s2.replace(/&/g, '');
+    if (s1.indexOf(';') != -1) s1 = s1.replace(/;/g, '');
+    if (s2.indexOf(';') != -1) s2 = s2.replace(/;/g, '');
+    if (s1 + s2 == '') {
+      e = true;
+      index = r;
+      break;
+    }
+    s += (s ? ';' : '') + (s1 + '&' + s2 + '&' + s3);
+  }
+  if (e || s.length > 4000) {
+    var id = f.get_id();
+    var v = f._language == 'v', g = f.getItem('ct')._controlBehavior;
+    var e1 = (v ? 'Thông tin <span class="Highlight">Chi tiết</span> chưa nhập hoặc có giá trị không hợp lệ.' : 'Tab <span class="Highlight">Detail</span> must not be blank or has invalid value.');
+    f._errorWarningObject = g._getItem(index, g._getColumnOrder('ds_tk_no'));
+    $func.hideWait(id);
+    $message.show(e1, String.format('var f = $find(\'{0}\');f.focus(\'ct\');f._errorWarningObject.focus()', id));
+    f._checked = false;
+  } else z._getItem(z._activeRow, z._getColumnOrder('ds_dk')).value = s;
+}
+function complete(f) {f.gridFocus();};
+/* </flatten> */
+function setDefaultForm(f) {
+  var g = f.grid, r = g._activeRow, z = f.getItem('ct')._controlBehavior, p = g.get_element().parentForm;
+  var t = 'tk,tk_he_so,tk_du,ma_vv,ma_bp,ma_hd]]>&ManagementObjectFieldList;<![CDATA[', l = t.split(','), v = (t + ',ten_tk%l,ten_vv%l,ten_hd%l]]>&ManagementObjectFieldNameList;<![CDATA[').replace(/ /g, '').split(',');
+  f.setReadOnlyFields(t);
+  for (var i = 0; i < v.length; i++) {f.getItem(v[i]).value = g._getItemValue(r, g._getColumnOrder(v[i]));}
+}
+]]>
+    </text>
+  </script>
+</dir>

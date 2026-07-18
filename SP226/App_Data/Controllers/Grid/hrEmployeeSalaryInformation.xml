@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY FastBusiness.Encryption.Begin "">
+  <!ENTITY TransferID "hrEmployeeSalaryInformation">
+  <!ENTITY CreateTicket "declare @ticket varchar(32), @filename varchar(128), @description nvarchar(128)
+select @ticket = lower(replace(newid(),'-',''))
+if @@language = 'v' select @filename = 'hrEmployeeSalaryInformation.xlsx', @description = N'Thông tin lương nhân viên'
+else select @filename = 'hrEmployeeSalaryInformation2.xlsx', @description = N'Employee Salary Information'
+insert into @@sysDatabaseName..ticket values(@ticket, @@userID, '&TransferID;', @filename, @description, '@@appDatabaseName', getdate());">
+
+  <!ENTITY ExtensionTicket "declare @$ticket varchar(32), @$filename varchar(128), @$description nvarchar(128)
+select @$ticket = lower(replace(newid(),'-',''))
+if @@language = 'v' select @$filename = 'hrEmployeeSalaryInformation3.xlsx', @$description = N'Thông tin phụ cấp chi tiết'
+else select @$filename = 'hrEmployeeSalaryInformation4.xlsx', @$description = N'Allowance Information'
+insert into @@sysDatabaseName..ticket values(@$ticket, @@userID, '&TransferID;', @$filename, @$description, '@@appDatabaseName', getdate());">
+  <!ENTITY FastBusiness.Encryption.End "">
+
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+]>
+
+
+<grid table="hrnv" code="stt_rec" order="ma_nv" type="Voucher" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Cập nhật thông tin lương nhân viên" e="Employee Salary Information Input"></title>
+  <subTitle v="Cập nhật thông tin lương, tài khoản ngân hàng..." e="Input Employee Salary Information, Bank Account..."></subTitle>
+  <partition table="hrnv" prime="hrnv" inquiry="hrnv" field="" expression="''" increase="" default=""/>
+
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt" type="Int32" width="50" hidden="true">
+      <header v="Stt" e="No."></header>
+    </field>
+    <field name="ma_nv" width="100" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Mã nhân viên" e="Employee ID"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ho_ten" width="150" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Họ và tên" e="Employee Name"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ten_gt" width="60" hidden="true">
+      <header v="Giới tính" e="Gender"></header>
+    </field>
+    <field name="ngay_sinh" type="DateTime" dataFormatString="@datetimeFormat" width="100" hidden="true">
+      <header v="Ngày sinh" e="Date of Birth"></header>
+    </field>
+    <field name="ten_bp%l" width="300" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Bộ phận" e="Department"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ten_vtr%l" width="150" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Vị trí công việc" e="Position"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ten_ttnv%l" width="150" allowFilter="&GridVoucherAllowFilter;">
+      <header v="Tình trạng" e="Status"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt_rec"/>
+      <field name="stt"/>
+      <field name="ma_nv"/>
+      <field name="ho_ten"/>
+      <field name="ten_gt"/>
+      <field name="ngay_sinh"/>
+      <field name="ten_bp%l"/>
+      <field name="ten_vtr%l"/>
+      <field name="ten_ttnv%l"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        &CreateTicket;
+        &ExtensionTicket;
+        <![CDATA[
+select 'this._authorize = ' + rtrim(@@sysDatabaseName.dbo.FastBusiness$System$GetAuthorize(@@admin, @@userID, 'hrEmployeeSalaryInformation', 'Edit')) + ';this._key = ''' + @ticket + ''';this._$key = ''' + @$ticket + ''';load$EmployeeSalaryInformationGrid$(this);' as message
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'dispose$EmployeeSalaryInformationGrid$(this);' as message
+return
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$EmployeeSalaryInformationGrid$(g) {
+  g.add_onResponseComplete(on$EmployeeSalaryInformationGrid$ResponseComplete);
+  g.add_commandEvent(on$EmployeeSalaryInformationGrid$ExecuteCommand);
+}
+function dispose$EmployeeSalaryInformationGrid$(g) {
+  try {g.remove_commandEvent(on$EmployeeSalaryInformationGrid$ExecuteCommand);} catch (ex) {}
+  try {g.remove_onResponseComplete(on$EmployeeSalaryInformationGrid$ResponseComplete);} catch (ex) {}
+}
+function on$EmployeeSalaryInformationGrid$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'ImportData':
+      if (e.type.Value == '110') show$Form(g, 'hrEmployeeSalaryInformationImport');
+        else show$Form(g, 'hrEmployeeSalaryInformationAllowanceImport');
+      break;
+    case 'Download':
+      if (e.type.Value == '210') request$Download(g, action, g._key);
+        else request$Download(g, 'Allowance', g._$key);
+      break;
+    default:
+      break;
+  }
+}
+function on$EmployeeSalaryInformationGrid$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Download':
+      g._key = result[0].Value;
+      break;
+    case 'Allowance':
+      g._$key = result[0].Value;
+    default:
+      break;
+  }
+}
+function show$Form(g, c) {(!g._denyEdit) ? (g._authorize == 1) ? g.showForm(c) : $message.show($df.getResources(g._language, "Message.NotAccess")) : $message.show(g._denyMessage);}
+/* </flatten> */
+function request$Download(g, a, b) {
+  g.request(g, a, a, []);
+  var r = $get('requestFormData');
+  if (!r) r = $func.requestFormData();
+  var query = '?a=1&t=]]>&TransferID;<![CDATA[' + '&k=' + b + String.format('&r={0}', Math.random());
+  r.action = $func.resolveClientUrl('~/AppHandler/Transfer.ashx' + query, g._baseUrl);
+  if (!$func.isIE) r.target = '_blank';
+  r.submit();
+  if (g._activeCell) g._activeCell.focus();
+}
+]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="Download">
+      <text>
+        &CreateTicket;<![CDATA[
+select @ticket as value
+return
+]]>
+      </text>
+    </action>
+
+    <action id="Allowance">
+      <text>
+        &ExtensionTicket;<![CDATA[
+select @$ticket as value
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @key nvarchar(4000), @join nvarchar(4000), @field nvarchar(4000), @bp_ref varchar(128)
+declare @male nvarchar(32), @female nvarchar(32), @f1 varchar(32), @f2 varchar(32), @f3 varchar(32)
+select @f1 = 'ten_bp', @f2 = 'ten_vtr', @f3 = 'ten_ttnv', @bp_ref = '', @join = '', @key = ''
+if @@language <> 'v' select @f1 = @f1 + '2', @f2 = @f2 + '2', @f3 = @f3 + '2'
+
+if (@ma_bp <> '') select @bp_ref = bp_ref from hrbp where ma_bp = @ma_bp
+select @male = case when @@language = 'v' then name else name2 end from hrdirinfo where code = '1' and type = 'Gender'
+select @female = case when @@language = 'v' then name else name2 end from hrdirinfo where code = '2' and type = 'Gender'
+select @field = 'stt_rec, a.stt, rtrim(ma_nv) ma_nv, replace(rtrim(ho_nv) + space(1) + rtrim(ten_nv), '''', '''''''') ho_ten,'
+select @field = @field + 'case gioi_tinh when ''1'' then N''' + replace(rtrim(@male), '''', '''''') + ''' else N''' + replace(rtrim(@female), '''', '''''') + ''' end ten_gt,'
+select @field = @field + 'ngay_sinh, ' + @f1 + ', ' + @f2 + ', ' + @f3 + ''
+
+select @join = 'left join hrbp b on a.bo_phan = b.ma_bp left join hrvt d on a.vi_tri = d.ma_vtr left join hrdmttnv e on a.tinh_trang_nv = e.ma_ttnv'
+
+if (@ngay_tu is not null) set @key = @key + case @key when '' then '' else ' and ' end + 'a.ngay_vao >= ''' + convert(char(8), @ngay_tu, 112) + ''''
+if (@ngay_den is not null) set @key = @key + case @key when '' then '' else ' and ' end + 'a.ngay_vao <= ''' + convert(char(8), @ngay_den, 112) + ''''
+
+if (@ma_nv <> '') set @key = @key + case @key when '' then '' else ' and ' end + 'a.ma_nv = ''' + replace(rtrim(@ma_nv), '''', '''''') + ''''
+if (@ma_bp <> '') set @key = @key + case @key when '' then '' else ' and ' end + 'a.bp_ref like ''' + replace(rtrim(@bp_ref), '''', '''''') + '%'''
+if (@vi_tri <> '') set @key = @key + case @key when '' then '' else ' and ' end + 'a.vi_tri = ''' + replace(rtrim(@vi_tri), '''', '''''') + ''''
+if (@ma_bac <> '') set @key = @key + case @key when '' then '' else ' and ' end + 'a.bac_quan_ly = ''' + replace(rtrim(@ma_bac), '''', '''''') + ''''
+if (@empty <> 0) set @key = @key + case @key when '' then '' else ' and ' end + 'not exists(select 1 from hrttluong f where a.stt_rec = f.stt_rec)'
+
+declare @k1 varchar(1024), @k2 varchar(1024)
+select @k1 = stuff(@@firstItem, len(@@firstItem) - 12, 0, ' '), @k2 = stuff(@@lastItem, len(@@lastItem) - 12, 0, ' ')
+exec FastBusiness$HRM$EmployeeInformation$Finding @@table, @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount,
+  @k1, @k2, @key, @join, 'rtrim(ma_nv) + '' '' + stt_rec', @field, 'a.ma_nv', '@@sysDatabaseName', @@admin, @@userID
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <css>
+    <text>
+      <![CDATA[
+div.GroupImportData{background-image:url(../images/Transfer.png);background-repeat:no-repeat;background-position:0 0;}
+div.TextGroupImportData{background-image:url(../images/TextUpload.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.GroupDownload{background-image:url(../Images/Transfer.png);background-repeat:no-repeat;background-position:-30px 0;}
+div.TextGroupDownload{background-image:url(../images/TextDownload.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.GroupImportDataOverGreen, div.TextGroupImportDataOverGreen, div.GroupDownloadOverGreen, div.TextGroupDownloadOverGreen{background-position-y:-22px;}
+]]>
+    </text>
+  </css>
+
+  <toolbar>
+    <button command="Edit">
+      <title v="Toolbar.Edit" e="Toolbar.Edit"/>
+    </button>
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"></title>
+    </button>
+
+    <button command="ImportData">
+      <title v="Lấy dữ liệu từ tệp...$Lấy dữ liệu...$150" e="Import Data from File...$Import Data...$150"></title>
+      <menuItems>
+        <menuItem commandArgument="110">
+          <header v="Thông tin lương"  e="Salary information"/>
+        </menuItem>
+        <menuItem commandArgument="120">
+          <header v="-"  e="-"/>
+        </menuItem>
+        <menuItem commandArgument="130">
+          <header v="Thông tin phụ cấp chi tiết"  e="Allowance Information"/>
+        </menuItem>
+      </menuItems>
+    </button>
+
+    <button command="Download">
+      <title v="Tải tệp mẫu...$$150" e="Download Template File...$Download Template...$150"/>
+      <menuItems>
+        <menuItem commandArgument="210">
+          <header v="Thông tin lương"  e="Salary information"/>
+        </menuItem>
+        <menuItem commandArgument="120">
+          <header v="-"  e="-"/>
+        </menuItem>
+        <menuItem commandArgument="230">
+          <header v="Thông tin phụ cấp chi tiết"  e="Allowance Information"/>
+        </menuItem>
+      </menuItems>
+    </button>
+
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"/>
+    </button>
+  </toolbar>
+</grid>

@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<grid table="vtkhddtdv" code="ma_dvcs, ngay_hl" filter="@@admin = 1" order="ma_dvcs, ngay_hl, ma_kn" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Khai báo tài khoản kết nối theo đơn vị" e="Detailed Account Information by Unit"></title>
+  <subTitle v="Cập nhật tài khoản kết nối theo đơn vị: thêm, sửa, xóa..." e="Add, Edit, Delete Account Information..."></subTitle>
+
+  <fields>
+    <field name="ma_dvcs" isPrimaryKey="true" width="100" dataFormatString="X" allowSorting="true" allowFilter="true">
+      <header v="Mã đơn vị" e="Unit Code"></header>
+    </field>
+    <field name="ten_dvcs%l" width="300" allowSorting="true" allowFilter="true">
+      <header v="Tên đơn vị" e="Unit Name"></header>
+    </field>
+    <field name="ngay_hl" isPrimaryKey="true" type="DateTime" dataFormatString="@datetimeFormat" width ="100" allowSorting="true" allowFilter="true">
+      <header v="Ngày hiệu lực" e="Start Date"></header>
+    </field>
+    <field name="ma_kn" width="100" dataFormatString="X" allowSorting="true" allowFilter="true">
+      <header v="Tài khoản" e="Account"></header>
+    </field>
+    <field name="ten_kn%l" width="300" allowSorting="true" allowFilter="true">
+      <header v="Tên tài khoản" e="Account Name"></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_dvcs"/>
+      <field name="ten_dvcs%l"/>
+      <field name="ngay_hl"/>
+      <field name="ma_kn"/>
+      <field name="ten_kn%l"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[<Encrypted>&ubZtUSPJWC7E3qu5YQA22alPjDnV4JapQMqYNEp52dVk3waJzJqFnYvAIGzHRkQyQDRH6dPoMtO+RwN2FiyNCW0v03Gpk8r3EEnS2fi9Psi1RwwWCJ0iludNqQvD0WDjuh1JRoOJKH8m6wRSv5PBdA==</Encrypted>]]>
+      </text>
+    </command>
+  </commands>
+
+</grid>

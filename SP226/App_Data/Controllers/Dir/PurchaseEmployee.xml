@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+]>
+
+<dir table="dmnvmh" code="ma_nvmh" order="ma_nvmh" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thông tin nhân viên" e="Employee"></title>
+  <fields>
+    <field name="ma_nvmh" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã nhân viên" e="Employee ID"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ten_nvmh" allowNulls="false">
+      <header v="Tên nhân viên" e="Employee Name"></header>
+    </field>
+    <field name="ten_nvmh2">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 330"/>
+      <item value="110-: [ma_nvmh].Label, [ma_nvmh]"/>
+      <item value="1100: [ten_nvmh].Label, [ten_nvmh]"/>
+      <item value="1100: [ten_nvmh2].Label, [ten_nvmh2]"/>
+      <item value="1110: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$FormPurchaseEmployee(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormPurchaseEmployee(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$updateConflict nvarchar(512), @$recordHasBeenChanged nvarchar(512), @$deleteConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã nhân viên <span class="Highlight">%s</span> đã có hoặc lồng nhau trong danh mục nhân viên mua hàng.' else N'The employee <span class="Highlight">%s</span> is invalid or already exists.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Mã nhân viên <span class="Highlight">%s</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The employee <span class="Highlight">%s</span> has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select * from @@table where ((ma_nvmh like rtrim(@ma_nvmh) + '%') or rtrim(@ma_nvmh) like rtrim(ma_nvmh) + '%'))
+  begin
+    select 'ma_nvmh' as field, replace(@$exists, '%s', rtrim(@ma_nvmh)) as message
+    return
+  end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select * from @@table where ma_nvmh = $ma_nvmh.OldValue)
+  begin
+    select 'ma_nvmh' as field, replace(@$recordHasBeenChanged, '%s', rtrim($ma_nvmh.OldValue)) as message
+    return
+  end
+  
+if @ma_nvmh <> $ma_nvmh.OldValue
+  begin
+    if exists(select * from @@table where ((ma_nvmh like rtrim(@ma_nvmh) + '%') or rtrim(@ma_nvmh) like rtrim(ma_nvmh) + '%') and ma_nvmh <> $ma_nvmh.OldValue)
+      begin
+        select 'ma_nvmh' as field, replace(@$exists, '%s', rtrim(@ma_nvmh)) as message
+        return
+      end
+  end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_nvmh = @ma_nvmh
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$FormPurchaseEmployee(f) {f.add_onResponseComplete(on$FormPurchaseEmployee$ResponseComplete);}
+function close$FormPurchaseEmployee(f) {try {f.remove_onResponseComplete(on$FormPurchaseEmployee$ResponseComplete)} catch (ex) {}}
+function on$FormPurchaseEmployee$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'ma_nvmh');
+      break;
+    default:
+      break;
+  }
+}      
+]]>
+      &ScriptIrregular;
+    </text>
+  </script>
+
+</dir>

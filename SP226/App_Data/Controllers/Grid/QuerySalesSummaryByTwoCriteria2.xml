@@ -1,0 +1,352 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLWhenReportLoading SYSTEM "..\Include\XML\WhenReportLoading.xml">
+  <!ENTITY XMLWhenReportClosing SYSTEM "..\Include\XML\WhenReportClosing.xml">
+  <!ENTITY XMLStandardQueryToolbar SYSTEM "..\Include\XML\StandardQueryToolbar.xml">
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+  <!ENTITY DynamicFieldGridQueryString SYSTEM "..\Include\Command\DynamicFieldGridQueryString.txt">
+  <!ENTITY DynamicFieldGridQueryWhereClause SYSTEM "..\Include\Command\DynamicFieldGridQueryWhereClause.txt">
+
+  <!ENTITY FilterInitialize SYSTEM "..\Include\FilterInitialize.xml">
+  <!ENTITY FilterQuery SYSTEM "..\Include\FilterQuery.xml">
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+
+  <!ENTITY Controller "'StockDetail'">
+
+  <!ENTITY QueryString "
+    &DynamicFieldGridQueryString;
+declare @c char(1), @d char(1)
+select @c = char(253), @d = char(252)
+select * into #t from dbo.FastBusiness$Function$System$Split(@$queryString, @c)
+
+declare @ma varchar(128), @ngay_ct1 smalldatetime, @ngay_ct2 smalldatetime, @so_ct1 varchar(8000), @so_ct2 varchar(8000), @tk_dt varchar(128),
+  @mau_bc varchar(32), @loai_du_lieu varchar(1), @tinh_ps varchar(1), @ma_dvcs varchar(8000), @maxLength int, @ma_kho varchar(128),
+  @ma_vt varchar(128), @tk_vt varchar(128), @ma_nx varchar(128), @ma_vv varchar(128), @ct_theo varchar(128), @ma_nvbh varchar(128),
+  @ds_ma_ct varchar(1024), @ma_gd varchar(1024),  @nh_theo varchar(128), @ma2 varchar(128), @ma_kh varchar(128), @nh_kh1 varchar(128),
+  @nh_kh2 varchar(128), @nh_kh3 varchar(128), @ma_bp varchar(128), @ma_hd varchar(128), @nh_vt1 varchar(128), @nh_vt2 varchar(128), @nh_vt3 varchar(128), @transactionList varchar(511)
+
+select @ma = replace(data, @d, '''') from #t where id = 1
+select @ma2 = replace(data, @d, '''') from #t where id = 2
+select @ngay_ct1 = data from #t where id = 3
+select @ngay_ct2 = data from #t where id = 4
+select @so_ct1 = data from #t where id = 5
+select @so_ct2 = data from #t where id = 6
+select @maxLength = data from #t where id = 7
+
+select @ma_kho = replace(data, @d, '''') from #t where id = 8
+select @ma_nvbh = replace(data, @d, '''') from #t where id = 9
+select @ma_vt = replace(data, @d, '''') from #t where id = 10
+select @tk_vt = replace(data, @d, '''') from #t where id = 11
+select @ma_nx = data from #t where id = 12
+select @ma_vv = data from #t where id = 13
+select @ma_bp = replace(data, @d, '''') from #t where id = 14
+select @ma_hd = replace(data, @d, '''') from #t where id = 15
+
+select @ma_dvcs = replace(data, @d, '''') from #t where id = 16
+select @mau_bc = data from #t where id = 17
+select @loai_du_lieu = data from #t where id = 18
+select @tinh_ps = data from #t where id = 19
+select @ct_theo = data from #t where id = 20
+select @ma_gd = replace(data, @d, '''') from #t where id = 21
+select @ds_ma_ct = data from #t where id = 22
+select @nh_theo = data from #t where id = 23
+select @ma_kh = replace(data, @d, '''') from #t where id = 24
+select @nh_kh1 = replace(data, @d, '''') from #t where id = 25
+select @nh_kh2 = replace(data, @d, '''') from #t where id = 26
+select @nh_kh3 = replace(data, @d, '''') from #t where id = 27
+select @nh_vt1 = replace(data, @d, '''') from #t where id = 28
+select @nh_vt2 = replace(data, @d, '''') from #t where id = 29
+select @nh_vt3 = replace(data, @d, '''') from #t where id = 30
+select @tk_dt = replace(data, @d, '''') from #t where id = 31
+select @transactionList = data from #t where id = 32
+drop table #t">
+]>
+
+<grid order="ngay_ct, so_ct, stt_rec, stt_rec0" type="Inquiry" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Chi tiết theo đối tượng" e="Detail by Object"></title>
+  <subTitle v="Đối tượng: %c - %s, từ ngày %d1 đến ngày %d2..." e="Object: %c - %s, Date from %d1 to %d2..."></subTitle>
+  <fields>
+    <field name="ngay_ct" type="DateTime" dataFormatString="@datetimeFormat" width="80" allowFilter="&GridQueryAllowFilter;">
+      <header v="Ngày ct" e="VC. Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_ct" width="60" hyperlinkFormatString="~/AppHandler/Voucher.ashx Query: {Name: '[ma_ct]', Value: '[stt_rec]'}, Script: 'beforeDrillDown(this);'" allowFilter="&GridQueryAllowFilter;">
+      <header v="Mã ct" e="VC. Code"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="so_ct" width="80" align="right" allowFilter="&GridQueryAllowFilter;">
+      <header v="Số ct" e="Voucher No."></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="ma_vt" width="100" aliasName="a" allowFilter="&GridQueryAllowFilter;">
+      <header v="Mã hàng" e="Item Code"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ten_vt%l" width="300" external="true" aliasName="b" allowFilter="&GridQueryAllowFilter;">
+      <header v="Tên mặt hàng" e="Item Name"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="so_luong" type="Decimal" width="100" dataFormatString="@quantityViewFormat" aliasName="(case when a.ma_ct in ('HDF', 'HDR') then -sl_nhap else sl_xuat end)" allowFilter="&GridQueryAllowFilter;">
+      <header v="Số lượng" e="Quantity"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="gia_nt2" type="Decimal" width="100" dataFormatString="@foreignCurrencyPriceViewFormat" allowFilter="&GridQueryAllowFilter;">
+      <header v="Giá bán nt" e="FC Price"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="tien_nt2" type="Decimal" width="120" dataFormatString="@foreignCurrencyAmountViewFormat" aggregate="Sum" allowFilter="&GridQueryAllowFilter;">
+      <header v="Doanh thu nt" e="FC Turnover"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="thue_nt" type="Decimal" width="120" dataFormatString="@foreignCurrencyAmountViewFormat" aggregate="Sum" allowFilter="&GridQueryAllowFilter;">
+      <header v="Thuế nt" e="FC Tax Amount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ck_nt" type="Decimal" width="120" dataFormatString="@foreignCurrencyAmountViewFormat" aggregate="Sum" allowFilter="&GridQueryAllowFilter;">
+      <header v="Chiết khấu nt" e="FC Discount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="pt_nt" type="Decimal" width="120" dataFormatString="@foreignCurrencyAmountViewFormat" aliasName="(a.tien_nt2 + a.thue_nt - a.ck_nt)" allowFilter="&GridQueryAllowFilter;">
+      <header v="Phải thu nt" e="FC Receivable Amount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="gia_nt" type="Decimal" width="100" dataFormatString="@foreignCurrencyPriceViewFormat" allowFilter="&GridQueryAllowFilter;">
+      <header v="Giá vốn nt" e="FC Cogs"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="tien_nt_x_ex" type="Decimal" width="120" dataFormatString="@foreignCurrencyAmountViewFormat" aliasName="(case when a.ma_ct in ('HDF', 'HDR') then -tien_nt_n else tien_nt_x end)" allowFilter="&GridQueryAllowFilter;">
+      <header v="Tiền vốn nt" e="FC Cogs Amount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="lai_nt_ex" type="Decimal" width="120" dataFormatString="@foreignCurrencyAmountViewFormat" aliasName="(a.tien_nt2 - a.ck_nt - (case when a.ma_ct in ('HDF', 'HDR') then tien_nt_n else tien_nt_x end))" allowFilter="&GridQueryAllowFilter;">
+      <header v="Lãi nt" e="FC Profit"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="ma_nt" width="100" allowFilter="&GridQueryAllowFilter;">
+      <header v="Mã nt" e="FC Code"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ty_gia" type="Decimal" width="100" dataFormatString="@exchangeRateViewFormat" allowSorting="true" allowFilter="&GridQueryAllowFilter;">
+      <header v="Tỷ giá" e="Exchange Rate"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="gia2" type="Decimal" width="100" dataFormatString="@baseCurrencyPriceViewFormat" allowFilter="&GridQueryAllowFilter;">
+      <header v="Giá bán" e="Price"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="tien2" type="Decimal" width="120" dataFormatString="@baseCurrencyAmountViewFormat" aggregate="Sum" allowFilter="&GridQueryAllowFilter;">
+      <header v="Doanh thu" e="Turnover"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="thue" type="Decimal" width="120" dataFormatString="@baseCurrencyAmountViewFormat" aggregate="Sum" allowFilter="&GridQueryAllowFilter;">
+      <header v="Thuế" e="Tax Amount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ck" type="Decimal" width="120" dataFormatString="@baseCurrencyAmountViewFormat" aggregate="Sum" allowFilter="&GridQueryAllowFilter;">
+      <header v="Chiết khấu" e="Discount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="pt" type="Decimal" width="120" dataFormatString="@baseCurrencyAmountViewFormat" aggregate="Sum" aliasName="(a.tien2 + a.thue - a.ck)" allowFilter="&GridQueryAllowFilter;">
+      <header v="Phải thu" e="Receivable Amount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="gia" type="Decimal" width="100" dataFormatString="@baseCurrencyPriceViewFormat" allowFilter="&GridQueryAllowFilter;">
+      <header v="Giá vốn" e="Cogs"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="tien_xuat_ex" type="Decimal" width="120" dataFormatString="@baseCurrencyAmountViewFormat" aliasName="(case when a.ma_ct in ('HDF', 'HDR') then -tien_nhap else tien_xuat end)" allowFilter="&GridQueryAllowFilter;">
+      <header v="Tiền vốn" e="Cogs Amount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="lai_ex" type="Decimal" width="120" dataFormatString="@baseCurrencyAmountViewFormat" aliasName="(a.tien2 - a.ck - (case when a.ma_ct in ('HDF', 'HDR') then tien_nhap else tien_xuat end))" allowFilter="&GridQueryAllowFilter;">
+      <header v="Lãi" e="Profit"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="ma_kho" width="100" aliasName="a" allowFilter="&GridQueryAllowFilter;">
+      <header v="Kho" e="Site"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_nx" width="100" aliasName="a" allowFilter="&GridQueryAllowFilter;">
+      <header v="Nhập xuất" e="Reason"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_vv" width="100" aliasName="a" allowFilter="&GridQueryAllowFilter;">
+      <header v="Vụ việc" e="Job"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="dien_giai" width="300" allowFilter="&GridQueryAllowFilter;">
+      <header v="Diễn giải" e="Description"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="stt_rec" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ngay_ct"/>
+      <field name="ma_ct"/>
+      <field name="so_ct"/>
+
+      <field name="ma_vt"/>
+      <field name="ten_vt%l"/>
+
+      <field name="so_luong"/>
+      <field name="gia_nt2"/>
+      <field name="tien_nt2"/>
+      <field name="thue_nt"/>
+      <field name="ck_nt"/>
+      <field name="pt_nt"/>
+      <field name="gia_nt"/>
+      <field name="tien_nt_x_ex"/>
+      <field name="lai_nt_ex"/>
+
+      <field name="ma_nt"/>
+      <field name="ty_gia"/>
+
+      <field name="gia2"/>
+      <field name="tien2"/>
+      <field name="thue"/>
+      <field name="ck"/>
+      <field name="pt"/>
+      <field name="gia"/>
+      <field name="tien_xuat_ex"/>
+      <field name="lai_ex"/>
+
+      <field name="ma_kho"/>
+      <field name="ma_nx"/>
+      <field name="ma_vv"/>
+      <field name="dien_giai"/>
+
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event ="Showing">
+      <text>
+        &QueryString;
+        <![CDATA[
+declare @name nvarchar(4000)
+if @ct_theo = '0' and exists(select 1 from dmtk where tk = @ma)
+  select @name = rtrim(case when @@language = 'V' then ten_tk else ten_tk2 end) from dmtk where tk = @ma
+if @ct_theo = '1' and exists(select 1 from dmkh where ma_kh = @ma)
+  select @name = rtrim(case when @@language = 'V' then ten_kh else ten_kh2 end) from dmkh where ma_kh = @ma
+if @ct_theo = '2' and exists(select 1 from dmnvbh where ma_nvbh = @ma)
+  select @name = rtrim(case when @@language = 'V' then ten_nvbh else ten_nvbh2 end) from dmnvbh where ma_nvbh = @ma
+if @ct_theo = '3' and exists(select 1 from dmnx where ma_nx = @ma)
+  select @name = rtrim(case when @@language = 'V' then ten_nx else ten_nx2 end) from dmnx where ma_nx = @ma
+if @ct_theo = '4' and exists(select 1 from dmvt where ma_vt = @ma)
+  select @name = rtrim(case when @@language = 'V' then ten_vt else ten_vt2 end) from dmvt where ma_vt = @ma
+if @ct_theo = '5' and exists(select 1 from dmvv where ma_vv = @ma)
+  select @name = rtrim(case when @@language = 'V' then ten_vv else ten_vv2 end) from dmvv where ma_vv = @ma
+select 'this._itemName = ''' + replace(replace(isnull(@name, ''), '\', '\\'), '''', '\''') + ''';this._queryFilterString = ''' + replace(replace(@@queryString, '\', '\\'), '''', '\''') + ''';init$GridQuery$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    &XMLWhenReportLoading;
+    &XMLWhenReportClosing;
+  </commands>
+
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+    <query event="Finding">
+      <text>
+        &QueryString;
+        <![CDATA[
+declare @queryWhereClause nvarchar(4000), @queryFormClause nvarchar(4000), @statement nvarchar(4000)
+select @queryFormClause = 'left join dmvt b on a.ma_vt = b.ma_vt'
+if @nh_kh1 + @nh_kh2 + @nh_kh3 <> '' select @queryFormClause = @queryFormClause + ' left join dmkh c on a.ma_kh = c.ma_kh'
+select @queryWhereClause = case
+  when @ct_theo = '0' then 'a.tk_du = ''' +  replace(@ma, '''', '''''') + ''''
+  when @ct_theo = '1' then 'a.ma_kh = ''' +  replace(@ma, '''', '''''') + ''''
+  when @ct_theo = '2' then 'a.ma_nvbh = ''' +  replace(@ma, '''', '''''') + ''''
+  when @ct_theo = '3' then 'a.ma_nx = ''' +  replace(@ma, '''', '''''') + ''''
+  when @ct_theo = '4' then 'a.ma_vt = ''' +  replace(@ma, '''', '''''') + ''''
+  else 'a.ma_vv = ''' +  replace(@ma, '''', '''''') + ''''
+end
+
+select @queryWhereClause = @queryWhereClause + ' and ' + case
+  when @nh_theo = '0' then 'a.tk_du = ''' +  replace(@ma2, '''', '''''') + ''''
+  when @nh_theo = '1' then 'a.ma_kh = ''' +  replace(@ma2, '''', '''''') + ''''
+  when @nh_theo = '2' then 'a.ma_nvbh = ''' +  replace(@ma2, '''', '''''') + ''''
+  when @nh_theo = '3' then 'a.ma_nx = ''' +  replace(@ma2, '''', '''''') + ''''
+  when @nh_theo = '4' then 'a.ma_vt = ''' +  replace(@ma2, '''', '''''') + ''''
+  else 'a.ma_vv = ''' +  replace(@ma2, '''', '''''') + ''''
+end
+
+if @so_ct1 <> '' select @queryWhereClause = @queryWhereClause + ' and a.so_ct >= ''' + dbo.ff_PadL(replace(rtrim(@so_ct1), '''', ''''''), @maxLength) + ''''
+if @so_ct2 <> '' select @queryWhereClause = @queryWhereClause + ' and a.so_ct <= ''' + dbo.ff_PadL(replace(rtrim(@so_ct2), '''', ''''''), @maxLength) + ''''
+
+if @ma_kho <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_kho like ''' + replace(rtrim(@ma_kho), '''', '''''') + '%'''
+if @ma_nvbh <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_nvbh like ''' + replace(rtrim(@ma_nvbh), '''', '''''') + '%'''
+if @ma_vt <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_vt like ''' + replace(rtrim(@ma_vt), '''', '''''') + '%'''
+if @tk_vt <> '' select @queryWhereClause = @queryWhereClause + ' and a.tk_vt like ''' + replace(rtrim(@tk_vt), '''', '''''') + '%'''
+if @tk_dt <> '' select @queryWhereClause = @queryWhereClause + ' and a.tk_dt like ''' + replace(rtrim(@tk_dt), '''', '''''') + '%'''
+if @ma_nx <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_nx like ''' + replace(rtrim(@ma_nx), '''', '''''') + '%'''
+if @ma_vv <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_vv like ''' + replace(rtrim(@ma_vv), '''', '''''') + '%'''
+if @ma_bp <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_bp like ''' + replace(rtrim(@ma_bp), '''', '''''') + '%'''
+if @ma_hd <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_hd like ''' + replace(rtrim(@ma_hd), '''', '''''') + '%'''
+if @tinh_ps = '0' select @queryWhereClause = @queryWhereClause + ' and a.ct_dc <> 1'
+if @ma_gd <> '' select @queryWhereClause = @queryWhereClause + ' and ma_gd in (''' + replace(replace(replace(@ma_gd, ' ', ''), '''', ''''''), ',', ''',''') + ''')'
+if @ma_kh <> '' select @queryWhereClause = @queryWhereClause + ' and a.ma_kh like ''' + replace(rtrim(@ma_kh), '''', '''''') + '%'''
+if @nh_kh1 <> '' select @queryWhereClause = @queryWhereClause + ' and c.nh_kh1 like ''' + replace(rtrim(@nh_kh1), '''', '''''') + '%'''
+if @nh_kh2 <> '' select @queryWhereClause = @queryWhereClause + ' and c.nh_kh2 like ''' + replace(rtrim(@nh_kh2), '''', '''''') + '%'''
+if @nh_kh3 <> '' select @queryWhereClause = @queryWhereClause + ' and c.nh_kh3 like ''' + replace(rtrim(@nh_kh3), '''', '''''') + '%'''
+if @nh_vt1 <> '' select @queryWhereClause = @queryWhereClause + ' and b.nh_vt1 like ''' + replace(rtrim(@nh_vt1), '''', '''''') + '%'''
+if @nh_vt2 <> '' select @queryWhereClause = @queryWhereClause + ' and b.nh_vt2 like ''' + replace(rtrim(@nh_vt2), '''', '''''') + '%'''
+if @nh_vt3 <> '' select @queryWhereClause = @queryWhereClause + ' and b.nh_vt3 like ''' + replace(rtrim(@nh_vt3), '''', '''''') + '%'''
+exec rs_GetTransactionKey @ds_ma_ct, @transactionList, 1, 'rptSalesSummaryByTwoCriteria2', '@@sysDatabaseName', 'a.', @queryWhereClause output
+]]>&DynamicFieldGridQueryWhereClause;<![CDATA[
+select @statement = 'update #t set tien2 = -tien2, pt = -pt, thue = -thue, ck = -ck, lai_ex = -lai_ex, tien_nt2 = -tien_nt2, pt_nt = -pt_nt, thue_nt = -thue_nt, ck_nt = -ck_nt, lai_nt_ex = -lai_nt_ex where ma_ct in (''HDF'', ''HDR'')'
+
+]]>&FilterInitialize;&FilterQuery;<![CDATA[
+exec FastBusiness$Report$StockDetail @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem,
+  @@textExternal, @queryFormClause, @queryWhereClause, @ngay_ct1, @ngay_ct2, @ma_dvcs, @loai_du_lieu, @@admin, @@userID,
+  'rptSalesSummaryByTwoCriteria2', '@@sysDatabaseName', @statement,
+  'so_luong, tien_nt2, thue_nt, ck_nt, pt_nt, tien_nt_x_ex, lai_nt_ex, tien2, thue, ck, pt, tien_xuat_ex, lai_ex',
+  'sl_xuat, tien_nt2, thue_nt, ck_nt, tien_nt2, tien_nt_x, tien_nt2, tien2, thue, ck, tien2, tien_xuat, tien2',
+  'sum(case when a.ma_ct in (''HDF'', ''HDR'') then -sl_nhap else sl_xuat end),sum(tien_nt2),sum(thue_nt),sum(ck_nt),sum(a.tien_nt2 + a.thue_nt - a.ck_nt),sum(case when a.ma_ct in (''HDF'', ''HDR'') then -tien_nt_n else tien_nt_x end),sum((a.tien_nt2 - a.ck_nt - (case when a.ma_ct in (''HDF'', ''HDR'') then tien_nt_n else tien_nt_x end))),sum(tien2),sum(thue),sum(ck),sum(a.tien2 + a.thue - a.ck),sum((case when a.ma_ct in (''HDF'', ''HDR'') then -tien_nhap else tien_xuat end)),sum((a.tien2 - a.ck - (case when a.ma_ct in (''HDF'', ''HDR'') then tien_nhap else tien_xuat end)))',
+  'sum(so_luong),sum(tien_nt2),sum(thue_nt),sum(ck_nt),sum(pt_nt),sum(tien_nt_x_ex),sum(lai_nt_ex),sum(tien2),sum(thue),sum(ck),sum(pt),sum(tien_xuat_ex),sum(lai_ex)'
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <script>
+    <text>
+      &JavascriptReportInit;
+      <![CDATA[/* <flatten type="Javascript"> */
+function init$GridQuery$(g) {
+  var a = g._queryFilterString.split(String.fromCharCode(253));
+  g._alterTitle = [null, [['%c', a[0], true], ['%s', g._itemName, true], ['%d1', formatDateView(a[2]), true], ['%d2', formatDateView(a[3]), true]]];
+  var x = a[16];
+  g._hiddenFields = [
+    {Fields: 'gia2, tien2, thue, ck, pt, gia, tien_xuat_ex, lai_ex', Value: (x == '10')},
+    {Fields: 'gia_nt2, tien_nt2, thue_nt, ck_nt, pt_nt, gia_nt, tien_nt_x_ex, lai_nt_ex, ma_nt, ty_gia', Value: (x == '20' || x == '10')}
+  ];
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  &XMLStandardQueryToolbar;
+</grid>

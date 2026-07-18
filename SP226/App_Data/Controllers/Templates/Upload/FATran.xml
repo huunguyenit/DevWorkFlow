@@ -1,0 +1,255 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE import [
+  <!ENTITY IrregularValue SYSTEM "Include\Irregular.txt">
+
+  <!ENTITY Error "
+if @r is not null begin
+  select '' as message, @field as field, @r as record
+  return
+end
+">
+  <!ENTITY Irregular "
+if @r is not null begin
+  select @irregular as message, @field as field, @r as record
+  return
+end
+">
+  <!ENTITY Duplicate "
+if @r is not null begin
+  select @duplicate as message, @field as field, @r as record
+  return
+end
+">
+  <!ENTITY And "&#13;">
+  <!ENTITY Checking "@@checking">
+  <!ENTITY Permissions " not exists(select 1 from sysunitrights c where b.ma_dvcs = c.ma_dvcs and r_edit = 1 and c.user_id = @@userID)">
+
+  <!ENTITY % Nested SYSTEM "..\..\Include\Nested.ent">
+  %Nested;
+]>
+
+<import xmlns="urn:schemas-fast-com:data-import">
+  <setting>
+    <type value="Other"/>
+    <startRow value="6"/>
+    <maxFileSize value="10"/>
+    <uploadTimeOut value="120"/>
+    <importRecordTimeout value="1740"/>
+    <allowFileExtension value="^(.XLSX)$"/>
+    <onProcessFail value="parent.on$FATranImportForm$Fail(this.frameElement)"/>
+    <onProcessComplete value="parent.on$FATranImportForm$Complete(this.frameElement)"/>
+    <uploadContentType value="application/ms-excel;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+    <baseTable value="dmts, ctdmts"/>
+    <dependence value="dmts, ctdmts, its"/>
+    <listTable value="#id1, #d1, #i1"/>
+    <temporary value="#k, #d2, #i2" alias="b, b, b"/>
+    <alias value="master, detail, inquiry"/>
+  </setting>
+
+  <fields identity="true" name="stt">
+    <field name="ma_dvcs" column="A" allowNulls="false" upperCase="true" alias="b, , " resource="master, inquiry" check="ma_dvcs not in (select ma_dvcs from dmdvcs)&And;not exists(select 1 from dmts b where @@table.so_the_ts = b.so_the_ts) and @@table.ma_dvcs not in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_new = 1)&And;exists(select 1 from dmts b where @@table.so_the_ts = b.so_the_ts) and @@table.ma_dvcs not in (select distinct ma_dvcs from sysunitrights where user_id = @user and r_edit = 1)" condition="&And;if @admin = 0 begin&And;if @admin = 0 begin if @type = '1' begin" tag="&And;end&And;end end"/>
+    <field name="ngay_ct" column="B" allowNulls="false" type="DateTime" alias="b, , " resource="master, detail, inquiry"/>
+    <field name="so_ct" column="C" allowNulls="false" upperCase="true" alias="b, , " resource="master, detail, inquiry"/>
+    <field name="so_the_ts" column="D" allowNulls="false" upperCase="true" updateValue="None" alias="a, " resource="master, detail"/>
+    <field name="ten_ts" column="E" allowNulls="false" alias="b" resource="master"/>
+    <field name="ten_ts2" column="F" alias="b, " resource="master"/>
+    <field name="loai_ts" column="G" allowNulls="false" upperCase="true" alias="b" resource="master" check="loai_ts not in (select ma_loai from dmplts)"/>
+    <field name="ma_tg_ts" column="H" allowNulls="false" upperCase="true" alias="b, " resource="master, detail" check="ma_tg_ts not in (select ma_tg_ts from dmtgts where loai_tg_ts = 1)"/>
+    <field name="ngay_mua" column="I" allowNulls="false" type="DateTime" alias="b" resource="master"/>
+    <field name="ngay_kh0" column="J" allowNulls="false" type="DateTime" alias="b" resource="master"/>
+    <field name="so_ky_kh" column="K" type="Decimal" alias="b" resource="master"/>
+    <field name="ngay_kh_kt" column="L" type="DateTime" alias="b" resource="master"/>
+    <field name="kieu_kh" column="M" type="Decimal" defaultValue="0" alias="b" resource="master" check="kieu_kh not in ('0', '1', '2')"/>
+    <field name="tong_sl" column="N" type="Decimal" alias="b" resource="master" check="kieu_kh &lt;&gt; 1 and tong_sl &lt;&gt; 0"/>
+    <field name="tl_kh00" column="O" type="Decimal" alias="b" resource="master" check="kieu_kh &lt;&gt; 2 and tl_kh00 &lt;&gt; 0"/>
+    <field name="ky_kh00" column="P" type="Decimal" alias="b" resource="master" check="kieu_kh &lt;&gt; 2 and ky_kh00 &lt;&gt; 0"/>
+
+    <field name="ma_nv" column="Q" allowNulls="false" reference="1" upperCase="true" resource="detail" check="ma_nv not in (select ma_nv from dmnv)&And;1=1 group by so_the_ts, ma_nv having count(*) &gt; 1"/>
+    <field name="nguyen_gia_nt" column="S" type="Decimal" resource="detail"/>
+    <field name="gt_da_kh_nt" column="T" type="Decimal" resource="detail"/>
+    <field name="gt_cl_nt" column="U" type="Decimal" resource="detail"/>
+    <field name="gt_kh_ky_nt" column="V" type="Decimal" resource="detail"/>
+    <field name="gt_da_kh00_nt" column="W" type="Decimal" resource="detail"/>
+
+    <field name="ma_nt" column="X" upperCase="true" alias="b" resource="master" check="ma_nt not in (select ma_nt from dmnt)"/>
+    <field name="ty_gia" column="Y" type="Decimal" defaultValue="1" alias="b" resource="master"/>
+    <field name="ma_bp" column="Z" allowNulls="false" upperCase="true" alias="b" resource="master" check="ma_bp not in (select ma_bp from dmbpts)"/>
+    <field name="tk_ts" column="AA" allowNulls="false" upperCase="true" alias="b" resource="master" check="tk_ts not in (select tk from dmtk where loai_tk = 1)"/>
+    <field name="tk_kh" column="AB" allowNulls="false" upperCase="true" alias="b" resource="master" check="tk_kh not in (select tk from dmtk where loai_tk = 1)"/>
+    <field name="tk_cp" column="AC" allowNulls="false" upperCase="true" alias="b" resource="master" check="tk_cp not in (select tk from dmtk where loai_tk = 1)"/>
+    <field name="ma_phi" column="AD" upperCase="true" resource="master" alias="b" check="ma_phi &lt;&gt; '' and ma_phi not in (select ma_phi from dmphi)"/>
+
+    <field name="dien_giai" column="AE" reference="1" resource="detail"/>
+    <field name="nh_ts1" column="AF" upperCase="true" alias="b" resource="master" check="nh_ts1 &lt;&gt; '' and nh_ts1 not in (select ma_nh from dmnhts where loai_nh = 1)"/>
+    <field name="nh_ts2" column="AG" upperCase="true" alias="b" resource="master" check="nh_ts2 &lt;&gt; '' and nh_ts2 not in (select ma_nh from dmnhts where loai_nh = 2)"/>
+    <field name="nh_ts3" column="AH" upperCase="true" alias="b" resource="master" check="nh_ts3 &lt;&gt; '' and nh_ts3 not in (select ma_nh from dmnhts where loai_nh = 3)"/>
+    <field name="so_ky_kh_qd" column="AI" type="Decimal" alias="b" resource="master"/>
+    <field name="so_ky_kh_cl" column="AJ" type="Decimal" alias="b" insertValue="case when b.so_ky_kh_cl &lt;&gt; 0 then b.so_ky_kh_cl else b.so_ky_kh end" updateValue="case when b.so_ky_kh_cl &lt;&gt; 0 then b.so_ky_kh_cl else b.so_ky_kh end" resource="master"/>
+    <field name="ty_le_kh_vm" column="AK" type="Decimal" alias="b" resource="master"/>
+    <field name="hs_vm" column="AL" type="Decimal" alias="b" resource="master"/>
+    <field name="so_hieu_ts" column="AM" upperCase="true" alias="b" resource="master"/>
+    <field name="ngay_dvsd" column="AN" type="DateTime" alias="b" resource="master"/>
+    <field name="ngay_dc" column="AO" type="DateTime" alias="b" resource="master"/>
+    <field name="nuoc_sx" column="AP" alias="b" resource="master"/>
+    <field name="nam_sx" column="AQ" type="Decimal" alias="b" resource="master"/>
+
+    <field name="stt_rec" column="None" updateValue="None" resource="master, detail, inquiry"/>
+    <field name="stt_rec0" column="None" updateValue="None" resource="detail"/>
+    <field name="line_nbr" column="None" type="Int" updateValue="None" resource="detail"/>
+
+    <field name="t_nguyen_gia" column="None" type="Decimal" insertValue="c.t_nguyen_gia" updateValue="c.t_nguyen_gia" resource="master"/>
+    <field name="t_nguyen_gia_nt" column="None" type="Decimal" insertValue="c.t_nguyen_gia_nt" updateValue="c.t_nguyen_gia_nt" resource="master"/>
+    <field name="t_gt_da_kh" column="None" type="Decimal" insertValue="c.t_gt_da_kh" updateValue="c.t_gt_da_kh" resource="master"/>
+    <field name="t_gt_da_kh_nt" column="None" type="Decimal" insertValue="c.t_gt_da_kh_nt" updateValue="c.t_gt_da_kh_nt" resource="master"/>
+    <field name="t_gt_cl" column="None" type="Decimal" insertValue="c.t_gt_cl" updateValue="c.t_gt_cl" resource="master"/>
+    <field name="t_gt_cl_nt" column="None" type="Decimal" insertValue="c.t_gt_cl_nt" updateValue="c.t_gt_cl_nt" resource="master"/>
+    <field name="t_gt_kh_ky" column="None" type="Decimal" insertValue="c.t_gt_kh_ky" updateValue="c.t_gt_kh_ky" resource="master"/>
+    <field name="t_gt_kh_ky_nt" column="None" type="Decimal" insertValue="c.t_gt_kh_ky_nt" updateValue="c.t_gt_kh_ky_nt" resource="master"/>
+
+    <field name="nguyen_gia" column="None" type="Decimal" resource="detail"/>
+    <field name="gt_da_kh" column="None" type="Decimal" resource="detail"/>
+    <field name="gt_cl" column="None" type="Decimal" resource="detail"/>
+    <field name="gt_kh_ky" column="None" type="Decimal" resource="detail"/>
+    <field name="gt_da_kh00" column="None" type="Decimal" resource="detail"/>
+
+    <field name="ky" column="None" type="Decimal" insertValue="month(b.ngay_kh0)&And;ky" updateValue="None" resource="master, detail"/>
+    <field name="nam" column="None" type="Decimal" insertValue="year(b.ngay_kh0)&And;nam" updateValue="None" resource="master, detail"/>
+
+    <field name="ngay_lct" column="None" type="DateTime" insertValue="b.ngay_ct" updateValue="None" resource="master"/>
+    <field name="ngay_gs" column="None" type="DateTime" insertValue="ngay_ct" updateValue="None" resource="detail"/>
+    <field name="ma_ct" column="None" insertValue="@voucherID" updateValue="None" resource="master, detail"/>
+
+    <field name="c$" column="None" resource="inquiry"/>
+    <field name="m$" column="None" resource="inquiry"/>
+    <field name="d$" column="None" resource="inquiry"/>
+
+    <field name="status" column="None" insertValue="'1'" updateValue="None" resource="master, inquiry"/>
+    <field name="datetime0" column="None" type="DateTime" insertValue="@datetime0" updateValue="None" resource="master, detail"/>
+    <field name="datetime2" column="None" type="DateTime" insertValue="@datetime0" updateValue="@datetime0" resource="master, detail"/>
+    <field name="user_id0" column="None" type="Int" insertValue="@user" updateValue="None" resource="master, detail, inquiry"/>
+    <field name="user_id2" column="None" type="Int" insertValue="@user" updateValue="@user" resource="master, detail"/>
+  </fields>
+
+  <processing>
+    <text>
+      <![CDATA[
+declare @q nvarchar(4000), @message nvarchar(4000), @irregular nvarchar(4000), @duplicate nvarchar(4000), @irregularChars varchar(128), @field varchar(32), @wsID varchar(1)
+declare @user int, @admin bit, @m int, @r int, @i int, @k int, @count int, @round int, @voucherID varchar(8), @baseCurrency varchar(8), @datetime0 datetime
+
+select @i = 1, @wsID = rtrim(val) from options where rtrim(name) = 'm_ws_id'
+select @round = cast(rtrim(val) as int) from options where rtrim(name) = 'm_round_tien'
+select @baseCurrency = rtrim(val) from options where rtrim(name) = 'm_ma_nt0'
+
+select @m = character_maximum_length from information_schema.columns where table_name = 'dmts' and column_name = 'so_ct'
+select @admin = @@admin, @user = @@userID, @voucherID = 'TS1', @irregularChars = ]]>&IrregularValue;<![CDATA[, @datetime0 = getdate()
+select @irregular = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> có chứa các ký tự: ' + @irregularChars else 'The value of cell <span class="Highlight">%invalidCell</span> contains any of the following characters: ' + @irregularChars  end
+select @duplicate = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> ]]>&FATran.Nested.Message.v;<![CDATA[.' else 'The value of cell <span class="Highlight">%invalidCell</span> is ]]>&FATran.Nested.Message.e;<![CDATA[.' end
+
+update @@table set so_ct = space(@m - len(rtrim(so_ct))) + ltrim(so_ct), ma_nt = case when ma_nt <> '' then ma_nt else @baseCurrency end
+
+-- Check
+select @field = 'so_the_ts', @r = min(stt) from @@table where so_the_ts like '%[' + @irregularChars + ']%']]>&Irregular;<![CDATA[
+
+-- Checking
+]]>&Checking;<![CDATA[
+
+if @admin = 0 begin
+  if @type = '1' begin
+    if @@sysDatabaseName.dbo.FastBusiness$System$GetAuthorize(@admin, @user, 'FATran', 'Edit') = 0 select @type = '0'
+  end
+end
+
+if @type = '0' delete @@table from @@table a where exists(select 1 from dmts b where a.so_the_ts = b.so_the_ts)
+select a.* into #k from @@table a join dmts b on a.so_the_ts = b.so_the_ts
+delete @@table from @@table a where exists(select 1 from #k b where a.so_the_ts = b.so_the_ts)
+
+if @admin = 0 begin
+  if @type = '1' begin
+    select @r = min(a.stt), @field = 'ma_dvcs' from #k a join dmts b on a.so_the_ts = b.so_the_ts where ]]>&Permissions;<![CDATA[
+    ]]>&Error;<![CDATA[
+  end
+end
+
+select @field = 'so_the_ts'
+]]>&FATran.Nested.Key.b;<![CDATA[
+  select @q = 'select top 1 @r = a.stt from @@table a, @@table b where a.so_the_ts <> b.so_the_ts and a.so_the_ts like rtrim(b.so_the_ts) + ''%'''
+  exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+  select top 1 @r = a.stt from @@table a, dmts b where a.so_the_ts like rtrim(b.so_the_ts) + '%']]>&Duplicate;<![CDATA[
+  select @q = 'select top 1 @r = b.stt from dmts a, @@table b where a.so_the_ts like rtrim(b.so_the_ts) + ''%'''
+  exec sp_executesql @q, N'@r int output', @r = @r output]]>&Duplicate;<![CDATA[
+end
+select top 0 a.stt_rec, a.stt_rec0, a.line_nbr, a.so_the_ts, a.ngay_ct, a.so_ct, a.ky, a.nam, a.ma_nv, a.ma_tg_ts, b.ty_gia, a.nguyen_gia, a.nguyen_gia_nt, a.gt_da_kh, a.gt_da_kh_nt, a.gt_cl, a.gt_cl_nt, a.gt_kh_ky, a.gt_kh_ky_nt, a.gt_da_kh00, a.gt_da_kh00_nt, a.dien_giai into #d1 from ctdmts a, dmts b
+
+select @count = count(*) from @@table
+if @count > 0 begin
+  select top 0 stt_rec, so_the_ts, cast(0 as int) as stt, identity(int, 1, 1) as id into #id1 from dmts
+  insert into #id1(stt_rec, so_the_ts, stt) select '', so_the_ts, min(stt) from @@table group by so_the_ts
+
+  select @k = count(*) from #id1
+  exec FastBusiness$App$UpdateIdentityNumber @wsID, @voucherID, @k, @@userID, '#id1'
+
+  insert into #d1
+    select b.stt_rec, replace(str((a.stt - b.stt) + 1, 3), ' ', '0'), (a.stt - b.stt) + 1, a.so_the_ts, a.ngay_ct, a.so_ct, month(a.ngay_kh0), year(a.ngay_kh0),
+      a.ma_nv, a.ma_tg_ts, a.ty_gia, round(a.nguyen_gia_nt * a.ty_gia, @round), a.nguyen_gia_nt, round(a.gt_da_kh_nt * a.ty_gia, @round), a.gt_da_kh_nt, round(a.gt_cl_nt * a.ty_gia, @round), a.gt_cl_nt,
+      round(a.gt_kh_ky_nt * a.ty_gia, @round), a.gt_kh_ky_nt, round(a.gt_da_kh00_nt * a.ty_gia, @round), a.gt_da_kh00_nt,  a.dien_giai
+    from @@table a join #id1 b on a.so_the_ts = b.so_the_ts order by a.so_the_ts
+
+  select top 0 stt_rec, ngay_ct, so_ct, ma_dvcs, c$, m$, d$, cast(0 as int) as stt, identity(int, 1, 1) as id into #i1 from its
+  insert into #i1 select a.stt_rec, b.ngay_ct, b.so_ct, b.ma_dvcs, convert(varchar(12), b.ngay_ct, 112) + b.so_ct + a.stt_rec, '#10$' + rtrim(b.so_the_ts) + '#20$' + rtrim(b.loai_ts) + '#30$' + rtrim(b.ma_bp), '', a.stt from #id1 a join @@table b on a.stt = b.stt
+  select @q = dbo.FastBusiness$Function$Update$Inquiry('#i1', '#d1', 'd$', 'ma_nv', '#10$', 'stt_rec', default, default, default, default, default)
+  exec sp_executesql @q
+
+  -- Insert
+  @@inserting(master); a join @@table b on a.stt = b.stt
+    join (select so_the_ts, sum(nguyen_gia) as t_nguyen_gia, sum(nguyen_gia_nt) as t_nguyen_gia_nt,
+      sum(gt_da_kh) as t_gt_da_kh, sum(gt_da_kh_nt) as t_gt_da_kh_nt, sum(gt_cl) as t_gt_cl, sum(gt_cl_nt) as t_gt_cl_nt,
+      sum(gt_kh_ky) as t_gt_kh_ky, sum(gt_kh_ky_nt) as t_gt_kh_ky_nt from #d1 group by so_the_ts) c
+    on a.so_the_ts = c.so_the_ts
+
+  @@inserting(detail);
+  @@inserting(inquiry);
+end
+
+if @type = '1' begin
+  select @k = count(*) from #k
+
+  if @k > 0 begin
+    select top 0 stt_rec, so_the_ts, cast(0 as int) as stt, identity(int, 1, 1) as id into #id2 from dmts
+    insert into #id2 select b.stt_rec, a.so_the_ts, min(stt) from #k a join dmts b on a.so_the_ts = b.so_the_ts group by a.so_the_ts, b.stt_rec
+
+    select top 0 a.stt_rec, a.stt_rec0, a.line_nbr, a.so_the_ts, a.ngay_ct, a.so_ct, a.ky, a.nam, a.ma_nv, a.ma_tg_ts, b.ty_gia, a.nguyen_gia, a.nguyen_gia_nt, a.gt_da_kh, a.gt_da_kh_nt, a.gt_cl, a.gt_cl_nt, a.gt_kh_ky, a.gt_kh_ky_nt, a.gt_da_kh00, a.gt_da_kh00_nt, a.dien_giai into #d2 from ctdmts a, dmts b
+    insert into #d2 select b.stt_rec, replace(str((a.stt - b.stt) + 1, 3), ' ', '0'), (a.stt - b.stt) + 1, a.so_the_ts, a.ngay_ct, a.so_ct, month(a.ngay_kh0), year(a.ngay_kh0),
+        a.ma_nv, a.ma_tg_ts, a.ty_gia,
+        round(a.nguyen_gia_nt * a.ty_gia, @round), a.nguyen_gia_nt, round(a.gt_da_kh_nt * a.ty_gia, @round), a.gt_da_kh_nt, round(a.gt_cl_nt * a.ty_gia, @round), a.gt_cl_nt,
+        round(a.gt_kh_ky_nt * a.ty_gia, @round), a.gt_kh_ky_nt, round(a.gt_da_kh00_nt * a.ty_gia, @round), a.gt_da_kh00_nt,
+        a.dien_giai
+      from #k a join #id2 b on a.so_the_ts = b.so_the_ts order by a.so_the_ts
+
+    select top 0 stt_rec, ngay_ct, so_ct, ma_dvcs, c$, m$, d$, cast(0 as int) as stt, identity(int, 1, 1) as id into #i2 from its
+    insert into #i2 select b.stt_rec, a.ngay_ct, a.so_ct, a.ma_dvcs, convert(varchar(12), a.ngay_ct, 112) + a.so_ct + b.stt_rec, '#10$' + rtrim(b.so_the_ts) + '#20$' + rtrim(a.loai_ts) + '#30$' + rtrim(a.ma_bp), '', b.stt from #k a join #id2 b on a.stt = b.stt
+    select @q = dbo.FastBusiness$Function$Update$Inquiry('#i2', '#d2', 'd$', 'ma_nv', '#10$', 'stt_rec', default, default, default, default, default)
+    exec sp_executesql @q
+
+    -- Update
+    update dmts set @@list(master);
+      from dmts a join #k b on a.so_the_ts = b.so_the_ts join #id2 d on b.stt = d.stt
+        join (select so_the_ts, sum(nguyen_gia) as t_nguyen_gia, sum(nguyen_gia_nt) as t_nguyen_gia_nt,
+          sum(gt_da_kh) as t_gt_da_kh, sum(gt_da_kh_nt) as t_gt_da_kh_nt, sum(gt_cl) as t_gt_cl, sum(gt_cl_nt) as t_gt_cl_nt,
+          sum(gt_kh_ky) as t_gt_kh_ky, sum(gt_kh_ky_nt) as t_gt_kh_ky_nt from #d2 group by so_the_ts) c
+        on a.so_the_ts = c.so_the_ts
+
+    delete ctdmts where stt_rec in (select distinct stt_rec from #id2)
+
+    truncate table #d1
+    insert into #d1 select * from #d2
+    @@inserting(detail);
+
+    update its set @@list(inquiry); from its a join #i2 b on a.stt_rec = b.stt_rec
+  end
+end
+]]>
+    </text>
+  </processing>
+
+</import>

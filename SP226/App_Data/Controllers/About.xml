@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+
+<about imageHeight="100" imageWidth="80" delta="128" xmlns="urn:schemas-fast-com:data-about">
+  <fields>
+    <field id="who">
+      <name v="NHỮNG NGƯỜI THỰC HIỆN" e="DEVELOPMENT TEAM"></name>
+      <desc v="" e=""></desc>
+    </field>
+    <field id="description">
+      <name v="Phần mềm &lt;font color=&quot;#4682b4&quot;&gt;Fast Business Online&lt;/font&gt; /br/được phát triển bởi &lt;font color=&quot;#4682b4&quot;&gt;Công ty Phần mềm Quản lý Doanh nghiệp (FAST)&lt;/font&gt; /br/ &lt;a style=&quot;height:14px;display:block;&quot; target=&quot;_blank&quot; class = &quot;Website&quot; href=&quot;http://www.fast.com.vn&quot;&gt;www.fast.com.vn &lt;/a&gt;" e="Application &lt;font color=&quot;#4682b4&quot;&gt;Fast Business Online&lt;/font&gt; /br/ Developer by &lt;font color=&quot;#4682b4&quot;&gt;FAST Software Company&lt;/font&gt; /br/ &lt;a style=&quot;height:14px;display:block;&quot; target=&quot;_blank&quot; class = &quot;Website&quot; href=&quot;http://www.fast.com.vn&quot;&gt;www.fast.com.vn &lt;/a&gt;"></name>
+      <desc v="Sản phẩm này được bảo vệ bởi Luật sở hữu trí tuệ /br/ Mọi việc sử dụng, sửa đổi và phân phối trái phép là vi phạm pháp luật." e="This computer program is protected by Copyright Law &amp; Intelligence Property /br/ Unauthorized reproduction or distribution of this program is illegal."></desc>
+    </field>
+    <field id="version">
+      <name v="" e=""></name>
+      <desc v="" e=""></desc>
+    </field>
+    <field id="L11" bgPosition="0 0">
+      <name v="Phạm Ngọc Hùng" e="Pham Ngoc Hung"></name>
+      <desc v="Phụ trách phát triển sản phẩm" e="Product Development Assurance"></desc>
+    </field>
+    <field id="L12" bgPosition="-80px 0">
+      <name v="Nguyễn Đăng Khoa" e="Nguyen Dang Khoa"></name>
+      <desc v="Phụ trách lập trình sản phẩm" e="Programming Assurance"></desc>
+    </field>
+    <field id="L13" bgPosition="-160px 0">
+      <name v="Phạm Tiến Huân" e="Pham Tien Huan"></name>
+      <desc v="Phụ trách kiểm tra sản phẩm và tài liệu hướng dẫn sử dụng" e="Incharge of Testing and User Guide"></desc>
+    </field>
+    <field id="L14" bgPosition="-240px 0">
+      <name v="Tăng Lê Khánh Hùng" e="Tang Le Khanh Hung"></name>
+      <desc v="Phụ trách tài liệu và nghiệp vụ cho sản phẩm" e="Incharge of specification and configuration document"></desc>
+    </field>
+
+    <field id="hr">
+      <name v="" e=""></name>
+      <desc v="" e=""></desc>
+    </field>
+    <field id="L21" bgPosition="0 -100px">
+      <name v="Lê Tiến Tâm" e="Le Tien Tam"></name>
+      <desc v="Lập trình sản phẩm" e="Programming Senior"></desc>
+    </field>
+    <field id="L22" bgPosition="-80px -100px">
+      <name v="Trần Tuấn" e="Tran Tuan"></name>
+      <desc v="Lập trình sản phẩm" e="Programmer"></desc>
+    </field>
+
+    <field id="L23" bgPosition="-160px -100px">
+      <name v="Nguyễn Văn Quỳnh" e="Nguyen Van Quynh"></name>
+      <desc v="Lập trình sản phẩm" e="Programmer"></desc>
+    </field>
+    <field id="L31" bgPosition="0 -200px">
+      <name v="Nguyễn Văn Lạc" e="Nguyen Van Lac"></name>
+      <desc v="Lập trình sản phẩm" e="Programmer"></desc>
+    </field>
+
+    <field id="L32" bgPosition="-80px -200px">
+      <name v="Phạm Lương Thiện Bình" e="Pham Luong Thien Binh"></name>
+      <desc v="Lập trình sản phẩm" e="Programmer"></desc>
+    </field>
+
+    <field id="L42" bgPosition="-480px 0">
+      <name v="Nguyễn Thành Luân" e="Nguyen Thanh Luan"></name>
+      <desc v="Lập trình sản phẩm" e="Programmer"></desc>
+    </field>
+    <field id="L50" bgPosition="-480px -200px">
+      <name v="Đoàn Duy Khanh" e="Doan Duy Khanh"></name>
+      <desc v="Lập trình sản phẩm" e="Programmer"></desc>
+    </field>
+    <field id="L50" bgPosition="-320px -100px">
+      <name v="Hong Quang Hưng" e="Hong Quang Hung"></name>
+      <desc v="Lập trình sản phẩm" e="Programmer"></desc>
+    </field>
+
+    <field id="L50" bgPosition="-400px -100px">
+      <name v="Nguyễn Khoa Lữ" e="Nguyen Khoa Lu"></name>
+      <desc v="Lập trình sản phẩm" e="Programmer"></desc>
+    </field>
+    <field id="L50" bgPosition="-480px -100px">
+      <name v="Nguyễn Quốc Đạt" e="Nguyen Quoc Dat"></name>
+      <desc v="Lập trình sản phẩm" e="Programmer"></desc>
+    </field>
+    <field id="hr">
+      <name v="" e=""></name>
+      <desc v="" e=""></desc>
+    </field>
+
+    <field id="L35" bgPosition="-320px -200px">
+      <name v="Cao Thị Thu Huyền" e="Cao Thi Thu Huyen"></name>
+      <desc v="Kiểm tra sản phẩm" e="Specialist"></desc>
+    </field>
+    <field id="L44" bgPosition="-400px -200px">
+      <name v="Nguyễn Thị Việt Hương" e="Nguyen Thi Viet Huong"></name>
+      <desc v="Kiểm tra sản phẩm" e="Tester"></desc>
+    </field>
+    <field id="L45" bgPosition="-240px -200px">
+      <name v="Nguyễn Thị Hạ Châu" e="Nguyen Thi Ha Chau"></name>
+      <desc v="Kiểm tra sản phẩm" e="Tester"></desc>
+    </field>
+  </fields>
+
+</about>

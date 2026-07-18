@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmtlbh" code="ma_ty_le" name="ten_ty_le%l" order="ma_ty_le" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục tỷ lệ đóng bảo hiểm" e="Insurance Rate List"></header>
+  <fields>
+    <field name="ma_ty_le" allowSorting="true" allowFilter="true">
+      <header v="Mã tỷ lệ" e="Insurance Rate"></header>
+    </field>
+    <field name="ten_ty_le%l" allowSorting="true" allowFilter="true">
+      <header v="Tên tỷ lệ" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

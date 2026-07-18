@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLStandardDetailToolbar SYSTEM "..\Include\XML\StandardDetailToolbar.xml">
+]>
+
+<grid table="hrrmqtlvtd" code="ma_hs" order="ma_hs, line_nbr" type="Detail" freezeColumns="3" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <fields>
+    <field name="ma_hs" isPrimaryKey="true" allowNulls="false" readOnly="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="cong_ty" allowNulls="false" width="150">
+      <header v="Đơn vị" e="Organization"></header>
+    </field>
+    <field name="vi_tri" width="150">
+      <header v="Vị trí công việc" e="Position"></header>
+    </field>
+    <field name="luong" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" width="100">
+      <header v="Lương" e="Salary"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="thoi_gian_lv" type="Decimal" dataFormatString="# ### ##0.00" width="100">
+      <header v="Năm công tác" e="Seniority"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ngay_tu" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" width="100" align="left">
+      <header v="Từ ngày" e="From Date"></header>
+    </field>
+    <field name="ngay_den" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" width="100" align="left">
+      <header v="Đến ngày" e="To Date"></header>
+    </field>
+    <field name="ly_do_den" width="300">
+      <header v="Lý do chuyển đến" e="Reason for Employment"></header>
+    </field>
+    <field name="ly_do_di" width="300">
+      <header v="Lý do chuyển đi" e="Reason for Leaving"></header>
+    </field>
+    <field name="ghi_chu" width="300">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+
+    <field name="stt_rec0" isPrimaryKey="true" hidden="true" width="0" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" hidden="true" width="0" allowContain="true" clientDefault="1" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"></items>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_hs"/>
+      <field name="cong_ty"/>
+      <field name="vi_tri"/>
+      <field name="luong"/>
+      <field name="thoi_gian_lv"/>
+      <field name="ngay_tu"/>
+      <field name="ngay_den"/>
+      <field name="ly_do_den"/>
+      <field name="ly_do_di"/>
+      <field name="ghi_chu"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$hrRMApplicantProfileInputDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$hrRMApplicantProfileInputDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[     
+function load$hrRMApplicantProfileInputDetail$(g) {g.add_commandEvent(on$hrRMApplicantProfileInputDetail$ExecuteCommand);}
+function dispose$hrRMApplicantProfileInputDetail$(g) {try {g.remove_commandEvent(on$hrRMApplicantProfileInputDetail$ExecuteCommand);} catch (ex) {}}
+function on$hrRMApplicantProfileInputDetail$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm, o = e.type.Object;
+  switch (action) {
+    case 'AfterCloneRow':
+      g.setItemFieldValue('stt_rec0', e.type.Value, '');
+      break;
+    default:
+      break;
+  }
+}
+]]>
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from @@table where @@whereClause order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  &XMLStandardDetailToolbar;
+</grid>

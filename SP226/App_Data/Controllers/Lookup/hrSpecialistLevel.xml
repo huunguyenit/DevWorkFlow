@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmbcm" code="ma_bac" name="ten_bac%l" order="ma_bac" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục bậc chuyên môn" e="Speciality Level List"></header>
+  <fields>
+    <field name="ma_bac" allowSorting="true" allowFilter="true">
+      <header v="Mã bậc" e="Code"></header>
+    </field>
+    <field name="ten_bac%l" allowSorting="true" allowFilter="true">
+      <header v="Tên bậc" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

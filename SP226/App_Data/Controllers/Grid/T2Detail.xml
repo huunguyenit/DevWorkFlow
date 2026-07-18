@@ -1,0 +1,242 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLStandardDetailToolbar SYSTEM "..\Include\XML\StandardDetailToolbar.xml">
+]>
+
+<grid table="d02$000000" code="stt_rec" order="stt_rec, line_nbr" type="Detail" freezeColumns="3" id="CN2" uniKey="true" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <partition table="c02$000000" prime="d02$" inquiry="i02$" field="ngay_ct" expression="convert(char(6), {0}, 112)" increase="dateadd(month, 1, {0})" default="000000"/>
+  <fields>
+    <field name="ma_ns" allowNulls="false" width="100" aliasName="a">
+      <header v="Mã nhân viên" e="Employee ID"></header>
+      <items style="AutoComplete" controller="TaxEmployee" reference="ten_ns%l" key="(('{[$ma_dvcs]}' = '' and ma_dvcs = @@unit) or (ma_dvcs = '{[$ma_dvcs]}')) and status = '1'" check="(('{[$ma_dvcs]}' = '' and ma_dvcs = @@unit) or (ma_dvcs = '{[$ma_dvcs]}'))" information="ma_ns$phns.ten_ns%l"/>
+      <clientScript><![CDATA[onchange="onChange$GridVoucherDetail$Employee(this);"]]></clientScript>
+    </field>
+    <field name="ten_ns%l" readOnly="true" external="true" defaultValue="''" inactivate="true" width="300" aliasName="b">
+      <header v="Tên nhân viên" e="Employee Name"></header>
+    </field>
+
+    <field name="tn_ct_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" width="100">
+      <header v="Thu nhập chịu thuế nt" e="FC Assessable Income"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_gt_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" width="100">
+      <header v="Giảm trừ nt" e="FC Deduction Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tn_tt_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" width="100">
+      <header v="Thu nhập tính thuế nt" e="FC Taxable Income"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="thue_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" width="100">
+      <header v="Thuế nt" e="FC Tax Amount"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="tn_ct" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" width="100" allowContain="true">
+      <header v="Thu nhập chịu thuế" e="Assessable Income"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_gt" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" width="100" allowContain="true">
+      <header v="Giảm trừ" e="Deduction Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tn_tt" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" width="100" allowContain="true">
+      <header v="Thu nhập tính thuế" e="Taxable Income"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="thue" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" width="100" allowContain="true">
+      <header v="Thuế" e="Tax Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true" aliasName="a">
+      <header v="" e=""></header>
+    </field>
+    <field name="tinh_thue_yn" type="Int32" width="0" align="right" hidden="true" aliasName="b">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_ns"/>
+      <field name="ten_ns%l"/>
+
+      <field name="tn_ct_nt"/>
+      <field name="tien_gt_nt"/>
+      <field name="tn_tt_nt"/>
+      <field name="thue_nt"/>
+
+      <field name="tn_ct"/>
+      <field name="tien_gt"/>
+      <field name="tn_tt"/>
+      <field name="thue"/>
+
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+      <field name="tinh_thue_yn"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'this._voucherCode='@@id';load$GridVoucherDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridVoucherDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+/* <flatten type="Javascript"> */
+function load$GridVoucherDetail$(g) {
+  g.add_itemValueChanged(onChange$GridVoucherDetail$);
+  g.add_onResponseComplete(on$GridVoucherDetail$ResponseComplete);
+  g.add_commandEvent(on$GridVoucherDetail$ExecuteCommand);
+  g.$a = {
+    tn_ct: '[tn_ct]:=[tn_ct_nt]*[$ty_gia]',
+    tien_gt: '[tien_gt]:=[tien_gt_nt]*[$ty_gia]',
+    tn_tt: '[tn_tt]:=([tinh_thue_yn] ? ([tn_ct] > [tien_gt] ? [tn_ct] - [tien_gt] : 0) : 0)',
+    tn_tt_nt: '[tn_tt_nt]:=([tinh_thue_yn] ? ([tn_ct_nt] > [tien_gt_nt] ? [tn_ct_nt] - [tien_gt_nt] : 0) : 0)',
+    tn_tt_tg: '[tn_tt]:=[tn_tt_nt]*[$ty_gia]',
+    thue: '[thue]:=[tn_tt]*[$thue_suat]/100',
+    thue_tg: '[thue]:=[thue_nt]*[$ty_gia]',
+    thue_nt: '[thue_nt]:=[tn_tt_nt]*[$thue_suat]/100',
+
+    t_tn_ct_nt: ['t_tn_ct_nt', 'tn_ct_nt'],
+    t_tn_ct: ['t_tn_ct', 'tn_ct'],
+    t_tien_gt_nt: ['t_tien_gt_nt', 'tien_gt_nt'],
+    t_tien_gt: ['t_tien_gt', 'tien_gt'],
+    t_tn_tt_nt: ['t_tn_tt_nt', 'tn_tt_nt'],
+    t_tn_tt: ['t_tn_tt', 'tn_tt'],
+    t_thue_nt: ['t_thue_nt', 'thue_nt'],
+    t_thue: ['t_thue', 'thue'],
+  };
+  udf$Detail$(g);
+}
+function dispose$GridVoucherDetail$(g) {
+  g.$a = null;
+  try {g.remove_commandEvent(on$GridVoucherDetail$ExecuteCommand);} catch (ex) {}
+  try {g.remove_onResponseComplete(on$GridVoucherDetail$ResponseComplete);} catch (ex) {}
+  try {g.remove_itemValueChanged(onChange$GridVoucherDetail$);} catch (ex) {}
+}
+function onChange$GridVoucherDetail$Employee(o) {o.grid.request(o, 'Employee', 'Employee', ['ma_ns']);}
+function onChange$GridVoucherDetail$(sender, eventArgs) {
+  var o = eventArgs.get_object(), g = o.grid, f = g.get_element().parentForm, name = o.field.Name;
+  switch (name) {
+    case 'tn_ct_nt':
+      g.validExpression(o, [g.$a.tn_ct, g.$a.tn_tt_nt, g.$a.tn_tt_tg, g.$a.thue_nt, g.$a.thue], [g.$a.t_tn_ct_nt, g.$a.t_tn_ct, g.$a.t_tn_tt_nt, g.$a.t_tn_tt, g.$a.t_thue_nt, g.$a.t_thue]);
+      break;
+    case 'tien_gt_nt':
+      g.validExpression(o, [g.$a.tien_gt, g.$a.tn_tt_nt, g.$a.tn_tt_tg, g.$a.thue_nt, g.$a.thue], [g.$a.t_tien_gt_nt, g.$a.t_tien_gt, g.$a.t_tn_tt_nt, g.$a.t_tn_tt, g.$a.t_thue_nt, g.$a.t_thue], null, 'tn_tt_nt');
+      break;
+    case 'tn_tt_nt':
+      g.validExpression(o, [g.$a.tn_tt_tg, g.$a.thue_nt, g.$a.thue], [g.$a.t_tn_tt_nt, g.$a.t_tn_tt, g.$a.t_thue_nt, g.$a.t_thue], null, 'thue_nt');
+      break;
+    case 'thue_nt':
+      g.validExpression(o, [g.$a.thue_tg], [g.$a.t_thue_nt, g.$a.t_thue]);
+      break;
+    case 'tn_ct':
+      g.validExpression(o, [g.$a.tn_tt, g.$a.thue], [g.$a.t_tn_ct, g.$a.t_tn_tt, g.$a.t_thue]);
+      break;
+    case 'tien_gt':
+      g.validExpression(o, [g.$a.tn_tt, g.$a.thue], [g.$a.t_tien_gt, g.$a.t_tn_tt, g.$a.t_thue], null, 'tn_tt');
+      break;
+    case 'tn_tt':
+      g.validExpression(o, [g.$a.thue], [g.$a.t_tn_tt, g.$a.t_thue], [g.$a.t_tn_tt, g.$a.t_thue], null, 'thue');
+      break;
+    case 'thue':
+      g.executeAggregate([g.$a.t_thue]);
+      break;
+    default:
+      break;
+  }
+}
+function on$GridVoucherDetail$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm;
+  switch (action) {
+    case 'AfterRemoveRow':
+      on$GridVoucherDetail$RowChange(g, f);
+      break;
+    case 'AfterCloneRow':
+      g.setItemFieldValue('stt_rec0', e.type.Value, '');
+      on$GridVoucherDetail$RowChange(g, f);
+      break;
+    default:
+      break;
+  }
+}
+function on$GridVoucherDetail$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result, o = e.type.Object, f = g.get_element().parentForm;
+  switch (context) {
+    case 'Employee':
+      var v = (f.getItemValue('ma_nt') == f._baseCurrency), l0 = g._getColumnOrder('tien_gt'), l1 = g._getColumnOrder('tien_gt_nt'), l2 = g._getColumnOrder('tinh_thue_yn'), r = g._activeRow;
+      if (f._baseCurrencyAmount) {
+        if (g._getItemValue(r, l0) == 0) {
+          g._setItemValue(r, l0, f._baseCurrencyAmount);
+          g.executeAggregate([g.$a.t_tien_gt]);
+        }
+        if (g._getItemValue(r, l1) == 0) {
+          g._setItemValue(r, l1, v ? f._baseCurrencyAmount : f._foreignCurrencyAmount);
+          g.executeAggregate([g.$a.t_tien_gt_nt]);
+        }
+      }
+
+      if (g._getItemValue(r, l2) != result[0].Value) {
+        g.setItemGridBehavior(o, [['tinh_thue_yn', result[0].Value, '', true]]);
+        g.executeExpression(o, [g.$a.tn_tt_nt, g.$a.tn_tt, g.$a.thue_nt, g.$a.thue], [g.$a.t_tn_tt_nt, g.$a.t_tn_tt, g.$a.t_thue_nt, g.$a.t_thue]);
+      }
+      break;
+    default:
+      break;
+  }
+}
+function on$GridVoucherDetail$RowChange(g, f) {g.executeAggregate([g.$a.t_tn_ct_nt, g.$a.t_tn_ct, g.$a.t_tien_gt_nt, g.$a.t_tien_gt, g.$a.t_tn_tt_nt, g.$a.t_tn_tt, g.$a.t_thue_nt, g.$a.t_thue]);}
+/* </flatten> */
+]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="Employee">
+      <text>
+        <![CDATA[
+if exists(select 1 from phns where ma_ns = @ma_ns and status = '1') begin
+  select tinh_thue_yn as tinh_thue_yn from phns where ma_ns = @ma_ns
+  return
+end
+]]>
+      </text>
+    </action>
+  </response>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from @@prime$partition$current a left join phns b on a.ma_ns = b.ma_ns where a.stt_rec = @stt_rec order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  &XMLStandardDetailToolbar;
+</grid>

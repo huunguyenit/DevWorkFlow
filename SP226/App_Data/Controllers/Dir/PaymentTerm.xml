@@ -1,0 +1,148 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dir [
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+]>
+
+<dir table="dmtt" code="ma_tt" order="ma_tt" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="thanh toán" e="Payment Term"></title>
+  <fields>
+    <field name="ma_tt" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã thanh toán" e="Payment Term"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ten_tt" allowNulls="false">
+      <header v="Tên thanh toán" e="Description"></header>
+    </field>
+    <field name="ten_tt2">
+      <header v="&lt;span class=&quot;DoubleTab&quot;&gt;Tên khác&lt;/span&gt;" e="&lt;span class=&quot;DoubleTab&quot;&gt;Other Name&lt;/span&gt;"></header>
+    </field>
+    <field name="ten_ngan">
+      <header v="Hình thức thanh toán" e="Payment Method"></header>
+    </field>
+    <field name="ten_ngan2">
+      <header v="&lt;span class=&quot;DoubleTab&quot;&gt;Tên khác&lt;/span&gt;" e="&lt;span class=&quot;DoubleTab&quot;&gt;Other Name&lt;/span&gt;"></header>
+    </field>
+    <field name="han_tt" type="Decimal" dataFormatString="####0" clientDefault="0">
+      <header v="Hạn thanh toán" e="Payment Day(s)"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 20, 50, 50, 280"/>
+      <item value="1100: [ma_tt].Label, [ma_tt]"/>
+      <item value="110000: [ten_tt].Label, [ten_tt]"/>
+      <item value="110000: [ten_tt2].Label, [ten_tt2]"/>
+      <item value="11000: [ten_ngan].Label, [ten_ngan]"/>
+      <item value="11000: [ten_ngan2].Label, [ten_ngan2]"/>
+      <item value="110: [han_tt].Label, [han_tt]"/>
+      <item value="111000: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$FormPaymentTerm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormPaymentTerm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$updateConflict nvarchar(512), @$recordHasBeenChanged nvarchar(512), @$deleteConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã thanh toán <span class="Highlight">%s</span> đã có hoặc lồng nhau trong danh mục thanh toán.' else N'The payment term <span class="Highlight">%s</span> is invalid or already exists.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Mã thanh toán <span class="Highlight">%s</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The payment term <span class="Highlight">%s</span> has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select * from @@table where ((ma_tt like rtrim(@ma_tt) + '%') or rtrim(@ma_tt) like rtrim(ma_tt) + '%'))
+  begin
+    select 'ma_tt' as field, replace(@$exists, '%s', rtrim(@ma_tt)) as message
+    return
+  end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select * from @@table where ma_tt = $ma_tt.OldValue)
+  begin
+    select 'ma_tt' as field, replace(@$recordHasBeenChanged, '%s', rtrim($ma_tt.OldValue)) as message
+    return
+  end
+  
+if @ma_tt <> $ma_tt.OldValue
+  begin
+    if exists(select * from @@table where ((ma_tt like rtrim(@ma_tt) + '%') or rtrim(@ma_tt) like rtrim(ma_tt) + '%') and ma_tt <> $ma_tt.OldValue)
+      begin
+        select 'ma_tt' as field, replace(@$exists, '%s', rtrim(@ma_tt)) as message
+        return
+      end
+  end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_tt = @ma_tt
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$FormPaymentTerm(f) {f.add_onResponseComplete(on$FormPaymentTerm$ResponseComplete);}
+function close$FormPaymentTerm(f) {try {f.remove_onResponseComplete(on$FormPaymentTerm$ResponseComplete)} catch (ex) {}}
+function on$FormPaymentTerm$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'ma_tt');
+      break;
+    default:
+      break;
+  }
+}      
+]]>
+      &ScriptIrregular;
+    </text>
+  </script>
+
+  <css>
+    <text>
+      <![CDATA[
+.DoubleTab{padding-left:16px;}
+      ]]>
+    </text>
+  </css>
+</dir>

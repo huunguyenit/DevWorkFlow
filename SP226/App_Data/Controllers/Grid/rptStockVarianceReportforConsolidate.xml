@@ -1,0 +1,332 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLWhenReportLoading SYSTEM "..\Include\XML\WhenReportLoading.xml">
+  <!ENTITY XMLWhenReportClosing SYSTEM "..\Include\XML\WhenReportClosing.xml">
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+  <!ENTITY ScriptTagReport SYSTEM "..\Include\Javascript\TagReport.txt">
+
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+]>
+
+<grid type="Report" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Kiểm tra đối chiếu số liệu" e="Stock Variance Report for Consolidate"></title>
+  <subTitle v="Số yêu cầu: %s..." e="Voucher No.: %s..."></subTitle>
+  <fields>
+    <field name="stt_rec" width="0" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_kho" width="100" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Kho" e="Site"></header>
+    </field>
+    <field name="ma_vi_tri" width="100" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Vị trí" e="Location"></header>
+    </field>
+    <field name="ma_vt" width="100" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Mã vật tư" e="Item Code"></header>
+    </field>
+    <field name="ten_vt" width="300" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Tên vật tư" e="Item Name"></header>
+    </field>
+    <field name="dvt" width="50" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Đvt" e="UOM"></header>
+    </field>
+    <field name="ma_lo" width="100" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Lô" e="Lot"></header>
+    </field>
+
+    <field name="ton_bd" type="Decimal" width="100" dataFormatString="@quantityViewFormat" allowSorting="true" aggregate="Sum" readOnly="true" allowFilter="&GridListAllowFilter.Number;">
+      <header v="Sl ban đầu" e="Opening Stock"></header>
+    </field>
+    <field name="ton_ss" type="Decimal" width="100" dataFormatString="@quantityViewFormat" allowSorting="true" aggregate="Sum" readOnly="true" allowFilter="&GridListAllowFilter.Number;">
+      <header v="Sl sổ sách" e="Book Q'ty"></header>
+    </field>
+    <field name="dvt_kk" width="50" allowSorting="true" allowFilter="true" readOnly="true">
+      <header v="Đvt kiểm kê" e="Counting UOM"></header>
+    </field>
+    <field name="sl_kk" type="Decimal" width="100" dataFormatString="@quantityViewFormat" allowSorting="true" aggregate="Sum" readOnly="true" allowFilter="&GridListAllowFilter.Number;">
+      <header v="Sl kiểm kê" e="Stocktaking Q'ty"></header>
+    </field>
+    <field name="sl_qd" type="Decimal" width="100" dataFormatString="@quantityViewFormat" allowSorting="true" aggregate="Sum" readOnly="true" allowFilter="&GridListAllowFilter.Number;">
+      <header v="Sl quy đổi" e="Conversion Q'ty"></header>
+    </field>
+
+    <field name="chenh_lech" type="Decimal" width="100" dataFormatString="@quantityViewFormat" allowSorting="true" aggregate="Sum" readOnly="true" allowFilter="&GridListAllowFilter.Number;">
+      <header v="Chênh lệch" e="Variance"></header>
+    </field>
+
+    <field name="kk_lai" type="Boolean" width="60" filterSource="Tag">
+      <header v="Kiểm lại" e="Recount"></header>
+      <clientScript><![CDATA[onclick="addArray(this);"]]></clientScript>
+    </field>
+    <field name="isEnable" width="0" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt_rec"/>
+      <field name="ma_kho"/>
+      <field name="ma_vi_tri"/>
+      <field name="ma_vt"/>
+      <field name="ten_vt"/>
+      <field name="dvt"/>
+      <field name="ma_lo"/>
+      <field name="ton_bd"/>
+      <field name="ton_ss"/>
+      <field name="dvt_kk"/>
+      <field name="sl_kk"/>
+      <field name="sl_qd"/>
+      <field name="chenh_lech"/>
+      <field name="kk_lai"/>
+      <field name="isEnable"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$GridReport$(this);load$StockVarianceReportforConsolidate$(this);' as message
+return]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridReport$(this);dispose$StockVarianceReportforConsolidate$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Scattering">
+      <text>
+        <![CDATA[select 'scatter$GridReport$(this); fill$Grid(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$StockVarianceReportforConsolidate$(g) {
+  g._arrValue = [];
+  g._$i1 = g._getColumnOrder('stt_rec');
+  g._$i2 = g._getColumnOrder('ma_vt');
+  g._$i3 = g._getColumnOrder('ma_kho');
+  g._$i4 = g._getColumnOrder('ma_vi_tri');
+  g._$i5 = g._getColumnOrder('ma_lo');
+  g._$i6 = g._getColumnOrder('dvt_kk');
+  g._$t = g._getColumnOrder('kk_lai');
+  g.add_commandEvent(on$GridReport$ExecuteCommand);
+  g.add_onResponseComplete(on$GridReport$ResponseComplete);
+}
+function dispose$StockVarianceReportforConsolidate$(g) {
+  g._$k = g._$i1 = g._$i2 = g._$i3 = g._$i4 = g._$i5 = g._$i6 = g._$t = g._arrValue = null;
+  try {g.remove_onResponseComplete(on$GridReport$ResponseComplete);} catch (ex) {}
+  try {g.remove_commandEvent(on$GridReport$ExecuteCommand);} catch (ex) {}
+}
+
+function scatter$GridReport$(g) {
+  fill$Grid(g, true);
+  var c = g._getColumnOrder('isEnable');
+  var t = g._getColumnOrder('kk_lai')
+  for (var i = 1; i <= g._rowCount; i++) {
+    if (g._getItemValue(i, c) == 0) g._getItem(i, t).disabled = true;
+  }
+  if (g._rowCount > 0) {
+    g._activeRow = g._rowCount;
+    g._activeColumn = g._$t;
+    g._activeCell = g._getItem(g._activeRow, g._activeColumn);
+  }
+}
+function on$GridReport$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = e.object;
+  switch (action) {
+    case 'Save':
+      if (g._denySave) $message.show(g._denyMessage);
+        else request$StockVarianceReportforConsolidate(g, action);
+      break;
+    default:
+      break;
+  }
+}
+function on$GridReport$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, o = e.type.Object, result = e.type.Result;
+  switch (context) {
+    case 'Save':
+      var m = result[0].Value;
+      if (result[0].Value < g._$qCount) sendRequest(g, context, m);
+      else {
+        m = (g._language == 'v' ? 'Chương trình đã thực hiện xong.' : 'The process completed successfully.');
+        g.goToPage(-1);
+        g._$q = [];
+        $message.show(m, String.format('$find(\'{0}\')._focusWhenTabChanged();', g.get_id()));
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+function request$StockVarianceReportforConsolidate(g, c) {
+  if (g._rowCount == 0) return;
+  g._$q = [];
+  var arr = [], maxlength = 4000;
+  var t0 = '', t1 = '', t2 = '', t3 = '', t4 = '', t5 = '', s0 = '', s1 = '', s2 = '', s3 = '', s4 = '', s5 = '';
+  for (var row = 0; row < g._arrValue.length; row ++) {
+    var r = g._arrValue[row];
+    t0 = r[0] + ',', t1 = r[1] + ',', t2 = r[2] + ',', t3 = r[3] + ',', t4 = r[4] + ',', t5 = r[6] + ',';
+    if (s0.length + t0.length > maxlength || s1.length + t1.length > maxlength || s2.length + t2.length > maxlength || s3.length + t3.length > maxlength || s4.length + t4.length > maxlength || s5.length + t5.length > maxlength) {
+      addRequest(g, s0, s1, s2, s3, s4, s5);
+      s0 = '', s1 = '', s2 = '', s3 = '', s4 = '', s5 = '';
+    }
+    s0 += t0, s1 += t1, s2 += t2, s3 += t3, s4 += t4, s5 += t5;
+  }
+  if (s0 != '' && s0.length <= maxlength && s1 != '' && s1.length <= maxlength && s2 != '' && s2.length <= maxlength && s3 != '' && s3.length <= maxlength && s4 != '' && s4.length <= maxlength && s5 != '' && s5.length <= maxlength) {
+    addRequest(g, s0, s1, s2, s3, s4, s5);
+    g._$qCount = g._$q.length;
+    sendRequest(g, c, 0);
+  }
+}
+function addRequest(g, s0, s1, s2, s3, s4, s5) {
+  var arr = [];
+  Array.add(arr, ['n0', 'String', s0]);
+  Array.add(arr, ['n1', 'String', s1]);
+  Array.add(arr, ['n2', 'String', s2]);
+  Array.add(arr, ['n3', 'String', s3]);
+  Array.add(arr, ['n4', 'String', s4]);
+  Array.add(arr, ['n5', 'String', s5]);
+  Array.add(g._$q, arr);
+}
+
+function sendRequest(g, action, i) {
+  Array.add(g._$q[i], ['so_lan', 'Decimal', i + 1]);
+  Array.add(g._$q[i], ['so_ct', 'String', g._voucherNum]);
+  g.request(g, action, action, g._$q[i]);
+}
+
+function addArray(o) {
+  var a = o.id.split('_inputCell_'), g = $find(o.id.split('_inputCell_')[0]);
+  if (!g) g = $find(a[0]);
+  var r = $func.getLocationCell(o)[0];
+  var v1 = g._getItemValue(r, g._$i1), v2 = g._getItemValue(r, g._$i2), v3 = g._getItemValue(r, g._$i3), v4 = g._getItemValue(r, g._$i4), v5 = g._getItemValue(r, g._$i5), v6 = g._getItemValue(r, g._$i6), v7 = g._getItemValue(r, g._$t), add = false;
+  var item = [v1, v2, v3, v4, v5, v6, v7];
+  for (var i = 0; i < g._arrValue.length; i ++) {
+    if (g._arrValue[i][0] == v1 && g._arrValue[i][1] == v2  && g._arrValue[i][2] == v3  && g._arrValue[i][3] == v4  && g._arrValue[i][4] == v5 && g._arrValue[i][5] == v6) {
+      Array.removeAt(g._arrValue, i);
+      add = true;
+      break;
+    }
+  }
+  if (!add) Array.add(g._arrValue, item);
+}
+
+function fill$Grid(g) {
+  if(g._gridRefresh) {
+    g._arrValue = [];
+    g._gridRefresh = false;
+    return;
+  }
+  if (g._arrValue.length == 0) return;
+  for (var r = 1; r <= g._rowCount; r++) {
+    var v1 = g._getItemValue(r, g._$i1), v2 = g._getItemValue(r, g._$i2), v3 = g._getItemValue(r, g._$i3), v4 = g._getItemValue(r, g._$i4), v5 = g._getItemValue(r, g._$i5), v6 = g._getItemValue(r, g._$i6), v7 = g._getItemValue(r, g._$t);
+    for (var i = 0; i < g._arrValue.length; i ++) {
+      if (g._arrValue[i][0] == v1 && g._arrValue[i][1] == v2  && g._arrValue[i][2] == v3  && g._arrValue[i][3] == v4  && g._arrValue[i][4] == v5 && g._arrValue[i][5] == v6) {
+        g._setItemValue(r, g._$t, g._arrValue[i][6]);
+      }
+    }
+  }
+}
+
+function isCheck$Grid(g) {
+  if (g._arrValue.length == 0) {
+    return false;
+  }
+  return true;
+}
+
+function toggle$Grid(o) {
+  var c = o.parentNode.parentNode.parentNode.id, g = $find($func.left(c, c.length - 11));
+  for (var r = 1; r <= g._rowCount; r++) {
+    if (!g._getItem(r, g._$t).disabled){
+      g._setItemValue(r, g._$t, (g._getItemValue(r, g._$t) == false));
+      addArray(g._getItem(r, g._$t));
+    }
+  }
+  g._focusWhenTabChanged();
+}
+/* </flatten> */]]>
+      &JavascriptReportInit;
+    </text>
+  </script>
+
+  <response>
+    <action id ="Save">
+      <text>
+        <![CDATA[
+declare @c char(1), @ngay_ct smalldatetime, @q nvarchar(4000), @year char(4), @stt_rec char(13)
+select @stt_rec = replace(stt_rec, '''', ''), @year = year(ngay_ct), @ngay_ct = ngay_ct from kkyc where so_ct = @so_ct
+
+select @q = 'delete kkktdcsl from kkktdcsl a'
+select @q = @q + ' where not exists(select 1 from kkss$' + @year + ' b where b.stt_rec = ''' + @stt_rec + ''' and a.stt_rec = b.stt_rec and a.ma_kho = b.ma_kho and a.ma_vt = b.ma_vt and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo)'
+select @q = @q + ' and not exists(select 1 from kktt$' + @year + ' c where c.stt_rec = ''' + @stt_rec + ''' and a.stt_rec = c.stt_rec and a.ma_kho = c.ma_kho and a.ma_vt = c.ma_vt and a.ma_vi_tri = c.ma_vi_tri and a.ma_lo = c.ma_lo)'
+select @q = @q + ' and a.stt_rec = ''' + @stt_rec + ''''
+exec sp_executesql @q
+
+select @c = ','
+select a.id, a.data as stt_rec, b.data as ma_vt, c.data as ma_kho, d.data as ma_vi_tri, e.data as ma_lo, f.data as isinsert into #t
+from dbo.FastBusiness$Function$System$Split(@n0, @c) a
+join dbo.fastbusiness$function$system$split(@n1, @c) b on a.id = b.id
+join dbo.FastBusiness$Function$System$Split(@n2, @c) c on a.id = c.id
+join dbo.FastBusiness$Function$System$Split(@n3, @c) d on a.id = d.id
+join dbo.FastBusiness$Function$System$Split(@n4, @c) e on a.id = e.id
+join dbo.FastBusiness$Function$System$Split(@n5, @c) f on a.id = f.id
+
+delete kkktdcsl from kkktdcsl a with(nolock)
+  join #t b on a.stt_rec = b.stt_rec and a.ma_vt = b.ma_vt and a.ma_kho = b.ma_kho and a.ma_vi_tri = b.ma_vi_tri and a.ma_lo = b.ma_lo
+  where b.isInsert = 'false'
+
+insert into kkktdcsl(stt_rec, ma_kho, ma_vi_tri, ma_vt, ma_lo) select stt_rec, ma_kho, ma_vi_tri, ma_vt, ma_lo from #t where isInsert = 'true'
+
+select @so_lan as result
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+  <css>
+    <text>
+      <![CDATA[
+div.TextSave{background-image:url(../images/TextStorage.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.TextSaveOverGreen{background-position-y:-22px;}
+]]>
+    </text>
+  </css>
+  <toolbar>
+    <button command="Save">
+      <title v="Lưu dữ liệu$$90" e="Save$"></title>
+    </button>
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"/>
+    </button>
+    <button command="Print">
+      <title v="Toolbar.Print" e="Toolbar.Print"></title>
+    </button>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"></title>
+    </button>
+    <button command="Aggregate">
+      <title v="Toolbar.Aggregate" e="Toolbar.Aggregate"></title>
+    </button>
+    <button command="Seprate">
+      <title v="-" e="-"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+
+</grid>

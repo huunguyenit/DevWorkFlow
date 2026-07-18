@@ -1,0 +1,295 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE grid [
+  <!ENTITY XMLWhenReportLoading SYSTEM "..\Include\XML\WhenReportLoading.xml">
+  <!ENTITY XMLWhenReportClosing SYSTEM "..\Include\XML\WhenReportClosing.xml">
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+]>
+
+<grid type="Report" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Tính giá trị các chỉ tiêu tài chính" e="Calculate Value of Financial Articles"></title>
+  <subTitle v="Từ kỳ %p1 năm %y1 đến %p2 năm %y2..." e="Preriod from %p1 Year %y1 to %p2 Year %y2..."></subTitle>
+  <fields>
+    <field name="ky" type="Decimal" width="60" readOnly="true" allowFilter="true">
+      <header v="Kỳ" e="Period"></header>
+    </field>
+    <field name="nam" type="Decimal" width="60" readOnly="true" allowFilter="true" allowSorting="true">
+      <header v="Năm" e="Year"></header>
+    </field>
+    <field name="ma_dvcs" width="100" readOnly="true" allowFilter="true">
+      <header v="Mã đơn vị" e="Unit"></header>
+    </field>
+    <field name="ma_so" width="100" readOnly="true" allowFilter="true">
+      <header v="Mã số" e="Code"></header>
+    </field>
+    <field name="ma_so2" width="100" readOnly="true" allowFilter="true">
+      <header v="Mã tra cứu" e="Lookup Code"></header>
+    </field>
+    <field name="chi_tieu" width="300" readOnly="true" allowFilter="true">
+      <header v="Chỉ tiêu" e="Norm"></header>
+    </field>
+    <field name="tien" dataFormatString="@analysisInputFormat" type="Decimal" width="120" allowSorting="true">
+      <header v="Giá trị" e="Amount"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="kind" width="100" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ky"/>
+      <field name="nam"/>
+      <field name="ma_dvcs"/>
+      <field name="ma_so"/>
+      <field name="ma_so2"/>
+      <field name="chi_tieu"/>
+      <field name="tien"/>
+      <field name="kind"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'load$GridReport$(this);load$Grid(this);' as message
+]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'dispose$GridReport$(this);dispose$Grid(this);' as message
+return
+]]>
+      </text>
+    </command>
+    <command event ="Scattering">
+      <text>
+        <![CDATA[
+select 'readOnlyCell(this);fill$Grid(this);' as message
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &JavascriptReportInit;
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$Grid(g) {
+  g._$p = g._getColumnOrder('ky');
+  g._$y = g._getColumnOrder('nam');
+  g._$c = g._getColumnOrder('ma_so');
+  g._$u = g._getColumnOrder('ma_dvcs');
+  g._$tien = g._getColumnOrder('tien');
+
+  g.add_onResponseComplete(on$GridCalculateValueOfFinancialArticles$ResponseComplete);
+  g.add_commandEvent(on$GridCalculateValueOfFinancialArticles$ExecuteCommand);
+  g.add_itemValueChanged(onChange$GridCalculateValueOfFinancialArticles$);
+}
+
+function dispose$Grid(g) {
+  g._arrValue = null;
+  try {g.remove_commandEvent(on$GridCalculateValueOfFinancialArticles$ExecuteCommand);} catch (ex) {}
+  try {g.remove_onResponseComplete(on$GridCalculateValueOfFinancialArticles$ResponseComplete);} catch (ex) {}
+  try {g.remove_itemValueChanged(onChange$GridCalculateValueOfFinancialArticles$);} catch (ex) {}
+}
+
+function on$GridCalculateValueOfFinancialArticles$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'Save':
+      request$Posting(g, action);
+      break;
+    case 'Calcutate':
+      if(g._rowCount == 0) return;
+      var r = (g._activeCell ? g._activeRow : 1), o = g._getItemValue(r, g._$p);
+      o.row = r;
+      var q = [];
+        Array.add(q, ['ma_dvcs', 'String', g._unit]);
+        Array.add(q, ['tu_ky', 'String', g._periodFrom]);
+        Array.add(q, ['tu_nam', 'String', g._yearFrom]);
+        Array.add(q, ['den_ky', 'String', g._periodTo]);
+        Array.add(q, ['den_nam', 'String', g._yearTo]);
+        g.request(o, 'Calcutate', 'Calcutate', q);
+        q = [];
+      break;
+    default:
+      break;
+  }
+}
+
+function request$Posting(g, c) {
+  if (g._rowCount == 0 || g._arrValue.length == 0) return;
+  var count = 4000, concurrent = 10, temp = '', q = '', index = 0, arr = [], maxlength = g._arrValue.length;
+  for (var i = 0; i < g._arrValue.length; i ++) {
+    temp = g._arrValue[i][0] + String.fromCharCode(255) + g._arrValue[i][1];
+    if ((q + temp).toString().length <= count) q = q + (q == '' ? '' : ',') + temp;
+    else {
+      arr[arr.length] = q;
+      q = temp;
+    }
+  }
+
+  if (q != '') arr[arr.length] = q;
+  var r = (g._activeCell ? g._activeRow : 1), o = g._getItemValue(r, g._$c), str = [], length = arr.length;
+  o.row = r;
+  g._finish = (parseInt(length / concurrent)) + ((length % concurrent == 0) ? 0 : 1);
+
+  for (i = 0; i < length; i ++) {
+    if (index == concurrent) {
+      index = 0;
+      g.request(o, c, c, str);
+      str.splice(0, concurrent);
+    }
+    index ++;
+    Array.add(str, ['k' + index, 'String', arr[i]);
+  }
+
+  if (index <= concurrent && index > 0) {
+    for (index += 1; index <= concurrent; index ++) {Array.add(str, ['k' + index, 'String', '');}
+    g.request(o, c, c, str);
+  }
+  arr = str = [];
+}
+
+function onChange$GridCalculateValueOfFinancialArticles$(sender, eventArgs) {
+  var o = eventArgs.get_object(), g = o.grid, f = g.get_element().parentForm, name = o.field.Name;
+  switch (name) {
+    case 'tien':
+      addArray(g);
+      break;
+    default:
+      break;
+  }
+}
+
+function on$GridCalculateValueOfFinancialArticles$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result, o = e.type.Object, f = g.get_element().parentForm, id = g.get_id(), v = g._language == 'v';
+  var m1 = v ? 'Chương trình đã thực hiện xong.' : 'The process was completed successfully.', m2 = v ? 'Phát sinh lỗi trong quá trình thực hiện.' : 'The process was failed.';
+  switch (context) {
+    case 'Save':
+      g._finish --;
+      if(result[0].Value == '') {
+        if (g._finish == 0){
+          g._arrValue = [];
+          $message.show(m1, String.format('$find(\'{0}\')._focusWhenTabChanged();', id));
+        }
+      }
+      else $message.show(m2, String.format('$find(\'{0}\')._focusWhenTabChanged();', id));
+      break;
+    case 'Calcutate':
+      if(result[0].Value == '') $message.show(m1, String.format('$find(\'{0}\')._focusWhenTabChanged();', id));
+        else $message.show(m2, String.format('$find(\'{0}\')._focusWhenTabChanged();', id));
+      break;
+    default:
+      break;
+  }
+}
+
+function addArray(g) {
+  var period = g._getItemValue(g._activeRow, g._$p);
+  var key = g._getItemValue(g._activeRow, g._$y) + ((period < 10 ? '0' : '') + period) + String.fromCharCode(255) + g._getItemValue(g._activeRow, g._$c) + String.fromCharCode(255) + g._getItemValue(g._activeRow, g._$u);
+  var v = g._getItemValue(g._activeRow, g._$tien), add = false;
+  var item = [key, v];
+  for (var i = 0; i < g._arrValue.length; i ++) {
+    if (g._arrValue[i][0] == key) {
+      g._arrValue[i] = item;
+      add = true;
+      return;
+    }
+  }
+  if (!add) Array.add(g._arrValue, item);
+}
+function fill$Grid(g) {
+  if(g._gridRefresh) {
+    g._arrValue = [];
+    g._gridRefresh = false;
+    return;
+  }
+  if (g._arrValue.length == 0) return;
+
+  var period;
+  for (var r = 1; r <= g._rowCount; r++) {
+    for (var row = 0; row < g._arrValue.length; row++) {
+      period = g._getItemValue(r, g._$p);
+      if (g._arrValue[row][0] == (g._getItemValue(r, g._$y) + ((period < 10 ? '0' : '') + period) + String.fromCharCode(255) + g._getItemValue(r, g._$c) + String.fromCharCode(255) + g._getItemValue(r, g._$u))) {
+        g._setItemValue(r, g._$tien, g._arrValue[row][1]);
+      }
+    }
+  }
+}
+function readOnlyCell(g) {
+  var l1 = g._getColumnOrder('tien'), l2 = g._getColumnOrder('kind');
+  for (i = 1; i <= g._rowCount; i++){
+    if (g._getItemValue(i, l2) != '9'){
+      var o = g._getItem(i, l1);
+      if ($func.isIF) o.readOnly = true;
+        else $addHandler(o, "keydown", readOnlyHandler);
+    }
+  }
+}
+function readOnlyHandler(e) {
+  var k = $func.keyCode(e);
+  if (k != 13 && !($func.isNavKey(e))) $func.cancelEvent(e);
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="Save">
+      <text>
+        <![CDATA[
+exec rs_rptCalculateValueOfFinancialArticlesSave @k1, @k2, @k3, @k4, @k5, @k6, @k7, @k8, @k9, @k10, 1, @@language, @@userID, @@admin
+select '' as message
+return
+]]>
+      </text>
+    </action>
+
+    <action id="Calcutate">
+      <text>
+        <![CDATA[
+exec rs_rptCalculateValueOfFinancialArticlesCalc @tu_ky, @tu_nam, @den_ky, @den_nam, @ma_dvcs, @@language, @@userID, @@admin
+select '' as message
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+  <css>
+    <text>
+      <![CDATA[
+div.Calcutate{background-image:url(../images/Calculate.png);background-repeat:no-repeat;background-position:0 0;}
+div.TextCalcutate{background-image:url(../images/TextCalculate.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.TextSave{background-image:url(../images/TextStorage.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.TextSaveOverGreen, div.CalcutateOverGreen, div.TextCalcutateOverGreen{background-position-y:-22px;}
+]]>
+    </text>
+  </css>
+
+  <toolbar>
+    <button command="Save">
+      <title v="Lưu giá trị chỉ tiêu$$90" e="Save$"></title>
+    </button>
+    <button command="Calcutate">
+      <title v="Tính các chỉ tiêu tài chính$$90" e="Calculate Value of Financial Articles$$75"></title>
+    </button>
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"></title>
+    </button>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"></title>
+    </button>
+    <button command="Seprate">
+      <title v="-" e="-"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+</grid>

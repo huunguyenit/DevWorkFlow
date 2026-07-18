@@ -1,0 +1,666 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+
+  <!ENTITY h1 "&lt;div style=&quot;text-align:center;&quot;&gt;">
+  <!ENTITY h2 "&lt;div id=&quot;">
+  <!ENTITY h3 "&quot; style=&quot;text-align:right;&quot;&gt;&lt;/div&gt;">
+  <!ENTITY h4 "&lt;/div&gt;">
+  <!ENTITY h5 "1 = 1">
+  <!ENTITY h6 "status = '1'">
+
+  <!ENTITY c7 "&lt;span style=&quot;color:#4695d6;&quot;&gt;">
+  <!ENTITY c8 "&lt;span style=&quot;color:#e6400d;&quot;&gt;">
+  <!ENTITY c9 "&lt;/span&gt;&h4;">
+]>
+
+<dir table="hrca$000000" code="stt_rec_nv" order="stt_rec_nv" type="Voucher" id="H01" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="ca làm việc" e="Working Shift"></title>
+  <partition table="hrca$000000" prime="hrca$000000" field="stt_rec_nv" expression="''" default=""/>
+
+  <fields>
+    <field name="stt_rec_nv" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_nv" external="true" defaultValue="''">
+      <header v="Mã nhân viên" e="Employee ID"></header>
+      <footer v="&lt;div class=&quot;Break&quot;/&gt;" e="&lt;div class=&quot;Break&quot;/&gt;"></footer>
+    </field>
+    <field name="ho_ten" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_bp" external="true" defaultValue="''">
+      <header v="Bộ phận" e="Department"></header>
+    </field>
+    <field name="ten_bp%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_vi_tri" external="true" defaultValue="''">
+      <header v="Vị trí công việc" e="Position"></header>
+    </field>
+    <field name="ten_vi_tri%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="tu_ngay" type="DateTime" dataFormatString="@datetimeFormat" external="true" align="left" defaultValue="null" allowContain="true">
+      <header v="Từ ngày" e="Date from"></header>
+      <footer v="Từ/đến ngày" e="Date from/to"></footer>
+    </field>
+    <field name="den_ngay" type="DateTime" dataFormatString="@datetimeFormat" external="true" align="left" defaultValue="null" allowContain="true">
+      <header v="Đến ngày" e="Date to"></header>
+    </field>
+
+    <field name="d1" external="true" defaultValue="''">
+      <header v="&h2;d1&h3;" e="&h2;d1&h3;"></header>
+      <footer v="&h1;&c8;Chủ nhật&c9;" e="&h1;&c8;Sunday&c9;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d2" external="true" defaultValue="''">
+      <header v="&h2;d2&h3;" e="&h2;d2&h3;"></header>
+      <footer v="&h1;Thứ hai&h4;" e="&h1;Monday&h4;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d3" external="true" defaultValue="''">
+      <header v="&h2;d3&h3;" e="&h2;d3&h3;"></header>
+      <footer v="&h1;Thứ ba&h4;" e="&h1;Tuesday&h4;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d4" external="true" defaultValue="''">
+      <header v="&h2;d4&h3;" e="&h2;d4&h3;"></header>
+      <footer v="&h1;Thứ tư&h4;" e="&h1;Wednesday&h4;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d5" external="true" defaultValue="''">
+      <header v="&h2;d5&h3;" e="&h2;d5&h3;"></header>
+      <footer v="&h1;Thứ năm&h4;" e="&h1;Thursday&h4;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d6" external="true" defaultValue="''">
+      <header v="&h2;d6&h3;" e="&h2;d6&h3;"></header>
+      <footer v="&h1;Thứ sáu&h4;" e="&h1;Friday&h4;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d7" external="true" defaultValue="''">
+      <header v="&h2;d7&h3;" e="&h2;d7&h3;"></header>
+      <footer v="&h1;&c7;Thứ bảy&c9;" e="&h1;&c7;Saturday&c9;"></footer>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d8" external="true" defaultValue="''">
+      <header v="&h2;d8&h3;" e="&h2;d8&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d9" external="true" defaultValue="''">
+      <header v="&h2;d9&h3;" e="&h2;d9&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d10" external="true" defaultValue="''">
+      <header v="&h2;d10&h3;" e="&h2;d10&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d11" external="true" defaultValue="''">
+      <header v="&h2;d11&h3;" e="&h2;d11&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d12" external="true" defaultValue="''">
+      <header v="&h2;d12&h3;" e="&h2;d12&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d13" external="true" defaultValue="''">
+      <header v="&h2;d13&h3;" e="&h2;d13&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d14" external="true" defaultValue="''">
+      <header v="&h2;d14&h3;" e="&h2;d14&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d15" external="true" defaultValue="''">
+      <header v="&h2;d15&h3;" e="&h2;d15&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d16" external="true" defaultValue="''">
+      <header v="&h2;d16&h3;" e="&h2;d16&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d17" external="true" defaultValue="''">
+      <header v="&h2;d17&h3;" e="&h2;d17&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d18" external="true" defaultValue="''">
+      <header v="&h2;d18&h3;" e="&h2;d18&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d19" external="true" defaultValue="''">
+      <header v="&h2;d19&h3;" e="&h2;d19&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d20" external="true" defaultValue="''">
+      <header v="&h2;d20&h3;" e="&h2;d20&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d21" external="true" defaultValue="''">
+      <header v="&h2;d21&h3;" e="&h2;d21&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d22" external="true" defaultValue="''">
+      <header v="&h2;d22&h3;" e="&h2;d22&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d23" external="true" defaultValue="''">
+      <header v="&h2;d23&h3;" e="&h2;d23&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d24" external="true" defaultValue="''">
+      <header v="&h2;d24&h3;" e="&h2;d24&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d25" external="true" defaultValue="''">
+      <header v="&h2;d25&h3;" e="&h2;d25&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d26" external="true" defaultValue="''">
+      <header v="&h2;d26&h3;" e="&h2;d26&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d27" external="true" defaultValue="''">
+      <header v="&h2;d27&h3;" e="&h2;d27&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d28" external="true" defaultValue="''">
+      <header v="&h2;d28&h3;" e="&h2;d28&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d29" external="true" defaultValue="''">
+      <header v="&h2;d29&h3;" e="&h2;d29&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d30" external="true" defaultValue="''">
+      <header v="&h2;d30&h3;" e="&h2;d30&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d31" external="true" defaultValue="''">
+      <header v="&h2;d31&h3;" e="&h2;d31&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d32" external="true" defaultValue="''">
+      <header v="&h2;d32&h3;" e="&h2;d32&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d33" external="true" defaultValue="''">
+      <header v="&h2;d33&h3;" e="&h2;d33&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d34" external="true" defaultValue="''">
+      <header v="&h2;d34&h3;" e="&h2;d34&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d35" external="true" defaultValue="''">
+      <header v="&h2;d35&h3;" e="&h2;d35&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d36" external="true" defaultValue="''">
+      <header v="&h2;d36&h3;" e="&h2;d36&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d37" external="true" defaultValue="''">
+      <header v="&h2;d37&h3;" e="&h2;d37&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d38" external="true" defaultValue="''">
+      <header v="&h2;d38&h3;" e="&h2;d38&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d39" external="true" defaultValue="''">
+      <header v="&h2;d39&h3;" e="&h2;d39&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d40" external="true" defaultValue="''">
+      <header v="&h2;d40&h3;" e="&h2;d40&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d41" external="true" defaultValue="''">
+      <header v="&h2;d41&h3;" e="&h2;d41&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+    <field name="d42" external="true" defaultValue="''">
+      <header v="&h2;d42&h3;" e="&h2;d42&h3;"></header>
+      <items style="Lookup" controller="hrWorkingShift" key="&h6;" check="&h5;"/>
+    </field>
+
+    <field name="n01" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n02" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n03" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n04" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n05" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n06" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n07" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n08" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n09" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n10" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n11" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n12" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n13" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n14" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n15" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n16" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n17" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n18" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n19" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n20" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n21" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n22" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n23" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n24" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n25" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n26" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n27" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n28" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n29" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n30" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n31" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n32" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n33" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n34" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n35" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n36" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n37" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n38" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n39" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="n40" disabled="true" hidden="true" external="true" defaultValue="' '" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="partition" external="true" defaultValue="''" hidden="true" readOnly="true" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="20, 88, 19, 40, 40, 8, 20, 88, 19, 88, 20, 88, 19, 88, 20, 88, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"/>
+      <item value="100100010: [tu_ngay].Description, [tu_ngay], [den_ngay]"/>
+      <item value="10010001000000001111111111111111: [ma_nv].Label, [ma_nv], [ho_ten], [stt_rec_nv], [n01], [n02], [n03], [n04], [n05], [n06], [n07], [n08], [n09], [n10], [n11], [n12], [n13], [n14], [n15]"/>
+      <item value="10010001000000001111111111111111: [ma_bp].Label, [ma_bp], [ten_bp%l], [n16], [n17], [n18], [n19], [n20], [n21], [n22], [n23], [n24], [n25], [n26], [n27], [n28], [n29], [n30], [n31]"/>
+
+      <item value="10010001000000001--: [ma_vi_tri].Label, [ma_vi_tri], [ten_vi_tri%l], [partition]"/>
+      <item value="1000000000000000111111111: [ma_nv].Description, [n32], [n33], [n34], [n35], [n36], [n37], [n38], [n39], [n40]"/>
+
+      <item value="1010001010101010: [d2].Description, [d3].Description, [d4].Description, [d5].Description, [d6].Description, [d7].Description, [d1].Description"/>
+      <item value="-1-100-1-1-1-1-1: [d1].Label, [d2].Label, [d3].Label, [d4].Label, [d5].Label, [d6].Label, [d7].Label"/>
+      <item value="-1-100-1-1-1-1-1: [d1], [d2], [d3], [d4], [d5], [d6], [d7]"/>
+      <item value="-1-100-1-1-1-1-1: [d8].Label, [d9].Label, [d10].Label, [d11].Label, [d12].Label, [d13].Label, [d14].Label"/>
+      <item value="-1-100-1-1-1-1-1: [d8], [d9], [d10], [d11], [d12], [d13], [d14]"/>
+      <item value="-1-100-1-1-1-1-1: [d15].Label, [d16].Label, [d17].Label, [d18].Label, [d19].Label, [d20].Label, [d21].Label"/>
+      <item value="-1-100-1-1-1-1-1: [d15], [d16], [d17], [d18], [d19], [d20], [d21]"/>
+      <item value="-1-100-1-1-1-1-1: [d22].Label, [d23].Label, [d24].Label, [d25].Label, [d26].Label, [d27].Label, [d28].Label"/>
+      <item value="-1-100-1-1-1-1-1: [d22], [d23], [d24], [d25], [d26], [d27], [d28]"/>
+      <item value="-1-100-1-1-1-1-1: [d29].Label, [d30].Label, [d31].Label, [d32].Label, [d33].Label, [d34].Label, [d35].Label"/>
+      <item value="-1-100-1-1-1-1-1: [d29], [d30], [d31], [d32], [d33], [d34], [d35]"/>
+      <item value="-1-100-1-1-1-1-1: [d36].Label, [d37].Label, [d38].Label, [d39].Label, [d40].Label, [d41].Label, [d42].Label"/>
+      <item value="-1-100-1-1-1-1-1: [d36], [d37], [d38], [d39], [d40], [d41], [d42]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Showing">
+      <text>
+        <![CDATA[
+select 'init$EmployeeShiftScheduleForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'load$EmployeeShiftScheduleForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$EmployeeShiftScheduleForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="InitExternalFields">
+      <text>
+        <![CDATA[
+select rtrim(b.ma_nv) ma_nv, rtrim(b.ho_nv) + space(1) + rtrim(b.ten_nv) ho_ten, rtrim(b.bo_phan) ma_bp, rtrim(b.vi_tri) ma_vi_tri, case @@language when 'v' then c.ten_bp else c.ten_bp2 end ten_bp%l, case @@language when 'v' then d.ten_vtr else d.ten_vtr2 end ten_vi_tri%l
+  from @@table a left join hrnv b on a.stt_rec_nv = b.stt_rec left join hrbp c on b.bo_phan = c.ma_bp left join hrvt d on b.vi_tri = d.ma_vtr
+  where a.stt_rec_nv = @stt_rec_nv
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+declare @q nvarchar(4000), @d1 smalldatetime, @lastDateFrom smalldatetime, @i int, @currentday int, @countMonth int, @maxDay int
+declare @sqlUpdate nvarchar(4000), @d nvarchar(4000), @s nvarchar(4000), @f nvarchar(4000), @k nvarchar(32), @j nvarchar(32), @l int
+
+select @countMonth = datediff(month, @$tu_ngay, @$den_ngay), @maxDay = 36
+
+if datediff(day,@$tu_ngay, @$den_ngay) > @maxDay - 1 select @$den_ngay = dateadd(day, @maxDay - 1, @$tu_ngay)
+select @lastDateFrom = dateadd(d, -1, dateadd(mm, datediff(m, 0, @$tu_ngay) + 1,0))
+if @lastDateFrom > @$den_ngay select @lastDateFrom = @$den_ngay
+select @d1 = @$tu_ngay, @currentday = day(@$tu_ngay), @i = 1, @q = '', @f = '', @k = '', @sqlUpdate = '', @d = '', @l = 1
+
+while @l < 32 begin
+	select @k = case when @l > 9 then rtrim(@l) else '0' + rtrim(@l) end
+	select @d = @d +  'isnull(n' + @k + ', '''')+'
+	select @l = @l + 1
+end
+select @d = substring(rtrim(@d), 0, len(@d))
+while @countMonth >= 0 begin
+	if @d1 > @lastDateFrom select @lastDateFrom = @$den_ngay
+	select @s = ''
+	while @currentday <= day(@lastDateFrom) begin
+		select @k = ltrim(@i), @j = replace(str(@currentday, 2), ' ', 0)
+		select @s = @s + replace('n' + @j + ' = @$n%f, ', '%f', @k), @f = @f + case when @f <> '' then ',' else '' end + '@$n' + @k + ' varchar(32)'
+		select @currentday = @currentday + 1, @i = @i + 1
+	end
+	select @s = substring(rtrim(@s), 0, len(@s))
+	select @q = @q + char(13) + 'update hrca$' + convert(char(6), @d1, 112) + ' set ' + replace(@s, '''', '''''') + ' where stt_rec_nv = ''' + replace(@stt_rec_nv, '''', '''''') + ''''
+	select @sqlUpdate = @sqlUpdate + char(13) + 'update hrca$' + convert(char(6), @d1, 112) + ' set status = case when (rtrim(' + @d + ')) <> '''' then ''1'' else ''0'' end where stt_rec_nv = ''' + replace(@stt_rec_nv, '''', '') + ''''
+	select @sqlUpdate = @sqlUpdate + char(13) + 'update hrca$' + convert(char(6), @d1, 112) + ' set datetime0 = getdate(), datetime2 = getdate(), user_id0 = @@userID, user_id2 = @@userID where stt_rec_nv = ''' + replace(@stt_rec_nv, '''', '') + ''''
+	select @d1 = dateadd(month, 1, @d1), @currentday = 1, @countMonth = @countMonth - 1
+end
+while @i <= @maxDay begin
+	select @f = @f + ', @$d' + ltrim(@i) + ' varchar(32)'
+	select @i = @i + 1
+end
+execute sp_executesql @q, @f, @$n01, @$n02, @$n03, @$n04, @$n05, @$n06, @$n07, @$n08, @$n09, @$n10, @$n11, @$n12, @$n13, @$n14, @$n15, @$n16, @$n17, @$n18, @$n19, @$n20, @$n21, @$n22, @$n23, @$n24, @$n25, @$n26, @$n27, @$n28, @$n29, @$n30, @$n31, @$n32, @$n33, @$n34, @$n35, @$n36
+exec sp_executesql @sqlUpdate
+/*
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[*/
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[
+var f = this, g = f.grid, v = g._dateFrom, d = (v.getDay() != 0) ? v.getDay(): 7;
+for (var i = 1; i <= 40; i++) {
+  var field = 'n' + (i > 9 ? i.toString() : '0' + i.toString()), t;
+  t =((i + d - 1) > 42) ? '' : f.getItem('d' + (i + d - 1).toString()).value;
+  f.setItemValue(field, t);
+}
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function init$EmployeeShiftScheduleForm(f) {
+  f.add_onResponseComplete(on$EmployeeShiftScheduleForm$ResponseComplete);
+  var g = f.grid;
+  f.setItemValues('tu_ngay, den_ngay', [g._dateFrom, g._dateTo]);
+  set$EmployeeShiftScheduleFormLayout(f);
+}
+function load$EmployeeShiftScheduleForm(f) {
+  for (var i = 1; i <= 42; i++) {
+    changeLookupReadonly(f, 'd' + i.toString(), true);
+  }
+  f.setReadOnlyFields('tu_ngay, den_ngay, ma_nv, ma_bp, ma_vi_tri');
+  f.live(f.getItem('tu_ngay'));
+}
+function close$EmployeeShiftScheduleForm(f) {try {f.remove_onResponseComplete(on$EmployeeShiftScheduleForm$ResponseComplete);} catch (ex) {}}
+function set$EmployeeShiftScheduleFormLayout(f) {
+  var line = '1px solid #c0d1e9', blank = '#f0f4fb', normal = '#ffffff', sunday = '#e9edf1';
+  var g = f.grid, d1 = d = g._dateFrom, d2 = g._dateTo;
+  var timeDiff = Math.abs(Date.UTC(d2.getFullYear(), d2.getMonth(), d2.getDate()) - Date.UTC(d1.getFullYear(), d1.getMonth(), d1.getDate()));
+  var d0 = (d1.getDay() != 0) ? d1.getDay(): 7, d3 = Math.floor(timeDiff / 86400000) + 1, id = f.get_id() + '0_formCell_';
+  var sd = [7, 14, 21, 28, 35, 42], m = d1.getMonth();
+  var s = f.getItemValue('stt_rec_nv');
+  f.request('GetFormData', 'GetFormData', [['datefrom', 'DateTime', f.getItemValue('tu_ngay')], ['dateto', 'DateTime', f.getItemValue('den_ngay')], ['s', 'String', s]]);
+  setHeaderStyle(id, line);
+
+  for (var i = 1; i <= 42; i++) {
+    var item = 'd' + i.toString(), o = f.getItem(item), cell = $get(item);
+    if ((i > d0 - 1) && (i < d3 + d0)) {
+      var date = d.getDate(), month = d.getMonth(), v;
+      v = d.getFullYear().toString() + convertNumberToString(d.getMonth() + 1).toString() + convertNumberToString(d.getDate()).toString();
+      var index = date + ((date == 1 && m != month) ? ('/' + (month + 1).toString()) : ''), k = ((g._nonWorking.indexOf(v) == -1) && (Array.indexOf(sd, i) == -1));
+      setCellStyle(o, cell, k ? normal : sunday, index, k);
+      d = addDays(d, 1);
+    }
+    else {disableCellStyle(o, cell, blank, i);}
+  }
+  setBorderStyle(g, id, line, blank, normal, sunday);
+}
+
+function setHeaderStyle(id, line) {
+  for (i = 2; i <= 16; i += 2) {
+    if (i == 4) i += 2;
+    var o = $get(id + '6.' + i.toString()), style = o.style;
+    style.borderTop = line;
+    style.borderLeft = line;
+    style.backgroundColor = '#e6edf7';
+    if (i == 16) style.borderRight = line;
+    if ($func.isOpr) o.childNodes[0].style.padding = 0;
+  }
+  $get(id + '6.2').parentNode.style.height = $func.isSr ? '31px' : '27px';
+}
+function setCellStyle(o, cell, color, index, k) {
+  var style = o.style, parentStyle = o.parentNode.style;
+  cell.innerHTML = index.toString();
+  cell.style.color = '#008ecc';
+  cell.style.marginRight = ($func.isOpr) ? '2px' : '6px';
+
+  style.width = $func.isCs ? '68px' : '65px';
+  style.paddingLeft = ($func.isSr || $func.isOpr) ? '4px' : '0';
+  style.backgroundColor = o.parentNode.parentNode.style.backgroundColor = color;
+
+  parentStyle.marginLeft = ($func.isSr) ? '-7px' : '-5px';
+  parentStyle.marginBottom = '6px';
+  parentStyle.marginTop = $func.isSr ? '4px' : '0';
+  
+  if ($func.isOpr) parentStyle.width = '82px';
+  if (k) parentStyle.borderBottom = '1px solid #e6edf7';
+}
+function disableCellStyle(o, cell, color, index) {
+  if (index == 42) {
+    cell.innerHTML = '&nbsp;';
+    cell.disabled = true;
+  }
+  var parent = o.parentNode;
+  o.disabled = true;
+  if (o.a) $common.setVisible(o.a, false);
+  cell.style.color = color;
+  o.style.backgroundColor = parent.parentNode.style.backgroundColor = color;
+  parent.style.borderBottom = 'none';
+  parent.style.marginBottom = '7px';
+}
+function setBorderStyle(g, id, line, blank, normal, sunday) {
+  var d = g._dateFrom;
+  for (var i = 7; i <= 18; i++) {
+    for (var j = 1; j <= 16; j++) {
+      if (j == 4) j = 6;
+      
+      var o = $get(id + i.toString() + '.' + j.toString()), style = o.style;
+      if (i == 7) style.borderTop = line;
+      if (j == 16) style.borderRight= line;
+      if (i % 2 == 0) style.borderBottom = line;
+
+      if (j % 2 != 0) style.borderLeft = line;
+      else {
+        var v = o.firstChild.firstChild.innerHTML, c = j - (j == 6 ? 3 : 1), e = c.toString();
+        if ((!v) && (o.firstChild.firstChild.id.length <= 15)) {
+          style.backgroundColor = blank;
+          $get(id + i.toString() + '.' + e).style.backgroundColor = blank;
+          $get(id + (i + 1).toString() + '.' + e).style.backgroundColor = blank;
+        }
+
+        if (v) {
+          var dmy = d.getFullYear().toString() + convertNumberToString(d.getMonth() + 1).toString() + convertNumberToString(d.getDate()).toString();
+          d = addDays(d, 1);
+          var color = (j != 16 && (g._nonWorking.indexOf(dmy) == -1)) ? normal : sunday;
+          if (v == '&nbsp;') color = blank;
+          style.backgroundColor = color;
+          $get(id + i.toString() + '.' + e).style.backgroundColor = color;
+          $get(id + (i + 1).toString() + '.' + e).style.backgroundColor = color;
+        }
+      } 
+    }
+  }
+}
+function on$EmployeeShiftScheduleForm$ResponseComplete(sender, e) {
+  var f = e.object, g = f.grid, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'GetFormData':
+      var v = g._dateFrom, d = (v.getDay() != 0) ? v.getDay(): 7, i = 0;
+      while (i < 40) {
+        if ((d + i) <= 42) {f.setItemValue('d' + (d + i).toString(), result[i].Value);}
+        i += 1;
+      }
+      break;
+    default:
+      break;
+  }
+}
+]]>
+      &OutlineEntry;
+    </text>
+  </script>
+
+  <response>
+    <action id="GetFormData">
+      <text>
+        <![CDATA[
+declare @q nvarchar(4000), @d1 smalldatetime, @i int
+declare @column nvarchar(4000), @value nvarchar(4000), @day smalldatetime, @day2 smalldatetime
+select top 0 *, n01 as n32, n01 as n33, n01 as n34, n01 as n35, n01 as n36, n01 as n37, n01 as n38, n01 as n39, n01 as n40 into #tmp from hrca$000000
+
+if datediff(day,@DateFrom, @DateTo) > 39 select @DateTo = dateadd(day, 39, @DateFrom)
+select @d1 = @DateFrom, @day = @DateFrom, @i = 1, @q = ''
+
+while convert(char(6), @d1, 112) <= convert(char(6), @DateTo, 112)  begin
+	select @column = '', @value = ''
+	select @day2 = cast(convert(char(6), dateadd(month, 1, @d1), 112) + '01' as smalldatetime) - 1
+	if @day2 > @DateTo set @day2 = @DateTo
+	while @day <= @day2 begin
+		select @column = @column + case when @column = '' then '' else ', ' end + 'n' + replace(str(@i, 2), ' ', 0)
+		select @value = @value + case when @value = '' then '' else ', ' end + 'n' + replace(str(day(@day), 2), ' ', 0)
+		select @day = dateadd(day, 1, @day), @i = @i + 1
+	end
+	if @column <> '' select @q = ' insert into #tmp(stt_rec_nv,' + @column + ') select stt_rec_nv,' + @value + ' from hrca$' + convert(char(6), @d1, 112) + ' where stt_rec_nv = ''' + replace(@s, '''', '') + ''''
+	exec sp_executesql @q
+	select @d1 = dateadd(month, 1, @d1)
+end
+
+select max(n01) as n01, max(n02) as n02, max(n03) as n03, max(n04) as n04, max(n05) as n05, max(n06) as n06, max(n07) as n07, max(n08) as n08
+	, max(n09) as n09, max(n10) as n10, max(n11) as n11, max(n12) as n12, max(n13) as n13, max(n14) as n14, max(n15) as n15, max(n16) as n16
+	, max(n17) as n17, max(n18) as n18, max(n19) as n19, max(n20) as n20, max(n21) as n21, max(n22) as n22, max(n23) as n23, max(n24) as n24
+	, max(n25) as n25, max(n26) as n26, max(n27) as n27, max(n28) as n28, max(n29) as n29, max(n30) as n30, max(n31) as n31, max(n32) as n32
+	, max(n33) as n33, max(n34) as n34, max(n35) as n35, max(n36) as n36, max(n37) as n37, max(n38) as n38, max(n39) as n39, max(n40) as n40
+	from #tmp
+	group by stt_rec_nv
+drop table #tmp
+
+
+return]]>
+      </text>
+    </action>
+  </response>
+
+  <css>
+    <text>
+      <![CDATA[
+.Break{margin:1px 0 1px 8px;padding:0;height:1px;overflow:hidden;display:block;background-color:white;border-top:1px solid #ced3de;}
+]]>
+    </text>
+  </css>
+</dir>

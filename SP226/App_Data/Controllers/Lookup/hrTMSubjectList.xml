@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="hrdmmh" code="ma_mh" name="ten_mh%l" order="ma_mh" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục môn học" e="Subject List"></header>
+  
+  <fields>
+    <field name="ma_mh" allowSorting="true" allowFilter="true">
+      <header v="Mã môn học" e="Subject Code"></header>
+    </field>
+    <field name="ten_mh%l" allowSorting="true" allowFilter="true">
+      <header v="Tên môn học" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

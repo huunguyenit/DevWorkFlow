@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<dir table="hrky" code="nam, ky" order="nam, ky" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="khai báo kỳ tính lương" e="Salary Computing Period"></title>
+
+  <fields>
+    <field name="nam" isPrimaryKey="true" dataFormatString="###0" hidden="true">
+      <header v="" e=""></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ma_bp" isPrimaryKey="true" allowNulls="false">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="AutoComplete" controller="hrDepartment" reference="ten_bp%l" key="(@@admin = 1 or ma_bp in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)) and status = '1'" check="@@admin = 1 or ma_bp in (select a.ma_bp from hrbp a, @@sysDatabaseName..hrquyenbp b where dbo.ff_Inlist(a.bp_ref, b.r_access2) = 1 and b.user_id = @@userID)" information="ma_bp$hrbp.ten_bp%l"/>
+    </field>
+    <field name="ten_bp%l" readOnly="true" external="true" defaultValue="''">
+      <header v="" e=""></header>
+    </field>
+    <field name="ky" isPrimaryKey="true" type="Decimal" dataFormatString="#0" allowNulls="false">
+      <header v="Kỳ" e="Period"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ngay_tu" type="DateTime" dataFormatString="@datetimeFormat" align="left" allowNulls="false">
+      <header v="Từ ngày" e="Date from"></header>
+    </field>
+    <field name="ngay_den" type="DateTime" dataFormatString="@datetimeFormat" align="left" allowNulls="false">
+      <header v="Đến ngày" e="Date to"></header>
+    </field>
+    <field name="so_ngay" type="Decimal" dataFormatString="#0.00">
+      <header v="Số ngày qui định" e="Regular Days"/>
+      <items style="Numeric"></items>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 100, 230, 0"/>
+      <item value="110100: [ma_bp].Label, [ma_bp], [ten_bp%l]"/>
+      <item value="11---1: [ky].Label, [ky], [nam]"/>
+      <item value="110---: [ngay_tu].Label, [ngay_tu]"/>
+      <item value="110---: [ngay_den].Label, [ngay_den]"/>
+      <item value="110---: [so_ngay].Label, [so_ngay]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+declare @periodCount int
+select @periodCount = cast(rtrim(val) as int) from options where name = 'm_hr_so_ky'
+select 'this._periodCount=' + rtrim(@periodCount) + ';active$SalaryComputingPeriod(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        <![CDATA[
+select 'scatter$SalaryComputingPeriod(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$SalaryComputingPeriod(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$recordHasBeenChanged nvarchar(512)
+select @$exists = case when @@language = 'v' then N'<span class="Highlight">Thông tin kỳ tính lương đang cập nhật đã được khai báo</span>, không lưu được.' else N'<span class="Highlight">This item already exists</span>, it can not be saved.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Bản ghi hiện thời đã được sửa hoặc xóa bởi người sử dụng khác.' else N'This item has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select * from @@table where ma_bp = @ma_bp and ky = @ky and nam = @nam) begin
+	select 'ma_bp' as field, @$exists as message
+  return
+end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select * from @@table where ma_bp = $ma_bp.OldValue and ky = $ky.OldValue and nam = $nam.OldValue) begin
+  select 'ma_bp' as field, @$recordHasBeenChanged as message
+  return
+end
+if exists(select * from @@table where ma_bp = @ma_bp and nam = @nam and ky = @ky and not (ma_bp = $ma_bp.OldValue and ky = $ky.OldValue and nam = $nam.OldValue)) begin
+  select 'ma_bp' as field, @$exists as message
+  return
+end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_bp = @ma_bp and ky = @ky and nam = @nam
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[
+var f = this, e = 'ky', errorMessage = (f._language == 'v' ? 'Trường <span class="Highlight">Từ ngày</span> phải nhỏ hơn hoặc bằng <span class="Highlight">Đến ngày</span>.' : '<span class="Highlight">Date from</span> must be less than or equal to <span class="Highlight">date to</span>.');
+var p = f.getItemValue(e);
+if (p < 1 || p > f._periodCount) {
+  f._checked = false;
+  $func.hideWait(f.get_id());
+  $message.show(String.format($df.getResources(f._language, 'Message.RequiredField'), f.getItem(e).field.Label), String.format('$find(\'{0}\').getItem(\'{1}\').focus()', f.get_id(), e));
+}
+
+if (f._checked && (f.getItemValue('ngay_tu') > f.getItemValue('ngay_den'))) {
+  $func.hideWait(f.get_id());
+  f._checked = false;
+  $message.show(errorMessage, String.format('$find(\'{0}\').focus(\'{1}\');', f.get_id(), 'ngay_tu'));
+}
+]]>
+      </text>
+    </command>
+
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$SalaryComputingPeriod(f) {
+  f.add_onResponseComplete(on$SalaryComputingPeriod$ResponseComplete);
+  setDefault$SalaryComputingPeriod$Value(f);
+}
+function scatter$SalaryComputingPeriod(f) {setDefault$SalaryComputingPeriod$Value(f);}
+function setDefault$SalaryComputingPeriod$Value(f) {
+	var d = new Date();
+	f.setItemValue('nam', f.grid._year);
+	if (f._action == 'New') f.setItemValue('ky', d.getMonth() + 1);
+}
+function close$SalaryComputingPeriod(f) {try {f.remove_onResponseComplete(on$SalaryComputingPeriod$ResponseComplete)} catch (ex) {}}
+function on$SalaryComputingPeriod$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+      break;
+    default:
+      break;
+  }
+}
+]]>
+    </text>
+  </script>
+
+</dir>

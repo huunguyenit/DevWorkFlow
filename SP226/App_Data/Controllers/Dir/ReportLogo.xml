@@ -1,0 +1,171 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY ImageUploadField SYSTEM "..\Include\XML\ImageUploadField.txt">
+  <!ENTITY UploadButtonCss SYSTEM "..\Include\XML\ImageUploadForm.txt">
+  <!ENTITY UploadTyle "ReportLogo">
+  <!ENTITY WhenUploadLoading "
+declare @fid varchar(15), @keys varchar(15)
+select @fid = replace(right(lower(newid()), 16), '-', ''), @keys = replace(right(lower(newid()), 16), '-', '')
+if not exists(select 1 from upload where user_id = @@userID and type = '&UploadTyle;') insert into upload values(@@userID, '&UploadTyle;', @keys) 
+else update upload set keys = @keys where user_id = @@userID and type = '&UploadTyle;'
+select 'this._userID = ''' + '@@userID' + ''';this._fid = ''' + @fid + ''';this._key = ''' + @keys + ''';this._db = ''' + '@@appDatabaseName' + ''';active$FormUpload(this);' as message
+return    
+">
+]>
+
+<dir table="v20logos" code="logo_id" order="logo_id" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="biểu tượng" e="Logo"></title>
+  <fields>
+    <field name="logo_id" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="logo_name" allowNulls="false">
+      <header v="Tên biểu tượng" e="Description"></header>
+    </field>
+    <field name="logo_name2">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+    &ImageUploadField;
+    <field name="filename" hidden="true" external="true" defaultValue="''" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Dir">
+      <item value="120, 30, 70, 100, 100, 100, 30, 0"/>
+      <item value="110001: [logo_name].Label, [logo_name], [logo_id]"/>
+      <item value="11000: [logo_name2].Label, [logo_name2]"/>
+      <item value="11000101: [upload].Label, [upload], [upload].Description, [filename]"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        &WhenUploadLoading;
+      </text>
+    </command>
+
+    <command event="Scattering">
+      <text>
+        &WhenUploadLoading;
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormUpload(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+/*
+]]>
+      </text>
+    </command>
+
+    <command event="Inserted">
+      <text>
+        <![CDATA[*/
+declare @id int, @invoke nvarchar(4000), @keys varchar(15)
+insert into v20logos(logo_name, logo_name2, status) values(@1, @2, '0')
+select @id = scope_identity()
+select @invoke = 'FileUpload.FileUpload.Process.LogFile(' + ']]>&UploadTyle;<![CDATA[' + ',' + rtrim(@id) + ',' + @$filename + ',' + '@@appDatabaseName' + ')'
+select '' as message, '' as field, @id as logo_id, 'active$FormUpload(this);' as script, @invoke as invoke
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+declare @invoke nvarchar(4000)
+select @invoke = 'FileUpload.FileUpload.Process.LogFile(' + ']]>&UploadTyle;<![CDATA[' + ',' + rtrim(@logo_id) + ',' + @$filename + ',' + '@@appDatabaseName' + ')'
+select '' as message, '' as field, 'active$FormUpload(this);' as script, @invoke as invoke
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Deleting">
+      <text>
+        <![CDATA[
+declare @$deleteConflict nvarchar(512), @status char(1)
+select @$deleteConflict = case when @@language = 'v' then N'Không thể xóa biểu tượng mặc định.' else N'Can not delete the default Logo.' end
+select @status = status from @@table where logo_id = @logo_id
+if @status = 1 begin
+  select @$deleteConflict as message
+  return
+end
+]]>
+      </text>
+    </command>
+    <command event="Deleted">
+      <text>
+        <![CDATA[
+select '' as message, 'FileUpload.FileUpload.Process.DeleteFile(' + ']]>&UploadTyle;<![CDATA[' + ',' + rtrim(@logo_id) + ')' as invoke
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Checking">
+      <text>
+        <![CDATA[
+var imgName = getFileName($get('fileupload').value), allowExt = 'gif,png,jpg,jpeg';
+var err = (this._language == 'v' ? 'Định dạng tệp ảnh không đúng.' : 'Invalid file type.');
+if (imgName != '') {
+  var ext = imgName.split('.').pop()
+  if (allowExt.indexOf(ext.toLowerCase()) < 0) {
+    this._checked = false;
+    $message.show(err);
+  }
+  else {
+    this.getItem('filename').value = this._fid + '.' + ext;
+    var query = '?t=' + ']]>&UploadTyle;<![CDATA[' + '&u=' + this._userID + '&k=' + this._key + '&f=' + this._fid + '&d=' + this._db;
+    $get('uploadForm').action = '../AppHandler/FileUpload.ashx' + query
+    $get('uploadForm').submit();
+  }
+}
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$FormUpload(f) {
+  document.body._form = f;
+  $get('fileupload').value = '';  
+  $get('fileupload').disabled = (f._action == 'View');
+  f.getItem('upload').field.AllowNulls = (f._action == 'Edit');
+  $get(f.get_id() + '_form_upload').style.color = 'grey';  
+}
+function close$FormUpload(f) {document.body._form = null;}
+function setFileName() {
+  var f = document.body._form;
+  $get(f.get_id() + '_form_upload').value = getFileName($get('fileupload').value);  
+}
+function setButtonBehavior(e) {var f = document.body._form;
+  if ((f._action != 'View')&&((e.keyCode == 13)||(e.keyCode == 32))) {$get('fileupload').click();}
+}
+function getFileName(s) {
+  var p = s.lastIndexOf('\\');
+  if (p != -1) {return s.substring(p + 1);}
+  else {return s;}
+}
+]]>
+    </text>
+  </script>
+
+  &UploadButtonCss;
+</dir>

@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY XMLWhenFilterLoading SYSTEM "..\Include\XML\WhenFilterLoading.xml">
+  <!ENTITY XMLWhenFilterClosing SYSTEM "..\Include\XML\WhenFilterClosing.xml">
+  <!ENTITY XMLWhenFilterQuerying SYSTEM "..\Include\XML\WhenFilterQuerying.xml">
+
+  <!ENTITY OutlineCss SYSTEM "..\Include\Javascript\OutlineCss.txt">
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY OnSelectionOutline SYSTEM "..\Include\Javascript\OnSelectionOutline.txt">
+
+  <!ENTITY DynamicFieldFilterPara ", '#$query'">
+  <!ENTITY % ReferenceNumber SYSTEM "..\Include\ReferenceNumber.ent">
+  %ReferenceNumber;
+]>
+
+<dir id="1" type="Report" cache="true" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="Điều kiện lọc" e="Filter Condition"/>
+  <fields>
+    <field name="date" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false">
+      <header v="Được tt đến ngày" e="Date to"></header>
+    </field>
+    <field name="date_to" type="DateTime" dataFormatString="@datetimeFormat" allowNulls="false" aliasName="toDate" defaultValue="new Date()">
+      <header v="Ngày tính hạn tt" e="Due Date"/>
+    </field>
+    <field name="so_ky" type="Decimal" dataFormatString="##0" allowNulls="false" clientDefault="30">
+      <header v="Số ngày/kỳ" e="Days of Period"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="tk" categoryIndex="1">
+      <header v="Tài khoản" e="Account"/>
+      <items style="AutoComplete" controller="Account" reference="ten_tk%l" key="status = '1' and tk_cn = 1" check="tk_cn = 1"/>
+    </field>
+    <field name="ten_tk%l" readOnly="true" external="true" categoryIndex="1">
+      <header v="" e=""/>
+    </field>
+    <field name="ma_kh" categoryIndex="1">
+      <header v="Khách hàng" e="Customer"/>
+      <items style="AutoComplete" controller="Customer" reference="ten_kh%l" key="status = '1' and (kh_yn = 1 or nv_yn= 1)" check="kh_yn = 1 or nv_yn= 1"/>
+    </field>
+    <field name="ten_kh%l" readOnly="true" external="true" categoryIndex="1">
+      <header v="" e=""/>
+    </field>
+    <field name="nh_kh1" categoryIndex="1">
+      <header v="Nhóm khách 1" e="Customer Group 1"/>
+      <items style="AutoComplete" controller="CustomerGroup" reference="ten_nh_kh1%l" key="loai_nh = 1 and status = '1'" check="loai_nh = 1"/>
+    </field>
+    <field name="ten_nh_kh1%l" readOnly="true" external="true" categoryIndex="1">
+      <header v="" e=""/>
+    </field>
+    <field name="nh_kh2" categoryIndex="1">
+      <header v="Nhóm khách 2" e=" Customer Group 2"/>
+      <items style="AutoComplete" controller="CustomerGroup" reference="ten_nh_kh2%l" key="loai_nh = 2 and status = '1'" check="loai_nh = 2"/>
+    </field>
+    <field name="ten_nh_kh2%l" readOnly="true" external="true" categoryIndex="1">
+      <header v="" e=""/>
+    </field>
+    <field name="nh_kh3" categoryIndex="1">
+      <header v="Nhóm khách 3" e="Customer Group 3"/>
+      <items style="AutoComplete" controller="CustomerGroup" reference="ten_nh_kh3%l" key="loai_nh = 3 and status = '1'" check="loai_nh = 3"/>
+    </field>
+    <field name="ten_nh_kh3%l" readOnly="true" external="true" categoryIndex="1">
+      <header v="" e=""/>
+    </field>
+    <field name="so_du" dataFormatString="0, 1" clientDefault="0" align="right" categoryIndex="1">
+      <header v="Số dư hóa đơn" e="Invoice Balance"></header>
+      <footer v="1 - Tất cả, 0 - Lớn hơn 0" e="1 - All, 0 - Greater than 0"></footer>
+      <items style="Mask"/>
+    </field>
+    <field name="in_hd" dataFormatString="0, 1" clientDefault="1" align="right" categoryIndex="1">
+      <header v="Loại" e="Type"></header>
+      <footer v="1 - In các hóa đơn đã tất toán, 0 - Không in" e="1 - Print Fully Paid Invoice, 0 - Not Print"></footer>
+      <items style="Mask"/>
+    </field>
+    <field name="ma_dvcs" categoryIndex="1">
+      <header v="Đơn vị" e="Unit"></header>
+      <items style="Lookup" controller="Unit" key="status = '1'" check="1=1"/>
+    </field>
+    <field name="mau_bc" categoryIndex="1">
+      <header v="Mẫu báo cáo" e="Report Form"></header>
+      <items style="DropDownList">
+        <item value="10">
+          <text v="Mẫu chuẩn" e="Standard Form"/>
+        </item>
+        <item value="20">
+          <text v="Mẫu ngoại tệ" e="FC Form"/>
+        </item>
+      </items>
+      <clientScript>&OnSelectionOutline;</clientScript>
+    </field>
+    <field name="nhom" dataFormatString="0, 1" clientDefault="0" align="right" categoryIndex="1">
+      <header v="Nhóm theo hợp đồng" e="Group by Contract"></header>
+      <footer v="1 - Có, 0 - Không" e="1 - Yes, 0 - No"></footer>
+      <items style="Mask"/>
+    </field>
+
+  </fields>
+
+  <views>
+    <view id="Dir" height="257">
+      <item value="120, 30, 70, 100, 100, 130"/>
+      <item value="110: [date].Label, [date]"/>
+      <item value="110: [date_to].Label, [date_to]"/>
+      <item value="110: [so_ky].Label, [so_ky]"/>
+      <item value="110100: [tk].Label, [tk], [ten_tk%l]"/>
+      <item value="110100: [ma_kh].Label, [ma_kh], [ten_kh%l]"/>
+      <item value="110100: [nh_kh1].Label, [nh_kh1], [ten_nh_kh1%l]"/>
+      <item value="110100: [nh_kh2].Label, [nh_kh2], [ten_nh_kh2%l]"/>
+      <item value="110100: [nh_kh3].Label, [nh_kh3], [ten_nh_kh3%l]"/>
+      <item value="11100: [so_du].Label, [so_du], [so_du].Description"/>
+      <item value="11100: [in_hd].Label, [in_hd], [in_hd].Description"/>
+      <item value="11100: [nhom].Label, [nhom], [nhom].Description"/>
+      <item value="11000: [ma_dvcs].Label, [ma_dvcs]"/>
+      <item value="11000: [mau_bc].Label, [mau_bc]"/>
+
+      <categories>
+        <category index="1" columns="120, 30, 70, 100, 100, 130">
+          <header v="Thông tin chung" e="General"/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    &XMLWhenFilterLoading;
+    &XMLWhenFilterClosing;
+    &XMLWhenFilterQuerying;
+    <command event="Processing">
+      <text>
+        <![CDATA[
+select @date_to as date_to, @so_ky as so_ky
+exec rs_rptReceivableAgingReportByInvoice @date_to, @date, @ma_dvcs, @tk, @ma_kh, @nh_kh1, @nh_kh2, @nh_kh3, @so_ky, @so_du, @in_hd, @nhom, @@language, @@userID, @@admin
+]]>&DynamicFieldFilterPara;
+        &ReferenceParameters;
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &OutlineEntry;
+      <![CDATA[/* <flatten type="Javascript"> */
+function active$VoucherFilter$(f) {
+  f.add_onResponseComplete(on$Filter$ResponseComplete);
+  changeLookupReadonly(f, 'ma_dvcs');
+  if (!f.getItemValue('date') {f.setItemValue('date', new Date());}
+  f.live(f.getItem('date'));
+}
+function close$VoucherFilter$(f) {try {f.remove_onResponseComplete(on$Filter$ResponseComplete);} catch (ex) {}}
+function on$Filter$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      var g = f.grid, d2 = f.getItem('date_to').value, x = f.getItemValue('mau_bc'), type = (f.getItemValue('nhom') == '0');
+      g._days = f.getItemValue('so_ky');
+      g._alterTitle = [null, [['%d2', d2, true]]];
+      g._hiddenFields = [
+        {Fields: 'ma_nt, t_tt_nt0, t_tt_nt1, du_cuoi_nt, so_du_nt0, so_du_nt1, so_du_nt2, so_du_nt3, so_du_nt4', Value: (x == '10')},
+        {Fields: 't_tt0, t_tt1, du_cuoi, so_du0, so_du1, so_du2, so_du3, so_du4', Value: (x == '20')},
+        {Fields: 'ma_hd, ten_hd_ex', Value: type)}
+      ];
+      if (g._fields.length > 0) try {init$GridReport$(g);} catch (ex) {}
+      g._hiddenForms = [
+        {Form: [2, 3, 8, 7], Value: type},
+        {Form: [0, 1, 6, 5], Value: !type}
+      ];
+      if (!g._v) g._v = g._days;
+      if (g._v != g._days) {
+        remove$GridReport$Filter(g);
+        g._v = g._days;
+      }
+      break;
+    default:
+      break;
+  }
+}
+function remove$GridReport$Filter(g) {
+  var r = ('so_du1, so_du2, so_du3, so_du4, so_du_nt1, so_du_nt2, so_du_nt3, so_du_nt4').split(','), name, field;
+  for (i = 0; i < r.length; i++) {
+    for (var j = 0; j < g._filter.length; j++) {
+      name = $func.trim(r[i]);
+      field = $func.findField(name, g._fields)
+      if (field) field.FilterPanelValue = '';
+      if (g._filter[j].match(/^(\w+):/)[1] == name) {
+        Array.removeAt(g._filter, j);
+        break;
+      }
+    }
+  }
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  &OutlineCss;
+</dir>

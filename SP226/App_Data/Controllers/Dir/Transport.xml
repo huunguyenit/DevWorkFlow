@@ -1,0 +1,218 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE dir [
+  <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+]>
+
+<dir table="dmvc" code="ma_vc" order="ma_vc" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="phương tiện vận chuyển" e="Transport"></title>
+  <fields>
+    <field name="ma_vc" isPrimaryKey="true" dataFormatString="@upperCaseFormat" allowNulls="false">
+      <header v="Mã phương tiện" e="Code"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="ten_vc" allowNulls="false">
+      <header v="Tên phương tiện" e="Description"></header>
+    </field>
+    <field name="ten_vc2">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+
+    <field name="loai_vc" allowNulls="false">
+      <header v="Loại vận chuyển" e="Transport Type"></header>
+      <items style="AutoComplete" controller="TransportType" reference="ten_loai%l" key="status = '1'" check="1 = 1" information="ma_loai$dmloaivc.ten_loai%l"/>
+    </field>
+    <field name="ten_loai%l" readOnly="true" external="true" defaultValue="''" hidden="false" >
+      <header v="" e=""></header>
+    </field>
+    <field name="bien_so" dataFormatString="@upperCaseFormat">
+      <header v="Biển số" e="License Number"></header>
+    </field>
+
+    <field name="ong_ba" >
+      <header v="Lái xe" e="Default Driver"></header>
+    </field>
+
+    <field name="height" type="Decimal" dataFormatString="### ### ### ##0.00">
+      <header v="Chiều cao" e="Heigth"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="length" type="Decimal" dataFormatString="### ### ### ##0.00">
+      <header v="Chiều dài" e="Length"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="width" type="Decimal" dataFormatString="### ### ### ##0.00">
+      <header v="Chiều rộng" e="Width"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="volume" type="Decimal" dataFormatString="### ### ### ##0.00">
+      <header v="Thể tích tối đa" e="Max Load Volume"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="weight" type="Decimal" dataFormatString="### ### ### ##0.00">
+      <header v="Trọng lượng tối đa" e="Max Load Weight"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="dvtheight" >
+      <header v="" e=""></header>
+      <items style="Mask"></items>
+    </field>
+    <field name="dvtvolume" >
+      <header v="" e=""></header>
+      <items style="Mask"></items>
+    </field>
+    <field name="dvtlength" >
+      <header v="" e=""></header>
+      <items style="Mask"></items>
+    </field>
+    <field name="dvtweight" >
+      <header v="" e=""></header>
+      <items style="Mask"></items>
+    </field>
+    <field name="dvtwidth" >
+      <header v="" e=""></header>
+      <items style="Mask"></items>
+    </field>
+    <field name="tg_xep_hang" type="Decimal" align= "right" dataFormatString="##0">
+      <header v="Thời gian xếp hàng" e="Load Lead Time"></header>
+      <items style="Numeric"></items>
+    </field>
+
+    <field name="tg_do_hang" type="Decimal" align= "right" dataFormatString="##0">
+      <header v="Thời gian dỡ hàng" e="Unload Lead Time"></header>
+      <items style="Numeric"></items>
+
+    </field>
+    <field name="dvt_xep" >
+      <header v="" e=""></header>
+      <items style="Mask"></items>
+    </field>
+    <field name="dvt_do" >
+      <header v="" e=""></header>
+      <items style="Mask"></items>
+    </field>
+
+
+    <field name="status" dataFormatString="0, 1" clientDefault="1" align="right" inactivate="true">
+      <header v="Trạng thái" e="Status"></header>
+      <footer v="1 - Còn sử dụng, 0 - Không còn sử dụng" e="1 - Active, 0 - Inactive"></footer>
+      <items style="Mask"/>
+    </field>
+
+  </fields>
+
+  <views>
+    <view id="Dir" >
+      <item value="120, 30, 50, 10, 50, 290"/>
+      <item value="11000: [ma_vc].Label, [ma_vc]"/>
+      <item value="110000: [ten_vc].Label, [ten_vc]"/>
+      <item value="110000: [ten_vc2].Label, [ten_vc2]"/>
+      <item value="110001: [loai_vc].Label, [loai_vc], [ten_loai%l]"/>
+      <item value="11000: [bien_so].Label, [bien_so]"/>
+      <item value="11000: [ong_ba].Label, [ong_ba]"/>
+      <item value="110-1: [height].Label, [height],[dvtheight]"/>
+      <item value="110-1: [length].Label, [length], [dvtlength]"/>
+
+      <item value="110-1: [width].Label, [width], [dvtwidth]"/>
+      <item value="110-1: [volume].Label, [volume], [dvtvolume]"/>
+      <item value="110-1: [weight].Label, [weight], [dvtweight]"/>
+      <item value="110-1: [tg_xep_hang].Label, [tg_xep_hang], [dvt_xep]"/>
+      <item value="110-1: [tg_do_hang].Label, [tg_do_hang],[dvt_do]"/>
+      <item value="111000: [status].Label, [status], [status].Description"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'active$FormTransport(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'close$FormTransport(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Declare">
+      <text>
+        <![CDATA[
+declare @$exists nvarchar(512), @$updateConflict nvarchar(512), @$recordHasBeenChanged nvarchar(512), @$deleteConflict nvarchar(512)
+select @$exists = case when @@language = 'v' then N'Mã phương tiện <span class="Highlight">%s</span> đã có hoặc lồng nhau trong danh mục phương tiện vận chuyển.' else N'The transport <span class="Highlight">%s</span> is invalid or already exists.' end
+select @$updateConflict = case when @@language = 'v' then N'Mã phương tiện <span class="Highlight">%s</span> đã phát sinh, không thể sửa được.' else N'Cannot edit the transport <span class="Highlight">%s</span>. It has already been used.' end
+select @$deleteConflict = case when @@language = 'v' then N'Mã phương tiện <span class="Highlight">%s</span> đã phát sinh, không thể xóa được.' else N'Cannot edit the transport <span class="Highlight">%s</span>. It has already been used.' end
+select @$recordHasBeenChanged = case when @@language = 'v' then N'Mã phương tiện <span class="Highlight">%s</span> đã được sửa hoặc xóa bởi người sử dụng khác.' else N'The transport <span class="Highlight">%s</span> has been modified or deleted by another user.' end
+]]>
+      </text>
+    </command>
+
+    <command event="Inserting">
+      <text>
+        <![CDATA[
+if exists(select * from @@table where ((ma_vc like rtrim(@ma_vc) + '%') or rtrim(@ma_vc) like rtrim(ma_vc) + '%'))
+  begin
+    select 'ma_vc' as field, replace(@$exists, '%s', rtrim(@ma_vc)) as message
+    return
+  end
+select @datetime0 = getdate(), @datetime2 = getdate(), @user_id0 = @@userID, @user_id2 = @@userID
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+if not exists(select * from @@table where ma_vc = $ma_vc.OldValue)
+  begin
+    select 'ma_vc' as field, replace(@$recordHasBeenChanged, '%s', rtrim($ma_vc.OldValue)) as message
+    return
+  end
+  
+if @ma_vc <> $ma_vc.OldValue
+  begin
+    if exists(select * from @@table where ((ma_vc like rtrim(@ma_vc) + '%') or rtrim(@ma_vc) like rtrim(ma_vc) + '%') and ma_vc <> $ma_vc.OldValue)
+      begin
+        select 'ma_vc' as field, replace(@$exists, '%s', rtrim(@ma_vc)) as message
+        return
+      end
+  end
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set datetime2 = getdate(), user_id2 = @@userID where ma_vc = @ma_vc
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function active$FormTransport(f) {f.add_onResponseComplete(on$FormTransport$ResponseComplete);}
+function close$FormTransport(f) {try {f.remove_onResponseComplete(on$FormTransport$ResponseComplete)} catch (ex) {}}
+function on$FormTransport$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Checking':
+      objectBehavior$Dir$Irregular.checkCode(f, 'ma_vc');
+      break;
+    default:
+      break;
+  }
+}
+]]>
+      &ScriptIrregular;
+    </text>
+  </script>
+
+</dir>

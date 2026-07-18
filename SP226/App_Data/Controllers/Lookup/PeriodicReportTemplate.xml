@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="dmthongbao" code="ma_tb" name="ten_tb%l" order="ma_tb" database="Sys" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Khai báo mẫu báo cáo định kỳ" e="Periodic Report Template"></header>
+  <fields>
+    <field name="ma_tb" allowSorting="true" allowFilter="true">
+      <header v="Mã mẫu báo cáo" e="Code"></header>
+    </field>
+    <field name="ten_tb%l" allowSorting="true" allowFilter="true">
+      <header v="Tên mẫu báo cáo" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

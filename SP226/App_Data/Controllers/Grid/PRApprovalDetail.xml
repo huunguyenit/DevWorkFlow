@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY ScriptTag SYSTEM "..\Include\Javascript\Tag.txt">
+  <!ENTITY XMLUserDefinedFields SYSTEM "..\Include\XML\UserDefinedFields.txt">
+  <!ENTITY XMLUserDefinedViews SYSTEM "..\Include\XML\UserDefinedViews.txt">
+  <!ENTITY Tag "cast(0 as bit) as tag">
+]>
+
+<grid table="d91$000000" code="stt_rec" order="stt_rec, line_nbr" type="Detail" freezeColumns="3" id="PR2" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <partition table="c91$000000" prime="d91$" inquiry="i91$" field="ngay_ct" expression="convert(char(6), {0}, 112)" increase="dateadd(month, 1, {0})" default="000000"/>
+  <fields>
+    <field name="tag1" type="Boolean" clientDefault="0" width="60" external="true" defaultValue="case when a.xstatus = '2' then 1 else 0 end">
+      <header v="Duyệt" e="Approve"></header>
+      <items style="CheckBox"/>
+      <clientScript><![CDATA[onclick="onClick$Select(this);"]]></clientScript>
+    </field>
+    <field name="tag2" type="Boolean" clientDefault="0" width="60" external="true" defaultValue="case when a.xstatus = '1' then 1 else 0 end">
+      <header v="Hủy" e="Cancel"></header>
+      <items style="CheckBox"/>
+      <clientScript><![CDATA[onclick="onClick$Cancel(this);"]]></clientScript>
+    </field>
+    <field name="sl_duyet" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="0" width="80">
+      <header v="Sl duyệt" e="Approved Q'ty"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="so_luong" type="Decimal" dataFormatString="@quantityInputFormat" clientDefault="0" width="80" readOnly="true">
+      <header v="Số lượng" e="Quantity"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ma_vt" allowNulls="false" width="100" aliasName="a" readOnly="true">
+      <header v="Mã hàng" e="Item Code"></header>
+    </field>
+    <field name="ten_vt%l" external="true" readOnly="true" defaultValue="''" inactivate="true" width="300" aliasName="b">
+      <header v="Tên mặt hàng" e="Item Name"></header>
+    </field>
+    <field name="dvt" allowNulls="false" width="50" aliasName="a" readOnly="true">
+      <header v="Đvt" e="UOM"></header>
+    </field>
+    <field name="ngay_yc" type="DateTime" dataFormatString="@datetimeFormat" width="100" align="left" readOnly="true">
+      <header v="Ngày yêu cầu" e="Require Date"></header>
+    </field>
+    <field name="gia_nt" type="Decimal" dataFormatString="@foreignCurrencyPriceInputFormat" clientDefault="0" width="100" readOnly="true">
+      <header v="Giá nt" e="FC Price"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" width="100" readOnly="true">
+      <header v="Tiền nt" e="FC Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ma_dc" width="80" aliasName="a" readOnly="true">
+      <header v="Địa chỉ" e="Address"></header>
+      <items style ="AutoComplete" controller="ReceivingAddress" key ="status = 1" check="1 = 1"/>
+    </field>
+    <field name="ma_kho" width="80" readOnly ="true" inactivate="true" clientDefault="Default" aliasName="a">
+      <header v="Kho hàng" e="Site"></header>
+    </field>
+    <field name="ma_kh" width="80" clientDefault="Default" aliasName="a" readOnly="true">
+      <header v="Mã ncc" e="Supplier"></header>
+      <items style="AutoComplete" controller="Customer"/>
+    </field>
+    <field name="ghi_chu" width="300" aliasName="a">
+      <header v="Ghi chú" e="Note"></header>
+    </field>
+    <field name="xstatus" width="80" inactivate="true" readOnly="true" aliasName="a" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="xstatus_name%l" width="80" external="true" defaultValue="''" inactivate="true" readOnly="true" aliasName="c">
+      <header v="Trạng thái" e="Status"></header>
+    </field>
+    <field name="gia" type="Decimal" dataFormatString="@baseCurrencyPriceInputFormat" clientDefault="0" width="100" allowContain="true" readOnly="true">
+      <header v="Giá" e="Price"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="tien" type="Decimal" dataFormatString="@baseCurrencyAmountInputFormat" clientDefault="0" width="100" allowContain="true" readOnly="true">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="stt_rec" isPrimaryKey="true" readOnly="true" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" isPrimaryKey="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" width="0" align="right" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="tag1"/>
+      <field name="tag2"/>
+      <field name="sl_duyet"/>
+      <field name="so_luong"/>
+      <field name="ma_vt"/>
+      <field name="ten_vt%l"/>
+      <field name="dvt"/>
+      <field name="ngay_yc"/>
+      <field name="gia_nt"/>
+      <field name="tien_nt"/>
+      <field name="ma_dc"/>
+      <field name="ma_kho"/>
+      <field name="ma_kh"/>
+      <field name="ghi_chu"/>
+      <field name="xstatus"/>
+      <field name="xstatus_name%l"/>
+      <field name="gia"/>
+      <field name="tien"/>
+
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+      <field name="line_nbr"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$Grid(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from @@prime$partition$current a left join dmvt b on a.ma_vt = b.ma_vt left join dmttct2 c on a.xstatus = c.xstatus and a.ma_ct = c.ma_ct where @@whereClause order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$Grid(g) {
+  var z = g.get_element().parentForm, w = z.grid, l1 = g._getColumnOrder('tag1'), l2 = g._getColumnOrder('tag2'), l3 = g._getColumnOrder('xstatus');
+  var t = w._getItemValue(w._activeRow, w._getColumnOrder('duyet_het'));
+  g._getItem(1, l1).focus();
+}
+function onClick$Select(o) {
+  if (!o.checked) o.checked = true;
+  else {
+    var g = o.grid, a = o.id.split('_inputCell_'), r = a[1].split('.')[0];
+    if (!g) g = $find(a[0]);
+    var l1 = g._getColumnOrder('sl_duyet'), l2 = g._getColumnOrder('so_luong');
+    g._setItemValue(r, l1, o.checked ? g._getItemValue(r, l2): 0);
+	  g._setItemValue(r, g._getColumnOrder('tag2'), false);
+  }
+}
+function onClick$Cancel(o) {
+  if (!o.checked) o.checked = true;
+  else {
+    var g = o.grid, a = o.id.split('_inputCell_'), r = a[1].split('.')[0];
+    if (!g) g = $find(a[0]);
+    var l1 = g._getColumnOrder('sl_duyet');
+    g._setItemValue(r, l1, o.checked ? 0: 0);
+	  g._setItemValue(r, g._getColumnOrder('tag1'), false);
+  }
+}/* </flatten> */
+]]>
+    </text>
+  </script>
+
+  <toolbar>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"/>
+    </button>
+  </toolbar>
+</grid>

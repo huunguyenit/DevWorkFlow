@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLWhenReportLoading SYSTEM "..\Include\XML\WhenReportLoading.xml">
+  <!ENTITY XMLWhenReportClosing SYSTEM "..\Include\XML\WhenReportClosing.xml">
+  <!ENTITY XMLStandardQueryToolbar SYSTEM "..\Include\XML\StandardQueryToolbar.xml">
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+
+  <!ENTITY FilterInitialize SYSTEM "..\Include\FilterInitialize.xml">
+  <!ENTITY FilterQuery SYSTEM "..\Include\FilterQuery.xml">
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+
+  <!ENTITY Controller "'StockDetail'">
+
+  <!ENTITY QueryString "
+declare @c char(1), @d char(1)
+select @c = char(253), @d = char(252)
+select * into #t from dbo.FastBusiness$Function$System$Split(@@queryString, @c)
+declare @xDetail nvarchar(128), @groupBy varchar(128), @dFrom smalldatetime, @dTo smalldatetime, @rType varchar(1), @rPeriod varchar(128), @Count int
+  , @reportBy varchar(128), @type varchar(1), @unit varchar(8000), @form varchar(32), @dataType varchar(1), @voucherList varchar(128), @tKey varchar(128), @revenueAcc varchar(33)
+
+select @xDetail = replace(data, @d, '''') from #t where id = 1
+select @tKey = replace(data, @d, '''') from #t where id = 2
+select @dFrom = data from #t where id = 3
+select @rType = data from #t where id = 4
+select @rPeriod = data from #t where id = 5
+select @reportBy = data from #t where id = 6
+select @groupBy = data from #t where id = 7
+select @type = data from #t where id = 8
+select @unit = replace(data, @d, '''') from #t where id = 9
+select @form = data from #t where id = 10
+select @dataType = data from #t where id = 11
+select @voucherList = replace(data, @d, '''') from #t where id = 12
+select @revenueAcc = replace(data, @d, '''') from #t where id = 13
+set @Count = convert(int, @rPeriod)
+select @dTo = dateadd(day, -1, case
+  when @rType = 1 then dateadd(month, 1 * @Count, @dFrom)
+  when @rType = 2 then dateadd(month, 3 * @Count, @dFrom)
+  when @rType = 3 then dateadd(month, 6 * @Count, @dFrom)
+  when @rType = 4 then dateadd(month, 12 * @Count, @dFrom)
+end)
+drop table #t">
+]>
+
+<grid order="ngay_ct, so_ct, stt_rec, stt_rec0" type="Inquiry" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Chi tiết bán hàng" e="Detail Sales"></title>
+  <subTitle v="%s: %c. %t, %d2, từ ngày: %d1..." e="%s: %c. %t, %d2, Date from: %d1..."></subTitle>
+  <fields>
+    <field name="ngay_ct" type="DateTime" dataFormatString="@datetimeFormat" width="80" allowFilter="&GridQueryAllowFilter;">
+      <header v="Ngày ct" e="VC. Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_ct" width="60" hyperlinkFormatString="~/AppHandler/Voucher.ashx Query: {Name: '[ma_ct]', Value: '[stt_rec]'}, Script: 'beforeDrillDown(this);'" allowFilter="&GridQueryAllowFilter;">
+      <header v="Mã ct" e="VC. Code"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="so_ct" width="80" align="right" allowFilter="&GridQueryAllowFilter;">
+      <header v="Số ct" e="Voucher No."></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_kh" width="100" aliasName="a" allowFilter="&GridQueryAllowFilter;">
+      <header v="Mã khách" e="Customer"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ten_kh%l" width="300" aliasName="c" allowFilter="&GridQueryAllowFilter;">
+      <header v="Tên khách" e="Customer Name"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_vt" width="100" aliasName="a" allowFilter="&GridQueryAllowFilter;">
+      <header v="Mã vật tư" e="Item Code"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_kho" width="100" aliasName="a" allowFilter="&GridQueryAllowFilter;">
+      <header v="Mã kho" e="Site"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_nx" width="100" allowFilter="&GridQueryAllowFilter;">
+      <header v="Mã nx" e="Reason"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_nvbh" width="100" aliasName="a" allowFilter="&GridQueryAllowFilter;">
+      <header v="Nv bán hàng" e="Sales Employee"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_nt" width="100" allowFilter="&GridQueryAllowFilter;">
+      <header v="Mã nt" e="FC Code"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="tien_nt2_ex" type="Decimal" width="120" dataFormatString="@foreignCurrencyAmountViewFormat" aliasName="(case when a.ma_ct = 'HDF' then -tien_nt2 else tien_nt2 end)" allowFilter="&GridQueryAllowFilter;">
+      <header v="Tiền nt" e="FC Amount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="tien2_ex" type="Decimal" width="120" dataFormatString="@baseCurrencyAmountViewFormat" aliasName="(case when a.ma_ct = 'HDF' then -tien2 else tien2 end)" allowFilter="&GridQueryAllowFilter;">
+      <header v="Tiền" e="Amount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ck_nt_ex" type="Decimal" width="120" dataFormatString="@foreignCurrencyAmountViewFormat" aliasName="(case when a.ma_ct = 'HDF' then -ck_nt else ck_nt end)" allowFilter="&GridQueryAllowFilter;">
+      <header v="Chiết khấu nt" e="FC Discount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ck_ex" type="Decimal" width="120" dataFormatString="@baseCurrencyAmountViewFormat" aliasName="(case when a.ma_ct = 'HDF' then -ck else ck end)" allowFilter="&GridQueryAllowFilter;">
+      <header v="Chiết khấu" e="Discount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_bp" width="100" allowFilter="&GridQueryAllowFilter;">
+      <header v="Mã bộ phận" e="Department"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="nh_vt1" width="100" aliasName="b" allowFilter="&GridQueryAllowFilter;">
+      <header v="Nhóm vt 1" e="Item Group 1"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="nh_vt2" width="100" aliasName="b" allowFilter="&GridQueryAllowFilter;">
+      <header v="Nhóm vt 2" e="Item Group 2"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="nh_vt3" width="100" aliasName="b" allowFilter="&GridQueryAllowFilter;">
+      <header v="Nhóm vt 3" e="Item Group 3"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="nh_vt9" width="100" aliasName="b" allowFilter="&GridQueryAllowFilter;">
+      <header v="Nhóm giá vt" e="Item Price Class"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="nh_kh1" width="100" aliasName="c" allowFilter="&GridQueryAllowFilter;">
+      <header v="Nhóm kh 1" e="Customer Group 1"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="nh_kh2" width="100" aliasName="c" allowFilter="&GridQueryAllowFilter;">
+      <header v="Nhóm kh 2" e="Customer Group 2"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="nh_kh3" width="100" aliasName="c" allowFilter="&GridQueryAllowFilter;">
+      <header v="Nhóm kh 3" e="Customer Group 3"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="nh_kh9" width="100" aliasName="c" allowFilter="&GridQueryAllowFilter;">
+      <header v="Nhóm giá kh" e="Customer Price Class"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="dien_giai" width="300" allowFilter="&GridQueryAllowFilter;">
+      <header v="Diễn giải" e="Description"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+
+    <field name="stt_rec" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec0" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ngay_ct"/>
+      <field name="ma_ct"/>
+      <field name="so_ct"/>
+      <field name="ma_kh"/>
+      <field name="ten_kh%l"/>
+      <field name="ma_vt"/>
+      <field name="ma_kho"/>
+      <field name="ma_nx"/>
+      <field name="ma_nvbh"/>
+      <field name="ma_nt"/>
+      <field name="tien2_ex"/>
+      <field name="tien_nt2_ex"/>
+      <field name="ck_ex"/>
+      <field name="ck_nt_ex"/>
+      <field name="ma_bp"/>
+      <field name="nh_vt1"/>
+      <field name="nh_vt2"/>
+      <field name="nh_vt3"/>
+      <field name="nh_vt9"/>
+      <field name="nh_kh1"/>
+      <field name="nh_kh2"/>
+      <field name="nh_kh3"/>
+      <field name="nh_kh9"/>
+      <field name="dien_giai"/>
+
+      <field name="stt_rec"/>
+      <field name="stt_rec0"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event ="Showing">
+      <text>
+        &QueryString;
+        <![CDATA[
+declare @name nvarchar(4000)
+select @name = case @reportBy
+  when '1' then case when @@language = 'V' then N'Mã vật tư' else 'Item Code' end
+  when '2' then case when @@language = 'V' then N'Nhóm vật tư 1' else 'Item Group 1' end
+  when '3' then case when @@language = 'V' then N'Nhóm vật tư 2' else 'Item Group 2' end
+  when '4' then case when @@language = 'V' then N'Nhóm vật tư 3' else 'Item Group 3' end
+  when '5' then case when @@language = 'V' then N'Nhóm giá vật tư' else 'Item Price Class' end
+  when '6' then case when @@language = 'V' then N'Mã khách hàng' else 'Customer' end
+  when '7' then case when @@language = 'V' then N'Nhóm khách hàng 1' else 'Customer Group 1' end
+  when '8' then case when @@language = 'V' then N'Nhóm khách hàng 2' else 'Customer Group 2' end
+  when '9' then case when @@language = 'V' then N'Nhóm khách hàng 3' else 'Customer Group 3' end
+  when '10' then case when @@language = 'V' then N'Nhóm giá khách hàng' else 'Customer Price Class' end
+  when '11' then case when @@language = 'V' then N'Nhân viên bán hàng' else 'Sales Employee' end
+  when '12' then case when @@language = 'V' then N'Mã đơn vị cơ sở' else 'Unit' end
+  when '13' then case when @@language = 'V' then N'Mã kho' else 'Site' end
+  when '14' then case when @@language = 'V' then N'Mã bộ phận' else 'Department' end
+end
+select 'this._itemName = ''' + isnull(rtrim(replace(replace(@name, '\', '\\'), '''', '\''')), '') + ''';this._queryFilterString = ''' + replace(replace(@@queryString, '\', '\\'), '''', '\''') + ''';init$GridQuery$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    &XMLWhenReportLoading;
+    &XMLWhenReportClosing;
+  </commands>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+    <query event="Finding">
+      <text>
+        &QueryString;
+        <![CDATA[
+declare @queryWhereClause nvarchar(4000), @queryFormClause nvarchar(4000), @bc_theo varchar(48), @nh_theo varchar(48)
+
+select @bc_theo = case @reportBy when '1' then 'a.ma_vt' when '2' then 'b.nh_vt1' when '3' then 'b.nh_vt2' when '4' then 'b.nh_vt3'
+	when '5' then 'b.nh_vt9' when '6' then 'a.ma_kh' when '7' then 'c.nh_kh1' when '8' then 'c.nh_kh2' when '9' then 'c.nh_kh3'
+	when '10' then 'c.nh_kh9' when '11' then 'a.ma_nvbh' when '12' then 'a.ma_dvcs' when '13' then 'a.ma_kho' when '14' then 'a.ma_bp' end
+select @nh_theo = case @groupBy when '0' then '' when '1' then 'a.ma_vt' when '2' then 'b.nh_vt1' when '3' then 'b.nh_vt2' when '4' then 'b.nh_vt3'
+		when '5' then 'b.nh_vt9' when '6' then 'a.ma_kh' when '7' then 'c.nh_kh1' when '8' then 'c.nh_kh2' when '9' then 'c.nh_kh3'
+		when '10' then 'c.nh_kh9' when '11' then 'a.ma_nvbh' when '12' then 'a.ma_dvcs' when '13' then 'a.ma_kho' when '14' then 'a.ma_bp' end
+select @queryFormClause = 'left join dmvt b on a.ma_vt = b.ma_vt left join dmkh c on a.ma_kh = c.ma_kh '
+select @queryWhereClause = ''+ @bc_theo + ' = ''' +  replace(@xDetail, '''', '''''') + ''' and a.status = ''1'''
+if @nh_theo <> '' select @queryWhereClause = @queryWhereClause + ' and ' + @nh_theo + ' = ''' +  replace(@tKey, '''', '''''') + ''''
+if @voucherList <> '' select @queryWhereClause = @queryWhereClause + ' and ma_ct in (''' + replace(replace(replace(@voucherList, ' ', ''), '''', ''''''), ',', ''',''') + ''')'
+if @revenueAcc <> '' select @queryWhereClause = @queryWhereClause + ' and a.tk_dt like ''' +  replace(@revenueAcc, '''', '''''') + '%'''
+if @type <> '2' begin
+  select @queryWhereClause = @queryWhereClause + ' and a.ma_ct not in (''HDF'', ''HDR'') and not(ma_ct in(''HD4'', ''HD2'') and loai_ct = 1)'
+  if @type = '3' select @queryWhereClause = @queryWhereClause + ' and (isnull(a.ck, 0) <> 0 or isnull(a.ck_nt, 0) <> 0)'
+end
+if @type <> '3' select @queryWhereClause = @queryWhereClause + ' and (isnull(a.tien2, 0) <> 0 or isnull(a.tien_nt2, 0) <> 0)'
+
+]]>&FilterInitialize;&FilterQuery;<![CDATA[
+exec FastBusiness$Report$StockDetail @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem,
+  @@textExternal, @queryFormClause, @queryWhereClause, @dFrom, @dTo, @unit, @dataType, @@admin, @@userID, 'rptMultiPeriodSalesAnalysisByTwoCriteria2', '@@sysDatabaseName', default,
+  'tien2_ex, tien_nt2_ex, ck_ex, ck_nt_ex',
+  'tien2, tien_nt2, ck, ck_nt',
+  'sum((case when a.ma_ct = ''HDF'' then -tien2 else tien2 end)), sum((case when a.ma_ct = ''HDF'' then -tien_nt2 else tien_nt2 end)), sum((case when a.ma_ct = ''HDF'' then -ck else ck end)), sum((case when a.ma_ct = ''HDF'' then -ck_nt else ck_nt end))',
+  'sum(tien2_ex), sum(tien_nt2_ex), sum(ck_ex), sum(ck_nt_ex)'
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <script>
+    <text>
+      &JavascriptReportInit;
+      <![CDATA[/* <flatten type="Javascript"> */
+function init$GridQuery$(g) {
+  var a = g._queryFilterString.split(String.fromCharCode(253)), v = g._language == 'v';
+  var _report = (v ? 'Báo cáo theo: ' : 'Report by:'), _period = (v ? 'số kỳ báo cáo: ' : 'No. of Periods:');
+  switch (a[3]) {
+    case '1':
+      _report = _report + " " + (v ? 'Tháng' : 'Month');
+      break;
+    case '2':
+      _report = _report + " " + (v ? 'Quý' : 'Quarter');
+      break;
+    case '3':
+      _report = _report + " " + (v ? 'Nửa năm' : 'Half a Year');
+      break;
+    case '4':
+      _report = _report + " " + (v ? 'Năm' : 'Year');
+      break;
+    default:
+      break;
+  }
+  g._alterTitle = [null, [['%c', a[0], true], ['%s', g._itemName, true], ['%t', _report, true], ['%d2', _period + " " + a[4], true], ['%d1', formatDateView(a[2]), true]]];
+  var x = a[9], y = a[7];
+  if (y == '1'){
+    g._hiddenFields = [
+      {Fields: 'tien_nt2_ex, ma_nt', Value: (x == '10'},
+      {Fields: 'tien2_ex', Value: (x == '20')},
+      {Fields: 'ck_nt_ex, ck_ex', Value: (x == '10' || x == '20')}];
+  } else if (y == '3'){
+    g._hiddenFields = [
+      {Fields: 'ck_nt_ex, ma_nt', Value: (x == '10'},
+      {Fields: 'ck_ex', Value: (x == '20')},
+      {Fields: 'tien_nt2_ex, tien2_ex', Value: (x == '10' || x == '20')}];
+  } else if (y == '2') {
+      g._hiddenFields = [
+      {Fields: 'ck_nt_ex, tien_nt2_ex, ma_nt', Value: (x == '10'},
+      {Fields: 'ck_ex, tien2_ex', Value: (x == '20')}];
+  }
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  &XMLStandardQueryToolbar;
+</grid>

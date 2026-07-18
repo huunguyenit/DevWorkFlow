@@ -1,0 +1,17 @@
+<command event="Initialize">
+	<text>
+		<![CDATA[
+select 'this._break = true;' as message
+return
+]]>
+	</text>
+</command>
+
+<command event="Loading">
+	<text>
+		<![CDATA[
+select 'load$]]>&Identification;<![CDATA[$(this);' as message
+return
+]]>
+	</text>
+</command>

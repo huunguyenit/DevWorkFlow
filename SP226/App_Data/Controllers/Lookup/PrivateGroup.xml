@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="privategroup" code="ma_nhom" name="ten_nhom" order="ma_nhom" database="Sys" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Nhóm phân quyền" e="Group(s)"></header>
+  <fields>
+    <field name="ma_nhom" allowSorting="true" allowFilter="true">
+      <header v="Tên" e="Name"></header>
+    </field>
+    <field name="ten_nhom" allowSorting="true" allowFilter="true">
+      <header v="Tên" e="Name"></header>
+    </field>
+  </fields>
+</lookup>

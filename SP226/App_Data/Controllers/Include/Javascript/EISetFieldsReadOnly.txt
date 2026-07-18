@@ -1,0 +1,5 @@
+﻿<![CDATA[
+if (f._action != 'View' && f._usedEI) f.setReadOnlyFields('mau_hddt, so_seri_hddt, so_ct_hddt, tinh_trang_hddt');
+if(!f._$states) f._$states = [['Chưa xác thực', 'No Action'], ['Chờ xác thực', 'Pending'], ['Đã xác thực', 'Released'], ['Điều chỉnh', 'Adjusted'], ['Thay thế', 'Replaced'], ['Chờ hủy', 'Cancelling'], ['Hủy' , 'Cancelled']];
+f._$stateIndex = parseInt(f.getItemValue('tinh_trang_hddt'));
+]]>&EINoteSetStatusName;

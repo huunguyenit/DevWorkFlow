@@ -1,0 +1,57 @@
+<UserControl x:Class="UI.Views.Insight.SymbolInfoPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:insight="clr-namespace:UI.ViewModels.Insight">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{StaticResource SidebarBgBrush}">
+        <StackPanel Margin="8">
+            <TextBlock Text="SYMBOL INFO" FontSize="11" FontWeight="SemiBold"
+                       Foreground="{StaticResource FgMutedBrush}" Margin="0,0,0,8"/>
+
+            <Grid Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="72"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0" Text="Name" FontSize="10" Foreground="{StaticResource FgMutedBrush}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SymbolName}" FontSize="11" FontWeight="SemiBold"/>
+
+                <TextBlock Grid.Row="1" Text="Type" FontSize="10" Foreground="{StaticResource FgMutedBrush}" Margin="0,4,0,0"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SymbolType}" FontSize="11" Margin="0,4,0,0"/>
+
+                <TextBlock Grid.Row="2" Text="Category" FontSize="10" Foreground="{StaticResource FgMutedBrush}" Margin="0,4,0,0"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Category}" FontSize="11" Margin="0,4,0,0"/>
+
+                <TextBlock Grid.Row="3" Text="DataType" FontSize="10" Foreground="{StaticResource FgMutedBrush}" Margin="0,4,0,0"/>
+                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding DataType}" FontSize="11" Margin="0,4,0,0"/>
+
+                <TextBlock Grid.Row="4" Text="ReadOnly" FontSize="10" Foreground="{StaticResource FgMutedBrush}" Margin="0,4,0,0"/>
+                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ReadOnlyText}" FontSize="11" Margin="0,4,0,0"/>
+            </Grid>
+
+            <TextBlock Text="References" FontSize="11" FontWeight="SemiBold"
+                       Foreground="{StaticResource FgBrush}" Margin="0,8,0,4"/>
+            <ListBox ItemsSource="{Binding References}" BorderThickness="0" Background="Transparent"
+                     FontSize="11">
+                <ListBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type insight:SymbolReferenceRowVm}">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="LinkVariant" Width="12" Height="12"
+                                         Foreground="#1565C0" Margin="0,0,4,0"/>
+                            <TextBlock Text="{Binding Display}" TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

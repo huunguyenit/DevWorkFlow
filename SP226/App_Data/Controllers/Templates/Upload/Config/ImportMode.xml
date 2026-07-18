@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<import xmlns="urn:schemas-fast-com:data-import">
+
+  <processing>
+    <text>
+      <![CDATA[
+declare @updateNull varchar(8000)
+select @updateNull = ''
+select @updateNull = @updateNull + 'update @@table set ' + cast(a.name as varchar(8000)) + ' = ' + case when cast(b.name as varchar(8000)) in ('int', 'tinyint', 'numeric', 'bit', 'decimal') then '0' when charindex('char', b.name) > 0 then '''''' else 'null' end + ' where ' + cast(a.name as varchar(8000)) + ' is null ' + char(13)
+  from tempdb.dbo.syscolumns a join systypes b on a.xtype = b.xtype where a.name <> 'stt' and id = object_id('tempdb..@@table')
+exec(@updateNull)
+]]>
+    </text>
+  </processing>
+
+  <checking>
+    <text>
+      <![CDATA[
+declare @duplicateKey nvarchar(1000)
+select @duplicateKey = case @@language when 'v' then N'Giá trị tại ô <span class="Highlight">%invalidCell</span> trùng hoặc lồng nhau.' else 'The value of cell <span class="Highlight">%invalidCell</span> is nested with an existing one in the same level.' end
+
+if '@@primaryKeyList' <> '' begin
+  select @@primaryKeyList, max(stt) as stt into #duplicateTable from @@table group by @@primaryKeyList having count(1) > 1
+  if exists(select 1 from #duplicateTable) begin
+    select top 1 @duplicateKey as message, '@@primaryKeyList' as field, stt as record from #duplicateTable
+    return
+  end
+end
+if charindex(',', '@@primaryKeyList') <= 0 begin
+  exec('update @@table set @@primaryKeyList = ltrim(rtrim(@@primaryKeyList))')
+	exec('update @@table set @@primaryKeyList = replace(replace(@@primaryKeyList, char(9), ''''), char(160), '''')')
+end
+]]>
+    </text>
+  </checking>
+
+</import>

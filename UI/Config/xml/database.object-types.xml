@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Nhóm object SQL + icon/màu. Sửa file này không cần rebuild logic C#. -->
+<objectTypes>
+  <type code="U" kind="Table" folder="Tables" icon="Table" color="#1565C0" order="1" />
+  <type code="V" kind="View" folder="Views" icon="EyeOutline" color="#2E7D32" order="2" />
+  <type code="FN" kind="Function" folder="Functions" icon="Function" color="#6A1B9A" order="3" />
+  <type code="IF" kind="Function" folder="Functions" icon="Function" color="#6A1B9A" order="3" />
+  <type code="TF" kind="Function" folder="Functions" icon="Function" color="#6A1B9A" order="3" />
+  <type code="P" kind="Procedure" folder="Stored Procedures" icon="DatabaseCogOutline" color="#E65100" order="4" />
+</objectTypes>

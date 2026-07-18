@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE lookup [
+  <!ENTITY FilterInitialize SYSTEM "..\Include\FilterInitialize.xml">
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+  <!ENTITY Controller "'PVTran'">
+
+  <!ENTITY % CheckRelative SYSTEM "..\Include\CheckRelative.ent">
+  %CheckRelative;
+  <!ENTITY CheckRelativeParameter "'PSInvoiceDomesticLookup', 'Lookup', 'PSTran'">
+  <!ENTITY CheckRelativeQuery "set @$primeFilter = '1 = 0'">
+]>
+
+<lookup table="m71$000000" code="so_ct" name="stt_rec" order="ngay_ct, so_ct, stt_rec" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Chọn hóa đơn" e="Select Invoice"></header>
+  <fields>
+    <field name="so_ct" align="right" allowFilter="true">
+      <header v="Số hóa đơn" e="Invoice No."></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="stt_rec">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy" allowFilter="true">
+      <header v="Ngày" e="Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="t_tt_nt" type="Decimal" dataFormatString="### ### ### ### ###.00" align="right" allowFilter="true">
+      <header v="Tiền hàng" e="FC Amount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_nt" allowFilter="true">
+      <header v="Mã nt" e="Currency Code"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="status" allowFilter="true">
+      <header v="Trạng thái" e="Status"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="u0%l" aliasName="statusname%l" allowFilter="true">
+      <header v="Tên trạng thái" e="Status Name"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+  </fields>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @unit varchar(128), @custID varchar(64)
+select @custID = '#10$' + rtrim(@ma_kh) + '#%', @unit = case when @ma_dvcs = '' then @@unit else @ma_dvcs end
+]]>&FilterInitialize;&CheckRelativeProcess;<![CDATA[
+exec FastBusiness$App$Voucher$Finding 'PNA', 'c71$000000', 'm71$', 'i71$', 'ngay_ct', 'convert(char(6), {0}, 112)', 'dateadd(month, 1, {0})', '000000',
+  @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem,
+  @custID, '', 'stt_rec',
+  'so_ct,stt_rec,ngay_ct,t_tt_nt,ma_nt,status',
+  'so_ct,stt_rec,ngay_ct,t_tt_nt,ma_nt,b.status,b.statusname%l u0%l',
+  'a left join dmttct b on a.status = b.status where b.ma_ct = ''PNA''',
+  'ngay_ct, so_ct', 1, @@userID, 1,
+  @ngay_ct1, @ngay_ct2, '', '', '1, 2', '0', @unit, 0, 1, default, default, default, default, default, @$primeJoin, @$primeFilter]]>
+      </text>
+    </query>
+  </queries>
+</lookup>

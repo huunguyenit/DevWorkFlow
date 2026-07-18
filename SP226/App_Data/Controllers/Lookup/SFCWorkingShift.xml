@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<lookup table="sfdmca" code="ma_ca" name="ten_ca%l" order="ma_ca" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Danh mục ca" e="Working Shift"></header>
+  <fields>
+    <field name="ma_ca" allowSorting="true" allowFilter="true" >
+      <header v="Mã ca" e="Working Shift Code"></header>
+    </field>
+    <field name="ten_ca%l" allowSorting="true" allowFilter="true">
+      <header v="Tên ca" e="Description"></header>
+    </field>
+  </fields>
+</lookup>

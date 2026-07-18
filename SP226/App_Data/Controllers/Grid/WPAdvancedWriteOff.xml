@@ -1,0 +1,228 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY XMLWhenReportLoading SYSTEM "..\Include\XML\WhenReportLoading.xml">
+  <!ENTITY XMLWhenReportClosing SYSTEM "..\Include\XML\WhenReportClosing.xml">
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+
+  <!ENTITY Identity "WPAdvancedWriteOff">
+
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+]>
+
+<grid type="Report" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Tạo chứng từ tất toán cho các hóa đơn" e="Write-off"></title>
+  <subTitle v="Từ ngày %d1 đến %d2..." e="Date from %d1 to %d2..."></subTitle>
+  <fields>
+    <field name="tag" type="Boolean" width="60">
+      <header v="&lt;div onclick=&quot;toggle$&Identity;$Grid(this);&quot; style=&quot;cursor:pointer;background-position:3px 3px;&quot; class=&quot;HeaderArrowImage&quot;&gt;Chọn&lt;/div&gt;" e="&lt;div onclick=&quot;toggle$&Identity;$Grid(this);&quot; style=&quot;cursor:pointer;background-position:3px 3px;&quot; class=&quot;HeaderArrowImage&quot;&gt;Select&lt;/div&gt;"></header>
+      <clientScript><![CDATA[onclick="on$]]>&Identity;<![CDATA[$Change$SelectedValue(this);"]]></clientScript>
+    </field>
+    <field name="stt_rec" isPrimaryKey="true" width="0" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_dvcs" width="100" readOnly="true" allowSorting="true" allowFilter="true">
+      <header v="Đơn vị" e="Unit"></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="@datetimeFormat" width="100" readOnly="true" allowSorting="true" allowFilter="true">
+      <header v="Ngày" e="Date"></header>
+    </field>
+    <field name="so_ct" width="100" dataFormatString="@upperCaseFormat" allowSorting="true" allowFilter="true" hyperlinkFormatString="~/AppHandler/Voucher.ashx Query: {Name: '[ma_ct]', Value: '[stt_rec_v]'}, Script: 'beforeDrillDown(this);'" align="right" readOnly="true">
+      <header v="Số" e="Number"></header>
+    </field>
+    <field name="ma_kh" width="100" readOnly="true" allowSorting="true" allowFilter="true">
+      <header v="Mã khách" e="Customer ID"></header>
+    </field>
+    <field name="ten_kh" width="300" readOnly="true" allowSorting="true" allowFilter="true">
+      <header v="Tên khách" e="Customer Name"></header>
+    </field>
+    <field name="phai_thu" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" allowSorting="true" allowFilter="&GridListAllowFilter.Number;" width="120" readOnly="true">
+      <header v="Số tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="da_thu" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" allowSorting="true" allowFilter="&GridListAllowFilter.Number;" width="120" readOnly="true">
+      <header v="Đã thanh toán" e="Paid"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="con_pt" type="Decimal" dataFormatString="@foreignCurrencyAmountInputFormat" clientDefault="0" allowSorting="true" allowFilter="&GridListAllowFilter.Number;" width="120" readOnly="true">
+      <header v="Còn lại" e="Remaining"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ma_nt" width="100" readOnly="true" allowSorting="true" allowFilter="true">
+      <header v="Mã nt" e="Currency Code"></header>
+    </field>
+    <field name="tk" width="100" allowSorting="true" allowFilter="true">
+      <header v="Tài khoản" e="Account"></header>
+    </field>
+    <field name="ma_ct" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt_rec_v" width="0" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="tag"/>
+      <field name="stt_rec"/>
+      <field name="ma_dvcs"/>
+      <field name="ngay_ct"/>
+      <field name="so_ct"/>
+      <field name="ma_kh"/>
+      <field name="ten_kh"/>
+      <field name="phai_thu"/>
+      <field name="da_thu"/>
+      <field name="con_pt"/>
+      <field name="ma_nt"/>
+      <field name="tk"/>
+      <field name="ma_ct"/>
+      <field name="stt_rec_v"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'load$GridReport$(this);load$]]>&Identity;<![CDATA[$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event ="Scattering">
+      <text>
+        <![CDATA[
+select 'scatter$]]>&Identity;<![CDATA[$(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'dispose$]]>&Identity;<![CDATA[$(this);dispose$GridReport$(this);' as message
+return
+]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function load$]]>&Identity;<![CDATA[$(g) {
+  g._$k = [];
+  g._$d = [];
+  g._$i = g._getColumnOrder('stt_rec');
+  g._$j = g._getColumnOrder('ngay_ct');
+  g._$t = g._getColumnOrder('tag');
+  g._$f = 'keys';
+  g.add_commandEvent(on$]]>&Identity;<![CDATA[$ExecuteCommand);
+}
+function dispose$]]>&Identity;<![CDATA[$(g) {
+  g._$k = g._$i = g._$t = g._$f = g._$d = g._$j = null;
+  try {g.remove_commandEvent(on$]]>&Identity;<![CDATA[$ExecuteCommand);} catch (ex) {}
+}
+function scatter$]]>&Identity;<![CDATA[$(g){
+  fill$Grid(g, true);
+  if (g._rowCount > 0) {
+    g._activeRow = g._rowCount;
+    g._activeColumn = g._$t;
+    g._activeCell = g._getItem(g._activeRow, g._activeColumn);
+	}
+}
+function on$]]>&Identity;<![CDATA[$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'CreateWriteOff':
+      if (isCheck$Grid(g)) g.showForm('WPAdvancedWriteOffCreate');
+        else e.type.cancelEvent = true;
+      break;
+    default:
+      break;
+  }
+}
+]]>
+      &JavascriptReportInit;
+      <![CDATA[
+function toggle$]]>&Identity;<![CDATA[$Grid(o) {
+  var c = o.parentNode.parentNode.parentNode.id, g = $find($func.left(c, c.length - 11));
+  for (var r = 1; r <= g._rowCount; r++) {
+    var k = row$Key(g, r), i = Array.indexOf(g._$k, k);
+    if (i == -1) {
+      Array.add(g._$k, k);
+      Array.add(g._$d, g._getItemValue(r, g._$j));
+    } else {
+      Array.removeAt(g._$k, i);
+      Array.removeAt(g._$d, i);
+    }
+    g._setItemValue(r, g._$t, (i == -1));
+  }
+  g._focusWhenTabChanged();
+}
+function on$]]>&Identity;<![CDATA[$Change$SelectedValue(o) {
+  var r = $func.getLocationCell(o)[0], g = $find(o.id.split('_inputCell_')[0]), k = row$Key(g, r), i = Array.indexOf(g._$k, k);
+  if (i == -1) {
+    Array.add(g._$k, k);
+    Array.add(g._$d, g._getItemValue(r, g._$j));
+  } else {
+    Array.removeAt(g._$k, i);
+    Array.removeAt(g._$d, i);
+  }
+}
+
+/* <flatten type="Javascript"> */
+function isCheck$Grid(g) {
+  var msg = (g._language == 'v' ? 'Chưa có bản ghi nào được chọn, phải đánh dấu trước khi thực hiện chức năng này.' : 'No record selected, please select at least one record to process.');
+  if (g._$k.length == 0) {
+    $message.show(msg, String.format('$find(\'{0}\')._focusWhenTabChanged();', g.get_id()));
+    return false;
+  }
+  return true;
+}
+function fill$Grid(g, f) {
+  if (f && g._$k.length == 0) return;
+  for (var r = 1; r <= g._rowCount; r++) {
+    var k = row$Key(g, r), i = Array.indexOf(g._$k, k);
+    g._setItemValue(r, g._$t, (i > -1));
+  }
+}
+function row$Key(g, r) {return g._getItemValue(r, g._$i);}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+
+  <toolbar>
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"></title>
+    </button>
+    <button command="CreateWriteOff">
+      <title v="Tất toán$$90" e="Write-off$$90"></title>
+    </button>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"></title>
+    </button>
+    <button command="Seprate">
+      <title v="-" e="-"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+
+
+  <css>
+    <text>
+      <![CDATA[
+div.CreateWriteOff{background-image:url(../images/Highlight.png);background-repeat:no-repeat;background-position:0 0;}
+div.TextCreateWriteOff{background-image:url(../images/TextHighlight.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.CreateWriteOffOverGreen, div.TextCreateWriteOffOverGreen{background-position:0 -22px;}
+]]>
+    </text>
+  </css>
+</grid>

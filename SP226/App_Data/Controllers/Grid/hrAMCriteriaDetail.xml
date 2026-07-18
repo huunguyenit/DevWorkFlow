@@ -1,0 +1,216 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<grid table="hrkbctdgct" code="stt_rec" order="stt_rec, line_nbr" type="Detail" freezeColumns="3" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" allowNulls="false" readOnly="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt" isPrimaryKey="true" allowNulls="false" readOnly="true" width="60" inactivate="true" clientDefault="1">
+      <header v="Stt" e="No."></header>
+    </field>
+    <field name="chi_tieu" allowNulls="false" width="300">
+      <header v="Chỉ tiêu" e="Criterion"></header>
+    </field>
+    <field name="muc_tieu" type="Decimal" dataFormatString="@markInputFormat" width="100" clientDefault="0">
+      <header v="Mục tiêu" e="Objective"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="trong_so" type="Decimal" dataFormatString="@markInputFormat" width="100" clientDefault="0">
+      <header v="Trọng số" e="Weight"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="dien_giai" width="300">
+      <header v="Diễn giải" e="Description"></header>
+    </field>
+    <field name="ma_loai" width="100">
+      <header v="Loại chỉ tiêu" e="Criterion Type"></header>
+      <items style="AutoComplete" controller="hrAMCriterionType" reference="ten_loai%l" key="status = '1'" check="1=1"/>
+    </field>
+    <field name="ten_loai%l" readOnly="true" external="true" defaultValue="''" inactivate="true" hidden="true" width="0">
+      <header v="" e=""></header>
+    </field>
+    <field name="stt0" readOnly="true" hidden="true" width="0" allowContain="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="bac" type="Int32" hidden="true" width="0" allowContain="true" clientDefault="1">
+      <header v="" e=""></header>
+    </field>
+    <field name="line_nbr" type="Int32" hidden="true" width="0" allowContain="true" clientDefault="1">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt_rec"/>
+      <field name="stt"/>
+      <field name="chi_tieu"/>
+      <field name="muc_tieu"/>
+      <field name="trong_so"/>
+      <field name="dien_giai"/>
+      <field name="ma_loai"/>
+      <field name="ten_loai%l"/>
+      <field name="stt0"/>
+      <field name="bac"/>
+      <field name="line_nbr"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$hrAMCriteriaDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$hrAMCriteriaDetail$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$hrAMCriteriaDetail$(g) {g.add_commandEvent(on$hrAMCriteriaDetail$ExecuteCommand);}
+function dispose$hrAMCriteriaDetail$(g) {try {g.remove_commandEvent(on$hrAMCriteriaDetail$ExecuteCommand);} catch (ex) {}}
+function on$hrAMCriteriaDetail$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm, o = e.type.Object;
+  var l1 = g._getColumnOrder('bac'), l2 = g._getColumnOrder('chi_tieu'), n = g._rowCount, i = g._activeRow;
+  switch (action) {
+    case 'AfterInsertRow':
+      g._setItemValue(n, l1, 1);
+      var i2 = (n > 1 ? n - 1 : 1), a = getNearestParent(g, i2);
+      resetOrderNumber(g, a[0], a[1]);
+      var cell = g._getItem(n, l2);
+      cell.focus();
+      if (e.type.Value == '1') cell.shift = true;
+      break;
+    case 'BeforeMoveRow':
+      var v1 = e.type.Value[0], v2 = e.type.Value[1];
+      if ((g._getItemValue(i, l1) == 2 && v1 == 2 && v2 == 1) || (i == 1 && g._getItemValue(i + 1, l1) == 2 && v1 == 1 && v2 == 2)) e.type.cancelEvent = true;
+      break;
+    case 'AfterMoveRow':
+      var i1 = e.type.Value[1], i2 = (i1 > 2 ? i1 - 2 : 1), a = getNearestParent(g, i2);
+      resetOrderNumber(g, a[0], a[1]);
+      break;
+    case 'AfterCloneRow':
+      var i2 = (n > 1 ? n - 1 : 1), a = getNearestParent(g, i2);
+      resetOrderNumber(g, a[0], a[1]);
+      g._getItem(n, l2).focus();
+      break;
+    case 'BeforeRemoveRow':
+      if (i < n) {
+        if (g._getItemValue(i, l1) == 1 && g._getItemValue(i + 1, l1) == 2) {
+          var column = g._activeColumn, message = (f._language == 'v' ? 'Đã có phát sinh chỉ tiêu con, không được xóa.' : 'Cannot delete this criterion, it consists lower-level criteria.');
+          g._activeRow = 0;
+          $message.show(message, String.format('var g = $find(\'{0}\');g._activeRow={1};g._getItem({1},{2}).focus()', g.get_id(), i, column));
+        }
+      }
+      break;
+    case 'AfterRemoveRow':
+      if (g._rowCount == 0) break;
+      if (i <= n) {
+        var i2 = (i > 1 ? i - 1 : 1), a = getNearestParent(g, i2);
+        resetOrderNumber(g, a[0], a[1]);
+      }
+      break;
+    case 'Indent':
+      if (i > 1 && f._action != 'View') {
+        tranferLevel (g, i);
+        var i2 = (i > 1 ? i - 1 : 1), a = getNearestParent(g, i2);
+        resetOrderNumber(g, a[0], a[1]);
+        g._getItem(i, g._activeColumn).focus();
+      }
+      break;
+    default:
+      break;
+  }
+}
+function tranferLevel(g, i) {
+  var l = g._getColumnOrder('bac');
+  g._setItemValue(i, l, (g._getItemValue(i, l) == 1 ? 2 : 1));
+}
+function resetOrderNumber(g, v1, v2) {
+  var start = (v1 > 1 ? v1 : 1), p = (v2 > 1 ? v2 : 1), c = 0, level = 1;
+  var l1 = g._getColumnOrder('bac'), l2 = g._getColumnOrder('stt0'), l3 = g._getColumnOrder('stt'), l4 = g._getColumnOrder('line_nbr');
+  for (var r = start; r <= g._rowCount; r++) {
+    g._setItemValue(r, l4, r);
+    level = g._getItemValue(r, l1);
+    if (r > 1) {
+      if (level == 1) {
+        c = 0;
+        p += 1;
+      }
+      else c += 1;
+    }
+    g._setItemValue(r, l3, p + (level == 1 ? '' : '.' + c));
+    g._setItemValue(r, l2, (level == 2 ? p : ''));
+  }
+}
+function getNearestParent(g, i) {
+  var l1 = g._getColumnOrder('bac'), l2 = g._getColumnOrder('stt'), v1 = 1, v2 = 1;
+  for (var r = i; r > 0; r--) {
+    if (g._getItemValue(r, l1) == 1) {
+      v1 = r;
+      v2 = parseInt(g._getItemValue(r, l2)) - 1;
+      break;
+    }
+  }
+  return [v1, v2];
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <queries>
+    <query event="Loading">
+      <text>
+        <![CDATA[
+select @@fieldExternal from @@table where stt_rec = @stt_rec order by @@orderByClause
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <css>
+    <text>
+      <![CDATA[
+div.Indent{background-image:url(../images/Indent.png);background-repeat:no-repeat;background-position:0 0;}
+div.TextIndent{background-image:url(../images/TextIndent.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.IndentOverGreen, div.TextIndentOverGreen{background-position-y:-22px;}
+]]>
+    </text>
+  </css>
+
+  <toolbar>
+    <button command="Insert">
+      <title v="Toolbar.Insert" e="Toolbar.Insert"></title>
+    </button>
+    <button command="Grow">
+      <title v="Toolbar.Grow" e="Toolbar.Grow"></title>
+    </button>
+    <button command="Down">
+      <title v="Toolbar.Down" e="Toolbar.Down"></title>
+    </button>
+    <button command="Clone">
+      <title v="Toolbar.Clone" e="Toolbar.Clone"></title>
+    </button>
+    <button command="Remove">
+      <title v="Toolbar.Remove" e="Toolbar.Remove"></title>
+    </button>
+    <button command="Indent">
+      <title v="Thay đổi bậc$$90" e="Swap Level$$90"></title>
+    </button>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+</grid>

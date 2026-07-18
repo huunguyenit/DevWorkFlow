@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<grid table="dmpb" type="Detail" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="" e=""></title>
+  <subTitle v="" e=""></subTitle>
+  <fields>
+    <field name="ds_tk_no" external="true" defaultValue="''" dataFormatString="@upperCaseFormat" width="200">
+      <header v="Ds tài khoản nợ" e="Debit Account"></header>
+      <items style="Mask"></items>
+    </field>
+    <field name="ds_tk_co" external="true" defaultValue="''" dataFormatString="@upperCaseFormat" width="200">
+      <header v="Ds tài khoản có" e="Credit Account"></header>
+      <items style="Mask"></items>
+    </field>
+    <field name="cong_tru" type="Byte" width="100" dataFormatString="1, 0" clientDefault="1" align="right">
+      <header v="Cộng/trừ (1/0)" e="Interest (1/0)"></header>
+      <items style="Mask"></items>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ds_tk_no"/>
+      <field name="ds_tk_co"/>
+      <field name="cong_tru"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[select 'load$GridVoucherDetailAddAccount$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Scattering">
+      <text>
+        <![CDATA[select 'scatter$GridVoucherDetailAddAccount$(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridVoucherDetailAddAccount$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[
+function load$GridVoucherDetailAddAccount$(g) {
+  g.add_commandEvent(on$GridVoucherDetailAddAccount$ExecuteCommand);
+  var z = g.get_element().parentForm.grid.get_element().parentForm, v = z._action == 'View';
+  set$Grid$InsertItem(g, v);
+  if (v) g._changeReadOnly(true);
+}
+function dispose$GridVoucherDetailAddAccount$(g) {try {g.remove_commandEvent(on$GridVoucherDetailAddAccount$ExecuteCommand);} catch (ex) {}}
+function on$GridVoucherDetailAddAccount$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, f = g.get_element().parentForm;
+  var p = f.grid.get_element().parentForm;
+  if (p._action == 'View') e.type.cancelEvent = true;
+}
+function set$Grid$InsertItem(g, v) {
+  var result = [], w = g.get_element().parentForm;
+  var value = w.grid._Account$List;
+  if (value) splitAccounts(result, value);
+    else if (!v) result = [['', '', 1]];
+    
+  g._rows = result;
+  g._rowCount = g._rows.length;
+  g._render();
+  if (v) {
+    w._controlFocus.focus();
+    $func.setCurPos(w._controlFocus, 0);
+  } else g._getItem(1, 1).focus();
+}
+function splitAccounts(a, s) {
+  var z = s.split(';');
+  for (var i = 0; i < z.length; i++) {
+    Array.add(a, z[i].split('&'));
+  }
+}
+function scatter$GridVoucherDetailAddAccount$(g) {g._memvars = [];}
+]]>
+    </text>
+  </script>
+
+  <queries>
+    <query event ="Loading">
+      <text>
+        <![CDATA[
+select top 0 '' as ds_tk_no, '' as ds_tk_co, 0 as cong_tru
+        ]]>
+      </text>
+    </query>
+  </queries>
+
+  <toolbar>
+    <button command="Insert">
+      <title v="Toolbar.Insert" e="Toolbar.Insert"></title>
+    </button>
+    <button command="Grow">
+      <title v="Toolbar.Grow" e="Toolbar.Grow"></title>
+    </button>
+    <button command="Down">
+      <title v="Toolbar.Down" e="Toolbar.Down"></title>
+    </button>
+    <button command="Clone">
+      <title v="Toolbar.Clone" e="Toolbar.Clone"></title>
+    </button>
+    <button command="Remove">
+      <title v="Toolbar.Remove" e="Toolbar.Remove"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"/>
+    </button>
+  </toolbar>
+</grid>

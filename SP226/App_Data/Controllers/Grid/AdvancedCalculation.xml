@@ -1,0 +1,411 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE grid [
+  <!ENTITY ScriptTag SYSTEM "..\Include\Javascript\Tag.txt">
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+  <!ENTITY Tag "cast(0 as bit) as tag">
+
+  <!ENTITY FastBusiness.Encryption.Begin "">
+  <!ENTITY CommandCheckLockedDate "
+declare @$lockedDate nvarchar(512), @$d smalldatetime, @$q nvarchar(4000)
+select @$d = dateadd(m, 1, cast(str(@nam, 4) + replace(str(@ky, 2), ' ', '0') + '01' as smalldatetime)) - 1
+select @$lockedDate = case when @@language = 'v' then N'Đã khóa số liệu, kiểm tra lại ngày giới hạn hoặc ngày khóa sổ.' else N'Data is locked, you must modify system locked date.' end
+
+if exists(select 1 from dmstt where ngay_ks >= @$d) begin
+  select 1 as error, @$lockedDate as message
+  return
+end
+if exists (select 1 from options where name = 'm_gt_dvcs' and val = 1) begin
+  select top 0 ma_dvcs into #$unit from xdmtgt
+  select @$q = 'insert into #$unit select distinct ma_dvcs from xdmtgt where stt_rec in (''' + replace(replace(replace(@s, ' ', ''), '''', ''), ',', ''',''') + ''')'
+  exec sp_executesql @$q
+  if exists(select 1 from #$unit a join dmdvcsks b on a.ma_dvcs = b.ma_dvcs where ngay_ks >= @$d) begin
+    select 1 as error, @$lockedDate as message
+    return
+  end
+end">
+  <!ENTITY FastBusiness.Encryption.End "">
+
+  <!ENTITY FilterInitialize SYSTEM "..\Include\FilterInitialize.xml">
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+  <!ENTITY Controller "'AdvancedCalculation'">
+
+  <!ENTITY % CompactMode SYSTEM "..\Include\CompactMode.ent">
+  %CompactMode;
+]>
+
+<grid table="xdmtgt" code="stt_rec" order="ma_dvcs, buoc_tinh2" type="Voucher" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Tính giá thành tổng hợp" e="Advanced Calculation"></title>
+  <subTitle v="Cập nhật thông tin tính giá thành: thêm, sửa, xóa..." e="Add, Edit, Delete Costing Calculation Parameters..."></subTitle>
+  <fields>
+    <field name="stt_rec" isPrimaryKey="true" width="0" hidden="true" aliasName="a" readOnly="true">
+      <header v="" e=""/>
+    </field>
+    <field name="&Tag;" type="Boolean" width="60" filterSource="Tag" external="true">
+      <header v="&lt;div onclick=&quot;toggle$Grid(this);&quot; style=&quot;cursor:pointer;background-position:3px 3px;&quot; class=&quot;HeaderArrowImage&quot;&gt;Chọn&lt;/div&gt;" e="&lt;div onclick=&quot;toggle$Grid(this);&quot; style=&quot;cursor:pointer;background-position:3px 3px;&quot; class=&quot;HeaderArrowImage&quot;&gt;Select&lt;/div&gt;"></header>
+      <clientScript><![CDATA[onclick="onChange$SelectedValue(this);"]]></clientScript>
+    </field>
+    <field name="ma_dvcs" width="100" readOnly="true" allowFilter="&GridQueryAllowFilter;">
+      <header v="Đơn vị" e="Unit"/>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="buoc_tinh" dataFormatString="#0" type="Decimal" width="60" readOnly="true" allowFilter="&GridQueryAllowFilter;">
+      <header v="Bước" e="Step"></header>
+      <items style="Numeric"></items>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="stored_name%l" width="300" readOnly="true" allowFilter="&GridQueryAllowFilter;">
+      <header v="Chương trình" e="Execution"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="tinh_trang%l" width="&XMLGridFieldWidthAdvancedCalculation;" hidden="&XMLGridFieldHiddenAdvancedCalculation;" readOnly="true">
+      <header v="Trạng thái" e="Status"></header>
+    </field>
+    <field name="nguoi_tinh" width="150" readOnly="true">
+      <header v="Người tính" e="User"></header>
+    </field>
+    <field name="ngay" type="DateTime" dataFormatString="dd/MM/yyyy HH:mm:ss" width="130" readOnly="true">
+      <header v="Ngày tính" e="Date"></header>
+    </field>
+    <field name="buoc_tinh2" hidden="true" width="0" readOnly="true">
+      <header v="Bước" e="Step"></header>
+      <items style="Numeric"></items>
+      <query>&InsertCommandFilter;</query>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="stt_rec"/>
+      <field name="&Tag;"/>
+      <field name="ma_dvcs"/>
+      <field name="buoc_tinh"/>
+      <field name="stored_name%l"/>
+      <field name="tinh_trang%l"/>
+      <field name="nguoi_tinh"/>
+      <field name="ngay"/>
+      <field name="buoc_tinh2"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select 'load$GridCalcCost(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event ="Scattering">
+      <text>
+        <![CDATA[select 'scatter$Grid(this);' as message
+return]]>
+      </text>
+    </command>
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridCalcCost(this);dispose$GridReport$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &JavascriptReportInit;
+      <![CDATA[
+function load$GridCalcCost(g) {
+  g._$l = [];
+  g._$k = [];
+  g._$i = g._getColumnOrder('stt_rec');
+  g._$t = g._getColumnOrder(']]>&Tag;<![CDATA[');
+  g._$s = g._getColumnOrder('tinh_trang%l');
+  g._$u = g._getColumnOrder('nguoi_tinh');
+  g._$d = g._getColumnOrder('ngay');
+  g.add_commandEvent(on$GridCalcCostReport$ExecuteCommand);
+  g.add_onResponseComplete(on$GridCalcCostReport$ResponseComplete);
+  g.add_onRender(on$GridReport$Render);
+}
+
+/* <flatten type="Javascript"> */
+function scatter$Grid(g) {fill$Grid(g, true);}
+function dispose$GridCalcCost(g) {
+  try {g.remove_commandEvent(on$GridCalcCostReport$ExecuteCommand);} catch (ex) {}
+  try {g.remove_onResponseComplete(on$GridCalcCostReport$ResponseComplete);} catch (ex) {}
+  try {g.remove_onRender(on$GridReport$Render);} catch (ex) {}
+  g._$k = g._$i = g._$t = g._$s = g._$u = g._$d = g._$l = null;
+}
+function on$GridCalcCostReport$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender;
+  switch (action) {
+    case 'BeforeRemoveRow':
+      var k = Array.indexOf(g._$k, g._getItemValue(g._activeRow, g._getColumnOrder('stt_rec')));
+      if (k != -1) Array.removeAt(g._$k, k);
+      break;
+    case 'Calculate':
+      var s = g._$k.join(',')
+      if (isCheck$Grid(g)) g.request(g, 'Order', 'Order', [['s', 'String', s], ['ky', 'Decimal', g._period], ['nam', 'Decimal', g._year]]);
+      break;
+    case 'Register':
+    case 'Cancel':
+      if (g._$l.length > 0) break;
+      var s = g._$k.join(',')
+      if (isCheck$Grid(g)) g.request(g, action, action, [['s', 'String', s], ['ky', 'Decimal', g._period], ['nam', 'Decimal', g._year]]);
+      break;
+    default:
+      break;
+  }
+}
+function on$GridCalcCostReport$ResponseComplete(sender, e) {
+  var g = e.object, context = e.type.Context, result = e.type.Result, o = e.type.Object, id = g.get_id(), v = g._language == 'v';
+  var m1 = v ? 'Chương trình đã thực hiện xong.' : 'The process was completed successfully.';
+  var s = v ? 'Đặt lịch': 'Schedule';
+  if (context == 'Cancel') s = '';
+  switch (context) {
+    case 'Register':
+    case 'Cancel':
+      if (result[0].Value == '1') {
+        $message.show(result[1].Value, String.format('$find(\'{0}\')._focusWhenTabChanged();', id));
+      } else {
+        g._$k = [];
+        $message.show(m1, String.format('$find(\'{0}\')._focusWhenTabChanged();', id));
+        changeStatusGrid(g, null, 0, s, '', '');
+      }
+      break;
+    case 'Order':
+      if (result[0].Value == '1') {
+        $message.show(result[1].Value, String.format('$find(\'{0}\')._focusWhenTabChanged();', id));
+      } else {
+        g._$l = result;
+        if (g._$l.length > 0) g.request(g, 'Calculate', 'Calculate', [['stt_rec', 'String', g._$l[0][1]], ['ky', 'Decimal', g._period], ['nam', 'Decimal', g._year], ['step', 'Decimal', 1]]);
+      }
+      break;
+    case 'Calculate':
+      var i = result[0].Value;
+      changeStatusGrid(g, g._$l[i-2][1], 2, '', result[1].Value, result[2].Value);
+      if (i <= g._$l.length) setTimeout(function() {g.request(g, 'Calculate', 'Calculate', [['stt_rec', 'String', g._$l[i-1][1]], ['ky', 'Decimal', g._period], ['nam', 'Decimal', g._year], ['step', 'Decimal', i]]);}, 1000);
+      else {
+        g._$k = [];
+        g._$l = [];
+        $message.show(m1, String.format('$find(\'{0}\')._focusWhenTabChanged();', id));
+      }
+      break;
+    default:
+      break;
+  }
+}
+function on$GridReport$Render(sender, eventArgs) {
+  var g = eventArgs.grid;
+  if (g._hiddenFields) {
+    var a = g._hiddenFields, h = '';
+    for (var i = 0; i < a.length; i++) {
+      setGridHiddenFields(g, a[i].Fields, a[i].Value);
+      if (a[i].Value) h += (h == '' ? '' : ',') + a[i].Fields;
+    }
+    g._externalHiddenFields = h;
+  }
+}
+
+function changeStatusGrid(g, k, t, v, u, d) {
+  for (var i = 1; i <= g._rowCount; i ++) {
+    if (g._getItemValue(i, g._$i) == k || !k) {
+      if(g._getItemValue(i, g._$t)) {
+        g._setItemValue(i, g._$s, v);
+        if (t) {
+          g._setItemValue(i, g._$u, u);
+          g._setItemValue(i, g._$d, d);
+        }
+      }
+      g._setItemValue(i, g._$t, false);
+    }
+  }
+}
+function setGridHiddenFields(g, c, v) {
+  var a = c.split(',');
+  for (var i = 0; i < a.length; i++) {
+    g._setColumnVisible(g._getColumnOrder($func.trim(a[i])), !v);
+  }
+}
+/* </flatten> */]]>
+      &ScriptTag;
+    </text>
+  </script>
+
+  <response>
+    <action id ="Order">
+      <text>
+        &CommandCheckLockedDate;
+        <![CDATA[
+select '' as array$, stt_rec from xdmtgt where [dbo].[ff_Inlist] (stt_rec, @s) = 1 order by ma_dvcs, buoc_tinh
+return
+]]>
+      </text>
+    </action>
+
+    <action id ="Calculate">
+      <text>
+        <![CDATA[
+if charindex('''', rtrim(@ky) + rtrim(@nam)) > 0 return
+declare @q nvarchar(4000), @d1 smalldatetime, @d2 smalldatetime, @m_gia_vt tinyint, @m_gia_tb_nt tinyint, @fifoType tinyint, @user nvarchar(128), @ngay datetime
+select @d1 = dbo.ff_getstartdateofcycle(@ky, @nam), @d2 = dbo.ff_getenddateofcycle(@ky, @nam), @ngay = getdate(), @q = ''
+select @m_gia_vt = cast(rtrim(val) as tinyint) from options where name = 'm_gia_vt'
+select @m_gia_tb_nt = cast(rtrim(val) as tinyint) from options where name = 'm_gia_tb_nt'
+select @fifoType = cast(rtrim(val) as tinyint) from options where name = 'm_gia_ntxt'
+
+select top 1 @q = 'exec ' + replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
+    replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(rtrim(b.stored) + ' ' + rtrim(b.para),
+    '$dFrom', '''' + convert(char(8), @d1, 112) + ''''), '$dTo', '''' + convert(char(8), @d2, 112) + ''''),
+    '$ky', rtrim(@ky)), '$nam', rtrim(@nam)), '$m_gia_vt', rtrim(@m_gia_vt)), '$m_gia_tb_nt', rtrim(@m_gia_tb_nt)),
+    '$userid', rtrim(@@userID)), '$admin', rtrim(@@admin)), '$ma_dvcs', '''' + replace(rtrim(ma_dvcs), '''', '''''') + ''''),
+    '$ma_gd', '''' + replace(rtrim(ma_gd), '''', '''''') + ''''), '$ma_bp', '''' + replace(rtrim(ma_bp), '''', '''''') + ''''),
+    '$loai_yt', '''' + replace(rtrim(loai_yt), '''', '''''') + ''''), '$ma_yt', '''' + replace(rtrim(ma_yt), '''', '''''') + ''''),
+    '$ma_kho', '''' + replace(rtrim(ma_kho), '''', '''''') + ''''), '$nhom_kho', '''' + replace(rtrim(nhom_kho), '''', '''''') + ''''),
+    '$loai_vt', '''' + replace(rtrim(loai_vt), '''', '''''') + ''''), '$nh_vt1', '''' + replace(rtrim(nh_vt1), '''', '''''') + ''''),
+    '$nh_vt2', '''' + replace(rtrim(nh_vt2), '''', '''''') + ''''), '$nh_vt3', '''' + replace(rtrim(nh_vt3), '''', '''''') + ''''),
+    '$tk_cl', '''' + replace(rtrim(tk_cl), '''', '''''') + ''''), '$tao_pxcl', '''' + replace(rtrim(tao_pxcl), '''', '''''') + ''''),
+    '$m_gia_ntxt', rtrim(@fifoType))
+  from xdmtgt a join xdmgt b on a.id = b.id
+  where a.stt_rec = @stt_rec
+exec sp_executesql @q
+
+if not exists (select 1 from xcttgt where ky = @ky and nam = @nam and stt_rec = @stt_rec) begin
+  insert into xcttgt (ky, nam, stt_rec, status, user_id0, user_id2, datetime0, datetime2) select @ky, @nam, @stt_rec, '2', @@userID, @@userID, @ngay, @ngay
+end else begin
+  update xcttgt set status = '2', user_id2 = @@userID, datetime2 = @ngay where ky = @ky and nam = @nam and stt_rec = @stt_rec
+end
+select @user = rtrim(comment) from vsysuserinfo where id = @@userID
+select @step + 1 as c, @user as c2, @ngay as c3
+return
+]]>
+      </text>
+    </action>
+
+    <action id="Register">
+      <text>
+        &CommandCheckLockedDate;
+        <![CDATA[
+declare @count int, @i int, @stt_rec char(13)
+select @count = dbo.FastBusiness$Function$GetWordCount (@s, ',')
+select @i = 1
+
+while @i <= @count begin
+  select @stt_rec = dbo.[FastBusiness$Function$GetWordNum](@s, @i, ',')
+  if not exists (select 1 from xcttgt where ky = @ky and nam = @nam and stt_rec = @stt_rec) begin
+    insert into xcttgt (ky, nam, stt_rec, status, user_id0, datetime0) select @ky, @nam, @stt_rec, '1', @@userID, getdate()
+  end else begin
+    update xcttgt set status = '1', user_id0 = @@userID, datetime0 = getdate() where ky = @ky and nam = @nam and stt_rec = @stt_rec
+  end
+  select @i = @i +1
+end
+select 0 as error
+return
+]]>
+      </text>
+    </action>
+
+    <action id="Cancel">
+      <text>
+        <![CDATA[
+declare @count int, @i int, @stt_rec char(13)
+select @count = dbo.FastBusiness$Function$GetWordCount (@s, ',')
+select @i = 1
+
+while @i <= @count begin
+  select @stt_rec = dbo.[FastBusiness$Function$GetWordNum](@s, @i, ',')
+  delete xcttgt where ky = @ky and nam = @nam and stt_rec = @stt_rec and status = '1' and user_id2 is null
+  update xcttgt set status = '3' where ky = @ky and nam = @nam and stt_rec = @stt_rec and status = '1'
+  select @i = @i +1
+end
+select 0 as error
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event ="Finding">
+      <text>
+        <![CDATA[
+declare @unitKey varchar(4000), @join varchar(4000), @field nvarchar(4000), @v char(1)
+select @v = case when @@language = 'V' then '' else '2' end
+select case when @@language = 'V' then N'Đặt lịch' else N'Schedule' end as trang_thai into #t
+
+if exists (select 1 from options where name = 'm_gt_dvcs' and val = '1') begin
+  set @unitKey = dbo.FastBusiness$Function$System$GetUnitFilterEx('ma_dvcs', replace(rtrim(@ma_dvcs), '''', ''''''), @@userID, @@admin, 'New')
+  set @unitKey = dbo.FastBusiness$Function$System$GetCheckKey(@unitKey)
+end
+if @unitKey is null set @unitKey = ''
+
+select @field = 'rtrim(a.stt_rec) as stt_rec, ]]>&Tag;<![CDATA[, rtrim(a.ma_dvcs), a.buoc_tinh, rtrim(stored_name%l) as stored_name' + @v
+select @field = @field + ', case when e.status = ''1'' then h.trang_thai else N'''' end as tinh_trang' + @v
+select @field = @field + ', rtrim(g.comment' + @v + ') as nguoi_tinh, e.datetime2 as ngay, str(a.buoc_tinh, 9) as buoc_tinh2'
+
+select @join = 'left join (select b.stt_rec, c.ky, c.nam, c.status, c.user_id2, c.datetime2 from dbo.xdmtgt as b left join xcttgt as c on b.stt_rec = c.stt_rec'
+select @join = @join + char(13) + ' where c.id = (select max(id) from xcttgt d where b.stt_rec = d.stt_rec and ky = ' + rtrim(@ky) + ' and nam =' + rtrim(@nam) + ')'
+select @join = @join + char(13) + ' ) e on a.stt_rec = e.stt_rec'
+select @join = @join + char(13) + 'left join xdmgt f on a.id = f.id'
+select @join = @join + char(13) + 'left join @@sysDatabaseName..userinfo g on e.user_id2 = g.id, #t h'
+]]>&FilterInitialize;<![CDATA[
+exec FastBusiness$App$Table$Finding @@table, @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount,
+  @@firstItem, @@lastItem, @unitKey, 'rtrim(ma_dvcs) + str(buoc_tinh, 9) + a.stt_rec',
+  @field, @join, @@textOrderBy, @@admin, @@userID, default, default, @$primeJoin, @$primeFilter
+]]>
+      </text>
+    </query>
+  </queries>
+
+  <css>
+    <text>
+      <![CDATA[
+div.Calculate{background-image:url(../images/Calculate.png);background-repeat:no-repeat;background-position:0 0;}
+div.Register{background-image:url(../images/command.png);background-repeat:no-repeat;background-position:0 0;}
+div.Cancel{background-image:url(../images/Operation.png);background-repeat:no-repeat;background-position:-22px 0;}
+div.TextCalculate{background-image:url(../images/TextCalculate.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.TextRegister{background-image:url(../images/TextCreate.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.TextCancel{background-image:url(../images/TextClear.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.CalculateOverGreen, div.RegisterOverGreen, div.CancelOverGreen, div.TextCalculateOverGreen, div.TextRegisterOverGreen, div.TextCancelOverGreen{background-position-y:-22px;}
+]]>
+    </text>
+  </css>
+
+  <toolbar>
+    <button command="New">
+      <title v="Toolbar.New" e="Toolbar.New"></title>
+    </button>
+    <button command="Edit">
+      <title v="Toolbar.Edit" e="Toolbar.Edit"></title>
+    </button>
+    <button command="Delete">
+      <title v="Toolbar.Delete" e="Toolbar.Delete"></title>
+    </button>
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"></title>
+    </button>
+    <button command="View">
+      <title v="Toolbar.View" e="Toolbar.View"></title>
+    </button>
+
+    <button command="-">
+      <title v="-" e="-"/>
+    </button>
+
+    <button command="Calculate">
+      <title v="Tính$" e="Calculate$$75"></title>
+    </button>
+
+    &XMLGridToolbarAdvancedCalculation;
+
+    <button command="Separate">
+      <title v="-" e="-"/>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+</grid>

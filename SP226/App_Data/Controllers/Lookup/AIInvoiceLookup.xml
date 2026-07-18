@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE lookup [
+  <!ENTITY FilterInitialize SYSTEM "..\Include\FilterInitialize.xml">
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+  <!ENTITY Controller "@controller">
+
+  <!ENTITY % CheckRelative SYSTEM "..\Include\CheckRelative.ent">
+  %CheckRelative;
+  <!ENTITY CheckRelativeParameter "'AIInvoiceLookup', 'Lookup', 'AITran'">
+  <!ENTITY CheckRelativeQuery "set @$primeFilter = '1 = 0'">
+]>
+
+<lookup table="m81$000000" code="so_ct" name="stt_rec" order="ngay_ct, so_ct, stt_rec" xmlns="urn:schemas-fast-com:data-lookup">
+  <header v="Chọn hóa đơn" e="Select Invoice"></header>
+  <fields>
+    <field name="so_ct" align="right" allowFilter="true">
+      <header v="Số hóa đơn" e="Invoice No."></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="stt_rec">
+      <header v="" e=""></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" dataFormatString="dd/MM/yyyy" allowFilter="true">
+      <header v="Ngày" e="Date"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="t_tt_nt" type="Decimal" dataFormatString="### ### ### ### ###.00" allowFilter="true">
+      <header v="Tiền hàng" e="Amount"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+    <field name="ma_nt" allowFilter="true">
+      <header v="Mã nt" e="Currency Code"></header>
+      <query>&InsertCommandFilter;</query>
+    </field>
+  </fields>
+
+  <queries>
+    <query event="Declare">
+      <text>&DeclareCommandFilter;</text>
+    </query>
+
+    <query event="Finding">
+      <text>
+        <![CDATA[
+declare @unit varchar(128), @custID nvarchar(64), @status nvarchar(33), @c varchar(64), @m varchar(64), @i varchar(64), @expression varchar(64), @increase varchar(64), @tag varchar(64), @e nvarchar(511), @controller varchar(128)
+
+select @expression = 'convert(char(6), {0}, 112)', @increase = 'dateadd(month, 1, {0})', @tag = '000000', @custID = '%#10$', @status = '1, 2'
+if @ma_ct = 'HDA' select @c = 'c81$000000', @m = 'm81$', @i = 'i81$', @controller = 'SVTran'
+  else if @ma_ct = 'HD1' select @c = 'c21$000000', @m = 'm21$', @i = 'i21$', @controller = 'ARTran'
+  else if @ma_ct = 'HD2' select @c = 'c22$000000', @m = 'm22$', @i = 'i22$', @controller = 'SDTran'
+  else if @ma_ct = 'HD4' select @c = 'c25$000000', @m = 'm25$', @i = 'i25$', @custID = '%#20$', @controller = 'SPTran'
+  else if @ma_ct = 'HD5' select @c = 'hddc', @m = 'hddc', @i = 'ihddc', @expression = '''''', @increase = '{0}', @tag = '', @status = '1', @controller = 'AITran'
+  else if @ma_ct = 'PXC' select @c = 'c86$000000', @m = 'm86$', @i = 'i86$', @status = '2, 3', @controller = 'PSTran'
+  else if @ma_ct = 'PXD' select @c = 'm26$000000', @m = 'm26$000000', @i = 'i26$000000', @expression = '''''', @increase = '{0}', @tag = '', @controller = 'PXTran'
+  else if @ma_ct = 'HD6' select @c = 'm42$000000', @m = 'm42$000000', @i = 'i42$000000', @expression = '''''', @increase = '{0}', @tag = '', @controller = 'VATran'
+
+select @custID = @custID + rtrim(@ma_kh) + '#%', @unit = case when @ma_dvcs = '' then @@unit else @ma_dvcs end, @e = ''
+if @ma_ct = 'HD5' and @stt_rec_ht <> '' select @e = case when @e = '' then '' else ' and ' end + 'a.stt_rec <> ''' + replace(@stt_rec_ht, '''', '''''') + ''''
+if @ma_dvcs <> '' select @e = @e + case when @e = '' then '' else ' and ' end + 'a.ma_dvcs = ''' + replace(@ma_dvcs, '''', '''''') + ''''
+]]>&FilterInitialize;&CheckRelativeProcess;<![CDATA[
+if not exists(select 1 from #_f where [alias] <> '') select @e = replace(@e, 'a.', '')
+exec FastBusiness$App$Voucher$Finding @ma_ct, @c, @m, @i, 'ngay_ct', @expression, @increase, @tag,
+  @@refresh, @@pageIndex, @@pageCount, @@lastPage, @@lastCount, @@firstItem, @@lastItem,
+  @custID, '', 'stt_rec',
+  'so_ct,stt_rec,ngay_ct,t_tt_nt,ma_nt',
+  'so_ct,stt_rec,ngay_ct,t_tt_nt,ma_nt',
+  '',
+  'ngay_ct, so_ct', 1, @@userID, 1,
+  @ngay_ct1, @ngay_ct2, '', '', @status, '0', @unit, 0, 0, @e, default, default, default, default, @$primeJoin, @$primeFilter]]>
+      </text>
+    </query>
+  </queries>
+</lookup>

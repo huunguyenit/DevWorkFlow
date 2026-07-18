@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE grid [
+  <!ENTITY JavascriptReportInit SYSTEM "..\Include\Javascript\ReportInit.txt">
+  <!ENTITY % Control.Filter SYSTEM "..\Include\Filter.ent">
+  %Control.Filter;
+]>
+
+<grid type="Report" xmlns="urn:schemas-fast-com:data-grid">
+  <title v="Kiểm tra trạng thái hóa đơn" e="Invoice Status Verification"></title>
+  <subTitle v="Ngày hóa đơn từ %d1 đến %d2, chứng từ %s1 - %s2..." e="Date from %d1 to %d2, Voucher %s1 - %s2..."></subTitle>
+  <fields>
+    <field name="ma_dvcs" width="100" allowSorting="true" allowFilter="true">
+      <header v="Đơn vị" e="Unit"></header>
+    </field>
+    <field name="ngay_ct" type="DateTime" width="80" dataFormatString="@datetimeFormat" allowSorting="true" allowFilter="true">
+      <header v="Ngày" e="Date"></header>
+    </field>
+    <field name="so_ct" width="80" align="right" hyperlinkFormatString="~/AppHandler/Voucher.ashx Query: {Name: '[ma_ct]', Value: '[stt_rec]'}, Script: 'beforeDrillDown(this);'" allowSorting="true" allowFilter="true">
+      <header v="Số chứng từ" e="Voucher Number"></header>
+    </field>
+    <field name="so_ct_hddt" width="80" align="right" allowSorting="true" allowFilter="true" maxLength="-100">
+      <header v="Số xác thực" e="Reference Number"></header>
+    </field>
+    <field name="so_seri_hddt" width="80" clientDefault="Default" dataFormatString="@upperCaseFormat" align="right" allowSorting="true" allowFilter="true" maxLength="-100">
+      <header v="Ký hiệu" e="Serial Number"></header>
+      <items style="Mask"/>
+    </field>
+    <field name="mau_hddt" width="80" clientDefault="Default" dataFormatString="@upperCaseFormat" allowNulls="false" align="right" allowSorting="true" allowFilter="true">
+      <header v="Mẫu số" e="Form"></header>
+    </field>
+    <field name="ma_kh" width="100" allowSorting="true" allowFilter="true">
+      <header v="Mã khách" e="Customer ID"></header>
+    </field>
+    <field name="ten_kh" width="300" external="true" allowSorting="true" allowFilter="true">
+      <header v="Tên khách" e="Customer Name"></header>
+    </field>
+    <field name="tien_nt" type="Decimal" dataFormatString="@foreignCurrencyAmountViewFormat" width="120" allowSorting="true" allowFilter="&GridReportAllowFilter.Number;" aggregate="Sum">
+      <header v="Tiền" e="Amount"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ma_nt" width="80" allowSorting="true" allowFilter="true">
+      <header v="Mã nt" e="Currency"></header>
+    </field>
+    <field name="tinh_trang" width="150" allowSorting="true" allowFilter="true">
+      <header v="Trạng thái" e="Status"></header>
+    </field>
+    <field name="thanh_toan" width="150" allowSorting="true" allowFilter="true">
+      <header v="Tình trạng thanh toán" e="Payment Status"></header>
+    </field>
+    <field name="stt_rec" isPrimaryKey="true" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="ma_ct" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="tinh_trang_hddt" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="trang_thai_tt" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="kieu_ph" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+    <field name="dich_vu_hddt" type="Int16" width="0" hidden="true">
+      <header v="" e=""></header>
+    </field>
+  </fields>
+
+  <views>
+    <view id="Grid">
+      <field name="ma_dvcs"/>
+      <field name="ngay_ct"/>
+      <field name="so_ct"/>
+      <field name="so_ct_hddt"/>
+      <field name="so_seri_hddt"/>
+      <field name="mau_hddt"/>
+      <field name="ma_kh"/>
+      <field name="ten_kh"/>
+      <field name="tien_nt"/>
+      <field name="ma_nt"/>
+      <field name="stt_rec"/>
+      <field name="ma_ct"/>
+      <field name="tinh_trang"/>
+      <field name="thanh_toan"/>
+      <field name="tinh_trang_hddt"/>
+      <field name="trang_thai_tt"/>
+      <field name="kieu_ph"/>
+      <field name="dich_vu_hddt"/>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+declare @m nvarchar(2048), @n nvarchar(2048)
+select @m = case when @m is null then '' else @m + ';' end + case when @@language = 'V' then cname else cname2 end from reports where ccode in ('EI004', 'EI005', 'EI006', 'EI007', 'EI008', 'EI009', 'EI010', 'EI011', 'EI012') order by ccode
+select @n = case when @n is null then '' else @n + ';' end + case when @@language = 'V' then cname else cname2 end from reports where ccode in ('EI014', 'EI015', 'EI016') order by ccode
+select 'var t = this;t._$a=''' + @m + '''.split('';'');t._$b=''' + @n + '''.split('';'');t._url$EInvoice=''~/AppService/FastBusiness.EInvoice.Service.asmx'';t._service$Method=''ExcuteCommand'';load$GridReport$(t);load$InvoiceVerification$(t);' as message
+return]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[select 'dispose$GridReport$(this);dispose$InvoiceVerification$(this);' as message
+return]]>
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      <![CDATA[/* <flatten type="Javascript"> */
+function load$InvoiceVerification$(g) {
+  g.add_commandEvent(on$InvoiceVerification$ExecuteCommand);
+  g._$k = g._getColumnOrder('stt_rec');
+  g._$u = g._getColumnOrder('ma_dvcs');
+  g._$d = g._getColumnOrder('ngay_ct');
+  g._$n = g._getColumnOrder('so_ct_hddt');
+  g._$l = g._getColumnOrder('so_seri_hddt');
+  g._$m = g._getColumnOrder('tinh_trang');
+  g._$p = g._getColumnOrder('tinh_trang_hddt');
+  g._$t = g._getColumnOrder('kieu_ph');
+  g._$h = g._getColumnOrder('thanh_toan');
+  g._$q = g._getColumnOrder('trang_thai_tt');
+  g._$s = g._getColumnOrder('dich_vu_hddt');
+}
+function dispose$InvoiceVerification$(g) {try {g.remove_commandEvent(on$InvoiceVerification$ExecuteCommand);} catch (ex) {}}
+function on$InvoiceVerification$ExecuteCommand(sender, e) {
+  var action = e.type.Action, g = sender, id = g.get_id();
+  switch (action) {
+    case 'Verify':
+      if (g._activeRow == -1) break;
+      var c = g._getItemValue(g._activeRow, g._$p), t = g._getItemValue(g._activeRow, g._$q);
+      if ((c == '2') || (c == '3')) {
+        if (t != 1) break;
+      }
+      else {
+        if ((c != '1') && (c != '8')) break;
+      }
+      var msg = ((g._language == 'v') ? 'Hệ thống sẽ <span class="Highlight">kiểm tra và cập nhật lại thông tin hóa đơn đang được chọn</span>, bạn có chắc chắn thực hiện không?' : 'Are you sure you want to <span class="Highlight">verify the selected invoice</span>?');
+      $message.show(msg, 0, String.format('request$InvoiceVerification($find(\'{0}\'));', id), String.format('$find(\'{0}\')._focusWhenTabChanged();', id));
+      break;
+    default:
+      break;
+  }
+}
+function request$InvoiceVerification(g, force) {
+  var id = g._id;
+  if (!force) {
+     $func.showWait(id);
+     window.setTimeout(function() {request$InvoiceVerification(g, true);}, 2);
+     return;
+  }
+  var query = Sys.Serialization.JavaScriptSerializer.serialize({
+    'unit': g._getItemValue(g._activeRow, g._$u),
+    'voucherCode': g._$voucherCode,
+    'idNumber': g._getItemValue(g._activeRow, g._$k),
+    'listDays': '',
+  });
+
+  Sys.Net.WebServiceProxy.invoke($func.resolveClientUrl(g._url$EInvoice, g._baseUrl), g._service$Method, false, {
+      method: '370',
+      action: null,
+      query: query
+  }, onRequest$InvoiceVerification$Completed, onRequest$InvoiceVerification$Failed, g._id);
+}
+function onRequest$InvoiceVerification$Completed(r, id) {
+  var g = $find(id), v = g._language == 'v', d = r.Data;
+  if (r.Success == '1') set$InvoiceVerificationValue(g, d[0], d[2], d[3], d[4], v, id);
+  else {
+    $func.hideWait(id);
+    g._busy(false);
+    $message.show((v ? 'Phát sinh lỗi trong quá trình thực hiện.' : 'The process was failed.'), String.format('$find(\'{0}\')._focusWhenTabChanged();', id));
+  }
+}
+function set$InvoiceVerificationValue(g, n, l, p, t, v, id) {
+  var s = ['0', '1', '2', '3', '9', '8', '4'], payment = g._getItemValue(g._activeRow, g._$s);
+  if (n != '' || g._getItemValue(g._activeRow, g._$t) != 1) {
+    g._setItemValue(g._activeRow, g._$n, n);
+    g._setItemValue(g._activeRow, g._$l, l);
+    g._setItemValue(g._activeRow, g._$p, p);
+    g._setItemValue(g._activeRow, g._$m, g._$a[s.indexOf(p)]);
+    g._setItemValue(g._activeRow, g._$q, (t == 1 ? 2 : 0));
+    if (payment == 1 || payment == 8) g._setItemValue(g._activeRow, g._$h, (t == 1 ? g._$b[2] : g._$b[0]));
+  }
+  $func.hideWait(id);
+  g._busy(false);
+  $message.show(v ? 'Chương trình đã thực hiện xong.' : 'The process was completed successfully.', String.format('$find(\'{0}\')._focusWhenTabChanged();', g.get_id()));
+}
+function onRequest$InvoiceVerification$Failed(e, id) {
+  var g = $find(id);
+  $func.hideWait(id);
+  g._busy(false);
+  $message.showError(e);
+}
+/* </flatten> */]]>
+      &JavascriptReportInit;
+    </text>
+  </script>
+
+  <css>
+    <text>
+      <![CDATA[
+div.Verify{background-image:url(../images/Calculate.png);background-repeat:no-repeat;background-position:0 0;}
+div.TextVerify{background-image:url(../images/TextCalculate.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
+div.VerifyOverGreen, div.TextVerifyOverGreen{background-position-y:-22px;}
+]]>
+    </text>
+  </css>
+
+  <toolbar>
+    <button command="Search">
+      <title v="Toolbar.Search" e="Toolbar.Search"></title>
+    </button>
+    <button command="Export">
+      <title v="Toolbar.Export" e="Toolbar.Export"></title>
+    </button>
+    <button command="Verify">
+      <title v="Cập nhật trạng thái hóa đơn điện tử$$90" e="Verify$"></title>
+    </button>
+    <button command="Seprate">
+      <title v="-" e="-"></title>
+    </button>
+    <button command="Aggregate">
+      <title v="Toolbar.Aggregate" e="Toolbar.Aggregate"></title>
+    </button>
+    <button command="Seprate">
+      <title v="-" e="-"></title>
+    </button>
+    <button command="Freeze">
+      <title v="Toolbar.Freeze" e="Toolbar.Freeze"></title>
+    </button>
+  </toolbar>
+</grid>

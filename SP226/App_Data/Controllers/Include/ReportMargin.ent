@@ -1,0 +1,22 @@
+﻿<!ENTITY % Conditional.ReportMargin SYSTEM "..\Include\ReportMargin.txt">
+
+<![%Conditional.ReportMargin;[
+  <!ENTITY ReportMarginField SYSTEM "..\Include\XML\ReportMarginField.txt">
+  <!ENTITY ReportMarginFieldExtend SYSTEM "..\Include\XML\ReportMarginFieldExtend.txt">
+  <!ENTITY ReportMarginView SYSTEM "..\Include\XML\ReportMarginView.xml">
+  <!ENTITY ReportMarginViewExtend SYSTEM "..\Include\XML\ReportMarginViewExtend.xml">
+
+  <!ENTITY ReportMarginQuery "select @$rpt_margin_left as rptMarginLeft">
+  <!ENTITY ReportMarginProcessing "select @rpt_margin_left as rptMarginLeft">
+  <!ENTITY ReportMarginProcessingField ", @rpt_margin_left as rptMarginLeft">
+  <!ENTITY ReportMarginQuery "select @$rpt_margin_left as rptMarginLeft">
+]]>
+
+<!ENTITY ReportMarginField "">
+<!ENTITY ReportMarginFieldExtend "">
+<!ENTITY ReportMarginView "">
+<!ENTITY ReportMarginViewExtend "">
+<!ENTITY ReportMarginQuery "">
+<!ENTITY ReportMarginProcessing "">
+<!ENTITY ReportMarginProcessingField "">
+<!ENTITY ReportMarginQuery "">

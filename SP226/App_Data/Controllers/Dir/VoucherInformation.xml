@@ -1,0 +1,404 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE dir [
+  <!ENTITY OutlineCss SYSTEM "..\Include\Javascript\OutlineCss.txt">
+  <!ENTITY OutlineEntry SYSTEM "..\Include\Javascript\OutlineEntry.txt">
+  <!ENTITY % Config SYSTEM "..\Include\XML\Config\Fields\Config.ent">
+  %Config;
+]>
+
+<dir table="dmct" code="ma_ct" order="ma_ct" xmlns="urn:schemas-fast-com:data-dir">
+  <title v="khai báo các màn hình nhập chứng từ" e="Voucher Information"></title>
+  <fields>
+    <field name="ma_ct" isPrimaryKey="true" disabled="true">
+      <header v="Mã chứng từ" e="Code"></header>
+    </field>
+    <field name="ten_ct" allowNulls="false">
+      <header v="Tên chứng từ" e="Description"></header>
+    </field>
+    <field name="ten_ct2">
+      <header v="Tên khác" e="Other Name"></header>
+    </field>
+    <field name="ma_ct_me" categoryIndex="1">
+      <header v="Chứng từ mẹ" e="Parent Code"></header>
+      <items style="AutoComplete" controller="Voucher" reference="ten_ct_me%l" key="wedition &lt;&gt; '9' and status = '1'" check="wedition &lt;&gt; '9'" information="ma_ct$dmct.ten_ct%l"/>
+    </field>
+    <field name="ten_ct_me%l" readOnly="true" external="true" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+    <field name="so_ct" type="Decimal" dataFormatString="###########0" categoryIndex="1">
+      <header v="Số hiện thời" e="Current Number"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="trung_so" type="Decimal" external="true" defaultValue="'0'" allowContain="true" categoryIndex="1">
+      <header v="Kiểm tra trùng số" e="Check Duplication"></header>
+      <items style="DropDownList">
+        <item value="0">
+          <text v="0 - Không kiểm tra" e="0 - No"/>
+        </item>
+        <item value="1">
+          <text v="1 - Theo ngày" e="1 - Daily"/>
+        </item>
+        <item value="2">
+          <text v="2 - Theo tháng" e="2 - Monthly"/>
+        </item>
+        <item value="3">
+          <text v="3 - Theo quý" e="3 - Quarterly"/>
+        </item>
+        <item value="4">
+          <text v="4 - Theo năm" e="4 - Annually"/>
+        </item>
+        <item value="5">
+          <text v="5 - Tất" e="5 - All"/>
+        </item>
+      </items>
+      <clientScript><![CDATA[onchange="onVoucherCheckSelectedIndexChanged(this);" onfocus="onSelectionOutlineEntry(this, true);" onblur="onSelectionOutlineEntry(this, false);"]]></clientScript>
+    </field>
+    <field name="cb_yn" type="Boolean" external="true" defaultValue="cast(0 as bit)" allowContain="true" categoryIndex="1">
+      <header v="Chỉ cảnh báo" e="Warning only"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="ma_nt" allowNulls="false" categoryIndex="1">
+      <header v="Ngoại tệ" e="Currency"></header>
+      <items style="AutoComplete" controller="Currency" reference="ten_nt%l" key="status = '1'" information="ma_nt$dmnt.ten_nt%l"/>
+    </field>
+    <field name="ten_nt%l" readOnly="true" external="true" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+    <field name="m_ma_gd" categoryIndex="1">
+      <header v="Mã giao dịch" e="Transaction Code"></header>
+      <items style="AutoComplete" controller="TransactionCode" reference="ten_gd%l" key="ma_ct = '{$%c[ma_ct]}'" information="ma_gd$dmmagd.ten_gd%l"/>
+      <clientScript><![CDATA[onchange="onChange$Voucher$Transaction(this);"]]></clientScript>
+    </field>
+    <field name="ten_gd%l" readOnly="true" external="true" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+    <field name="m_loai_ct" categoryIndex="1">
+      <header v="Loại chứng từ" e="Transaction Type"></header>
+      <items style="AutoComplete" controller="TransactionType" reference="ten_loai%l" key="ma_ct = '{$%c[ma_ct]}'" information="loai_ct$dmloaict.ten_loai%l"/>
+    </field>
+    <field name="ten_loai%l" readOnly="true" external="true" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+    <field name="m_status" categoryIndex="1">
+      <header v="Xử lý" e="Action"></header>
+      <items style="AutoComplete" controller="Action" reference="action_name%l" key="ma_ct = '{$%c[ma_ct]}' and status not in ('9', '*')" information="action_name$dmxlct.action_name%l"/>
+    </field>
+    <field name="action_name%l" readOnly="true" external="true" defaultValue="''" categoryIndex="1">
+      <header v="" e=""></header>
+    </field>
+
+    <field name="m_ong_ba" dataFormatString="0, 1" clientDefault="1" align="right" categoryIndex="1">
+      <header v="Người giao dịch" e="Contact"></header>
+      <footer v="1 - Có sử dụng, 0 - Không" e="1 - Use, 0 - None"></footer>
+      <items style="Mask"/>
+    </field>
+    <field name="m_loc_nsd" dataFormatString="0, 1" clientDefault="1" align="right" categoryIndex="1">
+      <header v="Người sử dụng" e="User"></header>
+      <footer v="1 - Lọc theo người sử dụng, 0 - Không" e="1 - Filter by User, 0 - No"></footer>
+      <items style="Mask"/>
+    </field>
+
+    <field name="tieu_de_ct" categoryIndex="2">
+      <header v="Tiêu đề" e="Title"></header>
+    </field>
+    <field name="tieu_de_ct2" categoryIndex="2">
+      <header v="Tiêu đề khác" e="Other Title"></header>
+    </field>
+    <field name="so_lien" type="Decimal" dataFormatString="##0" categoryIndex="2">
+      <header v="Số liên" e="Number of Copies"></header>
+      <items style="Numeric"></items>
+    </field>
+    <field name="ma_ct_in" categoryIndex="2">
+      <header v="Mã chứng từ" e="Voucher Code"></header>
+    </field>
+    <field name="stt_ct_nkc" type="Decimal" dataFormatString="##0" categoryIndex="2">
+      <header v="Số thứ tự" e="Line Number"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="max_row" type="Decimal" dataFormatString="#0" align="right" categoryIndex="2">
+      <header v="Số dòng" e="Rows Count"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="post_vv" type="Boolean" disabled="true" categoryIndex="9">
+      <header v="Vụ việc" e="Job"></header>
+      <footer v="Tên trường" e="Field"/>
+      <items style="Numeric"/>
+    </field>
+    <field name="post_sp" type="Boolean" categoryIndex="9">
+      <header v="Sản phẩm" e="Product"></header>
+      <footer v="Sử dụng" e="Use"/>
+      <items style="Numeric"/>
+    </field>
+    <field name="post_bp" type="Boolean" categoryIndex="9">
+      <header v="Bộ phận" e="Department"></header>
+      <footer v="Nhóm khi lưu vào sổ cái" e="Group when Posting"/>
+      <items style="Numeric"/>
+    </field>
+    <field name="post_lsx" type="Boolean" categoryIndex="9">
+      <header v="Số lsx" e="MO Number"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="post_hd" type="Boolean" categoryIndex="9">
+      <header v="Hợp đồng" e="Contract"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="post_ku" type="Boolean" categoryIndex="9">
+      <header v="Khế ước" e="Loan Contract"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="post_phi" type="Boolean" categoryIndex="9">
+      <header v="Phí" e="Expense"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="use_ma_vv" type="Boolean" external="true" defaultValue="cast(0 as bit)" allowContain="true" disabled="true" categoryIndex="9">
+      <header v="Vụ việc" e="Job"></header>
+      <footer v="Tên trường" e="Field"/>
+      <items style="Numeric"/>
+    </field>
+    <field name="use_ma_sp" type="Boolean" external="true" defaultValue="cast(0 as bit)" allowContain="true" categoryIndex="9">
+      <header v="Sản phẩm" e="Product"></header>
+      <footer v="Sử dụng" e="Use"/>
+      <items style="Numeric"/>
+    </field>
+    <field name="use_ma_bp" type="Boolean" external="true" defaultValue="cast(0 as bit)" allowContain="true" categoryIndex="9">
+      <header v="Bộ phận" e="Department"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="use_so_lsx" type="Boolean" external="true" defaultValue="cast(0 as bit)" allowContain="true" categoryIndex="9">
+      <header v="Số lsx" e="MO Number"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="use_ma_hd" type="Boolean" external="true" defaultValue="cast(0 as bit)" allowContain="true" categoryIndex="9">
+      <header v="Hợp đồng" e="Contract"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="use_ma_ku" type="Boolean" external="true" defaultValue="cast(0 as bit)" allowContain="true" categoryIndex="9">
+      <header v="Khế ước" e="Loan Contract"></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="use_ma_phi" type="Boolean" external="true" defaultValue="cast(0 as bit)" allowContain="true" categoryIndex="9">
+      <header v="Phí" e="Expense"></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="gd_yn" type="Boolean" external="true" defaultValue="cast(0 as bit)" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="ct_yn" type="Boolean" external="true" defaultValue="cast(0 as bit)" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="xl_yn" type="Boolean" external="true" defaultValue="cast(0 as bit)" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+
+    <field name="voucher_yn" type="Boolean" hidden="true" readOnly="true">
+      <header v="" e=""></header>
+      <items style="Numeric"/>
+    </field>
+    <field name="xstt" hidden="true" external="true" defaultValue="''" readOnly="true">
+      <header v="" e=""></header>
+    </field>
+
+    &Config.Field;
+  </fields>
+
+  <views>
+    <view id="Dir" height="232">
+      <item value="120, 100, 100, 230, 0, 0"/>
+      <item value="111111: [ma_ct].Label, [ma_ct], [voucher_yn], [gd_yn], [ct_yn], [xl_yn]"/>
+      <item value="11001: [ten_ct].Label, [ten_ct], [xstt]"/>
+      <item value="1100: [ten_ct2].Label, [ten_ct2]"/>
+
+      <item value="1101000: [ma_ct_me].Label, [ma_ct_me], [ten_ct_me%l]"/>
+      <item value="110: [so_ct].Label, [so_ct]"/>
+      <item value="1100-11: [trung_so].Label, [trung_so], [cb_yn], [cb_yn].Label"/>
+      <item value="1101000: [ma_nt].Label, [ma_nt], [ten_nt%l]"/>
+      <item value="1101000: [m_ma_gd].Label, [m_ma_gd], [ten_gd%l]"/>
+      <item value="1101000: [m_loai_ct].Label, [m_loai_ct], [ten_loai%l]"/>
+      <item value="1101000: [m_status].Label, [m_status], [action_name%l]"/>
+      <item value="1110000: [m_ong_ba].Label, [m_ong_ba], [m_ong_ba].Description"/>
+      <item value="1110000: [m_loc_nsd].Label, [m_loc_nsd], [m_loc_nsd].Description"/>
+
+      <item value="1100: [tieu_de_ct].Label, [tieu_de_ct]"/>
+      <item value="1100: [tieu_de_ct2].Label, [tieu_de_ct2]"/>
+      <item value="11: [ma_ct_in].Label, [ma_ct_in]"/>
+      <item value="11: [so_lien].Label, [so_lien]"/>
+      <item value="11: [stt_ct_nkc].Label, [stt_ct_nkc]"/>
+      <item value="11: [max_row].Label, [max_row]"/>
+
+      <item value="11010: [post_vv].Desciption, [post_sp].Desciption, [post_bp].Desciption"/>
+      <item value="11-1: [post_vv].Label, [use_ma_vv], [post_vv]"/>
+      <item value="11-1: [post_bp].Label, [use_ma_bp], [post_bp]"/>
+      <item value="11-1: [post_lsx].Label, [use_so_lsx], [post_lsx]"/>
+      <item value="11-1: [post_sp].Label, [use_ma_sp], [post_sp]"/>
+      <item value="11-1: [post_hd].Label, [use_ma_hd], [post_hd]"/>
+      <item value="11-1: [post_phi].Label, [use_ma_phi], [post_phi]"/>
+      <item value="11-1: [post_ku].Label, [use_ma_ku], [post_ku]"/>
+
+
+      <categories>
+        <category index="1" columns="120, 30, 70, 100, 25, 25, 180, 0">
+          <header v="Thông tin chính" e="General"/>
+        </category>
+        <category index="2" columns="120, 100, 100, 230">
+          <header v="In chứng từ" e="Print"/>
+        </category>
+        <category index="9" columns="120, 25, 75, 25, 305">
+          <header v="Khác" e="Other"/>
+        </category>
+      </categories>
+    </view>
+  </views>
+
+  <commands>
+    <command event="Loading">
+      <text>
+        <![CDATA[
+select ']]>&Config.Loading;<![CDATA[initForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Closing">
+      <text>
+        <![CDATA[
+select 'closeForm(this);' as message
+return
+]]>
+      </text>
+    </command>
+
+    <command event="InitExternalFields">
+      <text>
+        &Config.InitExternalFields.Declare;
+        <![CDATA[
+declare @xstt varchar(32), @use_ma_sp bit, @use_ma_vv bit, @use_ma_bp bit, @use_so_lsx bit, @use_ma_hd bit, @use_ma_ku bit, @use_ma_phi bit, @gd_yn bit, @ct_yn bit, @xl_yn bit, @hide varchar(1024), @trung_so int, @cb_yn bit
+select @gd_yn = case when exists(select 1 from dmmagd where ma_ct = @ma_ct) then 1 else 0 end, @xl_yn = case when exists(select 1 from dmxlct where ma_ct = @ma_ct) then 1 else 0 end
+if @gd_yn = 1 select @ct_yn = 0
+  else select @ct_yn = case when exists(select 1 from dmloaict where ma_ct = @ma_ct) then 1 else 0 end
+select @hide = ',' + replace(rtrim(ltrim(hide)), ' ', '') + ',' from @@sysDatabaseName..voucherinfo where ma_ct = @ma_ct
+select @use_ma_vv = 1, @use_ma_sp = case when charindex(',ma_sp,', @hide ) = 0 then 1 else 0 end, @use_ma_bp = case when charindex(',ma_bp,', @hide ) = 0 then 1 else 0 end, @use_so_lsx = case when charindex(',so_lsx,', @hide ) = 0 then 1 else 0 end, @use_ma_hd = case when charindex(',ma_hd,', @hide ) = 0 then 1 else 0 end, @use_ma_ku = case when charindex(',ma_ku,', @hide ) = 0 then 1 else 0 end, @use_ma_phi = case when charindex(',ma_phi,', @hide ) = 0 then 1 else 0 end
+select @xstt = xstt, @trung_so = abs(m_trung_so), @cb_yn = case when m_trung_so < 0 then 1 else 0 end from vdmct where ma_ct = @ma_ct
+select @use_ma_sp as use_ma_sp, @use_ma_vv as use_ma_vv, @use_ma_bp as use_ma_bp, @use_so_lsx as use_so_lsx, @use_ma_hd as use_ma_hd, @use_ma_ku as use_ma_ku, @use_ma_phi as use_ma_phi, @gd_yn as gd_yn, @ct_yn as ct_yn, @xl_yn as xl_yn, @trung_so as trung_so, @xstt as xstt, @cb_yn as cb_yn]]>&Config.InitExternalFields.Select;<![CDATA[
+return
+]]>
+      </text>
+    </command>
+
+    <command event="Updating">
+      <text>
+        <![CDATA[
+declare @$u1 bit, @$u2 bit, @$u3 bit, @$p1 tinyint, @$p2 tinyint, @$p3 tinyint, @hide varchar(1024), @group varchar(1024)
+select @$p1 = post_td1, @$p2 = post_td2, @$p3 = post_td3 from dmct where ma_ct = @ma_ct
+select @hide = ',' + replace(rtrim(ltrim(hide)), ' ', '') + ',' from @@sysDatabaseName..voucherinfo where ma_ct = @ma_ct
+select @$u1 = case when charindex(',ma_td1,', @hide ) = 0 then 1 else 0 end, @$u2 = case when charindex(',ma_td2,', @hide ) = 0 then 1 else 0 end, @$u3 = case when charindex(',ma_td3,', @hide ) = 0 then 1 else 0 end
+select @hide = '', @group = 'ma_vv' + case when @post_sp = 1 then ', ma_sp' else '' end + case when @post_bp = 1 then ', ma_bp' else '' end + case when @post_lsx = 1 then ', so_lsx' else '' end + case when @post_hd = 1 then ', ma_hd' else '' end + case when @post_ku = 1 then ', ma_ku' else '' end + case when @post_phi = 1 then ', ma_phi' else '' end + case when @$p1 = 1 then ', ma_td1' else '' end + case when @$p2 = 1 then ', ma_td2' else '' end + case when @$p3 = 1 then ', ma_td3' else '' end
+
+if @$use_ma_sp = 0 select @hide = @hide + case when @hide = '' then '' else ', ' end + 'ma_sp'
+if @$use_ma_bp = 0 select @hide = @hide + case when @hide = '' then '' else ', ' end + 'ma_bp'
+if @$use_so_lsx = 0 select @hide = @hide + case when @hide = '' then '' else ', ' end + 'so_lsx'
+if @$use_ma_hd = 0 select @hide = @hide + case when @hide = '' then '' else ', ' end + 'ma_hd'
+if @$use_ma_ku = 0 select @hide = @hide + case when @hide = '' then '' else ', ' end + 'ma_ku'
+if @$use_ma_phi = 0 select @hide = @hide + case when @hide = '' then '' else ', ' end + 'ma_phi'
+if @$u1 = 0 select @hide = @hide + case when @hide = '' then '' else ', ' end + 'ma_td1'
+if @$u2 = 0 select @hide = @hide + case when @hide = '' then '' else ', ' end + 'ma_td2'
+if @$u3 = 0 select @hide = @hide + case when @hide = '' then '' else ', ' end + 'ma_td3'
+
+select @group = @group + case when @group = '' then '' else ', ' end + rtrim(c.field)
+  from @@sysDatabaseName..freecolumns a join @@sysDatabaseName..freefunctions b on a.controller = b.controller and b.ma_ct = @ma_ct left join @@sysDatabaseName..sysfreecolumns c on a.id = c.id
+  where a.post_yn = 1 and a.status = 1 and a.id not in ('C1', 'C2', 'C3')
+]]>&Config.Updating;<![CDATA[
+update @@sysDatabaseName..voucherinfo set hide = @hide, groupby = @group where ma_ct = @ma_ct
+]]>
+      </text>
+    </command>
+
+    <command event="Updated">
+      <text>
+        <![CDATA[
+update @@table set m_trung_so = case when @$cb_yn = 1 then -@$trung_so else @$trung_so end, datetime2 = getdate(), user_id2 = @@userID where ma_ct = @ma_ct
+]]>
+        &Config.Updated;
+      </text>
+    </command>
+  </commands>
+
+  <script>
+    <text>
+      &OutlineEntry;
+      <![CDATA[
+function initForm(f) {
+  f._tabContainer.add_activeTabChanged(onTabChanged);
+  f.add_onResponseComplete(on$Form$ResponseComplete);
+  f._tabContainer._loaded = true;
+  if (f._controlFocus) f._controlFocus = f.getItem('ten_ct');
+	try {f.getItem('ten_ct').focus();} catch (ex) {}
+  var c = f.getItem('m_ma_gd'), t = f.getItem('m_loai_ct'), a = f.getItem('m_status');
+  if (!f.getItemValue('voucher_yn')) {try {
+    c.disabled = t.disabled = a.disabled = true;
+    f._setReadOnly(c, true);
+    f._setReadOnly(t, true);
+    f._setReadOnly(a, true);
+    f._tabContainer.get_tabs()[2]._hide();
+  } catch (ex) {}}
+  else {
+    setReferenceObject(f, 'gd_yn', c);
+    setReferenceObject(f, 'ct_yn', t);
+    setReferenceObject(f, 'xl_yn', a);
+    ]]>&Config.Tab;<![CDATA[
+  }
+  onVoucherCheckSelectedIndexChanged(f.getItem('trung_so'));
+  var o = f.getItem('post_lsx');
+  if (o.field.Hidden) $common.setVisible(o.parentNode.parentNode.parentNode, false);
+}
+/* <flatten type="Javascript"> */
+function closeForm(f) {
+  try {f.remove_onResponseComplete(on$Form$ResponseComplete);} catch (ex) {}
+  if (f._tabContainer) try {f._tabContainer.remove_activeTabChanged(onTabChanged);} catch (ex) {}
+}
+function onTabChanged(sender, e) {sender.parentForm.focusWhenTabChanged(['ma_ct_me', 'tieu_de_ct', 'use_ma_bp']);}
+function onVoucherCheckSelectedIndexChanged(o) {o.parentForm.getItem('cb_yn').disabled = (o.parentForm.getItemValue('trung_so') == 0);}
+function onChange$Voucher$Transaction(o) {o.parentForm.request('Transaction', 'Transaction', ['ma_ct', 'm_ma_gd']);}
+function setReferenceObject(f, c, o) {
+  f.setReferenceKeyFilter(o.field.Name);
+  if (!f.getItemValue(c)) {
+    o.disabled = true;
+    f._setReadOnly(o, true);
+  }
+}
+function on$Form$ResponseComplete(sender, e) {
+  var f = e.object, context = e.type.Context, result = e.type.Result;
+  switch (context) {
+    case 'Transaction':
+      f.setItemControlBehavior('m_loai_ct', result[0].Value, result[1].Value, true);
+      break;
+	  default:
+      break;
+	}
+}
+/* </flatten> */]]>
+    </text>
+  </script>
+
+  <response>
+    <action id="Transaction">
+      <text>
+        <![CDATA[
+select rtrim(a.loai_ct) as loai_ct, b.ten_loai%l as ten_loai from dmmagd a left join dmloaict b on a.loai_ct = b.loai_ct and a.ma_ct = b.ma_ct
+  where a.ma_ct = @ma_ct and a.ma_gd = @m_ma_gd
+return
+]]>
+      </text>
+    </action>
+  </response>
+
+  &OutlineCss;
+</dir>
