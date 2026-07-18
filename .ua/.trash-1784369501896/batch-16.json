@@ -1,0 +1,379 @@
+{
+  "batchIndex": 16,
+  "nodes": [
+    {
+      "id": "file:UI/Views/Properties/PropertyGridPanel.xaml.cs",
+      "type": "file",
+      "name": "PropertyGridPanel.xaml.cs",
+      "filePath": "UI/Views/Properties/PropertyGridPanel.xaml.cs",
+      "summary": "View WPF: PropertyGridPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Properties/PropertyGridPanel.xaml.cs:PropertyGridPanel",
+      "type": "class",
+      "name": "PropertyGridPanel",
+      "filePath": "UI/Views/Properties/PropertyGridPanel.xaml.cs",
+      "summary": "Kiểu PropertyGridPanel trong PropertyGridPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Properties/PropertyGridPanel.xaml.cs:PropertyGridPanel",
+      "type": "function",
+      "name": "PropertyGridPanel",
+      "filePath": "UI/Views/Properties/PropertyGridPanel.xaml.cs",
+      "summary": "Hàm/method PropertyGridPanel trong PropertyGridPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Shell/DocumentTabBar.xaml",
+      "type": "file",
+      "name": "DocumentTabBar.xaml",
+      "filePath": "UI/Views/Shell/DocumentTabBar.xaml",
+      "summary": "View WPF: DocumentTabBar.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Shell/DocumentTabBar.xaml.cs",
+      "type": "file",
+      "name": "DocumentTabBar.xaml.cs",
+      "filePath": "UI/Views/Shell/DocumentTabBar.xaml.cs",
+      "summary": "View WPF: DocumentTabBar.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Shell/DocumentTabBar.xaml.cs:DocumentTabBar",
+      "type": "class",
+      "name": "DocumentTabBar",
+      "filePath": "UI/Views/Shell/DocumentTabBar.xaml.cs",
+      "summary": "Kiểu DocumentTabBar trong DocumentTabBar.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Shell/DocumentTabBar.xaml.cs:DocumentTabBar",
+      "type": "function",
+      "name": "DocumentTabBar",
+      "filePath": "UI/Views/Shell/DocumentTabBar.xaml.cs",
+      "summary": "Hàm/method DocumentTabBar trong DocumentTabBar.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Shell/IdeMenuBar.xaml",
+      "type": "file",
+      "name": "IdeMenuBar.xaml",
+      "filePath": "UI/Views/Shell/IdeMenuBar.xaml",
+      "summary": "View WPF: IdeMenuBar.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Shell/IdeMenuBar.xaml.cs",
+      "type": "file",
+      "name": "IdeMenuBar.xaml.cs",
+      "filePath": "UI/Views/Shell/IdeMenuBar.xaml.cs",
+      "summary": "View WPF: IdeMenuBar.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Shell/IdeMenuBar.xaml.cs:IdeMenuBar",
+      "type": "class",
+      "name": "IdeMenuBar",
+      "filePath": "UI/Views/Shell/IdeMenuBar.xaml.cs",
+      "summary": "Kiểu IdeMenuBar trong IdeMenuBar.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Shell/IdeMenuBar.xaml.cs:IdeMenuBar",
+      "type": "function",
+      "name": "IdeMenuBar",
+      "filePath": "UI/Views/Shell/IdeMenuBar.xaml.cs",
+      "summary": "Hàm/method IdeMenuBar trong IdeMenuBar.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Shell/IdeRibbon.xaml",
+      "type": "file",
+      "name": "IdeRibbon.xaml",
+      "filePath": "UI/Views/Shell/IdeRibbon.xaml",
+      "summary": "View WPF: IdeRibbon.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Shell/IdeRibbon.xaml.cs",
+      "type": "file",
+      "name": "IdeRibbon.xaml.cs",
+      "filePath": "UI/Views/Shell/IdeRibbon.xaml.cs",
+      "summary": "View WPF: IdeRibbon.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Shell/IdeRibbon.xaml.cs:IdeRibbon",
+      "type": "class",
+      "name": "IdeRibbon",
+      "filePath": "UI/Views/Shell/IdeRibbon.xaml.cs",
+      "summary": "Kiểu IdeRibbon trong IdeRibbon.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Shell/IdeRibbon.xaml.cs:IdeRibbon",
+      "type": "function",
+      "name": "IdeRibbon",
+      "filePath": "UI/Views/Shell/IdeRibbon.xaml.cs",
+      "summary": "Hàm/method IdeRibbon trong IdeRibbon.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Toolbox/ToolboxPanel.xaml",
+      "type": "file",
+      "name": "ToolboxPanel.xaml",
+      "filePath": "UI/Views/Toolbox/ToolboxPanel.xaml",
+      "summary": "View WPF: ToolboxPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Toolbox/ToolboxPanel.xaml.cs",
+      "type": "file",
+      "name": "ToolboxPanel.xaml.cs",
+      "filePath": "UI/Views/Toolbox/ToolboxPanel.xaml.cs",
+      "summary": "View WPF: ToolboxPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Toolbox/ToolboxPanel.xaml.cs:ToolboxPanel",
+      "type": "class",
+      "name": "ToolboxPanel",
+      "filePath": "UI/Views/Toolbox/ToolboxPanel.xaml.cs",
+      "summary": "Kiểu ToolboxPanel trong ToolboxPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Toolbox/ToolboxPanel.xaml.cs:ToolboxPanel",
+      "type": "function",
+      "name": "ToolboxPanel",
+      "filePath": "UI/Views/Toolbox/ToolboxPanel.xaml.cs",
+      "summary": "Hàm/method ToolboxPanel trong ToolboxPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:UI/Views/Properties/PropertyGridPanel.xaml.cs",
+      "target": "class:UI/Views/Properties/PropertyGridPanel.xaml.cs:PropertyGridPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Properties/PropertyGridPanel.xaml.cs",
+      "target": "function:UI/Views/Properties/PropertyGridPanel.xaml.cs:PropertyGridPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Shell/DocumentTabBar.xaml.cs",
+      "target": "class:UI/Views/Shell/DocumentTabBar.xaml.cs:DocumentTabBar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Shell/DocumentTabBar.xaml.cs",
+      "target": "function:UI/Views/Shell/DocumentTabBar.xaml.cs:DocumentTabBar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Shell/IdeMenuBar.xaml.cs",
+      "target": "class:UI/Views/Shell/IdeMenuBar.xaml.cs:IdeMenuBar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Shell/IdeMenuBar.xaml.cs",
+      "target": "function:UI/Views/Shell/IdeMenuBar.xaml.cs:IdeMenuBar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Shell/IdeRibbon.xaml.cs",
+      "target": "class:UI/Views/Shell/IdeRibbon.xaml.cs:IdeRibbon",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Shell/IdeRibbon.xaml.cs",
+      "target": "function:UI/Views/Shell/IdeRibbon.xaml.cs:IdeRibbon",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Toolbox/ToolboxPanel.xaml.cs",
+      "target": "class:UI/Views/Toolbox/ToolboxPanel.xaml.cs:ToolboxPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Toolbox/ToolboxPanel.xaml.cs",
+      "target": "function:UI/Views/Toolbox/ToolboxPanel.xaml.cs:ToolboxPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    }
+  ],
+  "batchFiles": [
+    {
+      "path": "UI/Views/Properties/PropertyGridPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Shell/DocumentTabBar.xaml",
+      "language": "xaml",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Shell/DocumentTabBar.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Shell/IdeMenuBar.xaml",
+      "language": "xaml",
+      "sizeLines": 60,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Shell/IdeMenuBar.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Shell/IdeRibbon.xaml",
+      "language": "xaml",
+      "sizeLines": 175,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Shell/IdeRibbon.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Toolbox/ToolboxPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Toolbox/ToolboxPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    }
+  ]
+}

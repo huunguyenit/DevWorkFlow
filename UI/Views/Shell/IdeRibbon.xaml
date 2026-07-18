@@ -3,173 +3,217 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:cmd="clr-namespace:UI.Commands">
+    <UserControl.Resources>
+        <Style x:Key="RibbonIconWell" TargetType="Border">
+            <Setter Property="Width" Value="28"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Background" Value="#EEF2F6"/>
+        </Style>
+        <Style x:Key="RibbonIconWellPrimary" TargetType="Border" BasedOn="{StaticResource RibbonIconWell}">
+            <Setter Property="Background" Value="#D6EBFF"/>
+        </Style>
+        <Style x:Key="RibbonIconWellSuccess" TargetType="Border" BasedOn="{StaticResource RibbonIconWell}">
+            <Setter Property="Background" Value="#E8F5E9"/>
+        </Style>
+        <Style x:Key="RibbonIconWellAmber" TargetType="Border" BasedOn="{StaticResource RibbonIconWell}">
+            <Setter Property="Background" Value="#FFF8E1"/>
+        </Style>
+        <Style x:Key="RibbonLabel" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,3,0,0"/>
+        </Style>
+    </UserControl.Resources>
+
     <Border Background="{StaticResource IdeRibbonBgBrush}"
             BorderBrush="{StaticResource IdeBorderBrush}"
             BorderThickness="0,0,0,1"
-            Padding="6,4">
+            Padding="10,4,10,2">
         <StackPanel Orientation="Horizontal">
-            <!-- File -->
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.New}" ToolTip="New">
-                <StackPanel>
-                    <md:PackIcon Kind="FilePlusOutline" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="New" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Open}" ToolTip="Open">
-                <StackPanel>
-                    <md:PackIcon Kind="FolderOpenOutline" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Open" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Save}" ToolTip="Save (Ctrl+S)">
-                <StackPanel>
-                    <md:PackIcon Kind="ContentSaveOutline" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Save" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
 
-            <Rectangle Width="1" Fill="{StaticResource IdeBorderBrush}" Margin="6,2"/>
+            <!-- File -->
+            <StackPanel Margin="0,0,2,0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.New}" ToolTip="New (Ctrl+N)">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWell}">
+                                <md:PackIcon Kind="FilePlusOutline" Width="16" Height="16"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="{StaticResource PrimaryBrush}"/>
+                            </Border>
+                            <TextBlock Text="New" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.Open}" ToolTip="Open (Ctrl+O)">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWell}">
+                                <md:PackIcon Kind="FolderOpenOutline" Width="16" Height="16"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="#1565C0"/>
+                            </Border>
+                            <TextBlock Text="Open" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource IdeRibbonPrimaryButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.Save}" ToolTip="Save (Ctrl+S)">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWellPrimary}">
+                                <md:PackIcon Kind="ContentSave" Width="16" Height="16"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="{StaticResource PrimaryDarkBrush}"/>
+                            </Border>
+                            <TextBlock Text="Save" Style="{StaticResource RibbonLabel}"
+                                       FontWeight="SemiBold"
+                                       Foreground="{StaticResource PrimaryDarkBrush}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+                <TextBlock Text="File" Style="{StaticResource IdeRibbonGroupLabelStyle}"/>
+            </StackPanel>
+
+            <Rectangle Style="{StaticResource IdeRibbonSeparatorStyle}"/>
 
             <!-- Edit -->
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Undo}" ToolTip="Undo">
-                <StackPanel>
-                    <md:PackIcon Kind="Undo" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Undo" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+            <StackPanel Margin="0,0,2,0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.Undo}" ToolTip="Undo (Ctrl+Z)">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWell}">
+                                <md:PackIcon Kind="Undo" Width="16" Height="16"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="#5E6A75"/>
+                            </Border>
+                            <TextBlock Text="Undo" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.Redo}" ToolTip="Redo (Ctrl+Y)">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWell}">
+                                <md:PackIcon Kind="Redo" Width="16" Height="16"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="#5E6A75"/>
+                            </Border>
+                            <TextBlock Text="Redo" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Redo}" ToolTip="Redo">
-                <StackPanel>
-                    <md:PackIcon Kind="Redo" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Redo" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
+                <TextBlock Text="Edit" Style="{StaticResource IdeRibbonGroupLabelStyle}"/>
+            </StackPanel>
 
-            <Rectangle Width="1" Fill="{StaticResource IdeBorderBrush}" Margin="6,2"/>
+            <Rectangle Style="{StaticResource IdeRibbonSeparatorStyle}"/>
 
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Cut}" ToolTip="Cut">
-                <StackPanel>
-                    <md:PackIcon Kind="ContentCut" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Cut" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+            <!-- Language -->
+            <StackPanel Margin="0,0,2,0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.ValidateXml}" ToolTip="Validate XML">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWell}">
+                                <md:PackIcon Kind="CheckDecagramOutline" Width="16" Height="16"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="#2E7D32"/>
+                            </Border>
+                            <TextBlock Text="Validate" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.ClearText}"
+                            ToolTip="Toggle Source / Insight Mode">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWellAmber}">
+                                <md:PackIcon Kind="LightbulbOnOutline" Width="16" Height="16"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="#F9A825"/>
+                            </Border>
+                            <TextBlock Text="Insight" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Copy}" ToolTip="Copy">
-                <StackPanel>
-                    <md:PackIcon Kind="ContentCopy" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Copy" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Paste}" ToolTip="Paste">
-                <StackPanel>
-                    <md:PackIcon Kind="ContentPaste" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Paste" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
+                <TextBlock Text="Language" Style="{StaticResource IdeRibbonGroupLabelStyle}"/>
+            </StackPanel>
 
-            <Rectangle Width="1" Fill="{StaticResource IdeBorderBrush}" Margin="6,2"/>
+            <Rectangle Style="{StaticResource IdeRibbonSeparatorStyle}"/>
 
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Add}" ToolTip="Add">
-                <StackPanel>
-                    <md:PackIcon Kind="Plus" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Add" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+            <!-- SQL -->
+            <StackPanel Margin="0,0,2,0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource IdeRibbonSuccessButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.ExecuteSql}"
+                            ToolTip="Execute SQL (F5)">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWellSuccess}">
+                                <md:PackIcon Kind="Play" Width="16" Height="16"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="{StaticResource SuccessBrush}"/>
+                            </Border>
+                            <TextBlock Text="Run" Style="{StaticResource RibbonLabel}"
+                                       FontWeight="SemiBold"
+                                       Foreground="#2E7D32"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.OpenSqlFromForm}"
+                            ToolTip="Open SQL Studio from form commands">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWell}">
+                                <md:PackIcon Kind="Database" Width="16" Height="16"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="#0277BD"/>
+                            </Border>
+                            <TextBlock Text="SQL" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Delete}" ToolTip="Delete">
-                <StackPanel>
-                    <md:PackIcon Kind="DeleteOutline" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Delete" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.ValidateXml}" ToolTip="Validate XML">
-                <StackPanel>
-                    <md:PackIcon Kind="CheckDecagramOutline" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Validate" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
+                <TextBlock Text="SQL" Style="{StaticResource IdeRibbonGroupLabelStyle}"/>
+            </StackPanel>
 
-            <Rectangle Width="1" Fill="{StaticResource IdeBorderBrush}" Margin="6,2"/>
+            <Rectangle Style="{StaticResource IdeRibbonSeparatorStyle}"/>
 
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Preview}" ToolTip="Preview">
-                <StackPanel>
-                    <md:PackIcon Kind="EyeOutline" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Preview" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+            <!-- Navigate -->
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.Search}" ToolTip="Find (Ctrl+F)">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWell}">
+                                <md:PackIcon Kind="Magnify" Width="16" Height="16"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="#455A64"/>
+                            </Border>
+                            <TextBlock Text="Find" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.Replace}" ToolTip="Replace (Ctrl+H)">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWell}">
+                                <md:PackIcon Kind="FindReplace" Width="16" Height="16"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="#455A64"/>
+                            </Border>
+                            <TextBlock Text="Replace" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.GoToDefinition}" ToolTip="Go To Definition (F12)">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWell}">
+                                <md:PackIcon Kind="ArrowRightBoldBoxOutline" Width="16" Height="16"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="{StaticResource PrimaryBrush}"/>
+                            </Border>
+                            <TextBlock Text="Go To" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Entity}" ToolTip="Entity">
-                <StackPanel>
-                    <md:PackIcon Kind="FileCodeOutline" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Entity" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Parse}" ToolTip="Parse">
-                <StackPanel>
-                    <md:PackIcon Kind="CodeTags" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Parse" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.ClearText}"
-                    ToolTip="Source Mode / Insight Mode">
-                <StackPanel>
-                    <md:PackIcon Kind="LightbulbOnOutline" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Insight" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-
-            <Rectangle Width="1" Fill="{StaticResource IdeBorderBrush}" Margin="6,2"/>
-
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.ExecuteSql}"
-                    ToolTip="Execute SQL (F5) — bôi đen để chạy vùng; Target = combobox Sys/App trên SQL Studio">
-                <StackPanel>
-                    <md:PackIcon Kind="Play" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Execute" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.OpenSqlFromForm}"
-                    ToolTip="Mở SQL Studio từ command/query trong form XML hiện tại">
-                <StackPanel>
-                    <md:PackIcon Kind="Database" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="SQL" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.OpenSqlFile}"
-                    ToolTip="Open .sql file">
-                <StackPanel>
-                    <md:PackIcon Kind="FileDocumentOutline" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Open SQL" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-
-            <Rectangle Width="1" Fill="{StaticResource IdeBorderBrush}" Margin="6,2"/>
-
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Search}" ToolTip="Search">
-                <StackPanel>
-                    <md:PackIcon Kind="Magnify" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Find" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Replace}" ToolTip="Replace">
-                <StackPanel>
-                    <md:PackIcon Kind="FindReplace" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Replace" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.GoToDefinition}" ToolTip="Go To Definition (F12)">
-                <StackPanel>
-                    <md:PackIcon Kind="ArrowRightBoldBoxOutline" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Go To Def" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.FindReferences}" ToolTip="Find References (Shift+F12)">
-                <StackPanel>
-                    <md:PackIcon Kind="LinkVariant" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Find Ref" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
-            <Button Style="{StaticResource IdeRibbonButtonStyle}" Command="{x:Static cmd:IdeCommands.Settings}" ToolTip="Settings">
-                <StackPanel>
-                    <md:PackIcon Kind="CogOutline" Width="18" Height="18" HorizontalAlignment="Center"/>
-                    <TextBlock Text="Settings" HorizontalAlignment="Center" Margin="0,2,0,0"/>
-                </StackPanel>
-            </Button>
+                <TextBlock Text="Navigate" Style="{StaticResource IdeRibbonGroupLabelStyle}"/>
+            </StackPanel>
         </StackPanel>
     </Border>
 </UserControl>

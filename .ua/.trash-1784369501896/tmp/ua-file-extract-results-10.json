@@ -1,0 +1,4175 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "MatchesFilter",
+          "startLine": 27,
+          "endLine": 38,
+          "params": [
+            "keyword"
+          ]
+        },
+        {
+          "name": "Contains",
+          "startLine": 40,
+          "endLine": 42,
+          "params": [
+            "source",
+            "keyword"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MenuTreeNode",
+          "startLine": 4,
+          "endLine": 43,
+          "methods": [
+            "MatchesFilter",
+            "Contains"
+          ],
+          "properties": [
+            "WmenuId",
+            "WmenuId0",
+            "Title",
+            "TitleEn",
+            "SysId",
+            "SysCode",
+            "Type",
+            "Link",
+            "Parameter",
+            "Level",
+            "Source",
+            "Children",
+            "IsSeparator",
+            "HasLink",
+            "IsLeaf"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "WmenuId",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "WmenuId0",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "Title",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "TitleEn",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "SysId",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "SysCode",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Type",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Link",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Parameter",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Level",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "Source",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Children",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "IsSeparator",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "HasLink",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "IsLeaf",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "MatchesFilter",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "MenuTreeNode",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "MatchesFilter",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 29
+        },
+        {
+          "caller": "MatchesFilter",
+          "callee": "Contains",
+          "lineNumber": 31
+        },
+        {
+          "caller": "MatchesFilter",
+          "callee": "Contains",
+          "lineNumber": 32
+        },
+        {
+          "caller": "MatchesFilter",
+          "callee": "Contains",
+          "lineNumber": 33
+        },
+        {
+          "caller": "MatchesFilter",
+          "callee": "Contains",
+          "lineNumber": 35
+        },
+        {
+          "caller": "MatchesFilter",
+          "callee": "Contains",
+          "lineNumber": 36
+        },
+        {
+          "caller": "MatchesFilter",
+          "callee": "Contains",
+          "lineNumber": 37
+        },
+        {
+          "caller": "Contains",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 41
+        },
+        {
+          "caller": "Contains",
+          "callee": "source.Contains",
+          "lineNumber": 42
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 17,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/NodeDefinition.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 35,
+      "classes": [
+        {
+          "name": "NodeDefinition",
+          "startLine": 16,
+          "endLine": 28,
+          "methods": [],
+          "properties": [
+            "Id",
+            "Label",
+            "NodeType",
+            "X",
+            "Y",
+            "Width",
+            "Height",
+            "AssignedFormId",
+            "AssignedRole",
+            "Properties"
+          ]
+        },
+        {
+          "name": "ConnectionDefinition",
+          "startLine": 31,
+          "endLine": 38,
+          "methods": [],
+          "properties": [
+            "Id",
+            "SourceNodeId",
+            "TargetNodeId",
+            "Label",
+            "Condition"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Id",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "Label",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "NodeType",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "X",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "Y",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Width",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Height",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "AssignedFormId",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "AssignedRole",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "Properties",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "NodeDefinition",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "Id",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "SourceNodeId",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "TargetNodeId",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "Label",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "Condition",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "ConnectionDefinition",
+          "line": 31,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 17,
+        "functionCount": 0,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 22,
+      "classes": [
+        {
+          "name": "ProgramContext",
+          "startLine": 6,
+          "endLine": 29,
+          "methods": [],
+          "properties": [
+            "ProgramPath",
+            "ProgramName",
+            "DisplayTitle",
+            "SysConnectionString",
+            "AppConnectionString",
+            "AppConnectionStringTemplate",
+            "AppDatabaseName",
+            "AppDatabases",
+            "ControllersPath"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProgramPath",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "ProgramName",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayTitle",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "SysConnectionString",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "AppConnectionString",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "AppConnectionStringTemplate",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "AppDatabaseName",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "AppDatabases",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "ControllersPath",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "ProgramContext",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/ProgramPathHelper.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 31,
+      "functions": [
+        {
+          "name": "BuildDisplayTitle",
+          "startLine": 9,
+          "endLine": 37,
+          "params": [
+            "program_path"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProgramPathHelper",
+          "startLine": 7,
+          "endLine": 38,
+          "methods": [
+            "BuildDisplayTitle"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "BuildDisplayTitle",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "ProgramPathHelper",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BuildDisplayTitle",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 11
+        },
+        {
+          "caller": "BuildDisplayTitle",
+          "callee": "program_path\r\n            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)\r\n            .Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)\r\n            .Where(p => !string.IsNullOrWhiteSpace(p))\r\n            .ToList",
+          "lineNumber": 14
+        },
+        {
+          "caller": "BuildDisplayTitle",
+          "callee": "program_path\r\n            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)\r\n            .Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)\r\n            .Where",
+          "lineNumber": 14
+        },
+        {
+          "caller": "BuildDisplayTitle",
+          "callee": "program_path\r\n            .TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)\r\n            .Split",
+          "lineNumber": 14
+        },
+        {
+          "caller": "BuildDisplayTitle",
+          "callee": "program_path\r\n            .TrimEnd",
+          "lineNumber": 14
+        },
+        {
+          "caller": "BuildDisplayTitle",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 17
+        },
+        {
+          "caller": "BuildDisplayTitle",
+          "callee": "string.Equals",
+          "lineNumber": 27
+        },
+        {
+          "caller": "BuildDisplayTitle",
+          "callee": "string.Equals",
+          "lineNumber": 33
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Sql/FboSqlFragment.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 13,
+      "classes": [
+        {
+          "name": "FboSqlFragment",
+          "startLine": 4,
+          "endLine": 17,
+          "methods": [],
+          "properties": [
+            "Kind",
+            "Event",
+            "Text",
+            "LineHint"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Kind",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "Event",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "Text",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "LineHint",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "FboSqlFragment",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 24,
+      "classes": [
+        {
+          "name": "SqlResultSet",
+          "startLine": 13,
+          "endLine": 17,
+          "methods": [],
+          "properties": [
+            "Title",
+            "Table"
+          ]
+        },
+        {
+          "name": "SqlRunResult",
+          "startLine": 20,
+          "endLine": 28,
+          "methods": [],
+          "properties": [
+            "Succeeded",
+            "Messages",
+            "ResultSets",
+            "TotalRowsAffected",
+            "ErrorMessage",
+            "Elapsed"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Title",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Table",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "SqlResultSet",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Succeeded",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Messages",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "ResultSets",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "TotalRowsAffected",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "ErrorMessage",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "Elapsed",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "SqlRunResult",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 0,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/TemplateType.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/WCommandItem.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 35,
+      "classes": [
+        {
+          "name": "WCommandItem",
+          "startLine": 4,
+          "endLine": 39,
+          "methods": [],
+          "properties": [
+            "WmenuId",
+            "WmenuId0",
+            "MenuId",
+            "Bar",
+            "Bar2",
+            "Link",
+            "Parameter",
+            "IconUrl",
+            "Status",
+            "Icon",
+            "SysId",
+            "Type",
+            "SysCode",
+            "MSys",
+            "Target",
+            "XType",
+            "Edition",
+            "ExplIcon",
+            "DisplayName",
+            "IsSeparator",
+            "IsVoucher",
+            "IsList",
+            "HasController"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "WmenuId",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "WmenuId0",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "MenuId",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "Bar",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "Bar2",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "Link",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Parameter",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "IconUrl",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Status",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Icon",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "SysId",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "Type",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "SysCode",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "MSys",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "Target",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "XType",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Edition",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "ExplIcon",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayName",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "IsSeparator",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "IsVoucher",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "IsList",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "HasController",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "WCommandItem",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 24,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/WorkflowDefinition.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 17,
+      "classes": [
+        {
+          "name": "WorkflowDefinition",
+          "startLine": 4,
+          "endLine": 18,
+          "methods": [],
+          "properties": [
+            "Id",
+            "Name",
+            "Description",
+            "Version",
+            "TemplateType",
+            "IsActive",
+            "CreatedAt",
+            "ModifiedAt",
+            "Nodes",
+            "Connections",
+            "BoundFormId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Id",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "Name",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "Description",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "Version",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "TemplateType",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "IsActive",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "CreatedAt",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "ModifiedAt",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Nodes",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Connections",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "BoundFormId",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "WorkflowDefinition",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 12,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 38,
+      "nonEmptyLines": 35,
+      "classes": [
+        {
+          "name": "WorkflowInstance",
+          "startLine": 15,
+          "endLine": 26,
+          "methods": [],
+          "properties": [
+            "InstanceId",
+            "WorkflowId",
+            "Status",
+            "CurrentNodeId",
+            "StartedBy",
+            "StartedAt",
+            "CompletedAt",
+            "Variables",
+            "ExecutionLog"
+          ]
+        },
+        {
+          "name": "TemplateItem",
+          "startLine": 29,
+          "endLine": 38,
+          "methods": [],
+          "properties": [
+            "Id",
+            "Name",
+            "TemplateType",
+            "IconKind",
+            "WorkflowId",
+            "FormId",
+            "IsFavorite"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "InstanceId",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "WorkflowId",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "Status",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "CurrentNodeId",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "StartedBy",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "StartedAt",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "CompletedAt",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Variables",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "ExecutionLog",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "WorkflowInstance",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Id",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "Name",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "TemplateType",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "IconKind",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "WorkflowId",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "FormId",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "IsFavorite",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "TemplateItem",
+          "line": 29,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 18,
+        "functionCount": 0,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/DevWorkFlow.Infrastructure.csproj",
+      "language": "csproj",
+      "fileCategory": "config",
+      "totalLines": 18,
+      "nonEmptyLines": 14,
+      "metrics": {}
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 52,
+      "nonEmptyLines": 43,
+      "functions": [
+        {
+          "name": "ApplyAppDatabase",
+          "startLine": 10,
+          "endLine": 26,
+          "params": [
+            "program",
+            "databases"
+          ]
+        },
+        {
+          "name": "ResolveAppConnection",
+          "startLine": 29,
+          "endLine": 35,
+          "params": [
+            "program",
+            "database_name"
+          ]
+        },
+        {
+          "name": "ReplacePlaceholders",
+          "startLine": 37,
+          "endLine": 51,
+          "params": [
+            "connection_string",
+            "database_name"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AppConnectionResolver",
+          "startLine": 8,
+          "endLine": 52,
+          "methods": [
+            "ApplyAppDatabase",
+            "ResolveAppConnection",
+            "ReplacePlaceholders"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ApplyAppDatabase",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "ResolveAppConnection",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "ReplacePlaceholders",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "AppConnectionResolver",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ApplyAppDatabase",
+          "callee": "program.AppConnectionString.Contains",
+          "lineNumber": 17
+        },
+        {
+          "caller": "ApplyAppDatabase",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ApplyAppDatabase",
+          "callee": "ResolveAppConnection",
+          "lineNumber": 25
+        },
+        {
+          "caller": "ResolveAppConnection",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ResolveAppConnection",
+          "callee": "ReplacePlaceholders",
+          "lineNumber": 34
+        },
+        {
+          "caller": "ReplacePlaceholders",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 39
+        },
+        {
+          "caller": "ReplacePlaceholders",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ReplacePlaceholders",
+          "callee": "connection_string\r\n            .Replace(\"%Database\", database_name, StringComparison.OrdinalIgnoreCase)\r\n            .Replace",
+          "lineNumber": 46
+        },
+        {
+          "caller": "ReplacePlaceholders",
+          "callee": "connection_string\r\n            .Replace",
+          "lineNumber": 46
+        },
+        {
+          "caller": "ReplacePlaceholders",
+          "callee": "WebConfigReader.EnsureSslSettings",
+          "lineNumber": 50
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 29,
+      "functions": [
+        {
+          "name": "ControllerAttributeRegex",
+          "startLine": 11,
+          "endLine": 12,
+          "params": []
+        },
+        {
+          "name": "ParseControllers",
+          "startLine": 14,
+          "endLine": 25,
+          "params": [
+            "aspx_content"
+          ]
+        },
+        {
+          "name": "ParseControllersFromFile",
+          "startLine": 27,
+          "endLine": 34,
+          "params": [
+            "aspx_path"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "AspxControllerParser",
+          "startLine": 8,
+          "endLine": 35,
+          "methods": [
+            "ControllerAttributeRegex",
+            "ParseControllers",
+            "ParseControllersFromFile"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ParseControllers",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "ParseControllersFromFile",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "AspxControllerParser",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ParseControllers",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 16
+        },
+        {
+          "caller": "ParseControllers",
+          "callee": "ControllerAttributeRegex()\r\n            .Matches(aspx_content)\r\n            .Select(m => m.Groups[\"name\"].Value.Trim())\r\n            .Where(n => n.Length > 0)\r\n            .Distinct(StringComparer.OrdinalIgnoreCase)\r\n            .ToList",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ParseControllers",
+          "callee": "ControllerAttributeRegex()\r\n            .Matches(aspx_content)\r\n            .Select(m => m.Groups[\"name\"].Value.Trim())\r\n            .Where(n => n.Length > 0)\r\n            .Distinct",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ParseControllers",
+          "callee": "ControllerAttributeRegex()\r\n            .Matches(aspx_content)\r\n            .Select(m => m.Groups[\"name\"].Value.Trim())\r\n            .Where",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ParseControllers",
+          "callee": "ControllerAttributeRegex()\r\n            .Matches(aspx_content)\r\n            .Select",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ParseControllers",
+          "callee": "ControllerAttributeRegex()\r\n            .Matches",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ParseControllers",
+          "callee": "ControllerAttributeRegex",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ParseControllers",
+          "callee": "m.Groups[\"name\"].Value.Trim",
+          "lineNumber": 21
+        },
+        {
+          "caller": "ParseControllersFromFile",
+          "callee": "File.Exists",
+          "lineNumber": 29
+        },
+        {
+          "caller": "ParseControllersFromFile",
+          "callee": "File.ReadAllText",
+          "lineNumber": 32
+        },
+        {
+          "caller": "ParseControllersFromFile",
+          "callee": "ParseControllers",
+          "lineNumber": 33
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/EntityRepository.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 39,
+      "functions": [
+        {
+          "name": "GetAppDatabasesAsync",
+          "startLine": 20,
+          "endLine": 43,
+          "params": [
+            "sys_connection_string"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "EntityRepository",
+          "startLine": 8,
+          "endLine": 44,
+          "methods": [
+            "GetAppDatabasesAsync"
+          ],
+          "properties": [
+            "Sql"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "GetAppDatabasesAsync",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "EntityRepository",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 22
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "new List<AppDatabaseInfo>",
+          "lineNumber": 25
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "new SqlConnection",
+          "lineNumber": 26
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "conn.OpenAsync",
+          "lineNumber": 27
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "new SqlCommand",
+          "lineNumber": 28
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "cmd.ExecuteReaderAsync",
+          "lineNumber": 29
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "reader.ReadAsync",
+          "lineNumber": 30
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "reader[\"cdata\"]?.ToString()?.Trim",
+          "lineNumber": 32
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "reader[\"cdata\"]?.ToString",
+          "lineNumber": 32
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 33
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "items.Add",
+          "lineNumber": 34
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "new AppDatabaseInfo",
+          "lineNumber": 34
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "reader[\"code\"]?.ToString()?.Trim",
+          "lineNumber": 36
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "reader[\"code\"]?.ToString",
+          "lineNumber": 36
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "reader[\"cname\"]?.ToString()?.Trim",
+          "lineNumber": 37
+        },
+        {
+          "caller": "GetAppDatabasesAsync",
+          "callee": "reader[\"cname\"]?.ToString",
+          "lineNumber": 37
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 78,
+      "nonEmptyLines": 63,
+      "functions": [
+        {
+          "name": "TemplateService",
+          "startLine": 11,
+          "endLine": 11,
+          "params": []
+        },
+        {
+          "name": "Seed",
+          "startLine": 13,
+          "endLine": 22,
+          "params": []
+        },
+        {
+          "name": "Add",
+          "startLine": 24,
+          "endLine": 28,
+          "params": [
+            "name",
+            "type",
+            "icon"
+          ]
+        },
+        {
+          "name": "GetAllAsync",
+          "startLine": 30,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "GetByIdAsync",
+          "startLine": 33,
+          "endLine": 34,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "CreateAsync",
+          "startLine": 36,
+          "endLine": 41,
+          "params": [
+            "name",
+            "type"
+          ]
+        },
+        {
+          "name": "DeleteAsync",
+          "startLine": 43,
+          "endLine": 47,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "UpdateAsync",
+          "startLine": 49,
+          "endLine": 53,
+          "params": [
+            "item"
+          ]
+        },
+        {
+          "name": "GetFormAsync",
+          "startLine": 61,
+          "endLine": 62,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "GetAllFormsAsync",
+          "startLine": 64,
+          "endLine": 65,
+          "params": []
+        },
+        {
+          "name": "SaveFormAsync",
+          "startLine": 67,
+          "endLine": 71,
+          "params": [
+            "form"
+          ]
+        },
+        {
+          "name": "DeleteFormAsync",
+          "startLine": 73,
+          "endLine": 77,
+          "params": [
+            "id"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "TemplateService",
+          "startLine": 7,
+          "endLine": 54,
+          "methods": [
+            "TemplateService",
+            "Seed",
+            "Add",
+            "GetAllAsync",
+            "GetByIdAsync",
+            "CreateAsync",
+            "DeleteAsync",
+            "UpdateAsync"
+          ],
+          "properties": [
+            "_store"
+          ]
+        },
+        {
+          "name": "FormService",
+          "startLine": 57,
+          "endLine": 78,
+          "methods": [
+            "GetFormAsync",
+            "GetAllFormsAsync",
+            "SaveFormAsync",
+            "DeleteFormAsync"
+          ],
+          "properties": [
+            "_store"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "TemplateService",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "GetAllAsync",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "GetByIdAsync",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "CreateAsync",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "DeleteAsync",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "UpdateAsync",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "TemplateService",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "GetFormAsync",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "GetAllFormsAsync",
+          "line": 64,
+          "isDefault": false
+        },
+        {
+          "name": "SaveFormAsync",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "DeleteFormAsync",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "FormService",
+          "line": 57,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "TemplateService",
+          "callee": "Seed",
+          "lineNumber": 11
+        },
+        {
+          "caller": "Seed",
+          "callee": "Add",
+          "lineNumber": 15
+        },
+        {
+          "caller": "Seed",
+          "callee": "Add",
+          "lineNumber": 16
+        },
+        {
+          "caller": "Seed",
+          "callee": "Add",
+          "lineNumber": 17
+        },
+        {
+          "caller": "Seed",
+          "callee": "Add",
+          "lineNumber": 18
+        },
+        {
+          "caller": "Seed",
+          "callee": "Add",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Seed",
+          "callee": "Add",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Seed",
+          "callee": "Add",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Add",
+          "callee": "new TemplateItem",
+          "lineNumber": 26
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "Task.FromResult<IEnumerable<TemplateItem>>",
+          "lineNumber": 31
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "_store.Values.OrderBy(i => i.TemplateType).ThenBy",
+          "lineNumber": 31
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "_store.Values.OrderBy",
+          "lineNumber": 31
+        },
+        {
+          "caller": "GetByIdAsync",
+          "callee": "Task.FromResult",
+          "lineNumber": 34
+        },
+        {
+          "caller": "GetByIdAsync",
+          "callee": "_store.TryGetValue",
+          "lineNumber": 34
+        },
+        {
+          "caller": "CreateAsync",
+          "callee": "new TemplateItem",
+          "lineNumber": 38
+        },
+        {
+          "caller": "CreateAsync",
+          "callee": "Task.FromResult",
+          "lineNumber": 40
+        },
+        {
+          "caller": "DeleteAsync",
+          "callee": "_store.Remove",
+          "lineNumber": 45
+        },
+        {
+          "caller": "UpdateAsync",
+          "callee": "Task.FromResult",
+          "lineNumber": 52
+        },
+        {
+          "caller": "GetFormAsync",
+          "callee": "Task.FromResult",
+          "lineNumber": 62
+        },
+        {
+          "caller": "GetFormAsync",
+          "callee": "_store.TryGetValue",
+          "lineNumber": 62
+        },
+        {
+          "caller": "GetAllFormsAsync",
+          "callee": "Task.FromResult<IEnumerable<FormDefinition>>",
+          "lineNumber": 65
+        },
+        {
+          "caller": "DeleteFormAsync",
+          "callee": "_store.Remove",
+          "lineNumber": 75
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 12,
+        "functionCount": 12,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 510,
+      "nonEmptyLines": 439,
+      "functions": [
+        {
+          "name": "MenuService",
+          "startLine": 41,
+          "endLine": 47,
+          "params": [
+            "wcommand_repo",
+            "language_service"
+          ]
+        },
+        {
+          "name": "LoadMenuTreeAsync",
+          "startLine": 49,
+          "endLine": 53,
+          "params": [
+            "program"
+          ]
+        },
+        {
+          "name": "ResolveFromMenu",
+          "startLine": 55,
+          "endLine": 130,
+          "params": [
+            "program",
+            "menu_node"
+          ]
+        },
+        {
+          "name": "EnrichFromXmlReferences",
+          "startLine": 132,
+          "endLine": 199,
+          "params": [
+            "bundle",
+            "program_path",
+            "controllers_root"
+          ]
+        },
+        {
+          "name": "AddTemplateFiles",
+          "startLine": 201,
+          "endLine": 218,
+          "params": [
+            "bundle",
+            "program_path",
+            "controllers_root",
+            "controller_name"
+          ]
+        },
+        {
+          "name": "ResolveNestedFolder",
+          "startLine": 220,
+          "endLine": 245,
+          "params": [
+            "controllers_root",
+            "relative_folder"
+          ]
+        },
+        {
+          "name": "FindFileInFolder",
+          "startLine": 247,
+          "endLine": 273,
+          "params": [
+            "folder",
+            "controller_name"
+          ]
+        },
+        {
+          "name": "TryAddFile",
+          "startLine": 275,
+          "endLine": 286,
+          "params": [
+            "bundle",
+            "program_path",
+            "file_path",
+            "kind",
+            "controller_name"
+          ]
+        },
+        {
+          "name": "CreateFileItem",
+          "startLine": 288,
+          "endLine": 314,
+          "params": [
+            "program_path",
+            "file_path",
+            "kind",
+            "controller_name"
+          ]
+        },
+        {
+          "name": "SortBundle",
+          "startLine": 316,
+          "endLine": 325,
+          "params": [
+            "bundle"
+          ]
+        },
+        {
+          "name": "ResolveControllersRoot",
+          "startLine": 328,
+          "endLine": 347,
+          "params": [
+            "program_path"
+          ]
+        },
+        {
+          "name": "FindControllerFile",
+          "startLine": 352,
+          "endLine": 388,
+          "params": [
+            "controllers_root",
+            "folder",
+            "controller_name"
+          ]
+        },
+        {
+          "name": "ResolveSubFolder",
+          "startLine": 390,
+          "endLine": 404,
+          "params": [
+            "controllers_root",
+            "folder"
+          ]
+        },
+        {
+          "name": "ResolveAspxPath",
+          "startLine": 407,
+          "endLine": 449,
+          "params": [
+            "program_path",
+            "link"
+          ]
+        },
+        {
+          "name": "BuildTree",
+          "startLine": 451,
+          "endLine": 472,
+          "params": [
+            "items"
+          ]
+        },
+        {
+          "name": "AttachChildren",
+          "startLine": 474,
+          "endLine": 493,
+          "params": [
+            "parent",
+            "children_map",
+            "by_id",
+            "max_level"
+          ]
+        },
+        {
+          "name": "ToNode",
+          "startLine": 495,
+          "endLine": 509,
+          "params": [
+            "item",
+            "level"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MenuService",
+          "startLine": 13,
+          "endLine": 510,
+          "methods": [
+            "MenuService",
+            "LoadMenuTreeAsync",
+            "ResolveFromMenu",
+            "EnrichFromXmlReferences",
+            "AddTemplateFiles",
+            "ResolveNestedFolder",
+            "FindFileInFolder",
+            "TryAddFile",
+            "CreateFileItem",
+            "SortBundle",
+            "ResolveControllersRoot",
+            "FindControllerFile",
+            "ResolveSubFolder",
+            "ResolveAspxPath",
+            "BuildTree",
+            "AttachChildren",
+            "ToNode"
+          ],
+          "properties": [
+            "_wcommand_repo",
+            "_language_service",
+            "ControllerFolders",
+            "TemplateFolders",
+            "FormExtensions"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "MenuService",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "LoadMenuTreeAsync",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "ResolveFromMenu",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "ResolveControllersRoot",
+          "line": 328,
+          "isDefault": false
+        },
+        {
+          "name": "FindControllerFile",
+          "line": 352,
+          "isDefault": false
+        },
+        {
+          "name": "MenuService",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LoadMenuTreeAsync",
+          "callee": "_wcommand_repo.GetAllAsync",
+          "lineNumber": 51
+        },
+        {
+          "caller": "LoadMenuTreeAsync",
+          "callee": "BuildTree",
+          "lineNumber": 52
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "new MenuResourceBundle",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 69
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "ResolveAspxPath",
+          "lineNumber": 75
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "File.Exists",
+          "lineNumber": 78
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "AspxControllerParser.ParseControllersFromFile",
+          "lineNumber": 84
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "controllers.ToList",
+          "lineNumber": 85
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "controllers.FirstOrDefault",
+          "lineNumber": 86
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "Path.GetFileName",
+          "lineNumber": 90
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "TryAddFile",
+          "lineNumber": 92
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "SortBundle",
+          "lineNumber": 93
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "ResolveControllersRoot",
+          "lineNumber": 96
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "TryAddFile",
+          "lineNumber": 100
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "SortBundle",
+          "lineNumber": 101
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "FindControllerFile",
+          "lineNumber": 108
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "TryAddFile",
+          "lineNumber": 110
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "AddTemplateFiles",
+          "lineNumber": 113
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "TryAddFile",
+          "lineNumber": 117
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "EnrichFromXmlReferences",
+          "lineNumber": 120
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "bundle.Files.Count",
+          "lineNumber": 122
+        },
+        {
+          "caller": "ResolveFromMenu",
+          "callee": "SortBundle",
+          "lineNumber": 129
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "bundle.Files\r\n            .Where(f => f.IsXml || f.IsEncrypted)\r\n            .Where(f => f.Kind is ControllerFileKind.Dir\r\n                or ControllerFileKind.Filter\r\n                or ControllerFileKind.Grid\r\n                or ControllerFileKind.Lookup\r\n                or ControllerFileKind.Report)\r\n            .ToList",
+          "lineNumber": 138
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "bundle.Files\r\n            .Where(f => f.IsXml || f.IsEncrypted)\r\n            .Where",
+          "lineNumber": 138
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "bundle.Files\r\n            .Where",
+          "lineNumber": 138
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "new Queue<ControllerFileItem>",
+          "lineNumber": 147
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "new HashSet<string>",
+          "lineNumber": 148
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "pending.Dequeue",
+          "lineNumber": 152
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "scanned.Add",
+          "lineNumber": 153
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "ErpDocumentId.FromPath",
+          "lineNumber": 159
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "_language_service.GetDocument",
+          "lineNumber": 160
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "_language_service.OpenDocument",
+          "lineNumber": 163
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "ControllerRelatedFileResolver.FindRelated",
+          "lineNumber": 172
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "FindControllerFile",
+          "lineNumber": 181
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "bundle.Files.Any",
+          "lineNumber": 184
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "string.Equals",
+          "lineNumber": 185
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "CreateFileItem",
+          "lineNumber": 188
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "bundle.Files.Add",
+          "lineNumber": 189
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "pending.Enqueue",
+          "lineNumber": 190
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "AddTemplateFiles",
+          "lineNumber": 193
+        },
+        {
+          "caller": "EnrichFromXmlReferences",
+          "callee": "_language_service.CloseDocument",
+          "lineNumber": 197
+        },
+        {
+          "caller": "AddTemplateFiles",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 207
+        },
+        {
+          "caller": "AddTemplateFiles",
+          "callee": "ResolveNestedFolder",
+          "lineNumber": 211
+        },
+        {
+          "caller": "AddTemplateFiles",
+          "callee": "FindFileInFolder",
+          "lineNumber": 214
+        },
+        {
+          "caller": "AddTemplateFiles",
+          "callee": "TryAddFile",
+          "lineNumber": 216
+        },
+        {
+          "caller": "ResolveNestedFolder",
+          "callee": "Path.Combine",
+          "lineNumber": 222
+        },
+        {
+          "caller": "ResolveNestedFolder",
+          "callee": "Directory.Exists",
+          "lineNumber": 223
+        },
+        {
+          "caller": "ResolveNestedFolder",
+          "callee": "relative_folder.Split",
+          "lineNumber": 229
+        },
+        {
+          "caller": "ResolveNestedFolder",
+          "callee": "Directory.EnumerateDirectories(current)\r\n                    .FirstOrDefault",
+          "lineNumber": 233
+        },
+        {
+          "caller": "ResolveNestedFolder",
+          "callee": "Directory.EnumerateDirectories",
+          "lineNumber": 233
+        },
+        {
+          "caller": "ResolveNestedFolder",
+          "callee": "string.Equals",
+          "lineNumber": 235
+        },
+        {
+          "caller": "ResolveNestedFolder",
+          "callee": "Path.GetFileName",
+          "lineNumber": 235
+        },
+        {
+          "caller": "FindFileInFolder",
+          "callee": "Path.Combine",
+          "lineNumber": 251
+        },
+        {
+          "caller": "FindFileInFolder",
+          "callee": "File.Exists",
+          "lineNumber": 252
+        },
+        {
+          "caller": "FindFileInFolder",
+          "callee": "Directory.EnumerateFiles(folder, \"*\", SearchOption.TopDirectoryOnly)\r\n                .Where(f =>\r\n                {\r\n                    var ext = Path.GetExtension(f);\r\n                    return FormExtensions.Any(e =>\r\n                        string.Equals(ext, e, StringComparison.OrdinalIgnoreCase));\r\n                })\r\n                .FirstOrDefault",
+          "lineNumber": 257
+        },
+        {
+          "caller": "FindFileInFolder",
+          "callee": "Directory.EnumerateFiles(folder, \"*\", SearchOption.TopDirectoryOnly)\r\n                .Where",
+          "lineNumber": 257
+        },
+        {
+          "caller": "FindFileInFolder",
+          "callee": "Directory.EnumerateFiles",
+          "lineNumber": 257
+        },
+        {
+          "caller": "FindFileInFolder",
+          "callee": "Path.GetExtension",
+          "lineNumber": 260
+        },
+        {
+          "caller": "FindFileInFolder",
+          "callee": "FormExtensions.Any",
+          "lineNumber": 261
+        },
+        {
+          "caller": "FindFileInFolder",
+          "callee": "string.Equals",
+          "lineNumber": 262
+        },
+        {
+          "caller": "FindFileInFolder",
+          "callee": "string.Equals",
+          "lineNumber": 264
+        },
+        {
+          "caller": "FindFileInFolder",
+          "callee": "Path.GetFileNameWithoutExtension",
+          "lineNumber": 265
+        },
+        {
+          "caller": "TryAddFile",
+          "callee": "bundle.Files.Any",
+          "lineNumber": 282
+        },
+        {
+          "caller": "TryAddFile",
+          "callee": "string.Equals",
+          "lineNumber": 283
+        },
+        {
+          "caller": "TryAddFile",
+          "callee": "bundle.Files.Add",
+          "lineNumber": 285
+        },
+        {
+          "caller": "TryAddFile",
+          "callee": "CreateFileItem",
+          "lineNumber": 285
+        },
+        {
+          "caller": "CreateFileItem",
+          "callee": "Path.GetFileName",
+          "lineNumber": 294
+        },
+        {
+          "caller": "CreateFileItem",
+          "callee": "kind.ToString",
+          "lineNumber": 301
+        },
+        {
+          "caller": "CreateFileItem",
+          "callee": "new ControllerFileItem",
+          "lineNumber": 304
+        },
+        {
+          "caller": "CreateFileItem",
+          "callee": "Path.GetRelativePath",
+          "lineNumber": 311
+        },
+        {
+          "caller": "SortBundle",
+          "callee": "bundle.Files\r\n            .OrderBy(f => f.SortOrder)\r\n            .ThenBy(f => f.DisplayName, StringComparer.OrdinalIgnoreCase)\r\n            .ToList",
+          "lineNumber": 318
+        },
+        {
+          "caller": "SortBundle",
+          "callee": "bundle.Files\r\n            .OrderBy(f => f.SortOrder)\r\n            .ThenBy",
+          "lineNumber": 318
+        },
+        {
+          "caller": "SortBundle",
+          "callee": "bundle.Files\r\n            .OrderBy",
+          "lineNumber": 318
+        },
+        {
+          "caller": "SortBundle",
+          "callee": "bundle.Files.Clear",
+          "lineNumber": 322
+        },
+        {
+          "caller": "SortBundle",
+          "callee": "bundle.Files.AddRange",
+          "lineNumber": 323
+        },
+        {
+          "caller": "ResolveControllersRoot",
+          "callee": "Path.Combine",
+          "lineNumber": 330
+        },
+        {
+          "caller": "ResolveControllersRoot",
+          "callee": "Directory.Exists",
+          "lineNumber": 331
+        },
+        {
+          "caller": "ResolveControllersRoot",
+          "callee": "Directory.EnumerateDirectories(program_path)\r\n                .FirstOrDefault",
+          "lineNumber": 335
+        },
+        {
+          "caller": "ResolveControllersRoot",
+          "callee": "Directory.EnumerateDirectories",
+          "lineNumber": 335
+        },
+        {
+          "caller": "ResolveControllersRoot",
+          "callee": "string.Equals",
+          "lineNumber": 336
+        },
+        {
+          "caller": "ResolveControllersRoot",
+          "callee": "Path.GetFileName",
+          "lineNumber": 336
+        },
+        {
+          "caller": "ResolveControllersRoot",
+          "callee": "Directory.EnumerateDirectories(app_data)\r\n                .FirstOrDefault",
+          "lineNumber": 339
+        },
+        {
+          "caller": "ResolveControllersRoot",
+          "callee": "Directory.EnumerateDirectories",
+          "lineNumber": 339
+        },
+        {
+          "caller": "ResolveControllersRoot",
+          "callee": "string.Equals",
+          "lineNumber": 340
+        },
+        {
+          "caller": "ResolveControllersRoot",
+          "callee": "Path.GetFileName",
+          "lineNumber": 340
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 354
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "ResolveSubFolder",
+          "lineNumber": 356
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "Path.Combine",
+          "lineNumber": 361
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "File.Exists",
+          "lineNumber": 362
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "Directory.EnumerateFiles(dir, \"*\", SearchOption.TopDirectoryOnly)\r\n                .Where(f =>\r\n                {\r\n                    var ext = Path.GetExtension(f);\r\n                    return FormExtensions.Any(e => string.Equals(ext, e, StringComparison.OrdinalIgnoreCase));\r\n                })\r\n                .Where(f => string.Equals(\r\n                    Path.GetFileNameWithoutExtension(f),\r\n                    controller_name,\r\n                    StringComparison.OrdinalIgnoreCase))\r\n                .ToList",
+          "lineNumber": 367
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "Directory.EnumerateFiles(dir, \"*\", SearchOption.TopDirectoryOnly)\r\n                .Where(f =>\r\n                {\r\n                    var ext = Path.GetExtension(f);\r\n                    return FormExtensions.Any(e => string.Equals(ext, e, StringComparison.OrdinalIgnoreCase));\r\n                })\r\n                .Where",
+          "lineNumber": 367
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "Directory.EnumerateFiles(dir, \"*\", SearchOption.TopDirectoryOnly)\r\n                .Where",
+          "lineNumber": 367
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "Directory.EnumerateFiles",
+          "lineNumber": 367
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "Path.GetExtension",
+          "lineNumber": 370
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "FormExtensions.Any",
+          "lineNumber": 371
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "string.Equals",
+          "lineNumber": 371
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "string.Equals",
+          "lineNumber": 373
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "Path.GetFileNameWithoutExtension",
+          "lineNumber": 374
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "files.FirstOrDefault",
+          "lineNumber": 379
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "f.EndsWith",
+          "lineNumber": 379
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "files.FirstOrDefault",
+          "lineNumber": 382
+        },
+        {
+          "caller": "FindControllerFile",
+          "callee": "f.EndsWith",
+          "lineNumber": 382
+        },
+        {
+          "caller": "ResolveSubFolder",
+          "callee": "Path.Combine",
+          "lineNumber": 392
+        },
+        {
+          "caller": "ResolveSubFolder",
+          "callee": "Directory.Exists",
+          "lineNumber": 393
+        },
+        {
+          "caller": "ResolveSubFolder",
+          "callee": "Directory.EnumerateDirectories(controllers_root)\r\n                .FirstOrDefault",
+          "lineNumber": 397
+        },
+        {
+          "caller": "ResolveSubFolder",
+          "callee": "Directory.EnumerateDirectories",
+          "lineNumber": 397
+        },
+        {
+          "caller": "ResolveSubFolder",
+          "callee": "string.Equals",
+          "lineNumber": 398
+        },
+        {
+          "caller": "ResolveSubFolder",
+          "callee": "Path.GetFileName",
+          "lineNumber": 398
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 409
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "link.Trim()\r\n            .Replace('/', Path.DirectorySeparatorChar)\r\n            .Replace",
+          "lineNumber": 411
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "link.Trim()\r\n            .Replace",
+          "lineNumber": 411
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "link.Trim",
+          "lineNumber": 411
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "normalized.StartsWith",
+          "lineNumber": 415
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "normalized.StartsWith",
+          "lineNumber": 417
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "normalized[1..].TrimStart",
+          "lineNumber": 418
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "normalized.IndexOf",
+          "lineNumber": 420
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "new List<string>",
+          "lineNumber": 423
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "Path.Combine",
+          "lineNumber": 425
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "normalized.EndsWith",
+          "lineNumber": 428
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "candidates.Add",
+          "lineNumber": 429
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "Path.Combine",
+          "lineNumber": 429
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "File.Exists",
+          "lineNumber": 433
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "Path.GetFullPath",
+          "lineNumber": 433
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "Path.GetFileName",
+          "lineNumber": 436
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 437
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "Directory.EnumerateFiles(program_path, file_name, SearchOption.AllDirectories)\r\n                .FirstOrDefault",
+          "lineNumber": 441
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "Directory.EnumerateFiles",
+          "lineNumber": 441
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "f.EndsWith",
+          "lineNumber": 442
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "string.Equals",
+          "lineNumber": 443
+        },
+        {
+          "caller": "ResolveAspxPath",
+          "callee": "Path.GetFileName",
+          "lineNumber": 443
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "items\r\n            .Where(i => !string.IsNullOrWhiteSpace(i.WmenuId))\r\n            .GroupBy(i => i.WmenuId, StringComparer.OrdinalIgnoreCase)\r\n            .ToDictionary",
+          "lineNumber": 453
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "items\r\n            .Where(i => !string.IsNullOrWhiteSpace(i.WmenuId))\r\n            .GroupBy",
+          "lineNumber": 453
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "items\r\n            .Where",
+          "lineNumber": 453
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 454
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "g.First",
+          "lineNumber": 456
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "items\r\n            .Where(i => !string.IsNullOrWhiteSpace(i.WmenuId0))\r\n            .GroupBy(i => i.WmenuId0!, StringComparer.OrdinalIgnoreCase)\r\n            .ToDictionary",
+          "lineNumber": 458
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "items\r\n            .Where(i => !string.IsNullOrWhiteSpace(i.WmenuId0))\r\n            .GroupBy",
+          "lineNumber": 458
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "items\r\n            .Where",
+          "lineNumber": 458
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 459
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "g.ToList",
+          "lineNumber": 461
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "items\r\n            .Where(i => string.IsNullOrWhiteSpace(i.WmenuId0))\r\n            .Select(i => ToNode(i, level: 1))\r\n            .ToList",
+          "lineNumber": 463
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "items\r\n            .Where(i => string.IsNullOrWhiteSpace(i.WmenuId0))\r\n            .Select",
+          "lineNumber": 463
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "items\r\n            .Where",
+          "lineNumber": 463
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 464
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "ToNode",
+          "lineNumber": 465
+        },
+        {
+          "caller": "BuildTree",
+          "callee": "AttachChildren",
+          "lineNumber": 469
+        },
+        {
+          "caller": "AttachChildren",
+          "callee": "children_map.TryGetValue",
+          "lineNumber": 481
+        },
+        {
+          "caller": "AttachChildren",
+          "callee": "string.Equals",
+          "lineNumber": 485
+        },
+        {
+          "caller": "AttachChildren",
+          "callee": "ToNode",
+          "lineNumber": 488
+        },
+        {
+          "caller": "AttachChildren",
+          "callee": "parent.Children.Add",
+          "lineNumber": 489
+        },
+        {
+          "caller": "AttachChildren",
+          "callee": "AttachChildren",
+          "lineNumber": 491
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 17,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 28,
+      "functions": [
+        {
+          "name": "NavigateTo",
+          "startLine": 16,
+          "endLine": 21,
+          "params": [
+            "page",
+            "parameter"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "NavigationService",
+          "startLine": 9,
+          "endLine": 22,
+          "methods": [
+            "NavigateTo"
+          ],
+          "properties": [
+            "CurrentPage",
+            "CurrentParameter"
+          ]
+        },
+        {
+          "name": "Pages",
+          "startLine": 25,
+          "endLine": 33,
+          "methods": [],
+          "properties": [
+            "FormBuilder",
+            "CatalogManager",
+            "DocumentManager",
+            "ReportManager",
+            "StoredManager",
+            "SqlStudio"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "CurrentPage",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "CurrentParameter",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "NavigateTo",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "NavigationService",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "FormBuilder",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "CatalogManager",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentManager",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "ReportManager",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "StoredManager",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "SqlStudio",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "Pages",
+          "line": 25,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "NavigateTo",
+          "callee": "PageChanged?.Invoke",
+          "lineNumber": 20
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 11,
+        "functionCount": 1,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "SetProgram",
+          "startLine": 13,
+          "endLine": 17,
+          "params": [
+            "program"
+          ]
+        },
+        {
+          "name": "UpdateProgram",
+          "startLine": 20,
+          "endLine": 23,
+          "params": [
+            "program"
+          ]
+        },
+        {
+          "name": "Clear",
+          "startLine": 25,
+          "endLine": 29,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProgramSession",
+          "startLine": 7,
+          "endLine": 30,
+          "methods": [
+            "SetProgram",
+            "UpdateProgram",
+            "Clear"
+          ],
+          "properties": [
+            "Current"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Current",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "SetProgram",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "UpdateProgram",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "Clear",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "ProgramSession",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SetProgram",
+          "callee": "new ArgumentNullException",
+          "lineNumber": 15
+        },
+        {
+          "caller": "SetProgram",
+          "callee": "nameof",
+          "lineNumber": 15
+        },
+        {
+          "caller": "SetProgram",
+          "callee": "ProgramChanged?.Invoke",
+          "lineNumber": 16
+        },
+        {
+          "caller": "UpdateProgram",
+          "callee": "new ArgumentNullException",
+          "lineNumber": 22
+        },
+        {
+          "caller": "UpdateProgram",
+          "callee": "nameof",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Clear",
+          "callee": "ProgramChanged?.Invoke",
+          "lineNumber": 28
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 192,
+      "nonEmptyLines": 173,
+      "functions": [
+        {
+          "name": "ExecuteAsync",
+          "startLine": 13,
+          "endLine": 128,
+          "params": [
+            "connection_string",
+            "script",
+            "command_timeout_seconds",
+            "cancellation_token"
+          ]
+        },
+        {
+          "name": "LoadTableAsync",
+          "startLine": 130,
+          "endLine": 156,
+          "params": [
+            "reader",
+            "table_name",
+            "cancellation_token"
+          ]
+        },
+        {
+          "name": "SplitGoBatches",
+          "startLine": 159,
+          "endLine": 191,
+          "params": [
+            "script"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SqlScriptRunner",
+          "startLine": 11,
+          "endLine": 192,
+          "methods": [
+            "ExecuteAsync",
+            "LoadTableAsync",
+            "SplitGoBatches"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ExecuteAsync",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "SplitGoBatches",
+          "line": 159,
+          "isDefault": false
+        },
+        {
+          "name": "SqlScriptRunner",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ExecuteAsync",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 19
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "new SqlRunResult",
+          "lineNumber": 21
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "new List<string>",
+          "lineNumber": 29
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "new List<SqlResultSet>",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "Stopwatch.StartNew",
+          "lineNumber": 32
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "new SqlConnection",
+          "lineNumber": 36
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 39
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "messages.Add",
+          "lineNumber": 40
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "conn.OpenAsync",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "SplitGoBatches",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "cancellation_token.ThrowIfCancellationRequested",
+          "lineNumber": 50
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "new SqlCommand",
+          "lineNumber": 54
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "Math.Max",
+          "lineNumber": 57
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "cmd.ExecuteReaderAsync",
+          "lineNumber": 60
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "LoadTableAsync",
+          "lineNumber": 65
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "result_sets.Add",
+          "lineNumber": 66
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "new SqlResultSet",
+          "lineNumber": 66
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "messages.Add",
+          "lineNumber": 71
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "messages.Add",
+          "lineNumber": 79
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "reader.NextResultAsync",
+          "lineNumber": 83
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "sw.Stop",
+          "lineNumber": 88
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "messages.Add",
+          "lineNumber": 89
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "new SqlRunResult",
+          "lineNumber": 91
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "sw.Stop",
+          "lineNumber": 102
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "messages.Add",
+          "lineNumber": 103
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "new SqlRunResult",
+          "lineNumber": 104
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "sw.Stop",
+          "lineNumber": 116
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "messages.Add",
+          "lineNumber": 117
+        },
+        {
+          "caller": "ExecuteAsync",
+          "callee": "new SqlRunResult",
+          "lineNumber": 118
+        },
+        {
+          "caller": "LoadTableAsync",
+          "callee": "new DataTable",
+          "lineNumber": 133
+        },
+        {
+          "caller": "LoadTableAsync",
+          "callee": "new HashSet<string>",
+          "lineNumber": 134
+        },
+        {
+          "caller": "LoadTableAsync",
+          "callee": "reader.GetName",
+          "lineNumber": 137
+        },
+        {
+          "caller": "LoadTableAsync",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 138
+        },
+        {
+          "caller": "LoadTableAsync",
+          "callee": "used_names.Add",
+          "lineNumber": 142
+        },
+        {
+          "caller": "LoadTableAsync",
+          "callee": "table.Columns.Add",
+          "lineNumber": 144
+        },
+        {
+          "caller": "LoadTableAsync",
+          "callee": "reader.ReadAsync",
+          "lineNumber": 147
+        },
+        {
+          "caller": "LoadTableAsync",
+          "callee": "table.NewRow",
+          "lineNumber": 149
+        },
+        {
+          "caller": "LoadTableAsync",
+          "callee": "reader.IsDBNull",
+          "lineNumber": 151
+        },
+        {
+          "caller": "LoadTableAsync",
+          "callee": "reader.GetValue",
+          "lineNumber": 151
+        },
+        {
+          "caller": "LoadTableAsync",
+          "callee": "table.Rows.Add",
+          "lineNumber": 152
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 161
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "new List<string>",
+          "lineNumber": 164
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "new StringBuilder",
+          "lineNumber": 165
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "new StringReader",
+          "lineNumber": 166
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "reader.ReadLine",
+          "lineNumber": 168
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "line.Trim",
+          "lineNumber": 170
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "trimmed.Equals",
+          "lineNumber": 171
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "trimmed.StartsWith",
+          "lineNumber": 172
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "trimmed.StartsWith",
+          "lineNumber": 173
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "current.ToString().Trim",
+          "lineNumber": 175
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "current.ToString",
+          "lineNumber": 175
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "batches.Add",
+          "lineNumber": 177
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "current.Clear",
+          "lineNumber": 178
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "current.AppendLine",
+          "lineNumber": 182
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "current.ToString().Trim",
+          "lineNumber": 186
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "current.ToString",
+          "lineNumber": 186
+        },
+        {
+          "caller": "SplitGoBatches",
+          "callee": "batches.Add",
+          "lineNumber": 188
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 70,
+      "nonEmptyLines": 61,
+      "functions": [
+        {
+          "name": "UserSettingsStore",
+          "startLine": 15,
+          "endLine": 23,
+          "params": []
+        },
+        {
+          "name": "Load",
+          "startLine": 25,
+          "endLine": 37,
+          "params": []
+        },
+        {
+          "name": "Save",
+          "startLine": 39,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "AddRecentProgram",
+          "startLine": 52,
+          "endLine": 63,
+          "params": [
+            "program_path"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "UserSettingsStore",
+          "startLine": 7,
+          "endLine": 64,
+          "methods": [
+            "UserSettingsStore",
+            "Load",
+            "Save",
+            "AddRecentProgram"
+          ],
+          "properties": [
+            "JsonOpts",
+            "Data",
+            "SettingsPath"
+          ]
+        },
+        {
+          "name": "UserSettings",
+          "startLine": 66,
+          "endLine": 70,
+          "methods": [],
+          "properties": [
+            "LastProgramPath",
+            "RecentPrograms"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Data",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "SettingsPath",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "UserSettingsStore",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Load",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "Save",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "AddRecentProgram",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "UserSettingsStore",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "LastProgramPath",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "RecentPrograms",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "UserSettings",
+          "line": 66,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "UserSettingsStore",
+          "callee": "Path.Combine",
+          "lineNumber": 17
+        },
+        {
+          "caller": "UserSettingsStore",
+          "callee": "Environment.GetFolderPath",
+          "lineNumber": 18
+        },
+        {
+          "caller": "UserSettingsStore",
+          "callee": "Directory.CreateDirectory",
+          "lineNumber": 20
+        },
+        {
+          "caller": "UserSettingsStore",
+          "callee": "Path.Combine",
+          "lineNumber": 21
+        },
+        {
+          "caller": "UserSettingsStore",
+          "callee": "Load",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Load",
+          "callee": "File.Exists",
+          "lineNumber": 29
+        },
+        {
+          "caller": "Load",
+          "callee": "File.ReadAllText",
+          "lineNumber": 30
+        },
+        {
+          "caller": "Load",
+          "callee": "JsonSerializer.Deserialize<UserSettings>",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Load",
+          "callee": "new UserSettings",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Load",
+          "callee": "new UserSettings",
+          "lineNumber": 35
+        },
+        {
+          "caller": "Save",
+          "callee": "JsonSerializer.Serialize",
+          "lineNumber": 43
+        },
+        {
+          "caller": "Save",
+          "callee": "File.WriteAllText",
+          "lineNumber": 44
+        },
+        {
+          "caller": "AddRecentProgram",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 54
+        },
+        {
+          "caller": "AddRecentProgram",
+          "callee": "Path.GetFullPath",
+          "lineNumber": 55
+        },
+        {
+          "caller": "AddRecentProgram",
+          "callee": "Data.RecentPrograms.RemoveAll",
+          "lineNumber": 56
+        },
+        {
+          "caller": "AddRecentProgram",
+          "callee": "string.Equals",
+          "lineNumber": 57
+        },
+        {
+          "caller": "AddRecentProgram",
+          "callee": "Data.RecentPrograms.Insert",
+          "lineNumber": 58
+        },
+        {
+          "caller": "AddRecentProgram",
+          "callee": "Data.RecentPrograms.Take(12).ToList",
+          "lineNumber": 60
+        },
+        {
+          "caller": "AddRecentProgram",
+          "callee": "Data.RecentPrograms.Take",
+          "lineNumber": 60
+        },
+        {
+          "caller": "AddRecentProgram",
+          "callee": "Save",
+          "lineNumber": 62
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 4,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/WcommandRepository.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 69,
+      "nonEmptyLines": 59,
+      "functions": [
+        {
+          "name": "GetAllAsync",
+          "startLine": 20,
+          "endLine": 59,
+          "params": [
+            "sys_connection_string"
+          ]
+        },
+        {
+          "name": "GetString",
+          "startLine": 61,
+          "endLine": 65,
+          "params": [
+            "reader",
+            "column"
+          ]
+        },
+        {
+          "name": "NullIfEmpty",
+          "startLine": 67,
+          "endLine": 68,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "WcommandRepository",
+          "startLine": 8,
+          "endLine": 69,
+          "methods": [
+            "GetAllAsync",
+            "GetString",
+            "NullIfEmpty"
+          ],
+          "properties": [
+            "Sql"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "GetAllAsync",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "WcommandRepository",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GetAllAsync",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 22
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "new ArgumentException",
+          "lineNumber": 23
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "nameof",
+          "lineNumber": 23
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "new List<WCommandItem>",
+          "lineNumber": 25
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "new SqlConnection",
+          "lineNumber": 27
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "conn.OpenAsync",
+          "lineNumber": 28
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "new SqlCommand",
+          "lineNumber": 30
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "cmd.ExecuteReaderAsync",
+          "lineNumber": 31
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "reader.ReadAsync",
+          "lineNumber": 33
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "items.Add",
+          "lineNumber": 35
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "new WCommandItem",
+          "lineNumber": 35
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 37
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "NullIfEmpty",
+          "lineNumber": 38
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 38
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 39
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 40
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 41
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 42
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 43
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 44
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 45
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 46
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "NullIfEmpty",
+          "lineNumber": 47
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 47
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "NullIfEmpty",
+          "lineNumber": 48
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 48
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 49
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 50
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 51
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 52
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 53
+        },
+        {
+          "caller": "GetAllAsync",
+          "callee": "GetString",
+          "lineNumber": 54
+        },
+        {
+          "caller": "GetString",
+          "callee": "reader.GetOrdinal",
+          "lineNumber": 63
+        },
+        {
+          "caller": "GetString",
+          "callee": "reader.IsDBNull",
+          "lineNumber": 64
+        },
+        {
+          "caller": "GetString",
+          "callee": "reader.GetValue(ordinal)?.ToString()?.Trim",
+          "lineNumber": 64
+        },
+        {
+          "caller": "GetString",
+          "callee": "reader.GetValue(ordinal)?.ToString",
+          "lineNumber": 64
+        },
+        {
+          "caller": "GetString",
+          "callee": "reader.GetValue",
+          "lineNumber": 64
+        },
+        {
+          "caller": "NullIfEmpty",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 68
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 95,
+      "nonEmptyLines": 79,
+      "functions": [
+        {
+          "name": "Read",
+          "startLine": 12,
+          "endLine": 40,
+          "params": [
+            "program_path"
+          ]
+        },
+        {
+          "name": "FindWebConfig",
+          "startLine": 42,
+          "endLine": 51,
+          "params": [
+            "program_path"
+          ]
+        },
+        {
+          "name": "GetConnectionString",
+          "startLine": 53,
+          "endLine": 62,
+          "params": [
+            "connection_strings",
+            "name"
+          ]
+        },
+        {
+          "name": "EnsureSslSettings",
+          "startLine": 68,
+          "endLine": 82,
+          "params": [
+            "connection_string"
+          ]
+        },
+        {
+          "name": "HasKey",
+          "startLine": 84,
+          "endLine": 94,
+          "params": [
+            "connection_string",
+            "key"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "WebConfigReader",
+          "startLine": 10,
+          "endLine": 95,
+          "methods": [
+            "Read",
+            "FindWebConfig",
+            "GetConnectionString",
+            "EnsureSslSettings",
+            "HasKey"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Read",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "WebConfigReader",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Read",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 14
+        },
+        {
+          "caller": "Read",
+          "callee": "Directory.Exists",
+          "lineNumber": 14
+        },
+        {
+          "caller": "Read",
+          "callee": "new DirectoryNotFoundException",
+          "lineNumber": 15
+        },
+        {
+          "caller": "Read",
+          "callee": "FindWebConfig",
+          "lineNumber": 17
+        },
+        {
+          "caller": "Read",
+          "callee": "new FileNotFoundException",
+          "lineNumber": 18
+        },
+        {
+          "caller": "Read",
+          "callee": "XDocument.Load",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Read",
+          "callee": "doc.Descendants(\"connectionStrings\").FirstOrDefault",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Read",
+          "callee": "doc.Descendants",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Read",
+          "callee": "new InvalidOperationException",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Read",
+          "callee": "GetConnectionString",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Read",
+          "callee": "GetConnectionString",
+          "lineNumber": 25
+        },
+        {
+          "caller": "Read",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 27
+        },
+        {
+          "caller": "Read",
+          "callee": "new InvalidOperationException",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Read",
+          "callee": "Path.GetFullPath",
+          "lineNumber": 30
+        },
+        {
+          "caller": "Read",
+          "callee": "new ProgramContext",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Read",
+          "callee": "new DirectoryInfo",
+          "lineNumber": 34
+        },
+        {
+          "caller": "Read",
+          "callee": "ProgramPathHelper.BuildDisplayTitle",
+          "lineNumber": 35
+        },
+        {
+          "caller": "Read",
+          "callee": "EnsureSslSettings",
+          "lineNumber": 37
+        },
+        {
+          "caller": "Read",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Read",
+          "callee": "EnsureSslSettings",
+          "lineNumber": 38
+        },
+        {
+          "caller": "FindWebConfig",
+          "callee": "Path.Combine",
+          "lineNumber": 46
+        },
+        {
+          "caller": "FindWebConfig",
+          "callee": "Path.Combine",
+          "lineNumber": 47
+        },
+        {
+          "caller": "FindWebConfig",
+          "callee": "Path.Combine",
+          "lineNumber": 48
+        },
+        {
+          "caller": "FindWebConfig",
+          "callee": "candidates.FirstOrDefault",
+          "lineNumber": 50
+        },
+        {
+          "caller": "GetConnectionString",
+          "callee": "connection_strings.Elements(\"add\")\r\n            .FirstOrDefault",
+          "lineNumber": 55
+        },
+        {
+          "caller": "GetConnectionString",
+          "callee": "connection_strings.Elements",
+          "lineNumber": 55
+        },
+        {
+          "caller": "GetConnectionString",
+          "callee": "string.Equals",
+          "lineNumber": 56
+        },
+        {
+          "caller": "GetConnectionString",
+          "callee": "e.Attribute",
+          "lineNumber": 57
+        },
+        {
+          "caller": "GetConnectionString",
+          "callee": "(string?)add?.Attribute",
+          "lineNumber": 61
+        },
+        {
+          "caller": "EnsureSslSettings",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 70
+        },
+        {
+          "caller": "EnsureSslSettings",
+          "callee": "connection_string.Trim().TrimEnd",
+          "lineNumber": 73
+        },
+        {
+          "caller": "EnsureSslSettings",
+          "callee": "connection_string.Trim",
+          "lineNumber": 73
+        },
+        {
+          "caller": "EnsureSslSettings",
+          "callee": "HasKey",
+          "lineNumber": 75
+        },
+        {
+          "caller": "EnsureSslSettings",
+          "callee": "HasKey",
+          "lineNumber": 78
+        },
+        {
+          "caller": "HasKey",
+          "callee": "connection_string.Split",
+          "lineNumber": 86
+        },
+        {
+          "caller": "HasKey",
+          "callee": "parts.Any",
+          "lineNumber": 87
+        },
+        {
+          "caller": "HasKey",
+          "callee": "p.IndexOf",
+          "lineNumber": 89
+        },
+        {
+          "caller": "HasKey",
+          "callee": "p[..eq].Trim",
+          "lineNumber": 91
+        },
+        {
+          "caller": "HasKey",
+          "callee": "string.Equals",
+          "lineNumber": 92
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.slnx",
+      "language": "slnx",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 19,
+      "metrics": {}
+    },
+    {
+      "path": "global.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "sections": [
+        {
+          "heading": "sdk",
+          "level": 1,
+          "line": 2
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "sections": [
+        {
+          "heading": "DevWorkFlow",
+          "level": 1,
+          "line": 1
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    }
+  ]
+}

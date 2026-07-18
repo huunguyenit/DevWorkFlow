@@ -1,0 +1,31 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "UI/Config/xml/database.object-actions.xml",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 41,
+      "nonEmptyLines": 38,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Config/xml/database.object-types.xml",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 10,
+      "nonEmptyLines": 10,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Config/xml/explorer.controller-folders.xml",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 10,
+      "nonEmptyLines": 10,
+      "metrics": {}
+    }
+  ]
+}

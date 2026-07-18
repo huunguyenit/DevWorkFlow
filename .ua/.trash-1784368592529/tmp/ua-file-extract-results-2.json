@@ -1,0 +1,39 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 4,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "DevWorkFlow.Domain/Schemas/Dir.xsd",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 470,
+      "nonEmptyLines": 425,
+      "metrics": {}
+    },
+    {
+      "path": "DevWorkFlow.Domain/Schemas/Grid.xsd",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 499,
+      "nonEmptyLines": 450,
+      "metrics": {}
+    },
+    {
+      "path": "DevWorkFlow.Domain/Schemas/Lookup.xsd",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 164,
+      "nonEmptyLines": 145,
+      "metrics": {}
+    },
+    {
+      "path": "DevWorkFlow.Domain/Schemas/Report.xsd",
+      "language": "xml",
+      "fileCategory": "config",
+      "totalLines": 142,
+      "nonEmptyLines": 127,
+      "metrics": {}
+    }
+  ]
+}

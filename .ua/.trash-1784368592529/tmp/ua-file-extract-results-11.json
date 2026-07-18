@@ -1,0 +1,4979 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "DevWorkFlow.slnx",
+      "language": "slnx",
+      "fileCategory": "code",
+      "totalLines": 19,
+      "nonEmptyLines": 19,
+      "metrics": {}
+    },
+    {
+      "path": "global.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 7,
+      "nonEmptyLines": 7,
+      "sections": [
+        {
+          "heading": "sdk",
+          "level": 1,
+          "line": 2
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 1,
+      "nonEmptyLines": 1,
+      "sections": [
+        {
+          "heading": "DevWorkFlow",
+          "level": 1,
+          "line": 1
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 1
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/DevWorkFlow.Application.Tests.csproj",
+      "language": "csproj",
+      "fileCategory": "config",
+      "totalLines": 24,
+      "nonEmptyLines": 20,
+      "metrics": {}
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 53,
+      "functions": [
+        {
+          "name": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "startLine": 9,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "CountBySeverity_aggregates_error_warning_hint",
+          "startLine": 43,
+          "endLine": 57,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "DiagnosticGridMapperTests",
+          "startLine": 7,
+          "endLine": 58,
+          "methods": [
+            "MapProblems_skips_hidden_and_maps_severity_badges",
+            "CountBySeverity_aggregates_error_warning_hint"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "CountBySeverity_aggregates_error_warning_hint",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "DiagnosticGridMapperTests",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "DiagnosticGridMapper.MapProblems",
+          "lineNumber": 12
+        },
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "new ErpDiagnostic",
+          "lineNumber": 14
+        },
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "new SourceLocation",
+          "lineNumber": 18
+        },
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "new ErpDiagnostic",
+          "lineNumber": 20
+        },
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "new SourceLocation",
+          "lineNumber": 24
+        },
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "new ErpDiagnostic",
+          "lineNumber": 26
+        },
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "Assert.Equal",
+          "lineNumber": 34
+        },
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "Assert.Equal",
+          "lineNumber": 35
+        },
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "Assert.Equal",
+          "lineNumber": 36
+        },
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "Assert.Equal",
+          "lineNumber": 37
+        },
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "Assert.Equal",
+          "lineNumber": 38
+        },
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "Assert.Equal",
+          "lineNumber": 39
+        },
+        {
+          "caller": "MapProblems_skips_hidden_and_maps_severity_badges",
+          "callee": "Assert.Equal",
+          "lineNumber": 40
+        },
+        {
+          "caller": "CountBySeverity_aggregates_error_warning_hint",
+          "callee": "DiagnosticGridMapper.CountBySeverity",
+          "lineNumber": 46
+        },
+        {
+          "caller": "CountBySeverity_aggregates_error_warning_hint",
+          "callee": "new ErpDiagnostic",
+          "lineNumber": 48
+        },
+        {
+          "caller": "CountBySeverity_aggregates_error_warning_hint",
+          "callee": "new ErpDiagnostic",
+          "lineNumber": 49
+        },
+        {
+          "caller": "CountBySeverity_aggregates_error_warning_hint",
+          "callee": "new ErpDiagnostic",
+          "lineNumber": 50
+        },
+        {
+          "caller": "CountBySeverity_aggregates_error_warning_hint",
+          "callee": "new ErpDiagnostic",
+          "lineNumber": 51
+        },
+        {
+          "caller": "CountBySeverity_aggregates_error_warning_hint",
+          "callee": "Assert.Equal",
+          "lineNumber": 54
+        },
+        {
+          "caller": "CountBySeverity_aggregates_error_warning_hint",
+          "callee": "Assert.Equal",
+          "lineNumber": 55
+        },
+        {
+          "caller": "CountBySeverity_aggregates_error_warning_hint",
+          "callee": "Assert.Equal",
+          "lineNumber": 56
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 228,
+      "nonEmptyLines": 201,
+      "functions": [
+        {
+          "name": "EntitySymbolSystemTests",
+          "startLine": 13,
+          "endLine": 13,
+          "params": []
+        },
+        {
+          "name": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "startLine": 15,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "Binder_reports_cycle_and_missing_file",
+          "startLine": 56,
+          "endLine": 75,
+          "params": []
+        },
+        {
+          "name": "Inline_edit_updates_definition_but_preserves_reference",
+          "startLine": 77,
+          "endLine": 105,
+          "params": []
+        },
+        {
+          "name": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "startLine": 107,
+          "endLine": 130,
+          "params": []
+        },
+        {
+          "name": "Include_ignore_conditional_section_uses_active_value",
+          "startLine": 132,
+          "endLine": 174,
+          "params": []
+        },
+        {
+          "name": "SP226_customer_unitfields_is_empty_after_ignore",
+          "startLine": 176,
+          "endLine": 199,
+          "params": []
+        },
+        {
+          "name": "SP226_customer_entities_have_definitions_and_references",
+          "startLine": 201,
+          "endLine": 215,
+          "params": []
+        },
+        {
+          "name": "Dispose",
+          "startLine": 217,
+          "endLine": 227,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "EntitySymbolSystemTests",
+          "startLine": 8,
+          "endLine": 228,
+          "methods": [
+            "EntitySymbolSystemTests",
+            "Binder_builds_inline_external_parameter_and_nested_graph",
+            "Binder_reports_cycle_and_missing_file",
+            "Inline_edit_updates_definition_but_preserves_reference",
+            "External_edit_writes_resolved_document_and_keeps_controller_source",
+            "Include_ignore_conditional_section_uses_active_value",
+            "SP226_customer_unitfields_is_empty_after_ignore",
+            "SP226_customer_entities_have_definitions_and_references",
+            "Dispose"
+          ],
+          "properties": [
+            "_temp_directory"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "EntitySymbolSystemTests",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Binder_reports_cycle_and_missing_file",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "Inline_edit_updates_definition_but_preserves_reference",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "line": 107,
+          "isDefault": false
+        },
+        {
+          "name": "Include_ignore_conditional_section_uses_active_value",
+          "line": 132,
+          "isDefault": false
+        },
+        {
+          "name": "SP226_customer_unitfields_is_empty_after_ignore",
+          "line": 176,
+          "isDefault": false
+        },
+        {
+          "name": "SP226_customer_entities_have_definitions_and_references",
+          "line": 201,
+          "isDefault": false
+        },
+        {
+          "name": "Dispose",
+          "line": 217,
+          "isDefault": false
+        },
+        {
+          "name": "EntitySymbolSystemTests",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "EntitySymbolSystemTests",
+          "callee": "Directory.CreateDirectory",
+          "lineNumber": 13
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "Path.Combine",
+          "lineNumber": 18
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "File.WriteAllText",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "Path.Combine",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "File.WriteAllText",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "Path.Combine",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "FboSyntaxParser.Parse",
+          "lineNumber": 33
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "new EntitySymbolBinder().Bind",
+          "lineNumber": 34
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "new EntitySymbolBinder",
+          "lineNumber": 34
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "Assert.Contains",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "Assert.Contains",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "Assert.Contains",
+          "lineNumber": 43
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "Assert.Contains",
+          "lineNumber": 47
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "Assert.Contains",
+          "lineNumber": 50
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "Assert.Equal",
+          "lineNumber": 51
+        },
+        {
+          "caller": "Binder_builds_inline_external_parameter_and_nested_graph",
+          "callee": "Assert.DoesNotContain",
+          "lineNumber": 52
+        },
+        {
+          "caller": "Binder_reports_cycle_and_missing_file",
+          "callee": "Path.Combine",
+          "lineNumber": 59
+        },
+        {
+          "caller": "Binder_reports_cycle_and_missing_file",
+          "callee": "FboSyntaxParser.Parse",
+          "lineNumber": 69
+        },
+        {
+          "caller": "Binder_reports_cycle_and_missing_file",
+          "callee": "new EntitySymbolBinder().Bind",
+          "lineNumber": 70
+        },
+        {
+          "caller": "Binder_reports_cycle_and_missing_file",
+          "callee": "new EntitySymbolBinder",
+          "lineNumber": 70
+        },
+        {
+          "caller": "Binder_reports_cycle_and_missing_file",
+          "callee": "Assert.Contains",
+          "lineNumber": 72
+        },
+        {
+          "caller": "Binder_reports_cycle_and_missing_file",
+          "callee": "Assert.Contains",
+          "lineNumber": 73
+        },
+        {
+          "caller": "Binder_reports_cycle_and_missing_file",
+          "callee": "Assert.Contains",
+          "lineNumber": 74
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "Path.Combine",
+          "lineNumber": 80
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 85
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "language_service.OpenDocumentFromText",
+          "lineNumber": 86
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "language_service.GetEntityDefinition",
+          "lineNumber": 87
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "language_service.FindEntityReferences",
+          "lineNumber": 88
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "language_service.UpdateEntityValue",
+          "lineNumber": 90
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "Assert.True",
+          "lineNumber": 95
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "Assert.NotNull",
+          "lineNumber": 96
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "Assert.False",
+          "lineNumber": 97
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "Assert.Single",
+          "lineNumber": 98
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "Assert.NotNull",
+          "lineNumber": 99
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "result.Document!.GetProjection",
+          "lineNumber": 100
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "result.Document.GetProjection",
+          "lineNumber": 101
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "Assert.Contains",
+          "lineNumber": 102
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "Assert.Contains",
+          "lineNumber": 103
+        },
+        {
+          "caller": "Inline_edit_updates_definition_but_preserves_reference",
+          "callee": "Assert.Contains",
+          "lineNumber": 104
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "Path.Combine",
+          "lineNumber": 110
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "Path.Combine",
+          "lineNumber": 111
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "File.WriteAllText",
+          "lineNumber": 112
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "File.WriteAllText",
+          "lineNumber": 117
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 118
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "language_service.OpenDocument",
+          "lineNumber": 119
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "language_service.UpdateEntityValue",
+          "lineNumber": 121
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "Assert.True",
+          "lineNumber": 126
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "Assert.Equal",
+          "lineNumber": 127
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "File.ReadAllText",
+          "lineNumber": 127
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "Assert.Contains",
+          "lineNumber": 128
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "Assert.Contains",
+          "lineNumber": 129
+        },
+        {
+          "caller": "External_edit_writes_resolved_document_and_keeps_controller_source",
+          "callee": "result.Document.GetProjection",
+          "lineNumber": 129
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "Path.Combine",
+          "lineNumber": 135
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "Path.Combine",
+          "lineNumber": 136
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "File.WriteAllText",
+          "lineNumber": 137
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "File.WriteAllText",
+          "lineNumber": 144
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "Path.Combine",
+          "lineNumber": 144
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "File.WriteAllText",
+          "lineNumber": 145
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "Path.Combine",
+          "lineNumber": 145
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "File.WriteAllText",
+          "lineNumber": 158
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 160
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "language_service.OpenDocument",
+          "lineNumber": 161
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "document.SemanticModel.FindEntity",
+          "lineNumber": 162
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "Assert.NotNull",
+          "lineNumber": 164
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "Assert.Equal",
+          "lineNumber": 165
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "Assert.Equal",
+          "lineNumber": 166
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "Assert.Equal",
+          "lineNumber": 167
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "Assert.Single",
+          "lineNumber": 169
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "Assert.Equal",
+          "lineNumber": 172
+        },
+        {
+          "caller": "Include_ignore_conditional_section_uses_active_value",
+          "callee": "Assert.Empty",
+          "lineNumber": 173
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 179
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 180
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "language_service.OpenDocument",
+          "lineNumber": 181
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "document.SemanticModel.FindEntity",
+          "lineNumber": 183
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "Assert.NotNull",
+          "lineNumber": 184
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "Assert.Equal",
+          "lineNumber": 185
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "Assert.Equal",
+          "lineNumber": 186
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "document.SemanticModel.FindEntity",
+          "lineNumber": 189
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "Assert.NotNull",
+          "lineNumber": 190
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "Assert.Equal",
+          "lineNumber": 191
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "Assert.Equal",
+          "lineNumber": 192
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "Assert.DoesNotContain",
+          "lineNumber": 195
+        },
+        {
+          "caller": "SP226_customer_unitfields_is_empty_after_ignore",
+          "callee": "item.ReferenceText.Contains",
+          "lineNumber": 198
+        },
+        {
+          "caller": "SP226_customer_entities_have_definitions_and_references",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 204
+        },
+        {
+          "caller": "SP226_customer_entities_have_definitions_and_references",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 205
+        },
+        {
+          "caller": "SP226_customer_entities_have_definitions_and_references",
+          "callee": "language_service.OpenDocument",
+          "lineNumber": 206
+        },
+        {
+          "caller": "SP226_customer_entities_have_definitions_and_references",
+          "callee": "document.SemanticModel.GetEntities",
+          "lineNumber": 207
+        },
+        {
+          "caller": "SP226_customer_entities_have_definitions_and_references",
+          "callee": "Assert.NotEmpty",
+          "lineNumber": 209
+        },
+        {
+          "caller": "SP226_customer_entities_have_definitions_and_references",
+          "callee": "Assert.Contains",
+          "lineNumber": 210
+        },
+        {
+          "caller": "SP226_customer_entities_have_definitions_and_references",
+          "callee": "Assert.Contains",
+          "lineNumber": 211
+        },
+        {
+          "caller": "SP226_customer_entities_have_definitions_and_references",
+          "callee": "Assert.Equal",
+          "lineNumber": 212
+        },
+        {
+          "caller": "SP226_customer_entities_have_definitions_and_references",
+          "callee": "document.GetProjection",
+          "lineNumber": 214
+        },
+        {
+          "caller": "Dispose",
+          "callee": "Directory.Delete",
+          "lineNumber": 221
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 86,
+      "nonEmptyLines": 73,
+      "functions": [
+        {
+          "name": "OpenFromText_sets_snapshot_and_workspace",
+          "startLine": 9,
+          "endLine": 32,
+          "params": []
+        },
+        {
+          "name": "Reload_increments_version_Close_removes",
+          "startLine": 34,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "Open_unsupported_root_still_returns_document",
+          "startLine": 49,
+          "endLine": 61,
+          "params": []
+        },
+        {
+          "name": "Open_SP226_Customer_has_field_ma_kh",
+          "startLine": 63,
+          "endLine": 74,
+          "params": []
+        },
+        {
+          "name": "Open_SP226_Report_returns_document",
+          "startLine": 76,
+          "endLine": 85,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ErpLanguageServiceContractTests",
+          "startLine": 7,
+          "endLine": 86,
+          "methods": [
+            "OpenFromText_sets_snapshot_and_workspace",
+            "Reload_increments_version_Close_removes",
+            "Open_unsupported_root_still_returns_document",
+            "Open_SP226_Customer_has_field_ma_kh",
+            "Open_SP226_Report_returns_document"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OpenFromText_sets_snapshot_and_workspace",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "Reload_increments_version_Close_removes",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "Open_unsupported_root_still_returns_document",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "Open_SP226_Customer_has_field_ma_kh",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "Open_SP226_Report_returns_document",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "ErpLanguageServiceContractTests",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OpenFromText_sets_snapshot_and_workspace",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 12
+        },
+        {
+          "caller": "OpenFromText_sets_snapshot_and_workspace",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 23
+        },
+        {
+          "caller": "OpenFromText_sets_snapshot_and_workspace",
+          "callee": "Assert.Equal",
+          "lineNumber": 25
+        },
+        {
+          "caller": "OpenFromText_sets_snapshot_and_workspace",
+          "callee": "Assert.Equal",
+          "lineNumber": 26
+        },
+        {
+          "caller": "OpenFromText_sets_snapshot_and_workspace",
+          "callee": "Assert.Equal",
+          "lineNumber": 27
+        },
+        {
+          "caller": "OpenFromText_sets_snapshot_and_workspace",
+          "callee": "Assert.Same",
+          "lineNumber": 28
+        },
+        {
+          "caller": "OpenFromText_sets_snapshot_and_workspace",
+          "callee": "Assert.NotNull",
+          "lineNumber": 29
+        },
+        {
+          "caller": "OpenFromText_sets_snapshot_and_workspace",
+          "callee": "ls.GetSnapshot",
+          "lineNumber": 29
+        },
+        {
+          "caller": "OpenFromText_sets_snapshot_and_workspace",
+          "callee": "Assert.NotNull",
+          "lineNumber": 30
+        },
+        {
+          "caller": "OpenFromText_sets_snapshot_and_workspace",
+          "callee": "doc.SemanticModel.FindByName",
+          "lineNumber": 30
+        },
+        {
+          "caller": "OpenFromText_sets_snapshot_and_workspace",
+          "callee": "Assert.NotNull",
+          "lineNumber": 31
+        },
+        {
+          "caller": "OpenFromText_sets_snapshot_and_workspace",
+          "callee": "doc.SemanticModel.FindByName",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Reload_increments_version_Close_removes",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 37
+        },
+        {
+          "caller": "Reload_increments_version_Close_removes",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Reload_increments_version_Close_removes",
+          "callee": "ls.ReloadDocument",
+          "lineNumber": 41
+        },
+        {
+          "caller": "Reload_increments_version_Close_removes",
+          "callee": "Assert.True",
+          "lineNumber": 42
+        },
+        {
+          "caller": "Reload_increments_version_Close_removes",
+          "callee": "Assert.True",
+          "lineNumber": 44
+        },
+        {
+          "caller": "Reload_increments_version_Close_removes",
+          "callee": "ls.CloseDocument",
+          "lineNumber": 44
+        },
+        {
+          "caller": "Reload_increments_version_Close_removes",
+          "callee": "Assert.Null",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Reload_increments_version_Close_removes",
+          "callee": "ls.GetDocument",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Reload_increments_version_Close_removes",
+          "callee": "Assert.Null",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Reload_increments_version_Close_removes",
+          "callee": "ls.GetSnapshot",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Open_unsupported_root_still_returns_document",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 52
+        },
+        {
+          "caller": "Open_unsupported_root_still_returns_document",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 53
+        },
+        {
+          "caller": "Open_unsupported_root_still_returns_document",
+          "callee": "Assert.NotNull",
+          "lineNumber": 57
+        },
+        {
+          "caller": "Open_unsupported_root_still_returns_document",
+          "callee": "Assert.NotNull",
+          "lineNumber": 58
+        },
+        {
+          "caller": "Open_unsupported_root_still_returns_document",
+          "callee": "Assert.Equal",
+          "lineNumber": 59
+        },
+        {
+          "caller": "Open_unsupported_root_still_returns_document",
+          "callee": "Assert.Empty",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Open_unsupported_root_still_returns_document",
+          "callee": "doc.SemanticModel.GetFields",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Open_SP226_Customer_has_field_ma_kh",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 66
+        },
+        {
+          "caller": "Open_SP226_Customer_has_field_ma_kh",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 67
+        },
+        {
+          "caller": "Open_SP226_Customer_has_field_ma_kh",
+          "callee": "ls.OpenDocument",
+          "lineNumber": 68
+        },
+        {
+          "caller": "Open_SP226_Customer_has_field_ma_kh",
+          "callee": "Assert.Equal",
+          "lineNumber": 70
+        },
+        {
+          "caller": "Open_SP226_Customer_has_field_ma_kh",
+          "callee": "Assert.False",
+          "lineNumber": 71
+        },
+        {
+          "caller": "Open_SP226_Customer_has_field_ma_kh",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 71
+        },
+        {
+          "caller": "Open_SP226_Customer_has_field_ma_kh",
+          "callee": "Assert.NotNull",
+          "lineNumber": 72
+        },
+        {
+          "caller": "Open_SP226_Customer_has_field_ma_kh",
+          "callee": "doc.SemanticModel.FindByName",
+          "lineNumber": 72
+        },
+        {
+          "caller": "Open_SP226_Customer_has_field_ma_kh",
+          "callee": "Assert.NotNull",
+          "lineNumber": 73
+        },
+        {
+          "caller": "Open_SP226_Customer_has_field_ma_kh",
+          "callee": "doc.SemanticModel.FindByName",
+          "lineNumber": 73
+        },
+        {
+          "caller": "Open_SP226_Report_returns_document",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 79
+        },
+        {
+          "caller": "Open_SP226_Report_returns_document",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 80
+        },
+        {
+          "caller": "Open_SP226_Report_returns_document",
+          "callee": "ls.OpenDocument",
+          "lineNumber": 81
+        },
+        {
+          "caller": "Open_SP226_Report_returns_document",
+          "callee": "Assert.False",
+          "lineNumber": 83
+        },
+        {
+          "caller": "Open_SP226_Report_returns_document",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 83
+        },
+        {
+          "caller": "Open_SP226_Report_returns_document",
+          "callee": "Assert.True",
+          "lineNumber": 84
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 167,
+      "nonEmptyLines": 148,
+      "functions": [
+        {
+          "name": "Views_lists_all_view_elements_with_spans",
+          "startLine": 13,
+          "endLine": 51,
+          "params": []
+        },
+        {
+          "name": "Response_section_shows_entity_fragment_children",
+          "startLine": 53,
+          "endLine": 86,
+          "params": []
+        },
+        {
+          "name": "Script_functions_prefer_caret_only",
+          "startLine": 88,
+          "endLine": 116,
+          "params": []
+        },
+        {
+          "name": "Commands_named_by_event_from_schema_key",
+          "startLine": 118,
+          "endLine": 140,
+          "params": []
+        },
+        {
+          "name": "Fields_named_by_name_and_linked_to_symbol",
+          "startLine": 142,
+          "endLine": 166,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ErpNavigationOutlineFixTests",
+          "startLine": 11,
+          "endLine": 167,
+          "methods": [
+            "Views_lists_all_view_elements_with_spans",
+            "Response_section_shows_entity_fragment_children",
+            "Script_functions_prefer_caret_only",
+            "Commands_named_by_event_from_schema_key",
+            "Fields_named_by_name_and_linked_to_symbol"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Views_lists_all_view_elements_with_spans",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Response_section_shows_entity_fragment_children",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "Script_functions_prefer_caret_only",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "Commands_named_by_event_from_schema_key",
+          "line": 118,
+          "isDefault": false
+        },
+        {
+          "name": "Fields_named_by_name_and_linked_to_symbol",
+          "line": 142,
+          "isDefault": false
+        },
+        {
+          "name": "ErpNavigationOutlineFixTests",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 16
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "ls.Navigation.GetOutlineRoots(doc.Id)\r\n            .First",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "ls.Navigation.GetOutlineRoots",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "r.NodeType.Equals",
+          "lineNumber": 40
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "Assert.Equal",
+          "lineNumber": 42
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "Assert.Contains",
+          "lineNumber": 43
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "c.DisplayName.Equals",
+          "lineNumber": 43
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "Assert.Contains",
+          "lineNumber": 44
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "c.DisplayName.Equals",
+          "lineNumber": 44
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "views.Children.First",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "c.DisplayName.Equals",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "Assert.Equal",
+          "lineNumber": 47
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "ls.Navigation.GoToNode",
+          "lineNumber": 48
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "Assert.NotNull",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Views_lists_all_view_elements_with_spans",
+          "callee": "Assert.True",
+          "lineNumber": 50
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 56
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 73
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "ls.Navigation.GetOutlineRoots(doc.Id)\r\n            .FirstOrDefault",
+          "lineNumber": 74
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "ls.Navigation.GetOutlineRoots",
+          "lineNumber": 74
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "r.NodeType.Equals",
+          "lineNumber": 75
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "Assert.NotNull",
+          "lineNumber": 76
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "Assert.NotEmpty",
+          "lineNumber": 77
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "Assert.Contains",
+          "lineNumber": 79
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "c.NodeType.Equals",
+          "lineNumber": 80
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "c.DisplayName.Contains",
+          "lineNumber": 81
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "ls.Navigation.GoToNode",
+          "lineNumber": 83
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "Assert.NotNull",
+          "lineNumber": 84
+        },
+        {
+          "caller": "Response_section_shows_entity_fragment_children",
+          "callee": "Assert.True",
+          "lineNumber": 85
+        },
+        {
+          "caller": "Script_functions_prefer_caret_only",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 91
+        },
+        {
+          "caller": "Script_functions_prefer_caret_only",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 103
+        },
+        {
+          "caller": "Script_functions_prefer_caret_only",
+          "callee": "ls.Navigation.GetOutlineRoots(doc.Id)\r\n            .First",
+          "lineNumber": 104
+        },
+        {
+          "caller": "Script_functions_prefer_caret_only",
+          "callee": "ls.Navigation.GetOutlineRoots",
+          "lineNumber": 104
+        },
+        {
+          "caller": "Script_functions_prefer_caret_only",
+          "callee": "r.NodeType.Equals",
+          "lineNumber": 105
+        },
+        {
+          "caller": "Script_functions_prefer_caret_only",
+          "callee": "Assert.True",
+          "lineNumber": 106
+        },
+        {
+          "caller": "Script_functions_prefer_caret_only",
+          "callee": "Assert.True",
+          "lineNumber": 107
+        },
+        {
+          "caller": "Script_functions_prefer_caret_only",
+          "callee": "Assert.Equal",
+          "lineNumber": 110
+        },
+        {
+          "caller": "Script_functions_prefer_caret_only",
+          "callee": "Assert.True",
+          "lineNumber": 111
+        },
+        {
+          "caller": "Script_functions_prefer_caret_only",
+          "callee": "ls.Navigation.GoToNode",
+          "lineNumber": 113
+        },
+        {
+          "caller": "Script_functions_prefer_caret_only",
+          "callee": "Assert.NotNull",
+          "lineNumber": 114
+        },
+        {
+          "caller": "Script_functions_prefer_caret_only",
+          "callee": "Assert.True",
+          "lineNumber": 115
+        },
+        {
+          "caller": "Commands_named_by_event_from_schema_key",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 121
+        },
+        {
+          "caller": "Commands_named_by_event_from_schema_key",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 133
+        },
+        {
+          "caller": "Commands_named_by_event_from_schema_key",
+          "callee": "ls.Navigation.GetOutlineRoots(doc.Id)\r\n            .First",
+          "lineNumber": 134
+        },
+        {
+          "caller": "Commands_named_by_event_from_schema_key",
+          "callee": "ls.Navigation.GetOutlineRoots",
+          "lineNumber": 134
+        },
+        {
+          "caller": "Commands_named_by_event_from_schema_key",
+          "callee": "r.NodeType.Equals",
+          "lineNumber": 135
+        },
+        {
+          "caller": "Commands_named_by_event_from_schema_key",
+          "callee": "Assert.Equal",
+          "lineNumber": 136
+        },
+        {
+          "caller": "Commands_named_by_event_from_schema_key",
+          "callee": "Assert.Contains",
+          "lineNumber": 137
+        },
+        {
+          "caller": "Commands_named_by_event_from_schema_key",
+          "callee": "c.DisplayName.Equals",
+          "lineNumber": 137
+        },
+        {
+          "caller": "Commands_named_by_event_from_schema_key",
+          "callee": "Assert.Contains",
+          "lineNumber": 138
+        },
+        {
+          "caller": "Commands_named_by_event_from_schema_key",
+          "callee": "c.DisplayName.Equals",
+          "lineNumber": 138
+        },
+        {
+          "caller": "Commands_named_by_event_from_schema_key",
+          "callee": "Assert.All",
+          "lineNumber": 139
+        },
+        {
+          "caller": "Commands_named_by_event_from_schema_key",
+          "callee": "Assert.Equal",
+          "lineNumber": 139
+        },
+        {
+          "caller": "Fields_named_by_name_and_linked_to_symbol",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 145
+        },
+        {
+          "caller": "Fields_named_by_name_and_linked_to_symbol",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 156
+        },
+        {
+          "caller": "Fields_named_by_name_and_linked_to_symbol",
+          "callee": "ls.Navigation.GetOutlineRoots(doc.Id)\r\n            .First",
+          "lineNumber": 157
+        },
+        {
+          "caller": "Fields_named_by_name_and_linked_to_symbol",
+          "callee": "ls.Navigation.GetOutlineRoots",
+          "lineNumber": 157
+        },
+        {
+          "caller": "Fields_named_by_name_and_linked_to_symbol",
+          "callee": "r.NodeType.Equals",
+          "lineNumber": 158
+        },
+        {
+          "caller": "Fields_named_by_name_and_linked_to_symbol",
+          "callee": "fields.Children.First",
+          "lineNumber": 160
+        },
+        {
+          "caller": "Fields_named_by_name_and_linked_to_symbol",
+          "callee": "c.DisplayName.Equals",
+          "lineNumber": 160
+        },
+        {
+          "caller": "Fields_named_by_name_and_linked_to_symbol",
+          "callee": "Assert.Equal",
+          "lineNumber": 161
+        },
+        {
+          "caller": "Fields_named_by_name_and_linked_to_symbol",
+          "callee": "ls.Navigation.GoToNode",
+          "lineNumber": 163
+        },
+        {
+          "caller": "Fields_named_by_name_and_linked_to_symbol",
+          "callee": "Assert.NotNull",
+          "lineNumber": 164
+        },
+        {
+          "caller": "Fields_named_by_name_and_linked_to_symbol",
+          "callee": "Assert.IsType<FieldSymbol>",
+          "lineNumber": 165
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 90,
+      "nonEmptyLines": 81,
+      "functions": [
+        {
+          "name": "GoToNode_returns_target_from_schema_field",
+          "startLine": 9,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "GoToDefinition_by_symbol_id",
+          "startLine": 49,
+          "endLine": 65,
+          "params": []
+        },
+        {
+          "name": "FindChildren_and_FindParent_roundtrip",
+          "startLine": 67,
+          "endLine": 89,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ErpNavigationServiceTests",
+          "startLine": 7,
+          "endLine": 90,
+          "methods": [
+            "GoToNode_returns_target_from_schema_field",
+            "GoToDefinition_by_symbol_id",
+            "FindChildren_and_FindParent_roundtrip"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "GoToNode_returns_target_from_schema_field",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "GoToDefinition_by_symbol_id",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "FindChildren_and_FindParent_roundtrip",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "ErpNavigationServiceTests",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 12
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 29
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "ls.Navigation.GetOutlineRoots",
+          "lineNumber": 30
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "Assert.NotEmpty",
+          "lineNumber": 31
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "roots.FirstOrDefault",
+          "lineNumber": 33
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "r.NodeType.Equals",
+          "lineNumber": 34
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "Assert.NotNull",
+          "lineNumber": 35
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "Assert.NotEmpty",
+          "lineNumber": 36
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "Assert.Equal",
+          "lineNumber": 39
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "Assert.Equal",
+          "lineNumber": 40
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "ls.Navigation.GoToNode",
+          "lineNumber": 42
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "Assert.NotNull",
+          "lineNumber": 43
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "Assert.Equal",
+          "lineNumber": 44
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "Assert.False",
+          "lineNumber": 45
+        },
+        {
+          "caller": "GoToNode_returns_target_from_schema_field",
+          "callee": "Assert.Equal",
+          "lineNumber": 46
+        },
+        {
+          "caller": "GoToDefinition_by_symbol_id",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 52
+        },
+        {
+          "caller": "GoToDefinition_by_symbol_id",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 61
+        },
+        {
+          "caller": "GoToDefinition_by_symbol_id",
+          "callee": "ls.Navigation.GoToDefinition",
+          "lineNumber": 62
+        },
+        {
+          "caller": "GoToDefinition_by_symbol_id",
+          "callee": "Assert.NotNull",
+          "lineNumber": 63
+        },
+        {
+          "caller": "GoToDefinition_by_symbol_id",
+          "callee": "Assert.Equal",
+          "lineNumber": 64
+        },
+        {
+          "caller": "FindChildren_and_FindParent_roundtrip",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 70
+        },
+        {
+          "caller": "FindChildren_and_FindParent_roundtrip",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 80
+        },
+        {
+          "caller": "FindChildren_and_FindParent_roundtrip",
+          "callee": "ls.Navigation.GetOutlineRoots",
+          "lineNumber": 81
+        },
+        {
+          "caller": "FindChildren_and_FindParent_roundtrip",
+          "callee": "roots.First",
+          "lineNumber": 82
+        },
+        {
+          "caller": "FindChildren_and_FindParent_roundtrip",
+          "callee": "r.NodeType.Equals",
+          "lineNumber": 82
+        },
+        {
+          "caller": "FindChildren_and_FindParent_roundtrip",
+          "callee": "ls.Navigation.FindChildren",
+          "lineNumber": 83
+        },
+        {
+          "caller": "FindChildren_and_FindParent_roundtrip",
+          "callee": "Assert.Equal",
+          "lineNumber": 84
+        },
+        {
+          "caller": "FindChildren_and_FindParent_roundtrip",
+          "callee": "ls.Navigation.FindParent",
+          "lineNumber": 86
+        },
+        {
+          "caller": "FindChildren_and_FindParent_roundtrip",
+          "callee": "Assert.NotNull",
+          "lineNumber": 87
+        },
+        {
+          "caller": "FindChildren_and_FindParent_roundtrip",
+          "callee": "Assert.Equal",
+          "lineNumber": 88
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 96,
+      "nonEmptyLines": 87,
+      "functions": [
+        {
+          "name": "Bind_dir_produces_controller_field_view_symbols",
+          "startLine": 10,
+          "endLine": 52,
+          "params": []
+        },
+        {
+          "name": "Bind_duplicate_fields_emits_ERP2001",
+          "startLine": 54,
+          "endLine": 71,
+          "params": []
+        },
+        {
+          "name": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "startLine": 73,
+          "endLine": 84,
+          "params": []
+        },
+        {
+          "name": "LanguageService_semantic_matches_binder",
+          "startLine": 86,
+          "endLine": 95,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ErpSemanticBinderTests",
+          "startLine": 8,
+          "endLine": 96,
+          "methods": [
+            "Bind_dir_produces_controller_field_view_symbols",
+            "Bind_duplicate_fields_emits_ERP2001",
+            "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+            "LanguageService_semantic_matches_binder"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Bind_dir_produces_controller_field_view_symbols",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "Bind_duplicate_fields_emits_ERP2001",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "LanguageService_semantic_matches_binder",
+          "line": 86,
+          "isDefault": false
+        },
+        {
+          "name": "ErpSemanticBinderTests",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "FboSyntaxParser.Parse",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "new ErpSemanticBinder",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "binder.Bind",
+          "lineNumber": 40
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "ErpDocumentId.FromPath",
+          "lineNumber": 40
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "Assert.NotNull",
+          "lineNumber": 42
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "Assert.Equal",
+          "lineNumber": 43
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "Assert.Equal",
+          "lineNumber": 44
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "model.GetFields",
+          "lineNumber": 44
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "Assert.NotNull",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "model.FindByName",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "Assert.True",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "model.FindByName",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "Assert.Contains",
+          "lineNumber": 47
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "Assert.Contains",
+          "lineNumber": 48
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "Assert.Contains",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "Assert.NotNull",
+          "lineNumber": 50
+        },
+        {
+          "caller": "Bind_dir_produces_controller_field_view_symbols",
+          "callee": "Assert.NotNull",
+          "lineNumber": 51
+        },
+        {
+          "caller": "Bind_duplicate_fields_emits_ERP2001",
+          "callee": "FboSyntaxParser.Parse",
+          "lineNumber": 68
+        },
+        {
+          "caller": "Bind_duplicate_fields_emits_ERP2001",
+          "callee": "new ErpSemanticBinder().Bind",
+          "lineNumber": 69
+        },
+        {
+          "caller": "Bind_duplicate_fields_emits_ERP2001",
+          "callee": "new ErpSemanticBinder",
+          "lineNumber": 69
+        },
+        {
+          "caller": "Bind_duplicate_fields_emits_ERP2001",
+          "callee": "ErpDocumentId.FromPath",
+          "lineNumber": 69
+        },
+        {
+          "caller": "Bind_duplicate_fields_emits_ERP2001",
+          "callee": "Assert.Contains",
+          "lineNumber": 70
+        },
+        {
+          "caller": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 76
+        },
+        {
+          "caller": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "callee": "File.ReadAllText",
+          "lineNumber": 77
+        },
+        {
+          "caller": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "callee": "FboSyntaxParser.Parse",
+          "lineNumber": 78
+        },
+        {
+          "caller": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "callee": "new ErpSemanticBinder().Bind",
+          "lineNumber": 79
+        },
+        {
+          "caller": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "callee": "new ErpSemanticBinder",
+          "lineNumber": 79
+        },
+        {
+          "caller": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "callee": "ErpDocumentId.FromPath",
+          "lineNumber": 79
+        },
+        {
+          "caller": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "callee": "Assert.NotNull",
+          "lineNumber": 81
+        },
+        {
+          "caller": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "callee": "model.FindByName",
+          "lineNumber": 81
+        },
+        {
+          "caller": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "callee": "Assert.NotNull",
+          "lineNumber": 82
+        },
+        {
+          "caller": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "callee": "Assert.True",
+          "lineNumber": 83
+        },
+        {
+          "caller": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+          "callee": "model.GetFields",
+          "lineNumber": 83
+        },
+        {
+          "caller": "LanguageService_semantic_matches_binder",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 89
+        },
+        {
+          "caller": "LanguageService_semantic_matches_binder",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 90
+        },
+        {
+          "caller": "LanguageService_semantic_matches_binder",
+          "callee": "ls.OpenDocument",
+          "lineNumber": 91
+        },
+        {
+          "caller": "LanguageService_semantic_matches_binder",
+          "callee": "Assert.NotNull",
+          "lineNumber": 92
+        },
+        {
+          "caller": "LanguageService_semantic_matches_binder",
+          "callee": "Assert.NotNull",
+          "lineNumber": 93
+        },
+        {
+          "caller": "LanguageService_semantic_matches_binder",
+          "callee": "doc.SemanticModel.FindByName",
+          "lineNumber": 93
+        },
+        {
+          "caller": "LanguageService_semantic_matches_binder",
+          "callee": "Assert.True",
+          "lineNumber": 94
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 73,
+      "nonEmptyLines": 64,
+      "functions": [
+        {
+          "name": "Entity_provider_preserves_reference_value_and_nested_tree",
+          "startLine": 9,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "Validation_provider_converts_diagnostics_to_common_insight_items",
+          "startLine": 35,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "Customer_ClientDefault_is_an_editable_entity_insight",
+          "startLine": 56,
+          "endLine": 72,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "InsightProviderPipelineTests",
+          "startLine": 7,
+          "endLine": 73,
+          "methods": [
+            "Entity_provider_preserves_reference_value_and_nested_tree",
+            "Validation_provider_converts_diagnostics_to_common_insight_items",
+            "Customer_ClientDefault_is_an_editable_entity_insight"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Entity_provider_preserves_reference_value_and_nested_tree",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "Validation_provider_converts_diagnostics_to_common_insight_items",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "Customer_ClientDefault_is_an_editable_entity_insight",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "InsightProviderPipelineTests",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Entity_provider_preserves_reference_value_and_nested_tree",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Entity_provider_preserves_reference_value_and_nested_tree",
+          "callee": "language_service.OpenDocumentFromText",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Entity_provider_preserves_reference_value_and_nested_tree",
+          "callee": "Assert.Single",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Entity_provider_preserves_reference_value_and_nested_tree",
+          "callee": "Assert.Equal",
+          "lineNumber": 27
+        },
+        {
+          "caller": "Entity_provider_preserves_reference_value_and_nested_tree",
+          "callee": "Assert.True",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Entity_provider_preserves_reference_value_and_nested_tree",
+          "callee": "Assert.Single",
+          "lineNumber": 29
+        },
+        {
+          "caller": "Entity_provider_preserves_reference_value_and_nested_tree",
+          "callee": "Assert.Equal",
+          "lineNumber": 30
+        },
+        {
+          "caller": "Entity_provider_preserves_reference_value_and_nested_tree",
+          "callee": "Assert.Equal",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Entity_provider_preserves_reference_value_and_nested_tree",
+          "callee": "Assert.Contains",
+          "lineNumber": 32
+        },
+        {
+          "caller": "Validation_provider_converts_diagnostics_to_common_insight_items",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Validation_provider_converts_diagnostics_to_common_insight_items",
+          "callee": "language_service.OpenDocumentFromText",
+          "lineNumber": 47
+        },
+        {
+          "caller": "Validation_provider_converts_diagnostics_to_common_insight_items",
+          "callee": "Assert.Contains",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Validation_provider_converts_diagnostics_to_common_insight_items",
+          "callee": "Assert.Contains",
+          "lineNumber": 50
+        },
+        {
+          "caller": "Validation_provider_converts_diagnostics_to_common_insight_items",
+          "callee": "insight.Metadata.TryGetValue",
+          "lineNumber": 52
+        },
+        {
+          "caller": "Customer_ClientDefault_is_an_editable_entity_insight",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 59
+        },
+        {
+          "caller": "Customer_ClientDefault_is_an_editable_entity_insight",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Customer_ClientDefault_is_an_editable_entity_insight",
+          "callee": "language_service.OpenDocument",
+          "lineNumber": 61
+        },
+        {
+          "caller": "Customer_ClientDefault_is_an_editable_entity_insight",
+          "callee": "Assert.Single",
+          "lineNumber": 63
+        },
+        {
+          "caller": "Customer_ClientDefault_is_an_editable_entity_insight",
+          "callee": "Assert.True",
+          "lineNumber": 68
+        },
+        {
+          "caller": "Customer_ClientDefault_is_an_editable_entity_insight",
+          "callee": "Assert.Equal",
+          "lineNumber": 69
+        },
+        {
+          "caller": "Customer_ClientDefault_is_an_editable_entity_insight",
+          "callee": "Assert.False",
+          "lineNumber": 70
+        },
+        {
+          "caller": "Customer_ClientDefault_is_an_editable_entity_insight",
+          "callee": "Assert.Same",
+          "lineNumber": 71
+        },
+        {
+          "caller": "Customer_ClientDefault_is_an_editable_entity_insight",
+          "callee": "language_service.GetInsights",
+          "lineNumber": 71
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 98,
+      "nonEmptyLines": 88,
+      "functions": [
+        {
+          "name": "Serialize_roundtrip_exact_synthetic",
+          "startLine": 11,
+          "endLine": 41,
+          "params": []
+        },
+        {
+          "name": "Invalid_xml_recovers_without_throw",
+          "startLine": 43,
+          "endLine": 51,
+          "params": []
+        },
+        {
+          "name": "LanguageService_attaches_syntax_tree",
+          "startLine": 53,
+          "endLine": 60,
+          "params": []
+        },
+        {
+          "name": "Roundtrip_SP226_Customer",
+          "startLine": 62,
+          "endLine": 73,
+          "params": []
+        },
+        {
+          "name": "Roundtrip_SP226_SODetail_and_Report",
+          "startLine": 75,
+          "endLine": 89,
+          "params": []
+        },
+        {
+          "name": "Flatten",
+          "startLine": 91,
+          "endLine": 97,
+          "params": [
+            "node"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LosslessSyntaxTests",
+          "startLine": 9,
+          "endLine": 98,
+          "methods": [
+            "Serialize_roundtrip_exact_synthetic",
+            "Invalid_xml_recovers_without_throw",
+            "LanguageService_attaches_syntax_tree",
+            "Roundtrip_SP226_Customer",
+            "Roundtrip_SP226_SODetail_and_Report",
+            "Flatten"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Serialize_roundtrip_exact_synthetic",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Invalid_xml_recovers_without_throw",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "LanguageService_attaches_syntax_tree",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "Roundtrip_SP226_Customer",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "Roundtrip_SP226_SODetail_and_Report",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "LosslessSyntaxTests",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Serialize_roundtrip_exact_synthetic",
+          "callee": "FboSyntaxParser.Parse",
+          "lineNumber": 30
+        },
+        {
+          "caller": "Serialize_roundtrip_exact_synthetic",
+          "callee": "Assert.Equal",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Serialize_roundtrip_exact_synthetic",
+          "callee": "tree.Serialize",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Serialize_roundtrip_exact_synthetic",
+          "callee": "Assert.Contains",
+          "lineNumber": 32
+        },
+        {
+          "caller": "Serialize_roundtrip_exact_synthetic",
+          "callee": "Assert.Contains",
+          "lineNumber": 33
+        },
+        {
+          "caller": "Serialize_roundtrip_exact_synthetic",
+          "callee": "Assert.Contains",
+          "lineNumber": 34
+        },
+        {
+          "caller": "Serialize_roundtrip_exact_synthetic",
+          "callee": "tree.Root.Children.SelectMany",
+          "lineNumber": 35
+        },
+        {
+          "caller": "Serialize_roundtrip_exact_synthetic",
+          "callee": "XmlStructureParser.Parse",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Serialize_roundtrip_exact_synthetic",
+          "callee": "Assert.NotNull",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Serialize_roundtrip_exact_synthetic",
+          "callee": "Assert.Equal",
+          "lineNumber": 40
+        },
+        {
+          "caller": "Invalid_xml_recovers_without_throw",
+          "callee": "FboSyntaxParser.Parse",
+          "lineNumber": 47
+        },
+        {
+          "caller": "Invalid_xml_recovers_without_throw",
+          "callee": "Assert.NotNull",
+          "lineNumber": 48
+        },
+        {
+          "caller": "Invalid_xml_recovers_without_throw",
+          "callee": "Assert.Equal",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Invalid_xml_recovers_without_throw",
+          "callee": "tree.Serialize",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Invalid_xml_recovers_without_throw",
+          "callee": "Assert.Contains",
+          "lineNumber": 50
+        },
+        {
+          "caller": "LanguageService_attaches_syntax_tree",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 56
+        },
+        {
+          "caller": "LanguageService_attaches_syntax_tree",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 57
+        },
+        {
+          "caller": "LanguageService_attaches_syntax_tree",
+          "callee": "Assert.NotNull",
+          "lineNumber": 58
+        },
+        {
+          "caller": "LanguageService_attaches_syntax_tree",
+          "callee": "Assert.Equal",
+          "lineNumber": 59
+        },
+        {
+          "caller": "LanguageService_attaches_syntax_tree",
+          "callee": "doc.SyntaxTree!.Serialize",
+          "lineNumber": 59
+        },
+        {
+          "caller": "Roundtrip_SP226_Customer",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 65
+        },
+        {
+          "caller": "Roundtrip_SP226_Customer",
+          "callee": "File.ReadAllText",
+          "lineNumber": 66
+        },
+        {
+          "caller": "Roundtrip_SP226_Customer",
+          "callee": "FboSyntaxParser.Parse",
+          "lineNumber": 67
+        },
+        {
+          "caller": "Roundtrip_SP226_Customer",
+          "callee": "Assert.Equal",
+          "lineNumber": 68
+        },
+        {
+          "caller": "Roundtrip_SP226_Customer",
+          "callee": "tree.Serialize",
+          "lineNumber": 68
+        },
+        {
+          "caller": "Roundtrip_SP226_Customer",
+          "callee": "XmlStructureParser.Parse",
+          "lineNumber": 70
+        },
+        {
+          "caller": "Roundtrip_SP226_Customer",
+          "callee": "Assert.NotNull",
+          "lineNumber": 71
+        },
+        {
+          "caller": "Roundtrip_SP226_Customer",
+          "callee": "Assert.Equal",
+          "lineNumber": 72
+        },
+        {
+          "caller": "Roundtrip_SP226_SODetail_and_Report",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 84
+        },
+        {
+          "caller": "Roundtrip_SP226_SODetail_and_Report",
+          "callee": "File.ReadAllText",
+          "lineNumber": 85
+        },
+        {
+          "caller": "Roundtrip_SP226_SODetail_and_Report",
+          "callee": "FboSyntaxParser.Parse",
+          "lineNumber": 86
+        },
+        {
+          "caller": "Roundtrip_SP226_SODetail_and_Report",
+          "callee": "Assert.Equal",
+          "lineNumber": 87
+        },
+        {
+          "caller": "Roundtrip_SP226_SODetail_and_Report",
+          "callee": "tree.Serialize",
+          "lineNumber": 87
+        },
+        {
+          "caller": "Flatten",
+          "callee": "Flatten",
+          "lineNumber": 95
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 210,
+      "nonEmptyLines": 183,
+      "functions": [
+        {
+          "name": "Parse_Dir_Customer_has_fields_and_form",
+          "startLine": 13,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "Parse_Dir_DataCopy_has_fields_and_form",
+          "startLine": 27,
+          "endLine": 39,
+          "params": []
+        },
+        {
+          "name": "Parse_Filter_rptIncomeStatement_has_fields",
+          "startLine": 41,
+          "endLine": 52,
+          "params": []
+        },
+        {
+          "name": "Parse_Grid_SODetail_has_fields",
+          "startLine": 54,
+          "endLine": 66,
+          "params": []
+        },
+        {
+          "name": "Parse_Lookup_Customer_has_fields",
+          "startLine": 68,
+          "endLine": 78,
+          "params": []
+        },
+        {
+          "name": "Structure_Report_rptIncomeStatement_has_report_root",
+          "startLine": 83,
+          "endLine": 94,
+          "params": []
+        },
+        {
+          "name": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "startLine": 96,
+          "endLine": 115,
+          "params": []
+        },
+        {
+          "name": "Include_FilterQuery_xml_exists_and_has_structure",
+          "startLine": 117,
+          "endLine": 125,
+          "params": []
+        },
+        {
+          "name": "SqlExtractor_Dir_Customer_returns_without_throw",
+          "startLine": 127,
+          "endLine": 134,
+          "params": []
+        },
+        {
+          "name": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "startLine": 139,
+          "endLine": 180,
+          "params": []
+        },
+        {
+          "name": "ParseCategories_without_header_does_not_throw",
+          "startLine": 182,
+          "endLine": 209,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "Sp226GoldenParseTests",
+          "startLine": 9,
+          "endLine": 79,
+          "methods": [
+            "Parse_Dir_Customer_has_fields_and_form",
+            "Parse_Dir_DataCopy_has_fields_and_form",
+            "Parse_Filter_rptIncomeStatement_has_fields",
+            "Parse_Grid_SODetail_has_fields",
+            "Parse_Lookup_Customer_has_fields"
+          ],
+          "properties": [
+            "_parser"
+          ]
+        },
+        {
+          "name": "Sp226StructureAndEntityTests",
+          "startLine": 81,
+          "endLine": 135,
+          "methods": [
+            "Structure_Report_rptIncomeStatement_has_report_root",
+            "EntitySymbols_SODetail_resolve_Grid_ent_include",
+            "Include_FilterQuery_xml_exists_and_has_structure",
+            "SqlExtractor_Dir_Customer_returns_without_throw"
+          ],
+          "properties": []
+        },
+        {
+          "name": "FboXmlWriterRoundtripTests",
+          "startLine": 137,
+          "endLine": 210,
+          "methods": [
+            "ApplyLayout_updates_column_widths_on_synthetic_dir",
+            "ParseCategories_without_header_does_not_throw"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Parse_Dir_Customer_has_fields_and_form",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Parse_Dir_DataCopy_has_fields_and_form",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "Parse_Filter_rptIncomeStatement_has_fields",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "Parse_Grid_SODetail_has_fields",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "Parse_Lookup_Customer_has_fields",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "Sp226GoldenParseTests",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "Structure_Report_rptIncomeStatement_has_report_root",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "line": 96,
+          "isDefault": false
+        },
+        {
+          "name": "Include_FilterQuery_xml_exists_and_has_structure",
+          "line": 117,
+          "isDefault": false
+        },
+        {
+          "name": "SqlExtractor_Dir_Customer_returns_without_throw",
+          "line": 127,
+          "isDefault": false
+        },
+        {
+          "name": "Sp226StructureAndEntityTests",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "line": 139,
+          "isDefault": false
+        },
+        {
+          "name": "ParseCategories_without_header_does_not_throw",
+          "line": 182,
+          "isDefault": false
+        },
+        {
+          "name": "FboXmlWriterRoundtripTests",
+          "line": 137,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Parse_Dir_Customer_has_fields_and_form",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 16
+        },
+        {
+          "caller": "Parse_Dir_Customer_has_fields_and_form",
+          "callee": "_parser.ParseFile",
+          "lineNumber": 17
+        },
+        {
+          "caller": "Parse_Dir_Customer_has_fields_and_form",
+          "callee": "Assert.Equal",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Parse_Dir_Customer_has_fields_and_form",
+          "callee": "Assert.Equal",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Parse_Dir_Customer_has_fields_and_form",
+          "callee": "Assert.Equal",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Parse_Dir_Customer_has_fields_and_form",
+          "callee": "Assert.NotNull",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Parse_Dir_Customer_has_fields_and_form",
+          "callee": "Assert.True",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Parse_Dir_Customer_has_fields_and_form",
+          "callee": "Assert.Contains",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Parse_Dir_Customer_has_fields_and_form",
+          "callee": "f.Name.Equals",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Parse_Dir_DataCopy_has_fields_and_form",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 30
+        },
+        {
+          "caller": "Parse_Dir_DataCopy_has_fields_and_form",
+          "callee": "_parser.ParseFile",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Parse_Dir_DataCopy_has_fields_and_form",
+          "callee": "Assert.Equal",
+          "lineNumber": 33
+        },
+        {
+          "caller": "Parse_Dir_DataCopy_has_fields_and_form",
+          "callee": "Assert.Equal",
+          "lineNumber": 34
+        },
+        {
+          "caller": "Parse_Dir_DataCopy_has_fields_and_form",
+          "callee": "Assert.Equal",
+          "lineNumber": 35
+        },
+        {
+          "caller": "Parse_Dir_DataCopy_has_fields_and_form",
+          "callee": "Assert.NotNull",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Parse_Dir_DataCopy_has_fields_and_form",
+          "callee": "Assert.True",
+          "lineNumber": 37
+        },
+        {
+          "caller": "Parse_Dir_DataCopy_has_fields_and_form",
+          "callee": "Assert.Contains",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Parse_Dir_DataCopy_has_fields_and_form",
+          "callee": "f.Name.Equals",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Parse_Filter_rptIncomeStatement_has_fields",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Parse_Filter_rptIncomeStatement_has_fields",
+          "callee": "_parser.ParseFile",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Parse_Filter_rptIncomeStatement_has_fields",
+          "callee": "Assert.Equal",
+          "lineNumber": 48
+        },
+        {
+          "caller": "Parse_Filter_rptIncomeStatement_has_fields",
+          "callee": "Assert.NotNull",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Parse_Filter_rptIncomeStatement_has_fields",
+          "callee": "Assert.True",
+          "lineNumber": 50
+        },
+        {
+          "caller": "Parse_Filter_rptIncomeStatement_has_fields",
+          "callee": "Assert.Contains",
+          "lineNumber": 51
+        },
+        {
+          "caller": "Parse_Filter_rptIncomeStatement_has_fields",
+          "callee": "f.Name.Equals",
+          "lineNumber": 51
+        },
+        {
+          "caller": "Parse_Grid_SODetail_has_fields",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 57
+        },
+        {
+          "caller": "Parse_Grid_SODetail_has_fields",
+          "callee": "_parser.ParseFile",
+          "lineNumber": 58
+        },
+        {
+          "caller": "Parse_Grid_SODetail_has_fields",
+          "callee": "Assert.Equal",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Parse_Grid_SODetail_has_fields",
+          "callee": "Assert.Equal",
+          "lineNumber": 61
+        },
+        {
+          "caller": "Parse_Grid_SODetail_has_fields",
+          "callee": "Assert.Equal",
+          "lineNumber": 62
+        },
+        {
+          "caller": "Parse_Grid_SODetail_has_fields",
+          "callee": "Assert.NotNull",
+          "lineNumber": 63
+        },
+        {
+          "caller": "Parse_Grid_SODetail_has_fields",
+          "callee": "Assert.True",
+          "lineNumber": 64
+        },
+        {
+          "caller": "Parse_Grid_SODetail_has_fields",
+          "callee": "Assert.Contains",
+          "lineNumber": 65
+        },
+        {
+          "caller": "Parse_Grid_SODetail_has_fields",
+          "callee": "f.Name.Equals",
+          "lineNumber": 65
+        },
+        {
+          "caller": "Parse_Lookup_Customer_has_fields",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 71
+        },
+        {
+          "caller": "Parse_Lookup_Customer_has_fields",
+          "callee": "_parser.ParseFile",
+          "lineNumber": 72
+        },
+        {
+          "caller": "Parse_Lookup_Customer_has_fields",
+          "callee": "Assert.Equal",
+          "lineNumber": 74
+        },
+        {
+          "caller": "Parse_Lookup_Customer_has_fields",
+          "callee": "Assert.Equal",
+          "lineNumber": 75
+        },
+        {
+          "caller": "Parse_Lookup_Customer_has_fields",
+          "callee": "Assert.NotNull",
+          "lineNumber": 76
+        },
+        {
+          "caller": "Parse_Lookup_Customer_has_fields",
+          "callee": "Assert.True",
+          "lineNumber": 77
+        },
+        {
+          "caller": "Structure_Report_rptIncomeStatement_has_report_root",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 86
+        },
+        {
+          "caller": "Structure_Report_rptIncomeStatement_has_report_root",
+          "callee": "File.ReadAllText",
+          "lineNumber": 87
+        },
+        {
+          "caller": "Structure_Report_rptIncomeStatement_has_report_root",
+          "callee": "XmlStructureParser.Parse",
+          "lineNumber": 88
+        },
+        {
+          "caller": "Structure_Report_rptIncomeStatement_has_report_root",
+          "callee": "Assert.NotNull",
+          "lineNumber": 90
+        },
+        {
+          "caller": "Structure_Report_rptIncomeStatement_has_report_root",
+          "callee": "Assert.Equal",
+          "lineNumber": 91
+        },
+        {
+          "caller": "Structure_Report_rptIncomeStatement_has_report_root",
+          "callee": "Assert.Contains",
+          "lineNumber": 92
+        },
+        {
+          "caller": "Structure_Report_rptIncomeStatement_has_report_root",
+          "callee": "n.Name.Equals",
+          "lineNumber": 93
+        },
+        {
+          "caller": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 99
+        },
+        {
+          "caller": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "callee": "File.ReadAllText",
+          "lineNumber": 100
+        },
+        {
+          "caller": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "callee": "Assert.Contains",
+          "lineNumber": 101
+        },
+        {
+          "caller": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 103
+        },
+        {
+          "caller": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "callee": "Assert.True",
+          "lineNumber": 104
+        },
+        {
+          "caller": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "callee": "File.Exists",
+          "lineNumber": 104
+        },
+        {
+          "caller": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 106
+        },
+        {
+          "caller": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "callee": "language_service.OpenDocument",
+          "lineNumber": 107
+        },
+        {
+          "caller": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "callee": "document.SemanticModel.GetEntities",
+          "lineNumber": 108
+        },
+        {
+          "caller": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "callee": "Assert.NotEmpty",
+          "lineNumber": 110
+        },
+        {
+          "caller": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "callee": "Assert.Contains",
+          "lineNumber": 111
+        },
+        {
+          "caller": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+          "callee": "entity.DeclarationKind == EntityDeclarationKind.Parameter\r\n            && entity.SystemId?.Contains",
+          "lineNumber": 112
+        },
+        {
+          "caller": "Include_FilterQuery_xml_exists_and_has_structure",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 120
+        },
+        {
+          "caller": "Include_FilterQuery_xml_exists_and_has_structure",
+          "callee": "File.ReadAllText",
+          "lineNumber": 121
+        },
+        {
+          "caller": "Include_FilterQuery_xml_exists_and_has_structure",
+          "callee": "XmlStructureParser.Parse",
+          "lineNumber": 122
+        },
+        {
+          "caller": "Include_FilterQuery_xml_exists_and_has_structure",
+          "callee": "Assert.NotNull",
+          "lineNumber": 123
+        },
+        {
+          "caller": "Include_FilterQuery_xml_exists_and_has_structure",
+          "callee": "Assert.True",
+          "lineNumber": 124
+        },
+        {
+          "caller": "SqlExtractor_Dir_Customer_returns_without_throw",
+          "callee": "Sp226Paths.Require",
+          "lineNumber": 130
+        },
+        {
+          "caller": "SqlExtractor_Dir_Customer_returns_without_throw",
+          "callee": "File.ReadAllText",
+          "lineNumber": 131
+        },
+        {
+          "caller": "SqlExtractor_Dir_Customer_returns_without_throw",
+          "callee": "FboSqlFragmentExtractor.Extract",
+          "lineNumber": 132
+        },
+        {
+          "caller": "SqlExtractor_Dir_Customer_returns_without_throw",
+          "callee": "Assert.NotNull",
+          "lineNumber": 133
+        },
+        {
+          "caller": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "callee": "new FboXmlParser",
+          "lineNumber": 163
+        },
+        {
+          "caller": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "callee": "parser.Parse",
+          "lineNumber": 164
+        },
+        {
+          "caller": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "callee": "Assert.NotNull",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "callee": "new FboXmlWriter",
+          "lineNumber": 171
+        },
+        {
+          "caller": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "callee": "writer.ApplyLayout",
+          "lineNumber": 172
+        },
+        {
+          "caller": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "callee": "Assert.Contains",
+          "lineNumber": 174
+        },
+        {
+          "caller": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "callee": "parser.Parse",
+          "lineNumber": 175
+        },
+        {
+          "caller": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "callee": "Assert.NotNull",
+          "lineNumber": 176
+        },
+        {
+          "caller": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "callee": "Assert.Equal",
+          "lineNumber": 177
+        },
+        {
+          "caller": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "callee": "Assert.Equal",
+          "lineNumber": 178
+        },
+        {
+          "caller": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+          "callee": "Assert.Equal",
+          "lineNumber": 179
+        },
+        {
+          "caller": "ParseCategories_without_header_does_not_throw",
+          "callee": "new FboXmlParser().Parse",
+          "lineNumber": 204
+        },
+        {
+          "caller": "ParseCategories_without_header_does_not_throw",
+          "callee": "new FboXmlParser",
+          "lineNumber": 204
+        },
+        {
+          "caller": "ParseCategories_without_header_does_not_throw",
+          "callee": "Assert.NotNull",
+          "lineNumber": 205
+        },
+        {
+          "caller": "ParseCategories_without_header_does_not_throw",
+          "callee": "Assert.Single",
+          "lineNumber": 206
+        },
+        {
+          "caller": "ParseCategories_without_header_does_not_throw",
+          "callee": "Assert.Equal",
+          "lineNumber": 207
+        },
+        {
+          "caller": "ParseCategories_without_header_does_not_throw",
+          "callee": "Assert.Equal",
+          "lineNumber": 208
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 14,
+        "functionCount": 11,
+        "classCount": 3
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "Require",
+          "startLine": 19,
+          "endLine": 25,
+          "params": []
+        },
+        {
+          "name": "RequireRoot",
+          "startLine": 27,
+          "endLine": 33,
+          "params": []
+        },
+        {
+          "name": "ResolveProgramRoot",
+          "startLine": 35,
+          "endLine": 56,
+          "params": []
+        },
+        {
+          "name": "Sp226FactAttribute",
+          "startLine": 62,
+          "endLine": 66,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "Sp226Paths",
+          "startLine": 8,
+          "endLine": 57,
+          "methods": [
+            "Require",
+            "RequireRoot",
+            "ResolveProgramRoot"
+          ],
+          "properties": [
+            "ProgramRoot",
+            "IsAvailable",
+            "Controllers"
+          ]
+        },
+        {
+          "name": "Sp226FactAttribute",
+          "startLine": 60,
+          "endLine": 67,
+          "methods": [
+            "Sp226FactAttribute"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProgramRoot",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "IsAvailable",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "Controllers",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "Require",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "RequireRoot",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "Sp226Paths",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "Sp226FactAttribute",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "Sp226FactAttribute",
+          "line": 60,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Require",
+          "callee": "Path.Combine",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Require",
+          "callee": "new[] { Controllers }.Concat(relative_parts).ToArray",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Require",
+          "callee": "new[] { Controllers }.Concat",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Require",
+          "callee": "File.Exists",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Require",
+          "callee": "Directory.Exists",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Require",
+          "callee": "new FileNotFoundException",
+          "lineNumber": 23
+        },
+        {
+          "caller": "RequireRoot",
+          "callee": "new InvalidOperationException",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ResolveProgramRoot",
+          "callee": "Environment.GetEnvironmentVariable",
+          "lineNumber": 37
+        },
+        {
+          "caller": "ResolveProgramRoot",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 38
+        },
+        {
+          "caller": "ResolveProgramRoot",
+          "callee": "Path.GetFullPath",
+          "lineNumber": 40
+        },
+        {
+          "caller": "ResolveProgramRoot",
+          "callee": "env.Trim",
+          "lineNumber": 40
+        },
+        {
+          "caller": "ResolveProgramRoot",
+          "callee": "Directory.Exists",
+          "lineNumber": 41
+        },
+        {
+          "caller": "ResolveProgramRoot",
+          "callee": "new DirectoryInfo",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ResolveProgramRoot",
+          "callee": "Path.Combine",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ResolveProgramRoot",
+          "callee": "Directory.Exists",
+          "lineNumber": 49
+        },
+        {
+          "caller": "ResolveProgramRoot",
+          "callee": "Directory.Exists",
+          "lineNumber": 50
+        },
+        {
+          "caller": "ResolveProgramRoot",
+          "callee": "Path.Combine",
+          "lineNumber": 50
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 4,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 177,
+      "nonEmptyLines": 137,
+      "functions": [
+        {
+          "name": "SearchSymbols_returns_matching_entries_across_documents",
+          "startLine": 30,
+          "endLine": 40,
+          "params": []
+        },
+        {
+          "name": "SearchSymbols_by_display_name_matches_header",
+          "startLine": 42,
+          "endLine": 51,
+          "params": []
+        },
+        {
+          "name": "SearchSymbols_kind_filter_narrows_results",
+          "startLine": 53,
+          "endLine": 64,
+          "params": []
+        },
+        {
+          "name": "SearchSymbols_empty_query_returns_empty",
+          "startLine": 66,
+          "endLine": 75,
+          "params": []
+        },
+        {
+          "name": "SearchSymbols_maxResults_limits_output",
+          "startLine": 77,
+          "endLine": 87,
+          "params": []
+        },
+        {
+          "name": "GetSymbolDefinition_returns_location_for_known_symbol",
+          "startLine": 89,
+          "endLine": 103,
+          "params": []
+        },
+        {
+          "name": "GetSymbolDefinition_unknown_id_returns_null",
+          "startLine": 105,
+          "endLine": 111,
+          "params": []
+        },
+        {
+          "name": "FindSymbolReferences_unknown_symbol_returns_empty",
+          "startLine": 113,
+          "endLine": 122,
+          "params": []
+        },
+        {
+          "name": "GetDocumentSymbols_returns_symbols_for_document",
+          "startLine": 124,
+          "endLine": 134,
+          "params": []
+        },
+        {
+          "name": "Close_removes_symbols_from_index",
+          "startLine": 136,
+          "endLine": 149,
+          "params": []
+        },
+        {
+          "name": "Reload_refreshes_symbol_index",
+          "startLine": 151,
+          "endLine": 164,
+          "params": []
+        },
+        {
+          "name": "SearchSymbols_cross_document_finds_correct_documentPath",
+          "startLine": 166,
+          "endLine": 176,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "WorkspaceSymbolIndexTests",
+          "startLine": 7,
+          "endLine": 177,
+          "methods": [
+            "SearchSymbols_returns_matching_entries_across_documents",
+            "SearchSymbols_by_display_name_matches_header",
+            "SearchSymbols_kind_filter_narrows_results",
+            "SearchSymbols_empty_query_returns_empty",
+            "SearchSymbols_maxResults_limits_output",
+            "GetSymbolDefinition_returns_location_for_known_symbol",
+            "GetSymbolDefinition_unknown_id_returns_null",
+            "FindSymbolReferences_unknown_symbol_returns_empty",
+            "GetDocumentSymbols_returns_symbols_for_document",
+            "Close_removes_symbols_from_index",
+            "Reload_refreshes_symbol_index",
+            "SearchSymbols_cross_document_finds_correct_documentPath"
+          ],
+          "properties": [
+            "CustomerXml",
+            "OrderXml"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SearchSymbols_returns_matching_entries_across_documents",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "SearchSymbols_by_display_name_matches_header",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "SearchSymbols_kind_filter_narrows_results",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "SearchSymbols_empty_query_returns_empty",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "SearchSymbols_maxResults_limits_output",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "GetSymbolDefinition_returns_location_for_known_symbol",
+          "line": 89,
+          "isDefault": false
+        },
+        {
+          "name": "GetSymbolDefinition_unknown_id_returns_null",
+          "line": 105,
+          "isDefault": false
+        },
+        {
+          "name": "FindSymbolReferences_unknown_symbol_returns_empty",
+          "line": 113,
+          "isDefault": false
+        },
+        {
+          "name": "GetDocumentSymbols_returns_symbols_for_document",
+          "line": 124,
+          "isDefault": false
+        },
+        {
+          "name": "Close_removes_symbols_from_index",
+          "line": 136,
+          "isDefault": false
+        },
+        {
+          "name": "Reload_refreshes_symbol_index",
+          "line": 151,
+          "isDefault": false
+        },
+        {
+          "name": "SearchSymbols_cross_document_finds_correct_documentPath",
+          "line": 166,
+          "isDefault": false
+        },
+        {
+          "name": "WorkspaceSymbolIndexTests",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SearchSymbols_returns_matching_entries_across_documents",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 33
+        },
+        {
+          "caller": "SearchSymbols_returns_matching_entries_across_documents",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 34
+        },
+        {
+          "caller": "SearchSymbols_returns_matching_entries_across_documents",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 35
+        },
+        {
+          "caller": "SearchSymbols_returns_matching_entries_across_documents",
+          "callee": "ls.SearchSymbols",
+          "lineNumber": 37
+        },
+        {
+          "caller": "SearchSymbols_returns_matching_entries_across_documents",
+          "callee": "Assert.Contains",
+          "lineNumber": 39
+        },
+        {
+          "caller": "SearchSymbols_by_display_name_matches_header",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 45
+        },
+        {
+          "caller": "SearchSymbols_by_display_name_matches_header",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 46
+        },
+        {
+          "caller": "SearchSymbols_by_display_name_matches_header",
+          "callee": "ls.SearchSymbols",
+          "lineNumber": 48
+        },
+        {
+          "caller": "SearchSymbols_by_display_name_matches_header",
+          "callee": "Assert.Contains",
+          "lineNumber": 50
+        },
+        {
+          "caller": "SearchSymbols_kind_filter_narrows_results",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 56
+        },
+        {
+          "caller": "SearchSymbols_kind_filter_narrows_results",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 57
+        },
+        {
+          "caller": "SearchSymbols_kind_filter_narrows_results",
+          "callee": "ls.SearchSymbols",
+          "lineNumber": 59
+        },
+        {
+          "caller": "SearchSymbols_kind_filter_narrows_results",
+          "callee": "ls.SearchSymbols",
+          "lineNumber": 60
+        },
+        {
+          "caller": "SearchSymbols_kind_filter_narrows_results",
+          "callee": "Assert.All",
+          "lineNumber": 62
+        },
+        {
+          "caller": "SearchSymbols_kind_filter_narrows_results",
+          "callee": "Assert.Equal",
+          "lineNumber": 62
+        },
+        {
+          "caller": "SearchSymbols_kind_filter_narrows_results",
+          "callee": "Assert.All",
+          "lineNumber": 63
+        },
+        {
+          "caller": "SearchSymbols_kind_filter_narrows_results",
+          "callee": "Assert.Equal",
+          "lineNumber": 63
+        },
+        {
+          "caller": "SearchSymbols_empty_query_returns_empty",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 69
+        },
+        {
+          "caller": "SearchSymbols_empty_query_returns_empty",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 70
+        },
+        {
+          "caller": "SearchSymbols_empty_query_returns_empty",
+          "callee": "ls.SearchSymbols",
+          "lineNumber": 72
+        },
+        {
+          "caller": "SearchSymbols_empty_query_returns_empty",
+          "callee": "Assert.Empty",
+          "lineNumber": 74
+        },
+        {
+          "caller": "SearchSymbols_maxResults_limits_output",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 80
+        },
+        {
+          "caller": "SearchSymbols_maxResults_limits_output",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 81
+        },
+        {
+          "caller": "SearchSymbols_maxResults_limits_output",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 82
+        },
+        {
+          "caller": "SearchSymbols_maxResults_limits_output",
+          "callee": "ls.SearchSymbols",
+          "lineNumber": 84
+        },
+        {
+          "caller": "SearchSymbols_maxResults_limits_output",
+          "callee": "Assert.True",
+          "lineNumber": 86
+        },
+        {
+          "caller": "GetSymbolDefinition_returns_location_for_known_symbol",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 92
+        },
+        {
+          "caller": "GetSymbolDefinition_returns_location_for_known_symbol",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 93
+        },
+        {
+          "caller": "GetSymbolDefinition_returns_location_for_known_symbol",
+          "callee": "ls.SearchSymbols",
+          "lineNumber": 95
+        },
+        {
+          "caller": "GetSymbolDefinition_returns_location_for_known_symbol",
+          "callee": "Assert.NotEmpty",
+          "lineNumber": 96
+        },
+        {
+          "caller": "GetSymbolDefinition_returns_location_for_known_symbol",
+          "callee": "ls.GetSymbolDefinition",
+          "lineNumber": 99
+        },
+        {
+          "caller": "GetSymbolDefinition_unknown_id_returns_null",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 108
+        },
+        {
+          "caller": "GetSymbolDefinition_unknown_id_returns_null",
+          "callee": "ls.GetSymbolDefinition",
+          "lineNumber": 109
+        },
+        {
+          "caller": "GetSymbolDefinition_unknown_id_returns_null",
+          "callee": "Assert.Null",
+          "lineNumber": 110
+        },
+        {
+          "caller": "FindSymbolReferences_unknown_symbol_returns_empty",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 116
+        },
+        {
+          "caller": "FindSymbolReferences_unknown_symbol_returns_empty",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 117
+        },
+        {
+          "caller": "FindSymbolReferences_unknown_symbol_returns_empty",
+          "callee": "ls.FindSymbolReferences",
+          "lineNumber": 119
+        },
+        {
+          "caller": "FindSymbolReferences_unknown_symbol_returns_empty",
+          "callee": "Assert.Empty",
+          "lineNumber": 121
+        },
+        {
+          "caller": "GetDocumentSymbols_returns_symbols_for_document",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 127
+        },
+        {
+          "caller": "GetDocumentSymbols_returns_symbols_for_document",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 128
+        },
+        {
+          "caller": "GetDocumentSymbols_returns_symbols_for_document",
+          "callee": "ls.Workspace.SymbolIndex.GetDocumentSymbols",
+          "lineNumber": 130
+        },
+        {
+          "caller": "GetDocumentSymbols_returns_symbols_for_document",
+          "callee": "Assert.NotEmpty",
+          "lineNumber": 132
+        },
+        {
+          "caller": "GetDocumentSymbols_returns_symbols_for_document",
+          "callee": "Assert.All",
+          "lineNumber": 133
+        },
+        {
+          "caller": "GetDocumentSymbols_returns_symbols_for_document",
+          "callee": "Assert.Equal",
+          "lineNumber": 133
+        },
+        {
+          "caller": "Close_removes_symbols_from_index",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 139
+        },
+        {
+          "caller": "Close_removes_symbols_from_index",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 140
+        },
+        {
+          "caller": "Close_removes_symbols_from_index",
+          "callee": "ls.Workspace.SymbolIndex.GetDocumentSymbols",
+          "lineNumber": 142
+        },
+        {
+          "caller": "Close_removes_symbols_from_index",
+          "callee": "Assert.NotEmpty",
+          "lineNumber": 143
+        },
+        {
+          "caller": "Close_removes_symbols_from_index",
+          "callee": "ls.CloseDocument",
+          "lineNumber": 145
+        },
+        {
+          "caller": "Close_removes_symbols_from_index",
+          "callee": "ls.Workspace.SymbolIndex.GetDocumentSymbols",
+          "lineNumber": 147
+        },
+        {
+          "caller": "Close_removes_symbols_from_index",
+          "callee": "Assert.Empty",
+          "lineNumber": 148
+        },
+        {
+          "caller": "Reload_refreshes_symbol_index",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 154
+        },
+        {
+          "caller": "Reload_refreshes_symbol_index",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 155
+        },
+        {
+          "caller": "Reload_refreshes_symbol_index",
+          "callee": "ls.Workspace.SymbolIndex.GetDocumentSymbols",
+          "lineNumber": 157
+        },
+        {
+          "caller": "Reload_refreshes_symbol_index",
+          "callee": "ls.ReloadDocument",
+          "lineNumber": 160
+        },
+        {
+          "caller": "Reload_refreshes_symbol_index",
+          "callee": "ls.Workspace.SymbolIndex.GetDocumentSymbols",
+          "lineNumber": 162
+        },
+        {
+          "caller": "Reload_refreshes_symbol_index",
+          "callee": "Assert.Equal",
+          "lineNumber": 163
+        },
+        {
+          "caller": "SearchSymbols_cross_document_finds_correct_documentPath",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 169
+        },
+        {
+          "caller": "SearchSymbols_cross_document_finds_correct_documentPath",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 170
+        },
+        {
+          "caller": "SearchSymbols_cross_document_finds_correct_documentPath",
+          "callee": "ls.OpenDocumentFromText",
+          "lineNumber": 171
+        },
+        {
+          "caller": "SearchSymbols_cross_document_finds_correct_documentPath",
+          "callee": "ls.SearchSymbols",
+          "lineNumber": 173
+        },
+        {
+          "caller": "SearchSymbols_cross_document_finds_correct_documentPath",
+          "callee": "Assert.Contains",
+          "lineNumber": 175
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 13,
+        "functionCount": 12,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Domain.Tests/DevWorkFlow.Domain.Tests.csproj",
+      "language": "csproj",
+      "fileCategory": "config",
+      "totalLines": 24,
+      "nonEmptyLines": 20,
+      "metrics": {}
+    },
+    {
+      "path": "tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 35,
+      "functions": [
+        {
+          "name": "ErpDocumentId_ignores_path_case",
+          "startLine": 8,
+          "endLine": 15,
+          "params": []
+        },
+        {
+          "name": "SourceSpan_end_offset",
+          "startLine": 17,
+          "endLine": 24,
+          "params": []
+        },
+        {
+          "name": "EntitySymbol_is_entity_kind",
+          "startLine": 26,
+          "endLine": 38,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "LanguageContractTests",
+          "startLine": 6,
+          "endLine": 39,
+          "methods": [
+            "ErpDocumentId_ignores_path_case",
+            "SourceSpan_end_offset",
+            "EntitySymbol_is_entity_kind"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ErpDocumentId_ignores_path_case",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "SourceSpan_end_offset",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "EntitySymbol_is_entity_kind",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "LanguageContractTests",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ErpDocumentId_ignores_path_case",
+          "callee": "ErpDocumentId.FromPath",
+          "lineNumber": 11
+        },
+        {
+          "caller": "ErpDocumentId_ignores_path_case",
+          "callee": "ErpDocumentId.FromPath",
+          "lineNumber": 12
+        },
+        {
+          "caller": "ErpDocumentId_ignores_path_case",
+          "callee": "Assert.Equal",
+          "lineNumber": 13
+        },
+        {
+          "caller": "ErpDocumentId_ignores_path_case",
+          "callee": "Assert.Equal",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ErpDocumentId_ignores_path_case",
+          "callee": "a.GetHashCode",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ErpDocumentId_ignores_path_case",
+          "callee": "b.GetHashCode",
+          "lineNumber": 14
+        },
+        {
+          "caller": "SourceSpan_end_offset",
+          "callee": "new SourceSpan",
+          "lineNumber": 20
+        },
+        {
+          "caller": "SourceSpan_end_offset",
+          "callee": "Assert.Equal",
+          "lineNumber": 21
+        },
+        {
+          "caller": "SourceSpan_end_offset",
+          "callee": "Assert.False",
+          "lineNumber": 22
+        },
+        {
+          "caller": "SourceSpan_end_offset",
+          "callee": "Assert.True",
+          "lineNumber": 23
+        },
+        {
+          "caller": "EntitySymbol_is_entity_kind",
+          "callee": "new EntitySymbol",
+          "lineNumber": 29
+        },
+        {
+          "caller": "EntitySymbol_is_entity_kind",
+          "callee": "Assert.Equal",
+          "lineNumber": 36
+        },
+        {
+          "caller": "EntitySymbol_is_entity_kind",
+          "callee": "Assert.Equal",
+          "lineNumber": 37
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 63,
+      "nonEmptyLines": 53,
+      "functions": [
+        {
+          "name": "Get_prefers_vietnamese_when_available",
+          "startLine": 8,
+          "endLine": 14,
+          "params": []
+        },
+        {
+          "name": "Get_falls_back_when_preferred_empty",
+          "startLine": 16,
+          "endLine": 24,
+          "params": []
+        },
+        {
+          "name": "FromForm_sets_display_and_folder_kind",
+          "startLine": 29,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "FromGrid_and_FromLookup_set_expected_kinds",
+          "startLine": 49,
+          "endLine": 62,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "LocalizedTextTests",
+          "startLine": 6,
+          "endLine": 25,
+          "methods": [
+            "Get_prefers_vietnamese_when_available",
+            "Get_falls_back_when_preferred_empty"
+          ],
+          "properties": []
+        },
+        {
+          "name": "FboControllerDocumentTests",
+          "startLine": 27,
+          "endLine": 63,
+          "methods": [
+            "FromForm_sets_display_and_folder_kind",
+            "FromGrid_and_FromLookup_set_expected_kinds"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Get_prefers_vietnamese_when_available",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "Get_falls_back_when_preferred_empty",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "LocalizedTextTests",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "FromForm_sets_display_and_folder_kind",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "FromGrid_and_FromLookup_set_expected_kinds",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "FboControllerDocumentTests",
+          "line": 27,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Get_prefers_vietnamese_when_available",
+          "callee": "new LocalizedText",
+          "lineNumber": 11
+        },
+        {
+          "caller": "Get_prefers_vietnamese_when_available",
+          "callee": "Assert.Equal",
+          "lineNumber": 12
+        },
+        {
+          "caller": "Get_prefers_vietnamese_when_available",
+          "callee": "text.Get",
+          "lineNumber": 12
+        },
+        {
+          "caller": "Get_prefers_vietnamese_when_available",
+          "callee": "Assert.Equal",
+          "lineNumber": 13
+        },
+        {
+          "caller": "Get_prefers_vietnamese_when_available",
+          "callee": "text.Get",
+          "lineNumber": 13
+        },
+        {
+          "caller": "Get_falls_back_when_preferred_empty",
+          "callee": "new LocalizedText",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Get_falls_back_when_preferred_empty",
+          "callee": "Assert.Equal",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Get_falls_back_when_preferred_empty",
+          "callee": "text.Get",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Get_falls_back_when_preferred_empty",
+          "callee": "new LocalizedText",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Get_falls_back_when_preferred_empty",
+          "callee": "Assert.Equal",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Get_falls_back_when_preferred_empty",
+          "callee": "text.Get",
+          "lineNumber": 23
+        },
+        {
+          "caller": "FromForm_sets_display_and_folder_kind",
+          "callee": "new FboFormModel",
+          "lineNumber": 32
+        },
+        {
+          "caller": "FromForm_sets_display_and_folder_kind",
+          "callee": "new LocalizedText",
+          "lineNumber": 36
+        },
+        {
+          "caller": "FromForm_sets_display_and_folder_kind",
+          "callee": "FboControllerDocument.FromForm",
+          "lineNumber": 39
+        },
+        {
+          "caller": "FromForm_sets_display_and_folder_kind",
+          "callee": "Assert.Equal",
+          "lineNumber": 41
+        },
+        {
+          "caller": "FromForm_sets_display_and_folder_kind",
+          "callee": "Assert.Equal",
+          "lineNumber": 42
+        },
+        {
+          "caller": "FromForm_sets_display_and_folder_kind",
+          "callee": "Assert.Equal",
+          "lineNumber": 43
+        },
+        {
+          "caller": "FromForm_sets_display_and_folder_kind",
+          "callee": "Assert.Same",
+          "lineNumber": 44
+        },
+        {
+          "caller": "FromForm_sets_display_and_folder_kind",
+          "callee": "Assert.Null",
+          "lineNumber": 45
+        },
+        {
+          "caller": "FromForm_sets_display_and_folder_kind",
+          "callee": "Assert.Null",
+          "lineNumber": 46
+        },
+        {
+          "caller": "FromGrid_and_FromLookup_set_expected_kinds",
+          "callee": "new FboGridModel",
+          "lineNumber": 52
+        },
+        {
+          "caller": "FromGrid_and_FromLookup_set_expected_kinds",
+          "callee": "new FboLookupModel",
+          "lineNumber": 53
+        },
+        {
+          "caller": "FromGrid_and_FromLookup_set_expected_kinds",
+          "callee": "FboControllerDocument.FromGrid",
+          "lineNumber": 55
+        },
+        {
+          "caller": "FromGrid_and_FromLookup_set_expected_kinds",
+          "callee": "FboControllerDocument.FromLookup",
+          "lineNumber": 56
+        },
+        {
+          "caller": "FromGrid_and_FromLookup_set_expected_kinds",
+          "callee": "Assert.Equal",
+          "lineNumber": 58
+        },
+        {
+          "caller": "FromGrid_and_FromLookup_set_expected_kinds",
+          "callee": "Assert.Equal",
+          "lineNumber": 59
+        },
+        {
+          "caller": "FromGrid_and_FromLookup_set_expected_kinds",
+          "callee": "Assert.Equal",
+          "lineNumber": 60
+        },
+        {
+          "caller": "FromGrid_and_FromLookup_set_expected_kinds",
+          "callee": "Assert.Equal",
+          "lineNumber": 61
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 4,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "UI/App.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 28,
+      "metrics": {}
+    },
+    {
+      "path": "UI/App.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 80,
+      "nonEmptyLines": 72,
+      "functions": [
+        {
+          "name": "Application_Startup",
+          "startLine": 18,
+          "endLine": 79,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "App",
+          "startLine": 16,
+          "endLine": 80,
+          "methods": [
+            "Application_Startup"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "App",
+          "line": 16,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Application_Startup",
+          "callee": "new NavigationService",
+          "lineNumber": 21
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new DockService",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new TemplateService",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new FormService",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new WebConfigReader",
+          "lineNumber": 25
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new WcommandRepository",
+          "lineNumber": 26
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new EntityRepository",
+          "lineNumber": 27
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new ErpLanguageService",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new MenuService",
+          "lineNumber": 29
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new ProgramSession",
+          "lineNumber": 30
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new UserSettingsStore",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new AppConfigStore",
+          "lineNumber": 32
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new SqlScriptRunner",
+          "lineNumber": 33
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new SqlStudioNavigator",
+          "lineNumber": 34
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new FormDocumentNavigator",
+          "lineNumber": 35
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new DatabaseObjectScripter",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "CreateForm",
+          "lineNumber": 41
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new NavigationViewModel",
+          "lineNumber": 42
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new ProjectExplorerViewModel",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new DatabaseExplorerViewModel",
+          "lineNumber": 47
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new LeftExplorerLoadCoordinator",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "navigation_vm.TryRestoreLastProgramAsync",
+          "lineNumber": 52
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new OutlineViewModel",
+          "lineNumber": 54
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new PropertyGridViewModel",
+          "lineNumber": 55
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new ToolboxViewModel",
+          "lineNumber": 56
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new InsightPanelViewModel",
+          "lineNumber": 57
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new SymbolInfoViewModel",
+          "lineNumber": 58
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new IdeDiagnosticsViewModel",
+          "lineNumber": 59
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new XmlBottomViewModel",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new FormBuilderDiagnosticsBridge",
+          "lineNumber": 61
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new TemplateManagerViewModel",
+          "lineNumber": 63
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new TemplateManagerViewModel",
+          "lineNumber": 64
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new TemplateManagerViewModel",
+          "lineNumber": 65
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new TemplateManagerViewModel",
+          "lineNumber": 66
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new MainViewModel",
+          "lineNumber": 68
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "new MainWindow",
+          "lineNumber": 77
+        },
+        {
+          "caller": "Application_Startup",
+          "callee": "main_window.Show",
+          "lineNumber": 78
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/AssemblyInfo.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "UI/Commands/IdeCommands.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 50,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "Create",
+          "startLine": 43,
+          "endLine": 49,
+          "params": [
+            "name",
+            "key",
+            "modifiers"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "IdeCommands",
+          "startLine": 9,
+          "endLine": 50,
+          "methods": [
+            "Create"
+          ],
+          "properties": [
+            "New",
+            "Open",
+            "Save",
+            "SaveAll",
+            "Exit",
+            "Undo",
+            "Redo",
+            "Cut",
+            "Copy",
+            "Paste",
+            "Delete",
+            "Add",
+            "ValidateXml",
+            "Preview",
+            "Entity",
+            "Parse",
+            "ClearText",
+            "ExecuteSql",
+            "OpenSqlFromForm",
+            "OpenSqlFile",
+            "Search",
+            "Replace",
+            "GoToDefinition",
+            "FindReferences",
+            "Settings",
+            "ToggleLeftDock",
+            "ToggleRightDock",
+            "ToggleBottomDock"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "New",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Open",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "Save",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "SaveAll",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Exit",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Undo",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Redo",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "Cut",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "Copy",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "Paste",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "Delete",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Add",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "ValidateXml",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "Preview",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "Entity",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "Parse",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "ClearText",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "ExecuteSql",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "OpenSqlFromForm",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "OpenSqlFile",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "Search",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "Replace",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "GoToDefinition",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "FindReferences",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "Settings",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "ToggleLeftDock",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "ToggleRightDock",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "ToggleBottomDock",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "IdeCommands",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Create",
+          "callee": "new InputGestureCollection",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Create",
+          "callee": "gestures.Add",
+          "lineNumber": 47
+        },
+        {
+          "caller": "Create",
+          "callee": "new KeyGesture",
+          "lineNumber": 47
+        },
+        {
+          "caller": "Create",
+          "callee": "new RoutedUICommand",
+          "lineNumber": 48
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 29,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Converters/Converters.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 62,
+      "nonEmptyLines": 53,
+      "functions": [
+        {
+          "name": "Convert",
+          "startLine": 11,
+          "endLine": 17,
+          "params": [
+            "value",
+            "targetType",
+            "parameter",
+            "culture"
+          ]
+        },
+        {
+          "name": "ConvertBack",
+          "startLine": 19,
+          "endLine": 20,
+          "params": [
+            "value",
+            "targetType",
+            "parameter",
+            "culture"
+          ]
+        },
+        {
+          "name": "Convert",
+          "startLine": 27,
+          "endLine": 28,
+          "params": [
+            "value",
+            "targetType",
+            "parameter",
+            "culture"
+          ]
+        },
+        {
+          "name": "ConvertBack",
+          "startLine": 30,
+          "endLine": 31,
+          "params": [
+            "value",
+            "targetType",
+            "parameter",
+            "culture"
+          ]
+        },
+        {
+          "name": "Convert",
+          "startLine": 38,
+          "endLine": 39,
+          "params": [
+            "value",
+            "targetType",
+            "parameter",
+            "culture"
+          ]
+        },
+        {
+          "name": "ConvertBack",
+          "startLine": 41,
+          "endLine": 42,
+          "params": [
+            "value",
+            "targetType",
+            "parameter",
+            "culture"
+          ]
+        },
+        {
+          "name": "Convert",
+          "startLine": 51,
+          "endLine": 58,
+          "params": [
+            "value",
+            "targetType",
+            "parameter",
+            "culture"
+          ]
+        },
+        {
+          "name": "ConvertBack",
+          "startLine": 60,
+          "endLine": 61,
+          "params": [
+            "value",
+            "targetType",
+            "parameter",
+            "culture"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "NullToVisibilityConverter",
+          "startLine": 8,
+          "endLine": 21,
+          "methods": [
+            "Convert",
+            "ConvertBack"
+          ],
+          "properties": []
+        },
+        {
+          "name": "NullOrEmptyToVisibilityConverter",
+          "startLine": 24,
+          "endLine": 32,
+          "methods": [
+            "Convert",
+            "ConvertBack"
+          ],
+          "properties": []
+        },
+        {
+          "name": "InverseBoolConverter",
+          "startLine": 35,
+          "endLine": 43,
+          "methods": [
+            "Convert",
+            "ConvertBack"
+          ],
+          "properties": []
+        },
+        {
+          "name": "FormHeightConverter",
+          "startLine": 48,
+          "endLine": 62,
+          "methods": [
+            "Convert",
+            "ConvertBack"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Convert",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "ConvertBack",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "NullToVisibilityConverter",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "Convert",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "ConvertBack",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "NullOrEmptyToVisibilityConverter",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "Convert",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "ConvertBack",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "InverseBoolConverter",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "Convert",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "ConvertBack",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "FormHeightConverter",
+          "line": 48,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Convert",
+          "callee": "parameter?.ToString",
+          "lineNumber": 14
+        },
+        {
+          "caller": "Convert",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Convert",
+          "callee": "double.IsNaN",
+          "lineNumber": 53
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 12,
+        "functionCount": 8,
+        "classCount": 4
+      }
+    },
+    {
+      "path": "UI/Docking/DockPanelHost.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 17,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Docking/DockPanelHost.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "functions": [
+        {
+          "name": "DockPanelHost",
+          "startLine": 7,
+          "endLine": 7,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "DockPanelHost",
+          "startLine": 5,
+          "endLine": 8,
+          "methods": [
+            "DockPanelHost"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DockPanelHost",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "DockPanelHost",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "DockPanelHost",
+          "callee": "InitializeComponent",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

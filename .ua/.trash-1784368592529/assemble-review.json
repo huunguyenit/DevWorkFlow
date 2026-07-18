@@ -1,0 +1,8 @@
+{
+  "notes": [
+    "Import map tree-sitter tra ve 0 edges; da bo sung imports bang heuristic C# type-reference.",
+    "Semantic summaries dung path-based heuristics tieng Viet (khong phai full LLM file-analyzer)."
+  ],
+  "danglingEdges": 0,
+  "recovered": true
+}

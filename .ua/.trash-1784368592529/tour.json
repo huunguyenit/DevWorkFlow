@@ -1,0 +1,83 @@
+[
+  {
+    "order": 1,
+    "title": "Tổng quan sản phẩm",
+    "description": "Bắt đầu từ README và PRODUCT_VISION để hiểu FBO Studio là IDE cho FBO ERP.",
+    "nodeIds": [
+      "document:README.md",
+      "document:docs/PRODUCT_VISION.md"
+    ]
+  },
+  {
+    "order": 2,
+    "title": "Kiến trúc Clean Architecture",
+    "description": "Đọc ARCHITECTURE.md rồi lần theo 4 project Domain → Application → Infrastructure → UI.",
+    "nodeIds": [
+      "document:docs/ARCHITECTURE.md",
+      "config:DevWorkFlow.Domain/DevWorkFlow.Domain.csproj",
+      "config:DevWorkFlow.Application/DevWorkFlow.Application.csproj",
+      "config:DevWorkFlow.Infrastructure/DevWorkFlow.Infrastructure.csproj",
+      "config:UI/UI.csproj"
+    ]
+  },
+  {
+    "order": 3,
+    "title": "Composition root",
+    "description": "App.xaml.cs là điểm wiring DI thủ công và mở MainWindow.",
+    "nodeIds": [
+      "file:UI/App.xaml.cs",
+      "file:UI/MainWindow.xaml.cs"
+    ]
+  },
+  {
+    "order": 4,
+    "title": "Ports Application",
+    "description": "IServices và Abstractionsctions định nghĩa hợp đồng mà Infrastructure implement.",
+    "nodeIds": [
+      "file:DevWorkFlow.Application/Abstractions/IServices.cs"
+    ]
+  },
+  {
+    "order": 5,
+    "title": "ERP Language Service",
+    "description": "Trái tim To-Be: workspace, bind, navigation, diagnostics trong Application/Language.",
+    "nodeIds": [
+      "document:docs/ERP_LANGUAGE_SERVICE.md",
+      "file:DevWorkFlow.Application/Language/ErpLanguageService.cs"
+    ]
+  },
+  {
+    "order": 6,
+    "title": "Domain models FBO",
+    "description": "Mô hình form/field FBO là nền tảng hiểu XML controller.",
+    "nodeIds": [
+      "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs"
+    ]
+  },
+  {
+    "order": 7,
+    "title": "Infrastructure adapters",
+    "description": "SQL, menu, session — nơi nói chuyện với runtime FBO.",
+    "nodeIds": [
+      "file:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs"
+    ]
+  },
+  {
+    "order": 8,
+    "title": "IDE shell & docking",
+    "description": "DockService và panel Explorer/SQL/Designer tạo trải nghiệm IDE.",
+    "nodeIds": [
+      "file:UI/Docking/DockService.cs",
+      "file:UI/ViewModels/MainViewModel.cs"
+    ]
+  },
+  {
+    "order": 9,
+    "title": "Lộ trình tiếp theo",
+    "description": "ROADMAP và PROJECT_STATUS cho biết module nào đã xong / còn lại.",
+    "nodeIds": [
+      "document:docs/ROADMAP.md",
+      "document:docs/PROJECT_STATUS.md"
+    ]
+  }
+]

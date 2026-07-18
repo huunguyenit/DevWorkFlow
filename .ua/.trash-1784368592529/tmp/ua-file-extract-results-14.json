@@ -1,0 +1,4314 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "UI/Views/Bottom/LogPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 41,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Bottom/LogPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "functions": [
+        {
+          "name": "LogPanel",
+          "startLine": 7,
+          "endLine": 7,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "LogPanel",
+          "startLine": 5,
+          "endLine": 8,
+          "methods": [
+            "LogPanel"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "LogPanel",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "LogPanel",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LogPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Bottom/OutputPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 30,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Bottom/OutputPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "functions": [
+        {
+          "name": "OutputPanel",
+          "startLine": 7,
+          "endLine": 7,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "OutputPanel",
+          "startLine": 5,
+          "endLine": 8,
+          "methods": [
+            "OutputPanel"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OutputPanel",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "OutputPanel",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OutputPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Bottom/ProblemsPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 54,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "ProblemsPanel",
+          "startLine": 10,
+          "endLine": 13,
+          "params": []
+        },
+        {
+          "name": "ProblemsGrid_MouseDoubleClick",
+          "startLine": 15,
+          "endLine": 28,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProblemsPanel",
+          "startLine": 8,
+          "endLine": 29,
+          "methods": [
+            "ProblemsPanel",
+            "ProblemsGrid_MouseDoubleClick"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProblemsPanel",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "ProblemsPanel",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ProblemsPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 12
+        },
+        {
+          "caller": "ProblemsGrid_MouseDoubleClick",
+          "callee": "System.Windows.Window.GetWindow",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ProblemsGrid_MouseDoubleClick",
+          "callee": "main_vm.FormBuilderVm.NavigateToLine",
+          "lineNumber": 27
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Bottom/ReferencesPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 32,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "ReferencesPanel",
+          "startLine": 10,
+          "endLine": 13,
+          "params": []
+        },
+        {
+          "name": "ReferencesList_MouseDoubleClick",
+          "startLine": 15,
+          "endLine": 28,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ReferencesPanel",
+          "startLine": 8,
+          "endLine": 29,
+          "methods": [
+            "ReferencesPanel",
+            "ReferencesList_MouseDoubleClick"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ReferencesPanel",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "ReferencesPanel",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ReferencesPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 12
+        },
+        {
+          "caller": "ReferencesList_MouseDoubleClick",
+          "callee": "System.Windows.Window.GetWindow",
+          "lineNumber": 22
+        },
+        {
+          "caller": "ReferencesList_MouseDoubleClick",
+          "callee": "main_vm.FormBuilderVm.NavigateToLine",
+          "lineNumber": 27
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Bottom/XmlBottomPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 153,
+      "nonEmptyLines": 145,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "XmlBottomPanel",
+          "startLine": 10,
+          "endLine": 10,
+          "params": []
+        },
+        {
+          "name": "StructureTree_SelectedItemChanged",
+          "startLine": 12,
+          "endLine": 17,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "StructureItem_MouseDoubleClick",
+          "startLine": 19,
+          "endLine": 25,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OpenSearch",
+          "startLine": 28,
+          "endLine": 28,
+          "params": []
+        },
+        {
+          "name": "OpenReplace",
+          "startLine": 30,
+          "endLine": 30,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "XmlBottomPanel",
+          "startLine": 8,
+          "endLine": 31,
+          "methods": [
+            "XmlBottomPanel",
+            "StructureTree_SelectedItemChanged",
+            "StructureItem_MouseDoubleClick",
+            "OpenSearch",
+            "OpenReplace"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "XmlBottomPanel",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "OpenSearch",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "OpenReplace",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "XmlBottomPanel",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "XmlBottomPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 10
+        },
+        {
+          "caller": "StructureTree_SelectedItemChanged",
+          "callee": "vm.StructureOutline.SelectNodeCommand.Execute",
+          "lineNumber": 16
+        },
+        {
+          "caller": "StructureItem_MouseDoubleClick",
+          "callee": "vm.StructureOutline.SelectNodeCommand.Execute",
+          "lineNumber": 23
+        },
+        {
+          "caller": "OpenSearch",
+          "callee": "XmlEditor.OpenSearch",
+          "lineNumber": 28
+        },
+        {
+          "caller": "OpenReplace",
+          "callee": "XmlEditor.OpenReplace",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/AppStatusBar.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 48,
+      "nonEmptyLines": 45,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Controls/AppStatusBar.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "AppStatusBar",
+          "startLine": 7,
+          "endLine": 10,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "AppStatusBar",
+          "startLine": 5,
+          "endLine": 11,
+          "methods": [
+            "AppStatusBar"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "AppStatusBar",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "AppStatusBar",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AppStatusBar",
+          "callee": "InitializeComponent",
+          "lineNumber": 9
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/BindableSqlEditor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 114,
+      "nonEmptyLines": 100,
+      "functions": [
+        {
+          "name": "BindableSqlEditor",
+          "startLine": 45,
+          "endLine": 81,
+          "params": []
+        },
+        {
+          "name": "SyncSelectedScript",
+          "startLine": 83,
+          "endLine": 91,
+          "params": []
+        },
+        {
+          "name": "OnBoundTextChanged",
+          "startLine": 93,
+          "endLine": 113,
+          "params": [
+            "d",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "BindableSqlEditor",
+          "startLine": 9,
+          "endLine": 114,
+          "methods": [
+            "BindableSqlEditor",
+            "SyncSelectedScript",
+            "OnBoundTextChanged"
+          ],
+          "properties": [
+            "_is_internal_change",
+            "BoundTextProperty",
+            "SelectedScriptProperty",
+            "BoundText",
+            "SelectedScript"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BoundTextProperty",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "SelectedScriptProperty",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "BoundText",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "SelectedScript",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "BindableSqlEditor",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "BindableSqlEditor",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BindableSqlEditor",
+          "callee": "new FontFamily",
+          "lineNumber": 47
+        },
+        {
+          "caller": "BindableSqlEditor",
+          "callee": "new Thickness",
+          "lineNumber": 53
+        },
+        {
+          "caller": "BindableSqlEditor",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 54
+        },
+        {
+          "caller": "BindableSqlEditor",
+          "callee": "Color.FromRgb",
+          "lineNumber": 54
+        },
+        {
+          "caller": "BindableSqlEditor",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 55
+        },
+        {
+          "caller": "BindableSqlEditor",
+          "callee": "Color.FromRgb",
+          "lineNumber": 55
+        },
+        {
+          "caller": "BindableSqlEditor",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 56
+        },
+        {
+          "caller": "BindableSqlEditor",
+          "callee": "Color.FromRgb",
+          "lineNumber": 56
+        },
+        {
+          "caller": "BindableSqlEditor",
+          "callee": "HighlightingManager.Instance.GetDefinition",
+          "lineNumber": 63
+        },
+        {
+          "caller": "BindableSqlEditor",
+          "callee": "HighlightingManager.Instance.GetDefinition",
+          "lineNumber": 64
+        },
+        {
+          "caller": "BindableSqlEditor",
+          "callee": "SyncSelectedScript",
+          "lineNumber": 80
+        },
+        {
+          "caller": "SyncSelectedScript",
+          "callee": "TextArea.Selection.GetText",
+          "lineNumber": 88
+        },
+        {
+          "caller": "SyncSelectedScript",
+          "callee": "string.Equals",
+          "lineNumber": 89
+        },
+        {
+          "caller": "OnBoundTextChanged",
+          "callee": "Math.Min",
+          "lineNumber": 106
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/BindableXmlEditor.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 352,
+      "nonEmptyLines": 304,
+      "functions": [
+        {
+          "name": "BindableXmlEditor",
+          "startLine": 105,
+          "endLine": 147,
+          "params": []
+        },
+        {
+          "name": "OnLoaded",
+          "startLine": 149,
+          "endLine": 153,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OpenSearch",
+          "startLine": 156,
+          "endLine": 162,
+          "params": []
+        },
+        {
+          "name": "OpenReplace",
+          "startLine": 165,
+          "endLine": 179,
+          "params": []
+        },
+        {
+          "name": "TryGoToDefinition",
+          "startLine": 182,
+          "endLine": 199,
+          "params": []
+        },
+        {
+          "name": "OnPreviewKeyDown",
+          "startLine": 201,
+          "endLine": 226,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "IsFocusInsideInsight",
+          "startLine": 228,
+          "endLine": 241,
+          "params": []
+        },
+        {
+          "name": "JumpToOffset",
+          "startLine": 243,
+          "endLine": 280,
+          "params": [
+            "offset",
+            "select_length",
+            "steal_focus"
+          ]
+        },
+        {
+          "name": "OnScrollToLineChanged",
+          "startLine": 282,
+          "endLine": 292,
+          "params": [
+            "d",
+            "e"
+          ]
+        },
+        {
+          "name": "OnScrollToOffsetChanged",
+          "startLine": 294,
+          "endLine": 299,
+          "params": [
+            "d",
+            "e"
+          ]
+        },
+        {
+          "name": "OnBoundTextChanged",
+          "startLine": 301,
+          "endLine": 320,
+          "params": [
+            "d",
+            "e"
+          ]
+        },
+        {
+          "name": "OnInsightVisualChanged",
+          "startLine": 322,
+          "endLine": 326,
+          "params": [
+            "d",
+            "e"
+          ]
+        },
+        {
+          "name": "ApplyInsightRenderer",
+          "startLine": 328,
+          "endLine": 335,
+          "params": []
+        },
+        {
+          "name": "LoadBuiltinXmlHighlighting",
+          "startLine": 337,
+          "endLine": 351,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "BindableXmlEditor",
+          "startLine": 18,
+          "endLine": 352,
+          "methods": [
+            "BindableXmlEditor",
+            "OnLoaded",
+            "OpenSearch",
+            "OpenReplace",
+            "TryGoToDefinition",
+            "OnPreviewKeyDown",
+            "IsFocusInsideInsight",
+            "JumpToOffset",
+            "OnScrollToLineChanged",
+            "OnScrollToOffsetChanged",
+            "OnBoundTextChanged",
+            "OnInsightVisualChanged",
+            "ApplyInsightRenderer",
+            "LoadBuiltinXmlHighlighting"
+          ],
+          "properties": [
+            "_is_internal_change",
+            "_insight_generator",
+            "_search_panel",
+            "BoundTextProperty",
+            "ScrollToLineProperty",
+            "ScrollToOffsetProperty",
+            "ShowInsightsProperty",
+            "InsightsProperty",
+            "InsightEditCommandProperty",
+            "BoundText",
+            "ScrollToLine",
+            "ScrollToOffset",
+            "ShowInsights",
+            "Insights",
+            "InsightEditCommand"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "BoundTextProperty",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "ScrollToLineProperty",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "ScrollToOffsetProperty",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "ShowInsightsProperty",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "InsightsProperty",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "InsightEditCommandProperty",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "BoundText",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "ScrollToLine",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "ScrollToOffset",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "ShowInsights",
+          "line": 87,
+          "isDefault": false
+        },
+        {
+          "name": "Insights",
+          "line": 93,
+          "isDefault": false
+        },
+        {
+          "name": "InsightEditCommand",
+          "line": 99,
+          "isDefault": false
+        },
+        {
+          "name": "BindableXmlEditor",
+          "line": 105,
+          "isDefault": false
+        },
+        {
+          "name": "OpenSearch",
+          "line": 156,
+          "isDefault": false
+        },
+        {
+          "name": "OpenReplace",
+          "line": 165,
+          "isDefault": false
+        },
+        {
+          "name": "TryGoToDefinition",
+          "line": 182,
+          "isDefault": false
+        },
+        {
+          "name": "JumpToOffset",
+          "line": 243,
+          "isDefault": false
+        },
+        {
+          "name": "BindableXmlEditor",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "new FontFamily",
+          "lineNumber": 107
+        },
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "new Thickness",
+          "lineNumber": 113
+        },
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 114
+        },
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "Color.FromRgb",
+          "lineNumber": 114
+        },
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 115
+        },
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "Color.FromRgb",
+          "lineNumber": 115
+        },
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 116
+        },
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "Color.FromRgb",
+          "lineNumber": 116
+        },
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "HighlightingManager.Instance.GetDefinition",
+          "lineNumber": 123
+        },
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "LoadBuiltinXmlHighlighting",
+          "lineNumber": 124
+        },
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 127
+        },
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "Color.FromRgb",
+          "lineNumber": 127
+        },
+        {
+          "caller": "BindableXmlEditor",
+          "callee": "TextArea.TextView.ElementGenerators.Add",
+          "lineNumber": 129
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "SearchPanel.Install",
+          "lineNumber": 152
+        },
+        {
+          "caller": "OpenSearch",
+          "callee": "SearchPanel.Install",
+          "lineNumber": 158
+        },
+        {
+          "caller": "OpenSearch",
+          "callee": "_search_panel.Open",
+          "lineNumber": 159
+        },
+        {
+          "caller": "OpenSearch",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 160
+        },
+        {
+          "caller": "OpenReplace",
+          "callee": "OpenSearch",
+          "lineNumber": 167
+        },
+        {
+          "caller": "OpenReplace",
+          "callee": "typeof(SearchPanel).GetProperty",
+          "lineNumber": 172
+        },
+        {
+          "caller": "OpenReplace",
+          "callee": "prop?.SetValue",
+          "lineNumber": 173
+        },
+        {
+          "caller": "TryGoToDefinition",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 186
+        },
+        {
+          "caller": "TryGoToDefinition",
+          "callee": "SelectedText.Trim",
+          "lineNumber": 187
+        },
+        {
+          "caller": "TryGoToDefinition",
+          "callee": "XmlStructureParser.ExtractIdentifierAt",
+          "lineNumber": 188
+        },
+        {
+          "caller": "TryGoToDefinition",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 190
+        },
+        {
+          "caller": "TryGoToDefinition",
+          "callee": "XmlStructureParser.FindFunctionDefinition",
+          "lineNumber": 193
+        },
+        {
+          "caller": "TryGoToDefinition",
+          "callee": "JumpToOffset",
+          "lineNumber": 197
+        },
+        {
+          "caller": "OnPreviewKeyDown",
+          "callee": "IsFocusInsideInsight",
+          "lineNumber": 204
+        },
+        {
+          "caller": "OnPreviewKeyDown",
+          "callee": "TryGoToDefinition",
+          "lineNumber": 209
+        },
+        {
+          "caller": "OnPreviewKeyDown",
+          "callee": "OpenSearch",
+          "lineNumber": 216
+        },
+        {
+          "caller": "OnPreviewKeyDown",
+          "callee": "OpenReplace",
+          "lineNumber": 223
+        },
+        {
+          "caller": "IsFocusInsideInsight",
+          "callee": "System.Windows.Media.VisualTreeHelper.GetParent",
+          "lineNumber": 236
+        },
+        {
+          "caller": "IsFocusInsideInsight",
+          "callee": "System.Windows.LogicalTreeHelper.GetParent",
+          "lineNumber": 237
+        },
+        {
+          "caller": "JumpToOffset",
+          "callee": "Document.GetLineByOffset",
+          "lineNumber": 250
+        },
+        {
+          "caller": "JumpToOffset",
+          "callee": "Select",
+          "lineNumber": 256
+        },
+        {
+          "caller": "JumpToOffset",
+          "callee": "ScrollToLine",
+          "lineNumber": 257
+        },
+        {
+          "caller": "JumpToOffset",
+          "callee": "Focus",
+          "lineNumber": 259
+        },
+        {
+          "caller": "JumpToOffset",
+          "callee": "Math.Min",
+          "lineNumber": 269
+        },
+        {
+          "caller": "JumpToOffset",
+          "callee": "Select",
+          "lineNumber": 270
+        },
+        {
+          "caller": "JumpToOffset",
+          "callee": "Math.Max",
+          "lineNumber": 270
+        },
+        {
+          "caller": "JumpToOffset",
+          "callee": "Select",
+          "lineNumber": 274
+        },
+        {
+          "caller": "JumpToOffset",
+          "callee": "TextArea.Caret.BringCaretToView",
+          "lineNumber": 277
+        },
+        {
+          "caller": "JumpToOffset",
+          "callee": "Focus",
+          "lineNumber": 279
+        },
+        {
+          "caller": "OnScrollToLineChanged",
+          "callee": "editor.Document.GetLineByNumber",
+          "lineNumber": 288
+        },
+        {
+          "caller": "OnScrollToLineChanged",
+          "callee": "editor.JumpToOffset",
+          "lineNumber": 290
+        },
+        {
+          "caller": "OnScrollToLineChanged",
+          "callee": "editor.ScrollToLine",
+          "lineNumber": 291
+        },
+        {
+          "caller": "OnScrollToOffsetChanged",
+          "callee": "editor.JumpToOffset",
+          "lineNumber": 298
+        },
+        {
+          "caller": "OnBoundTextChanged",
+          "callee": "Math.Min",
+          "lineNumber": 314
+        },
+        {
+          "caller": "OnInsightVisualChanged",
+          "callee": "editor.ApplyInsightRenderer",
+          "lineNumber": 325
+        },
+        {
+          "caller": "ApplyInsightRenderer",
+          "callee": "TextArea.TextView.Redraw",
+          "lineNumber": 334
+        },
+        {
+          "caller": "LoadBuiltinXmlHighlighting",
+          "callee": "typeof(HighlightingManager).Assembly\r\n                .GetManifestResourceStream",
+          "lineNumber": 341
+        },
+        {
+          "caller": "LoadBuiltinXmlHighlighting",
+          "callee": "HighlightingLoader.Load",
+          "lineNumber": 345
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 18,
+        "functionCount": 14,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/ColumnGuides.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 147,
+      "nonEmptyLines": 127,
+      "functions": [
+        {
+          "name": "ColumnGuides",
+          "startLine": 47,
+          "endLine": 54,
+          "params": []
+        },
+        {
+          "name": "OnTicksChanged",
+          "startLine": 56,
+          "endLine": 66,
+          "params": [
+            "d",
+            "e"
+          ]
+        },
+        {
+          "name": "OnCollectionChanged",
+          "startLine": 68,
+          "endLine": 72,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "AttachItems",
+          "startLine": 74,
+          "endLine": 82,
+          "params": [
+            "ticks"
+          ]
+        },
+        {
+          "name": "DetachItems",
+          "startLine": 84,
+          "endLine": 89,
+          "params": [
+            "ticks"
+          ]
+        },
+        {
+          "name": "OnTickChanged",
+          "startLine": 91,
+          "endLine": 91,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "MeasureOverride",
+          "startLine": 93,
+          "endLine": 106,
+          "params": [
+            "availableSize"
+          ]
+        },
+        {
+          "name": "ArrangeOverride",
+          "startLine": 108,
+          "endLine": 114,
+          "params": [
+            "finalSize"
+          ]
+        },
+        {
+          "name": "Rebuild",
+          "startLine": 116,
+          "endLine": 146,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ColumnGuides",
+          "startLine": 15,
+          "endLine": 147,
+          "methods": [
+            "ColumnGuides",
+            "OnTicksChanged",
+            "OnCollectionChanged",
+            "AttachItems",
+            "DetachItems",
+            "OnTickChanged",
+            "MeasureOverride",
+            "ArrangeOverride",
+            "Rebuild"
+          ],
+          "properties": [
+            "TicksProperty",
+            "TopInsetProperty",
+            "Ticks",
+            "TopInset"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "TicksProperty",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "TopInsetProperty",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "Ticks",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "TopInset",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnGuides",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnGuides",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ColumnGuides",
+          "callee": "Rebuild",
+          "lineNumber": 53
+        },
+        {
+          "caller": "OnTicksChanged",
+          "callee": "guides.DetachItems",
+          "lineNumber": 61
+        },
+        {
+          "caller": "OnTicksChanged",
+          "callee": "guides.AttachItems",
+          "lineNumber": 64
+        },
+        {
+          "caller": "OnTicksChanged",
+          "callee": "guides.Rebuild",
+          "lineNumber": 65
+        },
+        {
+          "caller": "OnCollectionChanged",
+          "callee": "AttachItems",
+          "lineNumber": 70
+        },
+        {
+          "caller": "OnCollectionChanged",
+          "callee": "Rebuild",
+          "lineNumber": 71
+        },
+        {
+          "caller": "OnTickChanged",
+          "callee": "Rebuild",
+          "lineNumber": 91
+        },
+        {
+          "caller": "MeasureOverride",
+          "callee": "double.IsInfinity",
+          "lineNumber": 100
+        },
+        {
+          "caller": "MeasureOverride",
+          "callee": "Math.Max",
+          "lineNumber": 100
+        },
+        {
+          "caller": "MeasureOverride",
+          "callee": "double.IsInfinity",
+          "lineNumber": 101
+        },
+        {
+          "caller": "MeasureOverride",
+          "callee": "new Size",
+          "lineNumber": 102
+        },
+        {
+          "caller": "MeasureOverride",
+          "callee": "double.IsInfinity",
+          "lineNumber": 103
+        },
+        {
+          "caller": "MeasureOverride",
+          "callee": "Math.Max",
+          "lineNumber": 104
+        },
+        {
+          "caller": "MeasureOverride",
+          "callee": "new Size",
+          "lineNumber": 105
+        },
+        {
+          "caller": "ArrangeOverride",
+          "callee": "base.ArrangeOverride",
+          "lineNumber": 113
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Clear",
+          "lineNumber": 118
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Ticks.ToList",
+          "lineNumber": 121
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Math.Max",
+          "lineNumber": 125
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 128
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Color.FromArgb",
+          "lineNumber": 128
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Add",
+          "lineNumber": 132
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new Line",
+          "lineNumber": 132
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new DoubleCollection",
+          "lineNumber": 138
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "AddDashed",
+          "lineNumber": 143
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "AddDashed",
+          "lineNumber": 145
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/DesignViewport.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 82,
+      "nonEmptyLines": 75,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 424,
+      "nonEmptyLines": 356,
+      "functions": [
+        {
+          "name": "DesignViewport",
+          "startLine": 94,
+          "endLine": 101,
+          "params": []
+        },
+        {
+          "name": "OnZoomChanged",
+          "startLine": 219,
+          "endLine": 226,
+          "params": [
+            "d",
+            "e"
+          ]
+        },
+        {
+          "name": "SurfaceScroll_ScrollChanged",
+          "startLine": 228,
+          "endLine": 232,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "SurfaceScroll_PreviewMouseWheel",
+          "startLine": 234,
+          "endLine": 242,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "SurfaceScroll_PreviewMouseDown",
+          "startLine": 244,
+          "endLine": 257,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "SurfaceScroll_PreviewMouseMove",
+          "startLine": 259,
+          "endLine": 279,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "SurfaceScroll_PreviewMouseUp",
+          "startLine": 281,
+          "endLine": 297,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "HRuler_GuidelineDragStart",
+          "startLine": 299,
+          "endLine": 300,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "VRuler_GuidelineDragStart",
+          "startLine": 302,
+          "endLine": 303,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "BeginPlaceGuideline",
+          "startLine": 305,
+          "endLine": 318,
+          "params": [
+            "kind",
+            "ruler"
+          ]
+        },
+        {
+          "name": "SnapValue",
+          "startLine": 320,
+          "endLine": 324,
+          "params": [
+            "value"
+          ]
+        },
+        {
+          "name": "UpdateMouseMarkers",
+          "startLine": 326,
+          "endLine": 331,
+          "params": [
+            "scaled_canvas_pos"
+          ]
+        },
+        {
+          "name": "UpdateFormOrigin",
+          "startLine": 334,
+          "endLine": 359,
+          "params": []
+        },
+        {
+          "name": "FindActiveSurface",
+          "startLine": 361,
+          "endLine": 380,
+          "params": [
+            "root"
+          ]
+        },
+        {
+          "name": "OnPreviewKeyDown",
+          "startLine": 382,
+          "endLine": 398,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnPreviewKeyUp",
+          "startLine": 400,
+          "endLine": 409,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnMouseMove",
+          "startLine": 411,
+          "endLine": 416,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnMouseUp",
+          "startLine": 418,
+          "endLine": 423,
+          "params": [
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DesignViewport",
+          "startLine": 14,
+          "endLine": 424,
+          "methods": [
+            "DesignViewport",
+            "OnZoomChanged",
+            "SurfaceScroll_ScrollChanged",
+            "SurfaceScroll_PreviewMouseWheel",
+            "SurfaceScroll_PreviewMouseDown",
+            "SurfaceScroll_PreviewMouseMove",
+            "SurfaceScroll_PreviewMouseUp",
+            "HRuler_GuidelineDragStart",
+            "VRuler_GuidelineDragStart",
+            "BeginPlaceGuideline",
+            "SnapValue",
+            "UpdateMouseMarkers",
+            "UpdateFormOrigin",
+            "FindActiveSurface",
+            "OnPreviewKeyDown",
+            "OnPreviewKeyUp",
+            "OnMouseMove",
+            "OnMouseUp"
+          ],
+          "properties": [
+            "ContentPadding",
+            "BodyProperty",
+            "ZoomProperty",
+            "ShowGridProperty",
+            "GridSizePxProperty",
+            "ScrollOffsetXProperty",
+            "ScrollOffsetYProperty",
+            "ShowGuidelinesProperty",
+            "GuidelinesProperty",
+            "ActiveGuideXsProperty",
+            "ActiveGuideYsProperty",
+            "SizeBadgeTextProperty",
+            "MouseMarkerXProperty",
+            "MouseMarkerYProperty",
+            "SelectionMarkerXProperty",
+            "SelectionMarkerYProperty",
+            "SnapEnabledProperty",
+            "SnapSizePxProperty",
+            "OriginOffsetXProperty",
+            "OriginOffsetYProperty",
+            "_content_scale",
+            "_is_panning",
+            "_pan_start",
+            "_pan_scroll_x",
+            "_pan_scroll_y",
+            "_space_down",
+            "_is_placing_guideline",
+            "_placing_kind",
+            "_placing_guide",
+            "Body",
+            "Zoom",
+            "ShowGrid",
+            "GridSizePx",
+            "ScrollOffsetX",
+            "ScrollOffsetY",
+            "ShowGuidelines",
+            "Guidelines",
+            "ActiveGuideXs",
+            "ActiveGuideYs",
+            "SizeBadgeText",
+            "MouseMarkerX",
+            "MouseMarkerY",
+            "SelectionMarkerX",
+            "SelectionMarkerY",
+            "SnapEnabled",
+            "SnapSizePx",
+            "OriginOffsetX",
+            "OriginOffsetY"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ContentPadding",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "BodyProperty",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "ZoomProperty",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "ShowGridProperty",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "GridSizePxProperty",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "ScrollOffsetXProperty",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "ScrollOffsetYProperty",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "ShowGuidelinesProperty",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "GuidelinesProperty",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "ActiveGuideXsProperty",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "ActiveGuideYsProperty",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "SizeBadgeTextProperty",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "MouseMarkerXProperty",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "MouseMarkerYProperty",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "SelectionMarkerXProperty",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "SelectionMarkerYProperty",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "SnapEnabledProperty",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "SnapSizePxProperty",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "OriginOffsetXProperty",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "OriginOffsetYProperty",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "DesignViewport",
+          "line": 94,
+          "isDefault": false
+        },
+        {
+          "name": "Body",
+          "line": 103,
+          "isDefault": false
+        },
+        {
+          "name": "Zoom",
+          "line": 109,
+          "isDefault": false
+        },
+        {
+          "name": "ShowGrid",
+          "line": 115,
+          "isDefault": false
+        },
+        {
+          "name": "GridSizePx",
+          "line": 121,
+          "isDefault": false
+        },
+        {
+          "name": "ScrollOffsetX",
+          "line": 127,
+          "isDefault": false
+        },
+        {
+          "name": "ScrollOffsetY",
+          "line": 133,
+          "isDefault": false
+        },
+        {
+          "name": "ShowGuidelines",
+          "line": 139,
+          "isDefault": false
+        },
+        {
+          "name": "Guidelines",
+          "line": 145,
+          "isDefault": false
+        },
+        {
+          "name": "ActiveGuideXs",
+          "line": 151,
+          "isDefault": false
+        },
+        {
+          "name": "ActiveGuideYs",
+          "line": 157,
+          "isDefault": false
+        },
+        {
+          "name": "SizeBadgeText",
+          "line": 163,
+          "isDefault": false
+        },
+        {
+          "name": "MouseMarkerX",
+          "line": 169,
+          "isDefault": false
+        },
+        {
+          "name": "MouseMarkerY",
+          "line": 175,
+          "isDefault": false
+        },
+        {
+          "name": "SelectionMarkerX",
+          "line": 181,
+          "isDefault": false
+        },
+        {
+          "name": "SelectionMarkerY",
+          "line": 187,
+          "isDefault": false
+        },
+        {
+          "name": "SnapEnabled",
+          "line": 193,
+          "isDefault": false
+        },
+        {
+          "name": "SnapSizePx",
+          "line": 199,
+          "isDefault": false
+        },
+        {
+          "name": "OriginOffsetX",
+          "line": 206,
+          "isDefault": false
+        },
+        {
+          "name": "OriginOffsetY",
+          "line": 213,
+          "isDefault": false
+        },
+        {
+          "name": "DesignViewport",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "DesignViewport",
+          "callee": "InitializeComponent",
+          "lineNumber": 96
+        },
+        {
+          "caller": "DesignViewport",
+          "callee": "Focus",
+          "lineNumber": 99
+        },
+        {
+          "caller": "DesignViewport",
+          "callee": "UpdateFormOrigin",
+          "lineNumber": 100
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseWheel",
+          "callee": "Keyboard.Modifiers.HasFlag",
+          "lineNumber": 236
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseWheel",
+          "callee": "Math.Clamp",
+          "lineNumber": 239
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseDown",
+          "callee": "e.GetPosition",
+          "lineNumber": 250
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseDown",
+          "callee": "SurfaceScroll.CaptureMouse",
+          "lineNumber": 253
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseMove",
+          "callee": "UpdateMouseMarkers",
+          "lineNumber": 261
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseMove",
+          "callee": "e.GetPosition",
+          "lineNumber": 261
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseMove",
+          "callee": "e.GetPosition",
+          "lineNumber": 265
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseMove",
+          "callee": "SnapValue",
+          "lineNumber": 268
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseMove",
+          "callee": "e.GetPosition",
+          "lineNumber": 275
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseMove",
+          "callee": "SurfaceScroll.ScrollToHorizontalOffset",
+          "lineNumber": 276
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseMove",
+          "callee": "SurfaceScroll.ScrollToVerticalOffset",
+          "lineNumber": 277
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseUp",
+          "callee": "ReleaseMouseCapture",
+          "lineNumber": 287
+        },
+        {
+          "caller": "SurfaceScroll_PreviewMouseUp",
+          "callee": "SurfaceScroll.ReleaseMouseCapture",
+          "lineNumber": 294
+        },
+        {
+          "caller": "HRuler_GuidelineDragStart",
+          "callee": "BeginPlaceGuideline",
+          "lineNumber": 300
+        },
+        {
+          "caller": "VRuler_GuidelineDragStart",
+          "callee": "BeginPlaceGuideline",
+          "lineNumber": 303
+        },
+        {
+          "caller": "BeginPlaceGuideline",
+          "callee": "Mouse.GetPosition",
+          "lineNumber": 312
+        },
+        {
+          "caller": "BeginPlaceGuideline",
+          "callee": "SnapValue",
+          "lineNumber": 313
+        },
+        {
+          "caller": "BeginPlaceGuideline",
+          "callee": "ruler.ScreenToFormPx",
+          "lineNumber": 313
+        },
+        {
+          "caller": "BeginPlaceGuideline",
+          "callee": "new GuidelineVm",
+          "lineNumber": 315
+        },
+        {
+          "caller": "BeginPlaceGuideline",
+          "callee": "list.Add",
+          "lineNumber": 316
+        },
+        {
+          "caller": "BeginPlaceGuideline",
+          "callee": "CaptureMouse",
+          "lineNumber": 317
+        },
+        {
+          "caller": "SnapValue",
+          "callee": "Math.Round",
+          "lineNumber": 323
+        },
+        {
+          "caller": "UpdateFormOrigin",
+          "callee": "FindActiveSurface",
+          "lineNumber": 338
+        },
+        {
+          "caller": "UpdateFormOrigin",
+          "callee": "surface.TransformToAncestor(ScaledCanvas).Transform",
+          "lineNumber": 345
+        },
+        {
+          "caller": "UpdateFormOrigin",
+          "callee": "surface.TransformToAncestor",
+          "lineNumber": 345
+        },
+        {
+          "caller": "UpdateFormOrigin",
+          "callee": "new Point",
+          "lineNumber": 345
+        },
+        {
+          "caller": "UpdateFormOrigin",
+          "callee": "Math.Abs",
+          "lineNumber": 355
+        },
+        {
+          "caller": "UpdateFormOrigin",
+          "callee": "Math.Abs",
+          "lineNumber": 357
+        },
+        {
+          "caller": "FindActiveSurface",
+          "callee": "VisualTreeHelper.GetChildrenCount",
+          "lineNumber": 363
+        },
+        {
+          "caller": "FindActiveSurface",
+          "callee": "VisualTreeHelper.GetChild",
+          "lineNumber": 366
+        },
+        {
+          "caller": "FindActiveSurface",
+          "callee": "FindActiveSurface",
+          "lineNumber": 375
+        },
+        {
+          "caller": "OnPreviewKeyDown",
+          "callee": "list.Remove",
+          "lineNumber": 392
+        },
+        {
+          "caller": "OnPreviewKeyDown",
+          "callee": "ReleaseMouseCapture",
+          "lineNumber": 395
+        },
+        {
+          "caller": "OnPreviewKeyDown",
+          "callee": "base.OnPreviewKeyDown",
+          "lineNumber": 397
+        },
+        {
+          "caller": "OnPreviewKeyUp",
+          "callee": "base.OnPreviewKeyUp",
+          "lineNumber": 408
+        },
+        {
+          "caller": "OnMouseMove",
+          "callee": "SurfaceScroll_PreviewMouseMove",
+          "lineNumber": 414
+        },
+        {
+          "caller": "OnMouseMove",
+          "callee": "base.OnMouseMove",
+          "lineNumber": 415
+        },
+        {
+          "caller": "OnMouseUp",
+          "callee": "SurfaceScroll_PreviewMouseUp",
+          "lineNumber": 421
+        },
+        {
+          "caller": "OnMouseUp",
+          "callee": "base.OnMouseUp",
+          "lineNumber": 422
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 41,
+        "functionCount": 18,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/DotGridBackground.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 132,
+      "nonEmptyLines": 112,
+      "functions": [
+        {
+          "name": "DotGridBackground",
+          "startLine": 48,
+          "endLine": 53,
+          "params": []
+        },
+        {
+          "name": "OnRender",
+          "startLine": 85,
+          "endLine": 131,
+          "params": [
+            "dc"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DotGridBackground",
+          "startLine": 7,
+          "endLine": 132,
+          "methods": [
+            "DotGridBackground",
+            "OnRender"
+          ],
+          "properties": [
+            "ZoomProperty",
+            "OffsetXProperty",
+            "OffsetYProperty",
+            "GridSizePxProperty",
+            "IsGridVisibleProperty",
+            "FillBrush",
+            "DotBrush",
+            "MajorDotBrush",
+            "Zoom",
+            "OffsetX",
+            "OffsetY",
+            "GridSizePx",
+            "IsGridVisible"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ZoomProperty",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "OffsetXProperty",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "OffsetYProperty",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "GridSizePxProperty",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "IsGridVisibleProperty",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "Zoom",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "OffsetX",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "OffsetY",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "GridSizePx",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "IsGridVisible",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "DotGridBackground",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "DotGridBackground",
+          "callee": "FillBrush.Freeze",
+          "lineNumber": 50
+        },
+        {
+          "caller": "DotGridBackground",
+          "callee": "DotBrush.Freeze",
+          "lineNumber": 51
+        },
+        {
+          "caller": "DotGridBackground",
+          "callee": "MajorDotBrush.Freeze",
+          "lineNumber": 52
+        },
+        {
+          "caller": "OnRender",
+          "callee": "dc.DrawRectangle",
+          "lineNumber": 91
+        },
+        {
+          "caller": "OnRender",
+          "callee": "new Rect",
+          "lineNumber": 91
+        },
+        {
+          "caller": "OnRender",
+          "callee": "Math.Max",
+          "lineNumber": 95
+        },
+        {
+          "caller": "OnRender",
+          "callee": "Math.Floor",
+          "lineNumber": 113
+        },
+        {
+          "caller": "OnRender",
+          "callee": "Math.Floor",
+          "lineNumber": 114
+        },
+        {
+          "caller": "OnRender",
+          "callee": "Math.Round",
+          "lineNumber": 120
+        },
+        {
+          "caller": "OnRender",
+          "callee": "Math.Round",
+          "lineNumber": 125
+        },
+        {
+          "caller": "OnRender",
+          "callee": "dc.DrawEllipse",
+          "lineNumber": 128
+        },
+        {
+          "caller": "OnRender",
+          "callee": "new Point",
+          "lineNumber": 128
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 11,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/EntityInsightBlock.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 127,
+      "nonEmptyLines": 114,
+      "functions": [
+        {
+          "name": "EntityInsightBlock",
+          "startLine": 20,
+          "endLine": 102,
+          "params": [
+            "insight",
+            "edit_command",
+            "depth"
+          ]
+        },
+        {
+          "name": "Commit",
+          "startLine": 104,
+          "endLine": 126,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "EntityInsightBlock",
+          "startLine": 13,
+          "endLine": 127,
+          "methods": [
+            "EntityInsightBlock",
+            "Commit"
+          ],
+          "properties": [
+            "_insight",
+            "_edit_command",
+            "_value_editor",
+            "_original_value"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "EntityInsightBlock",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "EntityInsightBlock",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 26
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "Color.FromRgb",
+          "lineNumber": 26
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new Thickness",
+          "lineNumber": 27
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 29
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "Color.FromRgb",
+          "lineNumber": 29
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 30
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "Color.FromRgb",
+          "lineNumber": 30
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new CornerRadius",
+          "lineNumber": 31
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new Thickness",
+          "lineNumber": 32
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new Thickness",
+          "lineNumber": 33
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new StackPanel",
+          "lineNumber": 37
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new DockPanel",
+          "lineNumber": 38
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new TextBlock",
+          "lineNumber": 39
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new FontFamily",
+          "lineNumber": 42
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 45
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "Color.FromRgb",
+          "lineNumber": 45
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new Thickness",
+          "lineNumber": 47
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "DockPanel.SetDock",
+          "lineNumber": 49
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "row.Children.Add",
+          "lineNumber": 50
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new TextBlock",
+          "lineNumber": 52
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 55
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "Color.FromRgb",
+          "lineNumber": 55
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new Thickness",
+          "lineNumber": 57
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "DockPanel.SetDock",
+          "lineNumber": 59
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "row.Children.Add",
+          "lineNumber": 60
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new TextBox",
+          "lineNumber": 62
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new FontFamily",
+          "lineNumber": 65
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new Thickness",
+          "lineNumber": 73
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new Thickness",
+          "lineNumber": 74
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 76
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "Color.FromRgb",
+          "lineNumber": 76
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "Commit",
+          "lineNumber": 80
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "Keyboard.Modifiers.HasFlag",
+          "lineNumber": 84
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "Commit",
+          "lineNumber": 86
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "row.Children.Add",
+          "lineNumber": 95
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "panel.Children.Add",
+          "lineNumber": 96
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "panel.Children.Add",
+          "lineNumber": 99
+        },
+        {
+          "caller": "EntityInsightBlock",
+          "callee": "new EntityInsightBlock",
+          "lineNumber": 99
+        },
+        {
+          "caller": "Commit",
+          "callee": "string.Equals",
+          "lineNumber": 107
+        },
+        {
+          "caller": "Commit",
+          "callee": "_insight.Actions.FirstOrDefault",
+          "lineNumber": 110
+        },
+        {
+          "caller": "Commit",
+          "callee": "action.Id.Equals",
+          "lineNumber": 111
+        },
+        {
+          "caller": "Commit",
+          "callee": "edit_action.Metadata.TryGetValue",
+          "lineNumber": 113
+        },
+        {
+          "caller": "Commit",
+          "callee": "new EntityValueEdit",
+          "lineNumber": 116
+        },
+        {
+          "caller": "Commit",
+          "callee": "_edit_command?.CanExecute",
+          "lineNumber": 121
+        },
+        {
+          "caller": "Commit",
+          "callee": "_edit_command.Execute",
+          "lineNumber": 124
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/FormRuler.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 136,
+      "nonEmptyLines": 114,
+      "functions": [
+        {
+          "name": "FormRuler",
+          "startLine": 29,
+          "endLine": 34,
+          "params": []
+        },
+        {
+          "name": "OnTicksChanged",
+          "startLine": 36,
+          "endLine": 49,
+          "params": [
+            "d",
+            "e"
+          ]
+        },
+        {
+          "name": "OnTicksCollectionChanged",
+          "startLine": 51,
+          "endLine": 55,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "AttachTicks",
+          "startLine": 57,
+          "endLine": 65,
+          "params": [
+            "ticks"
+          ]
+        },
+        {
+          "name": "DetachTicks",
+          "startLine": 67,
+          "endLine": 72,
+          "params": [
+            "ticks"
+          ]
+        },
+        {
+          "name": "OnTickPropertyChanged",
+          "startLine": 74,
+          "endLine": 74,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "MeasureOverride",
+          "startLine": 76,
+          "endLine": 84,
+          "params": [
+            "availableSize"
+          ]
+        },
+        {
+          "name": "Rebuild",
+          "startLine": 86,
+          "endLine": 124,
+          "params": []
+        },
+        {
+          "name": "AddRedLine",
+          "startLine": 126,
+          "endLine": 135,
+          "params": [
+            "x"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FormRuler",
+          "startLine": 14,
+          "endLine": 136,
+          "methods": [
+            "FormRuler",
+            "OnTicksChanged",
+            "OnTicksCollectionChanged",
+            "AttachTicks",
+            "DetachTicks",
+            "OnTickPropertyChanged",
+            "MeasureOverride",
+            "Rebuild",
+            "AddRedLine"
+          ],
+          "properties": [
+            "TicksProperty",
+            "Ticks"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "TicksProperty",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "Ticks",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "FormRuler",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "FormRuler",
+          "line": 14,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "FormRuler",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 32
+        },
+        {
+          "caller": "FormRuler",
+          "callee": "Color.FromRgb",
+          "lineNumber": 32
+        },
+        {
+          "caller": "OnTicksChanged",
+          "callee": "ruler.DetachTicks",
+          "lineNumber": 42
+        },
+        {
+          "caller": "OnTicksChanged",
+          "callee": "ruler.AttachTicks",
+          "lineNumber": 46
+        },
+        {
+          "caller": "OnTicksChanged",
+          "callee": "ruler.Rebuild",
+          "lineNumber": 48
+        },
+        {
+          "caller": "OnTicksCollectionChanged",
+          "callee": "AttachTicks",
+          "lineNumber": 53
+        },
+        {
+          "caller": "OnTicksCollectionChanged",
+          "callee": "Rebuild",
+          "lineNumber": 54
+        },
+        {
+          "caller": "OnTickPropertyChanged",
+          "callee": "Rebuild",
+          "lineNumber": 74
+        },
+        {
+          "caller": "MeasureOverride",
+          "callee": "base.MeasureOverride",
+          "lineNumber": 80
+        },
+        {
+          "caller": "MeasureOverride",
+          "callee": "new Size",
+          "lineNumber": 81
+        },
+        {
+          "caller": "MeasureOverride",
+          "callee": "Ticks.Sum",
+          "lineNumber": 82
+        },
+        {
+          "caller": "MeasureOverride",
+          "callee": "new Size",
+          "lineNumber": 83
+        },
+        {
+          "caller": "MeasureOverride",
+          "callee": "Math.Max",
+          "lineNumber": 83
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Clear",
+          "lineNumber": 88
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Ticks.ToList",
+          "lineNumber": 91
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "ticks.Sum",
+          "lineNumber": 94
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "InvalidateMeasure",
+          "lineNumber": 98
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Add",
+          "lineNumber": 100
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new Line",
+          "lineNumber": 100
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 103
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Color.FromRgb",
+          "lineNumber": 103
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "AddRedLine",
+          "lineNumber": 107
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "AddRedLine",
+          "lineNumber": 111
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new TextBlock",
+          "lineNumber": 113
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 117
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Color.FromRgb",
+          "lineNumber": 117
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new FontFamily",
+          "lineNumber": 118
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "SetLeft",
+          "lineNumber": 120
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "SetTop",
+          "lineNumber": 121
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Add",
+          "lineNumber": 122
+        },
+        {
+          "caller": "AddRedLine",
+          "callee": "Children.Add",
+          "lineNumber": 128
+        },
+        {
+          "caller": "AddRedLine",
+          "callee": "new Line",
+          "lineNumber": 128
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/GuidelineLayer.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 278,
+      "nonEmptyLines": 248,
+      "functions": [
+        {
+          "name": "GuidelineLayer",
+          "startLine": 73,
+          "endLine": 79,
+          "params": []
+        },
+        {
+          "name": "OnGuidelinesChanged",
+          "startLine": 123,
+          "endLine": 141,
+          "params": [
+            "d",
+            "e"
+          ]
+        },
+        {
+          "name": "OnPropertyChanged",
+          "startLine": 143,
+          "endLine": 166,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnGuideProp",
+          "startLine": 168,
+          "endLine": 168,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OnAnyCollectionChanged",
+          "startLine": 169,
+          "endLine": 169,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "DetachNotify",
+          "startLine": 171,
+          "endLine": 176,
+          "params": [
+            "field",
+            "handler"
+          ]
+        },
+        {
+          "name": "Rebuild",
+          "startLine": 178,
+          "endLine": 250,
+          "params": []
+        },
+        {
+          "name": "MakeLine",
+          "startLine": 252,
+          "endLine": 260,
+          "params": [
+            "x1",
+            "y1",
+            "x2",
+            "y2",
+            "pen"
+          ]
+        },
+        {
+          "name": "CreateBrush",
+          "startLine": 262,
+          "endLine": 267,
+          "params": [
+            "a",
+            "r",
+            "g",
+            "b"
+          ]
+        },
+        {
+          "name": "CreatePen",
+          "startLine": 269,
+          "endLine": 277,
+          "params": [
+            "brush",
+            "thickness",
+            "dashes"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "GuidelineLayer",
+          "startLine": 12,
+          "endLine": 278,
+          "methods": [
+            "GuidelineLayer",
+            "OnGuidelinesChanged",
+            "OnPropertyChanged",
+            "OnGuideProp",
+            "OnAnyCollectionChanged",
+            "DetachNotify",
+            "Rebuild",
+            "MakeLine",
+            "CreateBrush",
+            "CreatePen"
+          ],
+          "properties": [
+            "GuidelinesProperty",
+            "ActiveGuideXsProperty",
+            "ActiveGuideYsProperty",
+            "ShowGuidelinesProperty",
+            "SizeBadgeTextProperty",
+            "CanvasPaddingXProperty",
+            "CanvasPaddingYProperty",
+            "_guidelines_notify",
+            "_xs_notify",
+            "_ys_notify",
+            "_rebuilding",
+            "GuideBrush",
+            "ActiveBrush",
+            "GuidePen",
+            "ActivePen",
+            "Guidelines",
+            "ActiveGuideXs",
+            "ActiveGuideYs",
+            "ShowGuidelines",
+            "SizeBadgeText",
+            "CanvasPaddingX",
+            "CanvasPaddingY"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "GuidelinesProperty",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "ActiveGuideXsProperty",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "ActiveGuideYsProperty",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "ShowGuidelinesProperty",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "SizeBadgeTextProperty",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "CanvasPaddingXProperty",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "CanvasPaddingYProperty",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "GuidelineLayer",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "Guidelines",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "ActiveGuideXs",
+          "line": 87,
+          "isDefault": false
+        },
+        {
+          "name": "ActiveGuideYs",
+          "line": 93,
+          "isDefault": false
+        },
+        {
+          "name": "ShowGuidelines",
+          "line": 99,
+          "isDefault": false
+        },
+        {
+          "name": "SizeBadgeText",
+          "line": 105,
+          "isDefault": false
+        },
+        {
+          "name": "CanvasPaddingX",
+          "line": 111,
+          "isDefault": false
+        },
+        {
+          "name": "CanvasPaddingY",
+          "line": 117,
+          "isDefault": false
+        },
+        {
+          "name": "GuidelineLayer",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GuidelineLayer",
+          "callee": "Rebuild",
+          "lineNumber": 78
+        },
+        {
+          "caller": "OnGuidelinesChanged",
+          "callee": "layer.DetachNotify",
+          "lineNumber": 126
+        },
+        {
+          "caller": "OnGuidelinesChanged",
+          "callee": "layer.Rebuild",
+          "lineNumber": 140
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "base.OnPropertyChanged",
+          "lineNumber": 145
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "DetachNotify",
+          "lineNumber": 148
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "Rebuild",
+          "lineNumber": 154
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "DetachNotify",
+          "lineNumber": 158
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "Rebuild",
+          "lineNumber": 164
+        },
+        {
+          "caller": "OnGuideProp",
+          "callee": "Rebuild",
+          "lineNumber": 168
+        },
+        {
+          "caller": "OnAnyCollectionChanged",
+          "callee": "Rebuild",
+          "lineNumber": 169
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Clear",
+          "lineNumber": 184
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Math.Max",
+          "lineNumber": 187
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Math.Max",
+          "lineNumber": 188
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Add",
+          "lineNumber": 197
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "MakeLine",
+          "lineNumber": 197
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Add",
+          "lineNumber": 202
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "MakeLine",
+          "lineNumber": 202
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Add",
+          "lineNumber": 212
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "MakeLine",
+          "lineNumber": 212
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Add",
+          "lineNumber": 221
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "MakeLine",
+          "lineNumber": 221
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 225
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "ActiveGuideXs.LastOrDefault",
+          "lineNumber": 227
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new Border",
+          "lineNumber": 228
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 230
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Color.FromRgb",
+          "lineNumber": 230
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new CornerRadius",
+          "lineNumber": 231
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new Thickness",
+          "lineNumber": 232
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new TextBlock",
+          "lineNumber": 233
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "SetLeft",
+          "lineNumber": 241
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "SetTop",
+          "lineNumber": 242
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Add",
+          "lineNumber": 243
+        },
+        {
+          "caller": "CreateBrush",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 264
+        },
+        {
+          "caller": "CreateBrush",
+          "callee": "Color.FromArgb",
+          "lineNumber": 264
+        },
+        {
+          "caller": "CreateBrush",
+          "callee": "brush.Freeze",
+          "lineNumber": 265
+        },
+        {
+          "caller": "CreatePen",
+          "callee": "new Pen",
+          "lineNumber": 271
+        },
+        {
+          "caller": "CreatePen",
+          "callee": "new DashStyle",
+          "lineNumber": 273
+        },
+        {
+          "caller": "CreatePen",
+          "callee": "pen.Freeze",
+          "lineNumber": 275
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 16,
+        "functionCount": 10,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/InsightEditorSurface.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 112,
+      "nonEmptyLines": 105,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 53,
+      "nonEmptyLines": 44,
+      "functions": [
+        {
+          "name": "InsightEditorSurface",
+          "startLine": 12,
+          "endLine": 16,
+          "params": []
+        },
+        {
+          "name": "WireCaretTracking",
+          "startLine": 18,
+          "endLine": 27,
+          "params": []
+        },
+        {
+          "name": "InsightLine_Click",
+          "startLine": 29,
+          "endLine": 34,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "ResolvedValue_LostFocus",
+          "startLine": 36,
+          "endLine": 46,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OpenSearch",
+          "startLine": 48,
+          "endLine": 48,
+          "params": []
+        },
+        {
+          "name": "OpenReplace",
+          "startLine": 50,
+          "endLine": 50,
+          "params": []
+        },
+        {
+          "name": "TryGoToDefinition",
+          "startLine": 52,
+          "endLine": 52,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "InsightEditorSurface",
+          "startLine": 10,
+          "endLine": 53,
+          "methods": [
+            "InsightEditorSurface",
+            "WireCaretTracking",
+            "InsightLine_Click",
+            "ResolvedValue_LostFocus",
+            "OpenSearch",
+            "OpenReplace",
+            "TryGoToDefinition"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "InsightEditorSurface",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "OpenSearch",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "OpenReplace",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "TryGoToDefinition",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "InsightEditorSurface",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InsightEditorSurface",
+          "callee": "InitializeComponent",
+          "lineNumber": 14
+        },
+        {
+          "caller": "InsightEditorSurface",
+          "callee": "WireCaretTracking",
+          "lineNumber": 15
+        },
+        {
+          "caller": "WireCaretTracking",
+          "callee": "vm.UpdateCaretPosition",
+          "lineNumber": 25
+        },
+        {
+          "caller": "InsightLine_Click",
+          "callee": "vm.NavigateToLine",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ResolvedValue_LostFocus",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 41
+        },
+        {
+          "caller": "ResolvedValue_LostFocus",
+          "callee": "vm.CommitEntityValue",
+          "lineNumber": 45
+        },
+        {
+          "caller": "OpenSearch",
+          "callee": "SourceEditor.OpenSearch",
+          "lineNumber": 48
+        },
+        {
+          "caller": "OpenReplace",
+          "callee": "SourceEditor.OpenReplace",
+          "lineNumber": 50
+        },
+        {
+          "caller": "TryGoToDefinition",
+          "callee": "SourceEditor.TryGoToDefinition",
+          "lineNumber": 52
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/InsightElementGenerator.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 63,
+      "nonEmptyLines": 52,
+      "functions": [
+        {
+          "name": "GetFirstInterestedOffset",
+          "startLine": 24,
+          "endLine": 36,
+          "params": [
+            "start_offset"
+          ]
+        },
+        {
+          "name": "ConstructElement",
+          "startLine": 38,
+          "endLine": 57,
+          "params": [
+            "offset"
+          ]
+        },
+        {
+          "name": "IsRenderable",
+          "startLine": 59,
+          "endLine": 62,
+          "params": [
+            "item"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InsightElementGenerator",
+          "startLine": 10,
+          "endLine": 63,
+          "methods": [
+            "GetFirstInterestedOffset",
+            "ConstructElement",
+            "IsRenderable"
+          ],
+          "properties": [
+            "_insights",
+            "Insights",
+            "EditCommand",
+            "IsEnabled"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Insights",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "EditCommand",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "IsEnabled",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "GetFirstInterestedOffset",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "ConstructElement",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "InsightElementGenerator",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GetFirstInterestedOffset",
+          "callee": "_insights\r\n            .Where(IsRenderable)\r\n            .Select(item => item.Range.Span.StartOffset)\r\n            .Where(offset => offset >= start_offset && offset < end_offset)\r\n            .DefaultIfEmpty(-1)\r\n            .Min",
+          "lineNumber": 30
+        },
+        {
+          "caller": "GetFirstInterestedOffset",
+          "callee": "_insights\r\n            .Where(IsRenderable)\r\n            .Select(item => item.Range.Span.StartOffset)\r\n            .Where(offset => offset >= start_offset && offset < end_offset)\r\n            .DefaultIfEmpty",
+          "lineNumber": 30
+        },
+        {
+          "caller": "GetFirstInterestedOffset",
+          "callee": "_insights\r\n            .Where(IsRenderable)\r\n            .Select(item => item.Range.Span.StartOffset)\r\n            .Where",
+          "lineNumber": 30
+        },
+        {
+          "caller": "GetFirstInterestedOffset",
+          "callee": "_insights\r\n            .Where(IsRenderable)\r\n            .Select",
+          "lineNumber": 30
+        },
+        {
+          "caller": "GetFirstInterestedOffset",
+          "callee": "_insights\r\n            .Where",
+          "lineNumber": 30
+        },
+        {
+          "caller": "ConstructElement",
+          "callee": "_insights\r\n            .Where(IsRenderable)\r\n            .OrderByDescending(item => item.Priority)\r\n            .FirstOrDefault",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ConstructElement",
+          "callee": "_insights\r\n            .Where(IsRenderable)\r\n            .OrderByDescending",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ConstructElement",
+          "callee": "_insights\r\n            .Where",
+          "lineNumber": 43
+        },
+        {
+          "caller": "ConstructElement",
+          "callee": "new InlineObjectElement",
+          "lineNumber": 52
+        },
+        {
+          "caller": "ConstructElement",
+          "callee": "new EntityInsightBlock",
+          "lineNumber": 54
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 370,
+      "nonEmptyLines": 326,
+      "functions": [
+        {
+          "name": "InteractiveFormRuler",
+          "startLine": 61,
+          "endLine": 66,
+          "params": []
+        },
+        {
+          "name": "BoundaryHitIndex",
+          "startLine": 68,
+          "endLine": 80,
+          "params": [
+            "x"
+          ]
+        },
+        {
+          "name": "ColumnHitIndex",
+          "startLine": 82,
+          "endLine": 92,
+          "params": [
+            "x"
+          ]
+        },
+        {
+          "name": "OnMouseLeftButtonDown",
+          "startLine": 94,
+          "endLine": 137,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnMouseMove",
+          "startLine": 139,
+          "endLine": 160,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnMouseLeave",
+          "startLine": 162,
+          "endLine": 172,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnMouseLeftButtonUp",
+          "startLine": 174,
+          "endLine": 187,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnMouseRightButtonUp",
+          "startLine": 189,
+          "endLine": 207,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "ShowColumnMenu",
+          "startLine": 209,
+          "endLine": 245,
+          "params": [
+            "col"
+          ]
+        },
+        {
+          "name": "RaiseColumnAction",
+          "startLine": 247,
+          "endLine": 251,
+          "params": [
+            "action",
+            "start",
+            "count"
+          ]
+        },
+        {
+          "name": "Rebuild",
+          "startLine": 253,
+          "endLine": 301,
+          "params": []
+        },
+        {
+          "name": "AddInsertButton",
+          "startLine": 303,
+          "endLine": 332,
+          "params": [
+            "x",
+            "at_index"
+          ]
+        },
+        {
+          "name": "ColumnWidthChangedEventArgs",
+          "startLine": 339,
+          "endLine": 345,
+          "params": [
+            "routed_event",
+            "column_index",
+            "new_width_px",
+            "preview"
+          ]
+        },
+        {
+          "name": "RulerColumnActionEventArgs",
+          "startLine": 356,
+          "endLine": 364,
+          "params": [
+            "routed_event",
+            "is_category",
+            "action",
+            "start",
+            "count"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InteractiveFormRuler",
+          "startLine": 23,
+          "endLine": 333,
+          "methods": [
+            "InteractiveFormRuler",
+            "BoundaryHitIndex",
+            "ColumnHitIndex",
+            "OnMouseLeftButtonDown",
+            "OnMouseMove",
+            "OnMouseLeave",
+            "OnMouseLeftButtonUp",
+            "OnMouseRightButtonUp",
+            "ShowColumnMenu",
+            "RaiseColumnAction",
+            "Rebuild",
+            "AddInsertButton"
+          ],
+          "properties": [
+            "ColumnWidthChangedEvent",
+            "ColumnActionEvent",
+            "IsCategory",
+            "_drag_col_index",
+            "_drag_start_x",
+            "_drag_start_px",
+            "_selected",
+            "_anchor",
+            "_hover_boundary"
+          ]
+        },
+        {
+          "name": "ColumnWidthChangedEventArgs",
+          "startLine": 337,
+          "endLine": 350,
+          "methods": [
+            "ColumnWidthChangedEventArgs"
+          ],
+          "properties": [
+            "ColumnIndex",
+            "NewWidthPx",
+            "IsPreview"
+          ]
+        },
+        {
+          "name": "RulerColumnActionEventArgs",
+          "startLine": 354,
+          "endLine": 370,
+          "methods": [
+            "RulerColumnActionEventArgs"
+          ],
+          "properties": [
+            "IsCategory",
+            "Action",
+            "Start",
+            "Count"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ColumnWidthChangedEvent",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnActionEvent",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "IsCategory",
+          "line": 52,
+          "isDefault": false
+        },
+        {
+          "name": "InteractiveFormRuler",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "InteractiveFormRuler",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnWidthChangedEventArgs",
+          "line": 339,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnIndex",
+          "line": 347,
+          "isDefault": false
+        },
+        {
+          "name": "NewWidthPx",
+          "line": 348,
+          "isDefault": false
+        },
+        {
+          "name": "IsPreview",
+          "line": 349,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnWidthChangedEventArgs",
+          "line": 337,
+          "isDefault": false
+        },
+        {
+          "name": "RulerColumnActionEventArgs",
+          "line": 356,
+          "isDefault": false
+        },
+        {
+          "name": "IsCategory",
+          "line": 366,
+          "isDefault": false
+        },
+        {
+          "name": "Action",
+          "line": 367,
+          "isDefault": false
+        },
+        {
+          "name": "Start",
+          "line": 368,
+          "isDefault": false
+        },
+        {
+          "name": "Count",
+          "line": 369,
+          "isDefault": false
+        },
+        {
+          "name": "RulerColumnActionEventArgs",
+          "line": 354,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BoundaryHitIndex",
+          "callee": "Ticks.ToList",
+          "lineNumber": 71
+        },
+        {
+          "caller": "BoundaryHitIndex",
+          "callee": "Math.Abs",
+          "lineNumber": 75
+        },
+        {
+          "caller": "BoundaryHitIndex",
+          "callee": "Math.Abs",
+          "lineNumber": 78
+        },
+        {
+          "caller": "ColumnHitIndex",
+          "callee": "Ticks.ToList",
+          "lineNumber": 85
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "base.OnMouseLeftButtonDown",
+          "lineNumber": 96
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "e.GetPosition",
+          "lineNumber": 98
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "BoundaryHitIndex",
+          "lineNumber": 101
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "Ticks.ToList",
+          "lineNumber": 104
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "CaptureMouse",
+          "lineNumber": 108
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "ColumnHitIndex",
+          "lineNumber": 114
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "_selected.Clear",
+          "lineNumber": 119
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "Math.Min",
+          "lineNumber": 120
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "Math.Max",
+          "lineNumber": 121
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "_selected.Add",
+          "lineNumber": 122
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "_selected.Remove",
+          "lineNumber": 126
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "_selected.Add",
+          "lineNumber": 126
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "_selected.Clear",
+          "lineNumber": 131
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "_selected.Add",
+          "lineNumber": 132
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "Rebuild",
+          "lineNumber": 135
+        },
+        {
+          "caller": "OnMouseMove",
+          "callee": "base.OnMouseMove",
+          "lineNumber": 141
+        },
+        {
+          "caller": "OnMouseMove",
+          "callee": "e.GetPosition",
+          "lineNumber": 142
+        },
+        {
+          "caller": "OnMouseMove",
+          "callee": "Math.Round",
+          "lineNumber": 147
+        },
+        {
+          "caller": "OnMouseMove",
+          "callee": "FboLayoutUnits.DipToPx",
+          "lineNumber": 147
+        },
+        {
+          "caller": "OnMouseMove",
+          "callee": "Math.Max",
+          "lineNumber": 148
+        },
+        {
+          "caller": "OnMouseMove",
+          "callee": "RaiseEvent",
+          "lineNumber": 149
+        },
+        {
+          "caller": "OnMouseMove",
+          "callee": "new ColumnWidthChangedEventArgs",
+          "lineNumber": 149
+        },
+        {
+          "caller": "OnMouseMove",
+          "callee": "BoundaryHitIndex",
+          "lineNumber": 153
+        },
+        {
+          "caller": "OnMouseMove",
+          "callee": "Rebuild",
+          "lineNumber": 158
+        },
+        {
+          "caller": "OnMouseLeave",
+          "callee": "base.OnMouseLeave",
+          "lineNumber": 164
+        },
+        {
+          "caller": "OnMouseLeave",
+          "callee": "Rebuild",
+          "lineNumber": 170
+        },
+        {
+          "caller": "OnMouseLeftButtonUp",
+          "callee": "e.GetPosition",
+          "lineNumber": 178
+        },
+        {
+          "caller": "OnMouseLeftButtonUp",
+          "callee": "Math.Round",
+          "lineNumber": 179
+        },
+        {
+          "caller": "OnMouseLeftButtonUp",
+          "callee": "FboLayoutUnits.DipToPx",
+          "lineNumber": 179
+        },
+        {
+          "caller": "OnMouseLeftButtonUp",
+          "callee": "Math.Max",
+          "lineNumber": 180
+        },
+        {
+          "caller": "OnMouseLeftButtonUp",
+          "callee": "RaiseEvent",
+          "lineNumber": 181
+        },
+        {
+          "caller": "OnMouseLeftButtonUp",
+          "callee": "new ColumnWidthChangedEventArgs",
+          "lineNumber": 181
+        },
+        {
+          "caller": "OnMouseLeftButtonUp",
+          "callee": "ReleaseMouseCapture",
+          "lineNumber": 183
+        },
+        {
+          "caller": "OnMouseLeftButtonUp",
+          "callee": "base.OnMouseLeftButtonUp",
+          "lineNumber": 186
+        },
+        {
+          "caller": "OnMouseRightButtonUp",
+          "callee": "base.OnMouseRightButtonUp",
+          "lineNumber": 191
+        },
+        {
+          "caller": "OnMouseRightButtonUp",
+          "callee": "e.GetPosition",
+          "lineNumber": 193
+        },
+        {
+          "caller": "OnMouseRightButtonUp",
+          "callee": "ColumnHitIndex",
+          "lineNumber": 194
+        },
+        {
+          "caller": "OnMouseRightButtonUp",
+          "callee": "_selected.Contains",
+          "lineNumber": 197
+        },
+        {
+          "caller": "OnMouseRightButtonUp",
+          "callee": "_selected.Clear",
+          "lineNumber": 199
+        },
+        {
+          "caller": "OnMouseRightButtonUp",
+          "callee": "_selected.Add",
+          "lineNumber": 200
+        },
+        {
+          "caller": "OnMouseRightButtonUp",
+          "callee": "Rebuild",
+          "lineNumber": 202
+        },
+        {
+          "caller": "OnMouseRightButtonUp",
+          "callee": "ShowColumnMenu",
+          "lineNumber": 205
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "new ContextMenu",
+          "lineNumber": 211
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "_selected.Min",
+          "lineNumber": 215
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "_selected.Max",
+          "lineNumber": 216
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "new MenuItem",
+          "lineNumber": 217
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "RaiseColumnAction",
+          "lineNumber": 218
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "menu.Items.Add",
+          "lineNumber": 219
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "menu.Items.Add",
+          "lineNumber": 220
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "new Separator",
+          "lineNumber": 220
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "new MenuItem",
+          "lineNumber": 223
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "RaiseColumnAction",
+          "lineNumber": 224
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "menu.Items.Add",
+          "lineNumber": 225
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "menu.Items.Add",
+          "lineNumber": 227
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "new Separator",
+          "lineNumber": 227
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "new MenuItem",
+          "lineNumber": 229
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "RaiseColumnAction",
+          "lineNumber": 230
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "menu.Items.Add",
+          "lineNumber": 231
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "new MenuItem",
+          "lineNumber": 233
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "RaiseColumnAction",
+          "lineNumber": 234
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "menu.Items.Add",
+          "lineNumber": 235
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "menu.Items.Add",
+          "lineNumber": 237
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "new Separator",
+          "lineNumber": 237
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "new MenuItem",
+          "lineNumber": 239
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "RaiseColumnAction",
+          "lineNumber": 240
+        },
+        {
+          "caller": "ShowColumnMenu",
+          "callee": "menu.Items.Add",
+          "lineNumber": 241
+        },
+        {
+          "caller": "RaiseColumnAction",
+          "callee": "_selected.Clear",
+          "lineNumber": 249
+        },
+        {
+          "caller": "RaiseColumnAction",
+          "callee": "RaiseEvent",
+          "lineNumber": 250
+        },
+        {
+          "caller": "RaiseColumnAction",
+          "callee": "new RulerColumnActionEventArgs",
+          "lineNumber": 250
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "base.Rebuild",
+          "lineNumber": 255
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Ticks.ToList",
+          "lineNumber": 257
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new Rectangle",
+          "lineNumber": 263
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Math.Max",
+          "lineNumber": 265
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 267
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Color.FromArgb",
+          "lineNumber": 267
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "SetLeft",
+          "lineNumber": 269
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "SetTop",
+          "lineNumber": 270
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Add",
+          "lineNumber": 271
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "new Rectangle",
+          "lineNumber": 278
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "SetLeft",
+          "lineNumber": 286
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "SetTop",
+          "lineNumber": 287
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "Children.Add",
+          "lineNumber": 288
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "AddInsertButton",
+          "lineNumber": 294
+        },
+        {
+          "caller": "Rebuild",
+          "callee": "AddInsertButton",
+          "lineNumber": 299
+        },
+        {
+          "caller": "AddInsertButton",
+          "callee": "new Border",
+          "lineNumber": 305
+        },
+        {
+          "caller": "AddInsertButton",
+          "callee": "new CornerRadius",
+          "lineNumber": 309
+        },
+        {
+          "caller": "AddInsertButton",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 310
+        },
+        {
+          "caller": "AddInsertButton",
+          "callee": "Color.FromRgb",
+          "lineNumber": 310
+        },
+        {
+          "caller": "AddInsertButton",
+          "callee": "new TextBlock",
+          "lineNumber": 313
+        },
+        {
+          "caller": "AddInsertButton",
+          "callee": "new Thickness",
+          "lineNumber": 321
+        },
+        {
+          "caller": "AddInsertButton",
+          "callee": "SetLeft",
+          "lineNumber": 324
+        },
+        {
+          "caller": "AddInsertButton",
+          "callee": "SetTop",
+          "lineNumber": 325
+        },
+        {
+          "caller": "AddInsertButton",
+          "callee": "RaiseColumnAction",
+          "lineNumber": 329
+        },
+        {
+          "caller": "AddInsertButton",
+          "callee": "Children.Add",
+          "lineNumber": 331
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 16,
+        "functionCount": 14,
+        "classCount": 3
+      }
+    }
+  ]
+}

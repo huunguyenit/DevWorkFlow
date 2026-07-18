@@ -1,0 +1,7607 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "UI/Docking/DockRegion.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 10,
+      "nonEmptyLines": 9,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "UI/Docking/DockService.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 33,
+      "functions": [
+        {
+          "name": "IsVisible",
+          "startLine": 16,
+          "endLine": 17,
+          "params": [
+            "region"
+          ]
+        },
+        {
+          "name": "Show",
+          "startLine": 19,
+          "endLine": 24,
+          "params": [
+            "region"
+          ]
+        },
+        {
+          "name": "Hide",
+          "startLine": 26,
+          "endLine": 32,
+          "params": [
+            "region"
+          ]
+        },
+        {
+          "name": "Toggle",
+          "startLine": 34,
+          "endLine": 38,
+          "params": [
+            "region"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DockService",
+          "startLine": 4,
+          "endLine": 39,
+          "methods": [
+            "IsVisible",
+            "Show",
+            "Hide",
+            "Toggle"
+          ],
+          "properties": [
+            "_visible"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IsVisible",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "Show",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "Hide",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "Toggle",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "DockService",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "IsVisible",
+          "callee": "_visible.TryGetValue",
+          "lineNumber": 17
+        },
+        {
+          "caller": "Show",
+          "callee": "LayoutChanged?.Invoke",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Hide",
+          "callee": "LayoutChanged?.Invoke",
+          "lineNumber": 31
+        },
+        {
+          "caller": "Toggle",
+          "callee": "IsVisible",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Toggle",
+          "callee": "Hide",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Toggle",
+          "callee": "Show",
+          "lineNumber": 37
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Docking/IDockService.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 13,
+      "classes": [
+        {
+          "name": "IDockService",
+          "startLine": 7,
+          "endLine": 14,
+          "methods": [
+            "IsVisible",
+            "Show",
+            "Hide",
+            "Toggle"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IDockService",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/MainWindow.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 429,
+      "nonEmptyLines": 406,
+      "metrics": {}
+    },
+    {
+      "path": "UI/MainWindow.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 242,
+      "nonEmptyLines": 209,
+      "functions": [
+        {
+          "name": "MainWindow",
+          "startLine": 12,
+          "endLine": 16,
+          "params": []
+        },
+        {
+          "name": "OnLoaded",
+          "startLine": 18,
+          "endLine": 73,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "CanSearchEditor",
+          "startLine": 75,
+          "endLine": 79,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OnSearch",
+          "startLine": 81,
+          "endLine": 90,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OnReplace",
+          "startLine": 92,
+          "endLine": 101,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OnGoToDefinition",
+          "startLine": 103,
+          "endLine": 120,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OnFindReferences",
+          "startLine": 122,
+          "endLine": 131,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "EnsureXmlBottomVisible",
+          "startLine": 133,
+          "endLine": 141,
+          "params": []
+        },
+        {
+          "name": "FindInsightEditorSurface",
+          "startLine": 143,
+          "endLine": 144,
+          "params": []
+        },
+        {
+          "name": "FindXmlBottomPanel",
+          "startLine": 146,
+          "endLine": 147,
+          "params": []
+        },
+        {
+          "name": "FindVisualChild",
+          "startLine": 149,
+          "endLine": 160,
+          "params": [
+            "parent"
+          ]
+        },
+        {
+          "name": "CanWhenFormBuilder",
+          "startLine": 162,
+          "endLine": 165,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "CanSave",
+          "startLine": 167,
+          "endLine": 178,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "CanWhenSqlDocument",
+          "startLine": 180,
+          "endLine": 184,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "CanOpenSqlFromForm",
+          "startLine": 186,
+          "endLine": 190,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OnSave",
+          "startLine": 192,
+          "endLine": 199,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OnParse",
+          "startLine": 201,
+          "endLine": 205,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OnClearText",
+          "startLine": 207,
+          "endLine": 211,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OnEntity",
+          "startLine": 213,
+          "endLine": 218,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OnExecuteSql",
+          "startLine": 220,
+          "endLine": 224,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OnOpenSqlFromForm",
+          "startLine": 226,
+          "endLine": 230,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "OnOpenSqlFile",
+          "startLine": 232,
+          "endLine": 236,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "NoOp",
+          "startLine": 238,
+          "endLine": 241,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MainWindow",
+          "startLine": 10,
+          "endLine": 242,
+          "methods": [
+            "MainWindow",
+            "OnLoaded",
+            "CanSearchEditor",
+            "OnSearch",
+            "OnReplace",
+            "OnGoToDefinition",
+            "OnFindReferences",
+            "EnsureXmlBottomVisible",
+            "FindInsightEditorSurface",
+            "FindXmlBottomPanel",
+            "FindVisualChild",
+            "CanWhenFormBuilder",
+            "CanSave",
+            "CanWhenSqlDocument",
+            "CanOpenSqlFromForm",
+            "OnSave",
+            "OnParse",
+            "OnClearText",
+            "OnEntity",
+            "OnExecuteSql",
+            "OnOpenSqlFromForm",
+            "OnOpenSqlFile",
+            "NoOp"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MainWindow",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "MainWindow",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "MainWindow",
+          "callee": "InitializeComponent",
+          "lineNumber": 14
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 21
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 21
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "vm.ExitCommand.Execute",
+          "lineNumber": 23
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 26
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 26
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 27
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 27
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 28
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 28
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 29
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 29
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 30
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 30
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 31
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 31
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 32
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 32
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 33
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 33
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 35
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 35
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "vm.Shell.ToggleLeftDockCommand.Execute",
+          "lineNumber": 37
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 39
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 39
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "vm.Shell.ToggleRightDockCommand.Execute",
+          "lineNumber": 41
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 43
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 43
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "vm.Shell.ToggleBottomDockCommand.Execute",
+          "lineNumber": 45
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 49
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 49
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "vm.Shell.ToggleLeftDockCommand.Execute",
+          "lineNumber": 53
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "vm.ExplorerVm.SelectProgramCommand.Execute",
+          "lineNumber": 54
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 57
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 57
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 58
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 58
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 59
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 59
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 60
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 60
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "CommandBindings.Add",
+          "lineNumber": 71
+        },
+        {
+          "caller": "OnLoaded",
+          "callee": "new CommandBinding",
+          "lineNumber": 71
+        },
+        {
+          "caller": "CanSearchEditor",
+          "callee": "FindInsightEditorSurface",
+          "lineNumber": 77
+        },
+        {
+          "caller": "CanSearchEditor",
+          "callee": "FindXmlBottomPanel",
+          "lineNumber": 78
+        },
+        {
+          "caller": "OnSearch",
+          "callee": "FindInsightEditorSurface",
+          "lineNumber": 83
+        },
+        {
+          "caller": "OnSearch",
+          "callee": "FindInsightEditorSurface()?.OpenSearch",
+          "lineNumber": 85
+        },
+        {
+          "caller": "OnSearch",
+          "callee": "FindInsightEditorSurface",
+          "lineNumber": 85
+        },
+        {
+          "caller": "OnSearch",
+          "callee": "EnsureXmlBottomVisible",
+          "lineNumber": 88
+        },
+        {
+          "caller": "OnSearch",
+          "callee": "FindXmlBottomPanel()?.OpenSearch",
+          "lineNumber": 89
+        },
+        {
+          "caller": "OnSearch",
+          "callee": "FindXmlBottomPanel",
+          "lineNumber": 89
+        },
+        {
+          "caller": "OnReplace",
+          "callee": "FindInsightEditorSurface",
+          "lineNumber": 94
+        },
+        {
+          "caller": "OnReplace",
+          "callee": "FindInsightEditorSurface()?.OpenReplace",
+          "lineNumber": 96
+        },
+        {
+          "caller": "OnReplace",
+          "callee": "FindInsightEditorSurface",
+          "lineNumber": 96
+        },
+        {
+          "caller": "OnReplace",
+          "callee": "EnsureXmlBottomVisible",
+          "lineNumber": 99
+        },
+        {
+          "caller": "OnReplace",
+          "callee": "FindXmlBottomPanel()?.OpenReplace",
+          "lineNumber": 100
+        },
+        {
+          "caller": "OnReplace",
+          "callee": "FindXmlBottomPanel",
+          "lineNumber": 100
+        },
+        {
+          "caller": "OnGoToDefinition",
+          "callee": "FindInsightEditorSurface()?.TryGoToDefinition",
+          "lineNumber": 105
+        },
+        {
+          "caller": "OnGoToDefinition",
+          "callee": "FindInsightEditorSurface",
+          "lineNumber": 105
+        },
+        {
+          "caller": "OnGoToDefinition",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 114
+        },
+        {
+          "caller": "OnGoToDefinition",
+          "callee": "vm.LanguageService.GetSymbolDefinition",
+          "lineNumber": 117
+        },
+        {
+          "caller": "OnGoToDefinition",
+          "callee": "fb.NavigateToLine",
+          "lineNumber": 119
+        },
+        {
+          "caller": "OnFindReferences",
+          "callee": "vm.Shell.ToggleBottomDockCommand.Execute",
+          "lineNumber": 126
+        },
+        {
+          "caller": "OnFindReferences",
+          "callee": "vm.Shell.BottomPanes\r\n            .FirstOrDefault",
+          "lineNumber": 127
+        },
+        {
+          "caller": "OnFindReferences",
+          "callee": "vm.Shell.SelectBottomPaneCommand.Execute",
+          "lineNumber": 130
+        },
+        {
+          "caller": "EnsureXmlBottomVisible",
+          "callee": "vm.Shell.ToggleBottomDockCommand.Execute",
+          "lineNumber": 137
+        },
+        {
+          "caller": "EnsureXmlBottomVisible",
+          "callee": "vm.Shell.BottomPanes.FirstOrDefault",
+          "lineNumber": 138
+        },
+        {
+          "caller": "EnsureXmlBottomVisible",
+          "callee": "vm.Shell.SelectBottomPaneCommand.Execute",
+          "lineNumber": 140
+        },
+        {
+          "caller": "FindInsightEditorSurface",
+          "callee": "FindVisualChild<InsightEditorSurface>",
+          "lineNumber": 144
+        },
+        {
+          "caller": "FindXmlBottomPanel",
+          "callee": "FindVisualChild<UI.Views.Bottom.XmlBottomPanel>",
+          "lineNumber": 147
+        },
+        {
+          "caller": "FindVisualChild",
+          "callee": "System.Windows.Media.VisualTreeHelper.GetChildrenCount",
+          "lineNumber": 151
+        },
+        {
+          "caller": "FindVisualChild",
+          "callee": "System.Windows.Media.VisualTreeHelper.GetChild",
+          "lineNumber": 154
+        },
+        {
+          "caller": "FindVisualChild",
+          "callee": "FindVisualChild<T>",
+          "lineNumber": 156
+        },
+        {
+          "caller": "CanSave",
+          "callee": "sql.SaveCommand.CanExecute",
+          "lineNumber": 176
+        },
+        {
+          "caller": "CanSave",
+          "callee": "fb.SaveCommand.CanExecute",
+          "lineNumber": 177
+        },
+        {
+          "caller": "CanWhenSqlDocument",
+          "callee": "sql.ExecuteCommand.CanExecute",
+          "lineNumber": 183
+        },
+        {
+          "caller": "CanOpenSqlFromForm",
+          "callee": "fb.OpenSqlFromFormCommand.CanExecute",
+          "lineNumber": 189
+        },
+        {
+          "caller": "OnSave",
+          "callee": "sql.SaveCommand.Execute",
+          "lineNumber": 196
+        },
+        {
+          "caller": "OnSave",
+          "callee": "fb.SaveCommand.Execute",
+          "lineNumber": 198
+        },
+        {
+          "caller": "OnParse",
+          "callee": "fb.ParseCommand.Execute",
+          "lineNumber": 204
+        },
+        {
+          "caller": "OnClearText",
+          "callee": "fb.SetEditorModeCommand.Execute",
+          "lineNumber": 210
+        },
+        {
+          "caller": "OnEntity",
+          "callee": "shell_fb.SetEditorModeCommand.Execute",
+          "lineNumber": 217
+        },
+        {
+          "caller": "OnExecuteSql",
+          "callee": "sql.ExecuteCommand.Execute",
+          "lineNumber": 223
+        },
+        {
+          "caller": "OnOpenSqlFromForm",
+          "callee": "fb.OpenSqlFromFormCommand.Execute",
+          "lineNumber": 229
+        },
+        {
+          "caller": "OnOpenSqlFile",
+          "callee": "vm.NavigationVm.OpenSqlFileCommand.Execute",
+          "lineNumber": 235
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 23,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Services/AppConfigStore.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 370,
+      "nonEmptyLines": 328,
+      "functions": [
+        {
+          "name": "AppConfigStore",
+          "startLine": 20,
+          "endLine": 30,
+          "params": [
+            "config_root"
+          ]
+        },
+        {
+          "name": "GetSqlPath",
+          "startLine": 42,
+          "endLine": 43,
+          "params": [
+            "file_name"
+          ]
+        },
+        {
+          "name": "GetJsonPath",
+          "startLine": 45,
+          "endLine": 46,
+          "params": [
+            "file_name"
+          ]
+        },
+        {
+          "name": "GetXmlPath",
+          "startLine": 48,
+          "endLine": 49,
+          "params": [
+            "file_name"
+          ]
+        },
+        {
+          "name": "LoadSqlFile",
+          "startLine": 51,
+          "endLine": 51,
+          "params": [
+            "file_name"
+          ]
+        },
+        {
+          "name": "FreezeBrush",
+          "startLine": 53,
+          "endLine": 65,
+          "params": [
+            "hex",
+            "fallback"
+          ]
+        },
+        {
+          "name": "ResolveConfigRoot",
+          "startLine": 67,
+          "endLine": 86,
+          "params": [
+            "override_root"
+          ]
+        },
+        {
+          "name": "LoadExplorerOptions",
+          "startLine": 88,
+          "endLine": 95,
+          "params": []
+        },
+        {
+          "name": "LoadDatabaseOptions",
+          "startLine": 97,
+          "endLine": 98,
+          "params": []
+        },
+        {
+          "name": "LoadMenuOptions",
+          "startLine": 100,
+          "endLine": 101,
+          "params": []
+        },
+        {
+          "name": "LoadSql",
+          "startLine": 103,
+          "endLine": 119,
+          "params": [
+            "file_name"
+          ]
+        },
+        {
+          "name": "LoadControllerFolders",
+          "startLine": 121,
+          "endLine": 147,
+          "params": []
+        },
+        {
+          "name": "LoadDatabaseObjectTypes",
+          "startLine": 149,
+          "endLine": 184,
+          "params": []
+        },
+        {
+          "name": "LoadDatabaseObjectActions",
+          "startLine": 186,
+          "endLine": 219,
+          "params": []
+        },
+        {
+          "name": "ReadJson",
+          "startLine": 221,
+          "endLine": 233,
+          "params": [
+            "path",
+            "fallback"
+          ]
+        },
+        {
+          "name": "ParseInt",
+          "startLine": 235,
+          "endLine": 236,
+          "params": [
+            "value",
+            "fallback"
+          ]
+        },
+        {
+          "name": "DefaultControllerFolders",
+          "startLine": 238,
+          "endLine": 246,
+          "params": []
+        },
+        {
+          "name": "DefaultDatabaseObjectTypes",
+          "startLine": 248,
+          "endLine": 262,
+          "params": []
+        },
+        {
+          "name": "DefaultDatabaseObjectActions",
+          "startLine": 264,
+          "endLine": 294,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "AppConfigStore",
+          "startLine": 11,
+          "endLine": 295,
+          "methods": [
+            "AppConfigStore",
+            "GetSqlPath",
+            "GetJsonPath",
+            "GetXmlPath",
+            "LoadSqlFile",
+            "FreezeBrush",
+            "ResolveConfigRoot",
+            "LoadExplorerOptions",
+            "LoadDatabaseOptions",
+            "LoadMenuOptions",
+            "LoadSql",
+            "LoadControllerFolders",
+            "LoadDatabaseObjectTypes",
+            "LoadDatabaseObjectActions",
+            "ReadJson",
+            "ParseInt",
+            "DefaultControllerFolders",
+            "DefaultDatabaseObjectTypes",
+            "DefaultDatabaseObjectActions"
+          ],
+          "properties": [
+            "JsonOptions",
+            "ConfigRoot",
+            "Explorer",
+            "Database",
+            "Menu",
+            "ControllerFolders",
+            "DatabaseObjectTypes",
+            "DatabaseObjectActions",
+            "CatalogSql"
+          ]
+        },
+        {
+          "name": "ExplorerOptions",
+          "startLine": 297,
+          "endLine": 322,
+          "methods": [],
+          "properties": [
+            "FilterDebounceMs",
+            "FilterMinLength",
+            "PreloadOnFilter",
+            "ExpandOnFolderClick",
+            "SearchScanFilesystem",
+            "SearchMaxHits",
+            "ActivationDelayMs",
+            "FolderIcon",
+            "FileIcon",
+            "FolderIconColor",
+            "FileIconColor",
+            "ShowFileBadges",
+            "PreferredRootFolders",
+            "ExplorerFileExtensions",
+            "HiddenRootFolders",
+            "FolderBrush",
+            "FileBrush"
+          ]
+        },
+        {
+          "name": "DatabaseOptions",
+          "startLine": 324,
+          "endLine": 336,
+          "methods": [],
+          "properties": [
+            "FilterDebounceMs",
+            "FilterMinLength",
+            "CommandTimeoutSeconds",
+            "CatalogScriptFile",
+            "DefaultTarget",
+            "ShowModifiedDate",
+            "SortByModifiedDesc",
+            "BatchUiSize",
+            "SingleClickDelayMs",
+            "ObjectActionsFile"
+          ]
+        },
+        {
+          "name": "MenuOptions",
+          "startLine": 338,
+          "endLine": 342,
+          "methods": [],
+          "properties": [
+            "FilterDebounceMs",
+            "FilterBatchSize"
+          ]
+        },
+        {
+          "name": "ControllerFolderOption",
+          "startLine": 344,
+          "endLine": 349,
+          "methods": [],
+          "properties": [
+            "Name",
+            "Kind",
+            "Order"
+          ]
+        },
+        {
+          "name": "DatabaseObjectTypeOption",
+          "startLine": 351,
+          "endLine": 360,
+          "methods": [],
+          "properties": [
+            "Code",
+            "Kind",
+            "Folder",
+            "Icon",
+            "Color",
+            "Order",
+            "Brush"
+          ]
+        },
+        {
+          "name": "DatabaseObjectActionOption",
+          "startLine": 362,
+          "endLine": 370,
+          "methods": [],
+          "properties": [
+            "Kind",
+            "Click",
+            "Mode",
+            "Script",
+            "Title",
+            "DropTemplate"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "AppConfigStore",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "ConfigRoot",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "Explorer",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "Database",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "Menu",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "ControllerFolders",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "DatabaseObjectTypes",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "DatabaseObjectActions",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "CatalogSql",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "GetSqlPath",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "GetJsonPath",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "GetXmlPath",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "LoadSqlFile",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "FreezeBrush",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "AppConfigStore",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "FilterDebounceMs",
+          "line": 299,
+          "isDefault": false
+        },
+        {
+          "name": "FilterMinLength",
+          "line": 300,
+          "isDefault": false
+        },
+        {
+          "name": "PreloadOnFilter",
+          "line": 301,
+          "isDefault": false
+        },
+        {
+          "name": "ExpandOnFolderClick",
+          "line": 302,
+          "isDefault": false
+        },
+        {
+          "name": "SearchScanFilesystem",
+          "line": 303,
+          "isDefault": false
+        },
+        {
+          "name": "SearchMaxHits",
+          "line": 304,
+          "isDefault": false
+        },
+        {
+          "name": "ActivationDelayMs",
+          "line": 305,
+          "isDefault": false
+        },
+        {
+          "name": "FolderIcon",
+          "line": 306,
+          "isDefault": false
+        },
+        {
+          "name": "FileIcon",
+          "line": 307,
+          "isDefault": false
+        },
+        {
+          "name": "FolderIconColor",
+          "line": 308,
+          "isDefault": false
+        },
+        {
+          "name": "FileIconColor",
+          "line": 309,
+          "isDefault": false
+        },
+        {
+          "name": "ShowFileBadges",
+          "line": 310,
+          "isDefault": false
+        },
+        {
+          "name": "PreferredRootFolders",
+          "line": 311,
+          "isDefault": false
+        },
+        {
+          "name": "ExplorerFileExtensions",
+          "line": 316,
+          "isDefault": false
+        },
+        {
+          "name": "HiddenRootFolders",
+          "line": 318,
+          "isDefault": false
+        },
+        {
+          "name": "FolderBrush",
+          "line": 320,
+          "isDefault": false
+        },
+        {
+          "name": "FileBrush",
+          "line": 321,
+          "isDefault": false
+        },
+        {
+          "name": "ExplorerOptions",
+          "line": 297,
+          "isDefault": false
+        },
+        {
+          "name": "FilterDebounceMs",
+          "line": 326,
+          "isDefault": false
+        },
+        {
+          "name": "FilterMinLength",
+          "line": 327,
+          "isDefault": false
+        },
+        {
+          "name": "CommandTimeoutSeconds",
+          "line": 328,
+          "isDefault": false
+        },
+        {
+          "name": "CatalogScriptFile",
+          "line": 329,
+          "isDefault": false
+        },
+        {
+          "name": "DefaultTarget",
+          "line": 330,
+          "isDefault": false
+        },
+        {
+          "name": "ShowModifiedDate",
+          "line": 331,
+          "isDefault": false
+        },
+        {
+          "name": "SortByModifiedDesc",
+          "line": 332,
+          "isDefault": false
+        },
+        {
+          "name": "BatchUiSize",
+          "line": 333,
+          "isDefault": false
+        },
+        {
+          "name": "SingleClickDelayMs",
+          "line": 334,
+          "isDefault": false
+        },
+        {
+          "name": "ObjectActionsFile",
+          "line": 335,
+          "isDefault": false
+        },
+        {
+          "name": "DatabaseOptions",
+          "line": 324,
+          "isDefault": false
+        },
+        {
+          "name": "FilterDebounceMs",
+          "line": 340,
+          "isDefault": false
+        },
+        {
+          "name": "FilterBatchSize",
+          "line": 341,
+          "isDefault": false
+        },
+        {
+          "name": "MenuOptions",
+          "line": 338,
+          "isDefault": false
+        },
+        {
+          "name": "Name",
+          "line": 346,
+          "isDefault": false
+        },
+        {
+          "name": "Kind",
+          "line": 347,
+          "isDefault": false
+        },
+        {
+          "name": "Order",
+          "line": 348,
+          "isDefault": false
+        },
+        {
+          "name": "ControllerFolderOption",
+          "line": 344,
+          "isDefault": false
+        },
+        {
+          "name": "Code",
+          "line": 353,
+          "isDefault": false
+        },
+        {
+          "name": "Kind",
+          "line": 354,
+          "isDefault": false
+        },
+        {
+          "name": "Folder",
+          "line": 355,
+          "isDefault": false
+        },
+        {
+          "name": "Icon",
+          "line": 356,
+          "isDefault": false
+        },
+        {
+          "name": "Color",
+          "line": 357,
+          "isDefault": false
+        },
+        {
+          "name": "Order",
+          "line": 358,
+          "isDefault": false
+        },
+        {
+          "name": "Brush",
+          "line": 359,
+          "isDefault": false
+        },
+        {
+          "name": "DatabaseObjectTypeOption",
+          "line": 351,
+          "isDefault": false
+        },
+        {
+          "name": "Kind",
+          "line": 364,
+          "isDefault": false
+        },
+        {
+          "name": "Click",
+          "line": 365,
+          "isDefault": false
+        },
+        {
+          "name": "Mode",
+          "line": 366,
+          "isDefault": false
+        },
+        {
+          "name": "Script",
+          "line": 367,
+          "isDefault": false
+        },
+        {
+          "name": "Title",
+          "line": 368,
+          "isDefault": false
+        },
+        {
+          "name": "DropTemplate",
+          "line": 369,
+          "isDefault": false
+        },
+        {
+          "name": "DatabaseObjectActionOption",
+          "line": 362,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AppConfigStore",
+          "callee": "ResolveConfigRoot",
+          "lineNumber": 22
+        },
+        {
+          "caller": "AppConfigStore",
+          "callee": "LoadExplorerOptions",
+          "lineNumber": 23
+        },
+        {
+          "caller": "AppConfigStore",
+          "callee": "LoadDatabaseOptions",
+          "lineNumber": 24
+        },
+        {
+          "caller": "AppConfigStore",
+          "callee": "LoadMenuOptions",
+          "lineNumber": 25
+        },
+        {
+          "caller": "AppConfigStore",
+          "callee": "LoadControllerFolders",
+          "lineNumber": 26
+        },
+        {
+          "caller": "AppConfigStore",
+          "callee": "LoadDatabaseObjectTypes",
+          "lineNumber": 27
+        },
+        {
+          "caller": "AppConfigStore",
+          "callee": "LoadDatabaseObjectActions",
+          "lineNumber": 28
+        },
+        {
+          "caller": "AppConfigStore",
+          "callee": "LoadSql",
+          "lineNumber": 29
+        },
+        {
+          "caller": "GetSqlPath",
+          "callee": "Path.Combine",
+          "lineNumber": 43
+        },
+        {
+          "caller": "GetJsonPath",
+          "callee": "Path.Combine",
+          "lineNumber": 46
+        },
+        {
+          "caller": "GetXmlPath",
+          "callee": "Path.Combine",
+          "lineNumber": 49
+        },
+        {
+          "caller": "LoadSqlFile",
+          "callee": "LoadSql",
+          "lineNumber": 51
+        },
+        {
+          "caller": "FreezeBrush",
+          "callee": "new BrushConverter().ConvertFromString",
+          "lineNumber": 57
+        },
+        {
+          "caller": "FreezeBrush",
+          "callee": "new BrushConverter",
+          "lineNumber": 57
+        },
+        {
+          "caller": "FreezeBrush",
+          "callee": "brush.Freeze",
+          "lineNumber": 58
+        },
+        {
+          "caller": "ResolveConfigRoot",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 69
+        },
+        {
+          "caller": "ResolveConfigRoot",
+          "callee": "Directory.Exists",
+          "lineNumber": 69
+        },
+        {
+          "caller": "ResolveConfigRoot",
+          "callee": "Path.GetFullPath",
+          "lineNumber": 70
+        },
+        {
+          "caller": "ResolveConfigRoot",
+          "callee": "Path.Combine",
+          "lineNumber": 74
+        },
+        {
+          "caller": "ResolveConfigRoot",
+          "callee": "Path.Combine",
+          "lineNumber": 75
+        },
+        {
+          "caller": "ResolveConfigRoot",
+          "callee": "Directory.GetCurrentDirectory",
+          "lineNumber": 75
+        },
+        {
+          "caller": "ResolveConfigRoot",
+          "callee": "Path.GetFullPath",
+          "lineNumber": 76
+        },
+        {
+          "caller": "ResolveConfigRoot",
+          "callee": "Path.Combine",
+          "lineNumber": 76
+        },
+        {
+          "caller": "ResolveConfigRoot",
+          "callee": "Directory.Exists",
+          "lineNumber": 81
+        },
+        {
+          "caller": "LoadExplorerOptions",
+          "callee": "GetJsonPath",
+          "lineNumber": 90
+        },
+        {
+          "caller": "LoadExplorerOptions",
+          "callee": "ReadJson",
+          "lineNumber": 91
+        },
+        {
+          "caller": "LoadExplorerOptions",
+          "callee": "new ExplorerOptions",
+          "lineNumber": 91
+        },
+        {
+          "caller": "LoadExplorerOptions",
+          "callee": "FreezeBrush",
+          "lineNumber": 92
+        },
+        {
+          "caller": "LoadExplorerOptions",
+          "callee": "FreezeBrush",
+          "lineNumber": 93
+        },
+        {
+          "caller": "LoadDatabaseOptions",
+          "callee": "ReadJson",
+          "lineNumber": 98
+        },
+        {
+          "caller": "LoadDatabaseOptions",
+          "callee": "GetJsonPath",
+          "lineNumber": 98
+        },
+        {
+          "caller": "LoadDatabaseOptions",
+          "callee": "new DatabaseOptions",
+          "lineNumber": 98
+        },
+        {
+          "caller": "LoadMenuOptions",
+          "callee": "ReadJson",
+          "lineNumber": 101
+        },
+        {
+          "caller": "LoadMenuOptions",
+          "callee": "GetJsonPath",
+          "lineNumber": 101
+        },
+        {
+          "caller": "LoadMenuOptions",
+          "callee": "new MenuOptions",
+          "lineNumber": 101
+        },
+        {
+          "caller": "LoadSql",
+          "callee": "GetSqlPath",
+          "lineNumber": 105
+        },
+        {
+          "caller": "LoadSql",
+          "callee": "File.Exists",
+          "lineNumber": 106
+        },
+        {
+          "caller": "LoadSql",
+          "callee": "File.ReadAllText",
+          "lineNumber": 107
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "GetXmlPath",
+          "lineNumber": 123
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "File.Exists",
+          "lineNumber": 124
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "DefaultControllerFolders",
+          "lineNumber": 125
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "XDocument.Load",
+          "lineNumber": 129
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "doc.Root?\r\n                       .Elements(\"folder\")\r\n                       .Select(el => new ControllerFolderOption\r\n                       {\r\n                           Name = (string?)el.Attribute(\"name\") ?? string.Empty,\r\n                           Kind = (string?)el.Attribute(\"kind\") ?? \"Folder\",\r\n                           Order = ParseInt(el.Attribute(\"order\")?.Value, 50)\r\n                       })\r\n                       .Where(f => !string.IsNullOrWhiteSpace(f.Name))\r\n                       .OrderBy(f => f.Order)\r\n                       .ToList",
+          "lineNumber": 130
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "doc.Root?\r\n                       .Elements(\"folder\")\r\n                       .Select(el => new ControllerFolderOption\r\n                       {\r\n                           Name = (string?)el.Attribute(\"name\") ?? string.Empty,\r\n                           Kind = (string?)el.Attribute(\"kind\") ?? \"Folder\",\r\n                           Order = ParseInt(el.Attribute(\"order\")?.Value, 50)\r\n                       })\r\n                       .Where(f => !string.IsNullOrWhiteSpace(f.Name))\r\n                       .OrderBy",
+          "lineNumber": 130
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "doc.Root?\r\n                       .Elements(\"folder\")\r\n                       .Select(el => new ControllerFolderOption\r\n                       {\r\n                           Name = (string?)el.Attribute(\"name\") ?? string.Empty,\r\n                           Kind = (string?)el.Attribute(\"kind\") ?? \"Folder\",\r\n                           Order = ParseInt(el.Attribute(\"order\")?.Value, 50)\r\n                       })\r\n                       .Where",
+          "lineNumber": 130
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "doc.Root?\r\n                       .Elements(\"folder\")\r\n                       .Select",
+          "lineNumber": 130
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "doc.Root?\r\n                       .Elements",
+          "lineNumber": 130
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "new ControllerFolderOption",
+          "lineNumber": 132
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "el.Attribute",
+          "lineNumber": 134
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "el.Attribute",
+          "lineNumber": 135
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "ParseInt",
+          "lineNumber": 136
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "el.Attribute",
+          "lineNumber": 136
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 138
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "DefaultControllerFolders",
+          "lineNumber": 141
+        },
+        {
+          "caller": "LoadControllerFolders",
+          "callee": "DefaultControllerFolders",
+          "lineNumber": 145
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "GetXmlPath",
+          "lineNumber": 151
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "File.Exists",
+          "lineNumber": 152
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "DefaultDatabaseObjectTypes",
+          "lineNumber": 153
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "XDocument.Load",
+          "lineNumber": 157
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "doc.Root?\r\n                .Elements(\"type\")\r\n                .Select(el => new DatabaseObjectTypeOption\r\n                {\r\n                    Code = ((string?)el.Attribute(\"code\") ?? string.Empty).Trim(),\r\n                    Kind = (string?)el.Attribute(\"kind\") ?? \"Folder\",\r\n                    Folder = (string?)el.Attribute(\"folder\") ?? \"Other\",\r\n                    Icon = (string?)el.Attribute(\"icon\") ?? \"Database\",\r\n                    Color = (string?)el.Attribute(\"color\") ?? \"#616161\",\r\n                    Order = ParseInt(el.Attribute(\"order\")?.Value, 9)\r\n                })\r\n                .Where(t => !string.IsNullOrWhiteSpace(t.Code))\r\n                .ToList",
+          "lineNumber": 158
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "doc.Root?\r\n                .Elements(\"type\")\r\n                .Select(el => new DatabaseObjectTypeOption\r\n                {\r\n                    Code = ((string?)el.Attribute(\"code\") ?? string.Empty).Trim(),\r\n                    Kind = (string?)el.Attribute(\"kind\") ?? \"Folder\",\r\n                    Folder = (string?)el.Attribute(\"folder\") ?? \"Other\",\r\n                    Icon = (string?)el.Attribute(\"icon\") ?? \"Database\",\r\n                    Color = (string?)el.Attribute(\"color\") ?? \"#616161\",\r\n                    Order = ParseInt(el.Attribute(\"order\")?.Value, 9)\r\n                })\r\n                .Where",
+          "lineNumber": 158
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "doc.Root?\r\n                .Elements(\"type\")\r\n                .Select",
+          "lineNumber": 158
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "doc.Root?\r\n                .Elements",
+          "lineNumber": 158
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "new DatabaseObjectTypeOption",
+          "lineNumber": 160
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "((string?)el.Attribute(\"code\") ?? string.Empty).Trim",
+          "lineNumber": 162
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "el.Attribute",
+          "lineNumber": 162
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "el.Attribute",
+          "lineNumber": 163
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "el.Attribute",
+          "lineNumber": 164
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "el.Attribute",
+          "lineNumber": 165
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "el.Attribute",
+          "lineNumber": 166
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "ParseInt",
+          "lineNumber": 167
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "el.Attribute",
+          "lineNumber": 167
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 169
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "DefaultDatabaseObjectTypes",
+          "lineNumber": 173
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "FreezeBrush",
+          "lineNumber": 176
+        },
+        {
+          "caller": "LoadDatabaseObjectTypes",
+          "callee": "DefaultDatabaseObjectTypes",
+          "lineNumber": 182
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "GetXmlPath",
+          "lineNumber": 188
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 189
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "File.Exists",
+          "lineNumber": 193
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "DefaultDatabaseObjectActions",
+          "lineNumber": 194
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "XDocument.Load",
+          "lineNumber": 198
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "doc.Root?\r\n                .Elements(\"action\")\r\n                .Select(el => new DatabaseObjectActionOption\r\n                {\r\n                    Kind = (string?)el.Attribute(\"kind\") ?? string.Empty,\r\n                    Click = ParseInt(el.Attribute(\"click\")?.Value, 1),\r\n                    Mode = (string?)el.Attribute(\"mode\") ?? \"create\",\r\n                    Script = (string?)el.Attribute(\"script\") ?? string.Empty,\r\n                    Title = (string?)el.Attribute(\"title\") ?? string.Empty,\r\n                    DropTemplate = (string?)el.Attribute(\"dropTemplate\") ?? string.Empty\r\n                })\r\n                .Where(a => !string.IsNullOrWhiteSpace(a.Kind) && a.Click is 1 or 2)\r\n                .ToList",
+          "lineNumber": 199
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "doc.Root?\r\n                .Elements(\"action\")\r\n                .Select(el => new DatabaseObjectActionOption\r\n                {\r\n                    Kind = (string?)el.Attribute(\"kind\") ?? string.Empty,\r\n                    Click = ParseInt(el.Attribute(\"click\")?.Value, 1),\r\n                    Mode = (string?)el.Attribute(\"mode\") ?? \"create\",\r\n                    Script = (string?)el.Attribute(\"script\") ?? string.Empty,\r\n                    Title = (string?)el.Attribute(\"title\") ?? string.Empty,\r\n                    DropTemplate = (string?)el.Attribute(\"dropTemplate\") ?? string.Empty\r\n                })\r\n                .Where",
+          "lineNumber": 199
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "doc.Root?\r\n                .Elements(\"action\")\r\n                .Select",
+          "lineNumber": 199
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "doc.Root?\r\n                .Elements",
+          "lineNumber": 199
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "new DatabaseObjectActionOption",
+          "lineNumber": 201
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "el.Attribute",
+          "lineNumber": 203
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "ParseInt",
+          "lineNumber": 204
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "el.Attribute",
+          "lineNumber": 204
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "el.Attribute",
+          "lineNumber": 205
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "el.Attribute",
+          "lineNumber": 206
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "el.Attribute",
+          "lineNumber": 207
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "el.Attribute",
+          "lineNumber": 208
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 210
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "DefaultDatabaseObjectActions",
+          "lineNumber": 213
+        },
+        {
+          "caller": "LoadDatabaseObjectActions",
+          "callee": "DefaultDatabaseObjectActions",
+          "lineNumber": 217
+        },
+        {
+          "caller": "ReadJson",
+          "callee": "File.Exists",
+          "lineNumber": 225
+        },
+        {
+          "caller": "ReadJson",
+          "callee": "File.ReadAllText",
+          "lineNumber": 226
+        },
+        {
+          "caller": "ReadJson",
+          "callee": "JsonSerializer.Deserialize<T>",
+          "lineNumber": 227
+        },
+        {
+          "caller": "ParseInt",
+          "callee": "int.TryParse",
+          "lineNumber": 236
+        },
+        {
+          "caller": "DefaultDatabaseObjectTypes",
+          "callee": "new List<DatabaseObjectTypeOption>",
+          "lineNumber": 250
+        },
+        {
+          "caller": "DefaultDatabaseObjectTypes",
+          "callee": "FreezeBrush",
+          "lineNumber": 260
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 66,
+        "functionCount": 19,
+        "classCount": 7
+      }
+    },
+    {
+      "path": "UI/Services/DatabaseObjectScripter.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 180,
+      "nonEmptyLines": 149,
+      "functions": [
+        {
+          "name": "DatabaseObjectScripter",
+          "startLine": 15,
+          "endLine": 19,
+          "params": [
+            "sql_runner",
+            "config"
+          ]
+        },
+        {
+          "name": "BuildAsync",
+          "startLine": 21,
+          "endLine": 76,
+          "params": [
+            "connection_string",
+            "schema",
+            "name",
+            "kind",
+            "click",
+            "ct"
+          ]
+        },
+        {
+          "name": "ReadDefinition",
+          "startLine": 78,
+          "endLine": 85,
+          "params": [
+            "table"
+          ]
+        },
+        {
+          "name": "TransformBody",
+          "startLine": 87,
+          "endLine": 98,
+          "params": [
+            "body",
+            "mode",
+            "kind"
+          ]
+        },
+        {
+          "name": "BuildCreateTable",
+          "startLine": 100,
+          "endLine": 142,
+          "params": [
+            "schema",
+            "name",
+            "table"
+          ]
+        },
+        {
+          "name": "FormatType",
+          "startLine": 144,
+          "endLine": 159,
+          "params": [
+            "type_name",
+            "max_length",
+            "precision",
+            "scale"
+          ]
+        },
+        {
+          "name": "ApplyPlaceholders",
+          "startLine": 161,
+          "endLine": 173,
+          "params": [
+            "template",
+            "schema",
+            "name"
+          ]
+        },
+        {
+          "name": "Quote",
+          "startLine": 175,
+          "endLine": 176,
+          "params": [
+            "ident"
+          ]
+        },
+        {
+          "name": "EscapeSqlLiteral",
+          "startLine": 178,
+          "endLine": 179,
+          "params": [
+            "value"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DatabaseObjectScripter",
+          "startLine": 10,
+          "endLine": 180,
+          "methods": [
+            "DatabaseObjectScripter",
+            "BuildAsync",
+            "ReadDefinition",
+            "TransformBody",
+            "BuildCreateTable",
+            "FormatType",
+            "ApplyPlaceholders",
+            "Quote",
+            "EscapeSqlLiteral"
+          ],
+          "properties": [
+            "_sql_runner",
+            "_config"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DatabaseObjectScripter",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "BuildAsync",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "DatabaseObjectScripter",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BuildAsync",
+          "callee": "_config.DatabaseObjectActions\r\n            .FirstOrDefault",
+          "lineNumber": 29
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "a.Kind.Equals",
+          "lineNumber": 31
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "kind.ToString",
+          "lineNumber": 31
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 38
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "_config.LoadSqlFile",
+          "lineNumber": 41
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "ApplyPlaceholders",
+          "lineNumber": 42
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "_sql_runner.ExecuteAsync",
+          "lineNumber": 44
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "new InvalidOperationException",
+          "lineNumber": 51
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "result.ResultSets.FirstOrDefault",
+          "lineNumber": 53
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "BuildCreateTable",
+          "lineNumber": 55
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "ReadDefinition",
+          "lineNumber": 56
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 58
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "new InvalidOperationException",
+          "lineNumber": 59
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "TransformBody",
+          "lineNumber": 61
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "action.Mode.Equals",
+          "lineNumber": 63
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 64
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "ApplyPlaceholders",
+          "lineNumber": 66
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "ApplyPlaceholders",
+          "lineNumber": 70
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 71
+        },
+        {
+          "caller": "BuildAsync",
+          "callee": "body.Trim",
+          "lineNumber": 75
+        },
+        {
+          "caller": "ReadDefinition",
+          "callee": "table.Columns.Contains",
+          "lineNumber": 82
+        },
+        {
+          "caller": "ReadDefinition",
+          "callee": "Convert.ToString",
+          "lineNumber": 83
+        },
+        {
+          "caller": "ReadDefinition",
+          "callee": "Convert.ToString",
+          "lineNumber": 84
+        },
+        {
+          "caller": "TransformBody",
+          "callee": "mode.Equals",
+          "lineNumber": 89
+        },
+        {
+          "caller": "TransformBody",
+          "callee": "Regex.Replace",
+          "lineNumber": 93
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "new StringBuilder",
+          "lineNumber": 105
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Quote",
+          "lineNumber": 106
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Quote",
+          "lineNumber": 106
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "sb.AppendLine",
+          "lineNumber": 107
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "sb.AppendLine",
+          "lineNumber": 108
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "new List<string>",
+          "lineNumber": 110
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "new List<string>",
+          "lineNumber": 111
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Convert.ToString",
+          "lineNumber": 115
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 116
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Convert.ToString",
+          "lineNumber": 118
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Convert.ToInt32",
+          "lineNumber": 119
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Convert.ToInt32",
+          "lineNumber": 120
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Convert.ToInt32",
+          "lineNumber": 121
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Convert.ToBoolean",
+          "lineNumber": 122
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Convert.ToBoolean",
+          "lineNumber": 123
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "table.Columns.Contains",
+          "lineNumber": 124
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Convert.ToBoolean",
+          "lineNumber": 125
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "pk_cols.Add",
+          "lineNumber": 128
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Quote",
+          "lineNumber": 128
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "FormatType",
+          "lineNumber": 130
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Math.Clamp",
+          "lineNumber": 130
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Math.Clamp",
+          "lineNumber": 130
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "lines.Add",
+          "lineNumber": 133
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Quote",
+          "lineNumber": 133
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "lines.Add",
+          "lineNumber": 137
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "Quote",
+          "lineNumber": 137
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "string.Join",
+          "lineNumber": 137
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "pk_cols.Distinct",
+          "lineNumber": 137
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "sb.AppendLine",
+          "lineNumber": 139
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "string.Join",
+          "lineNumber": 139
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "sb.AppendLine",
+          "lineNumber": 140
+        },
+        {
+          "caller": "BuildCreateTable",
+          "callee": "sb.ToString",
+          "lineNumber": 141
+        },
+        {
+          "caller": "FormatType",
+          "callee": "type_name.ToLowerInvariant",
+          "lineNumber": 146
+        },
+        {
+          "caller": "ApplyPlaceholders",
+          "callee": "Quote",
+          "lineNumber": 164
+        },
+        {
+          "caller": "ApplyPlaceholders",
+          "callee": "Quote",
+          "lineNumber": 164
+        },
+        {
+          "caller": "ApplyPlaceholders",
+          "callee": "template\r\n            .Replace(\"{{schema}}\", EscapeSqlLiteral(schema), StringComparison.Ordinal)\r\n            .Replace(\"{{name}}\", EscapeSqlLiteral(name), StringComparison.Ordinal)\r\n            .Replace(\"{{full_name}}\", EscapeSqlLiteral(full), StringComparison.Ordinal)\r\n            .Replace(\"{schema}\", schema, StringComparison.Ordinal)\r\n            .Replace(\"{name}\", name, StringComparison.Ordinal)\r\n            .Replace(\"{full_name}\", full, StringComparison.Ordinal)\r\n            .Replace",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ApplyPlaceholders",
+          "callee": "template\r\n            .Replace(\"{{schema}}\", EscapeSqlLiteral(schema), StringComparison.Ordinal)\r\n            .Replace(\"{{name}}\", EscapeSqlLiteral(name), StringComparison.Ordinal)\r\n            .Replace(\"{{full_name}}\", EscapeSqlLiteral(full), StringComparison.Ordinal)\r\n            .Replace(\"{schema}\", schema, StringComparison.Ordinal)\r\n            .Replace(\"{name}\", name, StringComparison.Ordinal)\r\n            .Replace",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ApplyPlaceholders",
+          "callee": "template\r\n            .Replace(\"{{schema}}\", EscapeSqlLiteral(schema), StringComparison.Ordinal)\r\n            .Replace(\"{{name}}\", EscapeSqlLiteral(name), StringComparison.Ordinal)\r\n            .Replace(\"{{full_name}}\", EscapeSqlLiteral(full), StringComparison.Ordinal)\r\n            .Replace(\"{schema}\", schema, StringComparison.Ordinal)\r\n            .Replace",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ApplyPlaceholders",
+          "callee": "template\r\n            .Replace(\"{{schema}}\", EscapeSqlLiteral(schema), StringComparison.Ordinal)\r\n            .Replace(\"{{name}}\", EscapeSqlLiteral(name), StringComparison.Ordinal)\r\n            .Replace(\"{{full_name}}\", EscapeSqlLiteral(full), StringComparison.Ordinal)\r\n            .Replace",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ApplyPlaceholders",
+          "callee": "template\r\n            .Replace(\"{{schema}}\", EscapeSqlLiteral(schema), StringComparison.Ordinal)\r\n            .Replace(\"{{name}}\", EscapeSqlLiteral(name), StringComparison.Ordinal)\r\n            .Replace",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ApplyPlaceholders",
+          "callee": "template\r\n            .Replace(\"{{schema}}\", EscapeSqlLiteral(schema), StringComparison.Ordinal)\r\n            .Replace",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ApplyPlaceholders",
+          "callee": "template\r\n            .Replace",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ApplyPlaceholders",
+          "callee": "EscapeSqlLiteral",
+          "lineNumber": 166
+        },
+        {
+          "caller": "ApplyPlaceholders",
+          "callee": "EscapeSqlLiteral",
+          "lineNumber": 167
+        },
+        {
+          "caller": "ApplyPlaceholders",
+          "callee": "EscapeSqlLiteral",
+          "lineNumber": 168
+        },
+        {
+          "caller": "Quote",
+          "callee": "ident.Replace",
+          "lineNumber": 176
+        },
+        {
+          "caller": "EscapeSqlLiteral",
+          "callee": "value.Replace",
+          "lineNumber": 179
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Services/FboDesignMapper.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 512,
+      "nonEmptyLines": 463,
+      "functions": [
+        {
+          "name": "SetOptions",
+          "startLine": 14,
+          "endLine": 15,
+          "params": [
+            "options"
+          ]
+        },
+        {
+          "name": "Map",
+          "startLine": 17,
+          "endLine": 28,
+          "params": [
+            "doc",
+            "vietnamese",
+            "controllers_path"
+          ]
+        },
+        {
+          "name": "MapForm",
+          "startLine": 30,
+          "endLine": 137,
+          "params": [
+            "form",
+            "vietnamese",
+            "controllers_path"
+          ]
+        },
+        {
+          "name": "BuildRuler",
+          "startLine": 139,
+          "endLine": 170,
+          "params": [
+            "ticks",
+            "widths_px",
+            "widths",
+            "table_w_px",
+            "table_w_dip"
+          ]
+        },
+        {
+          "name": "MapFormRow",
+          "startLine": 172,
+          "endLine": 265,
+          "params": [
+            "row",
+            "form",
+            "vietnamese",
+            "controllers_path",
+            "row_index"
+          ]
+        },
+        {
+          "name": "ResolveEditorKind",
+          "startLine": 267,
+          "endLine": 275,
+          "params": [
+            "fbo_field"
+          ]
+        },
+        {
+          "name": "ResolveInputValue",
+          "startLine": 277,
+          "endLine": 285,
+          "params": [
+            "fbo_field"
+          ]
+        },
+        {
+          "name": "ResolveDropDownText",
+          "startLine": 287,
+          "endLine": 295,
+          "params": [
+            "fbo_field",
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "MapFallbackRow",
+          "startLine": 297,
+          "endLine": 331,
+          "params": [
+            "fbo_field",
+            "widths",
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "MapGrid",
+          "startLine": 333,
+          "endLine": 404,
+          "params": [
+            "grid",
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "MapLookup",
+          "startLine": 406,
+          "endLine": 466,
+          "params": [
+            "lookup",
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "ResolveAlign",
+          "startLine": 468,
+          "endLine": 475,
+          "params": [
+            "fbo_field"
+          ]
+        },
+        {
+          "name": "PrefixFormTitle",
+          "startLine": 477,
+          "endLine": 492,
+          "params": [
+            "title",
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "ResolveToolbarTitle",
+          "startLine": 494,
+          "endLine": 511,
+          "params": [
+            "btn",
+            "vietnamese"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FboDesignMapper",
+          "startLine": 9,
+          "endLine": 512,
+          "methods": [
+            "SetOptions",
+            "Map",
+            "MapForm",
+            "BuildRuler",
+            "MapFormRow",
+            "ResolveEditorKind",
+            "ResolveInputValue",
+            "ResolveDropDownText",
+            "MapFallbackRow",
+            "MapGrid",
+            "MapLookup",
+            "ResolveAlign",
+            "PrefixFormTitle",
+            "ResolveToolbarTitle"
+          ],
+          "properties": [
+            "_options",
+            "LookupResolver"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SetOptions",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Map",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "MapForm",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "MapGrid",
+          "line": 333,
+          "isDefault": false
+        },
+        {
+          "name": "MapLookup",
+          "line": 406,
+          "isDefault": false
+        },
+        {
+          "name": "FboDesignMapper",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SetOptions",
+          "callee": "new FboOptionsCatalog",
+          "lineNumber": 15
+        },
+        {
+          "caller": "Map",
+          "callee": "MapForm",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Map",
+          "callee": "MapGrid",
+          "lineNumber": 25
+        },
+        {
+          "caller": "Map",
+          "callee": "MapLookup",
+          "lineNumber": 26
+        },
+        {
+          "caller": "Map",
+          "callee": "new DesignSurfaceVm",
+          "lineNumber": 27
+        },
+        {
+          "caller": "MapForm",
+          "callee": "PrefixFormTitle",
+          "lineNumber": 35
+        },
+        {
+          "caller": "MapForm",
+          "callee": "form.Title.Get",
+          "lineNumber": 35
+        },
+        {
+          "caller": "MapForm",
+          "callee": "PrefixFormTitle",
+          "lineNumber": 36
+        },
+        {
+          "caller": "MapForm",
+          "callee": "form.Title.Get",
+          "lineNumber": 36
+        },
+        {
+          "caller": "MapForm",
+          "callee": "new DesignSurfaceVm",
+          "lineNumber": 38
+        },
+        {
+          "caller": "MapForm",
+          "callee": "form.Layout?.ColumnWidths?.ToList",
+          "lineNumber": 49
+        },
+        {
+          "caller": "MapForm",
+          "callee": "BuildRuler",
+          "lineNumber": 53
+        },
+        {
+          "caller": "MapForm",
+          "callee": "FboLayoutUnits.PxToDip",
+          "lineNumber": 62
+        },
+        {
+          "caller": "MapForm",
+          "callee": "MapFormRow",
+          "lineNumber": 81
+        },
+        {
+          "caller": "MapForm",
+          "callee": "surface.FormRows.Add",
+          "lineNumber": 83
+        },
+        {
+          "caller": "MapForm",
+          "callee": "new DesignCategoryTabVm",
+          "lineNumber": 90
+        },
+        {
+          "caller": "MapForm",
+          "callee": "tab.ApplyLanguage",
+          "lineNumber": 96
+        },
+        {
+          "caller": "MapForm",
+          "callee": "BuildRuler",
+          "lineNumber": 101
+        },
+        {
+          "caller": "MapForm",
+          "callee": "MapFormRow",
+          "lineNumber": 108
+        },
+        {
+          "caller": "MapForm",
+          "callee": "tab.Rows.Add",
+          "lineNumber": 110
+        },
+        {
+          "caller": "MapForm",
+          "callee": "surface.CategoryTabs.Add",
+          "lineNumber": 113
+        },
+        {
+          "caller": "MapForm",
+          "callee": "surface.CategoryTabs.FirstOrDefault",
+          "lineNumber": 116
+        },
+        {
+          "caller": "MapForm",
+          "callee": "MapFormRow",
+          "lineNumber": 120
+        },
+        {
+          "caller": "MapForm",
+          "callee": "surface.BottomRows.Add",
+          "lineNumber": 122
+        },
+        {
+          "caller": "MapForm",
+          "callee": "MapFallbackRow",
+          "lineNumber": 130
+        },
+        {
+          "caller": "MapForm",
+          "callee": "FboLayoutUnits.PxToDip",
+          "lineNumber": 131
+        },
+        {
+          "caller": "MapForm",
+          "callee": "surface.FormRows.Add",
+          "lineNumber": 132
+        },
+        {
+          "caller": "BuildRuler",
+          "callee": "ticks.Clear",
+          "lineNumber": 146
+        },
+        {
+          "caller": "BuildRuler",
+          "callee": "widths_px.Clear",
+          "lineNumber": 147
+        },
+        {
+          "caller": "BuildRuler",
+          "callee": "Math.Max",
+          "lineNumber": 152
+        },
+        {
+          "caller": "BuildRuler",
+          "callee": "FboLayoutUnits.PxToDip",
+          "lineNumber": 155
+        },
+        {
+          "caller": "BuildRuler",
+          "callee": "widths_px.Add",
+          "lineNumber": 156
+        },
+        {
+          "caller": "BuildRuler",
+          "callee": "ticks.Add",
+          "lineNumber": 157
+        },
+        {
+          "caller": "BuildRuler",
+          "callee": "new RulerTickVm",
+          "lineNumber": 157
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "new DesignFormRowVm",
+          "lineNumber": 179
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "FboLayoutUnits.PxToDip",
+          "lineNumber": 182
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "Math.Max",
+          "lineNumber": 187
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "FboLayoutUnits.PxToDip",
+          "lineNumber": 188
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "design_row.Cells.Add",
+          "lineNumber": 192
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "new DesignCellVm",
+          "lineNumber": 192
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "form.FindField",
+          "lineNumber": 205
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "_options.ResolveFormat",
+          "lineNumber": 206
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "fbo_field?.GetDisplayLabel",
+          "lineNumber": 209
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "fbo_field?.GetDisplayFooter",
+          "lineNumber": 210
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "fbo_field?.GetDisplayLabel",
+          "lineNumber": 215
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "fbo_field?.GetDisplayFooter",
+          "lineNumber": 216
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "ResolveEditorKind",
+          "lineNumber": 220
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "LookupResolver.ResolveReferenceLabel",
+          "lineNumber": 222
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "ResolveDropDownText",
+          "lineNumber": 224
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "new DesignCellVm",
+          "lineNumber": 226
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "ResolveInputValue",
+          "lineNumber": 233
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "ResolveAlign",
+          "lineNumber": 255
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "_options.IsUpperCase",
+          "lineNumber": 256
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "_options.IsLowerCase",
+          "lineNumber": 257
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 258
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "design_cell.ApplyLanguage",
+          "lineNumber": 260
+        },
+        {
+          "caller": "MapFormRow",
+          "callee": "design_row.Cells.Add",
+          "lineNumber": 261
+        },
+        {
+          "caller": "ResolveInputValue",
+          "callee": "string.Equals",
+          "lineNumber": 281
+        },
+        {
+          "caller": "ResolveInputValue",
+          "callee": "string.Equals",
+          "lineNumber": 282
+        },
+        {
+          "caller": "ResolveDropDownText",
+          "callee": "fbo_field.DropDownItems.FirstOrDefault",
+          "lineNumber": 291
+        },
+        {
+          "caller": "ResolveDropDownText",
+          "callee": "item.GetText",
+          "lineNumber": 293
+        },
+        {
+          "caller": "ResolveDropDownText",
+          "callee": "fbo_field.DropDownItems.FirstOrDefault()?.GetText",
+          "lineNumber": 294
+        },
+        {
+          "caller": "ResolveDropDownText",
+          "callee": "fbo_field.DropDownItems.FirstOrDefault",
+          "lineNumber": 294
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "new DesignFormRowVm",
+          "lineNumber": 299
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "widths.Skip(1).Sum",
+          "lineNumber": 301
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "widths.Skip",
+          "lineNumber": 301
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "new DesignCellVm",
+          "lineNumber": 302
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "fbo_field.GetDisplayLabel",
+          "lineNumber": 306
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "fbo_field.GetDisplayLabel",
+          "lineNumber": 307
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "FboLayoutUnits.PxToDip",
+          "lineNumber": 309
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "label.ApplyLanguage",
+          "lineNumber": 313
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "design_row.Cells.Add",
+          "lineNumber": 314
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "new DesignCellVm",
+          "lineNumber": 316
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "FboLayoutUnits.PxToDip",
+          "lineNumber": 322
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "ResolveAlign",
+          "lineNumber": 325
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "_options.IsUpperCase",
+          "lineNumber": 326
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "_options.ResolveFormat",
+          "lineNumber": 327
+        },
+        {
+          "caller": "MapFallbackRow",
+          "callee": "design_row.Cells.Add",
+          "lineNumber": 329
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "grid.Title.Get",
+          "lineNumber": 335
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "grid.Title.Get",
+          "lineNumber": 336
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "grid.SubTitle.Get",
+          "lineNumber": 337
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "grid.SubTitle.Get",
+          "lineNumber": 338
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "new DesignSurfaceVm",
+          "lineNumber": 340
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "surface.ToolbarItems.Add",
+          "lineNumber": 353
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "new DesignToolbarItemVm",
+          "lineNumber": 353
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "ResolveToolbarTitle",
+          "lineNumber": 356
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "ResolveToolbarTitle",
+          "lineNumber": 357
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "ResolveToolbarTitle",
+          "lineNumber": 358
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "grid.VisibleColumns.ToList",
+          "lineNumber": 363
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "columns.Select(c => c.Width ?? 140).ToList",
+          "lineNumber": 364
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "columns.Select",
+          "lineNumber": 364
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "BuildRuler",
+          "lineNumber": 365
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "new DesignColumnVm",
+          "lineNumber": 373
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "col.GetDisplayLabel",
+          "lineNumber": 376
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "col.GetDisplayLabel",
+          "lineNumber": 377
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "FboLayoutUnits.PxToDip",
+          "lineNumber": 379
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "col_vm.ApplyLanguage",
+          "lineNumber": 383
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "surface.Columns.Add",
+          "lineNumber": 384
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "new DesignDataRowVm",
+          "lineNumber": 387
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "filter_row.Values.Add",
+          "lineNumber": 388
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "surface.SampleRows.Add",
+          "lineNumber": 389
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "new DesignDataRowVm",
+          "lineNumber": 393
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "data_row.Values.Add",
+          "lineNumber": 396
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "col.Name.Contains",
+          "lineNumber": 396
+        },
+        {
+          "caller": "MapGrid",
+          "callee": "surface.SampleRows.Add",
+          "lineNumber": 400
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "lookup.Header.Get",
+          "lineNumber": 408
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "lookup.Header.Get",
+          "lineNumber": 409
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "lookup.FieldsByName.TryGetValue",
+          "lineNumber": 410
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "sf.GetDisplayLabel",
+          "lineNumber": 411
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "lookup.FieldsByName.TryGetValue",
+          "lineNumber": 413
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "sf2.GetDisplayLabel",
+          "lineNumber": 414
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "new DesignSurfaceVm",
+          "lineNumber": 417
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "lookup.Fields.Select(c => c.Width ?? 160).ToList",
+          "lineNumber": 428
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "lookup.Fields.Select",
+          "lineNumber": 428
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "BuildRuler",
+          "lineNumber": 429
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "new DesignColumnVm",
+          "lineNumber": 437
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "col.GetDisplayLabel",
+          "lineNumber": 440
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "col.GetDisplayLabel",
+          "lineNumber": 441
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "FboLayoutUnits.PxToDip",
+          "lineNumber": 443
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "col_vm.ApplyLanguage",
+          "lineNumber": 447
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "surface.Columns.Add",
+          "lineNumber": 448
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "new DesignDataRowVm",
+          "lineNumber": 453
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "data_row.Values.Add",
+          "lineNumber": 456
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "col.Name.Contains",
+          "lineNumber": 456
+        },
+        {
+          "caller": "MapLookup",
+          "callee": "surface.SampleRows.Add",
+          "lineNumber": 462
+        },
+        {
+          "caller": "ResolveAlign",
+          "callee": "string.Equals",
+          "lineNumber": 470
+        },
+        {
+          "caller": "ResolveAlign",
+          "callee": "string.Equals",
+          "lineNumber": 472
+        },
+        {
+          "caller": "PrefixFormTitle",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 479
+        },
+        {
+          "caller": "PrefixFormTitle",
+          "callee": "title.StartsWith",
+          "lineNumber": 482
+        },
+        {
+          "caller": "PrefixFormTitle",
+          "callee": "title.StartsWith",
+          "lineNumber": 483
+        },
+        {
+          "caller": "PrefixFormTitle",
+          "callee": "char.ToLowerInvariant",
+          "lineNumber": 485
+        },
+        {
+          "caller": "PrefixFormTitle",
+          "callee": "title.StartsWith",
+          "lineNumber": 488
+        },
+        {
+          "caller": "PrefixFormTitle",
+          "callee": "title.StartsWith",
+          "lineNumber": 489
+        },
+        {
+          "caller": "ResolveToolbarTitle",
+          "callee": "btn.Title.Get",
+          "lineNumber": 496
+        },
+        {
+          "caller": "ResolveToolbarTitle",
+          "callee": "raw.StartsWith",
+          "lineNumber": 497
+        },
+        {
+          "caller": "ResolveToolbarTitle",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 510
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 14,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Services/FieldPropertySchema.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 255,
+      "nonEmptyLines": 235,
+      "functions": [
+        {
+          "name": "BuildEditable",
+          "startLine": 30,
+          "endLine": 94,
+          "params": [
+            "field",
+            "cell"
+          ]
+        },
+        {
+          "name": "ApplyToField",
+          "startLine": 96,
+          "endLine": 213,
+          "params": [
+            "field",
+            "name",
+            "value"
+          ]
+        },
+        {
+          "name": "Text",
+          "startLine": 215,
+          "endLine": 224,
+          "params": [
+            "cat",
+            "name",
+            "value",
+            "read_only"
+          ]
+        },
+        {
+          "name": "Bool",
+          "startLine": 226,
+          "endLine": 234,
+          "params": [
+            "cat",
+            "name",
+            "value"
+          ]
+        },
+        {
+          "name": "Enum",
+          "startLine": 236,
+          "endLine": 245,
+          "params": [
+            "cat",
+            "name",
+            "value",
+            "options"
+          ]
+        },
+        {
+          "name": "IsTrue",
+          "startLine": 247,
+          "endLine": 248,
+          "params": [
+            "v"
+          ]
+        },
+        {
+          "name": "NullIfEmpty",
+          "startLine": 250,
+          "endLine": 251,
+          "params": [
+            "v"
+          ]
+        },
+        {
+          "name": "ParseInt",
+          "startLine": 253,
+          "endLine": 254,
+          "params": [
+            "v"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FieldPropertySchema",
+          "startLine": 10,
+          "endLine": 255,
+          "methods": [
+            "BuildEditable",
+            "ApplyToField",
+            "Text",
+            "Bool",
+            "Enum",
+            "IsTrue",
+            "NullIfEmpty",
+            "ParseInt"
+          ],
+          "properties": [
+            "DataTypeOptions",
+            "ItemsStyleOptions",
+            "AlignOptions",
+            "AggregateOptions"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DataTypeOptions",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "ItemsStyleOptions",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "AlignOptions",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "AggregateOptions",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "BuildEditable",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "ApplyToField",
+          "line": 96,
+          "isDefault": false
+        },
+        {
+          "name": "FieldPropertySchema",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 34
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 35
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "cell.ColumnIndex.ToString",
+          "lineNumber": 35
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 36
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "cell.ColumnSpan.ToString",
+          "lineNumber": 36
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 37
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "cell.WidthPx.ToString",
+          "lineNumber": 37
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 44
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 45
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 49
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 50
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 51
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Enum",
+          "lineNumber": 52
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 53
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 54
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Enum",
+          "lineNumber": 56
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 57
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 58
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 59
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 60
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 61
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 62
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Enum",
+          "lineNumber": 64
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 65
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 66
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "field.Width?.ToString",
+          "lineNumber": 66
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 67
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "field.MaxLength?.ToString",
+          "lineNumber": 67
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 68
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "field.Columns?.ToString",
+          "lineNumber": 68
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 69
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "field.Rows?.ToString",
+          "lineNumber": 69
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Enum",
+          "lineNumber": 70
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "field.Aggregate.ToString",
+          "lineNumber": 70
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 71
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "field.CategoryIndex?.ToString",
+          "lineNumber": 71
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 73
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 74
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 75
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 76
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 77
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 78
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 79
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 80
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 81
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 82
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Bool",
+          "lineNumber": 83
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 85
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 86
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 87
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 88
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 90
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "cell.ColumnIndex.ToString",
+          "lineNumber": 90
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 91
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "cell.ColumnSpan.ToString",
+          "lineNumber": 91
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 92
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "cell.WidthPx.ToString",
+          "lineNumber": 92
+        },
+        {
+          "caller": "BuildEditable",
+          "callee": "Text",
+          "lineNumber": 93
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 101
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 104
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 107
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 110
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 113
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 116
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 119
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 122
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 125
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 128
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 143
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 146
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "ParseInt",
+          "lineNumber": 149
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "ParseInt",
+          "lineNumber": 152
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "ParseInt",
+          "lineNumber": 155
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "ParseInt",
+          "lineNumber": 158
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "System.Enum.TryParse<FboAggregateType>",
+          "lineNumber": 161
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "ParseInt",
+          "lineNumber": 165
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 168
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 171
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 174
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 177
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 180
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 183
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 186
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 189
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 192
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 195
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "IsTrue",
+          "lineNumber": 198
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 201
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 204
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 207
+        },
+        {
+          "caller": "ApplyToField",
+          "callee": "NullIfEmpty",
+          "lineNumber": 210
+        },
+        {
+          "caller": "IsTrue",
+          "callee": "string.Equals",
+          "lineNumber": 248
+        },
+        {
+          "caller": "NullIfEmpty",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 251
+        },
+        {
+          "caller": "NullIfEmpty",
+          "callee": "v.Trim",
+          "lineNumber": 251
+        },
+        {
+          "caller": "ParseInt",
+          "callee": "int.TryParse",
+          "lineNumber": 254
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Services/FormDocumentNavigator.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "Attach",
+          "startLine": 10,
+          "endLine": 11,
+          "params": [
+            "open"
+          ]
+        },
+        {
+          "name": "Open",
+          "startLine": 16,
+          "endLine": 26,
+          "params": [
+            "file_path",
+            "title",
+            "raw_xml",
+            "related_files",
+            "code_only"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FormDocumentNavigator",
+          "startLine": 6,
+          "endLine": 27,
+          "methods": [
+            "Attach",
+            "Open"
+          ],
+          "properties": [
+            "_open"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Attach",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "Open",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "FormDocumentNavigator",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Open",
+          "callee": "new InvalidOperationException",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Open",
+          "callee": "_open",
+          "lineNumber": 25
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Services/LeftExplorerLoadCoordinator.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 57,
+      "nonEmptyLines": 49,
+      "functions": [
+        {
+          "name": "LeftExplorerLoadCoordinator",
+          "startLine": 17,
+          "endLine": 29,
+          "params": [
+            "program_session",
+            "explorer",
+            "database"
+          ]
+        },
+        {
+          "name": "ScheduleRefresh",
+          "startLine": 31,
+          "endLine": 35,
+          "params": []
+        },
+        {
+          "name": "DebouncedRefreshAsync",
+          "startLine": 37,
+          "endLine": 56,
+          "params": [
+            "version"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LeftExplorerLoadCoordinator",
+          "startLine": 10,
+          "endLine": 57,
+          "methods": [
+            "LeftExplorerLoadCoordinator",
+            "ScheduleRefresh",
+            "DebouncedRefreshAsync"
+          ],
+          "properties": [
+            "_explorer",
+            "_database",
+            "_cts",
+            "_refresh_version"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "LeftExplorerLoadCoordinator",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "LeftExplorerLoadCoordinator",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LeftExplorerLoadCoordinator",
+          "callee": "ScheduleRefresh",
+          "lineNumber": 24
+        },
+        {
+          "caller": "LeftExplorerLoadCoordinator",
+          "callee": "ScheduleRefresh",
+          "lineNumber": 28
+        },
+        {
+          "caller": "ScheduleRefresh",
+          "callee": "DebouncedRefreshAsync",
+          "lineNumber": 34
+        },
+        {
+          "caller": "DebouncedRefreshAsync",
+          "callee": "Task.Delay",
+          "lineNumber": 39
+        },
+        {
+          "caller": "DebouncedRefreshAsync",
+          "callee": "_cts?.Cancel",
+          "lineNumber": 42
+        },
+        {
+          "caller": "DebouncedRefreshAsync",
+          "callee": "new CancellationTokenSource",
+          "lineNumber": 43
+        },
+        {
+          "caller": "DebouncedRefreshAsync",
+          "callee": "Task.WhenAll",
+          "lineNumber": 48
+        },
+        {
+          "caller": "DebouncedRefreshAsync",
+          "callee": "_explorer.RebuildTreeAsync",
+          "lineNumber": 49
+        },
+        {
+          "caller": "DebouncedRefreshAsync",
+          "callee": "_database.RefreshAfterProgramChangeAsync",
+          "lineNumber": 50
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Services/SqlStudioNavigator.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 25,
+      "functions": [
+        {
+          "name": "Attach",
+          "startLine": 13,
+          "endLine": 13,
+          "params": [
+            "open"
+          ]
+        },
+        {
+          "name": "OpenFile",
+          "startLine": 15,
+          "endLine": 23,
+          "params": [
+            "path"
+          ]
+        },
+        {
+          "name": "OpenBuffer",
+          "startLine": 25,
+          "endLine": 30,
+          "params": [
+            "id",
+            "title",
+            "text",
+            "preferred_target_id"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SqlStudioNavigator",
+          "startLine": 9,
+          "endLine": 31,
+          "methods": [
+            "Attach",
+            "OpenFile",
+            "OpenBuffer"
+          ],
+          "properties": [
+            "_open"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Attach",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "OpenFile",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "OpenBuffer",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "SqlStudioNavigator",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OpenFile",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 17
+        },
+        {
+          "caller": "OpenFile",
+          "callee": "File.Exists",
+          "lineNumber": 17
+        },
+        {
+          "caller": "OpenFile",
+          "callee": "new FileNotFoundException",
+          "lineNumber": 18
+        },
+        {
+          "caller": "OpenFile",
+          "callee": "File.ReadAllText",
+          "lineNumber": 20
+        },
+        {
+          "caller": "OpenFile",
+          "callee": "Path.GetFileName",
+          "lineNumber": 21
+        },
+        {
+          "caller": "OpenFile",
+          "callee": "_open?.Invoke",
+          "lineNumber": 22
+        },
+        {
+          "caller": "OpenBuffer",
+          "callee": "_open?.Invoke",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Themes/AppStyles.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 490,
+      "nonEmptyLines": 454,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Themes/IdeShell.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 111,
+      "nonEmptyLines": 103,
+      "metrics": {}
+    },
+    {
+      "path": "UI/UI.csproj",
+      "language": "csproj",
+      "fileCategory": "config",
+      "totalLines": 28,
+      "nonEmptyLines": 23,
+      "metrics": {}
+    },
+    {
+      "path": "UI/UI.csproj.user",
+      "language": "user",
+      "fileCategory": "code",
+      "totalLines": 4,
+      "nonEmptyLines": 4,
+      "metrics": {}
+    },
+    {
+      "path": "UI/ViewModels/Base/RelayCommand.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 55,
+      "functions": [
+        {
+          "name": "RelayCommand",
+          "startLine": 11,
+          "endLine": 15,
+          "params": [
+            "execute",
+            "canExecute"
+          ]
+        },
+        {
+          "name": "RelayCommand",
+          "startLine": 17,
+          "endLine": 18,
+          "params": [
+            "execute",
+            "canExecute"
+          ]
+        },
+        {
+          "name": "CanExecute",
+          "startLine": 26,
+          "endLine": 26,
+          "params": [
+            "parameter"
+          ]
+        },
+        {
+          "name": "Execute",
+          "startLine": 27,
+          "endLine": 27,
+          "params": [
+            "parameter"
+          ]
+        },
+        {
+          "name": "RaiseCanExecuteChanged",
+          "startLine": 28,
+          "endLine": 28,
+          "params": []
+        },
+        {
+          "name": "AsyncRelayCommand",
+          "startLine": 38,
+          "endLine": 42,
+          "params": [
+            "execute",
+            "canExecute"
+          ]
+        },
+        {
+          "name": "AsyncRelayCommand",
+          "startLine": 44,
+          "endLine": 45,
+          "params": [
+            "execute",
+            "canExecute"
+          ]
+        },
+        {
+          "name": "CanExecute",
+          "startLine": 53,
+          "endLine": 54,
+          "params": [
+            "parameter"
+          ]
+        },
+        {
+          "name": "Execute",
+          "startLine": 56,
+          "endLine": 66,
+          "params": [
+            "parameter"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RelayCommand",
+          "startLine": 6,
+          "endLine": 29,
+          "methods": [
+            "RelayCommand",
+            "RelayCommand",
+            "CanExecute",
+            "Execute",
+            "RaiseCanExecuteChanged"
+          ],
+          "properties": [
+            "_execute",
+            "_canExecute"
+          ]
+        },
+        {
+          "name": "AsyncRelayCommand",
+          "startLine": 32,
+          "endLine": 67,
+          "methods": [
+            "AsyncRelayCommand",
+            "AsyncRelayCommand",
+            "CanExecute",
+            "Execute"
+          ],
+          "properties": [
+            "_execute",
+            "_canExecute",
+            "_isExecuting"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RelayCommand",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "RelayCommand",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "CanExecute",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "Execute",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "RaiseCanExecuteChanged",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "RelayCommand",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "AsyncRelayCommand",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "AsyncRelayCommand",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "CanExecute",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "Execute",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "AsyncRelayCommand",
+          "line": 32,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "RelayCommand",
+          "callee": "execute",
+          "lineNumber": 18
+        },
+        {
+          "caller": "RelayCommand",
+          "callee": "canExecute",
+          "lineNumber": 18
+        },
+        {
+          "caller": "CanExecute",
+          "callee": "_canExecute?.Invoke",
+          "lineNumber": 26
+        },
+        {
+          "caller": "Execute",
+          "callee": "_execute",
+          "lineNumber": 27
+        },
+        {
+          "caller": "RaiseCanExecuteChanged",
+          "callee": "CommandManager.InvalidateRequerySuggested",
+          "lineNumber": 28
+        },
+        {
+          "caller": "AsyncRelayCommand",
+          "callee": "execute",
+          "lineNumber": 45
+        },
+        {
+          "caller": "AsyncRelayCommand",
+          "callee": "canExecute",
+          "lineNumber": 45
+        },
+        {
+          "caller": "CanExecute",
+          "callee": "_canExecute?.Invoke",
+          "lineNumber": 54
+        },
+        {
+          "caller": "Execute",
+          "callee": "CommandManager.InvalidateRequerySuggested",
+          "lineNumber": 59
+        },
+        {
+          "caller": "Execute",
+          "callee": "_execute",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Execute",
+          "callee": "CommandManager.InvalidateRequerySuggested",
+          "lineNumber": 64
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 11,
+        "functionCount": 9,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "UI/ViewModels/Base/RelayCommandT.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 22,
+      "functions": [
+        {
+          "name": "RelayCommand",
+          "startLine": 11,
+          "endLine": 15,
+          "params": [
+            "execute",
+            "canExecute"
+          ]
+        },
+        {
+          "name": "CanExecute",
+          "startLine": 23,
+          "endLine": 24,
+          "params": [
+            "parameter"
+          ]
+        },
+        {
+          "name": "Execute",
+          "startLine": 26,
+          "endLine": 27,
+          "params": [
+            "parameter"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "RelayCommand",
+          "startLine": 6,
+          "endLine": 28,
+          "methods": [
+            "RelayCommand",
+            "CanExecute",
+            "Execute"
+          ],
+          "properties": [
+            "_execute",
+            "_canExecute"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "RelayCommand",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "CanExecute",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Execute",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "RelayCommand",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "CanExecute",
+          "callee": "_canExecute?.Invoke",
+          "lineNumber": 24
+        },
+        {
+          "caller": "Execute",
+          "callee": "_execute",
+          "lineNumber": 27
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/ViewModels/Base/ViewModelBase.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 21,
+      "nonEmptyLines": 17,
+      "functions": [
+        {
+          "name": "OnPropertyChanged",
+          "startLine": 11,
+          "endLine": 12,
+          "params": [
+            "propertyName"
+          ]
+        },
+        {
+          "name": "SetProperty",
+          "startLine": 14,
+          "endLine": 20,
+          "params": [
+            "field",
+            "value",
+            "propertyName"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ViewModelBase",
+          "startLine": 7,
+          "endLine": 21,
+          "methods": [
+            "OnPropertyChanged",
+            "SetProperty"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ViewModelBase",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "PropertyChanged?.Invoke",
+          "lineNumber": 12
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "new PropertyChangedEventArgs",
+          "lineNumber": 12
+        },
+        {
+          "caller": "SetProperty",
+          "callee": "EqualityComparer<T>.Default.Equals",
+          "lineNumber": 16
+        },
+        {
+          "caller": "SetProperty",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 18
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 108,
+      "nonEmptyLines": 92,
+      "functions": [
+        {
+          "name": "FormBuilderDiagnosticsBridge",
+          "startLine": 17,
+          "endLine": 25,
+          "params": [
+            "diagnostics",
+            "language_service",
+            "form_builder_vm"
+          ]
+        },
+        {
+          "name": "BindTo",
+          "startLine": 27,
+          "endLine": 36,
+          "params": [
+            "form_builder_vm"
+          ]
+        },
+        {
+          "name": "OnChanged",
+          "startLine": 38,
+          "endLine": 54,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "SyncDocumentDiagnostics",
+          "startLine": 56,
+          "endLine": 73,
+          "params": []
+        },
+        {
+          "name": "ResolveSymbolAtCaret",
+          "startLine": 75,
+          "endLine": 87,
+          "params": []
+        },
+        {
+          "name": "ForwardStatusMessage",
+          "startLine": 89,
+          "endLine": 107,
+          "params": [
+            "msg"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FormBuilderDiagnosticsBridge",
+          "startLine": 11,
+          "endLine": 108,
+          "methods": [
+            "FormBuilderDiagnosticsBridge",
+            "BindTo",
+            "OnChanged",
+            "SyncDocumentDiagnostics",
+            "ResolveSymbolAtCaret",
+            "ForwardStatusMessage"
+          ],
+          "properties": [
+            "_form_builder_vm",
+            "_diagnostics",
+            "_language_service"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FormBuilderDiagnosticsBridge",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "BindTo",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "FormBuilderDiagnosticsBridge",
+          "line": 11,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "FormBuilderDiagnosticsBridge",
+          "callee": "BindTo",
+          "lineNumber": 24
+        },
+        {
+          "caller": "BindTo",
+          "callee": "ReferenceEquals",
+          "lineNumber": 29
+        },
+        {
+          "caller": "BindTo",
+          "callee": "SyncDocumentDiagnostics",
+          "lineNumber": 35
+        },
+        {
+          "caller": "OnChanged",
+          "callee": "nameof",
+          "lineNumber": 42
+        },
+        {
+          "caller": "OnChanged",
+          "callee": "nameof",
+          "lineNumber": 43
+        },
+        {
+          "caller": "OnChanged",
+          "callee": "nameof",
+          "lineNumber": 44
+        },
+        {
+          "caller": "OnChanged",
+          "callee": "nameof",
+          "lineNumber": 45
+        },
+        {
+          "caller": "OnChanged",
+          "callee": "nameof",
+          "lineNumber": 46
+        },
+        {
+          "caller": "OnChanged",
+          "callee": "SyncDocumentDiagnostics",
+          "lineNumber": 48
+        },
+        {
+          "caller": "OnChanged",
+          "callee": "nameof",
+          "lineNumber": 52
+        },
+        {
+          "caller": "OnChanged",
+          "callee": "ForwardStatusMessage",
+          "lineNumber": 53
+        },
+        {
+          "caller": "SyncDocumentDiagnostics",
+          "callee": "_diagnostics.SyncProblems",
+          "lineNumber": 63
+        },
+        {
+          "caller": "SyncDocumentDiagnostics",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 66
+        },
+        {
+          "caller": "SyncDocumentDiagnostics",
+          "callee": "ResolveSymbolAtCaret",
+          "lineNumber": 67
+        },
+        {
+          "caller": "SyncDocumentDiagnostics",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 69
+        },
+        {
+          "caller": "SyncDocumentDiagnostics",
+          "callee": "_diagnostics.SyncReferences",
+          "lineNumber": 70
+        },
+        {
+          "caller": "SyncDocumentDiagnostics",
+          "callee": "_language_service.FindSymbolReferences",
+          "lineNumber": 70
+        },
+        {
+          "caller": "SyncDocumentDiagnostics",
+          "callee": "_diagnostics.References.Clear",
+          "lineNumber": 72
+        },
+        {
+          "caller": "ResolveSymbolAtCaret",
+          "callee": "semantic.GetFields().FirstOrDefault",
+          "lineNumber": 82
+        },
+        {
+          "caller": "ResolveSymbolAtCaret",
+          "callee": "semantic.GetFields",
+          "lineNumber": 82
+        },
+        {
+          "caller": "ResolveSymbolAtCaret",
+          "callee": "semantic.GetEntities().FirstOrDefault",
+          "lineNumber": 85
+        },
+        {
+          "caller": "ResolveSymbolAtCaret",
+          "callee": "semantic.GetEntities",
+          "lineNumber": 85
+        },
+        {
+          "caller": "ForwardStatusMessage",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 91
+        },
+        {
+          "caller": "ForwardStatusMessage",
+          "callee": "msg.StartsWith",
+          "lineNumber": 94
+        },
+        {
+          "caller": "ForwardStatusMessage",
+          "callee": "msg.Contains",
+          "lineNumber": 94
+        },
+        {
+          "caller": "ForwardStatusMessage",
+          "callee": "msg.Contains",
+          "lineNumber": 95
+        },
+        {
+          "caller": "ForwardStatusMessage",
+          "callee": "_diagnostics.Error",
+          "lineNumber": 97
+        },
+        {
+          "caller": "ForwardStatusMessage",
+          "callee": "msg.StartsWith",
+          "lineNumber": 99
+        },
+        {
+          "caller": "ForwardStatusMessage",
+          "callee": "_diagnostics.Info",
+          "lineNumber": 101
+        },
+        {
+          "caller": "ForwardStatusMessage",
+          "callee": "_diagnostics.Info",
+          "lineNumber": 105
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 179,
+      "nonEmptyLines": 156,
+      "functions": [
+        {
+          "name": "IdeDiagnosticsViewModel",
+          "startLine": 76,
+          "endLine": 83,
+          "params": []
+        },
+        {
+          "name": "Info",
+          "startLine": 85,
+          "endLine": 86,
+          "params": [
+            "message",
+            "source"
+          ]
+        },
+        {
+          "name": "Warn",
+          "startLine": 88,
+          "endLine": 89,
+          "params": [
+            "message",
+            "source"
+          ]
+        },
+        {
+          "name": "Error",
+          "startLine": 91,
+          "endLine": 102,
+          "params": [
+            "message",
+            "source",
+            "file",
+            "line"
+          ]
+        },
+        {
+          "name": "SyncProblems",
+          "startLine": 104,
+          "endLine": 129,
+          "params": [
+            "diagnostics",
+            "default_file"
+          ]
+        },
+        {
+          "name": "SyncReferences",
+          "startLine": 131,
+          "endLine": 145,
+          "params": [
+            "references"
+          ]
+        },
+        {
+          "name": "ClearProblems",
+          "startLine": 147,
+          "endLine": 154,
+          "params": []
+        },
+        {
+          "name": "Add",
+          "startLine": 156,
+          "endLine": 172,
+          "params": [
+            "level",
+            "message",
+            "source",
+            "to_output"
+          ]
+        },
+        {
+          "name": "Trim",
+          "startLine": 174,
+          "endLine": 178,
+          "params": [
+            "list"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LogEntryVm",
+          "startLine": 15,
+          "endLine": 25,
+          "methods": [],
+          "properties": [
+            "Time",
+            "Level",
+            "Message",
+            "Source",
+            "TimeText",
+            "LevelText",
+            "Display"
+          ]
+        },
+        {
+          "name": "ErrorItemVm",
+          "startLine": 27,
+          "endLine": 37,
+          "methods": [],
+          "properties": [
+            "Description",
+            "File",
+            "Line",
+            "Category",
+            "Display"
+          ]
+        },
+        {
+          "name": "IdeDiagnosticsViewModel",
+          "startLine": 40,
+          "endLine": 179,
+          "methods": [
+            "IdeDiagnosticsViewModel",
+            "Info",
+            "Warn",
+            "Error",
+            "SyncProblems",
+            "SyncReferences",
+            "ClearProblems",
+            "Add",
+            "Trim"
+          ],
+          "properties": [
+            "MaxEntries",
+            "_error_count",
+            "_warning_count",
+            "_hint_count",
+            "LogEntries",
+            "OutputEntries",
+            "Errors",
+            "Problems",
+            "References",
+            "ErrorCount",
+            "WarningCount",
+            "HintCount",
+            "ClearLogCommand",
+            "ClearOutputCommand",
+            "ClearErrorsCommand",
+            "ClearProblemsCommand"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Time",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Level",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "Message",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "Source",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "TimeText",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "LevelText",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Display",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "LogEntryVm",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Description",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "File",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "Line",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "Category",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "Display",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "ErrorItemVm",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "LogEntries",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "OutputEntries",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "Errors",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "Problems",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "References",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "ErrorCount",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "WarningCount",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "HintCount",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "ClearLogCommand",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "ClearOutputCommand",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "ClearErrorsCommand",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "ClearProblemsCommand",
+          "line": 74,
+          "isDefault": false
+        },
+        {
+          "name": "IdeDiagnosticsViewModel",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "Info",
+          "line": 85,
+          "isDefault": false
+        },
+        {
+          "name": "Warn",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "Error",
+          "line": 91,
+          "isDefault": false
+        },
+        {
+          "name": "SyncProblems",
+          "line": 104,
+          "isDefault": false
+        },
+        {
+          "name": "SyncReferences",
+          "line": 131,
+          "isDefault": false
+        },
+        {
+          "name": "ClearProblems",
+          "line": 147,
+          "isDefault": false
+        },
+        {
+          "name": "IdeDiagnosticsViewModel",
+          "line": 40,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "IdeDiagnosticsViewModel",
+          "callee": "new RelayCommand",
+          "lineNumber": 78
+        },
+        {
+          "caller": "IdeDiagnosticsViewModel",
+          "callee": "LogEntries.Clear",
+          "lineNumber": 78
+        },
+        {
+          "caller": "IdeDiagnosticsViewModel",
+          "callee": "new RelayCommand",
+          "lineNumber": 79
+        },
+        {
+          "caller": "IdeDiagnosticsViewModel",
+          "callee": "OutputEntries.Clear",
+          "lineNumber": 79
+        },
+        {
+          "caller": "IdeDiagnosticsViewModel",
+          "callee": "new RelayCommand",
+          "lineNumber": 80
+        },
+        {
+          "caller": "IdeDiagnosticsViewModel",
+          "callee": "new RelayCommand",
+          "lineNumber": 81
+        },
+        {
+          "caller": "IdeDiagnosticsViewModel",
+          "callee": "Info",
+          "lineNumber": 82
+        },
+        {
+          "caller": "Info",
+          "callee": "Add",
+          "lineNumber": 86
+        },
+        {
+          "caller": "Warn",
+          "callee": "Add",
+          "lineNumber": 89
+        },
+        {
+          "caller": "Error",
+          "callee": "Add",
+          "lineNumber": 93
+        },
+        {
+          "caller": "Error",
+          "callee": "Errors.Insert",
+          "lineNumber": 94
+        },
+        {
+          "caller": "Error",
+          "callee": "new ErrorItemVm",
+          "lineNumber": 94
+        },
+        {
+          "caller": "Error",
+          "callee": "Trim",
+          "lineNumber": 101
+        },
+        {
+          "caller": "SyncProblems",
+          "callee": "Problems.Clear",
+          "lineNumber": 106
+        },
+        {
+          "caller": "SyncProblems",
+          "callee": "Errors.Clear",
+          "lineNumber": 107
+        },
+        {
+          "caller": "SyncProblems",
+          "callee": "DiagnosticGridMapper.MapProblems",
+          "lineNumber": 109
+        },
+        {
+          "caller": "SyncProblems",
+          "callee": "ProblemItemVm.FromGridRow",
+          "lineNumber": 111
+        },
+        {
+          "caller": "SyncProblems",
+          "callee": "Problems.Add",
+          "lineNumber": 112
+        },
+        {
+          "caller": "SyncProblems",
+          "callee": "Errors.Add",
+          "lineNumber": 115
+        },
+        {
+          "caller": "SyncProblems",
+          "callee": "new ErrorItemVm",
+          "lineNumber": 115
+        },
+        {
+          "caller": "SyncProblems",
+          "callee": "DiagnosticGridMapper.CountBySeverity",
+          "lineNumber": 125
+        },
+        {
+          "caller": "SyncReferences",
+          "callee": "References.Clear",
+          "lineNumber": 133
+        },
+        {
+          "caller": "SyncReferences",
+          "callee": "References.Add",
+          "lineNumber": 136
+        },
+        {
+          "caller": "SyncReferences",
+          "callee": "new ReferenceItemVm",
+          "lineNumber": 136
+        },
+        {
+          "caller": "ClearProblems",
+          "callee": "Problems.Clear",
+          "lineNumber": 149
+        },
+        {
+          "caller": "ClearProblems",
+          "callee": "Errors.Clear",
+          "lineNumber": 150
+        },
+        {
+          "caller": "Add",
+          "callee": "new LogEntryVm",
+          "lineNumber": 158
+        },
+        {
+          "caller": "Add",
+          "callee": "LogEntries.Insert",
+          "lineNumber": 165
+        },
+        {
+          "caller": "Add",
+          "callee": "Trim",
+          "lineNumber": 166
+        },
+        {
+          "caller": "Add",
+          "callee": "OutputEntries.Insert",
+          "lineNumber": 169
+        },
+        {
+          "caller": "Add",
+          "callee": "Trim",
+          "lineNumber": 170
+        },
+        {
+          "caller": "Trim",
+          "callee": "list.RemoveAt",
+          "lineNumber": 177
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 34,
+        "functionCount": 9,
+        "classCount": 3
+      }
+    },
+    {
+      "path": "UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 37,
+      "functions": [
+        {
+          "name": "FromGridRow",
+          "startLine": 20,
+          "endLine": 29,
+          "params": [
+            "row"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ProblemItemVm",
+          "startLine": 7,
+          "endLine": 30,
+          "methods": [
+            "FromGridRow"
+          ],
+          "properties": [
+            "Description",
+            "File",
+            "Line",
+            "Column",
+            "Type",
+            "SeverityBadge",
+            "LocationText"
+          ]
+        },
+        {
+          "name": "ReferenceItemVm",
+          "startLine": 32,
+          "endLine": 43,
+          "methods": [],
+          "properties": [
+            "SymbolId",
+            "Kind",
+            "File",
+            "Line",
+            "Column",
+            "Display"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Description",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "File",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "Line",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Column",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "Type",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "SeverityBadge",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "LocationText",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "FromGridRow",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "ProblemItemVm",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "SymbolId",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "Kind",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "File",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "Line",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "Column",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "Display",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "ReferenceItemVm",
+          "line": 32,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 16,
+        "functionCount": 1,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 125,
+      "nonEmptyLines": 102,
+      "functions": [
+        {
+          "name": "XmlBottomViewModel",
+          "startLine": 15,
+          "endLine": 19,
+          "params": [
+            "form_builder_vm"
+          ]
+        },
+        {
+          "name": "BindTo",
+          "startLine": 25,
+          "endLine": 41,
+          "params": [
+            "form_builder_vm"
+          ]
+        },
+        {
+          "name": "OnFormBuilderChanged",
+          "startLine": 90,
+          "endLine": 107,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "RaiseAll",
+          "startLine": 109,
+          "endLine": 124,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "XmlBottomViewModel",
+          "startLine": 10,
+          "endLine": 125,
+          "methods": [
+            "XmlBottomViewModel",
+            "BindTo",
+            "OnFormBuilderChanged",
+            "RaiseAll"
+          ],
+          "properties": [
+            "_form_builder_vm",
+            "_noop_toggle",
+            "FormBuilder",
+            "StructureOutline",
+            "EditorText",
+            "IsEditorReadOnly",
+            "ActiveEditorMode",
+            "ShowInsights",
+            "Insights",
+            "EditorModeText",
+            "EditorModeButtonText",
+            "ToggleInsightCommand",
+            "CaretLine",
+            "CaretOffset",
+            "FilePath",
+            "Header",
+            "HasDocument"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "XmlBottomViewModel",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "FormBuilder",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "StructureOutline",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "BindTo",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "EditorText",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "IsEditorReadOnly",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "ActiveEditorMode",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "ShowInsights",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "Insights",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "EditorModeText",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "EditorModeButtonText",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "ToggleInsightCommand",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "CaretLine",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "CaretOffset",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "FilePath",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "Header",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "HasDocument",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "XmlBottomViewModel",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "XmlBottomViewModel",
+          "callee": "new XmlStructureOutlineViewModel",
+          "lineNumber": 17
+        },
+        {
+          "caller": "XmlBottomViewModel",
+          "callee": "BindTo",
+          "lineNumber": 18
+        },
+        {
+          "caller": "BindTo",
+          "callee": "ReferenceEquals",
+          "lineNumber": 27
+        },
+        {
+          "caller": "BindTo",
+          "callee": "StructureOutline.BindTo",
+          "lineNumber": 29
+        },
+        {
+          "caller": "BindTo",
+          "callee": "StructureOutline.BindTo",
+          "lineNumber": 39
+        },
+        {
+          "caller": "BindTo",
+          "callee": "RaiseAll",
+          "lineNumber": 40
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 92
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 93
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 94
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 95
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 96
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 97
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "RaiseAll",
+          "lineNumber": 98
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 99
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 100
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 100
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 101
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 102
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 102
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 103
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 104
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 105
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 106
+        },
+        {
+          "caller": "OnFormBuilderChanged",
+          "callee": "nameof",
+          "lineNumber": 106
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 111
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 111
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 112
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 112
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 113
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 113
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 114
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 114
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 115
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 115
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 116
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 116
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 117
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 117
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 118
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 118
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 119
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 119
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 120
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 120
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 121
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 121
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 122
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 122
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 123
+        },
+        {
+          "caller": "RaiseAll",
+          "callee": "nameof",
+          "lineNumber": 123
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 18,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 178,
+      "nonEmptyLines": 153,
+      "functions": [
+        {
+          "name": "XmlStructureOutlineViewModel",
+          "startLine": 41,
+          "endLine": 58,
+          "params": [
+            "form_builder_vm"
+          ]
+        },
+        {
+          "name": "BindTo",
+          "startLine": 83,
+          "endLine": 92,
+          "params": [
+            "form_builder_vm"
+          ]
+        },
+        {
+          "name": "OnFormChanged",
+          "startLine": 94,
+          "endLine": 104,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "RebuildNow",
+          "startLine": 106,
+          "endLine": 128,
+          "params": []
+        },
+        {
+          "name": "ToVm",
+          "startLine": 130,
+          "endLine": 147,
+          "params": [
+            "node",
+            "expand"
+          ]
+        },
+        {
+          "name": "IsPrimarySection",
+          "startLine": 149,
+          "endLine": 154,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "IconFor",
+          "startLine": 156,
+          "endLine": 171,
+          "params": [
+            "node"
+          ]
+        },
+        {
+          "name": "SelectNode",
+          "startLine": 173,
+          "endLine": 177,
+          "params": [
+            "node"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "XmlStructureNodeVm",
+          "startLine": 10,
+          "endLine": 28,
+          "methods": [],
+          "properties": [
+            "_is_expanded",
+            "Display",
+            "IconKind",
+            "StartLine",
+            "StartOffset",
+            "Kind",
+            "Children",
+            "IsExpanded",
+            "HasChildren"
+          ]
+        },
+        {
+          "name": "XmlStructureOutlineViewModel",
+          "startLine": 34,
+          "endLine": 178,
+          "methods": [
+            "XmlStructureOutlineViewModel",
+            "BindTo",
+            "OnFormChanged",
+            "RebuildNow",
+            "ToVm",
+            "IsPrimarySection",
+            "IconFor",
+            "SelectNode"
+          ],
+          "properties": [
+            "_form_builder_vm",
+            "_rebuild_timer",
+            "_header",
+            "_selected",
+            "Roots",
+            "Header",
+            "SelectedNode",
+            "HasNodes",
+            "SelectNodeCommand",
+            "RefreshCommand"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Display",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "IconKind",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "StartLine",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "StartOffset",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Kind",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "Children",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "IsExpanded",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "HasChildren",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "XmlStructureNodeVm",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "XmlStructureOutlineViewModel",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "Roots",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "Header",
+          "line": 62,
+          "isDefault": false
+        },
+        {
+          "name": "SelectedNode",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "HasNodes",
+          "line": 78,
+          "isDefault": false
+        },
+        {
+          "name": "SelectNodeCommand",
+          "line": 80,
+          "isDefault": false
+        },
+        {
+          "name": "RefreshCommand",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "BindTo",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "XmlStructureOutlineViewModel",
+          "line": 34,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "XmlStructureOutlineViewModel",
+          "callee": "new RelayCommand<XmlStructureNodeVm>",
+          "lineNumber": 44
+        },
+        {
+          "caller": "XmlStructureOutlineViewModel",
+          "callee": "new RelayCommand",
+          "lineNumber": 45
+        },
+        {
+          "caller": "XmlStructureOutlineViewModel",
+          "callee": "new DispatcherTimer",
+          "lineNumber": 47
+        },
+        {
+          "caller": "XmlStructureOutlineViewModel",
+          "callee": "TimeSpan.FromMilliseconds",
+          "lineNumber": 49
+        },
+        {
+          "caller": "XmlStructureOutlineViewModel",
+          "callee": "_rebuild_timer.Stop",
+          "lineNumber": 53
+        },
+        {
+          "caller": "XmlStructureOutlineViewModel",
+          "callee": "RebuildNow",
+          "lineNumber": 54
+        },
+        {
+          "caller": "XmlStructureOutlineViewModel",
+          "callee": "BindTo",
+          "lineNumber": 57
+        },
+        {
+          "caller": "BindTo",
+          "callee": "ReferenceEquals",
+          "lineNumber": 85
+        },
+        {
+          "caller": "BindTo",
+          "callee": "RebuildNow",
+          "lineNumber": 91
+        },
+        {
+          "caller": "OnFormChanged",
+          "callee": "nameof",
+          "lineNumber": 96
+        },
+        {
+          "caller": "OnFormChanged",
+          "callee": "nameof",
+          "lineNumber": 97
+        },
+        {
+          "caller": "OnFormChanged",
+          "callee": "nameof",
+          "lineNumber": 98
+        },
+        {
+          "caller": "OnFormChanged",
+          "callee": "nameof",
+          "lineNumber": 99
+        },
+        {
+          "caller": "OnFormChanged",
+          "callee": "_rebuild_timer.Stop",
+          "lineNumber": 101
+        },
+        {
+          "caller": "OnFormChanged",
+          "callee": "_rebuild_timer.Start",
+          "lineNumber": 102
+        },
+        {
+          "caller": "RebuildNow",
+          "callee": "Roots.Clear",
+          "lineNumber": 108
+        },
+        {
+          "caller": "RebuildNow",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 110
+        },
+        {
+          "caller": "RebuildNow",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 113
+        },
+        {
+          "caller": "RebuildNow",
+          "callee": "nameof",
+          "lineNumber": 113
+        },
+        {
+          "caller": "RebuildNow",
+          "callee": "XmlStructureParser.Parse",
+          "lineNumber": 117
+        },
+        {
+          "caller": "RebuildNow",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 121
+        },
+        {
+          "caller": "RebuildNow",
+          "callee": "nameof",
+          "lineNumber": 121
+        },
+        {
+          "caller": "RebuildNow",
+          "callee": "Roots.Add",
+          "lineNumber": 126
+        },
+        {
+          "caller": "RebuildNow",
+          "callee": "ToVm",
+          "lineNumber": 126
+        },
+        {
+          "caller": "RebuildNow",
+          "callee": "OnPropertyChanged",
+          "lineNumber": 127
+        },
+        {
+          "caller": "RebuildNow",
+          "callee": "nameof",
+          "lineNumber": 127
+        },
+        {
+          "caller": "ToVm",
+          "callee": "new XmlStructureNodeVm",
+          "lineNumber": 132
+        },
+        {
+          "caller": "ToVm",
+          "callee": "IconFor",
+          "lineNumber": 135
+        },
+        {
+          "caller": "ToVm",
+          "callee": "IsPrimarySection",
+          "lineNumber": 140
+        },
+        {
+          "caller": "ToVm",
+          "callee": "vm.Children.Add",
+          "lineNumber": 144
+        },
+        {
+          "caller": "ToVm",
+          "callee": "ToVm",
+          "lineNumber": 144
+        },
+        {
+          "caller": "IsPrimarySection",
+          "callee": "name.Equals",
+          "lineNumber": 150
+        },
+        {
+          "caller": "IsPrimarySection",
+          "callee": "name.Equals",
+          "lineNumber": 151
+        },
+        {
+          "caller": "IsPrimarySection",
+          "callee": "name.Equals",
+          "lineNumber": 152
+        },
+        {
+          "caller": "IsPrimarySection",
+          "callee": "name.Equals",
+          "lineNumber": 153
+        },
+        {
+          "caller": "IsPrimarySection",
+          "callee": "name.Equals",
+          "lineNumber": 154
+        },
+        {
+          "caller": "IconFor",
+          "callee": "node.Name.ToLowerInvariant",
+          "lineNumber": 160
+        },
+        {
+          "caller": "SelectNode",
+          "callee": "_form_builder_vm.NavigateToOffset",
+          "lineNumber": 176
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 18,
+        "functionCount": 8,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 490,
+      "nonEmptyLines": 409,
+      "functions": [
+        {
+          "name": "ApplyLanguage",
+          "startLine": 121,
+          "endLine": 126,
+          "params": [
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "OnPropertyChanged",
+          "startLine": 130,
+          "endLine": 131,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "OnPropertyChanged",
+          "startLine": 177,
+          "endLine": 178,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "OnPropertyChanged",
+          "startLine": 231,
+          "endLine": 232,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "ApplyLanguage",
+          "startLine": 275,
+          "endLine": 283,
+          "params": [
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "OnPropertyChanged",
+          "startLine": 287,
+          "endLine": 288,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "ApplyLanguage",
+          "startLine": 431,
+          "endLine": 446,
+          "params": [
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "Pick",
+          "startLine": 448,
+          "endLine": 449,
+          "params": [
+            "v",
+            "e",
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "OnPropertyChanged",
+          "startLine": 452,
+          "endLine": 453,
+          "params": [
+            "name"
+          ]
+        },
+        {
+          "name": "ApplyLanguage",
+          "startLine": 471,
+          "endLine": 472,
+          "params": [
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "OnPropertyChanged",
+          "startLine": 474,
+          "endLine": 475,
+          "params": [
+            "name"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DesignCellVm",
+          "startLine": 17,
+          "endLine": 132,
+          "methods": [
+            "ApplyLanguage",
+            "OnPropertyChanged"
+          ],
+          "properties": [
+            "_text",
+            "_is_selected",
+            "_width_px",
+            "_width_dip",
+            "Kind",
+            "FieldName",
+            "TextV",
+            "TextE",
+            "RowIndex",
+            "Pattern",
+            "Text",
+            "Value",
+            "ReferenceText",
+            "DropDownText",
+            "_show_input_border",
+            "_is_read_only",
+            "_is_required",
+            "EditorKind",
+            "ShowLookupIcon",
+            "ShowDateIcon",
+            "IsCheckbox",
+            "IsDropDownEditor",
+            "IsTextEditor",
+            "DataType",
+            "ItemsStyle",
+            "ItemsController",
+            "ItemsReference",
+            "ShowInputBorder",
+            "IsReadOnly",
+            "IsRequired",
+            "_is_primary_key",
+            "IsPrimaryKey",
+            "WidthPx",
+            "WidthDip",
+            "ColumnIndex",
+            "ColumnSpan",
+            "TextAlign",
+            "IsUpperCase",
+            "IsLowerCase",
+            "FormatHint",
+            "IsSelected",
+            "IsEmpty",
+            "IsLabel",
+            "IsInput",
+            "IsDescription",
+            "HasReferenceText"
+          ]
+        },
+        {
+          "name": "DesignFormRowVm",
+          "startLine": 134,
+          "endLine": 145,
+          "methods": [],
+          "properties": [
+            "Pattern",
+            "Cells",
+            "HeightDip",
+            "Source",
+            "ColumnWidthsPx"
+          ]
+        },
+        {
+          "name": "RulerTickVm",
+          "startLine": 147,
+          "endLine": 179,
+          "methods": [
+            "OnPropertyChanged"
+          ],
+          "properties": [
+            "_width_px",
+            "_width_dip",
+            "_offset_dip",
+            "Index",
+            "WidthPx",
+            "WidthDip",
+            "OffsetDip",
+            "Label"
+          ]
+        },
+        {
+          "name": "DesignFieldPropertyVm",
+          "startLine": 188,
+          "endLine": 233,
+          "methods": [
+            "OnPropertyChanged"
+          ],
+          "properties": [
+            "_value",
+            "Name",
+            "DisplayName",
+            "Category",
+            "EditorKind",
+            "EnumOptions",
+            "IsReadOnly",
+            "Value",
+            "BoolValue",
+            "IsTextEditor",
+            "IsBooleanEditor",
+            "IsEnumEditor"
+          ]
+        },
+        {
+          "name": "DesignCategoryTabVm",
+          "startLine": 235,
+          "endLine": 289,
+          "methods": [
+            "ApplyLanguage",
+            "OnPropertyChanged"
+          ],
+          "properties": [
+            "_header",
+            "_is_selected",
+            "Index",
+            "HeaderV",
+            "HeaderE",
+            "Header",
+            "IsSelected",
+            "Rows",
+            "RulerTicks",
+            "ColumnWidthsPx",
+            "_form_table_width_dip",
+            "_form_table_width_px",
+            "FormTableWidthDip",
+            "FormTableWidthPx"
+          ]
+        },
+        {
+          "name": "DesignSurfaceVm",
+          "startLine": 291,
+          "endLine": 454,
+          "methods": [
+            "ApplyLanguage",
+            "Pick",
+            "OnPropertyChanged"
+          ],
+          "properties": [
+            "_title",
+            "_sub_title",
+            "DisplayKind",
+            "Title",
+            "SubTitle",
+            "TitleV",
+            "TitleE",
+            "SubTitleV",
+            "SubTitleE",
+            "IsForm",
+            "IsGrid",
+            "IsLookup",
+            "RowHeightPx",
+            "ColumnWidthsPx",
+            "RulerTicks",
+            "FormRows",
+            "BottomRows",
+            "CategoryTabs",
+            "_selected_category",
+            "SelectedCategory",
+            "HasCategories",
+            "HasSelectedCategory",
+            "HasBottomRows",
+            "_form_table_width_px",
+            "_form_table_width_dip",
+            "_form_height_dip",
+            "_form_height_px",
+            "_is_height_from_rows",
+            "FormTableWidthPx",
+            "FormTableWidthDip",
+            "FormHeightDip",
+            "FormHeightPx",
+            "IsHeightFromRows",
+            "Anchor",
+            "Split",
+            "LayoutBadge",
+            "CategoryContentHeightDip",
+            "HasFixedCategoryHeight",
+            "Columns",
+            "SampleRows",
+            "ToolbarItems",
+            "SearchFieldLabel",
+            "SearchFieldLabelV",
+            "SearchFieldLabelE"
+          ]
+        },
+        {
+          "name": "DesignColumnVm",
+          "startLine": 456,
+          "endLine": 476,
+          "methods": [
+            "ApplyLanguage",
+            "OnPropertyChanged"
+          ],
+          "properties": [
+            "_header",
+            "Name",
+            "HeaderV",
+            "HeaderE",
+            "Header",
+            "Width",
+            "WidthDip",
+            "Align",
+            "IsPrimaryKey"
+          ]
+        },
+        {
+          "name": "DesignDataRowVm",
+          "startLine": 478,
+          "endLine": 481,
+          "methods": [],
+          "properties": [
+            "Values"
+          ]
+        },
+        {
+          "name": "DesignToolbarItemVm",
+          "startLine": 483,
+          "endLine": 490,
+          "methods": [],
+          "properties": [
+            "Command",
+            "Title",
+            "TitleV",
+            "TitleE",
+            "IsSeparator"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Kind",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "FieldName",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "TextV",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "TextE",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "RowIndex",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "Pattern",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "Text",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "Value",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "ReferenceText",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "DropDownText",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "EditorKind",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "ShowLookupIcon",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "ShowDateIcon",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "IsCheckbox",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "IsDropDownEditor",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "IsTextEditor",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "DataType",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "ItemsStyle",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "ItemsController",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "ItemsReference",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "ShowInputBorder",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "IsReadOnly",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "IsRequired",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "IsPrimaryKey",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "WidthPx",
+          "line": 85,
+          "isDefault": false
+        },
+        {
+          "name": "WidthDip",
+          "line": 91,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnIndex",
+          "line": 102,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnSpan",
+          "line": 103,
+          "isDefault": false
+        },
+        {
+          "name": "TextAlign",
+          "line": 104,
+          "isDefault": false
+        },
+        {
+          "name": "IsUpperCase",
+          "line": 105,
+          "isDefault": false
+        },
+        {
+          "name": "IsLowerCase",
+          "line": 106,
+          "isDefault": false
+        },
+        {
+          "name": "FormatHint",
+          "line": 107,
+          "isDefault": false
+        },
+        {
+          "name": "IsSelected",
+          "line": 109,
+          "isDefault": false
+        },
+        {
+          "name": "IsEmpty",
+          "line": 115,
+          "isDefault": false
+        },
+        {
+          "name": "IsLabel",
+          "line": 116,
+          "isDefault": false
+        },
+        {
+          "name": "IsInput",
+          "line": 117,
+          "isDefault": false
+        },
+        {
+          "name": "IsDescription",
+          "line": 118,
+          "isDefault": false
+        },
+        {
+          "name": "HasReferenceText",
+          "line": 119,
+          "isDefault": false
+        },
+        {
+          "name": "ApplyLanguage",
+          "line": 121,
+          "isDefault": false
+        },
+        {
+          "name": "DesignCellVm",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Pattern",
+          "line": 136,
+          "isDefault": false
+        },
+        {
+          "name": "Cells",
+          "line": 137,
+          "isDefault": false
+        },
+        {
+          "name": "HeightDip",
+          "line": 138,
+          "isDefault": false
+        },
+        {
+          "name": "Source",
+          "line": 141,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnWidthsPx",
+          "line": 144,
+          "isDefault": false
+        },
+        {
+          "name": "DesignFormRowVm",
+          "line": 134,
+          "isDefault": false
+        },
+        {
+          "name": "Index",
+          "line": 153,
+          "isDefault": false
+        },
+        {
+          "name": "WidthPx",
+          "line": 155,
+          "isDefault": false
+        },
+        {
+          "name": "WidthDip",
+          "line": 161,
+          "isDefault": false
+        },
+        {
+          "name": "OffsetDip",
+          "line": 167,
+          "isDefault": false
+        },
+        {
+          "name": "Label",
+          "line": 173,
+          "isDefault": false
+        },
+        {
+          "name": "RulerTickVm",
+          "line": 147,
+          "isDefault": false
+        },
+        {
+          "name": "Name",
+          "line": 192,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayName",
+          "line": 193,
+          "isDefault": false
+        },
+        {
+          "name": "Category",
+          "line": 194,
+          "isDefault": false
+        },
+        {
+          "name": "EditorKind",
+          "line": 195,
+          "isDefault": false
+        },
+        {
+          "name": "EnumOptions",
+          "line": 196,
+          "isDefault": false
+        },
+        {
+          "name": "IsReadOnly",
+          "line": 197,
+          "isDefault": false
+        },
+        {
+          "name": "Value",
+          "line": 199,
+          "isDefault": false
+        },
+        {
+          "name": "BoolValue",
+          "line": 211,
+          "isDefault": false
+        },
+        {
+          "name": "IsTextEditor",
+          "line": 225,
+          "isDefault": false
+        },
+        {
+          "name": "IsBooleanEditor",
+          "line": 226,
+          "isDefault": false
+        },
+        {
+          "name": "IsEnumEditor",
+          "line": 227,
+          "isDefault": false
+        },
+        {
+          "name": "DesignFieldPropertyVm",
+          "line": 188,
+          "isDefault": false
+        },
+        {
+          "name": "Index",
+          "line": 240,
+          "isDefault": false
+        },
+        {
+          "name": "HeaderV",
+          "line": 241,
+          "isDefault": false
+        },
+        {
+          "name": "HeaderE",
+          "line": 242,
+          "isDefault": false
+        },
+        {
+          "name": "Header",
+          "line": 244,
+          "isDefault": false
+        },
+        {
+          "name": "IsSelected",
+          "line": 250,
+          "isDefault": false
+        },
+        {
+          "name": "Rows",
+          "line": 256,
+          "isDefault": false
+        },
+        {
+          "name": "RulerTicks",
+          "line": 257,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnWidthsPx",
+          "line": 258,
+          "isDefault": false
+        },
+        {
+          "name": "FormTableWidthDip",
+          "line": 263,
+          "isDefault": false
+        },
+        {
+          "name": "FormTableWidthPx",
+          "line": 269,
+          "isDefault": false
+        },
+        {
+          "name": "ApplyLanguage",
+          "line": 275,
+          "isDefault": false
+        },
+        {
+          "name": "DesignCategoryTabVm",
+          "line": 235,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayKind",
+          "line": 296,
+          "isDefault": false
+        },
+        {
+          "name": "Title",
+          "line": 298,
+          "isDefault": false
+        },
+        {
+          "name": "SubTitle",
+          "line": 304,
+          "isDefault": false
+        },
+        {
+          "name": "TitleV",
+          "line": 310,
+          "isDefault": false
+        },
+        {
+          "name": "TitleE",
+          "line": 311,
+          "isDefault": false
+        },
+        {
+          "name": "SubTitleV",
+          "line": 312,
+          "isDefault": false
+        },
+        {
+          "name": "SubTitleE",
+          "line": 313,
+          "isDefault": false
+        },
+        {
+          "name": "IsForm",
+          "line": 315,
+          "isDefault": false
+        },
+        {
+          "name": "IsGrid",
+          "line": 316,
+          "isDefault": false
+        },
+        {
+          "name": "IsLookup",
+          "line": 317,
+          "isDefault": false
+        },
+        {
+          "name": "RowHeightPx",
+          "line": 319,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnWidthsPx",
+          "line": 321,
+          "isDefault": false
+        },
+        {
+          "name": "RulerTicks",
+          "line": 322,
+          "isDefault": false
+        },
+        {
+          "name": "FormRows",
+          "line": 323,
+          "isDefault": false
+        },
+        {
+          "name": "BottomRows",
+          "line": 324,
+          "isDefault": false
+        },
+        {
+          "name": "CategoryTabs",
+          "line": 325,
+          "isDefault": false
+        },
+        {
+          "name": "SelectedCategory",
+          "line": 329,
+          "isDefault": false
+        },
+        {
+          "name": "HasCategories",
+          "line": 343,
+          "isDefault": false
+        },
+        {
+          "name": "HasSelectedCategory",
+          "line": 344,
+          "isDefault": false
+        },
+        {
+          "name": "HasBottomRows",
+          "line": 345,
+          "isDefault": false
+        },
+        {
+          "name": "FormTableWidthPx",
+          "line": 353,
+          "isDefault": false
+        },
+        {
+          "name": "FormTableWidthDip",
+          "line": 359,
+          "isDefault": false
+        },
+        {
+          "name": "FormHeightDip",
+          "line": 365,
+          "isDefault": false
+        },
+        {
+          "name": "FormHeightPx",
+          "line": 379,
+          "isDefault": false
+        },
+        {
+          "name": "IsHeightFromRows",
+          "line": 391,
+          "isDefault": false
+        },
+        {
+          "name": "Anchor",
+          "line": 405,
+          "isDefault": false
+        },
+        {
+          "name": "Split",
+          "line": 406,
+          "isDefault": false
+        },
+        {
+          "name": "LayoutBadge",
+          "line": 408,
+          "isDefault": false
+        },
+        {
+          "name": "CategoryContentHeightDip",
+          "line": 417,
+          "isDefault": false
+        },
+        {
+          "name": "HasFixedCategoryHeight",
+          "line": 420,
+          "isDefault": false
+        },
+        {
+          "name": "Columns",
+          "line": 423,
+          "isDefault": false
+        },
+        {
+          "name": "SampleRows",
+          "line": 424,
+          "isDefault": false
+        },
+        {
+          "name": "ToolbarItems",
+          "line": 425,
+          "isDefault": false
+        },
+        {
+          "name": "SearchFieldLabel",
+          "line": 427,
+          "isDefault": false
+        },
+        {
+          "name": "SearchFieldLabelV",
+          "line": 428,
+          "isDefault": false
+        },
+        {
+          "name": "SearchFieldLabelE",
+          "line": 429,
+          "isDefault": false
+        },
+        {
+          "name": "ApplyLanguage",
+          "line": 431,
+          "isDefault": false
+        },
+        {
+          "name": "DesignSurfaceVm",
+          "line": 291,
+          "isDefault": false
+        },
+        {
+          "name": "Name",
+          "line": 459,
+          "isDefault": false
+        },
+        {
+          "name": "HeaderV",
+          "line": 460,
+          "isDefault": false
+        },
+        {
+          "name": "HeaderE",
+          "line": 461,
+          "isDefault": false
+        },
+        {
+          "name": "Header",
+          "line": 462,
+          "isDefault": false
+        },
+        {
+          "name": "Width",
+          "line": 467,
+          "isDefault": false
+        },
+        {
+          "name": "WidthDip",
+          "line": 468,
+          "isDefault": false
+        },
+        {
+          "name": "Align",
+          "line": 469,
+          "isDefault": false
+        },
+        {
+          "name": "IsPrimaryKey",
+          "line": 470,
+          "isDefault": false
+        },
+        {
+          "name": "ApplyLanguage",
+          "line": 471,
+          "isDefault": false
+        },
+        {
+          "name": "DesignColumnVm",
+          "line": 456,
+          "isDefault": false
+        },
+        {
+          "name": "Values",
+          "line": 480,
+          "isDefault": false
+        },
+        {
+          "name": "DesignDataRowVm",
+          "line": 478,
+          "isDefault": false
+        },
+        {
+          "name": "Command",
+          "line": 485,
+          "isDefault": false
+        },
+        {
+          "name": "Title",
+          "line": 486,
+          "isDefault": false
+        },
+        {
+          "name": "TitleV",
+          "line": 487,
+          "isDefault": false
+        },
+        {
+          "name": "TitleE",
+          "line": 488,
+          "isDefault": false
+        },
+        {
+          "name": "IsSeparator",
+          "line": 489,
+          "isDefault": false
+        },
+        {
+          "name": "DesignToolbarItemVm",
+          "line": 483,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ApplyLanguage",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 124
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 125
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "PropertyChanged?.Invoke",
+          "lineNumber": 131
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "new PropertyChangedEventArgs",
+          "lineNumber": 131
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "PropertyChanged?.Invoke",
+          "lineNumber": 178
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "new PropertyChangedEventArgs",
+          "lineNumber": 178
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "PropertyChanged?.Invoke",
+          "lineNumber": 232
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "new PropertyChangedEventArgs",
+          "lineNumber": 232
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 278
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 279
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "cell.ApplyLanguage",
+          "lineNumber": 282
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "PropertyChanged?.Invoke",
+          "lineNumber": 288
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "new PropertyChangedEventArgs",
+          "lineNumber": 288
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "Pick",
+          "lineNumber": 433
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "Pick",
+          "lineNumber": 434
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "Pick",
+          "lineNumber": 435
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "cell.ApplyLanguage",
+          "lineNumber": 438
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "cell.ApplyLanguage",
+          "lineNumber": 441
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "tab.ApplyLanguage",
+          "lineNumber": 443
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "col.ApplyLanguage",
+          "lineNumber": 445
+        },
+        {
+          "caller": "Pick",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 449
+        },
+        {
+          "caller": "Pick",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 449
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "PropertyChanged?.Invoke",
+          "lineNumber": 453
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "new PropertyChangedEventArgs",
+          "lineNumber": 453
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 472
+        },
+        {
+          "caller": "ApplyLanguage",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 472
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "PropertyChanged?.Invoke",
+          "lineNumber": 475
+        },
+        {
+          "caller": "OnPropertyChanged",
+          "callee": "new PropertyChangedEventArgs",
+          "lineNumber": 475
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 132,
+        "functionCount": 11,
+        "classCount": 9
+      }
+    }
+  ]
+}

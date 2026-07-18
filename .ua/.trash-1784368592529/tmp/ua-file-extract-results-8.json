@@ -1,0 +1,4399 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 95,
+      "nonEmptyLines": 80,
+      "functions": [
+        {
+          "name": "SetProgramPath",
+          "startLine": 29,
+          "endLine": 30,
+          "params": [
+            "program_path"
+          ]
+        },
+        {
+          "name": "SetActive",
+          "startLine": 32,
+          "endLine": 32,
+          "params": [
+            "document"
+          ]
+        },
+        {
+          "name": "GetDocument",
+          "startLine": 34,
+          "endLine": 38,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "TryGetDocument",
+          "startLine": 40,
+          "endLine": 52,
+          "params": [
+            "id",
+            "document"
+          ]
+        },
+        {
+          "name": "FindByPath",
+          "startLine": 54,
+          "endLine": 59,
+          "params": [
+            "path"
+          ]
+        },
+        {
+          "name": "Upsert",
+          "startLine": 61,
+          "endLine": 69,
+          "params": [
+            "document"
+          ]
+        },
+        {
+          "name": "Remove",
+          "startLine": 71,
+          "endLine": 80,
+          "params": [
+            "id"
+          ]
+        },
+        {
+          "name": "TryGetMutable",
+          "startLine": 82,
+          "endLine": 94,
+          "params": [
+            "id",
+            "document"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InMemoryErpWorkspace",
+          "startLine": 7,
+          "endLine": 95,
+          "methods": [
+            "SetProgramPath",
+            "SetActive",
+            "GetDocument",
+            "TryGetDocument",
+            "FindByPath",
+            "Upsert",
+            "Remove",
+            "TryGetMutable"
+          ],
+          "properties": [
+            "_documents",
+            "_gate",
+            "_symbolIndex",
+            "ProgramPath",
+            "Documents",
+            "ActiveDocument",
+            "SymbolIndex"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProgramPath",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Documents",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "ActiveDocument",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "SymbolIndex",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "SetProgramPath",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "SetActive",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "GetDocument",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "TryGetDocument",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "FindByPath",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "InMemoryErpWorkspace",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SetProgramPath",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 30
+        },
+        {
+          "caller": "SetProgramPath",
+          "callee": "program_path.Trim",
+          "lineNumber": 30
+        },
+        {
+          "caller": "GetDocument",
+          "callee": "_documents.TryGetValue",
+          "lineNumber": 37
+        },
+        {
+          "caller": "TryGetDocument",
+          "callee": "_documents.TryGetValue",
+          "lineNumber": 44
+        },
+        {
+          "caller": "FindByPath",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 56
+        },
+        {
+          "caller": "FindByPath",
+          "callee": "ErpDocumentId.FromPath",
+          "lineNumber": 57
+        },
+        {
+          "caller": "FindByPath",
+          "callee": "GetDocument",
+          "lineNumber": 58
+        },
+        {
+          "caller": "Remove",
+          "callee": "_documents.Remove",
+          "lineNumber": 75
+        },
+        {
+          "caller": "Remove",
+          "callee": "active.Id.Equals",
+          "lineNumber": 76
+        },
+        {
+          "caller": "Remove",
+          "callee": "_documents.Values.FirstOrDefault",
+          "lineNumber": 77
+        },
+        {
+          "caller": "TryGetMutable",
+          "callee": "_documents.TryGetValue",
+          "lineNumber": 86
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 188,
+      "nonEmptyLines": 170,
+      "functions": [
+        {
+          "name": "InsightProviderPipeline",
+          "startLine": 10,
+          "endLine": 14,
+          "params": [
+            "providers"
+          ]
+        },
+        {
+          "name": "Build",
+          "startLine": 16,
+          "endLine": 24,
+          "params": [
+            "semantic_model",
+            "diagnostics"
+          ]
+        },
+        {
+          "name": "Provide",
+          "startLine": 32,
+          "endLine": 73,
+          "params": [
+            "semantic_model",
+            "diagnostics"
+          ]
+        },
+        {
+          "name": "BuildEntityItem",
+          "startLine": 75,
+          "endLine": 129,
+          "params": [
+            "entity",
+            "range",
+            "by_id",
+            "path"
+          ]
+        },
+        {
+          "name": "Action",
+          "startLine": 131,
+          "endLine": 144,
+          "params": [
+            "id",
+            "display_name",
+            "entity"
+          ]
+        },
+        {
+          "name": "PathsEqual",
+          "startLine": 146,
+          "endLine": 158,
+          "params": [
+            "left",
+            "right"
+          ]
+        },
+        {
+          "name": "Provide",
+          "startLine": 166,
+          "endLine": 187,
+          "params": [
+            "semantic_model",
+            "diagnostics"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "InsightProviderPipeline",
+          "startLine": 6,
+          "endLine": 25,
+          "methods": [
+            "InsightProviderPipeline",
+            "Build"
+          ],
+          "properties": [
+            "_providers"
+          ]
+        },
+        {
+          "name": "EntityInsightProvider",
+          "startLine": 28,
+          "endLine": 159,
+          "methods": [
+            "Provide",
+            "BuildEntityItem",
+            "Action",
+            "PathsEqual"
+          ],
+          "properties": [
+            "ProviderId"
+          ]
+        },
+        {
+          "name": "ValidationInsightProvider",
+          "startLine": 162,
+          "endLine": 188,
+          "methods": [
+            "Provide"
+          ],
+          "properties": [
+            "ProviderId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "InsightProviderPipeline",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "Build",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "InsightProviderPipeline",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderId",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "Provide",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "EntityInsightProvider",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "ProviderId",
+          "line": 164,
+          "isDefault": false
+        },
+        {
+          "name": "Provide",
+          "line": 166,
+          "isDefault": false
+        },
+        {
+          "name": "ValidationInsightProvider",
+          "line": 162,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InsightProviderPipeline",
+          "callee": "providers?.ToList",
+          "lineNumber": 12
+        },
+        {
+          "caller": "InsightProviderPipeline",
+          "callee": "new EntityInsightProvider",
+          "lineNumber": 13
+        },
+        {
+          "caller": "InsightProviderPipeline",
+          "callee": "new ValidationInsightProvider",
+          "lineNumber": 13
+        },
+        {
+          "caller": "Build",
+          "callee": "_providers\r\n            .SelectMany(provider => provider.Provide(semantic_model, diagnostics))\r\n            .OrderBy(item => item.Range.Span.StartOffset)\r\n            .ThenBy(item => item.Layer)\r\n            .ThenByDescending(item => item.Priority)\r\n            .ToList",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Build",
+          "callee": "_providers\r\n            .SelectMany(provider => provider.Provide(semantic_model, diagnostics))\r\n            .OrderBy(item => item.Range.Span.StartOffset)\r\n            .ThenBy(item => item.Layer)\r\n            .ThenByDescending",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Build",
+          "callee": "_providers\r\n            .SelectMany(provider => provider.Provide(semantic_model, diagnostics))\r\n            .OrderBy(item => item.Range.Span.StartOffset)\r\n            .ThenBy",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Build",
+          "callee": "_providers\r\n            .SelectMany(provider => provider.Provide(semantic_model, diagnostics))\r\n            .OrderBy",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Build",
+          "callee": "_providers\r\n            .SelectMany",
+          "lineNumber": 19
+        },
+        {
+          "caller": "Build",
+          "callee": "provider.Provide",
+          "lineNumber": 20
+        },
+        {
+          "caller": "Provide",
+          "callee": "semantic_model.GetEntities",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Provide",
+          "callee": "entities.ToDictionary",
+          "lineNumber": 40
+        },
+        {
+          "caller": "Provide",
+          "callee": "new List<InsightItem>",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Provide",
+          "callee": "string.Equals",
+          "lineNumber": 58
+        },
+        {
+          "caller": "Provide",
+          "callee": "PathsEqual",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Provide",
+          "callee": "result.Add",
+          "lineNumber": 63
+        },
+        {
+          "caller": "Provide",
+          "callee": "BuildEntityItem",
+          "lineNumber": 63
+        },
+        {
+          "caller": "Provide",
+          "callee": "new HashSet<string>",
+          "lineNumber": 67
+        },
+        {
+          "caller": "BuildEntityItem",
+          "callee": "path.Add",
+          "lineNumber": 81
+        },
+        {
+          "caller": "BuildEntityItem",
+          "callee": "new InsightItem",
+          "lineNumber": 83
+        },
+        {
+          "caller": "BuildEntityItem",
+          "callee": "entity.ChildEntityIds\r\n            .Where(by_id.ContainsKey)\r\n            .Select(child_id => BuildEntityItem(\r\n                by_id[child_id],\r\n                by_id[child_id].Definition,\r\n                by_id,\r\n                new HashSet<string>(path, StringComparer.OrdinalIgnoreCase)))\r\n            .ToList",
+          "lineNumber": 97
+        },
+        {
+          "caller": "BuildEntityItem",
+          "callee": "entity.ChildEntityIds\r\n            .Where(by_id.ContainsKey)\r\n            .Select",
+          "lineNumber": 97
+        },
+        {
+          "caller": "BuildEntityItem",
+          "callee": "entity.ChildEntityIds\r\n            .Where",
+          "lineNumber": 97
+        },
+        {
+          "caller": "BuildEntityItem",
+          "callee": "BuildEntityItem",
+          "lineNumber": 99
+        },
+        {
+          "caller": "BuildEntityItem",
+          "callee": "new HashSet<string>",
+          "lineNumber": 103
+        },
+        {
+          "caller": "BuildEntityItem",
+          "callee": "new InsightItem",
+          "lineNumber": 106
+        },
+        {
+          "caller": "BuildEntityItem",
+          "callee": "Action",
+          "lineNumber": 121
+        },
+        {
+          "caller": "BuildEntityItem",
+          "callee": "Action",
+          "lineNumber": 122
+        },
+        {
+          "caller": "BuildEntityItem",
+          "callee": "Action",
+          "lineNumber": 123
+        },
+        {
+          "caller": "BuildEntityItem",
+          "callee": "Action",
+          "lineNumber": 124
+        },
+        {
+          "caller": "Action",
+          "callee": "new Dictionary<string, string>",
+          "lineNumber": 139
+        },
+        {
+          "caller": "PathsEqual",
+          "callee": "Path.GetFullPath(left).Equals",
+          "lineNumber": 150
+        },
+        {
+          "caller": "PathsEqual",
+          "callee": "Path.GetFullPath",
+          "lineNumber": 150
+        },
+        {
+          "caller": "PathsEqual",
+          "callee": "Path.GetFullPath",
+          "lineNumber": 151
+        },
+        {
+          "caller": "PathsEqual",
+          "callee": "left.Equals",
+          "lineNumber": 156
+        },
+        {
+          "caller": "Provide",
+          "callee": "diagnostics.Select(diagnostic => new InsightItem\r\n        {\r\n            Id = $\"diagnostic:{diagnostic.Id}:{diagnostic.Location.Span.StartOffset}\",\r\n            Type = InsightType.Validation,\r\n            Range = diagnostic.Location,\r\n            Priority = diagnostic.Severity == ErpDiagnosticSeverity.Error ? 1000 : 900,\r\n            Layer = diagnostic.Severity == ErpDiagnosticSeverity.Error\r\n                ? InsightLayer.Error\r\n                : InsightLayer.Warning,\r\n            DisplayContent = diagnostic.Message,\r\n            Metadata = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)\r\n            {\r\n                [\"diagnostic_id\"] = diagnostic.Id,\r\n                [\"severity\"] = diagnostic.Severity.ToString()\r\n            }\r\n        }).ToList",
+          "lineNumber": 171
+        },
+        {
+          "caller": "Provide",
+          "callee": "diagnostics.Select",
+          "lineNumber": 171
+        },
+        {
+          "caller": "Provide",
+          "callee": "new InsightItem",
+          "lineNumber": 171
+        },
+        {
+          "caller": "Provide",
+          "callee": "new Dictionary<string, string>",
+          "lineNumber": 181
+        },
+        {
+          "caller": "Provide",
+          "callee": "diagnostic.Severity.ToString",
+          "lineNumber": 184
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 7,
+        "classCount": 3
+      }
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/NavigationMap.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 80,
+      "nonEmptyLines": 67,
+      "functions": [
+        {
+          "name": "NavigationMap",
+          "startLine": 13,
+          "endLine": 25,
+          "params": [
+            "document",
+            "by_id",
+            "symbol_to_node",
+            "parent_of",
+            "semantic"
+          ]
+        },
+        {
+          "name": "GetNode",
+          "startLine": 29,
+          "endLine": 30,
+          "params": [
+            "node_id"
+          ]
+        },
+        {
+          "name": "GetNodeBySymbolId",
+          "startLine": 32,
+          "endLine": 36,
+          "params": [
+            "symbol_id"
+          ]
+        },
+        {
+          "name": "ToTarget",
+          "startLine": 38,
+          "endLine": 62,
+          "params": [
+            "node_id"
+          ]
+        },
+        {
+          "name": "ToTargetBySymbolId",
+          "startLine": 64,
+          "endLine": 68,
+          "params": [
+            "symbol_id"
+          ]
+        },
+        {
+          "name": "GetChildren",
+          "startLine": 70,
+          "endLine": 74,
+          "params": [
+            "node_id"
+          ]
+        },
+        {
+          "name": "GetParent",
+          "startLine": 76,
+          "endLine": 77,
+          "params": [
+            "node_id"
+          ]
+        },
+        {
+          "name": "GetOutlineRoots",
+          "startLine": 79,
+          "endLine": 79,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "NavigationMap",
+          "startLine": 6,
+          "endLine": 80,
+          "methods": [
+            "NavigationMap",
+            "GetNode",
+            "GetNodeBySymbolId",
+            "ToTarget",
+            "ToTargetBySymbolId",
+            "GetChildren",
+            "GetParent",
+            "GetOutlineRoots"
+          ],
+          "properties": [
+            "_by_id",
+            "_symbol_to_node",
+            "_parent_of",
+            "_semantic",
+            "Document"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "NavigationMap",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Document",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "GetNode",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "GetNodeBySymbolId",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "ToTarget",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "ToTargetBySymbolId",
+          "line": 64,
+          "isDefault": false
+        },
+        {
+          "name": "GetChildren",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "GetParent",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "GetOutlineRoots",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "NavigationMap",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "NavigationMap",
+          "callee": "new Dictionary<NodeId, DocumentNode>",
+          "lineNumber": 21
+        },
+        {
+          "caller": "NavigationMap",
+          "callee": "new Dictionary<string, NodeId>",
+          "lineNumber": 22
+        },
+        {
+          "caller": "NavigationMap",
+          "callee": "new Dictionary<NodeId, NodeId>",
+          "lineNumber": 23
+        },
+        {
+          "caller": "GetNode",
+          "callee": "_by_id.GetValueOrDefault",
+          "lineNumber": 30
+        },
+        {
+          "caller": "GetNodeBySymbolId",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 34
+        },
+        {
+          "caller": "GetNodeBySymbolId",
+          "callee": "_symbol_to_node.TryGetValue",
+          "lineNumber": 35
+        },
+        {
+          "caller": "GetNodeBySymbolId",
+          "callee": "GetNode",
+          "lineNumber": 35
+        },
+        {
+          "caller": "ToTarget",
+          "callee": "GetNode",
+          "lineNumber": 40
+        },
+        {
+          "caller": "ToTarget",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ToTarget",
+          "callee": "_semantic.Symbols.FirstOrDefault",
+          "lineNumber": 45
+        },
+        {
+          "caller": "ToTarget",
+          "callee": "s.Id.Equals",
+          "lineNumber": 46
+        },
+        {
+          "caller": "ToTarget",
+          "callee": "new NavigationTarget",
+          "lineNumber": 48
+        },
+        {
+          "caller": "ToTarget",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 51
+        },
+        {
+          "caller": "ToTargetBySymbolId",
+          "callee": "GetNodeBySymbolId",
+          "lineNumber": 66
+        },
+        {
+          "caller": "ToTargetBySymbolId",
+          "callee": "ToTarget",
+          "lineNumber": 67
+        },
+        {
+          "caller": "GetChildren",
+          "callee": "GetNode",
+          "lineNumber": 72
+        },
+        {
+          "caller": "GetParent",
+          "callee": "_parent_of.TryGetValue",
+          "lineNumber": 77
+        },
+        {
+          "caller": "GetParent",
+          "callee": "GetNode",
+          "lineNumber": 77
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 8,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/NavigationMapBuilder.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 501,
+      "nonEmptyLines": 438,
+      "functions": [
+        {
+          "name": "Build",
+          "startLine": 42,
+          "endLine": 118,
+          "params": [
+            "document"
+          ]
+        },
+        {
+          "name": "BuildNode",
+          "startLine": 120,
+          "endLine": 189,
+          "params": [
+            "element",
+            "parent_id",
+            "key",
+            "depth",
+            "ctx"
+          ]
+        },
+        {
+          "name": "BuildScriptFunctions",
+          "startLine": 191,
+          "endLine": 231,
+          "params": [
+            "script_element",
+            "parent_id",
+            "key",
+            "ctx"
+          ]
+        },
+        {
+          "name": "BuildEntityRefChildren",
+          "startLine": 233,
+          "endLine": 289,
+          "params": [
+            "element",
+            "parent_id",
+            "key",
+            "ctx"
+          ]
+        },
+        {
+          "name": "BuildFragmentChildren",
+          "startLine": 291,
+          "endLine": 320,
+          "params": [
+            "fragment",
+            "parent_id",
+            "key",
+            "navigate_offset",
+            "ctx",
+            "depth"
+          ]
+        },
+        {
+          "name": "BuildFragmentNode",
+          "startLine": 322,
+          "endLine": 357,
+          "params": [
+            "el",
+            "parent_id",
+            "key",
+            "navigate_offset",
+            "ctx",
+            "depth"
+          ]
+        },
+        {
+          "name": "BuildEntitiesSection",
+          "startLine": 359,
+          "endLine": 411,
+          "params": [
+            "semantic",
+            "doc_key",
+            "root_id",
+            "ctx"
+          ]
+        },
+        {
+          "name": "ResolveSymbol",
+          "startLine": 413,
+          "endLine": 416,
+          "params": [
+            "element",
+            "ctx"
+          ]
+        },
+        {
+          "name": "ResolveSymbolByOffset",
+          "startLine": 418,
+          "endLine": 423,
+          "params": [
+            "offset",
+            "ctx"
+          ]
+        },
+        {
+          "name": "BuildDisplayName",
+          "startLine": 425,
+          "endLine": 449,
+          "params": [
+            "element",
+            "element_name"
+          ]
+        },
+        {
+          "name": "ReadAttribute",
+          "startLine": 451,
+          "endLine": 458,
+          "params": [
+            "tag_text",
+            "attribute"
+          ]
+        },
+        {
+          "name": "IndexSymbolsByOffset",
+          "startLine": 460,
+          "endLine": 471,
+          "params": [
+            "semantic"
+          ]
+        },
+        {
+          "name": "IsStructuralElement",
+          "startLine": 473,
+          "endLine": 476,
+          "params": [
+            "node"
+          ]
+        },
+        {
+          "name": "FindRootElement",
+          "startLine": 478,
+          "endLine": 487,
+          "params": [
+            "tree"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "NavigationMapBuilder",
+          "startLine": 18,
+          "endLine": 501,
+          "methods": [
+            "Build",
+            "BuildNode",
+            "BuildScriptFunctions",
+            "BuildEntityRefChildren",
+            "BuildFragmentChildren",
+            "BuildFragmentNode",
+            "BuildEntitiesSection",
+            "ResolveSymbol",
+            "ResolveSymbolByOffset",
+            "BuildDisplayName",
+            "ReadAttribute",
+            "IndexSymbolsByOffset",
+            "IsStructuralElement",
+            "FindRootElement"
+          ],
+          "properties": [
+            "EntityRefRegex",
+            "FunctionRegex",
+            "LeafElements",
+            "HiddenElements",
+            "MaxDepth"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Build",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "NavigationMapBuilder",
+          "line": 18,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Build",
+          "callee": "new BuildContext",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Build",
+          "callee": "IndexSymbolsByOffset",
+          "lineNumber": 53
+        },
+        {
+          "caller": "Build",
+          "callee": "semantic.GetEntities()\r\n                .GroupBy(e => e.Name, StringComparer.OrdinalIgnoreCase)\r\n                .ToDictionary",
+          "lineNumber": 54
+        },
+        {
+          "caller": "Build",
+          "callee": "semantic.GetEntities()\r\n                .GroupBy",
+          "lineNumber": 54
+        },
+        {
+          "caller": "Build",
+          "callee": "semantic.GetEntities",
+          "lineNumber": 54
+        },
+        {
+          "caller": "Build",
+          "callee": "g.First",
+          "lineNumber": 56
+        },
+        {
+          "caller": "Build",
+          "callee": "semantic.Symbols.OfType<ControllerSymbol>().FirstOrDefault",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Build",
+          "callee": "semantic.Symbols.OfType<ControllerSymbol>",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Build",
+          "callee": "NodeId.FromStableKey",
+          "lineNumber": 62
+        },
+        {
+          "caller": "Build",
+          "callee": "FindRootElement",
+          "lineNumber": 63
+        },
+        {
+          "caller": "Build",
+          "callee": "new List<DocumentNode>",
+          "lineNumber": 65
+        },
+        {
+          "caller": "Build",
+          "callee": "root_element.Children.Where",
+          "lineNumber": 69
+        },
+        {
+          "caller": "Build",
+          "callee": "BuildNode",
+          "lineNumber": 71
+        },
+        {
+          "caller": "Build",
+          "callee": "root_children.Add",
+          "lineNumber": 73
+        },
+        {
+          "caller": "Build",
+          "callee": "BuildEntitiesSection",
+          "lineNumber": 78
+        },
+        {
+          "caller": "Build",
+          "callee": "root_children.Add",
+          "lineNumber": 80
+        },
+        {
+          "caller": "Build",
+          "callee": "Path.GetFileName",
+          "lineNumber": 85
+        },
+        {
+          "caller": "Build",
+          "callee": "new DocumentNode",
+          "lineNumber": 92
+        },
+        {
+          "caller": "Build",
+          "callee": "ctx.SymbolToNode.TryAdd",
+          "lineNumber": 108
+        },
+        {
+          "caller": "Build",
+          "callee": "new DocumentModel",
+          "lineNumber": 110
+        },
+        {
+          "caller": "Build",
+          "callee": "new NavigationMap",
+          "lineNumber": 117
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 128
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "NodeId.FromStableKey",
+          "lineNumber": 130
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "name.Equals",
+          "lineNumber": 131
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "ResolveSymbol",
+          "lineNumber": 133
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "BuildDisplayName",
+          "lineNumber": 134
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "BuildScriptFunctions",
+          "lineNumber": 141
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "LeafElements.Contains",
+          "lineNumber": 143
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "element.Children.Where",
+          "lineNumber": 147
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "BuildNode",
+          "lineNumber": 149
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "children.Add",
+          "lineNumber": 151
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "BuildEntityRefChildren",
+          "lineNumber": 156
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "new DocumentNode",
+          "lineNumber": 167
+        },
+        {
+          "caller": "BuildNode",
+          "callee": "ctx.SymbolToNode.TryAdd",
+          "lineNumber": 185
+        },
+        {
+          "caller": "BuildScriptFunctions",
+          "callee": "script_element.Children\r\n            .FirstOrDefault",
+          "lineNumber": 197
+        },
+        {
+          "caller": "BuildScriptFunctions",
+          "callee": "new List<DocumentNode>",
+          "lineNumber": 199
+        },
+        {
+          "caller": "BuildScriptFunctions",
+          "callee": "island.Children.Where",
+          "lineNumber": 203
+        },
+        {
+          "caller": "BuildScriptFunctions",
+          "callee": "NodeId.FromStableKey",
+          "lineNumber": 206
+        },
+        {
+          "caller": "BuildScriptFunctions",
+          "callee": "ResolveSymbolByOffset",
+          "lineNumber": 207
+        },
+        {
+          "caller": "BuildScriptFunctions",
+          "callee": "new DocumentNode",
+          "lineNumber": 209
+        },
+        {
+          "caller": "BuildScriptFunctions",
+          "callee": "ctx.SymbolToNode.TryAdd",
+          "lineNumber": 226
+        },
+        {
+          "caller": "BuildScriptFunctions",
+          "callee": "result.Add",
+          "lineNumber": 227
+        },
+        {
+          "caller": "BuildEntityRefChildren",
+          "callee": "ctx.Source.Substring",
+          "lineNumber": 243
+        },
+        {
+          "caller": "BuildEntityRefChildren",
+          "callee": "new List<DocumentNode>",
+          "lineNumber": 244
+        },
+        {
+          "caller": "BuildEntityRefChildren",
+          "callee": "new HashSet<string>",
+          "lineNumber": 245
+        },
+        {
+          "caller": "BuildEntityRefChildren",
+          "callee": "EntityRefRegex.Matches",
+          "lineNumber": 247
+        },
+        {
+          "caller": "BuildEntityRefChildren",
+          "callee": "seen.Add",
+          "lineNumber": 250
+        },
+        {
+          "caller": "BuildEntityRefChildren",
+          "callee": "ctx.EntitiesByName.TryGetValue",
+          "lineNumber": 251
+        },
+        {
+          "caller": "BuildEntityRefChildren",
+          "callee": "BuildFragmentChildren",
+          "lineNumber": 253
+        },
+        {
+          "caller": "BuildEntityRefChildren",
+          "callee": "children.AddRange",
+          "lineNumber": 263
+        },
+        {
+          "caller": "BuildEntityRefChildren",
+          "callee": "NodeId.FromStableKey",
+          "lineNumber": 268
+        },
+        {
+          "caller": "BuildEntityRefChildren",
+          "callee": "new DocumentNode",
+          "lineNumber": 269
+        },
+        {
+          "caller": "BuildEntityRefChildren",
+          "callee": "children.Add",
+          "lineNumber": 285
+        },
+        {
+          "caller": "BuildFragmentChildren",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 299
+        },
+        {
+          "caller": "BuildFragmentChildren",
+          "callee": "fragment.TrimStart",
+          "lineNumber": 300
+        },
+        {
+          "caller": "BuildFragmentChildren",
+          "callee": "FboSyntaxParser.Parse",
+          "lineNumber": 306
+        },
+        {
+          "caller": "BuildFragmentChildren",
+          "callee": "tree.Root.Children.Where(IsStructuralElement).ToList",
+          "lineNumber": 313
+        },
+        {
+          "caller": "BuildFragmentChildren",
+          "callee": "tree.Root.Children.Where",
+          "lineNumber": 313
+        },
+        {
+          "caller": "BuildFragmentChildren",
+          "callee": "new List<DocumentNode>",
+          "lineNumber": 314
+        },
+        {
+          "caller": "BuildFragmentChildren",
+          "callee": "list.Add",
+          "lineNumber": 317
+        },
+        {
+          "caller": "BuildFragmentChildren",
+          "callee": "BuildFragmentNode",
+          "lineNumber": 317
+        },
+        {
+          "caller": "BuildFragmentNode",
+          "callee": "NodeId.FromStableKey",
+          "lineNumber": 330
+        },
+        {
+          "caller": "BuildFragmentNode",
+          "callee": "BuildDisplayName",
+          "lineNumber": 331
+        },
+        {
+          "caller": "BuildFragmentNode",
+          "callee": "new List<DocumentNode>",
+          "lineNumber": 333
+        },
+        {
+          "caller": "BuildFragmentNode",
+          "callee": "el.Children.Where",
+          "lineNumber": 337
+        },
+        {
+          "caller": "BuildFragmentNode",
+          "callee": "children.Add",
+          "lineNumber": 338
+        },
+        {
+          "caller": "BuildFragmentNode",
+          "callee": "BuildFragmentNode",
+          "lineNumber": 338
+        },
+        {
+          "caller": "BuildFragmentNode",
+          "callee": "new DocumentNode",
+          "lineNumber": 341
+        },
+        {
+          "caller": "BuildEntitiesSection",
+          "callee": "semantic.GetEntities",
+          "lineNumber": 365
+        },
+        {
+          "caller": "BuildEntitiesSection",
+          "callee": "NodeId.FromStableKey",
+          "lineNumber": 368
+        },
+        {
+          "caller": "BuildEntitiesSection",
+          "callee": "new List<DocumentNode>",
+          "lineNumber": 369
+        },
+        {
+          "caller": "BuildEntitiesSection",
+          "callee": "NodeId.FromStableKey",
+          "lineNumber": 373
+        },
+        {
+          "caller": "BuildEntitiesSection",
+          "callee": "new DocumentNode",
+          "lineNumber": 375
+        },
+        {
+          "caller": "BuildEntitiesSection",
+          "callee": "ctx.SymbolToNode.TryAdd",
+          "lineNumber": 390
+        },
+        {
+          "caller": "BuildEntitiesSection",
+          "callee": "children.Add",
+          "lineNumber": 391
+        },
+        {
+          "caller": "BuildEntitiesSection",
+          "callee": "children.Min",
+          "lineNumber": 394
+        },
+        {
+          "caller": "BuildEntitiesSection",
+          "callee": "new DocumentNode",
+          "lineNumber": 395
+        },
+        {
+          "caller": "BuildEntitiesSection",
+          "callee": "children.Min",
+          "lineNumber": 402
+        },
+        {
+          "caller": "ResolveSymbol",
+          "callee": "ResolveSymbolByOffset",
+          "lineNumber": 416
+        },
+        {
+          "caller": "ResolveSymbolByOffset",
+          "callee": "ctx.SymbolByOffset.TryGetValue",
+          "lineNumber": 421
+        },
+        {
+          "caller": "BuildDisplayName",
+          "callee": "element.DirectTokens.FirstOrDefault",
+          "lineNumber": 427
+        },
+        {
+          "caller": "BuildDisplayName",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 430
+        },
+        {
+          "caller": "BuildDisplayName",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 431
+        },
+        {
+          "caller": "BuildDisplayName",
+          "callee": "XsdSchemaCatalog.GetIdentityAttribute",
+          "lineNumber": 433
+        },
+        {
+          "caller": "BuildDisplayName",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 434
+        },
+        {
+          "caller": "BuildDisplayName",
+          "callee": "ReadAttribute",
+          "lineNumber": 436
+        },
+        {
+          "caller": "BuildDisplayName",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 437
+        },
+        {
+          "caller": "BuildDisplayName",
+          "callee": "ReadAttribute",
+          "lineNumber": 443
+        },
+        {
+          "caller": "BuildDisplayName",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 444
+        },
+        {
+          "caller": "BuildDisplayName",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 448
+        },
+        {
+          "caller": "ReadAttribute",
+          "callee": "new Regex",
+          "lineNumber": 453
+        },
+        {
+          "caller": "ReadAttribute",
+          "callee": "Regex.Escape",
+          "lineNumber": 454
+        },
+        {
+          "caller": "ReadAttribute",
+          "callee": "regex.Match",
+          "lineNumber": 456
+        },
+        {
+          "caller": "IndexSymbolsByOffset",
+          "callee": "new Dictionary<int, ErpSymbol>",
+          "lineNumber": 462
+        },
+        {
+          "caller": "IndexSymbolsByOffset",
+          "callee": "map.TryAdd",
+          "lineNumber": 468
+        },
+        {
+          "caller": "IsStructuralElement",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 475
+        },
+        {
+          "caller": "IsStructuralElement",
+          "callee": "HiddenElements.Contains",
+          "lineNumber": 476
+        },
+        {
+          "caller": "FindRootElement",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 482
+        },
+        {
+          "caller": "FindRootElement",
+          "callee": "tree.Root.Children.FirstOrDefault",
+          "lineNumber": 486
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 14,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/Schema/XsdSchemaCatalog.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 83,
+      "nonEmptyLines": 69,
+      "functions": [
+        {
+          "name": "GetIdentityAttribute",
+          "startLine": 22,
+          "endLine": 25,
+          "params": [
+            "element_name"
+          ]
+        },
+        {
+          "name": "LoadIdentityAttributes",
+          "startLine": 29,
+          "endLine": 64,
+          "params": []
+        },
+        {
+          "name": "LocalName",
+          "startLine": 67,
+          "endLine": 72,
+          "params": [
+            "xpath"
+          ]
+        },
+        {
+          "name": "EnumerateSchemaFiles",
+          "startLine": 74,
+          "endLine": 82,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "XsdSchemaCatalog",
+          "startLine": 12,
+          "endLine": 83,
+          "methods": [
+            "GetIdentityAttribute",
+            "LoadIdentityAttributes",
+            "LocalName",
+            "EnumerateSchemaFiles"
+          ],
+          "properties": [
+            "IdentityMap",
+            "Fallback",
+            "FallbackIdentityAttributes"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "GetIdentityAttribute",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "FallbackIdentityAttributes",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "XsdSchemaCatalog",
+          "line": 12,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GetIdentityAttribute",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 23
+        },
+        {
+          "caller": "GetIdentityAttribute",
+          "callee": "IdentityMap.Value.GetValueOrDefault",
+          "lineNumber": 25
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "new Dictionary<string, string>",
+          "lineNumber": 31
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "EnumerateSchemaFiles",
+          "lineNumber": 34
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "XDocument.Load",
+          "lineNumber": 39
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "doc.Descendants().Where",
+          "lineNumber": 46
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "doc.Descendants",
+          "lineNumber": 46
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "key.Element(xs + \"selector\")?.Attribute",
+          "lineNumber": 49
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "key.Element",
+          "lineNumber": 49
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "key.Element(xs + \"field\")?.Attribute",
+          "lineNumber": 50
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "key.Element",
+          "lineNumber": 50
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 51
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 51
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "LocalName",
+          "lineNumber": 54
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "field.TrimStart('@').Trim",
+          "lineNumber": 55
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "field.TrimStart",
+          "lineNumber": 55
+        },
+        {
+          "caller": "LoadIdentityAttributes",
+          "callee": "map.TryAdd",
+          "lineNumber": 59
+        },
+        {
+          "caller": "LocalName",
+          "callee": "xpath.Split('/').LastOrDefault",
+          "lineNumber": 69
+        },
+        {
+          "caller": "LocalName",
+          "callee": "xpath.Split",
+          "lineNumber": 69
+        },
+        {
+          "caller": "LocalName",
+          "callee": "segment.LastIndexOf",
+          "lineNumber": 70
+        },
+        {
+          "caller": "LocalName",
+          "callee": "(colon >= 0 ? segment[(colon + 1)..] : segment).Trim",
+          "lineNumber": 71
+        },
+        {
+          "caller": "EnumerateSchemaFiles",
+          "callee": "Path.Combine",
+          "lineNumber": 76
+        },
+        {
+          "caller": "EnumerateSchemaFiles",
+          "callee": "Directory.Exists",
+          "lineNumber": 77
+        },
+        {
+          "caller": "EnumerateSchemaFiles",
+          "callee": "Directory.EnumerateFiles",
+          "lineNumber": 80
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 3,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/Syntax/FboLexer.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 195,
+      "nonEmptyLines": 180,
+      "functions": [
+        {
+          "name": "Tokenize",
+          "startLine": 11,
+          "endLine": 142,
+          "params": [
+            "text",
+            "line_map"
+          ]
+        },
+        {
+          "name": "Add",
+          "startLine": 144,
+          "endLine": 155,
+          "params": [
+            "tokens",
+            "line_map",
+            "text",
+            "kind",
+            "start",
+            "length"
+          ]
+        },
+        {
+          "name": "FindDoctypeEnd",
+          "startLine": 157,
+          "endLine": 167,
+          "params": [
+            "text",
+            "from"
+          ]
+        },
+        {
+          "name": "FindTagClose",
+          "startLine": 169,
+          "endLine": 188,
+          "params": [
+            "text",
+            "from"
+          ]
+        },
+        {
+          "name": "StartsWith",
+          "startLine": 190,
+          "endLine": 194,
+          "params": [
+            "text",
+            "i",
+            "prefix"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FboLexer",
+          "startLine": 9,
+          "endLine": 195,
+          "methods": [
+            "Tokenize",
+            "Add",
+            "FindDoctypeEnd",
+            "FindTagClose",
+            "StartsWith"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Tokenize",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "FboLexer",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Tokenize",
+          "callee": "new LineMap",
+          "lineNumber": 14
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "new List<SyntaxToken>",
+          "lineNumber": 15
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "StartsWith",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "text.IndexOf",
+          "lineNumber": 25
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 28
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 32
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "StartsWith",
+          "lineNumber": 37
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "text.IndexOf",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 42
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "StartsWith",
+          "lineNumber": 51
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "FindDoctypeEnd",
+          "lineNumber": 53
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 56
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "StartsWith",
+          "lineNumber": 65
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "FindTagClose",
+          "lineNumber": 67
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 70
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 74
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "StartsWith",
+          "lineNumber": 79
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "text.IndexOf",
+          "lineNumber": 81
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 84
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "StartsWith",
+          "lineNumber": 88
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 91
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "FindTagClose",
+          "lineNumber": 98
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 101
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 105
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "FindTagClose",
+          "lineNumber": 111
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 114
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 120
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "text.AsSpan",
+          "lineNumber": 130
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "run.Trim",
+          "lineNumber": 133
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "Add",
+          "lineNumber": 136
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "line_map.GetLineColumn",
+          "lineNumber": 139
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "tokens.Add",
+          "lineNumber": 140
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "new SyntaxToken",
+          "lineNumber": 140
+        },
+        {
+          "caller": "Tokenize",
+          "callee": "new SourceSpan",
+          "lineNumber": 140
+        },
+        {
+          "caller": "Add",
+          "callee": "line_map.GetLineColumn",
+          "lineNumber": 153
+        },
+        {
+          "caller": "Add",
+          "callee": "tokens.Add",
+          "lineNumber": 154
+        },
+        {
+          "caller": "Add",
+          "callee": "new SyntaxToken",
+          "lineNumber": 154
+        },
+        {
+          "caller": "Add",
+          "callee": "text.Substring",
+          "lineNumber": 154
+        },
+        {
+          "caller": "Add",
+          "callee": "new SourceSpan",
+          "lineNumber": 154
+        },
+        {
+          "caller": "FindDoctypeEnd",
+          "callee": "text.IndexOf",
+          "lineNumber": 159
+        },
+        {
+          "caller": "FindDoctypeEnd",
+          "callee": "FindTagClose",
+          "lineNumber": 160
+        },
+        {
+          "caller": "FindDoctypeEnd",
+          "callee": "text.IndexOf",
+          "lineNumber": 163
+        },
+        {
+          "caller": "StartsWith",
+          "callee": "string.Compare",
+          "lineNumber": 193
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/Syntax/FboSyntaxParser.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 323,
+      "nonEmptyLines": 280,
+      "functions": [
+        {
+          "name": "Parse",
+          "startLine": 33,
+          "endLine": 165,
+          "params": [
+            "text",
+            "path"
+          ]
+        },
+        {
+          "name": "ParseIsland",
+          "startLine": 167,
+          "endLine": 211,
+          "params": [
+            "tokens",
+            "i",
+            "stack",
+            "element",
+            "island_kind",
+            "close_name",
+            "scan_functions"
+          ]
+        },
+        {
+          "name": "AddScriptFunctions",
+          "startLine": 213,
+          "endLine": 242,
+          "params": [
+            "island"
+          ]
+        },
+        {
+          "name": "AttachDoctype",
+          "startLine": 244,
+          "endLine": 269,
+          "params": [
+            "parent",
+            "token",
+            "source"
+          ]
+        },
+        {
+          "name": "AttachEntityDecl",
+          "startLine": 271,
+          "endLine": 278,
+          "params": [
+            "parent",
+            "token"
+          ]
+        },
+        {
+          "name": "AttachToken",
+          "startLine": 280,
+          "endLine": 281,
+          "params": [
+            "parent",
+            "token"
+          ]
+        },
+        {
+          "name": "SealNode",
+          "startLine": 283,
+          "endLine": 299,
+          "params": [
+            "node",
+            "last_token"
+          ]
+        },
+        {
+          "name": "ExtractTagName",
+          "startLine": 301,
+          "endLine": 311,
+          "params": [
+            "tag_text",
+            "is_end"
+          ]
+        },
+        {
+          "name": "PickQualifier",
+          "startLine": 313,
+          "endLine": 322,
+          "params": [
+            "tag_text"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FboSyntaxParser",
+          "startLine": 10,
+          "endLine": 323,
+          "methods": [
+            "Parse",
+            "ParseIsland",
+            "AddScriptFunctions",
+            "AttachDoctype",
+            "AttachEntityDecl",
+            "AttachToken",
+            "SealNode",
+            "ExtractTagName",
+            "PickQualifier"
+          ],
+          "properties": [
+            "AttrNameRegex",
+            "AttrEventRegex",
+            "AttrIdRegex",
+            "FunctionRegex",
+            "EntityNameRegex"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Parse",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "FboSyntaxParser",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Parse",
+          "callee": "new LineMap",
+          "lineNumber": 36
+        },
+        {
+          "caller": "Parse",
+          "callee": "FboLexer.Tokenize",
+          "lineNumber": 37
+        },
+        {
+          "caller": "Parse",
+          "callee": "new List<ErpDiagnostic>",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Parse",
+          "callee": "diagnostics.Add",
+          "lineNumber": 43
+        },
+        {
+          "caller": "Parse",
+          "callee": "new ErpDiagnostic",
+          "lineNumber": 43
+        },
+        {
+          "caller": "Parse",
+          "callee": "new SourceLocation",
+          "lineNumber": 48
+        },
+        {
+          "caller": "Parse",
+          "callee": "new SyntaxNode",
+          "lineNumber": 58
+        },
+        {
+          "caller": "Parse",
+          "callee": "new Stack<SyntaxNode>",
+          "lineNumber": 59
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Push",
+          "lineNumber": 60
+        },
+        {
+          "caller": "Parse",
+          "callee": "AttachToken",
+          "lineNumber": 78
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Peek",
+          "lineNumber": 78
+        },
+        {
+          "caller": "Parse",
+          "callee": "AttachDoctype",
+          "lineNumber": 83
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Peek",
+          "lineNumber": 83
+        },
+        {
+          "caller": "Parse",
+          "callee": "AttachEntityDecl",
+          "lineNumber": 88
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Peek",
+          "lineNumber": 88
+        },
+        {
+          "caller": "Parse",
+          "callee": "ExtractTagName",
+          "lineNumber": 94
+        },
+        {
+          "caller": "Parse",
+          "callee": "new SyntaxNode",
+          "lineNumber": 95
+        },
+        {
+          "caller": "Parse",
+          "callee": "PickQualifier",
+          "lineNumber": 97
+        },
+        {
+          "caller": "Parse",
+          "callee": "el.AddToken",
+          "lineNumber": 99
+        },
+        {
+          "caller": "Parse",
+          "callee": "el.Seal",
+          "lineNumber": 100
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Peek().AddChild",
+          "lineNumber": 101
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Peek",
+          "lineNumber": 101
+        },
+        {
+          "caller": "Parse",
+          "callee": "ExtractTagName",
+          "lineNumber": 108
+        },
+        {
+          "caller": "Parse",
+          "callee": "new SyntaxNode",
+          "lineNumber": 109
+        },
+        {
+          "caller": "Parse",
+          "callee": "PickQualifier",
+          "lineNumber": 111
+        },
+        {
+          "caller": "Parse",
+          "callee": "el.AddToken",
+          "lineNumber": 113
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Peek().AddChild",
+          "lineNumber": 115
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Peek",
+          "lineNumber": 115
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Push",
+          "lineNumber": 116
+        },
+        {
+          "caller": "Parse",
+          "callee": "name.Equals",
+          "lineNumber": 120
+        },
+        {
+          "caller": "Parse",
+          "callee": "ParseIsland",
+          "lineNumber": 121
+        },
+        {
+          "caller": "Parse",
+          "callee": "name.Equals",
+          "lineNumber": 122
+        },
+        {
+          "caller": "Parse",
+          "callee": "name.Equals",
+          "lineNumber": 123
+        },
+        {
+          "caller": "Parse",
+          "callee": "ParseIsland",
+          "lineNumber": 124
+        },
+        {
+          "caller": "Parse",
+          "callee": "ExtractTagName",
+          "lineNumber": 130
+        },
+        {
+          "caller": "Parse",
+          "callee": "AttachToken",
+          "lineNumber": 131
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Peek",
+          "lineNumber": 131
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Pop",
+          "lineNumber": 135
+        },
+        {
+          "caller": "Parse",
+          "callee": "SealNode",
+          "lineNumber": 136
+        },
+        {
+          "caller": "Parse",
+          "callee": "string.Equals",
+          "lineNumber": 137
+        },
+        {
+          "caller": "Parse",
+          "callee": "AttachToken",
+          "lineNumber": 145
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Peek",
+          "lineNumber": 145
+        },
+        {
+          "caller": "Parse",
+          "callee": "stack.Pop",
+          "lineNumber": 153
+        },
+        {
+          "caller": "Parse",
+          "callee": "SealNode",
+          "lineNumber": 157
+        },
+        {
+          "caller": "Parse",
+          "callee": "root.Seal",
+          "lineNumber": 162
+        },
+        {
+          "caller": "Parse",
+          "callee": "new SourceSpan",
+          "lineNumber": 162
+        },
+        {
+          "caller": "Parse",
+          "callee": "new SyntaxTree",
+          "lineNumber": 164
+        },
+        {
+          "caller": "ParseIsland",
+          "callee": "new SyntaxNode",
+          "lineNumber": 176
+        },
+        {
+          "caller": "ParseIsland",
+          "callee": "ExtractTagName(token.Text, is_end: true)\r\n                    .Equals",
+          "lineNumber": 187
+        },
+        {
+          "caller": "ParseIsland",
+          "callee": "ExtractTagName",
+          "lineNumber": 187
+        },
+        {
+          "caller": "ParseIsland",
+          "callee": "island.AddToken",
+          "lineNumber": 193
+        },
+        {
+          "caller": "ParseIsland",
+          "callee": "island.Seal",
+          "lineNumber": 203
+        },
+        {
+          "caller": "ParseIsland",
+          "callee": "new SourceSpan",
+          "lineNumber": 203
+        },
+        {
+          "caller": "ParseIsland",
+          "callee": "Math.Max",
+          "lineNumber": 203
+        },
+        {
+          "caller": "ParseIsland",
+          "callee": "AddScriptFunctions",
+          "lineNumber": 206
+        },
+        {
+          "caller": "ParseIsland",
+          "callee": "element.AddChild",
+          "lineNumber": 208
+        },
+        {
+          "caller": "AddScriptFunctions",
+          "callee": "string.Concat",
+          "lineNumber": 215
+        },
+        {
+          "caller": "AddScriptFunctions",
+          "callee": "island.DirectTokens.Select",
+          "lineNumber": 215
+        },
+        {
+          "caller": "AddScriptFunctions",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 216
+        },
+        {
+          "caller": "AddScriptFunctions",
+          "callee": "FunctionRegex.Matches",
+          "lineNumber": 220
+        },
+        {
+          "caller": "AddScriptFunctions",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 223
+        },
+        {
+          "caller": "AddScriptFunctions",
+          "callee": "island.Children.Any",
+          "lineNumber": 224
+        },
+        {
+          "caller": "AddScriptFunctions",
+          "callee": "c.Name.Equals",
+          "lineNumber": 226
+        },
+        {
+          "caller": "AddScriptFunctions",
+          "callee": "new SyntaxNode",
+          "lineNumber": 237
+        },
+        {
+          "caller": "AddScriptFunctions",
+          "callee": "fn.Seal",
+          "lineNumber": 238
+        },
+        {
+          "caller": "AddScriptFunctions",
+          "callee": "new SourceSpan",
+          "lineNumber": 238
+        },
+        {
+          "caller": "AddScriptFunctions",
+          "callee": "island.AddChild",
+          "lineNumber": 240
+        },
+        {
+          "caller": "AttachDoctype",
+          "callee": "new SyntaxNode",
+          "lineNumber": 246
+        },
+        {
+          "caller": "AttachDoctype",
+          "callee": "node.AddToken",
+          "lineNumber": 247
+        },
+        {
+          "caller": "AttachDoctype",
+          "callee": "text.IndexOf",
+          "lineNumber": 251
+        },
+        {
+          "caller": "AttachDoctype",
+          "callee": "text.LastIndexOf",
+          "lineNumber": 252
+        },
+        {
+          "caller": "AttachDoctype",
+          "callee": "EntityNameRegex.Matches",
+          "lineNumber": 257
+        },
+        {
+          "caller": "AttachDoctype",
+          "callee": "new SyntaxNode",
+          "lineNumber": 260
+        },
+        {
+          "caller": "AttachDoctype",
+          "callee": "ent.Seal",
+          "lineNumber": 261
+        },
+        {
+          "caller": "AttachDoctype",
+          "callee": "new SourceSpan",
+          "lineNumber": 261
+        },
+        {
+          "caller": "AttachDoctype",
+          "callee": "node.AddChild",
+          "lineNumber": 262
+        },
+        {
+          "caller": "AttachDoctype",
+          "callee": "node.Seal",
+          "lineNumber": 266
+        },
+        {
+          "caller": "AttachDoctype",
+          "callee": "parent.AddChild",
+          "lineNumber": 267
+        },
+        {
+          "caller": "AttachEntityDecl",
+          "callee": "EntityNameRegex.Match",
+          "lineNumber": 273
+        },
+        {
+          "caller": "AttachEntityDecl",
+          "callee": "new SyntaxNode",
+          "lineNumber": 274
+        },
+        {
+          "caller": "AttachEntityDecl",
+          "callee": "node.AddToken",
+          "lineNumber": 275
+        },
+        {
+          "caller": "AttachEntityDecl",
+          "callee": "node.Seal",
+          "lineNumber": 276
+        },
+        {
+          "caller": "AttachEntityDecl",
+          "callee": "parent.AddChild",
+          "lineNumber": 277
+        },
+        {
+          "caller": "AttachToken",
+          "callee": "parent.AddToken",
+          "lineNumber": 281
+        },
+        {
+          "caller": "SealNode",
+          "callee": "Math.Max",
+          "lineNumber": 290
+        },
+        {
+          "caller": "SealNode",
+          "callee": "node.Children.Max",
+          "lineNumber": 290
+        },
+        {
+          "caller": "SealNode",
+          "callee": "Math.Max",
+          "lineNumber": 292
+        },
+        {
+          "caller": "SealNode",
+          "callee": "node.DirectTokens.Max",
+          "lineNumber": 292
+        },
+        {
+          "caller": "SealNode",
+          "callee": "node.Seal",
+          "lineNumber": 298
+        },
+        {
+          "caller": "SealNode",
+          "callee": "new SourceSpan",
+          "lineNumber": 298
+        },
+        {
+          "caller": "SealNode",
+          "callee": "Math.Max",
+          "lineNumber": 298
+        },
+        {
+          "caller": "ExtractTagName",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 303
+        },
+        {
+          "caller": "ExtractTagName",
+          "callee": "char.IsWhiteSpace",
+          "lineNumber": 306
+        },
+        {
+          "caller": "ExtractTagName",
+          "callee": "char.IsLetterOrDigit",
+          "lineNumber": 308
+        },
+        {
+          "caller": "PickQualifier",
+          "callee": "AttrNameRegex.Match",
+          "lineNumber": 315
+        },
+        {
+          "caller": "PickQualifier",
+          "callee": "AttrEventRegex.Match",
+          "lineNumber": 317
+        },
+        {
+          "caller": "PickQualifier",
+          "callee": "AttrIdRegex.Match",
+          "lineNumber": 319
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 9,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/Syntax/SyntaxStructureProjector.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 80,
+      "nonEmptyLines": 68,
+      "functions": [
+        {
+          "name": "Project",
+          "startLine": 11,
+          "endLine": 15,
+          "params": [
+            "tree"
+          ]
+        },
+        {
+          "name": "ProjectNode",
+          "startLine": 17,
+          "endLine": 79,
+          "params": [
+            "node",
+            "is_root"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SyntaxStructureProjector",
+          "startLine": 9,
+          "endLine": 80,
+          "methods": [
+            "Project",
+            "ProjectNode"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Project",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "SyntaxStructureProjector",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Project",
+          "callee": "ProjectNode",
+          "lineNumber": 14
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "new XmlStructureNode",
+          "lineNumber": 21
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "new XmlStructureNode",
+          "lineNumber": 31
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 33
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "node.Children\r\n                .Where(c => c.Kind == SyntaxKind.Element)\r\n                .Select(c => ProjectNode(c, is_root: false))\r\n                .ToList",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "node.Children\r\n                .Where(c => c.Kind == SyntaxKind.Element)\r\n                .Select",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "node.Children\r\n                .Where",
+          "lineNumber": 44
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "ProjectNode",
+          "lineNumber": 46
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "result.Children.Clear",
+          "lineNumber": 52
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "result.Children.Add",
+          "lineNumber": 54
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "result.Children.Add",
+          "lineNumber": 66
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "ProjectNode",
+          "lineNumber": 66
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "result.Children.Add",
+          "lineNumber": 75
+        },
+        {
+          "caller": "ProjectNode",
+          "callee": "ProjectNode",
+          "lineNumber": 75
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/WorkspaceSymbolIndex.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 117,
+      "nonEmptyLines": 97,
+      "functions": [
+        {
+          "name": "IndexDocument",
+          "startLine": 17,
+          "endLine": 28,
+          "params": [
+            "document_id",
+            "document_path",
+            "semantic"
+          ]
+        },
+        {
+          "name": "RemoveDocument",
+          "startLine": 31,
+          "endLine": 35,
+          "params": [
+            "document_id"
+          ]
+        },
+        {
+          "name": "Search",
+          "startLine": 40,
+          "endLine": 58,
+          "params": [
+            "query",
+            "kind",
+            "max_results"
+          ]
+        },
+        {
+          "name": "GetDefinition",
+          "startLine": 61,
+          "endLine": 81,
+          "params": [
+            "symbol_id"
+          ]
+        },
+        {
+          "name": "FindReferences",
+          "startLine": 84,
+          "endLine": 101,
+          "params": [
+            "symbol_id"
+          ]
+        },
+        {
+          "name": "GetDocumentSymbols",
+          "startLine": 104,
+          "endLine": 110,
+          "params": [
+            "document_id"
+          ]
+        },
+        {
+          "name": "MatchesQuery",
+          "startLine": 114,
+          "endLine": 116,
+          "params": [
+            "symbol",
+            "query"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "WorkspaceSymbolIndex",
+          "startLine": 9,
+          "endLine": 117,
+          "methods": [
+            "IndexDocument",
+            "RemoveDocument",
+            "Search",
+            "GetDefinition",
+            "FindReferences",
+            "GetDocumentSymbols",
+            "MatchesQuery"
+          ],
+          "properties": [
+            "_byDocument",
+            "_gate"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Search",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "GetDefinition",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "FindReferences",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "GetDocumentSymbols",
+          "line": 104,
+          "isDefault": false
+        },
+        {
+          "name": "WorkspaceSymbolIndex",
+          "line": 9,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "IndexDocument",
+          "callee": "semantic.Symbols\r\n            .Select(symbol => new WorkspaceSymbolEntry(symbol, document_id, document_path))\r\n            .ToList",
+          "lineNumber": 22
+        },
+        {
+          "caller": "IndexDocument",
+          "callee": "semantic.Symbols\r\n            .Select",
+          "lineNumber": 22
+        },
+        {
+          "caller": "IndexDocument",
+          "callee": "new WorkspaceSymbolEntry",
+          "lineNumber": 23
+        },
+        {
+          "caller": "RemoveDocument",
+          "callee": "_byDocument.Remove",
+          "lineNumber": 34
+        },
+        {
+          "caller": "Search",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 45
+        },
+        {
+          "caller": "Search",
+          "callee": "query.Trim",
+          "lineNumber": 46
+        },
+        {
+          "caller": "Search",
+          "callee": "_byDocument.Values\r\n                .SelectMany(e => e)\r\n                .Where(entry =>\r\n                    (kind is null || entry.Symbol.Kind == kind)\r\n                    && MatchesQuery(entry.Symbol, query_text))\r\n                .Take(max_results)\r\n                .ToList",
+          "lineNumber": 50
+        },
+        {
+          "caller": "Search",
+          "callee": "_byDocument.Values\r\n                .SelectMany(e => e)\r\n                .Where(entry =>\r\n                    (kind is null || entry.Symbol.Kind == kind)\r\n                    && MatchesQuery(entry.Symbol, query_text))\r\n                .Take",
+          "lineNumber": 50
+        },
+        {
+          "caller": "Search",
+          "callee": "_byDocument.Values\r\n                .SelectMany(e => e)\r\n                .Where",
+          "lineNumber": 50
+        },
+        {
+          "caller": "Search",
+          "callee": "_byDocument.Values\r\n                .SelectMany",
+          "lineNumber": 50
+        },
+        {
+          "caller": "Search",
+          "callee": "MatchesQuery",
+          "lineNumber": 54
+        },
+        {
+          "caller": "GetDefinition",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 63
+        },
+        {
+          "caller": "GetDefinition",
+          "callee": "entries.FirstOrDefault",
+          "lineNumber": 69
+        },
+        {
+          "caller": "GetDefinition",
+          "callee": "e.Symbol.Id.Equals",
+          "lineNumber": 70
+        },
+        {
+          "caller": "GetDefinition",
+          "callee": "ReferenceEquals",
+          "lineNumber": 75
+        },
+        {
+          "caller": "FindReferences",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 86
+        },
+        {
+          "caller": "FindReferences",
+          "callee": "entries.FirstOrDefault",
+          "lineNumber": 92
+        },
+        {
+          "caller": "FindReferences",
+          "callee": "e.Symbol.Id.Equals",
+          "lineNumber": 93
+        },
+        {
+          "caller": "GetDocumentSymbols",
+          "callee": "_byDocument.TryGetValue",
+          "lineNumber": 107
+        },
+        {
+          "caller": "GetDocumentSymbols",
+          "callee": "entries.AsReadOnly",
+          "lineNumber": 108
+        },
+        {
+          "caller": "MatchesQuery",
+          "callee": "symbol.Name.Contains",
+          "lineNumber": 115
+        },
+        {
+          "caller": "MatchesQuery",
+          "callee": "symbol.DisplayName.Contains",
+          "lineNumber": 116
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 7,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/DevWorkFlow.Domain.csproj",
+      "language": "csproj",
+      "fileCategory": "config",
+      "totalLines": 13,
+      "nonEmptyLines": 10,
+      "metrics": {}
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/DocumentModel.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 14,
+      "nonEmptyLines": 10,
+      "classes": [
+        {
+          "name": "DocumentModel",
+          "startLine": 4,
+          "endLine": 14,
+          "methods": [],
+          "properties": [
+            "DocumentId",
+            "DocumentUri",
+            "Root",
+            "Roots"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DocumentId",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentUri",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "Root",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "Roots",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentModel",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/DocumentNode.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 28,
+      "classes": [
+        {
+          "name": "DocumentNode",
+          "startLine": 6,
+          "endLine": 41,
+          "methods": [],
+          "properties": [
+            "Id",
+            "ParentId",
+            "NodeType",
+            "StartOffset",
+            "EndOffset",
+            "StartLine",
+            "EndLine",
+            "SymbolId",
+            "DisplayName",
+            "DocumentUri",
+            "PreferCaretOnly",
+            "Children",
+            "TextRange"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Id",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "ParentId",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "NodeType",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "StartOffset",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "EndOffset",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "StartLine",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "EndLine",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "SymbolId",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayName",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentUri",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "PreferCaretOnly",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "Children",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "TextRange",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentNode",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 14,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/ErpDiagnostic.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 25,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "ErpDiagnostic",
+          "startLine": 15,
+          "endLine": 25,
+          "methods": [],
+          "properties": [
+            "Id",
+            "Severity",
+            "Message",
+            "Location"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Id",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "Severity",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "Message",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Location",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "ErpDiagnostic",
+          "line": 15,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "FromPath",
+          "startLine": 6,
+          "endLine": 9,
+          "params": [
+            "path"
+          ]
+        },
+        {
+          "name": "ToString",
+          "startLine": 11,
+          "endLine": 11,
+          "params": []
+        },
+        {
+          "name": "Equals",
+          "startLine": 13,
+          "endLine": 14,
+          "params": [
+            "other"
+          ]
+        },
+        {
+          "name": "GetHashCode",
+          "startLine": 16,
+          "endLine": 17,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ErpDocumentId",
+          "startLine": 4,
+          "endLine": 18,
+          "methods": [
+            "FromPath",
+            "ToString",
+            "Equals",
+            "GetHashCode"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "FromPath",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "ToString",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Equals",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "GetHashCode",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "ErpDocumentId",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "FromPath",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 7
+        },
+        {
+          "caller": "FromPath",
+          "callee": "Guid.NewGuid",
+          "lineNumber": 8
+        },
+        {
+          "caller": "FromPath",
+          "callee": "path.Trim",
+          "lineNumber": 9
+        },
+        {
+          "caller": "Equals",
+          "callee": "string.Equals",
+          "lineNumber": 14
+        },
+        {
+          "caller": "GetHashCode",
+          "callee": "StringComparer.OrdinalIgnoreCase.GetHashCode",
+          "lineNumber": 17
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/ErpDocumentProjection.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 57,
+      "nonEmptyLines": 43,
+      "classes": [
+        {
+          "name": "EntityProjectionSegment",
+          "startLine": 15,
+          "endLine": 27,
+          "methods": [],
+          "properties": [
+            "SymbolId",
+            "Name",
+            "DisplayText",
+            "SourceSpan",
+            "CanEdit"
+          ]
+        },
+        {
+          "name": "ErpDocumentProjection",
+          "startLine": 32,
+          "endLine": 39,
+          "methods": [],
+          "properties": [
+            "Kind",
+            "Text",
+            "EntitySegments"
+          ]
+        },
+        {
+          "name": "EntityEditResult",
+          "startLine": 42,
+          "endLine": 49,
+          "methods": [],
+          "properties": [
+            "Success",
+            "Error",
+            "Document"
+          ]
+        },
+        {
+          "name": "EntityValueEdit",
+          "startLine": 52,
+          "endLine": 57,
+          "methods": [],
+          "properties": [
+            "EntityName",
+            "NewValue"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SymbolId",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Name",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayText",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "SourceSpan",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "CanEdit",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "EntityProjectionSegment",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Kind",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "Text",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "EntitySegments",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "ErpDocumentProjection",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "Success",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "Error",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "Document",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "EntityEditResult",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "EntityName",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "NewValue",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "EntityValueEdit",
+          "line": 52,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 17,
+        "functionCount": 0,
+        "classCount": 4
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/ErpMetadataProfile.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 13,
+      "classes": [
+        {
+          "name": "ErpMetadataProfile",
+          "startLine": 7,
+          "endLine": 17,
+          "methods": [],
+          "properties": [
+            "ProfileId",
+            "DisplayName",
+            "ErpVersion",
+            "Default"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ProfileId",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayName",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "ErpVersion",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Default",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "ErpMetadataProfile",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/ErpSymbol.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 27,
+      "nonEmptyLines": 20,
+      "classes": [
+        {
+          "name": "ErpSymbol",
+          "startLine": 6,
+          "endLine": 27,
+          "methods": [],
+          "properties": [
+            "Id",
+            "Name",
+            "DisplayName",
+            "Kind",
+            "Definition",
+            "ParentSymbolId",
+            "NodeId"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Id",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "Name",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayName",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Kind",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Definition",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "ParentSymbolId",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "NodeId",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "ErpSymbol",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 8,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/ErpSymbolKind.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 15,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 117,
+      "nonEmptyLines": 83,
+      "functions": [
+        {
+          "name": "ControllerSymbol",
+          "startLine": 6,
+          "endLine": 6,
+          "params": []
+        },
+        {
+          "name": "FieldSymbol",
+          "startLine": 19,
+          "endLine": 19,
+          "params": []
+        },
+        {
+          "name": "ViewSymbol",
+          "startLine": 39,
+          "endLine": 39,
+          "params": []
+        },
+        {
+          "name": "CommandSymbol",
+          "startLine": 47,
+          "endLine": 47,
+          "params": []
+        },
+        {
+          "name": "QuerySymbol",
+          "startLine": 55,
+          "endLine": 55,
+          "params": []
+        },
+        {
+          "name": "ScriptFunctionSymbol",
+          "startLine": 63,
+          "endLine": 63,
+          "params": []
+        },
+        {
+          "name": "ResponseActionSymbol",
+          "startLine": 69,
+          "endLine": 69,
+          "params": []
+        },
+        {
+          "name": "EntitySymbol",
+          "startLine": 78,
+          "endLine": 78,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ControllerSymbol",
+          "startLine": 4,
+          "endLine": 14,
+          "methods": [
+            "ControllerSymbol"
+          ],
+          "properties": [
+            "FolderKind",
+            "Table",
+            "CodeField"
+          ]
+        },
+        {
+          "name": "FieldSymbol",
+          "startLine": 17,
+          "endLine": 34,
+          "methods": [
+            "FieldSymbol"
+          ],
+          "properties": [
+            "DataType",
+            "HeaderV",
+            "HeaderE",
+            "CategoryIndex",
+            "IsPrimaryKey",
+            "IsRequired",
+            "AllowNulls"
+          ]
+        },
+        {
+          "name": "ViewSymbol",
+          "startLine": 37,
+          "endLine": 42,
+          "methods": [
+            "ViewSymbol"
+          ],
+          "properties": [
+            "ViewId"
+          ]
+        },
+        {
+          "name": "CommandSymbol",
+          "startLine": 45,
+          "endLine": 50,
+          "methods": [
+            "CommandSymbol"
+          ],
+          "properties": [
+            "EventName"
+          ]
+        },
+        {
+          "name": "QuerySymbol",
+          "startLine": 53,
+          "endLine": 58,
+          "methods": [
+            "QuerySymbol"
+          ],
+          "properties": [
+            "EventName"
+          ]
+        },
+        {
+          "name": "ScriptFunctionSymbol",
+          "startLine": 61,
+          "endLine": 64,
+          "methods": [
+            "ScriptFunctionSymbol"
+          ],
+          "properties": []
+        },
+        {
+          "name": "ResponseActionSymbol",
+          "startLine": 67,
+          "endLine": 70,
+          "methods": [
+            "ResponseActionSymbol"
+          ],
+          "properties": []
+        },
+        {
+          "name": "EntitySymbol",
+          "startLine": 76,
+          "endLine": 109,
+          "methods": [
+            "EntitySymbol"
+          ],
+          "properties": [
+            "DisplayText",
+            "RawValue",
+            "DeclarationKind",
+            "SystemId",
+            "ResolvedPath",
+            "IsResolved",
+            "ValueLocation",
+            "ResolvedDocumentId",
+            "References",
+            "ChildEntityIds",
+            "Diagnostics",
+            "Metadata"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ControllerSymbol",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "FolderKind",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "Table",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "CodeField",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "ControllerSymbol",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "FieldSymbol",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "DataType",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "HeaderV",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "HeaderE",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "CategoryIndex",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "IsPrimaryKey",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "IsRequired",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "AllowNulls",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "FieldSymbol",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "ViewSymbol",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "ViewId",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "ViewSymbol",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "CommandSymbol",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "EventName",
+          "line": 49,
+          "isDefault": false
+        },
+        {
+          "name": "CommandSymbol",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "QuerySymbol",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "EventName",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "QuerySymbol",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "ScriptFunctionSymbol",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "ScriptFunctionSymbol",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "ResponseActionSymbol",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "ResponseActionSymbol",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "EntitySymbol",
+          "line": 78,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayText",
+          "line": 81,
+          "isDefault": false
+        },
+        {
+          "name": "RawValue",
+          "line": 84,
+          "isDefault": false
+        },
+        {
+          "name": "DeclarationKind",
+          "line": 86,
+          "isDefault": false
+        },
+        {
+          "name": "SystemId",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "ResolvedPath",
+          "line": 91,
+          "isDefault": false
+        },
+        {
+          "name": "IsResolved",
+          "line": 93,
+          "isDefault": false
+        },
+        {
+          "name": "ValueLocation",
+          "line": 96,
+          "isDefault": false
+        },
+        {
+          "name": "ResolvedDocumentId",
+          "line": 98,
+          "isDefault": false
+        },
+        {
+          "name": "References",
+          "line": 100,
+          "isDefault": false
+        },
+        {
+          "name": "ChildEntityIds",
+          "line": 103,
+          "isDefault": false
+        },
+        {
+          "name": "Diagnostics",
+          "line": 105,
+          "isDefault": false
+        },
+        {
+          "name": "Metadata",
+          "line": 107,
+          "isDefault": false
+        },
+        {
+          "name": "EntitySymbol",
+          "line": 76,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 41,
+        "functionCount": 8,
+        "classCount": 8
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/IErpDocument.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 37,
+      "nonEmptyLines": 25,
+      "classes": [
+        {
+          "name": "IErpDocument",
+          "startLine": 8,
+          "endLine": 37,
+          "methods": [
+            "GetProjection"
+          ],
+          "properties": [
+            "Id",
+            "Path",
+            "Snapshot",
+            "SyntaxTree",
+            "SemanticModel",
+            "Diagnostics",
+            "Insights",
+            "NavigationMap",
+            "Version",
+            "IsDirty"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IErpDocument",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/IErpNavigationService.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 23,
+      "classes": [
+        {
+          "name": "IErpNavigationService",
+          "startLine": 10,
+          "endLine": 32,
+          "methods": [
+            "GetMap",
+            "GoToNode",
+            "GoToDefinition",
+            "FindReferences",
+            "PeekDefinition",
+            "FindChildren",
+            "FindParent",
+            "FindSymbol",
+            "GetOutlineRoots"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IErpNavigationService",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/IErpSemanticModel.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 36,
+      "nonEmptyLines": 25,
+      "classes": [
+        {
+          "name": "IErpSemanticModel",
+          "startLine": 6,
+          "endLine": 36,
+          "methods": [
+            "FindByName",
+            "GetChildren",
+            "GetFields",
+            "GetEntities",
+            "FindEntity",
+            "GetSymbolsOfKind"
+          ],
+          "properties": [
+            "DocumentId",
+            "Profile",
+            "Controller",
+            "Symbols",
+            "Diagnostics"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IErpSemanticModel",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/IErpWorkspace.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 23,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "IErpWorkspace",
+          "startLine": 6,
+          "endLine": 23,
+          "methods": [
+            "GetDocument",
+            "TryGetDocument",
+            "FindByPath"
+          ],
+          "properties": [
+            "ProgramPath",
+            "Documents",
+            "ActiveDocument",
+            "SymbolIndex"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "IErpWorkspace",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/INavigationMap.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 24,
+      "nonEmptyLines": 16,
+      "classes": [
+        {
+          "name": "INavigationMap",
+          "startLine": 7,
+          "endLine": 24,
+          "methods": [
+            "GetNode",
+            "GetNodeBySymbolId",
+            "ToTarget",
+            "ToTargetBySymbolId",
+            "GetChildren",
+            "GetParent",
+            "GetOutlineRoots"
+          ],
+          "properties": [
+            "Document"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "INavigationMap",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/Insights.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 99,
+      "nonEmptyLines": 77,
+      "classes": [
+        {
+          "name": "InsightAction",
+          "startLine": 38,
+          "endLine": 46,
+          "methods": [],
+          "properties": [
+            "Id",
+            "DisplayName",
+            "Metadata"
+          ]
+        },
+        {
+          "name": "InsightItem",
+          "startLine": 51,
+          "endLine": 80,
+          "methods": [],
+          "properties": [
+            "Id",
+            "Type",
+            "Range",
+            "Priority",
+            "Layer",
+            "DisplayContent",
+            "SymbolId",
+            "ReferenceText",
+            "ResolvedValue",
+            "CanEditResolvedValue",
+            "Actions",
+            "Metadata",
+            "Children"
+          ]
+        },
+        {
+          "name": "IInsightProvider",
+          "startLine": 85,
+          "endLine": 92,
+          "methods": [
+            "Provide"
+          ],
+          "properties": [
+            "ProviderId"
+          ]
+        },
+        {
+          "name": "IInsightProviderPipeline",
+          "startLine": 94,
+          "endLine": 99,
+          "methods": [
+            "Build"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "Id",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayName",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "Metadata",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "InsightAction",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "Id",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "Type",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "Range",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "Priority",
+          "line": 59,
+          "isDefault": false
+        },
+        {
+          "name": "Layer",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayContent",
+          "line": 63,
+          "isDefault": false
+        },
+        {
+          "name": "SymbolId",
+          "line": 65,
+          "isDefault": false
+        },
+        {
+          "name": "ReferenceText",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "ResolvedValue",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "CanEditResolvedValue",
+          "line": 71,
+          "isDefault": false
+        },
+        {
+          "name": "Actions",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "Metadata",
+          "line": 75,
+          "isDefault": false
+        },
+        {
+          "name": "Children",
+          "line": 79,
+          "isDefault": false
+        },
+        {
+          "name": "InsightItem",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "IInsightProvider",
+          "line": 85,
+          "isDefault": false
+        },
+        {
+          "name": "IInsightProviderPipeline",
+          "line": 94,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 20,
+        "functionCount": 0,
+        "classCount": 4
+      }
+    }
+  ]
+}

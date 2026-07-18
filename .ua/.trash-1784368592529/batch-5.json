@@ -1,0 +1,68 @@
+{
+  "batchIndex": 5,
+  "nodes": [
+    {
+      "id": "config:UI/Config/xml/database.object-actions.xml",
+      "type": "config",
+      "name": "database.object-actions.xml",
+      "filePath": "UI/Config/xml/database.object-actions.xml",
+      "summary": "Cấu hình: database.object-actions.xml.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:UI/Config/xml/database.object-types.xml",
+      "type": "config",
+      "name": "database.object-types.xml",
+      "filePath": "UI/Config/xml/database.object-types.xml",
+      "summary": "Cấu hình: database.object-types.xml.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:UI/Config/xml/explorer.controller-folders.xml",
+      "type": "config",
+      "name": "explorer.controller-folders.xml",
+      "filePath": "UI/Config/xml/explorer.controller-folders.xml",
+      "summary": "Cấu hình: explorer.controller-folders.xml.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [],
+  "batchFiles": [
+    {
+      "path": "UI/Config/xml/database.object-actions.xml",
+      "language": "xml",
+      "sizeLines": 41,
+      "fileCategory": "config"
+    },
+    {
+      "path": "UI/Config/xml/database.object-types.xml",
+      "language": "xml",
+      "sizeLines": 10,
+      "fileCategory": "config"
+    },
+    {
+      "path": "UI/Config/xml/explorer.controller-folders.xml",
+      "language": "xml",
+      "sizeLines": 10,
+      "fileCategory": "config"
+    }
+  ]
+}

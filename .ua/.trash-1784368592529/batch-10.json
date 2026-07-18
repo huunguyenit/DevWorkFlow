@@ -1,0 +1,2262 @@
+{
+  "batchIndex": 10,
+  "nodes": [
+    {
+      "id": "file:DevWorkFlow.Domain/Models/FieldDefinition.cs",
+      "type": "file",
+      "name": "FieldDefinition.cs",
+      "filePath": "DevWorkFlow.Domain/Models/FieldDefinition.cs",
+      "summary": "Domain model: FieldDefinition.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/FieldDefinition.cs:FieldDefinition",
+      "type": "class",
+      "name": "FieldDefinition",
+      "filePath": "DevWorkFlow.Domain/Models/FieldDefinition.cs",
+      "summary": "Kiểu FieldDefinition trong FieldDefinition.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/FormDefinition.cs",
+      "type": "file",
+      "name": "FormDefinition.cs",
+      "filePath": "DevWorkFlow.Domain/Models/FormDefinition.cs",
+      "summary": "Domain model: FormDefinition.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/FormDefinition.cs:FormDefinition",
+      "type": "class",
+      "name": "FormDefinition",
+      "filePath": "DevWorkFlow.Domain/Models/FormDefinition.cs",
+      "summary": "Kiểu FormDefinition trong FormDefinition.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/MenuResourceBundle.cs",
+      "type": "file",
+      "name": "MenuResourceBundle.cs",
+      "filePath": "DevWorkFlow.Domain/Models/MenuResourceBundle.cs",
+      "summary": "Domain model: MenuResourceBundle.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/MenuResourceBundle.cs:MenuResourceBundle",
+      "type": "class",
+      "name": "MenuResourceBundle",
+      "filePath": "DevWorkFlow.Domain/Models/MenuResourceBundle.cs",
+      "summary": "Kiểu MenuResourceBundle trong MenuResourceBundle.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+      "type": "file",
+      "name": "MenuTreeNode.cs",
+      "filePath": "DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+      "summary": "Domain model: MenuTreeNode.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/MenuTreeNode.cs:MenuTreeNode",
+      "type": "class",
+      "name": "MenuTreeNode",
+      "filePath": "DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+      "summary": "Kiểu MenuTreeNode trong MenuTreeNode.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Models/MenuTreeNode.cs:MatchesFilter",
+      "type": "function",
+      "name": "MatchesFilter",
+      "filePath": "DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+      "summary": "Hàm/method MatchesFilter trong MenuTreeNode.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/NodeDefinition.cs",
+      "type": "file",
+      "name": "NodeDefinition.cs",
+      "filePath": "DevWorkFlow.Domain/Models/NodeDefinition.cs",
+      "summary": "Domain model: NodeDefinition.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/NodeDefinition.cs:NodeDefinition",
+      "type": "class",
+      "name": "NodeDefinition",
+      "filePath": "DevWorkFlow.Domain/Models/NodeDefinition.cs",
+      "summary": "Kiểu NodeDefinition trong NodeDefinition.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/NodeDefinition.cs:ConnectionDefinition",
+      "type": "class",
+      "name": "ConnectionDefinition",
+      "filePath": "DevWorkFlow.Domain/Models/NodeDefinition.cs",
+      "summary": "Kiểu ConnectionDefinition trong NodeDefinition.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "type": "file",
+      "name": "ProgramContext.cs",
+      "filePath": "DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "summary": "Domain model: ProgramContext.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/ProgramContext.cs:ProgramContext",
+      "type": "class",
+      "name": "ProgramContext",
+      "filePath": "DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "summary": "Kiểu ProgramContext trong ProgramContext.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/ProgramPathHelper.cs",
+      "type": "file",
+      "name": "ProgramPathHelper.cs",
+      "filePath": "DevWorkFlow.Domain/Models/ProgramPathHelper.cs",
+      "summary": "Domain model: ProgramPathHelper.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/ProgramPathHelper.cs:ProgramPathHelper",
+      "type": "class",
+      "name": "ProgramPathHelper",
+      "filePath": "DevWorkFlow.Domain/Models/ProgramPathHelper.cs",
+      "summary": "Kiểu ProgramPathHelper trong ProgramPathHelper.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Models/ProgramPathHelper.cs:BuildDisplayTitle",
+      "type": "function",
+      "name": "BuildDisplayTitle",
+      "filePath": "DevWorkFlow.Domain/Models/ProgramPathHelper.cs",
+      "summary": "Hàm/method BuildDisplayTitle trong ProgramPathHelper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/Sql/FboSqlFragment.cs",
+      "type": "file",
+      "name": "FboSqlFragment.cs",
+      "filePath": "DevWorkFlow.Domain/Models/Sql/FboSqlFragment.cs",
+      "summary": "Domain model: FboSqlFragment.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Sql/FboSqlFragment.cs:FboSqlFragment",
+      "type": "class",
+      "name": "FboSqlFragment",
+      "filePath": "DevWorkFlow.Domain/Models/Sql/FboSqlFragment.cs",
+      "summary": "Kiểu FboSqlFragment trong FboSqlFragment.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs",
+      "type": "file",
+      "name": "SqlRunResult.cs",
+      "filePath": "DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs",
+      "summary": "Domain model: SqlRunResult.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs:SqlResultSet",
+      "type": "class",
+      "name": "SqlResultSet",
+      "filePath": "DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs",
+      "summary": "Kiểu SqlResultSet trong SqlRunResult.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs:SqlRunResult",
+      "type": "class",
+      "name": "SqlRunResult",
+      "filePath": "DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs",
+      "summary": "Kiểu SqlRunResult trong SqlRunResult.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/TemplateType.cs",
+      "type": "file",
+      "name": "TemplateType.cs",
+      "filePath": "DevWorkFlow.Domain/Models/TemplateType.cs",
+      "summary": "Domain model: TemplateType.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/WCommandItem.cs",
+      "type": "file",
+      "name": "WCommandItem.cs",
+      "filePath": "DevWorkFlow.Domain/Models/WCommandItem.cs",
+      "summary": "Domain model: WCommandItem.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/WCommandItem.cs:WCommandItem",
+      "type": "class",
+      "name": "WCommandItem",
+      "filePath": "DevWorkFlow.Domain/Models/WCommandItem.cs",
+      "summary": "Kiểu WCommandItem trong WCommandItem.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/WorkflowDefinition.cs",
+      "type": "file",
+      "name": "WorkflowDefinition.cs",
+      "filePath": "DevWorkFlow.Domain/Models/WorkflowDefinition.cs",
+      "summary": "Domain model: WorkflowDefinition.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/WorkflowDefinition.cs:WorkflowDefinition",
+      "type": "class",
+      "name": "WorkflowDefinition",
+      "filePath": "DevWorkFlow.Domain/Models/WorkflowDefinition.cs",
+      "summary": "Kiểu WorkflowDefinition trong WorkflowDefinition.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+      "type": "file",
+      "name": "WorkflowInstance.cs",
+      "filePath": "DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+      "summary": "Domain model: WorkflowInstance.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/WorkflowInstance.cs:WorkflowInstance",
+      "type": "class",
+      "name": "WorkflowInstance",
+      "filePath": "DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+      "summary": "Kiểu WorkflowInstance trong WorkflowInstance.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/WorkflowInstance.cs:TemplateItem",
+      "type": "class",
+      "name": "TemplateItem",
+      "filePath": "DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+      "summary": "Kiểu TemplateItem trong WorkflowInstance.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:DevWorkFlow.Infrastructure/DevWorkFlow.Infrastructure.csproj",
+      "type": "config",
+      "name": "DevWorkFlow.Infrastructure.csproj",
+      "filePath": "DevWorkFlow.Infrastructure/DevWorkFlow.Infrastructure.csproj",
+      "summary": "Project file .NET cho DevWorkFlow.Infrastructure.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "type": "file",
+      "name": "AppConnectionResolver.cs",
+      "filePath": "DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "summary": "Adapter Infrastructure: AppConnectionResolver.cs.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs:AppConnectionResolver",
+      "type": "class",
+      "name": "AppConnectionResolver",
+      "filePath": "DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "summary": "Kiểu AppConnectionResolver trong AppConnectionResolver.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs:ApplyAppDatabase",
+      "type": "function",
+      "name": "ApplyAppDatabase",
+      "filePath": "DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "summary": "Hàm/method ApplyAppDatabase trong AppConnectionResolver.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs:ResolveAppConnection",
+      "type": "function",
+      "name": "ResolveAppConnection",
+      "filePath": "DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "summary": "Hàm/method ResolveAppConnection trong AppConnectionResolver.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs:ReplacePlaceholders",
+      "type": "function",
+      "name": "ReplacePlaceholders",
+      "filePath": "DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "summary": "Hàm/method ReplacePlaceholders trong AppConnectionResolver.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs",
+      "type": "file",
+      "name": "AspxControllerParser.cs",
+      "filePath": "DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs",
+      "summary": "Adapter Infrastructure: AspxControllerParser.cs.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs:AspxControllerParser",
+      "type": "class",
+      "name": "AspxControllerParser",
+      "filePath": "DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs",
+      "summary": "Kiểu AspxControllerParser trong AspxControllerParser.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs:ParseControllers",
+      "type": "function",
+      "name": "ParseControllers",
+      "filePath": "DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs",
+      "summary": "Hàm/method ParseControllers trong AspxControllerParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs:ParseControllersFromFile",
+      "type": "function",
+      "name": "ParseControllersFromFile",
+      "filePath": "DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs",
+      "summary": "Hàm/method ParseControllersFromFile trong AspxControllerParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Infrastructure/Services/EntityRepository.cs",
+      "type": "file",
+      "name": "EntityRepository.cs",
+      "filePath": "DevWorkFlow.Infrastructure/Services/EntityRepository.cs",
+      "summary": "Adapter Infrastructure: EntityRepository.cs.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/EntityRepository.cs:EntityRepository",
+      "type": "class",
+      "name": "EntityRepository",
+      "filePath": "DevWorkFlow.Infrastructure/Services/EntityRepository.cs",
+      "summary": "Kiểu EntityRepository trong EntityRepository.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/EntityRepository.cs:GetAppDatabasesAsync",
+      "type": "function",
+      "name": "GetAppDatabasesAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/EntityRepository.cs",
+      "summary": "Hàm/method GetAppDatabasesAsync trong EntityRepository.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "type": "file",
+      "name": "InMemoryServices.cs",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Adapter Infrastructure: InMemoryServices.cs.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:TemplateService",
+      "type": "class",
+      "name": "TemplateService",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Kiểu TemplateService trong InMemoryServices.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:FormService",
+      "type": "class",
+      "name": "FormService",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Kiểu FormService trong InMemoryServices.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:TemplateService",
+      "type": "function",
+      "name": "TemplateService",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Hàm/method TemplateService trong InMemoryServices.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:Seed",
+      "type": "function",
+      "name": "Seed",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Hàm/method Seed trong InMemoryServices.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:GetAllAsync",
+      "type": "function",
+      "name": "GetAllAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Hàm/method GetAllAsync trong InMemoryServices.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:GetByIdAsync",
+      "type": "function",
+      "name": "GetByIdAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Hàm/method GetByIdAsync trong InMemoryServices.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:CreateAsync",
+      "type": "function",
+      "name": "CreateAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Hàm/method CreateAsync trong InMemoryServices.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:DeleteAsync",
+      "type": "function",
+      "name": "DeleteAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Hàm/method DeleteAsync trong InMemoryServices.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:UpdateAsync",
+      "type": "function",
+      "name": "UpdateAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Hàm/method UpdateAsync trong InMemoryServices.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:GetFormAsync",
+      "type": "function",
+      "name": "GetFormAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Hàm/method GetFormAsync trong InMemoryServices.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:GetAllFormsAsync",
+      "type": "function",
+      "name": "GetAllFormsAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Hàm/method GetAllFormsAsync trong InMemoryServices.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:SaveFormAsync",
+      "type": "function",
+      "name": "SaveFormAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Hàm/method SaveFormAsync trong InMemoryServices.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:DeleteFormAsync",
+      "type": "function",
+      "name": "DeleteFormAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "summary": "Hàm/method DeleteFormAsync trong InMemoryServices.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "type": "file",
+      "name": "MenuService.cs",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Adapter Infrastructure: MenuService.cs.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/MenuService.cs:MenuService",
+      "type": "class",
+      "name": "MenuService",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Kiểu MenuService trong MenuService.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:MenuService",
+      "type": "function",
+      "name": "MenuService",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method MenuService trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:LoadMenuTreeAsync",
+      "type": "function",
+      "name": "LoadMenuTreeAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method LoadMenuTreeAsync trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:ResolveFromMenu",
+      "type": "function",
+      "name": "ResolveFromMenu",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method ResolveFromMenu trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:EnrichFromXmlReferences",
+      "type": "function",
+      "name": "EnrichFromXmlReferences",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method EnrichFromXmlReferences trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:AddTemplateFiles",
+      "type": "function",
+      "name": "AddTemplateFiles",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method AddTemplateFiles trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:ResolveNestedFolder",
+      "type": "function",
+      "name": "ResolveNestedFolder",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method ResolveNestedFolder trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:FindFileInFolder",
+      "type": "function",
+      "name": "FindFileInFolder",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method FindFileInFolder trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:TryAddFile",
+      "type": "function",
+      "name": "TryAddFile",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method TryAddFile trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:CreateFileItem",
+      "type": "function",
+      "name": "CreateFileItem",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method CreateFileItem trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:SortBundle",
+      "type": "function",
+      "name": "SortBundle",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method SortBundle trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:ResolveControllersRoot",
+      "type": "function",
+      "name": "ResolveControllersRoot",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method ResolveControllersRoot trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:FindControllerFile",
+      "type": "function",
+      "name": "FindControllerFile",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method FindControllerFile trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:ResolveSubFolder",
+      "type": "function",
+      "name": "ResolveSubFolder",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method ResolveSubFolder trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:ResolveAspxPath",
+      "type": "function",
+      "name": "ResolveAspxPath",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method ResolveAspxPath trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:BuildTree",
+      "type": "function",
+      "name": "BuildTree",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method BuildTree trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:AttachChildren",
+      "type": "function",
+      "name": "AttachChildren",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method AttachChildren trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:ToNode",
+      "type": "function",
+      "name": "ToNode",
+      "filePath": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "summary": "Hàm/method ToNode trong MenuService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "type": "file",
+      "name": "NavigationService.cs",
+      "filePath": "DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "summary": "Adapter Infrastructure: NavigationService.cs.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/NavigationService.cs:NavigationService",
+      "type": "class",
+      "name": "NavigationService",
+      "filePath": "DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "summary": "Kiểu NavigationService trong NavigationService.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/NavigationService.cs:Pages",
+      "type": "class",
+      "name": "Pages",
+      "filePath": "DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "summary": "Kiểu Pages trong NavigationService.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/NavigationService.cs:NavigateTo",
+      "type": "function",
+      "name": "NavigateTo",
+      "filePath": "DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "summary": "Hàm/method NavigateTo trong NavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "type": "file",
+      "name": "ProgramSession.cs",
+      "filePath": "DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "summary": "Adapter Infrastructure: ProgramSession.cs.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/ProgramSession.cs:ProgramSession",
+      "type": "class",
+      "name": "ProgramSession",
+      "filePath": "DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "summary": "Kiểu ProgramSession trong ProgramSession.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/ProgramSession.cs:SetProgram",
+      "type": "function",
+      "name": "SetProgram",
+      "filePath": "DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "summary": "Hàm/method SetProgram trong ProgramSession.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/ProgramSession.cs:UpdateProgram",
+      "type": "function",
+      "name": "UpdateProgram",
+      "filePath": "DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "summary": "Hàm/method UpdateProgram trong ProgramSession.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/ProgramSession.cs:Clear",
+      "type": "function",
+      "name": "Clear",
+      "filePath": "DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "summary": "Hàm/method Clear trong ProgramSession.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "type": "file",
+      "name": "SqlScriptRunner.cs",
+      "filePath": "DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "summary": "Adapter Infrastructure: SqlScriptRunner.cs.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs:SqlScriptRunner",
+      "type": "class",
+      "name": "SqlScriptRunner",
+      "filePath": "DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "summary": "Kiểu SqlScriptRunner trong SqlScriptRunner.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs:ExecuteAsync",
+      "type": "function",
+      "name": "ExecuteAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "summary": "Hàm/method ExecuteAsync trong SqlScriptRunner.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs:LoadTableAsync",
+      "type": "function",
+      "name": "LoadTableAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "summary": "Hàm/method LoadTableAsync trong SqlScriptRunner.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs:SplitGoBatches",
+      "type": "function",
+      "name": "SplitGoBatches",
+      "filePath": "DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "summary": "Hàm/method SplitGoBatches trong SqlScriptRunner.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "type": "file",
+      "name": "UserSettingsStore.cs",
+      "filePath": "DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "summary": "Adapter Infrastructure: UserSettingsStore.cs.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs:UserSettingsStore",
+      "type": "class",
+      "name": "UserSettingsStore",
+      "filePath": "DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "summary": "Kiểu UserSettingsStore trong UserSettingsStore.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs:UserSettings",
+      "type": "class",
+      "name": "UserSettings",
+      "filePath": "DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "summary": "Kiểu UserSettings trong UserSettingsStore.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs:UserSettingsStore",
+      "type": "function",
+      "name": "UserSettingsStore",
+      "filePath": "DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "summary": "Hàm/method UserSettingsStore trong UserSettingsStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs:Load",
+      "type": "function",
+      "name": "Load",
+      "filePath": "DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "summary": "Hàm/method Load trong UserSettingsStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs:Save",
+      "type": "function",
+      "name": "Save",
+      "filePath": "DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "summary": "Hàm/method Save trong UserSettingsStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs:AddRecentProgram",
+      "type": "function",
+      "name": "AddRecentProgram",
+      "filePath": "DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "summary": "Hàm/method AddRecentProgram trong UserSettingsStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Infrastructure/Services/WcommandRepository.cs",
+      "type": "file",
+      "name": "WcommandRepository.cs",
+      "filePath": "DevWorkFlow.Infrastructure/Services/WcommandRepository.cs",
+      "summary": "Adapter Infrastructure: WcommandRepository.cs.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/WcommandRepository.cs:WcommandRepository",
+      "type": "class",
+      "name": "WcommandRepository",
+      "filePath": "DevWorkFlow.Infrastructure/Services/WcommandRepository.cs",
+      "summary": "Kiểu WcommandRepository trong WcommandRepository.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/WcommandRepository.cs:GetAllAsync",
+      "type": "function",
+      "name": "GetAllAsync",
+      "filePath": "DevWorkFlow.Infrastructure/Services/WcommandRepository.cs",
+      "summary": "Hàm/method GetAllAsync trong WcommandRepository.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "type": "file",
+      "name": "WebConfigReader.cs",
+      "filePath": "DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "summary": "Adapter Infrastructure: WebConfigReader.cs.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs:WebConfigReader",
+      "type": "class",
+      "name": "WebConfigReader",
+      "filePath": "DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "summary": "Kiểu WebConfigReader trong WebConfigReader.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs:Read",
+      "type": "function",
+      "name": "Read",
+      "filePath": "DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "summary": "Hàm/method Read trong WebConfigReader.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs:FindWebConfig",
+      "type": "function",
+      "name": "FindWebConfig",
+      "filePath": "DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "summary": "Hàm/method FindWebConfig trong WebConfigReader.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs:GetConnectionString",
+      "type": "function",
+      "name": "GetConnectionString",
+      "filePath": "DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "summary": "Hàm/method GetConnectionString trong WebConfigReader.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs:EnsureSslSettings",
+      "type": "function",
+      "name": "EnsureSslSettings",
+      "filePath": "DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "summary": "Hàm/method EnsureSslSettings trong WebConfigReader.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs:HasKey",
+      "type": "function",
+      "name": "HasKey",
+      "filePath": "DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "summary": "Hàm/method HasKey trong WebConfigReader.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:DevWorkFlow.Domain/Models/FieldDefinition.cs",
+      "target": "class:DevWorkFlow.Domain/Models/FieldDefinition.cs:FieldDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/FormDefinition.cs",
+      "target": "class:DevWorkFlow.Domain/Models/FormDefinition.cs:FormDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/FormDefinition.cs",
+      "target": "file:DevWorkFlow.Domain/Models/FieldDefinition.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/MenuResourceBundle.cs",
+      "target": "class:DevWorkFlow.Domain/Models/MenuResourceBundle.cs:MenuResourceBundle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/MenuResourceBundle.cs",
+      "target": "file:DevWorkFlow.Domain/Models/ControllerFileItem.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+      "target": "class:DevWorkFlow.Domain/Models/MenuTreeNode.cs:MenuTreeNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+      "target": "function:DevWorkFlow.Domain/Models/MenuTreeNode.cs:MatchesFilter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+      "target": "file:DevWorkFlow.Domain/Models/WCommandItem.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/NodeDefinition.cs",
+      "target": "class:DevWorkFlow.Domain/Models/NodeDefinition.cs:NodeDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/NodeDefinition.cs",
+      "target": "class:DevWorkFlow.Domain/Models/NodeDefinition.cs:ConnectionDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "target": "class:DevWorkFlow.Domain/Models/ProgramContext.cs:ProgramContext",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "target": "file:DevWorkFlow.Domain/Models/AppDatabaseInfo.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/ProgramPathHelper.cs",
+      "target": "class:DevWorkFlow.Domain/Models/ProgramPathHelper.cs:ProgramPathHelper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/ProgramPathHelper.cs",
+      "target": "function:DevWorkFlow.Domain/Models/ProgramPathHelper.cs:BuildDisplayTitle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Sql/FboSqlFragment.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Sql/FboSqlFragment.cs:FboSqlFragment",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs:SqlResultSet",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs:SqlRunResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs",
+      "target": "file:UI/App.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/WCommandItem.cs",
+      "target": "class:DevWorkFlow.Domain/Models/WCommandItem.cs:WCommandItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/WorkflowDefinition.cs",
+      "target": "class:DevWorkFlow.Domain/Models/WorkflowDefinition.cs:WorkflowDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/WorkflowDefinition.cs",
+      "target": "file:DevWorkFlow.Domain/Models/FormDefinition.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/WorkflowDefinition.cs",
+      "target": "file:DevWorkFlow.Domain/Models/NodeDefinition.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+      "target": "class:DevWorkFlow.Domain/Models/WorkflowInstance.cs:WorkflowInstance",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+      "target": "class:DevWorkFlow.Domain/Models/WorkflowInstance.cs:TemplateItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs:AppConnectionResolver",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs:ApplyAppDatabase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs:ResolveAppConnection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs:ReplacePlaceholders",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "target": "file:DevWorkFlow.Domain/Models/AppDatabaseInfo.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "target": "file:DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs:AspxControllerParser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs:ParseControllers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs:ParseControllersFromFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/EntityRepository.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/EntityRepository.cs:EntityRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/EntityRepository.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/EntityRepository.cs:GetAppDatabasesAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/EntityRepository.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/EntityRepository.cs",
+      "target": "file:DevWorkFlow.Domain/Models/AppDatabaseInfo.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:TemplateService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:FormService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:TemplateService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:Seed",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:GetAllAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:GetByIdAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:CreateAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:DeleteAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:UpdateAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:GetFormAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:GetAllFormsAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:SaveFormAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs:DeleteFormAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "file:DevWorkFlow.Domain/Models/FormDefinition.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "target": "file:DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/MenuService.cs:MenuService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:MenuService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:LoadMenuTreeAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:ResolveFromMenu",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:EnrichFromXmlReferences",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:AddTemplateFiles",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:ResolveNestedFolder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:FindFileInFolder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:TryAddFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:CreateFileItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:SortBundle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:ResolveControllersRoot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:FindControllerFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:ResolveSubFolder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:ResolveAspxPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:BuildTree",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:AttachChildren",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/MenuService.cs:ToNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "file:DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "file:DevWorkFlow.Domain/Models/ControllerFileItem.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "file:DevWorkFlow.Domain/Models/MenuResourceBundle.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "file:DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "file:DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "file:DevWorkFlow.Domain/Models/WCommandItem.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/NavigationService.cs:NavigationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/NavigationService.cs:Pages",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/NavigationService.cs:NavigateTo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "target": "file:UI/ViewModels/MainViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/ProgramSession.cs:ProgramSession",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/ProgramSession.cs:SetProgram",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/ProgramSession.cs:UpdateProgram",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/ProgramSession.cs:Clear",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "target": "file:DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs:SqlScriptRunner",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs:ExecuteAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs:LoadTableAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs:SplitGoBatches",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs:UserSettingsStore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs:UserSettings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs:UserSettingsStore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs:Load",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs:Save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs:AddRecentProgram",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WcommandRepository.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/WcommandRepository.cs:WcommandRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WcommandRepository.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/WcommandRepository.cs:GetAllAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WcommandRepository.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WcommandRepository.cs",
+      "target": "file:DevWorkFlow.Domain/Models/WCommandItem.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "target": "class:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs:WebConfigReader",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs:Read",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs:FindWebConfig",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs:GetConnectionString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs:EnsureSslSettings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "target": "function:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs:HasKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "target": "file:DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "target": "file:DevWorkFlow.Domain/Models/ProgramPathHelper.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ],
+  "batchFiles": [
+    {
+      "path": "DevWorkFlow.Domain/Models/FieldDefinition.cs",
+      "language": "csharp",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/FormDefinition.cs",
+      "language": "csharp",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/MenuResourceBundle.cs",
+      "language": "csharp",
+      "sizeLines": 24,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+      "language": "csharp",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/NodeDefinition.cs",
+      "language": "csharp",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "language": "csharp",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/ProgramPathHelper.cs",
+      "language": "csharp",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Sql/FboSqlFragment.cs",
+      "language": "csharp",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs",
+      "language": "csharp",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/TemplateType.cs",
+      "language": "csharp",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/WCommandItem.cs",
+      "language": "csharp",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/WorkflowDefinition.cs",
+      "language": "csharp",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+      "language": "csharp",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/DevWorkFlow.Infrastructure.csproj",
+      "language": "csproj",
+      "sizeLines": 18,
+      "fileCategory": "config"
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "language": "csharp",
+      "sizeLines": 52,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs",
+      "language": "csharp",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/EntityRepository.cs",
+      "language": "csharp",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "language": "csharp",
+      "sizeLines": 78,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "language": "csharp",
+      "sizeLines": 510,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "language": "csharp",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "language": "csharp",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "language": "csharp",
+      "sizeLines": 192,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "language": "csharp",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/WcommandRepository.cs",
+      "language": "csharp",
+      "sizeLines": 69,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "language": "csharp",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    }
+  ]
+}

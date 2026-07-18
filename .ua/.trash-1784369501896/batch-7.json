@@ -1,0 +1,4865 @@
+{
+  "batchIndex": 7,
+  "nodes": [
+    {
+      "id": "file:.gitattributes",
+      "type": "file",
+      "name": ".gitattributes",
+      "filePath": ".gitattributes",
+      "summary": "File nguồn: .gitattributes.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "file",
+      "name": "IServices.cs",
+      "filePath": "DevWorkFlow.Application/Abstractions/IServices.cs",
+      "summary": "Mã nguồn C# định nghĩa INavigationService, ITemplateService, IFormService.",
+      "tags": [
+        "type-definition",
+        "port",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Abstractions/IServices.cs:INavigationService",
+      "type": "class",
+      "name": "INavigationService",
+      "filePath": "DevWorkFlow.Application/Abstractions/IServices.cs",
+      "summary": "Kiểu INavigationService trong IServices.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Abstractions/IServices.cs:ITemplateService",
+      "type": "class",
+      "name": "ITemplateService",
+      "filePath": "DevWorkFlow.Application/Abstractions/IServices.cs",
+      "summary": "Kiểu ITemplateService trong IServices.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Abstractions/IServices.cs:IFormService",
+      "type": "class",
+      "name": "IFormService",
+      "filePath": "DevWorkFlow.Application/Abstractions/IServices.cs",
+      "summary": "Kiểu IFormService trong IServices.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Abstractions/IServices.cs:IWebConfigReader",
+      "type": "class",
+      "name": "IWebConfigReader",
+      "filePath": "DevWorkFlow.Application/Abstractions/IServices.cs",
+      "summary": "Kiểu IWebConfigReader trong IServices.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Abstractions/IServices.cs:IWcommandRepository",
+      "type": "class",
+      "name": "IWcommandRepository",
+      "filePath": "DevWorkFlow.Application/Abstractions/IServices.cs",
+      "summary": "Kiểu IWcommandRepository trong IServices.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Abstractions/IServices.cs:IMenuService",
+      "type": "class",
+      "name": "IMenuService",
+      "filePath": "DevWorkFlow.Application/Abstractions/IServices.cs",
+      "summary": "Kiểu IMenuService trong IServices.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Abstractions/IServices.cs:IEntityRepository",
+      "type": "class",
+      "name": "IEntityRepository",
+      "filePath": "DevWorkFlow.Application/Abstractions/IServices.cs",
+      "summary": "Kiểu IEntityRepository trong IServices.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Abstractions/IServices.cs:IProgramSession",
+      "type": "class",
+      "name": "IProgramSession",
+      "filePath": "DevWorkFlow.Application/Abstractions/IServices.cs",
+      "summary": "Kiểu IProgramSession trong IServices.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs",
+      "type": "file",
+      "name": "ISqlScriptRunner.cs",
+      "filePath": "DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs",
+      "summary": "Mã nguồn C# định nghĩa ISqlScriptRunner.",
+      "tags": [
+        "type-definition",
+        "port",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs:ISqlScriptRunner",
+      "type": "class",
+      "name": "ISqlScriptRunner",
+      "filePath": "DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs",
+      "summary": "Kiểu ISqlScriptRunner trong ISqlScriptRunner.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:DevWorkFlow.Application/DevWorkFlow.Application.csproj",
+      "type": "config",
+      "name": "DevWorkFlow.Application.csproj",
+      "filePath": "DevWorkFlow.Application/DevWorkFlow.Application.csproj",
+      "summary": "Project file .NET cho DevWorkFlow.Application.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs",
+      "type": "file",
+      "name": "ControllerRelatedFileResolver.cs",
+      "filePath": "DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs",
+      "summary": "Engine Application xử lý XML/SQL/Workflow: ControllerRelatedFileResolver.cs.",
+      "tags": [
+        "engine",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs:ControllerRelatedFileResolver",
+      "type": "class",
+      "name": "ControllerRelatedFileResolver",
+      "filePath": "DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs",
+      "summary": "Kiểu ControllerRelatedFileResolver trong ControllerRelatedFileResolver.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs:FindRelated",
+      "type": "function",
+      "name": "FindRelated",
+      "filePath": "DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs",
+      "summary": "Hàm/method FindRelated trong ControllerRelatedFileResolver.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs:FindRelated",
+      "type": "function",
+      "name": "FindRelated",
+      "filePath": "DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs",
+      "summary": "Hàm/method FindRelated trong ControllerRelatedFileResolver.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "type": "file",
+      "name": "FboLayoutUnits.cs",
+      "filePath": "DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "summary": "Engine Application xử lý XML/SQL/Workflow: FboLayoutUnits.cs.",
+      "tags": [
+        "engine",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Engine/FboLayoutUnits.cs:FboLayoutUnits",
+      "type": "class",
+      "name": "FboLayoutUnits",
+      "filePath": "DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "summary": "Kiểu FboLayoutUnits trong FboLayoutUnits.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboLayoutUnits.cs:PxToDip",
+      "type": "function",
+      "name": "PxToDip",
+      "filePath": "DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "summary": "Hàm/method PxToDip trong FboLayoutUnits.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboLayoutUnits.cs:DipToPx",
+      "type": "function",
+      "name": "DipToPx",
+      "filePath": "DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "summary": "Hàm/method DipToPx trong FboLayoutUnits.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboLayoutUnits.cs:PxToDipInt",
+      "type": "function",
+      "name": "PxToDipInt",
+      "filePath": "DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "summary": "Hàm/method PxToDipInt trong FboLayoutUnits.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboLayoutUnits.cs:EvaluateHeightExpression",
+      "type": "function",
+      "name": "EvaluateHeightExpression",
+      "filePath": "DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "summary": "Hàm/method EvaluateHeightExpression trong FboLayoutUnits.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "type": "file",
+      "name": "FboOptionsCatalog.cs",
+      "filePath": "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "summary": "Engine Application xử lý XML/SQL/Workflow: FboOptionsCatalog.cs.",
+      "tags": [
+        "engine",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:FboOptionsCatalog",
+      "type": "class",
+      "name": "FboOptionsCatalog",
+      "filePath": "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "summary": "Kiểu FboOptionsCatalog trong FboOptionsCatalog.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:FboOptionsCatalog",
+      "type": "function",
+      "name": "FboOptionsCatalog",
+      "filePath": "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "summary": "Hàm/method FboOptionsCatalog trong FboOptionsCatalog.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:ResolveFormat",
+      "type": "function",
+      "name": "ResolveFormat",
+      "filePath": "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "summary": "Hàm/method ResolveFormat trong FboOptionsCatalog.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:IsUpperCase",
+      "type": "function",
+      "name": "IsUpperCase",
+      "filePath": "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "summary": "Hàm/method IsUpperCase trong FboOptionsCatalog.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:IsLowerCase",
+      "type": "function",
+      "name": "IsLowerCase",
+      "filePath": "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "summary": "Hàm/method IsLowerCase trong FboOptionsCatalog.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:IsDateTime",
+      "type": "function",
+      "name": "IsDateTime",
+      "filePath": "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "summary": "Hàm/method IsDateTime trong FboOptionsCatalog.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:LoadFromFile",
+      "type": "function",
+      "name": "LoadFromFile",
+      "filePath": "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "summary": "Hàm/method LoadFromFile trong FboOptionsCatalog.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:FindOptionsPath",
+      "type": "function",
+      "name": "FindOptionsPath",
+      "filePath": "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "summary": "Hàm/method FindOptionsPath trong FboOptionsCatalog.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:SeedDefaults",
+      "type": "function",
+      "name": "SeedDefaults",
+      "filePath": "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "summary": "Hàm/method SeedDefaults trong FboOptionsCatalog.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "type": "file",
+      "name": "FboSqlFragmentExtractor.cs",
+      "filePath": "DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "summary": "Engine Application xử lý XML/SQL/Workflow: FboSqlFragmentExtractor.cs.",
+      "tags": [
+        "engine",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs:FboSqlFragmentExtractor",
+      "type": "class",
+      "name": "FboSqlFragmentExtractor",
+      "filePath": "DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "summary": "Kiểu FboSqlFragmentExtractor trong FboSqlFragmentExtractor.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs:Extract",
+      "type": "function",
+      "name": "Extract",
+      "filePath": "DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "summary": "Hàm/method Extract trong FboSqlFragmentExtractor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs:BuildCombinedScript",
+      "type": "function",
+      "name": "BuildCombinedScript",
+      "filePath": "DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "summary": "Hàm/method BuildCombinedScript trong FboSqlFragmentExtractor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs:GetInnerText",
+      "type": "function",
+      "name": "GetInnerText",
+      "filePath": "DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "summary": "Hàm/method GetInnerText trong FboSqlFragmentExtractor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "type": "file",
+      "name": "FboXmlParser.cs",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Engine Application xử lý XML/SQL/Workflow: FboXmlParser.cs.",
+      "tags": [
+        "engine",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Engine/FboXmlParser.cs:FboXmlParser",
+      "type": "class",
+      "name": "FboXmlParser",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Kiểu FboXmlParser trong FboXmlParser.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:Parse",
+      "type": "function",
+      "name": "Parse",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method Parse trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseFile",
+      "type": "function",
+      "name": "ParseFile",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ParseFile trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseForm",
+      "type": "function",
+      "name": "ParseForm",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ParseForm trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseFormView",
+      "type": "function",
+      "name": "ParseFormView",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ParseFormView trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseCategories",
+      "type": "function",
+      "name": "ParseCategories",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ParseCategories trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ResolveRowCategoryIndex",
+      "type": "function",
+      "name": "ResolveRowCategoryIndex",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ResolveRowCategoryIndex trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ResolveRowColumnWidths",
+      "type": "function",
+      "name": "ResolveRowColumnWidths",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ResolveRowColumnWidths trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseViewRow",
+      "type": "function",
+      "name": "ParseViewRow",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ParseViewRow trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseViewRow",
+      "type": "function",
+      "name": "ParseViewRow",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ParseViewRow trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseGrid",
+      "type": "function",
+      "name": "ParseGrid",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ParseGrid trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseLookup",
+      "type": "function",
+      "name": "ParseLookup",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ParseLookup trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseFields",
+      "type": "function",
+      "name": "ParseFields",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ParseFields trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseField",
+      "type": "function",
+      "name": "ParseField",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ParseField trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseDropDownItems",
+      "type": "function",
+      "name": "ParseDropDownItems",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method ParseDropDownItems trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:SanitizeXml",
+      "type": "function",
+      "name": "SanitizeXml",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method SanitizeXml trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:LoadXml",
+      "type": "function",
+      "name": "LoadXml",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "summary": "Hàm/method LoadXml trong FboXmlParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "type": "file",
+      "name": "FboXmlWriter.cs",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "summary": "Engine Application xử lý XML/SQL/Workflow: FboXmlWriter.cs.",
+      "tags": [
+        "engine",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Engine/FboXmlWriter.cs:FboXmlWriter",
+      "type": "class",
+      "name": "FboXmlWriter",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "summary": "Kiểu FboXmlWriter trong FboXmlWriter.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlWriter.cs:ApplyLayout",
+      "type": "function",
+      "name": "ApplyLayout",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "summary": "Hàm/method ApplyLayout trong FboXmlWriter.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlWriter.cs:UpdateCategoryColumns",
+      "type": "function",
+      "name": "UpdateCategoryColumns",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "summary": "Hàm/method UpdateCategoryColumns trong FboXmlWriter.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlWriter.cs:BuildControlsPart",
+      "type": "function",
+      "name": "BuildControlsPart",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "summary": "Hàm/method BuildControlsPart trong FboXmlWriter.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlWriter.cs:UpdateColumnWidths",
+      "type": "function",
+      "name": "UpdateColumnWidths",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "summary": "Hàm/method UpdateColumnWidths trong FboXmlWriter.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlWriter.cs:ApplyFieldProperty",
+      "type": "function",
+      "name": "ApplyFieldProperty",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "summary": "Hàm/method ApplyFieldProperty trong FboXmlWriter.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/FboXmlWriter.cs:TrySplitChild",
+      "type": "function",
+      "name": "TrySplitChild",
+      "filePath": "DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "summary": "Hàm/method TrySplitChild trong FboXmlWriter.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "type": "file",
+      "name": "LookupReferenceResolver.cs",
+      "filePath": "DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "summary": "Engine Application xử lý XML/SQL/Workflow: LookupReferenceResolver.cs.",
+      "tags": [
+        "engine",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs:LookupReferenceResolver",
+      "type": "class",
+      "name": "LookupReferenceResolver",
+      "filePath": "DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "summary": "Kiểu LookupReferenceResolver trong LookupReferenceResolver.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs:ResolveReferenceLabel",
+      "type": "function",
+      "name": "ResolveReferenceLabel",
+      "filePath": "DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "summary": "Hàm/method ResolveReferenceLabel trong LookupReferenceResolver.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs:LoadLookup",
+      "type": "function",
+      "name": "LoadLookup",
+      "filePath": "DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "summary": "Hàm/method LoadLookup trong LookupReferenceResolver.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs:FindLookupFile",
+      "type": "function",
+      "name": "FindLookupFile",
+      "filePath": "DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "summary": "Hàm/method FindLookupFile trong LookupReferenceResolver.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "type": "file",
+      "name": "WorkflowEngine.cs",
+      "filePath": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "summary": "Engine Application xử lý XML/SQL/Workflow: WorkflowEngine.cs.",
+      "tags": [
+        "engine",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Engine/WorkflowEngine.cs:WorkflowEngine",
+      "type": "class",
+      "name": "WorkflowEngine",
+      "filePath": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "summary": "Kiểu WorkflowEngine trong WorkflowEngine.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:Register",
+      "type": "function",
+      "name": "Register",
+      "filePath": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "summary": "Hàm/method Register trong WorkflowEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:GetDefinition",
+      "type": "function",
+      "name": "GetDefinition",
+      "filePath": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "summary": "Hàm/method GetDefinition trong WorkflowEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:GetAllDefinitions",
+      "type": "function",
+      "name": "GetAllDefinitions",
+      "filePath": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "summary": "Hàm/method GetAllDefinitions trong WorkflowEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:Start",
+      "type": "function",
+      "name": "Start",
+      "filePath": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "summary": "Hàm/method Start trong WorkflowEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:MoveNext",
+      "type": "function",
+      "name": "MoveNext",
+      "filePath": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "summary": "Hàm/method MoveNext trong WorkflowEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:Cancel",
+      "type": "function",
+      "name": "Cancel",
+      "filePath": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "summary": "Hàm/method Cancel trong WorkflowEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:GetInstance",
+      "type": "function",
+      "name": "GetInstance",
+      "filePath": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "summary": "Hàm/method GetInstance trong WorkflowEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:GetAllInstances",
+      "type": "function",
+      "name": "GetAllInstances",
+      "filePath": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "summary": "Hàm/method GetAllInstances trong WorkflowEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:CreateSampleWorkflow",
+      "type": "function",
+      "name": "CreateSampleWorkflow",
+      "filePath": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "summary": "Hàm/method CreateSampleWorkflow trong WorkflowEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "type": "file",
+      "name": "XmlFormParser.cs",
+      "filePath": "DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "summary": "Engine Application xử lý XML/SQL/Workflow: XmlFormParser.cs.",
+      "tags": [
+        "engine",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Engine/XmlFormParser.cs:XmlFormParser",
+      "type": "class",
+      "name": "XmlFormParser",
+      "filePath": "DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "summary": "Kiểu XmlFormParser trong XmlFormParser.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/XmlFormParser.cs:Parse",
+      "type": "function",
+      "name": "Parse",
+      "filePath": "DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "summary": "Hàm/method Parse trong XmlFormParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/XmlFormParser.cs:ParseFile",
+      "type": "function",
+      "name": "ParseFile",
+      "filePath": "DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "summary": "Hàm/method ParseFile trong XmlFormParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/XmlFormParser.cs:ParseField",
+      "type": "function",
+      "name": "ParseField",
+      "filePath": "DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "summary": "Hàm/method ParseField trong XmlFormParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/XmlFormParser.cs:GetTemplateXml",
+      "type": "function",
+      "name": "GetTemplateXml",
+      "filePath": "DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "summary": "Hàm/method GetTemplateXml trong XmlFormParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "type": "file",
+      "name": "XmlStructureParser.cs",
+      "filePath": "DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "summary": "Engine Application xử lý XML/SQL/Workflow: XmlStructureParser.cs.",
+      "tags": [
+        "engine",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Engine/XmlStructureParser.cs:XmlStructureNode",
+      "type": "class",
+      "name": "XmlStructureNode",
+      "filePath": "DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "summary": "Kiểu XmlStructureNode trong XmlStructureParser.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Engine/XmlStructureParser.cs:XmlStructureParser",
+      "type": "class",
+      "name": "XmlStructureParser",
+      "filePath": "DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "summary": "Kiểu XmlStructureParser trong XmlStructureParser.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/XmlStructureParser.cs:Parse",
+      "type": "function",
+      "name": "Parse",
+      "filePath": "DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "summary": "Hàm/method Parse trong XmlStructureParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/XmlStructureParser.cs:Parse",
+      "type": "function",
+      "name": "Parse",
+      "filePath": "DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "summary": "Hàm/method Parse trong XmlStructureParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/XmlStructureParser.cs:FindFunctionDefinition",
+      "type": "function",
+      "name": "FindFunctionDefinition",
+      "filePath": "DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "summary": "Hàm/method FindFunctionDefinition trong XmlStructureParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Engine/XmlStructureParser.cs:ExtractIdentifierAt",
+      "type": "function",
+      "name": "ExtractIdentifierAt",
+      "filePath": "DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "summary": "Hàm/method ExtractIdentifierAt trong XmlStructureParser.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "type": "file",
+      "name": "DiagnosticGridMapper.cs",
+      "filePath": "DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "summary": "Thành phần ERP Language Service: DiagnosticGridMapper.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs:DiagnosticGridRow",
+      "type": "class",
+      "name": "DiagnosticGridRow",
+      "filePath": "DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "summary": "Kiểu DiagnosticGridRow trong DiagnosticGridMapper.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs:DiagnosticGridMapper",
+      "type": "class",
+      "name": "DiagnosticGridMapper",
+      "filePath": "DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "summary": "Kiểu DiagnosticGridMapper trong DiagnosticGridMapper.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs:MapProblems",
+      "type": "function",
+      "name": "MapProblems",
+      "filePath": "DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "summary": "Hàm/method MapProblems trong DiagnosticGridMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs:CountBySeverity",
+      "type": "function",
+      "name": "CountBySeverity",
+      "filePath": "DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "summary": "Hàm/method CountBySeverity trong DiagnosticGridMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "type": "file",
+      "name": "EntitySymbolBinder.cs",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Thành phần ERP Language Service: EntitySymbolBinder.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:EntityBindResult",
+      "type": "class",
+      "name": "EntityBindResult",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Kiểu EntityBindResult trong EntitySymbolBinder.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:EntitySymbolBinder",
+      "type": "class",
+      "name": "EntitySymbolBinder",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Kiểu EntitySymbolBinder trong EntitySymbolBinder.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:Bind",
+      "type": "function",
+      "name": "Bind",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method Bind trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:BuildActiveDefinitions",
+      "type": "function",
+      "name": "BuildActiveDefinitions",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method BuildActiveDefinitions trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:PickMatchingDeclaration",
+      "type": "function",
+      "name": "PickMatchingDeclaration",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method PickMatchingDeclaration trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:EnsureParameterResolved",
+      "type": "function",
+      "name": "EnsureParameterResolved",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method EnsureParameterResolved trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:ApplyActiveValue",
+      "type": "function",
+      "name": "ApplyActiveValue",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method ApplyActiveValue trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:SynthesizeFromActive",
+      "type": "function",
+      "name": "SynthesizeFromActive",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method SynthesizeFromActive trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:ResolveActiveDtdEntities",
+      "type": "function",
+      "name": "ResolveActiveDtdEntities",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method ResolveActiveDtdEntities trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:CollectDeclarations",
+      "type": "function",
+      "name": "CollectDeclarations",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method CollectDeclarations trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:BuildReferenceIndex",
+      "type": "function",
+      "name": "BuildReferenceIndex",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method BuildReferenceIndex trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:AddReferences",
+      "type": "function",
+      "name": "AddReferences",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method AddReferences trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:ResolveValue",
+      "type": "function",
+      "name": "ResolveValue",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method ResolveValue trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:GetChildEntityIds",
+      "type": "function",
+      "name": "GetChildEntityIds",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method GetChildEntityIds trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:BuildProjectionSegments",
+      "type": "function",
+      "name": "BuildProjectionSegments",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method BuildProjectionSegments trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:BuildClearText",
+      "type": "function",
+      "name": "BuildClearText",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method BuildClearText trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:ResolveSystemPath",
+      "type": "function",
+      "name": "ResolveSystemPath",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method ResolveSystemPath trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:Location",
+      "type": "function",
+      "name": "Location",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method Location trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:CreateDiagnostic",
+      "type": "function",
+      "name": "CreateDiagnostic",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method CreateDiagnostic trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:NormalizePath",
+      "type": "function",
+      "name": "NormalizePath",
+      "filePath": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "summary": "Hàm/method NormalizePath trong EntitySymbolBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "type": "file",
+      "name": "ErpDocument.cs",
+      "filePath": "DevWorkFlow.Application/Language/ErpDocument.cs",
+      "summary": "Thành phần ERP Language Service: ErpDocument.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/ErpDocument.cs:ErpDocument",
+      "type": "class",
+      "name": "ErpDocument",
+      "filePath": "DevWorkFlow.Application/Language/ErpDocument.cs",
+      "summary": "Kiểu ErpDocument trong ErpDocument.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpDocument.cs:ErpDocument",
+      "type": "function",
+      "name": "ErpDocument",
+      "filePath": "DevWorkFlow.Application/Language/ErpDocument.cs",
+      "summary": "Hàm/method ErpDocument trong ErpDocument.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpDocument.cs:GetProjection",
+      "type": "function",
+      "name": "GetProjection",
+      "filePath": "DevWorkFlow.Application/Language/ErpDocument.cs",
+      "summary": "Hàm/method GetProjection trong ErpDocument.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpDocument.cs:ReplaceContent",
+      "type": "function",
+      "name": "ReplaceContent",
+      "filePath": "DevWorkFlow.Application/Language/ErpDocument.cs",
+      "summary": "Hàm/method ReplaceContent trong ErpDocument.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "type": "file",
+      "name": "ErpLanguageService.cs",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Thành phần ERP Language Service: ErpLanguageService.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/ErpLanguageService.cs:ErpLanguageService",
+      "type": "class",
+      "name": "ErpLanguageService",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Kiểu ErpLanguageService trong ErpLanguageService.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:ErpLanguageService",
+      "type": "function",
+      "name": "ErpLanguageService",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method ErpLanguageService trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:SetProgramPath",
+      "type": "function",
+      "name": "SetProgramPath",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method SetProgramPath trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:OpenDocument",
+      "type": "function",
+      "name": "OpenDocument",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method OpenDocument trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:OpenDocumentFromText",
+      "type": "function",
+      "name": "OpenDocumentFromText",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method OpenDocumentFromText trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:ReloadDocument",
+      "type": "function",
+      "name": "ReloadDocument",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method ReloadDocument trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:CloseDocument",
+      "type": "function",
+      "name": "CloseDocument",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method CloseDocument trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:GetDocument",
+      "type": "function",
+      "name": "GetDocument",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method GetDocument trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:GetSnapshot",
+      "type": "function",
+      "name": "GetSnapshot",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method GetSnapshot trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:GetInsights",
+      "type": "function",
+      "name": "GetInsights",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method GetInsights trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:GetProjection",
+      "type": "function",
+      "name": "GetProjection",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method GetProjection trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:GetEntityDefinition",
+      "type": "function",
+      "name": "GetEntityDefinition",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method GetEntityDefinition trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:FindEntityReferences",
+      "type": "function",
+      "name": "FindEntityReferences",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method FindEntityReferences trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:SearchSymbols",
+      "type": "function",
+      "name": "SearchSymbols",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method SearchSymbols trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:GetSymbolDefinition",
+      "type": "function",
+      "name": "GetSymbolDefinition",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method GetSymbolDefinition trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:FindSymbolReferences",
+      "type": "function",
+      "name": "FindSymbolReferences",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method FindSymbolReferences trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:UpdateEntityValue",
+      "type": "function",
+      "name": "UpdateEntityValue",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method UpdateEntityValue trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:OpenCore",
+      "type": "function",
+      "name": "OpenCore",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method OpenCore trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:ReplaceCore",
+      "type": "function",
+      "name": "ReplaceCore",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method ReplaceCore trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:BuildModels",
+      "type": "function",
+      "name": "BuildModels",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method BuildModels trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:PathsEqual",
+      "type": "function",
+      "name": "PathsEqual",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method PathsEqual trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:EscapeEntityLiteral",
+      "type": "function",
+      "name": "EscapeEntityLiteral",
+      "filePath": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "summary": "Hàm/method EscapeEntityLiteral trong ErpLanguageService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "type": "file",
+      "name": "ErpNavigationService.cs",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Thành phần ERP Language Service: ErpNavigationService.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/ErpNavigationService.cs:ErpNavigationService",
+      "type": "class",
+      "name": "ErpNavigationService",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Kiểu ErpNavigationService trong ErpNavigationService.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:ErpNavigationService",
+      "type": "function",
+      "name": "ErpNavigationService",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Hàm/method ErpNavigationService trong ErpNavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:Rebuild",
+      "type": "function",
+      "name": "Rebuild",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Hàm/method Rebuild trong ErpNavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:Remove",
+      "type": "function",
+      "name": "Remove",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Hàm/method Remove trong ErpNavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:GetMap",
+      "type": "function",
+      "name": "GetMap",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Hàm/method GetMap trong ErpNavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:GoToNode",
+      "type": "function",
+      "name": "GoToNode",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Hàm/method GoToNode trong ErpNavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:GoToDefinition",
+      "type": "function",
+      "name": "GoToDefinition",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Hàm/method GoToDefinition trong ErpNavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:FindReferences",
+      "type": "function",
+      "name": "FindReferences",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Hàm/method FindReferences trong ErpNavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:PeekDefinition",
+      "type": "function",
+      "name": "PeekDefinition",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Hàm/method PeekDefinition trong ErpNavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:FindChildren",
+      "type": "function",
+      "name": "FindChildren",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Hàm/method FindChildren trong ErpNavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:FindParent",
+      "type": "function",
+      "name": "FindParent",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Hàm/method FindParent trong ErpNavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:FindSymbol",
+      "type": "function",
+      "name": "FindSymbol",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Hàm/method FindSymbol trong ErpNavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:GetOutlineRoots",
+      "type": "function",
+      "name": "GetOutlineRoots",
+      "filePath": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "summary": "Hàm/method GetOutlineRoots trong ErpNavigationService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "type": "file",
+      "name": "ErpSemanticBinder.cs",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "summary": "Thành phần ERP Language Service: ErpSemanticBinder.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:ErpSemanticBinder",
+      "type": "class",
+      "name": "ErpSemanticBinder",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "summary": "Kiểu ErpSemanticBinder trong ErpSemanticBinder.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:Bind",
+      "type": "function",
+      "name": "Bind",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "summary": "Hàm/method Bind trong ErpSemanticBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:MapFieldsFromSyntax",
+      "type": "function",
+      "name": "MapFieldsFromSyntax",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "summary": "Hàm/method MapFieldsFromSyntax trong ErpSemanticBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:MapFromLegacy",
+      "type": "function",
+      "name": "MapFromLegacy",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "summary": "Hàm/method MapFromLegacy trong ErpSemanticBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:MapControllerStubFromSyntax",
+      "type": "function",
+      "name": "MapControllerStubFromSyntax",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "summary": "Hàm/method MapControllerStubFromSyntax trong ErpSemanticBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:EnrichFromSyntax",
+      "type": "function",
+      "name": "EnrichFromSyntax",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "summary": "Hàm/method EnrichFromSyntax trong ErpSemanticBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:AddDuplicateFieldDiagnostics",
+      "type": "function",
+      "name": "AddDuplicateFieldDiagnostics",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "summary": "Hàm/method AddDuplicateFieldDiagnostics trong ErpSemanticBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:GuessFolder",
+      "type": "function",
+      "name": "GuessFolder",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "summary": "Hàm/method GuessFolder trong ErpSemanticBinder.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "type": "file",
+      "name": "ErpSemanticModel.cs",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "summary": "Thành phần ERP Language Service: ErpSemanticModel.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/ErpSemanticModel.cs:ErpSemanticModel",
+      "type": "class",
+      "name": "ErpSemanticModel",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "summary": "Kiểu ErpSemanticModel trong ErpSemanticModel.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:ErpSemanticModel",
+      "type": "function",
+      "name": "ErpSemanticModel",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "summary": "Hàm/method ErpSemanticModel trong ErpSemanticModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:FindByName",
+      "type": "function",
+      "name": "FindByName",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "summary": "Hàm/method FindByName trong ErpSemanticModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:GetChildren",
+      "type": "function",
+      "name": "GetChildren",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "summary": "Hàm/method GetChildren trong ErpSemanticModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:GetFields",
+      "type": "function",
+      "name": "GetFields",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "summary": "Hàm/method GetFields trong ErpSemanticModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:GetEntities",
+      "type": "function",
+      "name": "GetEntities",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "summary": "Hàm/method GetEntities trong ErpSemanticModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:FindEntity",
+      "type": "function",
+      "name": "FindEntity",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "summary": "Hàm/method FindEntity trong ErpSemanticModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:GetSymbolsOfKind",
+      "type": "function",
+      "name": "GetSymbolsOfKind",
+      "filePath": "DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "summary": "Hàm/method GetSymbolsOfKind trong ErpSemanticModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "type": "file",
+      "name": "IErpLanguageService.cs",
+      "filePath": "DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "summary": "Thành phần ERP Language Service: IErpLanguageService.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/IErpLanguageService.cs:IErpLanguageService",
+      "type": "class",
+      "name": "IErpLanguageService",
+      "filePath": "DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "summary": "Kiểu IErpLanguageService trong IErpLanguageService.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "type": "file",
+      "name": "InMemoryErpWorkspace.cs",
+      "filePath": "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "summary": "Thành phần ERP Language Service: InMemoryErpWorkspace.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:InMemoryErpWorkspace",
+      "type": "class",
+      "name": "InMemoryErpWorkspace",
+      "filePath": "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "summary": "Kiểu InMemoryErpWorkspace trong InMemoryErpWorkspace.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:SetProgramPath",
+      "type": "function",
+      "name": "SetProgramPath",
+      "filePath": "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "summary": "Hàm/method SetProgramPath trong InMemoryErpWorkspace.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:SetActive",
+      "type": "function",
+      "name": "SetActive",
+      "filePath": "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "summary": "Hàm/method SetActive trong InMemoryErpWorkspace.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:GetDocument",
+      "type": "function",
+      "name": "GetDocument",
+      "filePath": "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "summary": "Hàm/method GetDocument trong InMemoryErpWorkspace.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:TryGetDocument",
+      "type": "function",
+      "name": "TryGetDocument",
+      "filePath": "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "summary": "Hàm/method TryGetDocument trong InMemoryErpWorkspace.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:FindByPath",
+      "type": "function",
+      "name": "FindByPath",
+      "filePath": "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "summary": "Hàm/method FindByPath trong InMemoryErpWorkspace.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:Remove",
+      "type": "function",
+      "name": "Remove",
+      "filePath": "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "summary": "Hàm/method Remove trong InMemoryErpWorkspace.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:TryGetMutable",
+      "type": "function",
+      "name": "TryGetMutable",
+      "filePath": "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "summary": "Hàm/method TryGetMutable trong InMemoryErpWorkspace.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "type": "file",
+      "name": "InsightProviderPipeline.cs",
+      "filePath": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "summary": "Thành phần ERP Language Service: InsightProviderPipeline.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:InsightProviderPipeline",
+      "type": "class",
+      "name": "InsightProviderPipeline",
+      "filePath": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "summary": "Kiểu InsightProviderPipeline trong InsightProviderPipeline.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:EntityInsightProvider",
+      "type": "class",
+      "name": "EntityInsightProvider",
+      "filePath": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "summary": "Kiểu EntityInsightProvider trong InsightProviderPipeline.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:ValidationInsightProvider",
+      "type": "class",
+      "name": "ValidationInsightProvider",
+      "filePath": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "summary": "Kiểu ValidationInsightProvider trong InsightProviderPipeline.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:InsightProviderPipeline",
+      "type": "function",
+      "name": "InsightProviderPipeline",
+      "filePath": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "summary": "Hàm/method InsightProviderPipeline trong InsightProviderPipeline.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:Build",
+      "type": "function",
+      "name": "Build",
+      "filePath": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "summary": "Hàm/method Build trong InsightProviderPipeline.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:Provide",
+      "type": "function",
+      "name": "Provide",
+      "filePath": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "summary": "Hàm/method Provide trong InsightProviderPipeline.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:BuildEntityItem",
+      "type": "function",
+      "name": "BuildEntityItem",
+      "filePath": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "summary": "Hàm/method BuildEntityItem trong InsightProviderPipeline.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:Action",
+      "type": "function",
+      "name": "Action",
+      "filePath": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "summary": "Hàm/method Action trong InsightProviderPipeline.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:PathsEqual",
+      "type": "function",
+      "name": "PathsEqual",
+      "filePath": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "summary": "Hàm/method PathsEqual trong InsightProviderPipeline.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:Provide",
+      "type": "function",
+      "name": "Provide",
+      "filePath": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "summary": "Hàm/method Provide trong InsightProviderPipeline.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "type": "file",
+      "name": "NavigationMap.cs",
+      "filePath": "DevWorkFlow.Application/Language/NavigationMap.cs",
+      "summary": "Thành phần ERP Language Service: NavigationMap.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Application/Language/NavigationMap.cs:NavigationMap",
+      "type": "class",
+      "name": "NavigationMap",
+      "filePath": "DevWorkFlow.Application/Language/NavigationMap.cs",
+      "summary": "Kiểu NavigationMap trong NavigationMap.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/NavigationMap.cs:NavigationMap",
+      "type": "function",
+      "name": "NavigationMap",
+      "filePath": "DevWorkFlow.Application/Language/NavigationMap.cs",
+      "summary": "Hàm/method NavigationMap trong NavigationMap.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/NavigationMap.cs:GetNode",
+      "type": "function",
+      "name": "GetNode",
+      "filePath": "DevWorkFlow.Application/Language/NavigationMap.cs",
+      "summary": "Hàm/method GetNode trong NavigationMap.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/NavigationMap.cs:GetNodeBySymbolId",
+      "type": "function",
+      "name": "GetNodeBySymbolId",
+      "filePath": "DevWorkFlow.Application/Language/NavigationMap.cs",
+      "summary": "Hàm/method GetNodeBySymbolId trong NavigationMap.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/NavigationMap.cs:ToTarget",
+      "type": "function",
+      "name": "ToTarget",
+      "filePath": "DevWorkFlow.Application/Language/NavigationMap.cs",
+      "summary": "Hàm/method ToTarget trong NavigationMap.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/NavigationMap.cs:ToTargetBySymbolId",
+      "type": "function",
+      "name": "ToTargetBySymbolId",
+      "filePath": "DevWorkFlow.Application/Language/NavigationMap.cs",
+      "summary": "Hàm/method ToTargetBySymbolId trong NavigationMap.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/NavigationMap.cs:GetChildren",
+      "type": "function",
+      "name": "GetChildren",
+      "filePath": "DevWorkFlow.Application/Language/NavigationMap.cs",
+      "summary": "Hàm/method GetChildren trong NavigationMap.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/NavigationMap.cs:GetParent",
+      "type": "function",
+      "name": "GetParent",
+      "filePath": "DevWorkFlow.Application/Language/NavigationMap.cs",
+      "summary": "Hàm/method GetParent trong NavigationMap.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Application/Language/NavigationMap.cs:GetOutlineRoots",
+      "type": "function",
+      "name": "GetOutlineRoots",
+      "filePath": "DevWorkFlow.Application/Language/NavigationMap.cs",
+      "summary": "Hàm/method GetOutlineRoots trong NavigationMap.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "class:DevWorkFlow.Application/Abstractions/IServices.cs:INavigationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "class:DevWorkFlow.Application/Abstractions/IServices.cs:ITemplateService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "class:DevWorkFlow.Application/Abstractions/IServices.cs:IFormService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "class:DevWorkFlow.Application/Abstractions/IServices.cs:IWebConfigReader",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "class:DevWorkFlow.Application/Abstractions/IServices.cs:IWcommandRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "class:DevWorkFlow.Application/Abstractions/IServices.cs:IMenuService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "class:DevWorkFlow.Application/Abstractions/IServices.cs:IEntityRepository",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "class:DevWorkFlow.Application/Abstractions/IServices.cs:IProgramSession",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "file:DevWorkFlow.Domain/Models/AppDatabaseInfo.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "file:DevWorkFlow.Domain/Models/FormDefinition.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "file:DevWorkFlow.Domain/Models/MenuResourceBundle.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "file:DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "file:DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "file:DevWorkFlow.Domain/Models/WCommandItem.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "target": "file:DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs",
+      "target": "class:DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs:ISqlScriptRunner",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs",
+      "target": "class:DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs:ControllerRelatedFileResolver",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs",
+      "target": "function:DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs:FindRelated",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "target": "class:DevWorkFlow.Application/Engine/FboLayoutUnits.cs:FboLayoutUnits",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboLayoutUnits.cs:PxToDip",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboLayoutUnits.cs:DipToPx",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboLayoutUnits.cs:PxToDipInt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboLayoutUnits.cs:EvaluateHeightExpression",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "target": "class:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:FboOptionsCatalog",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:FboOptionsCatalog",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:ResolveFormat",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:IsUpperCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:IsLowerCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:IsDateTime",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:LoadFromFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:FindOptionsPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs:SeedDefaults",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "target": "class:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs:FboSqlFragmentExtractor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs:Extract",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs:BuildCombinedScript",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs:GetInnerText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Sql/FboSqlFragment.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "class:DevWorkFlow.Application/Engine/FboXmlParser.cs:FboXmlParser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:Parse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseFormView",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseCategories",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ResolveRowCategoryIndex",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ResolveRowColumnWidths",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseViewRow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseGrid",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseLookup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseField",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:ParseDropDownItems",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:SanitizeXml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlParser.cs:LoadXml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FormCategory.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "target": "class:DevWorkFlow.Application/Engine/FboXmlWriter.cs:FboXmlWriter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlWriter.cs:ApplyLayout",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlWriter.cs:UpdateCategoryColumns",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlWriter.cs:BuildControlsPart",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlWriter.cs:UpdateColumnWidths",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlWriter.cs:ApplyFieldProperty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "target": "function:DevWorkFlow.Application/Engine/FboXmlWriter.cs:TrySplitChild",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "target": "class:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs:LookupReferenceResolver",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "target": "function:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs:ResolveReferenceLabel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "target": "function:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs:LoadLookup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "target": "function:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs:FindLookupFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "class:DevWorkFlow.Application/Engine/WorkflowEngine.cs:WorkflowEngine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:Register",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:GetDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:GetAllDefinitions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:Start",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:MoveNext",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:Cancel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:GetInstance",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:GetAllInstances",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "function:DevWorkFlow.Application/Engine/WorkflowEngine.cs:CreateSampleWorkflow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "file:DevWorkFlow.Domain/Models/NodeDefinition.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "file:DevWorkFlow.Domain/Models/WorkflowDefinition.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "target": "file:DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "target": "class:DevWorkFlow.Application/Engine/XmlFormParser.cs:XmlFormParser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/XmlFormParser.cs:Parse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/XmlFormParser.cs:ParseFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/XmlFormParser.cs:ParseField",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/XmlFormParser.cs:GetTemplateXml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "target": "file:DevWorkFlow.Domain/Models/FieldDefinition.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "target": "file:DevWorkFlow.Domain/Models/FormDefinition.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "target": "class:DevWorkFlow.Application/Engine/XmlStructureParser.cs:XmlStructureNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "target": "class:DevWorkFlow.Application/Engine/XmlStructureParser.cs:XmlStructureParser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/XmlStructureParser.cs:Parse",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/XmlStructureParser.cs:FindFunctionDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "target": "function:DevWorkFlow.Application/Engine/XmlStructureParser.cs:ExtractIdentifierAt",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "target": "file:DevWorkFlow.Application/Language/Syntax/FboSyntaxParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "target": "file:DevWorkFlow.Application/Language/Syntax/SyntaxStructureProjector.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "target": "class:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs:DiagnosticGridRow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "target": "class:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs:DiagnosticGridMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "target": "function:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs:MapProblems",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "target": "function:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs:CountBySeverity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDiagnostic.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "class:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:EntityBindResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "class:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:EntitySymbolBinder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:Bind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:BuildActiveDefinitions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:PickMatchingDeclaration",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:EnsureParameterResolved",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:ApplyActiveValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:SynthesizeFromActive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:ResolveActiveDtdEntities",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:CollectDeclarations",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:BuildReferenceIndex",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:AddReferences",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:ResolveValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:GetChildEntityIds",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:BuildProjectionSegments",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:BuildClearText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:ResolveSystemPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:Location",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:CreateDiagnostic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/EntitySymbolBinder.cs:NormalizePath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDiagnostic.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentProjection.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "class:DevWorkFlow.Application/Language/ErpDocument.cs:ErpDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpDocument.cs:ErpDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpDocument.cs:GetProjection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpDocument.cs:ReplaceContent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDiagnostic.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentProjection.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpSemanticModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "file:DevWorkFlow.Domain/Language/INavigationMap.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Insights.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "file:DevWorkFlow.Domain/Language/StorageSnapshot.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "class:DevWorkFlow.Application/Language/ErpLanguageService.cs:ErpLanguageService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:ErpLanguageService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:SetProgramPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:OpenDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:OpenDocumentFromText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:ReloadDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:CloseDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:GetDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:GetSnapshot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:GetInsights",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:GetProjection",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:GetEntityDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:FindEntityReferences",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:SearchSymbols",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:GetSymbolDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:FindSymbolReferences",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:UpdateEntityValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:OpenCore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:ReplaceCore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:BuildModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:PathsEqual",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpLanguageService.cs:EscapeEntityLiteral",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Application/Language/Syntax/FboSyntaxParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDiagnostic.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentProjection.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpMetadataProfile.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpNavigationService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpSemanticModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpWorkspace.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Insights.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/StorageSnapshot.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "class:DevWorkFlow.Application/Language/ErpNavigationService.cs:ErpNavigationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:ErpNavigationService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:Rebuild",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:Remove",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:GetMap",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:GoToNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:GoToDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:FindReferences",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:PeekDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:FindChildren",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:FindParent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:FindSymbol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpNavigationService.cs:GetOutlineRoots",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "file:DevWorkFlow.Application/Language/NavigationMapBuilder.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/DocumentNode.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbol.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpNavigationService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/INavigationMap.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/NodeId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/TextRange.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "class:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:ErpSemanticBinder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:Bind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:MapFieldsFromSyntax",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:MapFromLegacy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:MapControllerStubFromSyntax",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:EnrichFromSyntax",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:AddDuplicateFieldDiagnostics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticBinder.cs:GuessFolder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDiagnostic.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpMetadataProfile.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbol.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "class:DevWorkFlow.Application/Language/ErpSemanticModel.cs:ErpSemanticModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:ErpSemanticModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:FindByName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:GetChildren",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:GetFields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:GetEntities",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:FindEntity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "function:DevWorkFlow.Application/Language/ErpSemanticModel.cs:GetSymbolsOfKind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDiagnostic.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentProjection.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpMetadataProfile.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbol.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpSemanticModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "class:DevWorkFlow.Application/Language/IErpLanguageService.cs:IErpLanguageService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentProjection.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpNavigationService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpWorkspace.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Insights.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/NodeId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/StorageSnapshot.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "target": "file:DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "class:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:InMemoryErpWorkspace",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:SetProgramPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:SetActive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:GetDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:TryGetDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:FindByPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:Remove",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "function:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs:TryGetMutable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "file:DevWorkFlow.Application/Language/WorkspaceSymbolIndex.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpWorkspace.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "class:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:InsightProviderPipeline",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "class:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:EntityInsightProvider",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "class:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:ValidationInsightProvider",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:InsightProviderPipeline",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:Build",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:Provide",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:BuildEntityItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:Action",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "function:DevWorkFlow.Application/Language/InsightProviderPipeline.cs:PathsEqual",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDiagnostic.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpSemanticModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Insights.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "class:DevWorkFlow.Application/Language/NavigationMap.cs:NavigationMap",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "function:DevWorkFlow.Application/Language/NavigationMap.cs:NavigationMap",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "function:DevWorkFlow.Application/Language/NavigationMap.cs:GetNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "function:DevWorkFlow.Application/Language/NavigationMap.cs:GetNodeBySymbolId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "function:DevWorkFlow.Application/Language/NavigationMap.cs:ToTarget",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "function:DevWorkFlow.Application/Language/NavigationMap.cs:ToTargetBySymbolId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "function:DevWorkFlow.Application/Language/NavigationMap.cs:GetChildren",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "function:DevWorkFlow.Application/Language/NavigationMap.cs:GetParent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "function:DevWorkFlow.Application/Language/NavigationMap.cs:GetOutlineRoots",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "file:DevWorkFlow.Domain/Language/DocumentModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "file:DevWorkFlow.Domain/Language/DocumentNode.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbol.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpSemanticModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "file:DevWorkFlow.Domain/Language/INavigationMap.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "file:DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "file:DevWorkFlow.Domain/Language/NodeId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "target": "file:DevWorkFlow.Domain/Language/TextRange.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ],
+  "batchFiles": [
+    {
+      "path": ".gitattributes",
+      "language": "unknown",
+      "sizeLines": 63,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Abstractions/IServices.cs",
+      "language": "csharp",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs",
+      "language": "csharp",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/DevWorkFlow.Application.csproj",
+      "language": "csproj",
+      "sizeLines": 17,
+      "fileCategory": "config"
+    },
+    {
+      "path": "DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs",
+      "language": "csharp",
+      "sizeLines": 67,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "language": "csharp",
+      "sizeLines": 48,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "language": "csharp",
+      "sizeLines": 116,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "language": "csharp",
+      "sizeLines": 131,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "language": "csharp",
+      "sizeLines": 573,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "language": "csharp",
+      "sizeLines": 220,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "language": "csharp",
+      "sizeLines": 74,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+      "language": "csharp",
+      "sizeLines": 137,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Engine/XmlFormParser.cs",
+      "language": "csharp",
+      "sizeLines": 143,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "language": "csharp",
+      "sizeLines": 96,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "language": "csharp",
+      "sizeLines": 77,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "language": "csharp",
+      "sizeLines": 971,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/ErpDocument.cs",
+      "language": "csharp",
+      "sizeLines": 93,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "language": "csharp",
+      "sizeLines": 317,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+      "language": "csharp",
+      "sizeLines": 107,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "language": "csharp",
+      "sizeLines": 375,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "language": "csharp",
+      "sizeLines": 85,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "language": "csharp",
+      "sizeLines": 83,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+      "language": "csharp",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+      "language": "csharp",
+      "sizeLines": 188,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Application/Language/NavigationMap.cs",
+      "language": "csharp",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    }
+  ]
+}

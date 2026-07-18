@@ -26,22 +26,19 @@
                 </StackPanel>
                 <Button DockPanel.Dock="Right" Content="Clear" FontSize="10" Padding="8,2"
                         Command="{Binding ClearProblemsCommand}"
-                        Style="{StaticResource IdeRibbonButtonStyle}"
-                        HorizontalAlignment="Right"/>
+                        Style="{StaticResource IdeToolButtonStyle}"
+                        HorizontalAlignment="Right" Margin="0"/>
             </DockPanel>
         </Border>
 
         <DataGrid ItemsSource="{Binding Problems}"
-                  AutoGenerateColumns="False"
-                  CanUserAddRows="False"
+                  Style="{StaticResource IdeDataGridStyle}"
                   CanUserDeleteRows="False"
                   IsReadOnly="True"
-                  HeadersVisibility="Column"
-                  GridLinesVisibility="Horizontal"
                   BorderThickness="0"
                   Background="Transparent"
                   FontSize="11"
-                  RowHeight="24"
+                  RowHeight="26"
                   MouseDoubleClick="ProblemsGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="" Binding="{Binding SeverityBadge}" Width="28"/>

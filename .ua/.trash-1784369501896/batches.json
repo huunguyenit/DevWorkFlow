@@ -1,0 +1,4301 @@
+{
+  "schemaVersion": 1,
+  "algorithm": "louvain",
+  "totalFiles": 257,
+  "totalBatches": 16,
+  "exportsByPath": {
+    ".gitattributes": [],
+    "DevWorkFlow.Application/Abstractions/IServices.cs": [
+      "INavigationService",
+      "ITemplateService",
+      "IFormService",
+      "IWebConfigReader",
+      "IWcommandRepository",
+      "IMenuService",
+      "IEntityRepository",
+      "IProgramSession"
+    ],
+    "DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs": [
+      "ISqlScriptRunner"
+    ],
+    "DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs": [
+      "FindRelated",
+      "FindRelated",
+      "ControllerRelatedFileResolver"
+    ],
+    "DevWorkFlow.Application/Engine/FboLayoutUnits.cs": [
+      "DpiX",
+      "PxToDip",
+      "DipToPx",
+      "PxToDipInt",
+      "EvaluateHeightExpression",
+      "FboLayoutUnits"
+    ],
+    "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs": [
+      "FboOptionsCatalog",
+      "ResolveFormat",
+      "IsUpperCase",
+      "IsLowerCase",
+      "IsDateTime",
+      "LoadFromFile",
+      "FindOptionsPath",
+      "FboOptionsCatalog"
+    ],
+    "DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs": [
+      "Extract",
+      "BuildCombinedScript",
+      "FboSqlFragmentExtractor"
+    ],
+    "DevWorkFlow.Application/Engine/FboXmlParser.cs": [
+      "Parse",
+      "ParseFile",
+      "FboXmlParser"
+    ],
+    "DevWorkFlow.Application/Engine/FboXmlWriter.cs": [
+      "ApplyLayout",
+      "UpdateColumnWidths",
+      "ApplyFieldProperty",
+      "FboXmlWriter"
+    ],
+    "DevWorkFlow.Application/Engine/LookupReferenceResolver.cs": [
+      "ResolveReferenceLabel",
+      "LookupReferenceResolver"
+    ],
+    "DevWorkFlow.Application/Engine/WorkflowEngine.cs": [
+      "Register",
+      "GetDefinition",
+      "GetAllDefinitions",
+      "Start",
+      "MoveNext",
+      "Cancel",
+      "GetInstance",
+      "GetAllInstances",
+      "CreateSampleWorkflow",
+      "WorkflowEngine"
+    ],
+    "DevWorkFlow.Application/Engine/XmlFormParser.cs": [
+      "Parse",
+      "ParseFile",
+      "GetTemplateXml",
+      "XmlFormParser"
+    ],
+    "DevWorkFlow.Application/Engine/XmlStructureParser.cs": [
+      "Name",
+      "Qualifier",
+      "Kind",
+      "StartLine",
+      "StartOffset",
+      "EndLine",
+      "Children",
+      "Display",
+      "XmlStructureNode",
+      "Parse",
+      "Parse",
+      "FindFunctionDefinition",
+      "ExtractIdentifierAt",
+      "XmlStructureParser"
+    ],
+    "DevWorkFlow.Application/Language/DiagnosticGridMapper.cs": [
+      "Description",
+      "File",
+      "Line",
+      "Column",
+      "Type",
+      "SeverityBadge",
+      "DiagnosticGridRow",
+      "MapProblems",
+      "CountBySeverity",
+      "DiagnosticGridMapper"
+    ],
+    "DevWorkFlow.Application/Language/EntitySymbolBinder.cs": [
+      "Symbols",
+      "Diagnostics",
+      "ClearText",
+      "Segments",
+      "EntityBindResult",
+      "Bind",
+      "EntitySymbolBinder"
+    ],
+    "DevWorkFlow.Application/Language/ErpDocument.cs": [
+      "ErpDocument",
+      "Id",
+      "Path",
+      "Snapshot",
+      "SyntaxTree",
+      "SemanticModel",
+      "Diagnostics",
+      "Insights",
+      "NavigationMap",
+      "GetProjection",
+      "Version",
+      "IsDirty",
+      "ErpDocument"
+    ],
+    "DevWorkFlow.Application/Language/ErpLanguageService.cs": [
+      "ErpLanguageService",
+      "Workspace",
+      "Navigation",
+      "SetProgramPath",
+      "OpenDocument",
+      "OpenDocumentFromText",
+      "ReloadDocument",
+      "CloseDocument",
+      "GetDocument",
+      "GetSnapshot",
+      "GetInsights",
+      "GetProjection",
+      "GetEntityDefinition",
+      "FindEntityReferences",
+      "SearchSymbols",
+      "GetSymbolDefinition",
+      "FindSymbolReferences",
+      "UpdateEntityValue",
+      "ErpLanguageService"
+    ],
+    "DevWorkFlow.Application/Language/ErpNavigationService.cs": [
+      "ErpNavigationService",
+      "Rebuild",
+      "Remove",
+      "GetMap",
+      "GoToNode",
+      "GoToDefinition",
+      "FindReferences",
+      "PeekDefinition",
+      "FindChildren",
+      "FindParent",
+      "FindSymbol",
+      "GetOutlineRoots",
+      "ErpNavigationService"
+    ],
+    "DevWorkFlow.Application/Language/ErpSemanticBinder.cs": [
+      "Bind",
+      "ErpSemanticBinder"
+    ],
+    "DevWorkFlow.Application/Language/ErpSemanticModel.cs": [
+      "ErpSemanticModel",
+      "DocumentId",
+      "Profile",
+      "Controller",
+      "LegacyDocument",
+      "ClearText",
+      "EntitySegments",
+      "Symbols",
+      "Diagnostics",
+      "FindByName",
+      "GetChildren",
+      "GetFields",
+      "GetEntities",
+      "FindEntity",
+      "GetSymbolsOfKind",
+      "ErpSemanticModel"
+    ],
+    "DevWorkFlow.Application/Language/IErpLanguageService.cs": [
+      "IErpLanguageService"
+    ],
+    "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs": [
+      "ProgramPath",
+      "Documents",
+      "ActiveDocument",
+      "SymbolIndex",
+      "SetProgramPath",
+      "SetActive",
+      "GetDocument",
+      "TryGetDocument",
+      "FindByPath",
+      "InMemoryErpWorkspace"
+    ],
+    "DevWorkFlow.Application/Language/InsightProviderPipeline.cs": [
+      "InsightProviderPipeline",
+      "Build",
+      "InsightProviderPipeline",
+      "ProviderId",
+      "Provide",
+      "EntityInsightProvider",
+      "ProviderId",
+      "Provide",
+      "ValidationInsightProvider"
+    ],
+    "DevWorkFlow.Application/Language/NavigationMap.cs": [
+      "NavigationMap",
+      "Document",
+      "GetNode",
+      "GetNodeBySymbolId",
+      "ToTarget",
+      "ToTargetBySymbolId",
+      "GetChildren",
+      "GetParent",
+      "GetOutlineRoots",
+      "NavigationMap"
+    ],
+    "DevWorkFlow.Application/Language/NavigationMapBuilder.cs": [
+      "Build",
+      "NavigationMapBuilder"
+    ],
+    "DevWorkFlow.Application/Language/Schema/XsdSchemaCatalog.cs": [
+      "GetIdentityAttribute",
+      "FallbackIdentityAttributes",
+      "XsdSchemaCatalog"
+    ],
+    "DevWorkFlow.Application/Language/Syntax/FboLexer.cs": [
+      "Tokenize",
+      "FboLexer"
+    ],
+    "DevWorkFlow.Application/Language/Syntax/FboSyntaxParser.cs": [
+      "Parse",
+      "FboSyntaxParser"
+    ],
+    "DevWorkFlow.Application/Language/Syntax/SyntaxStructureProjector.cs": [
+      "Project",
+      "SyntaxStructureProjector"
+    ],
+    "DevWorkFlow.Application/Language/WorkspaceSymbolIndex.cs": [
+      "Search",
+      "GetDefinition",
+      "FindReferences",
+      "GetDocumentSymbols",
+      "WorkspaceSymbolIndex"
+    ],
+    "DevWorkFlow.Domain/Language/DocumentModel.cs": [
+      "DocumentId",
+      "DocumentUri",
+      "Root",
+      "Roots",
+      "DocumentModel"
+    ],
+    "DevWorkFlow.Domain/Language/DocumentNode.cs": [
+      "Id",
+      "ParentId",
+      "NodeType",
+      "StartOffset",
+      "EndOffset",
+      "StartLine",
+      "EndLine",
+      "SymbolId",
+      "DisplayName",
+      "DocumentUri",
+      "PreferCaretOnly",
+      "Children",
+      "TextRange",
+      "DocumentNode"
+    ],
+    "DevWorkFlow.Domain/Language/ErpDiagnostic.cs": [
+      "Id",
+      "Severity",
+      "Message",
+      "Location",
+      "ErpDiagnostic"
+    ],
+    "DevWorkFlow.Domain/Language/ErpDocumentId.cs": [
+      "FromPath",
+      "ToString",
+      "Equals",
+      "GetHashCode",
+      "ErpDocumentId"
+    ],
+    "DevWorkFlow.Domain/Language/ErpDocumentProjection.cs": [
+      "SymbolId",
+      "Name",
+      "DisplayText",
+      "SourceSpan",
+      "CanEdit",
+      "EntityProjectionSegment",
+      "Kind",
+      "Text",
+      "EntitySegments",
+      "ErpDocumentProjection",
+      "Success",
+      "Error",
+      "Document",
+      "EntityEditResult",
+      "EntityName",
+      "NewValue",
+      "EntityValueEdit"
+    ],
+    "DevWorkFlow.Domain/Language/ErpMetadataProfile.cs": [
+      "ProfileId",
+      "DisplayName",
+      "ErpVersion",
+      "Default",
+      "ErpMetadataProfile"
+    ],
+    "DevWorkFlow.Domain/Language/ErpSymbol.cs": [
+      "Id",
+      "Name",
+      "DisplayName",
+      "Kind",
+      "Definition",
+      "ParentSymbolId",
+      "NodeId",
+      "ErpSymbol"
+    ],
+    "DevWorkFlow.Domain/Language/ErpSymbolKind.cs": [],
+    "DevWorkFlow.Domain/Language/ErpSymbolTypes.cs": [
+      "ControllerSymbol",
+      "FolderKind",
+      "Table",
+      "CodeField",
+      "ControllerSymbol",
+      "FieldSymbol",
+      "DataType",
+      "HeaderV",
+      "HeaderE",
+      "CategoryIndex",
+      "IsPrimaryKey",
+      "IsRequired",
+      "AllowNulls",
+      "FieldSymbol",
+      "ViewSymbol",
+      "ViewId",
+      "ViewSymbol",
+      "CommandSymbol",
+      "EventName",
+      "CommandSymbol",
+      "QuerySymbol",
+      "EventName",
+      "QuerySymbol",
+      "ScriptFunctionSymbol",
+      "ScriptFunctionSymbol",
+      "ResponseActionSymbol",
+      "ResponseActionSymbol",
+      "EntitySymbol",
+      "DisplayText",
+      "RawValue",
+      "DeclarationKind",
+      "SystemId",
+      "ResolvedPath",
+      "IsResolved",
+      "ValueLocation",
+      "ResolvedDocumentId",
+      "References",
+      "ChildEntityIds",
+      "Diagnostics",
+      "Metadata",
+      "EntitySymbol"
+    ],
+    "DevWorkFlow.Domain/Language/IErpDocument.cs": [
+      "IErpDocument"
+    ],
+    "DevWorkFlow.Domain/Language/IErpNavigationService.cs": [
+      "IErpNavigationService"
+    ],
+    "DevWorkFlow.Domain/Language/IErpSemanticModel.cs": [
+      "IErpSemanticModel"
+    ],
+    "DevWorkFlow.Domain/Language/IErpWorkspace.cs": [
+      "IErpWorkspace"
+    ],
+    "DevWorkFlow.Domain/Language/INavigationMap.cs": [
+      "INavigationMap"
+    ],
+    "DevWorkFlow.Domain/Language/Insights.cs": [
+      "Id",
+      "DisplayName",
+      "Metadata",
+      "InsightAction",
+      "Id",
+      "Type",
+      "Range",
+      "Priority",
+      "Layer",
+      "DisplayContent",
+      "SymbolId",
+      "ReferenceText",
+      "ResolvedValue",
+      "CanEditResolvedValue",
+      "Actions",
+      "Metadata",
+      "Children",
+      "InsightItem",
+      "IInsightProvider",
+      "IInsightProviderPipeline"
+    ],
+    "DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs": [
+      "IWorkspaceSymbolIndex"
+    ],
+    "DevWorkFlow.Domain/Language/NavigationTarget.cs": [
+      "NodeId",
+      "DocumentUri",
+      "TextRange",
+      "NodeType",
+      "SymbolId",
+      "Symbol",
+      "StartLine",
+      "EndLine",
+      "PreferCaretOnly",
+      "NavigationTarget"
+    ],
+    "DevWorkFlow.Domain/Language/NodeId.cs": [
+      "Empty",
+      "IsEmpty",
+      "New",
+      "FromStableKey",
+      "ToString",
+      "NodeId"
+    ],
+    "DevWorkFlow.Domain/Language/SourceLocation.cs": [
+      "EndOffset",
+      "Empty",
+      "IsEmpty",
+      "SourceSpan",
+      "Path",
+      "Span",
+      "Line",
+      "Column",
+      "None",
+      "ToString",
+      "SourceLocation"
+    ],
+    "DevWorkFlow.Domain/Language/StorageSnapshot.cs": [
+      "Path",
+      "RawText",
+      "EncodingName",
+      "Version",
+      "StorageSnapshot"
+    ],
+    "DevWorkFlow.Domain/Language/SymbolReference.cs": [
+      "SymbolId",
+      "Location",
+      "Kind",
+      "SymbolReference"
+    ],
+    "DevWorkFlow.Domain/Language/Syntax/LineMap.cs": [
+      "LineMap",
+      "TextLength",
+      "LineCount",
+      "GetLineColumn",
+      "GetOffset",
+      "LineMap"
+    ],
+    "DevWorkFlow.Domain/Language/Syntax/SyntaxKind.cs": [],
+    "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs": [
+      "SyntaxNode",
+      "Kind",
+      "Name",
+      "Qualifier",
+      "Span",
+      "StartLine",
+      "EndLine",
+      "Children",
+      "DirectTokens",
+      "AddChild",
+      "AddToken",
+      "Seal",
+      "GetFullText",
+      "SyntaxNode"
+    ],
+    "DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs": [
+      "SyntaxToken",
+      "Kind",
+      "Text",
+      "Span",
+      "Line",
+      "Column",
+      "IsTrivia",
+      "ToString",
+      "SyntaxToken"
+    ],
+    "DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs": [
+      "ISyntaxTree",
+      "SyntaxTree",
+      "SourceText",
+      "Root",
+      "LineMap",
+      "Tokens",
+      "Diagnostics",
+      "Serialize",
+      "SyntaxTree"
+    ],
+    "DevWorkFlow.Domain/Language/TextRange.cs": [
+      "Length",
+      "IsEmpty",
+      "Empty",
+      "FromSpan",
+      "ToSpan",
+      "TextRange"
+    ],
+    "DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs": [
+      "WorkspaceSymbolEntry"
+    ],
+    "DevWorkFlow.Domain/Models/AppDatabaseInfo.cs": [
+      "Code",
+      "Name",
+      "DatabaseName",
+      "AppDatabaseInfo"
+    ],
+    "DevWorkFlow.Domain/Models/ControllerFileItem.cs": [
+      "Kind",
+      "ControllerName",
+      "DisplayName",
+      "RelativePath",
+      "FullPath",
+      "IsEncrypted",
+      "IsXml",
+      "IsFormSource",
+      "KindLabel",
+      "SortOrder",
+      "ExtensionLabel",
+      "ControllerFileItem"
+    ],
+    "DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs": [
+      "V",
+      "E",
+      "Get",
+      "ToString",
+      "LocalizedText"
+    ],
+    "DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs": [
+      "DisplayKind",
+      "FolderKind",
+      "ControllerName",
+      "FilePath",
+      "XmlSource",
+      "Form",
+      "Grid",
+      "Lookup",
+      "DisplayTitle",
+      "FromForm",
+      "FromGrid",
+      "FromLookup",
+      "FboControllerDocument"
+    ],
+    "DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs": [
+      "Value",
+      "Text",
+      "GetText",
+      "FboDropDownItem"
+    ],
+    "DevWorkFlow.Domain/Models/Fbo/FboField.cs": [
+      "Name",
+      "AliasName",
+      "DataType",
+      "DataTypeEnum",
+      "IsPrimaryKey",
+      "OnDemand",
+      "Align",
+      "Width",
+      "MaxLength",
+      "DataFormatString",
+      "HyperlinkFormatString",
+      "Columns",
+      "Rows",
+      "Aggregate",
+      "CategoryIndex",
+      "ReadOnly",
+      "Inactivate",
+      "Hidden",
+      "Disabled",
+      "AllowContain",
+      "AllowQbe",
+      "AllowSorting",
+      "AllowFilter",
+      "AllowNulls",
+      "DefaultValue",
+      "ClientDefault",
+      "When",
+      "External",
+      "Operation",
+      "FilterSource",
+      "Header",
+      "Footer",
+      "ItemsStyle",
+      "ItemsController",
+      "ItemsReference",
+      "ItemsKey",
+      "ItemsCheck",
+      "ItemsInformation",
+      "ItemsNew",
+      "DropDownItems",
+      "IsBooleanType",
+      "IsDateTimeType",
+      "HasLookupStyle",
+      "IsDropDownList",
+      "ReferenceFieldName",
+      "IsRequired",
+      "DisplayLabel",
+      "DisplayFooter",
+      "GetDisplayLabel",
+      "GetDisplayFooter",
+      "FboField"
+    ],
+    "DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs": [
+      "FolderKind",
+      "ControllerName",
+      "Table",
+      "CodeField",
+      "OrderBy",
+      "AppType",
+      "Database",
+      "UniKey",
+      "Navigation",
+      "Title",
+      "Fields",
+      "Layout",
+      "FieldsByName",
+      "FindField",
+      "DisplayTitle",
+      "FboFormModel"
+    ],
+    "DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs": [
+      "Command",
+      "Title",
+      "IsSeparator",
+      "GridToolbarButton",
+      "ControllerName",
+      "Table",
+      "CodeField",
+      "OrderBy",
+      "Title",
+      "SubTitle",
+      "Fields",
+      "VisibleFieldNames",
+      "Toolbar",
+      "FieldsByName",
+      "VisibleColumns",
+      "DisplayTitle",
+      "DisplaySubTitle",
+      "FboGridModel"
+    ],
+    "DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs": [
+      "ControllerName",
+      "Table",
+      "CodeField",
+      "NameField",
+      "OrderBy",
+      "Header",
+      "Fields",
+      "FieldsByName",
+      "SearchField",
+      "DisplayTitle",
+      "FboLookupModel"
+    ],
+    "DevWorkFlow.Domain/Models/Fbo/FormCategory.cs": [
+      "Index",
+      "HeaderV",
+      "HeaderE",
+      "ColumnWidths",
+      "Anchor",
+      "Split",
+      "Rows",
+      "GetHeader",
+      "FormCategory"
+    ],
+    "DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs": [
+      "Kind",
+      "FieldName",
+      "Suffix",
+      "ColumnIndex",
+      "ColumnSpan",
+      "WidthPx",
+      "FormViewCell",
+      "Pattern",
+      "Cells",
+      "CategoryIndex",
+      "FormViewRow",
+      "ViewId",
+      "HeightExpression",
+      "HeightPx",
+      "Anchor",
+      "Split",
+      "ColumnWidths",
+      "Rows",
+      "TopRows",
+      "BottomRows",
+      "Categories",
+      "HasCategories",
+      "ColumnCount",
+      "TotalWidthPx",
+      "FormViewLayout"
+    ],
+    "DevWorkFlow.Domain/Models/Fbo/Schema/FboSchemaEnums.cs": [
+      "Dir",
+      "Grid",
+      "Lookup",
+      "Report",
+      "FboSchemaPaths"
+    ],
+    "DevWorkFlow.Domain/Models/FieldDefinition.cs": [
+      "Name",
+      "Label",
+      "FieldType",
+      "IsRequired",
+      "IsReadOnly",
+      "DefaultValue",
+      "PlaceholderText",
+      "Row",
+      "Column",
+      "ColumnSpan",
+      "Options",
+      "ValidationRegex",
+      "ValidationMessage",
+      "FieldDefinition"
+    ],
+    "DevWorkFlow.Domain/Models/FormDefinition.cs": [
+      "Id",
+      "Title",
+      "TemplateType",
+      "Description",
+      "ColumnCount",
+      "Fields",
+      "Actions",
+      "XmlSource",
+      "FormDefinition"
+    ],
+    "DevWorkFlow.Domain/Models/MenuResourceBundle.cs": [
+      "MenuTitle",
+      "Link",
+      "AspxPath",
+      "AspxExists",
+      "ControllerName",
+      "Controllers",
+      "Files",
+      "ErrorMessage",
+      "MenuResourceBundle"
+    ],
+    "DevWorkFlow.Domain/Models/MenuTreeNode.cs": [
+      "WmenuId",
+      "WmenuId0",
+      "Title",
+      "TitleEn",
+      "SysId",
+      "SysCode",
+      "Type",
+      "Link",
+      "Parameter",
+      "Level",
+      "Source",
+      "Children",
+      "IsSeparator",
+      "HasLink",
+      "IsLeaf",
+      "MatchesFilter",
+      "MenuTreeNode"
+    ],
+    "DevWorkFlow.Domain/Models/NodeDefinition.cs": [
+      "Id",
+      "Label",
+      "NodeType",
+      "X",
+      "Y",
+      "Width",
+      "Height",
+      "AssignedFormId",
+      "AssignedRole",
+      "Properties",
+      "NodeDefinition",
+      "Id",
+      "SourceNodeId",
+      "TargetNodeId",
+      "Label",
+      "Condition",
+      "ConnectionDefinition"
+    ],
+    "DevWorkFlow.Domain/Models/ProgramContext.cs": [
+      "ProgramPath",
+      "ProgramName",
+      "DisplayTitle",
+      "SysConnectionString",
+      "AppConnectionString",
+      "AppConnectionStringTemplate",
+      "AppDatabaseName",
+      "AppDatabases",
+      "ControllersPath",
+      "ProgramContext"
+    ],
+    "DevWorkFlow.Domain/Models/ProgramPathHelper.cs": [
+      "BuildDisplayTitle",
+      "ProgramPathHelper"
+    ],
+    "DevWorkFlow.Domain/Models/Sql/FboSqlFragment.cs": [
+      "Kind",
+      "Event",
+      "Text",
+      "LineHint",
+      "FboSqlFragment"
+    ],
+    "DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs": [
+      "Title",
+      "Table",
+      "SqlResultSet",
+      "Succeeded",
+      "Messages",
+      "ResultSets",
+      "TotalRowsAffected",
+      "ErrorMessage",
+      "Elapsed",
+      "SqlRunResult"
+    ],
+    "DevWorkFlow.Domain/Models/TemplateType.cs": [],
+    "DevWorkFlow.Domain/Models/WCommandItem.cs": [
+      "WmenuId",
+      "WmenuId0",
+      "MenuId",
+      "Bar",
+      "Bar2",
+      "Link",
+      "Parameter",
+      "IconUrl",
+      "Status",
+      "Icon",
+      "SysId",
+      "Type",
+      "SysCode",
+      "MSys",
+      "Target",
+      "XType",
+      "Edition",
+      "ExplIcon",
+      "DisplayName",
+      "IsSeparator",
+      "IsVoucher",
+      "IsList",
+      "HasController",
+      "WCommandItem"
+    ],
+    "DevWorkFlow.Domain/Models/WorkflowDefinition.cs": [
+      "Id",
+      "Name",
+      "Description",
+      "Version",
+      "TemplateType",
+      "IsActive",
+      "CreatedAt",
+      "ModifiedAt",
+      "Nodes",
+      "Connections",
+      "BoundFormId",
+      "WorkflowDefinition"
+    ],
+    "DevWorkFlow.Domain/Models/WorkflowInstance.cs": [
+      "InstanceId",
+      "WorkflowId",
+      "Status",
+      "CurrentNodeId",
+      "StartedBy",
+      "StartedAt",
+      "CompletedAt",
+      "Variables",
+      "ExecutionLog",
+      "WorkflowInstance",
+      "Id",
+      "Name",
+      "TemplateType",
+      "IconKind",
+      "WorkflowId",
+      "FormId",
+      "IsFavorite",
+      "TemplateItem"
+    ],
+    "DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs": [
+      "ApplyAppDatabase",
+      "ResolveAppConnection",
+      "ReplacePlaceholders",
+      "AppConnectionResolver"
+    ],
+    "DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs": [
+      "ParseControllers",
+      "ParseControllersFromFile",
+      "AspxControllerParser"
+    ],
+    "DevWorkFlow.Infrastructure/Services/EntityRepository.cs": [
+      "GetAppDatabasesAsync",
+      "EntityRepository"
+    ],
+    "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs": [
+      "TemplateService",
+      "GetAllAsync",
+      "GetByIdAsync",
+      "CreateAsync",
+      "DeleteAsync",
+      "UpdateAsync",
+      "TemplateService",
+      "GetFormAsync",
+      "GetAllFormsAsync",
+      "SaveFormAsync",
+      "DeleteFormAsync",
+      "FormService"
+    ],
+    "DevWorkFlow.Infrastructure/Services/MenuService.cs": [
+      "MenuService",
+      "LoadMenuTreeAsync",
+      "ResolveFromMenu",
+      "ResolveControllersRoot",
+      "FindControllerFile",
+      "MenuService"
+    ],
+    "DevWorkFlow.Infrastructure/Services/NavigationService.cs": [
+      "CurrentPage",
+      "CurrentParameter",
+      "NavigateTo",
+      "NavigationService",
+      "FormBuilder",
+      "CatalogManager",
+      "DocumentManager",
+      "ReportManager",
+      "StoredManager",
+      "SqlStudio",
+      "Pages"
+    ],
+    "DevWorkFlow.Infrastructure/Services/ProgramSession.cs": [
+      "Current",
+      "SetProgram",
+      "UpdateProgram",
+      "Clear",
+      "ProgramSession"
+    ],
+    "DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs": [
+      "ExecuteAsync",
+      "SplitGoBatches",
+      "SqlScriptRunner"
+    ],
+    "DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs": [
+      "Data",
+      "SettingsPath",
+      "UserSettingsStore",
+      "Load",
+      "Save",
+      "AddRecentProgram",
+      "UserSettingsStore",
+      "LastProgramPath",
+      "RecentPrograms",
+      "UserSettings"
+    ],
+    "DevWorkFlow.Infrastructure/Services/WcommandRepository.cs": [
+      "GetAllAsync",
+      "WcommandRepository"
+    ],
+    "DevWorkFlow.Infrastructure/Services/WebConfigReader.cs": [
+      "Read",
+      "WebConfigReader"
+    ],
+    "DevWorkFlow.slnx": [],
+    "tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs": [
+      "MapProblems_skips_hidden_and_maps_severity_badges",
+      "CountBySeverity_aggregates_error_warning_hint",
+      "DiagnosticGridMapperTests"
+    ],
+    "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs": [
+      "EntitySymbolSystemTests",
+      "Binder_builds_inline_external_parameter_and_nested_graph",
+      "Binder_reports_cycle_and_missing_file",
+      "Inline_edit_updates_definition_but_preserves_reference",
+      "External_edit_writes_resolved_document_and_keeps_controller_source",
+      "Include_ignore_conditional_section_uses_active_value",
+      "SP226_customer_unitfields_is_empty_after_ignore",
+      "SP226_customer_entities_have_definitions_and_references",
+      "Dispose",
+      "EntitySymbolSystemTests"
+    ],
+    "tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs": [
+      "OpenFromText_sets_snapshot_and_workspace",
+      "Reload_increments_version_Close_removes",
+      "Open_unsupported_root_still_returns_document",
+      "Open_SP226_Customer_has_field_ma_kh",
+      "Open_SP226_Report_returns_document",
+      "ErpLanguageServiceContractTests"
+    ],
+    "tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs": [
+      "Views_lists_all_view_elements_with_spans",
+      "Response_section_shows_entity_fragment_children",
+      "Script_functions_prefer_caret_only",
+      "Commands_named_by_event_from_schema_key",
+      "Fields_named_by_name_and_linked_to_symbol",
+      "ErpNavigationOutlineFixTests"
+    ],
+    "tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs": [
+      "GoToNode_returns_target_from_schema_field",
+      "GoToDefinition_by_symbol_id",
+      "FindChildren_and_FindParent_roundtrip",
+      "ErpNavigationServiceTests"
+    ],
+    "tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs": [
+      "Bind_dir_produces_controller_field_view_symbols",
+      "Bind_duplicate_fields_emits_ERP2001",
+      "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+      "LanguageService_semantic_matches_binder",
+      "ErpSemanticBinderTests"
+    ],
+    "tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs": [
+      "Entity_provider_preserves_reference_value_and_nested_tree",
+      "Validation_provider_converts_diagnostics_to_common_insight_items",
+      "Customer_ClientDefault_is_an_editable_entity_insight",
+      "InsightProviderPipelineTests"
+    ],
+    "tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs": [
+      "Serialize_roundtrip_exact_synthetic",
+      "Invalid_xml_recovers_without_throw",
+      "LanguageService_attaches_syntax_tree",
+      "Roundtrip_SP226_Customer",
+      "Roundtrip_SP226_SODetail_and_Report",
+      "LosslessSyntaxTests"
+    ],
+    "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs": [
+      "Parse_Dir_Customer_has_fields_and_form",
+      "Parse_Dir_DataCopy_has_fields_and_form",
+      "Parse_Filter_rptIncomeStatement_has_fields",
+      "Parse_Grid_SODetail_has_fields",
+      "Parse_Lookup_Customer_has_fields",
+      "Sp226GoldenParseTests",
+      "Structure_Report_rptIncomeStatement_has_report_root",
+      "EntitySymbols_SODetail_resolve_Grid_ent_include",
+      "Include_FilterQuery_xml_exists_and_has_structure",
+      "SqlExtractor_Dir_Customer_returns_without_throw",
+      "Sp226StructureAndEntityTests",
+      "ApplyLayout_updates_column_widths_on_synthetic_dir",
+      "ParseCategories_without_header_does_not_throw",
+      "FboXmlWriterRoundtripTests"
+    ],
+    "tests/DevWorkFlow.Application.Tests/Sp226Paths.cs": [
+      "ProgramRoot",
+      "IsAvailable",
+      "Controllers",
+      "Require",
+      "RequireRoot",
+      "Sp226Paths",
+      "Sp226FactAttribute",
+      "Sp226FactAttribute"
+    ],
+    "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs": [
+      "SearchSymbols_returns_matching_entries_across_documents",
+      "SearchSymbols_by_display_name_matches_header",
+      "SearchSymbols_kind_filter_narrows_results",
+      "SearchSymbols_empty_query_returns_empty",
+      "SearchSymbols_maxResults_limits_output",
+      "GetSymbolDefinition_returns_location_for_known_symbol",
+      "GetSymbolDefinition_unknown_id_returns_null",
+      "FindSymbolReferences_unknown_symbol_returns_empty",
+      "GetDocumentSymbols_returns_symbols_for_document",
+      "Close_removes_symbols_from_index",
+      "Reload_refreshes_symbol_index",
+      "SearchSymbols_cross_document_finds_correct_documentPath",
+      "WorkspaceSymbolIndexTests"
+    ],
+    "tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs": [
+      "ErpDocumentId_ignores_path_case",
+      "SourceSpan_end_offset",
+      "EntitySymbol_is_entity_kind",
+      "LanguageContractTests"
+    ],
+    "tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs": [
+      "Get_prefers_vietnamese_when_available",
+      "Get_falls_back_when_preferred_empty",
+      "LocalizedTextTests",
+      "FromForm_sets_display_and_folder_kind",
+      "FromGrid_and_FromLookup_set_expected_kinds",
+      "FboControllerDocumentTests"
+    ],
+    "UI/App.xaml": [],
+    "UI/App.xaml.cs": [
+      "App"
+    ],
+    "UI/AssemblyInfo.cs": [],
+    "UI/Commands/IdeCommands.cs": [
+      "New",
+      "Open",
+      "Save",
+      "SaveAll",
+      "Exit",
+      "Undo",
+      "Redo",
+      "Cut",
+      "Copy",
+      "Paste",
+      "Delete",
+      "Add",
+      "ValidateXml",
+      "Preview",
+      "Entity",
+      "Parse",
+      "ClearText",
+      "ExecuteSql",
+      "OpenSqlFromForm",
+      "OpenSqlFile",
+      "Search",
+      "Replace",
+      "GoToDefinition",
+      "FindReferences",
+      "Settings",
+      "ToggleLeftDock",
+      "ToggleRightDock",
+      "ToggleBottomDock",
+      "IdeCommands"
+    ],
+    "UI/Converters/Converters.cs": [
+      "Convert",
+      "ConvertBack",
+      "NullToVisibilityConverter",
+      "Convert",
+      "ConvertBack",
+      "NullOrEmptyToVisibilityConverter",
+      "Convert",
+      "ConvertBack",
+      "InverseBoolConverter",
+      "Convert",
+      "ConvertBack",
+      "FormHeightConverter"
+    ],
+    "UI/Docking/DockPanelHost.xaml": [],
+    "UI/Docking/DockPanelHost.xaml.cs": [
+      "DockPanelHost",
+      "DockPanelHost"
+    ],
+    "UI/Docking/DockRegion.cs": [],
+    "UI/Docking/DockService.cs": [
+      "IsVisible",
+      "Show",
+      "Hide",
+      "Toggle",
+      "DockService"
+    ],
+    "UI/Docking/IDockService.cs": [
+      "IDockService"
+    ],
+    "UI/MainWindow.xaml": [],
+    "UI/MainWindow.xaml.cs": [
+      "MainWindow",
+      "MainWindow"
+    ],
+    "UI/Services/AppConfigStore.cs": [
+      "AppConfigStore",
+      "ConfigRoot",
+      "Explorer",
+      "Database",
+      "Menu",
+      "ControllerFolders",
+      "DatabaseObjectTypes",
+      "DatabaseObjectActions",
+      "CatalogSql",
+      "GetSqlPath",
+      "GetJsonPath",
+      "GetXmlPath",
+      "LoadSqlFile",
+      "FreezeBrush",
+      "AppConfigStore",
+      "FilterDebounceMs",
+      "FilterMinLength",
+      "PreloadOnFilter",
+      "ExpandOnFolderClick",
+      "SearchScanFilesystem",
+      "SearchMaxHits",
+      "ActivationDelayMs",
+      "FolderIcon",
+      "FileIcon",
+      "FolderIconColor",
+      "FileIconColor",
+      "ShowFileBadges",
+      "PreferredRootFolders",
+      "ExplorerFileExtensions",
+      "HiddenRootFolders",
+      "FolderBrush",
+      "FileBrush",
+      "ExplorerOptions",
+      "FilterDebounceMs",
+      "FilterMinLength",
+      "CommandTimeoutSeconds",
+      "CatalogScriptFile",
+      "DefaultTarget",
+      "ShowModifiedDate",
+      "SortByModifiedDesc",
+      "BatchUiSize",
+      "SingleClickDelayMs",
+      "ObjectActionsFile",
+      "DatabaseOptions",
+      "FilterDebounceMs",
+      "FilterBatchSize",
+      "MenuOptions",
+      "Name",
+      "Kind",
+      "Order",
+      "ControllerFolderOption",
+      "Code",
+      "Kind",
+      "Folder",
+      "Icon",
+      "Color",
+      "Order",
+      "Brush",
+      "DatabaseObjectTypeOption",
+      "Kind",
+      "Click",
+      "Mode",
+      "Script",
+      "Title",
+      "DropTemplate",
+      "DatabaseObjectActionOption"
+    ],
+    "UI/Services/DatabaseObjectScripter.cs": [
+      "DatabaseObjectScripter",
+      "BuildAsync",
+      "DatabaseObjectScripter"
+    ],
+    "UI/Services/FboDesignMapper.cs": [
+      "SetOptions",
+      "Map",
+      "MapForm",
+      "MapGrid",
+      "MapLookup",
+      "FboDesignMapper"
+    ],
+    "UI/Services/FieldPropertySchema.cs": [
+      "DataTypeOptions",
+      "ItemsStyleOptions",
+      "AlignOptions",
+      "AggregateOptions",
+      "BuildEditable",
+      "ApplyToField",
+      "FieldPropertySchema"
+    ],
+    "UI/Services/FormDocumentNavigator.cs": [
+      "Attach",
+      "Open",
+      "FormDocumentNavigator"
+    ],
+    "UI/Services/LeftExplorerLoadCoordinator.cs": [
+      "LeftExplorerLoadCoordinator",
+      "LeftExplorerLoadCoordinator"
+    ],
+    "UI/Services/SqlStudioNavigator.cs": [
+      "Attach",
+      "OpenFile",
+      "OpenBuffer",
+      "SqlStudioNavigator"
+    ],
+    "UI/Themes/AppStyles.xaml": [],
+    "UI/Themes/IdeShell.xaml": [],
+    "UI/UI.csproj.user": [],
+    "UI/ViewModels/Base/RelayCommand.cs": [
+      "RelayCommand",
+      "RelayCommand",
+      "CanExecute",
+      "Execute",
+      "RaiseCanExecuteChanged",
+      "RelayCommand",
+      "AsyncRelayCommand",
+      "AsyncRelayCommand",
+      "CanExecute",
+      "Execute",
+      "AsyncRelayCommand"
+    ],
+    "UI/ViewModels/Base/RelayCommandT.cs": [
+      "RelayCommand",
+      "CanExecute",
+      "Execute",
+      "RelayCommand"
+    ],
+    "UI/ViewModels/Base/ViewModelBase.cs": [
+      "ViewModelBase"
+    ],
+    "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs": [
+      "FormBuilderDiagnosticsBridge",
+      "BindTo",
+      "FormBuilderDiagnosticsBridge"
+    ],
+    "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs": [
+      "Time",
+      "Level",
+      "Message",
+      "Source",
+      "TimeText",
+      "LevelText",
+      "Display",
+      "LogEntryVm",
+      "Description",
+      "File",
+      "Line",
+      "Category",
+      "Display",
+      "ErrorItemVm",
+      "LogEntries",
+      "OutputEntries",
+      "Errors",
+      "Problems",
+      "References",
+      "ErrorCount",
+      "WarningCount",
+      "HintCount",
+      "ClearLogCommand",
+      "ClearOutputCommand",
+      "ClearErrorsCommand",
+      "ClearProblemsCommand",
+      "IdeDiagnosticsViewModel",
+      "Info",
+      "Warn",
+      "Error",
+      "SyncProblems",
+      "SyncReferences",
+      "ClearProblems",
+      "IdeDiagnosticsViewModel"
+    ],
+    "UI/ViewModels/Bottom/ProblemItemVm.cs": [
+      "Description",
+      "File",
+      "Line",
+      "Column",
+      "Type",
+      "SeverityBadge",
+      "LocationText",
+      "FromGridRow",
+      "ProblemItemVm",
+      "SymbolId",
+      "Kind",
+      "File",
+      "Line",
+      "Column",
+      "Display",
+      "ReferenceItemVm"
+    ],
+    "UI/ViewModels/Bottom/XmlBottomViewModel.cs": [
+      "XmlBottomViewModel",
+      "FormBuilder",
+      "StructureOutline",
+      "BindTo",
+      "EditorText",
+      "IsEditorReadOnly",
+      "ActiveEditorMode",
+      "ShowInsights",
+      "Insights",
+      "EditorModeText",
+      "EditorModeButtonText",
+      "ToggleInsightCommand",
+      "CaretLine",
+      "CaretOffset",
+      "FilePath",
+      "Header",
+      "HasDocument",
+      "XmlBottomViewModel"
+    ],
+    "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs": [
+      "Display",
+      "IconKind",
+      "StartLine",
+      "StartOffset",
+      "Kind",
+      "Children",
+      "IsExpanded",
+      "HasChildren",
+      "XmlStructureNodeVm",
+      "XmlStructureOutlineViewModel",
+      "Roots",
+      "Header",
+      "SelectedNode",
+      "HasNodes",
+      "SelectNodeCommand",
+      "RefreshCommand",
+      "BindTo",
+      "XmlStructureOutlineViewModel"
+    ],
+    "UI/ViewModels/Design/DesignSurfaceVm.cs": [
+      "Kind",
+      "FieldName",
+      "TextV",
+      "TextE",
+      "RowIndex",
+      "Pattern",
+      "Text",
+      "Value",
+      "ReferenceText",
+      "DropDownText",
+      "EditorKind",
+      "ShowLookupIcon",
+      "ShowDateIcon",
+      "IsCheckbox",
+      "IsDropDownEditor",
+      "IsTextEditor",
+      "DataType",
+      "ItemsStyle",
+      "ItemsController",
+      "ItemsReference",
+      "ShowInputBorder",
+      "IsReadOnly",
+      "IsRequired",
+      "IsPrimaryKey",
+      "WidthPx",
+      "WidthDip",
+      "ColumnIndex",
+      "ColumnSpan",
+      "TextAlign",
+      "IsUpperCase",
+      "IsLowerCase",
+      "FormatHint",
+      "IsSelected",
+      "IsEmpty",
+      "IsLabel",
+      "IsInput",
+      "IsDescription",
+      "HasReferenceText",
+      "ApplyLanguage",
+      "DesignCellVm",
+      "Pattern",
+      "Cells",
+      "HeightDip",
+      "Source",
+      "ColumnWidthsPx",
+      "DesignFormRowVm",
+      "Index",
+      "WidthPx",
+      "WidthDip",
+      "OffsetDip",
+      "Label",
+      "RulerTickVm",
+      "Name",
+      "DisplayName",
+      "Category",
+      "EditorKind",
+      "EnumOptions",
+      "IsReadOnly",
+      "Value",
+      "BoolValue",
+      "IsTextEditor",
+      "IsBooleanEditor",
+      "IsEnumEditor",
+      "DesignFieldPropertyVm",
+      "Index",
+      "HeaderV",
+      "HeaderE",
+      "Header",
+      "IsSelected",
+      "Rows",
+      "RulerTicks",
+      "ColumnWidthsPx",
+      "FormTableWidthDip",
+      "FormTableWidthPx",
+      "ApplyLanguage",
+      "DesignCategoryTabVm",
+      "DisplayKind",
+      "Title",
+      "SubTitle",
+      "TitleV",
+      "TitleE",
+      "SubTitleV",
+      "SubTitleE",
+      "IsForm",
+      "IsGrid",
+      "IsLookup",
+      "RowHeightPx",
+      "ColumnWidthsPx",
+      "RulerTicks",
+      "FormRows",
+      "BottomRows",
+      "CategoryTabs",
+      "SelectedCategory",
+      "HasCategories",
+      "HasSelectedCategory",
+      "HasBottomRows",
+      "FormTableWidthPx",
+      "FormTableWidthDip",
+      "FormHeightDip",
+      "FormHeightPx",
+      "IsHeightFromRows",
+      "Anchor",
+      "Split",
+      "LayoutBadge",
+      "CategoryContentHeightDip",
+      "HasFixedCategoryHeight",
+      "Columns",
+      "SampleRows",
+      "ToolbarItems",
+      "SearchFieldLabel",
+      "SearchFieldLabelV",
+      "SearchFieldLabelE",
+      "ApplyLanguage",
+      "DesignSurfaceVm",
+      "Name",
+      "HeaderV",
+      "HeaderE",
+      "Header",
+      "Width",
+      "WidthDip",
+      "Align",
+      "IsPrimaryKey",
+      "ApplyLanguage",
+      "DesignColumnVm",
+      "Values",
+      "DesignDataRowVm",
+      "Command",
+      "Title",
+      "TitleV",
+      "TitleE",
+      "IsSeparator",
+      "DesignToolbarItemVm"
+    ],
+    "UI/ViewModels/Design/DesignViewportVm.cs": [
+      "MinZoom",
+      "MaxZoom",
+      "SnapSizeOptions",
+      "DesignViewportVm",
+      "Guidelines",
+      "ActiveGuideXs",
+      "ActiveGuideYs",
+      "Zoom",
+      "ZoomPercent",
+      "ZoomText",
+      "ShowGrid",
+      "GridSizePx",
+      "SnapEnabled",
+      "SnapSizePx",
+      "SnapStatusText",
+      "ShowGuidelines",
+      "ScrollOffsetX",
+      "ScrollOffsetY",
+      "MouseContentX",
+      "MouseContentY",
+      "SelectionMarkerX",
+      "SelectionMarkerY",
+      "SizeBadgeText",
+      "IsInteractionActive",
+      "ZoomInCommand",
+      "ZoomOutCommand",
+      "ZoomResetCommand",
+      "ToggleGridCommand",
+      "ToggleSnapCommand",
+      "ToggleGuidelinesCommand",
+      "ClearGuidelinesCommand",
+      "CycleSnapSizeCommand",
+      "Snap",
+      "AddGuideline",
+      "ClearActiveGuides",
+      "SetResizeFeedback",
+      "ZoomIn",
+      "ZoomOut",
+      "DesignViewportVm"
+    ],
+    "UI/ViewModels/Design/GuidelineVm.cs": [
+      "GuidelineVm",
+      "Kind",
+      "IsVertical",
+      "IsHorizontal",
+      "PositionPx",
+      "GuidelineVm"
+    ],
+    "UI/ViewModels/Design/InsightEditorLineVm.cs": [
+      "LineNumber",
+      "KindBadge",
+      "KindIcon",
+      "ReferenceText",
+      "ResolvedValue",
+      "CanEdit",
+      "EntityName",
+      "SymbolId",
+      "InsightType",
+      "DisplayLine",
+      "FromInsight",
+      "FromField",
+      "InsightEditorLineVm"
+    ],
+    "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs": [
+      "DatabaseExplorerViewModel",
+      "RefreshAfterProgramChangeAsync",
+      "ConnectionTargets",
+      "TreeRoots",
+      "SelectedTarget",
+      "FilterText",
+      "StatusText",
+      "ActivationDelayMs",
+      "IsBusy",
+      "RefreshCommand",
+      "OnTreeNodeActivated",
+      "Dispose",
+      "RefreshAsync",
+      "DatabaseExplorerViewModel"
+    ],
+    "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs": [
+      "DebouncedTreeFilter",
+      "Schedule",
+      "FlushAsync",
+      "Dispose",
+      "DebouncedTreeFilter",
+      "BuildIndex",
+      "CalculateVisibility",
+      "ApplyVisibilityAsync",
+      "PreloadChildren",
+      "ExplorerTreeFilterEngine"
+    ],
+    "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs": [
+      "FullPath",
+      "IsDirectory",
+      "Kind",
+      "ToControllerKind",
+      "ExplorerFileTag",
+      "CreateFileNode",
+      "CreateLoadingPlaceholder",
+      "IsLoadingPlaceholder",
+      "CreateDatabaseFolder",
+      "CreateDatabaseObject",
+      "FromMenuNode",
+      "ParseFolderKind",
+      "ParseDatabaseKind",
+      "ExplorerTreeNodeMapper",
+      "Schema",
+      "Kind",
+      "DatabaseObjectTag"
+    ],
+    "UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs": [
+      "Name",
+      "DisplayText",
+      "IconKind",
+      "IconForeground",
+      "Badge",
+      "HasBadge",
+      "Tooltip",
+      "ModifiedAt",
+      "ShowModified",
+      "ModifiedText",
+      "Tag",
+      "Children",
+      "EnsureChildren",
+      "IsExpanded",
+      "IsSelected",
+      "IsVisible",
+      "ChildrenLoaded",
+      "SearchKey",
+      "SearchText",
+      "ExplorerTreeNodeVm"
+    ],
+    "UI/ViewModels/Explorer/IExplorerTreeSource.cs": [
+      "IExplorerTreeSource"
+    ],
+    "UI/ViewModels/Explorer/OutlineViewModel.cs": [
+      "NodeId",
+      "NodeType",
+      "SymbolId",
+      "DisplayName",
+      "OutlineNavTag",
+      "OutlineViewModel",
+      "TreeRoots",
+      "Header",
+      "EmptyMessage",
+      "FilterText",
+      "StatusText",
+      "ActivationDelayMs",
+      "HasNodes",
+      "IsEmpty",
+      "RefreshCommand",
+      "BindTo",
+      "OnTreeNodeActivated",
+      "Refresh",
+      "Dispose",
+      "OutlineViewModel"
+    ],
+    "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs": [
+      "ProjectExplorerViewModel",
+      "TreeRoots",
+      "SelectedNode",
+      "FilterText",
+      "ProgramTitle",
+      "StatusText",
+      "ActivationDelayMs",
+      "IsBusy",
+      "SelectProgramCommand",
+      "RefreshCommand",
+      "OnTreeNodeActivated",
+      "Dispose",
+      "RebuildTreeAsync",
+      "ProjectExplorerViewModel"
+    ],
+    "UI/ViewModels/FormBuilderViewModel.cs": [
+      "FormBuilderViewModel",
+      "Viewport",
+      "RelatedFiles",
+      "FieldProperties",
+      "SelectedCells",
+      "SelectedCell",
+      "HasSelectedCell",
+      "CaretLine",
+      "Document",
+      "ErpDocument",
+      "SemanticModel",
+      "Design",
+      "XmlSource",
+      "EditorText",
+      "InsightEditorLines",
+      "SelectedInsightLine",
+      "ActiveEditorMode",
+      "IsSourceMode",
+      "IsInsightMode",
+      "IsDesignerMode",
+      "ShowInsightColumns",
+      "ShowEditorSurface",
+      "ShowDesignerModeSurface",
+      "ShowDesignerTab",
+      "ShowInsights",
+      "Insights",
+      "IsEditorReadOnly",
+      "EditorModeText",
+      "EditorModeButtonText",
+      "IsCodeOnlyView",
+      "ShowDesignSurface",
+      "HasDocument",
+      "StatusMessage",
+      "IsBusy",
+      "LoadedFilePath",
+      "LoadedTitle",
+      "IsVietnamese",
+      "LanguageCode",
+      "LanguageTooltip",
+      "ParseCommand",
+      "SaveCommand",
+      "ClearCommand",
+      "LoadTemplateCommand",
+      "ToggleLanguageCommand",
+      "AddColumnCommand",
+      "IncreaseSpanCommand",
+      "DecreaseSpanCommand",
+      "SelectCellCommand",
+      "SelectCategoryCommand",
+      "UpdateEntityValueCommand",
+      "SetEditorModeCommand",
+      "ToggleInsightCommand",
+      "OpenSqlFromFormCommand",
+      "LoadControllerXml",
+      "ExpandedXml",
+      "IsCodeOnlyPath",
+      "SelectCell",
+      "SelectionCountText",
+      "SelectFieldByName",
+      "NavigateToLine",
+      "NavigateToTarget",
+      "NavigateToOffset",
+      "CaretColumn",
+      "UpdateCaretPosition",
+      "CommitEntityValue",
+      "CaretOffset",
+      "SelectCategory",
+      "UpdateFieldProperty",
+      "ApplyColumnWidth",
+      "ApplyCategoryColumnWidth",
+      "RulerInsertColumn",
+      "RulerDeleteColumn",
+      "RulerSplitColumn",
+      "RulerMergeColumns",
+      "ResizeCellSpanToWidth",
+      "ChangeSelectedCellSpan",
+      "FormBuilderViewModel"
+    ],
+    "UI/ViewModels/Insight/InsightPanelViewModel.cs": [
+      "ReferenceText",
+      "ResolvedValue",
+      "StatusText",
+      "IsOk",
+      "EntityName",
+      "InsightEntityRowVm",
+      "Message",
+      "SeverityBadge",
+      "Line",
+      "InsightValidationRowVm",
+      "InsightPanelViewModel",
+      "EntityRows",
+      "ValidationRows",
+      "ErrorCount",
+      "WarningCount",
+      "HintCount",
+      "BindTo",
+      "Refresh",
+      "InsightPanelViewModel"
+    ],
+    "UI/ViewModels/Insight/SymbolInfoViewModel.cs": [
+      "Kind",
+      "File",
+      "Line",
+      "Column",
+      "Display",
+      "SymbolReferenceRowVm",
+      "SymbolInfoViewModel",
+      "References",
+      "SymbolName",
+      "SymbolType",
+      "Category",
+      "DataType",
+      "ReadOnlyText",
+      "SelectedSymbolId",
+      "BindTo",
+      "Refresh",
+      "SymbolInfoViewModel"
+    ],
+    "UI/ViewModels/MainViewModel.cs": [
+      "MainViewModel",
+      "LanguageService",
+      "Shell",
+      "NavigationVm",
+      "FormBuilderVm",
+      "ExplorerVm",
+      "DatabaseExplorerVm",
+      "OutlineVm",
+      "SelectedLeftExplorerTab",
+      "IsTreeExplorerSelected",
+      "IsMenuExplorerSelected",
+      "IsDatabaseExplorerSelected",
+      "PropertyGridVm",
+      "ToolboxVm",
+      "InsightPanelVm",
+      "SymbolInfoVm",
+      "XmlBottomVm",
+      "DiagnosticsVm",
+      "CatalogVm",
+      "DocumentVm",
+      "ReportVm",
+      "StoredVm",
+      "CurrentWorkspace",
+      "CurrentPageTitle",
+      "IsSidebarOpen",
+      "AppStatus",
+      "WindowTitle",
+      "StatusEncoding",
+      "StatusLanguage",
+      "StatusCaret",
+      "StatusEditorMode",
+      "StatusErrorCount",
+      "StatusWarningCount",
+      "StatusHintCount",
+      "IsInsightModeActive",
+      "ToggleSidebarCommand",
+      "SelectLeftExplorerTabCommand",
+      "HideCommand",
+      "ExitCommand",
+      "OpenFormDocument",
+      "OpenSqlDocument",
+      "MainViewModel"
+    ],
+    "UI/ViewModels/MenuNodeViewModel.cs": [
+      "MenuNodeViewModel",
+      "MenuNodeViewModel",
+      "Node",
+      "FileItem",
+      "Children",
+      "IsFileNode",
+      "IsMenuNode",
+      "IsSeparator",
+      "Title",
+      "SysId",
+      "SysCode",
+      "Type",
+      "Link",
+      "WmenuId",
+      "HasLink",
+      "HasControllerBadge",
+      "TypeBadge",
+      "IconKind",
+      "IconForeground",
+      "Tooltip",
+      "ResourcesLoaded",
+      "IsExpanded",
+      "IsSelected",
+      "IsVisible",
+      "Visibility",
+      "ApplyFilter",
+      "RestoreDefaultExpand",
+      "AttachResourceFiles",
+      "MenuNodeViewModel"
+    ],
+    "UI/ViewModels/NavigationViewModel.cs": [
+      "NavigationViewModel",
+      "TryRestoreLastProgramAsync",
+      "MenuRoots",
+      "TreeRoots",
+      "OnTreeNodeActivated",
+      "SelectedNode",
+      "IsExpanded",
+      "IsBusy",
+      "StatusText",
+      "ActivationDelayMs",
+      "ProgramName",
+      "FilterText",
+      "SelectProgramCommand",
+      "RefreshMenuCommand",
+      "OpenNodeCommand",
+      "OpenSqlFileCommand",
+      "ToggleSidebarCommand",
+      "LoadProgramAsync",
+      "NavigationViewModel"
+    ],
+    "UI/ViewModels/Properties/PropertyGridViewModel.cs": [
+      "PropertyGridViewModel",
+      "FormBuilder",
+      "Categories",
+      "FilteredProperties",
+      "SearchText",
+      "SelectedCategory",
+      "ShowFavoritesOnly",
+      "HasSelectedCell",
+      "SelectedFieldName",
+      "SelectionHint",
+      "ToggleFavoriteCommand",
+      "IsFavorite",
+      "BindTo",
+      "MapIdeCategory",
+      "PropertyGridViewModel"
+    ],
+    "UI/ViewModels/Shell/DocumentItemVm.cs": [
+      "Id",
+      "Title",
+      "IsDirty",
+      "IsActive",
+      "ContentVm",
+      "FilePath",
+      "DisplayTitle",
+      "DocumentItemVm"
+    ],
+    "UI/ViewModels/Shell/IdeShellViewModel.cs": [
+      "IdeShellViewModel",
+      "Documents",
+      "LeftPanes",
+      "RightPanes",
+      "BottomPanes",
+      "ActiveDocument",
+      "HasActiveDocument",
+      "ActiveContent",
+      "SelectedLeftPane",
+      "IsExplorerSelected",
+      "IsOutlineSelected",
+      "IsLeftPlaceholderSelected",
+      "IsPropertiesSelected",
+      "IsToolboxSelected",
+      "IsInsightSelected",
+      "IsSymbolInfoSelected",
+      "IsRightPlaceholderSelected",
+      "IsXmlBottomSelected",
+      "IsOutputSelected",
+      "IsProblemsSelected",
+      "IsErrorListSelected",
+      "IsReferencesSelected",
+      "IsLogSelected",
+      "IsBottomPlaceholderSelected",
+      "SelectedRightPane",
+      "SelectedBottomPane",
+      "IsLeftDockOpen",
+      "IsRightDockOpen",
+      "IsBottomDockOpen",
+      "StatusReady",
+      "ActivateDocumentCommand",
+      "CloseDocumentCommand",
+      "SelectLeftPaneCommand",
+      "SelectRightPaneCommand",
+      "SelectBottomPaneCommand",
+      "ToggleLeftDockCommand",
+      "ToggleRightDockCommand",
+      "ToggleBottomDockCommand",
+      "OpenOrActivate",
+      "ActivateDocument",
+      "CloseDocument",
+      "IdeShellViewModel"
+    ],
+    "UI/ViewModels/Shell/ToolPaneVm.cs": [
+      "Title",
+      "Kind",
+      "ComingInStep",
+      "IsSelected",
+      "PlaceholderMessage",
+      "CreatePlaceholder",
+      "ToolPaneVm"
+    ],
+    "UI/ViewModels/SqlDocumentViewModel.cs": [
+      "SqlDocumentViewModel",
+      "ResultSets",
+      "ConnectionTargets",
+      "ScriptText",
+      "SelectedScript",
+      "HasSelection",
+      "ScriptToRun",
+      "ExecuteButtonLabel",
+      "FilePath",
+      "HasDiskFile",
+      "Title",
+      "IsDirty",
+      "IsBusy",
+      "SelectedTarget",
+      "TargetDbLabel",
+      "MessagesText",
+      "SelectedResultView",
+      "SelectedResultSet",
+      "Status",
+      "ExecuteCommand",
+      "CancelCommand",
+      "SaveCommand",
+      "Initialize",
+      "ReplaceScript",
+      "TrySelectTarget",
+      "Save",
+      "SqlDocumentViewModel",
+      "Id",
+      "Display",
+      "ConnectionString",
+      "IsSys",
+      "Code",
+      "DatabaseName",
+      "SqlConnectionTargetVm",
+      "SqlResultSetVm",
+      "Title",
+      "Table",
+      "Header",
+      "SqlResultSetVm"
+    ],
+    "UI/ViewModels/TemplateManagerViewModel.cs": [
+      "TemplateManagerViewModel",
+      "Title",
+      "Items",
+      "FilteredItems",
+      "SelectedItem",
+      "SearchText",
+      "StatusMessage",
+      "IsBusy",
+      "NewCommand",
+      "DeleteCommand",
+      "OpenFormCommand",
+      "RefreshCommand",
+      "TemplateManagerViewModel"
+    ],
+    "UI/ViewModels/Toolbox/ToolboxViewModel.cs": [
+      "Name",
+      "Group",
+      "IconKind",
+      "Description",
+      "IsEnabled",
+      "ToolboxItemVm",
+      "ToolboxViewModel",
+      "Items",
+      "FilteredItems",
+      "SearchText",
+      "Hint",
+      "ToolboxViewModel"
+    ],
+    "UI/Views/Bottom/ErrorListPanel.xaml": [],
+    "UI/Views/Bottom/ErrorListPanel.xaml.cs": [
+      "ErrorListPanel",
+      "ErrorListPanel"
+    ],
+    "UI/Views/Bottom/LogPanel.xaml": [],
+    "UI/Views/Bottom/LogPanel.xaml.cs": [
+      "LogPanel",
+      "LogPanel"
+    ],
+    "UI/Views/Bottom/OutputPanel.xaml": [],
+    "UI/Views/Bottom/OutputPanel.xaml.cs": [
+      "OutputPanel",
+      "OutputPanel"
+    ],
+    "UI/Views/Bottom/ProblemsPanel.xaml": [],
+    "UI/Views/Bottom/ProblemsPanel.xaml.cs": [
+      "ProblemsPanel",
+      "ProblemsPanel"
+    ],
+    "UI/Views/Bottom/ReferencesPanel.xaml": [],
+    "UI/Views/Bottom/ReferencesPanel.xaml.cs": [
+      "ReferencesPanel",
+      "ReferencesPanel"
+    ],
+    "UI/Views/Bottom/XmlBottomPanel.xaml": [],
+    "UI/Views/Bottom/XmlBottomPanel.xaml.cs": [
+      "XmlBottomPanel",
+      "OpenSearch",
+      "OpenReplace",
+      "XmlBottomPanel"
+    ],
+    "UI/Views/Controls/AppStatusBar.xaml": [],
+    "UI/Views/Controls/AppStatusBar.xaml.cs": [
+      "AppStatusBar",
+      "AppStatusBar"
+    ],
+    "UI/Views/Controls/BindableSqlEditor.cs": [
+      "BoundTextProperty",
+      "SelectedScriptProperty",
+      "BoundText",
+      "SelectedScript",
+      "BindableSqlEditor",
+      "BindableSqlEditor"
+    ],
+    "UI/Views/Controls/BindableXmlEditor.cs": [
+      "BoundTextProperty",
+      "ScrollToLineProperty",
+      "ScrollToOffsetProperty",
+      "ShowInsightsProperty",
+      "InsightsProperty",
+      "InsightEditCommandProperty",
+      "BoundText",
+      "ScrollToLine",
+      "ScrollToOffset",
+      "ShowInsights",
+      "Insights",
+      "InsightEditCommand",
+      "BindableXmlEditor",
+      "OpenSearch",
+      "OpenReplace",
+      "TryGoToDefinition",
+      "JumpToOffset",
+      "BindableXmlEditor"
+    ],
+    "UI/Views/Controls/ColumnGuides.cs": [
+      "TicksProperty",
+      "TopInsetProperty",
+      "Ticks",
+      "TopInset",
+      "ColumnGuides",
+      "ColumnGuides"
+    ],
+    "UI/Views/Controls/DesignViewport.xaml": [],
+    "UI/Views/Controls/DesignViewport.xaml.cs": [
+      "ContentPadding",
+      "BodyProperty",
+      "ZoomProperty",
+      "ShowGridProperty",
+      "GridSizePxProperty",
+      "ScrollOffsetXProperty",
+      "ScrollOffsetYProperty",
+      "ShowGuidelinesProperty",
+      "GuidelinesProperty",
+      "ActiveGuideXsProperty",
+      "ActiveGuideYsProperty",
+      "SizeBadgeTextProperty",
+      "MouseMarkerXProperty",
+      "MouseMarkerYProperty",
+      "SelectionMarkerXProperty",
+      "SelectionMarkerYProperty",
+      "SnapEnabledProperty",
+      "SnapSizePxProperty",
+      "OriginOffsetXProperty",
+      "OriginOffsetYProperty",
+      "DesignViewport",
+      "Body",
+      "Zoom",
+      "ShowGrid",
+      "GridSizePx",
+      "ScrollOffsetX",
+      "ScrollOffsetY",
+      "ShowGuidelines",
+      "Guidelines",
+      "ActiveGuideXs",
+      "ActiveGuideYs",
+      "SizeBadgeText",
+      "MouseMarkerX",
+      "MouseMarkerY",
+      "SelectionMarkerX",
+      "SelectionMarkerY",
+      "SnapEnabled",
+      "SnapSizePx",
+      "OriginOffsetX",
+      "OriginOffsetY",
+      "DesignViewport"
+    ],
+    "UI/Views/Controls/DotGridBackground.cs": [
+      "ZoomProperty",
+      "OffsetXProperty",
+      "OffsetYProperty",
+      "GridSizePxProperty",
+      "IsGridVisibleProperty",
+      "Zoom",
+      "OffsetX",
+      "OffsetY",
+      "GridSizePx",
+      "IsGridVisible",
+      "DotGridBackground"
+    ],
+    "UI/Views/Controls/EntityInsightBlock.cs": [
+      "EntityInsightBlock",
+      "EntityInsightBlock"
+    ],
+    "UI/Views/Controls/FormRuler.cs": [
+      "TicksProperty",
+      "Ticks",
+      "FormRuler",
+      "FormRuler"
+    ],
+    "UI/Views/Controls/GuidelineLayer.cs": [
+      "GuidelinesProperty",
+      "ActiveGuideXsProperty",
+      "ActiveGuideYsProperty",
+      "ShowGuidelinesProperty",
+      "SizeBadgeTextProperty",
+      "CanvasPaddingXProperty",
+      "CanvasPaddingYProperty",
+      "GuidelineLayer",
+      "Guidelines",
+      "ActiveGuideXs",
+      "ActiveGuideYs",
+      "ShowGuidelines",
+      "SizeBadgeText",
+      "CanvasPaddingX",
+      "CanvasPaddingY",
+      "GuidelineLayer"
+    ],
+    "UI/Views/Controls/InsightEditorSurface.xaml": [],
+    "UI/Views/Controls/InsightEditorSurface.xaml.cs": [
+      "InsightEditorSurface",
+      "OpenSearch",
+      "OpenReplace",
+      "TryGoToDefinition",
+      "InsightEditorSurface"
+    ],
+    "UI/Views/Controls/InsightElementGenerator.cs": [
+      "Insights",
+      "EditCommand",
+      "IsEnabled",
+      "GetFirstInterestedOffset",
+      "ConstructElement",
+      "InsightElementGenerator"
+    ],
+    "UI/Views/Controls/InteractiveFormRuler.cs": [
+      "ColumnWidthChangedEvent",
+      "ColumnActionEvent",
+      "IsCategory",
+      "InteractiveFormRuler",
+      "InteractiveFormRuler",
+      "ColumnWidthChangedEventArgs",
+      "ColumnIndex",
+      "NewWidthPx",
+      "IsPreview",
+      "ColumnWidthChangedEventArgs",
+      "RulerColumnActionEventArgs",
+      "IsCategory",
+      "Action",
+      "Start",
+      "Count",
+      "RulerColumnActionEventArgs"
+    ],
+    "UI/Views/Controls/NavigationPanel.xaml": [],
+    "UI/Views/Controls/NavigationPanel.xaml.cs": [
+      "NavigationPanel",
+      "NavigationPanel"
+    ],
+    "UI/Views/Controls/PixelRuler.cs": [
+      "OrientationProperty",
+      "ZoomProperty",
+      "OffsetProperty",
+      "OriginOffsetProperty",
+      "MajorStepProperty",
+      "MinorStepProperty",
+      "MouseMarkerProperty",
+      "SelectionMarkerProperty",
+      "GuidelineDragStartEvent",
+      "PixelRuler",
+      "Orientation",
+      "Zoom",
+      "Offset",
+      "OriginOffset",
+      "MajorStep",
+      "MinorStep",
+      "MouseMarker",
+      "SelectionMarker",
+      "ScreenToFormPx",
+      "PixelRuler"
+    ],
+    "UI/Views/Controls/SelectionChrome.xaml": [],
+    "UI/Views/Controls/SelectionChrome.xaml.cs": [
+      "EastDragStartedEvent",
+      "EastDragDeltaEvent",
+      "EastDragCompletedEvent",
+      "SelectionChrome",
+      "SelectionChrome"
+    ],
+    "UI/Views/Controls/WorkspaceHost.xaml": [],
+    "UI/Views/Controls/WorkspaceHost.xaml.cs": [
+      "WorkspaceHost",
+      "WorkspaceHost"
+    ],
+    "UI/Views/Explorer/DatabaseExplorerPanel.xaml": [],
+    "UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs": [
+      "DatabaseExplorerPanel",
+      "DatabaseExplorerPanel"
+    ],
+    "UI/Views/Explorer/ExplorerPanel.xaml": [],
+    "UI/Views/Explorer/ExplorerPanel.xaml.cs": [
+      "ExplorerPanel",
+      "ExplorerPanel"
+    ],
+    "UI/Views/Explorer/ExplorerTreePanel.xaml": [],
+    "UI/Views/Explorer/ExplorerTreePanel.xaml.cs": [
+      "NodeActivatedEvent",
+      "ExplorerTreePanel",
+      "ExplorerTreePanel",
+      "ExplorerTreeNodeActivatedEventArgs",
+      "Node",
+      "IsDoubleClick",
+      "ExplorerTreeNodeActivatedEventArgs"
+    ],
+    "UI/Views/Explorer/MenuExplorerPanel.xaml": [],
+    "UI/Views/Explorer/MenuExplorerPanel.xaml.cs": [
+      "MenuExplorerPanel",
+      "MenuExplorerPanel"
+    ],
+    "UI/Views/Explorer/OutlinePanel.xaml": [],
+    "UI/Views/Explorer/OutlinePanel.xaml.cs": [
+      "OutlinePanel",
+      "OutlinePanel"
+    ],
+    "UI/Views/Insight/InsightPanel.xaml": [],
+    "UI/Views/Insight/InsightPanel.xaml.cs": [
+      "InsightPanel",
+      "InsightPanel"
+    ],
+    "UI/Views/Insight/SymbolInfoPanel.xaml": [],
+    "UI/Views/Insight/SymbolInfoPanel.xaml.cs": [
+      "SymbolInfoPanel",
+      "SymbolInfoPanel"
+    ],
+    "UI/Views/Pages/FormBuilderPage.xaml": [],
+    "UI/Views/Pages/FormBuilderPage.xaml.cs": [
+      "FormBuilderPage",
+      "FormBuilderPage"
+    ],
+    "UI/Views/Pages/SqlStudioPage.xaml": [],
+    "UI/Views/Pages/SqlStudioPage.xaml.cs": [
+      "SqlStudioPage",
+      "SqlStudioPage"
+    ],
+    "UI/Views/Pages/TemplateManagerPage.xaml": [],
+    "UI/Views/Pages/TemplateManagerPage.xaml.cs": [
+      "TemplateManagerPage",
+      "TemplateManagerPage"
+    ],
+    "UI/Views/Properties/PropertyGridPanel.xaml": [],
+    "UI/Views/Properties/PropertyGridPanel.xaml.cs": [
+      "PropertyGridPanel",
+      "PropertyGridPanel"
+    ],
+    "UI/Views/Shell/DocumentTabBar.xaml": [],
+    "UI/Views/Shell/DocumentTabBar.xaml.cs": [
+      "DocumentTabBar",
+      "DocumentTabBar"
+    ],
+    "UI/Views/Shell/IdeMenuBar.xaml": [],
+    "UI/Views/Shell/IdeMenuBar.xaml.cs": [
+      "IdeMenuBar",
+      "IdeMenuBar"
+    ],
+    "UI/Views/Shell/IdeRibbon.xaml": [],
+    "UI/Views/Shell/IdeRibbon.xaml.cs": [
+      "IdeRibbon",
+      "IdeRibbon"
+    ],
+    "UI/Views/Toolbox/ToolboxPanel.xaml": [],
+    "UI/Views/Toolbox/ToolboxPanel.xaml.cs": [
+      "ToolboxPanel",
+      "ToolboxPanel"
+    ]
+  },
+  "batches": [
+    {
+      "batchIndex": 1,
+      "files": [
+        {
+          "path": ".github/workflows/ci.yml",
+          "language": "yaml",
+          "sizeLines": 30,
+          "fileCategory": "infra"
+        }
+      ],
+      "batchImportData": {
+        ".github/workflows/ci.yml": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 2,
+      "files": [
+        {
+          "path": "DevWorkFlow.Domain/Schemas/Dir.xsd",
+          "language": "xml",
+          "sizeLines": 470,
+          "fileCategory": "config"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Schemas/Grid.xsd",
+          "language": "xml",
+          "sizeLines": 499,
+          "fileCategory": "config"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Schemas/Lookup.xsd",
+          "language": "xml",
+          "sizeLines": 164,
+          "fileCategory": "config"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Schemas/Report.xsd",
+          "language": "xml",
+          "sizeLines": 142,
+          "fileCategory": "config"
+        }
+      ],
+      "batchImportData": {
+        "DevWorkFlow.Domain/Schemas/Dir.xsd": [],
+        "DevWorkFlow.Domain/Schemas/Grid.xsd": [],
+        "DevWorkFlow.Domain/Schemas/Lookup.xsd": [],
+        "DevWorkFlow.Domain/Schemas/Report.xsd": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 3,
+      "files": [
+        {
+          "path": "UI/Config/SQL/database_catalog.sql",
+          "language": "sql",
+          "sizeLines": 8,
+          "fileCategory": "data"
+        },
+        {
+          "path": "UI/Config/SQL/object_definition.sql",
+          "language": "sql",
+          "sizeLines": 5,
+          "fileCategory": "data"
+        },
+        {
+          "path": "UI/Config/SQL/table_columns.sql",
+          "language": "sql",
+          "sizeLines": 25,
+          "fileCategory": "data"
+        }
+      ],
+      "batchImportData": {
+        "UI/Config/SQL/database_catalog.sql": [],
+        "UI/Config/SQL/object_definition.sql": [],
+        "UI/Config/SQL/table_columns.sql": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 4,
+      "files": [
+        {
+          "path": "UI/Config/json/database.json",
+          "language": "json",
+          "sizeLines": 12,
+          "fileCategory": "config"
+        },
+        {
+          "path": "UI/Config/json/explorer.json",
+          "language": "json",
+          "sizeLines": 36,
+          "fileCategory": "config"
+        },
+        {
+          "path": "UI/Config/json/menu.json",
+          "language": "json",
+          "sizeLines": 4,
+          "fileCategory": "config"
+        }
+      ],
+      "batchImportData": {
+        "UI/Config/json/database.json": [],
+        "UI/Config/json/explorer.json": [],
+        "UI/Config/json/menu.json": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 5,
+      "files": [
+        {
+          "path": "UI/Config/xml/database.object-actions.xml",
+          "language": "xml",
+          "sizeLines": 41,
+          "fileCategory": "config"
+        },
+        {
+          "path": "UI/Config/xml/database.object-types.xml",
+          "language": "xml",
+          "sizeLines": 10,
+          "fileCategory": "config"
+        },
+        {
+          "path": "UI/Config/xml/explorer.controller-folders.xml",
+          "language": "xml",
+          "sizeLines": 10,
+          "fileCategory": "config"
+        }
+      ],
+      "batchImportData": {
+        "UI/Config/xml/database.object-actions.xml": [],
+        "UI/Config/xml/database.object-types.xml": [],
+        "UI/Config/xml/explorer.controller-folders.xml": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 6,
+      "files": [
+        {
+          "path": "docs/AI_RULES.md",
+          "language": "markdown",
+          "sizeLines": 134,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/ARCHITECTURE.md",
+          "language": "markdown",
+          "sizeLines": 172,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/DECISIONS.md",
+          "language": "markdown",
+          "sizeLines": 313,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/ERP_LANGUAGE_SERVICE.md",
+          "language": "markdown",
+          "sizeLines": 1129,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/EXPLORER_TREE_PANEL.md",
+          "language": "markdown",
+          "sizeLines": 206,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/NAVIGATION_SERVICE.md",
+          "language": "markdown",
+          "sizeLines": 101,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/PRODUCT_VISION.md",
+          "language": "markdown",
+          "sizeLines": 63,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/PROJECT_STATUS.md",
+          "language": "markdown",
+          "sizeLines": 527,
+          "fileCategory": "docs"
+        },
+        {
+          "path": "docs/ROADMAP.md",
+          "language": "markdown",
+          "sizeLines": 595,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        "docs/AI_RULES.md": [],
+        "docs/ARCHITECTURE.md": [],
+        "docs/DECISIONS.md": [],
+        "docs/ERP_LANGUAGE_SERVICE.md": [],
+        "docs/EXPLORER_TREE_PANEL.md": [],
+        "docs/NAVIGATION_SERVICE.md": [],
+        "docs/PRODUCT_VISION.md": [],
+        "docs/PROJECT_STATUS.md": [],
+        "docs/ROADMAP.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 7,
+      "files": [
+        {
+          "path": ".gitattributes",
+          "language": "unknown",
+          "sizeLines": 63,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Abstractions/IServices.cs",
+          "language": "csharp",
+          "sizeLines": 70,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs",
+          "language": "csharp",
+          "sizeLines": 13,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/DevWorkFlow.Application.csproj",
+          "language": "csproj",
+          "sizeLines": 17,
+          "fileCategory": "config"
+        },
+        {
+          "path": "DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs",
+          "language": "csharp",
+          "sizeLines": 67,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+          "language": "csharp",
+          "sizeLines": 48,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+          "language": "csharp",
+          "sizeLines": 116,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+          "language": "csharp",
+          "sizeLines": 131,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Engine/FboXmlParser.cs",
+          "language": "csharp",
+          "sizeLines": 573,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+          "language": "csharp",
+          "sizeLines": 220,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+          "language": "csharp",
+          "sizeLines": 74,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Engine/WorkflowEngine.cs",
+          "language": "csharp",
+          "sizeLines": 137,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Engine/XmlFormParser.cs",
+          "language": "csharp",
+          "sizeLines": 143,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+          "language": "csharp",
+          "sizeLines": 96,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+          "language": "csharp",
+          "sizeLines": 77,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+          "language": "csharp",
+          "sizeLines": 971,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/ErpDocument.cs",
+          "language": "csharp",
+          "sizeLines": 93,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/ErpLanguageService.cs",
+          "language": "csharp",
+          "sizeLines": 317,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/ErpNavigationService.cs",
+          "language": "csharp",
+          "sizeLines": 107,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+          "language": "csharp",
+          "sizeLines": 375,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+          "language": "csharp",
+          "sizeLines": 85,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/IErpLanguageService.cs",
+          "language": "csharp",
+          "sizeLines": 83,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs",
+          "language": "csharp",
+          "sizeLines": 95,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/InsightProviderPipeline.cs",
+          "language": "csharp",
+          "sizeLines": 188,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/NavigationMap.cs",
+          "language": "csharp",
+          "sizeLines": 80,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        ".gitattributes": [],
+        "DevWorkFlow.Application/Abstractions/IServices.cs": [],
+        "DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs": [],
+        "DevWorkFlow.Application/DevWorkFlow.Application.csproj": [],
+        "DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs": [],
+        "DevWorkFlow.Application/Engine/FboLayoutUnits.cs": [],
+        "DevWorkFlow.Application/Engine/FboOptionsCatalog.cs": [],
+        "DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs": [],
+        "DevWorkFlow.Application/Engine/FboXmlParser.cs": [],
+        "DevWorkFlow.Application/Engine/FboXmlWriter.cs": [],
+        "DevWorkFlow.Application/Engine/LookupReferenceResolver.cs": [],
+        "DevWorkFlow.Application/Engine/WorkflowEngine.cs": [],
+        "DevWorkFlow.Application/Engine/XmlFormParser.cs": [],
+        "DevWorkFlow.Application/Engine/XmlStructureParser.cs": [],
+        "DevWorkFlow.Application/Language/DiagnosticGridMapper.cs": [],
+        "DevWorkFlow.Application/Language/EntitySymbolBinder.cs": [],
+        "DevWorkFlow.Application/Language/ErpDocument.cs": [],
+        "DevWorkFlow.Application/Language/ErpLanguageService.cs": [],
+        "DevWorkFlow.Application/Language/ErpNavigationService.cs": [],
+        "DevWorkFlow.Application/Language/ErpSemanticBinder.cs": [],
+        "DevWorkFlow.Application/Language/ErpSemanticModel.cs": [],
+        "DevWorkFlow.Application/Language/IErpLanguageService.cs": [],
+        "DevWorkFlow.Application/Language/InMemoryErpWorkspace.cs": [],
+        "DevWorkFlow.Application/Language/InsightProviderPipeline.cs": [],
+        "DevWorkFlow.Application/Language/NavigationMap.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 8,
+      "files": [
+        {
+          "path": "DevWorkFlow.Application/Language/NavigationMapBuilder.cs",
+          "language": "csharp",
+          "sizeLines": 501,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/Schema/XsdSchemaCatalog.cs",
+          "language": "csharp",
+          "sizeLines": 83,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/Syntax/FboLexer.cs",
+          "language": "csharp",
+          "sizeLines": 195,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/Syntax/FboSyntaxParser.cs",
+          "language": "csharp",
+          "sizeLines": 323,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/Syntax/SyntaxStructureProjector.cs",
+          "language": "csharp",
+          "sizeLines": 80,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Application/Language/WorkspaceSymbolIndex.cs",
+          "language": "csharp",
+          "sizeLines": 117,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/DevWorkFlow.Domain.csproj",
+          "language": "csproj",
+          "sizeLines": 13,
+          "fileCategory": "config"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/DocumentModel.cs",
+          "language": "csharp",
+          "sizeLines": 14,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/DocumentNode.cs",
+          "language": "csharp",
+          "sizeLines": 41,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/ErpDiagnostic.cs",
+          "language": "csharp",
+          "sizeLines": 25,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+          "language": "csharp",
+          "sizeLines": 18,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/ErpDocumentProjection.cs",
+          "language": "csharp",
+          "sizeLines": 57,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/ErpMetadataProfile.cs",
+          "language": "csharp",
+          "sizeLines": 17,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/ErpSymbol.cs",
+          "language": "csharp",
+          "sizeLines": 27,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/ErpSymbolKind.cs",
+          "language": "csharp",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+          "language": "csharp",
+          "sizeLines": 117,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/IErpDocument.cs",
+          "language": "csharp",
+          "sizeLines": 37,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/IErpNavigationService.cs",
+          "language": "csharp",
+          "sizeLines": 32,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/IErpSemanticModel.cs",
+          "language": "csharp",
+          "sizeLines": 36,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/IErpWorkspace.cs",
+          "language": "csharp",
+          "sizeLines": 23,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/INavigationMap.cs",
+          "language": "csharp",
+          "sizeLines": 24,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/Insights.cs",
+          "language": "csharp",
+          "sizeLines": 99,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+          "language": "csharp",
+          "sizeLines": 26,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/NavigationTarget.cs",
+          "language": "csharp",
+          "sizeLines": 28,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/NodeId.cs",
+          "language": "csharp",
+          "sizeLines": 30,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "DevWorkFlow.Application/Language/NavigationMapBuilder.cs": [],
+        "DevWorkFlow.Application/Language/Schema/XsdSchemaCatalog.cs": [],
+        "DevWorkFlow.Application/Language/Syntax/FboLexer.cs": [],
+        "DevWorkFlow.Application/Language/Syntax/FboSyntaxParser.cs": [],
+        "DevWorkFlow.Application/Language/Syntax/SyntaxStructureProjector.cs": [],
+        "DevWorkFlow.Application/Language/WorkspaceSymbolIndex.cs": [],
+        "DevWorkFlow.Domain/DevWorkFlow.Domain.csproj": [],
+        "DevWorkFlow.Domain/Language/DocumentModel.cs": [],
+        "DevWorkFlow.Domain/Language/DocumentNode.cs": [],
+        "DevWorkFlow.Domain/Language/ErpDiagnostic.cs": [],
+        "DevWorkFlow.Domain/Language/ErpDocumentId.cs": [],
+        "DevWorkFlow.Domain/Language/ErpDocumentProjection.cs": [],
+        "DevWorkFlow.Domain/Language/ErpMetadataProfile.cs": [],
+        "DevWorkFlow.Domain/Language/ErpSymbol.cs": [],
+        "DevWorkFlow.Domain/Language/ErpSymbolKind.cs": [],
+        "DevWorkFlow.Domain/Language/ErpSymbolTypes.cs": [],
+        "DevWorkFlow.Domain/Language/IErpDocument.cs": [],
+        "DevWorkFlow.Domain/Language/IErpNavigationService.cs": [],
+        "DevWorkFlow.Domain/Language/IErpSemanticModel.cs": [],
+        "DevWorkFlow.Domain/Language/IErpWorkspace.cs": [],
+        "DevWorkFlow.Domain/Language/INavigationMap.cs": [],
+        "DevWorkFlow.Domain/Language/Insights.cs": [],
+        "DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs": [],
+        "DevWorkFlow.Domain/Language/NavigationTarget.cs": [],
+        "DevWorkFlow.Domain/Language/NodeId.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 9,
+      "files": [
+        {
+          "path": "DevWorkFlow.Domain/Language/SourceLocation.cs",
+          "language": "csharp",
+          "sizeLines": 39,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/StorageSnapshot.cs",
+          "language": "csharp",
+          "sizeLines": 18,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/SymbolReference.cs",
+          "language": "csharp",
+          "sizeLines": 12,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+          "language": "csharp",
+          "sizeLines": 46,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/Syntax/SyntaxKind.cs",
+          "language": "csharp",
+          "sizeLines": 29,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+          "language": "csharp",
+          "sizeLines": 67,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+          "language": "csharp",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+          "language": "csharp",
+          "sizeLines": 64,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/TextRange.cs",
+          "language": "csharp",
+          "sizeLines": 20,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/AppDatabaseInfo.cs",
+          "language": "csharp",
+          "sizeLines": 11,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/ControllerFileItem.cs",
+          "language": "csharp",
+          "sizeLines": 61,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+          "language": "csharp",
+          "sizeLines": 41,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+          "language": "csharp",
+          "sizeLines": 56,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+          "language": "csharp",
+          "sizeLines": 126,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+          "language": "csharp",
+          "sizeLines": 41,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+          "language": "csharp",
+          "sizeLines": 62,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+          "language": "csharp",
+          "sizeLines": 32,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/Fbo/FormCategory.cs",
+          "language": "csharp",
+          "sizeLines": 20,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+          "language": "csharp",
+          "sizeLines": 92,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/Fbo/Schema/FboSchemaEnums.cs",
+          "language": "csharp",
+          "sizeLines": 70,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/FieldDefinition.cs",
+          "language": "csharp",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/FormDefinition.cs",
+          "language": "csharp",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/MenuResourceBundle.cs",
+          "language": "csharp",
+          "sizeLines": 24,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "DevWorkFlow.Domain/Language/SourceLocation.cs": [],
+        "DevWorkFlow.Domain/Language/StorageSnapshot.cs": [],
+        "DevWorkFlow.Domain/Language/SymbolReference.cs": [],
+        "DevWorkFlow.Domain/Language/Syntax/LineMap.cs": [],
+        "DevWorkFlow.Domain/Language/Syntax/SyntaxKind.cs": [],
+        "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs": [],
+        "DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs": [],
+        "DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs": [],
+        "DevWorkFlow.Domain/Language/TextRange.cs": [],
+        "DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs": [],
+        "DevWorkFlow.Domain/Models/AppDatabaseInfo.cs": [],
+        "DevWorkFlow.Domain/Models/ControllerFileItem.cs": [],
+        "DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs": [],
+        "DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs": [],
+        "DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs": [],
+        "DevWorkFlow.Domain/Models/Fbo/FboField.cs": [],
+        "DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs": [],
+        "DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs": [],
+        "DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs": [],
+        "DevWorkFlow.Domain/Models/Fbo/FormCategory.cs": [],
+        "DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs": [],
+        "DevWorkFlow.Domain/Models/Fbo/Schema/FboSchemaEnums.cs": [],
+        "DevWorkFlow.Domain/Models/FieldDefinition.cs": [],
+        "DevWorkFlow.Domain/Models/FormDefinition.cs": [],
+        "DevWorkFlow.Domain/Models/MenuResourceBundle.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 10,
+      "files": [
+        {
+          "path": "DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+          "language": "csharp",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/NodeDefinition.cs",
+          "language": "csharp",
+          "sizeLines": 38,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/ProgramContext.cs",
+          "language": "csharp",
+          "sizeLines": 29,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/ProgramPathHelper.cs",
+          "language": "csharp",
+          "sizeLines": 38,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/Sql/FboSqlFragment.cs",
+          "language": "csharp",
+          "sizeLines": 17,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs",
+          "language": "csharp",
+          "sizeLines": 28,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/TemplateType.cs",
+          "language": "csharp",
+          "sizeLines": 10,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/WCommandItem.cs",
+          "language": "csharp",
+          "sizeLines": 39,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/WorkflowDefinition.cs",
+          "language": "csharp",
+          "sizeLines": 18,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+          "language": "csharp",
+          "sizeLines": 38,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Infrastructure/DevWorkFlow.Infrastructure.csproj",
+          "language": "csproj",
+          "sizeLines": 18,
+          "fileCategory": "config"
+        },
+        {
+          "path": "DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+          "language": "csharp",
+          "sizeLines": 52,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs",
+          "language": "csharp",
+          "sizeLines": 35,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Infrastructure/Services/EntityRepository.cs",
+          "language": "csharp",
+          "sizeLines": 44,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+          "language": "csharp",
+          "sizeLines": 78,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Infrastructure/Services/MenuService.cs",
+          "language": "csharp",
+          "sizeLines": 510,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+          "language": "csharp",
+          "sizeLines": 33,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+          "language": "csharp",
+          "sizeLines": 30,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+          "language": "csharp",
+          "sizeLines": 192,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+          "language": "csharp",
+          "sizeLines": 70,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Infrastructure/Services/WcommandRepository.cs",
+          "language": "csharp",
+          "sizeLines": 69,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+          "language": "csharp",
+          "sizeLines": 95,
+          "fileCategory": "code"
+        },
+        {
+          "path": "DevWorkFlow.slnx",
+          "language": "slnx",
+          "sizeLines": 19,
+          "fileCategory": "code"
+        },
+        {
+          "path": "global.json",
+          "language": "json",
+          "sizeLines": 7,
+          "fileCategory": "config"
+        },
+        {
+          "path": "README.md",
+          "language": "markdown",
+          "sizeLines": 0,
+          "fileCategory": "docs"
+        }
+      ],
+      "batchImportData": {
+        "DevWorkFlow.Domain/Models/MenuTreeNode.cs": [],
+        "DevWorkFlow.Domain/Models/NodeDefinition.cs": [],
+        "DevWorkFlow.Domain/Models/ProgramContext.cs": [],
+        "DevWorkFlow.Domain/Models/ProgramPathHelper.cs": [],
+        "DevWorkFlow.Domain/Models/Sql/FboSqlFragment.cs": [],
+        "DevWorkFlow.Domain/Models/Sql/SqlRunResult.cs": [],
+        "DevWorkFlow.Domain/Models/TemplateType.cs": [],
+        "DevWorkFlow.Domain/Models/WCommandItem.cs": [],
+        "DevWorkFlow.Domain/Models/WorkflowDefinition.cs": [],
+        "DevWorkFlow.Domain/Models/WorkflowInstance.cs": [],
+        "DevWorkFlow.Infrastructure/DevWorkFlow.Infrastructure.csproj": [],
+        "DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs": [],
+        "DevWorkFlow.Infrastructure/Services/AspxControllerParser.cs": [],
+        "DevWorkFlow.Infrastructure/Services/EntityRepository.cs": [],
+        "DevWorkFlow.Infrastructure/Services/InMemoryServices.cs": [],
+        "DevWorkFlow.Infrastructure/Services/MenuService.cs": [],
+        "DevWorkFlow.Infrastructure/Services/NavigationService.cs": [],
+        "DevWorkFlow.Infrastructure/Services/ProgramSession.cs": [],
+        "DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs": [],
+        "DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs": [],
+        "DevWorkFlow.Infrastructure/Services/WcommandRepository.cs": [],
+        "DevWorkFlow.Infrastructure/Services/WebConfigReader.cs": [],
+        "DevWorkFlow.slnx": [],
+        "global.json": [],
+        "README.md": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 11,
+      "files": [
+        {
+          "path": "tests/DevWorkFlow.Application.Tests/DevWorkFlow.Application.Tests.csproj",
+          "language": "csproj",
+          "sizeLines": 24,
+          "fileCategory": "config"
+        },
+        {
+          "path": "tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+          "language": "csharp",
+          "sizeLines": 58,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+          "language": "csharp",
+          "sizeLines": 228,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+          "language": "csharp",
+          "sizeLines": 86,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+          "language": "csharp",
+          "sizeLines": 167,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+          "language": "csharp",
+          "sizeLines": 90,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+          "language": "csharp",
+          "sizeLines": 96,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+          "language": "csharp",
+          "sizeLines": 73,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+          "language": "csharp",
+          "sizeLines": 98,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+          "language": "csharp",
+          "sizeLines": 210,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+          "language": "csharp",
+          "sizeLines": 67,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+          "language": "csharp",
+          "sizeLines": 177,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/DevWorkFlow.Domain.Tests/DevWorkFlow.Domain.Tests.csproj",
+          "language": "csproj",
+          "sizeLines": 24,
+          "fileCategory": "config"
+        },
+        {
+          "path": "tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+          "language": "csharp",
+          "sizeLines": 39,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+          "language": "csharp",
+          "sizeLines": 63,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/App.xaml",
+          "language": "xaml",
+          "sizeLines": 29,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/App.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 80,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/AssemblyInfo.cs",
+          "language": "csharp",
+          "sizeLines": 10,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Commands/IdeCommands.cs",
+          "language": "csharp",
+          "sizeLines": 50,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Converters/Converters.cs",
+          "language": "csharp",
+          "sizeLines": 62,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Docking/DockPanelHost.xaml",
+          "language": "xaml",
+          "sizeLines": 17,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Docking/DockPanelHost.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Docking/DockRegion.cs",
+          "language": "csharp",
+          "sizeLines": 10,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Docking/DockService.cs",
+          "language": "csharp",
+          "sizeLines": 39,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Docking/IDockService.cs",
+          "language": "csharp",
+          "sizeLines": 14,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "tests/DevWorkFlow.Application.Tests/DevWorkFlow.Application.Tests.csproj": [],
+        "tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs": [],
+        "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs": [],
+        "tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs": [],
+        "tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs": [],
+        "tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs": [],
+        "tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs": [],
+        "tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs": [],
+        "tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs": [],
+        "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs": [],
+        "tests/DevWorkFlow.Application.Tests/Sp226Paths.cs": [],
+        "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs": [],
+        "tests/DevWorkFlow.Domain.Tests/DevWorkFlow.Domain.Tests.csproj": [],
+        "tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs": [],
+        "tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs": [],
+        "UI/App.xaml": [],
+        "UI/App.xaml.cs": [],
+        "UI/AssemblyInfo.cs": [],
+        "UI/Commands/IdeCommands.cs": [],
+        "UI/Converters/Converters.cs": [],
+        "UI/Docking/DockPanelHost.xaml": [],
+        "UI/Docking/DockPanelHost.xaml.cs": [],
+        "UI/Docking/DockRegion.cs": [],
+        "UI/Docking/DockService.cs": [],
+        "UI/Docking/IDockService.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 12,
+      "files": [
+        {
+          "path": "UI/MainWindow.xaml",
+          "language": "xaml",
+          "sizeLines": 429,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/MainWindow.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 242,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Services/AppConfigStore.cs",
+          "language": "csharp",
+          "sizeLines": 370,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Services/DatabaseObjectScripter.cs",
+          "language": "csharp",
+          "sizeLines": 180,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Services/FboDesignMapper.cs",
+          "language": "csharp",
+          "sizeLines": 512,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Services/FieldPropertySchema.cs",
+          "language": "csharp",
+          "sizeLines": 255,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Services/FormDocumentNavigator.cs",
+          "language": "csharp",
+          "sizeLines": 27,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Services/LeftExplorerLoadCoordinator.cs",
+          "language": "csharp",
+          "sizeLines": 57,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Services/SqlStudioNavigator.cs",
+          "language": "csharp",
+          "sizeLines": 31,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Themes/AppStyles.xaml",
+          "language": "xaml",
+          "sizeLines": 490,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Themes/IdeShell.xaml",
+          "language": "xaml",
+          "sizeLines": 111,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/UI.csproj",
+          "language": "csproj",
+          "sizeLines": 28,
+          "fileCategory": "config"
+        },
+        {
+          "path": "UI/UI.csproj.user",
+          "language": "user",
+          "sizeLines": 3,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Base/RelayCommand.cs",
+          "language": "csharp",
+          "sizeLines": 67,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Base/RelayCommandT.cs",
+          "language": "csharp",
+          "sizeLines": 28,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Base/ViewModelBase.cs",
+          "language": "csharp",
+          "sizeLines": 21,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+          "language": "csharp",
+          "sizeLines": 108,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 179,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Bottom/ProblemItemVm.cs",
+          "language": "csharp",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 125,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 178,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+          "language": "csharp",
+          "sizeLines": 490,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Design/DesignViewportVm.cs",
+          "language": "csharp",
+          "sizeLines": 238,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Design/GuidelineVm.cs",
+          "language": "csharp",
+          "sizeLines": 33,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Design/InsightEditorLineVm.cs",
+          "language": "csharp",
+          "sizeLines": 93,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "UI/MainWindow.xaml": [],
+        "UI/MainWindow.xaml.cs": [],
+        "UI/Services/AppConfigStore.cs": [],
+        "UI/Services/DatabaseObjectScripter.cs": [],
+        "UI/Services/FboDesignMapper.cs": [],
+        "UI/Services/FieldPropertySchema.cs": [],
+        "UI/Services/FormDocumentNavigator.cs": [],
+        "UI/Services/LeftExplorerLoadCoordinator.cs": [],
+        "UI/Services/SqlStudioNavigator.cs": [],
+        "UI/Themes/AppStyles.xaml": [],
+        "UI/Themes/IdeShell.xaml": [],
+        "UI/UI.csproj": [],
+        "UI/UI.csproj.user": [],
+        "UI/ViewModels/Base/RelayCommand.cs": [],
+        "UI/ViewModels/Base/RelayCommandT.cs": [],
+        "UI/ViewModels/Base/ViewModelBase.cs": [],
+        "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs": [],
+        "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs": [],
+        "UI/ViewModels/Bottom/ProblemItemVm.cs": [],
+        "UI/ViewModels/Bottom/XmlBottomViewModel.cs": [],
+        "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs": [],
+        "UI/ViewModels/Design/DesignSurfaceVm.cs": [],
+        "UI/ViewModels/Design/DesignViewportVm.cs": [],
+        "UI/ViewModels/Design/GuidelineVm.cs": [],
+        "UI/ViewModels/Design/InsightEditorLineVm.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 13,
+      "files": [
+        {
+          "path": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 483,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+          "language": "csharp",
+          "sizeLines": 201,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+          "language": "csharp",
+          "sizeLines": 216,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+          "language": "csharp",
+          "sizeLines": 76,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+          "language": "csharp",
+          "sizeLines": 18,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 333,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 702,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/FormBuilderViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 1515,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Insight/InsightPanelViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 141,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 178,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/MainViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 560,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/MenuNodeViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 270,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/NavigationViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 779,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Properties/PropertyGridViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 187,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Shell/DocumentItemVm.cs",
+          "language": "csharp",
+          "sizeLines": 42,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Shell/IdeShellViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 274,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Shell/ToolPaneVm.cs",
+          "language": "csharp",
+          "sizeLines": 59,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/SqlDocumentViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 436,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/TemplateManagerViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 130,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+          "language": "csharp",
+          "sizeLines": 112,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Bottom/ErrorListPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 38,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Bottom/ErrorListPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Bottom/LogPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Bottom/LogPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Bottom/OutputPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 32,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs": [],
+        "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs": [],
+        "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs": [],
+        "UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs": [],
+        "UI/ViewModels/Explorer/IExplorerTreeSource.cs": [],
+        "UI/ViewModels/Explorer/OutlineViewModel.cs": [],
+        "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs": [],
+        "UI/ViewModels/FormBuilderViewModel.cs": [],
+        "UI/ViewModels/Insight/InsightPanelViewModel.cs": [],
+        "UI/ViewModels/Insight/SymbolInfoViewModel.cs": [],
+        "UI/ViewModels/MainViewModel.cs": [],
+        "UI/ViewModels/MenuNodeViewModel.cs": [],
+        "UI/ViewModels/NavigationViewModel.cs": [],
+        "UI/ViewModels/Properties/PropertyGridViewModel.cs": [],
+        "UI/ViewModels/Shell/DocumentItemVm.cs": [],
+        "UI/ViewModels/Shell/IdeShellViewModel.cs": [],
+        "UI/ViewModels/Shell/ToolPaneVm.cs": [],
+        "UI/ViewModels/SqlDocumentViewModel.cs": [],
+        "UI/ViewModels/TemplateManagerViewModel.cs": [],
+        "UI/ViewModels/Toolbox/ToolboxViewModel.cs": [],
+        "UI/Views/Bottom/ErrorListPanel.xaml": [],
+        "UI/Views/Bottom/ErrorListPanel.xaml.cs": [],
+        "UI/Views/Bottom/LogPanel.xaml": [],
+        "UI/Views/Bottom/LogPanel.xaml.cs": [],
+        "UI/Views/Bottom/OutputPanel.xaml": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 14,
+      "files": [
+        {
+          "path": "UI/Views/Bottom/OutputPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Bottom/ProblemsPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 56,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Bottom/ProblemsPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 29,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Bottom/ReferencesPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Bottom/ReferencesPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 29,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Bottom/XmlBottomPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 153,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 31,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/AppStatusBar.xaml",
+          "language": "xaml",
+          "sizeLines": 48,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/AppStatusBar.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 11,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/BindableSqlEditor.cs",
+          "language": "csharp",
+          "sizeLines": 114,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/BindableXmlEditor.cs",
+          "language": "csharp",
+          "sizeLines": 352,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/ColumnGuides.cs",
+          "language": "csharp",
+          "sizeLines": 147,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/DesignViewport.xaml",
+          "language": "xaml",
+          "sizeLines": 82,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/DesignViewport.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 424,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/DotGridBackground.cs",
+          "language": "csharp",
+          "sizeLines": 132,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/EntityInsightBlock.cs",
+          "language": "csharp",
+          "sizeLines": 127,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/FormRuler.cs",
+          "language": "csharp",
+          "sizeLines": 136,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/GuidelineLayer.cs",
+          "language": "csharp",
+          "sizeLines": 278,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/InsightEditorSurface.xaml",
+          "language": "xaml",
+          "sizeLines": 112,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/InsightEditorSurface.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 53,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/InsightElementGenerator.cs",
+          "language": "csharp",
+          "sizeLines": 63,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/InteractiveFormRuler.cs",
+          "language": "csharp",
+          "sizeLines": 370,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/NavigationPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 201,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/NavigationPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 48,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/PixelRuler.cs",
+          "language": "csharp",
+          "sizeLines": 261,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "UI/Views/Bottom/OutputPanel.xaml.cs": [],
+        "UI/Views/Bottom/ProblemsPanel.xaml": [],
+        "UI/Views/Bottom/ProblemsPanel.xaml.cs": [],
+        "UI/Views/Bottom/ReferencesPanel.xaml": [],
+        "UI/Views/Bottom/ReferencesPanel.xaml.cs": [],
+        "UI/Views/Bottom/XmlBottomPanel.xaml": [],
+        "UI/Views/Bottom/XmlBottomPanel.xaml.cs": [],
+        "UI/Views/Controls/AppStatusBar.xaml": [],
+        "UI/Views/Controls/AppStatusBar.xaml.cs": [],
+        "UI/Views/Controls/BindableSqlEditor.cs": [],
+        "UI/Views/Controls/BindableXmlEditor.cs": [],
+        "UI/Views/Controls/ColumnGuides.cs": [],
+        "UI/Views/Controls/DesignViewport.xaml": [],
+        "UI/Views/Controls/DesignViewport.xaml.cs": [],
+        "UI/Views/Controls/DotGridBackground.cs": [],
+        "UI/Views/Controls/EntityInsightBlock.cs": [],
+        "UI/Views/Controls/FormRuler.cs": [],
+        "UI/Views/Controls/GuidelineLayer.cs": [],
+        "UI/Views/Controls/InsightEditorSurface.xaml": [],
+        "UI/Views/Controls/InsightEditorSurface.xaml.cs": [],
+        "UI/Views/Controls/InsightElementGenerator.cs": [],
+        "UI/Views/Controls/InteractiveFormRuler.cs": [],
+        "UI/Views/Controls/NavigationPanel.xaml": [],
+        "UI/Views/Controls/NavigationPanel.xaml.cs": [],
+        "UI/Views/Controls/PixelRuler.cs": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 15,
+      "files": [
+        {
+          "path": "UI/Views/Controls/SelectionChrome.xaml",
+          "language": "xaml",
+          "sizeLines": 44,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/SelectionChrome.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 58,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/WorkspaceHost.xaml",
+          "language": "xaml",
+          "sizeLines": 33,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Controls/WorkspaceHost.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 11,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Explorer/DatabaseExplorerPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 31,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Explorer/ExplorerPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Explorer/ExplorerPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Explorer/ExplorerTreePanel.xaml",
+          "language": "xaml",
+          "sizeLines": 80,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 125,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Explorer/MenuExplorerPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 34,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Explorer/MenuExplorerPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 17,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Explorer/OutlinePanel.xaml",
+          "language": "xaml",
+          "sizeLines": 35,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Explorer/OutlinePanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 16,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Insight/InsightPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 68,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Insight/InsightPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Insight/SymbolInfoPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 57,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Insight/SymbolInfoPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 9,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Pages/FormBuilderPage.xaml",
+          "language": "xaml",
+          "sizeLines": 789,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Pages/FormBuilderPage.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 65,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Pages/SqlStudioPage.xaml",
+          "language": "xaml",
+          "sizeLines": 113,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Pages/SqlStudioPage.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 6,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Pages/TemplateManagerPage.xaml",
+          "language": "xaml",
+          "sizeLines": 79,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Pages/TemplateManagerPage.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Properties/PropertyGridPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 164,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "UI/Views/Controls/SelectionChrome.xaml": [],
+        "UI/Views/Controls/SelectionChrome.xaml.cs": [],
+        "UI/Views/Controls/WorkspaceHost.xaml": [],
+        "UI/Views/Controls/WorkspaceHost.xaml.cs": [],
+        "UI/Views/Explorer/DatabaseExplorerPanel.xaml": [],
+        "UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs": [],
+        "UI/Views/Explorer/ExplorerPanel.xaml": [],
+        "UI/Views/Explorer/ExplorerPanel.xaml.cs": [],
+        "UI/Views/Explorer/ExplorerTreePanel.xaml": [],
+        "UI/Views/Explorer/ExplorerTreePanel.xaml.cs": [],
+        "UI/Views/Explorer/MenuExplorerPanel.xaml": [],
+        "UI/Views/Explorer/MenuExplorerPanel.xaml.cs": [],
+        "UI/Views/Explorer/OutlinePanel.xaml": [],
+        "UI/Views/Explorer/OutlinePanel.xaml.cs": [],
+        "UI/Views/Insight/InsightPanel.xaml": [],
+        "UI/Views/Insight/InsightPanel.xaml.cs": [],
+        "UI/Views/Insight/SymbolInfoPanel.xaml": [],
+        "UI/Views/Insight/SymbolInfoPanel.xaml.cs": [],
+        "UI/Views/Pages/FormBuilderPage.xaml": [],
+        "UI/Views/Pages/FormBuilderPage.xaml.cs": [],
+        "UI/Views/Pages/SqlStudioPage.xaml": [],
+        "UI/Views/Pages/SqlStudioPage.xaml.cs": [],
+        "UI/Views/Pages/TemplateManagerPage.xaml": [],
+        "UI/Views/Pages/TemplateManagerPage.xaml.cs": [],
+        "UI/Views/Properties/PropertyGridPanel.xaml": []
+      },
+      "neighborMap": {}
+    },
+    {
+      "batchIndex": 16,
+      "files": [
+        {
+          "path": "UI/Views/Properties/PropertyGridPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Shell/DocumentTabBar.xaml",
+          "language": "xaml",
+          "sizeLines": 43,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Shell/DocumentTabBar.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 17,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Shell/IdeMenuBar.xaml",
+          "language": "xaml",
+          "sizeLines": 60,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Shell/IdeMenuBar.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Shell/IdeRibbon.xaml",
+          "language": "xaml",
+          "sizeLines": 175,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Shell/IdeRibbon.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Toolbox/ToolboxPanel.xaml",
+          "language": "xaml",
+          "sizeLines": 70,
+          "fileCategory": "code"
+        },
+        {
+          "path": "UI/Views/Toolbox/ToolboxPanel.xaml.cs",
+          "language": "csharp",
+          "sizeLines": 8,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "UI/Views/Properties/PropertyGridPanel.xaml.cs": [],
+        "UI/Views/Shell/DocumentTabBar.xaml": [],
+        "UI/Views/Shell/DocumentTabBar.xaml.cs": [],
+        "UI/Views/Shell/IdeMenuBar.xaml": [],
+        "UI/Views/Shell/IdeMenuBar.xaml.cs": [],
+        "UI/Views/Shell/IdeRibbon.xaml": [],
+        "UI/Views/Shell/IdeRibbon.xaml.cs": [],
+        "UI/Views/Toolbox/ToolboxPanel.xaml": [],
+        "UI/Views/Toolbox/ToolboxPanel.xaml.cs": []
+      },
+      "neighborMap": {}
+    }
+  ]
+}

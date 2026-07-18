@@ -13,23 +13,28 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="240"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="120" MinWidth="90"/>
+            <ColumnDefinition Width="132" MinWidth="100"/>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="220" MinWidth="160"/>
+            <ColumnDefinition Width="240" MinWidth="160"/>
         </Grid.ColumnDefinitions>
 
-        <!-- Source column -->
+        <!-- Source -->
         <DockPanel Grid.Column="0">
-            <Border DockPanel.Dock="Top" Background="#F5F7FA" Padding="8,4"
-                    BorderBrush="{StaticResource IdeBorderBrush}" BorderThickness="0,0,0,1">
-                <TextBlock Text="Source" FontSize="11" FontWeight="SemiBold"
-                           Foreground="{StaticResource FgMutedBrush}"/>
+            <Border DockPanel.Dock="Top" Style="{StaticResource IdeEditorColumnHeaderStyle}">
+                <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="CodeTags" Width="12" Height="12"
+                                 Foreground="{StaticResource FgMutedBrush}" VerticalAlignment="Center"/>
+                    <TextBlock Text="Source" FontSize="11" FontWeight="SemiBold"
+                               Foreground="{StaticResource FgMutedBrush}" Margin="6,0,0,0"/>
+                </StackPanel>
             </Border>
-            <ctrl:BindableXmlEditor x:Name="SourceEditor"
-                BoundText="{Binding EditorText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
-                ShowInsights="False"
-                ScrollToLine="{Binding CaretLine, Mode=OneWay}"
-                ScrollToOffset="{Binding CaretOffset, Mode=OneWay}"/>
+            <Border BorderBrush="{StaticResource IdeBorderBrush}" BorderThickness="0,0,1,0">
+                <ctrl:BindableXmlEditor x:Name="SourceEditor"
+                    BoundText="{Binding EditorText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                    ShowInsights="False"
+                    ScrollToLine="{Binding CaretLine, Mode=OneWay}"
+                    ScrollToOffset="{Binding CaretOffset, Mode=OneWay}"/>
+            </Border>
         </DockPanel>
 
         <GridSplitter Grid.Column="1" Width="4"
@@ -37,24 +42,50 @@
                         ResizeBehavior="PreviousAndNext" ResizeDirection="Columns"
                         Visibility="{Binding ShowInsightColumns, Converter={StaticResource BoolToVis}}"/>
 
-        <!-- Semantic Kind column -->
+        <!-- Semantic -->
         <DockPanel Grid.Column="2"
                    Visibility="{Binding ShowInsightColumns, Converter={StaticResource BoolToVis}}">
-            <Border DockPanel.Dock="Top" Background="#F5F7FA" Padding="8,4"
-                    BorderBrush="{StaticResource IdeBorderBrush}" BorderThickness="0,0,0,1">
-                <TextBlock Text="Semantic Kind" FontSize="11" FontWeight="SemiBold"
-                           Foreground="{StaticResource FgMutedBrush}"/>
+            <Border DockPanel.Dock="Top" Style="{StaticResource IdeEditorColumnHeaderStyle}">
+                <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="Sitemap" Width="12" Height="12"
+                                 Foreground="#7B1FA2" VerticalAlignment="Center"/>
+                    <TextBlock Text="Semantic" FontSize="11" FontWeight="SemiBold"
+                               Foreground="{StaticResource FgMutedBrush}" Margin="6,0,0,0"/>
+                </StackPanel>
             </Border>
             <ListBox ItemsSource="{Binding InsightEditorLines}"
                      SelectedItem="{Binding SelectedInsightLine, Mode=TwoWay}"
                      BorderThickness="0" Background="Transparent"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListBoxItem">
+                                    <Border x:Name="bd" Background="Transparent" Padding="2,1">
+                                        <ContentPresenter/>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="bd" Property="Background" Value="#F5F0FA"/>
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="bd" Property="Background" Value="{StaticResource IdeSemanticSoftBrush}"/>
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type design:InsightEditorLineVm}">
-                        <Border Padding="4,3" Margin="0,1" Background="Transparent"
-                                MouseLeftButtonUp="InsightLine_Click">
+                        <Border Padding="4,3" Background="Transparent"
+                                MouseLeftButtonUp="InsightLine_Click" Cursor="Hand">
                             <StackPanel Orientation="Horizontal">
-                                <Border Background="#E3F2FD" CornerRadius="2" Padding="4,1" Margin="0,0,4,0">
+                                <Border Background="{StaticResource IdeAccentSoftBrush}" CornerRadius="3" Padding="5,1" Margin="0,0,4,0">
                                     <StackPanel Orientation="Horizontal">
                                         <md:PackIcon Kind="{Binding KindIcon}" Width="11" Height="11"
                                                      Foreground="#1565C0" VerticalAlignment="Center"/>
@@ -77,29 +108,38 @@
                         ResizeBehavior="PreviousAndNext" ResizeDirection="Columns"
                         Visibility="{Binding ShowInsightColumns, Converter={StaticResource BoolToVis}}"/>
 
-        <!-- Resolved Value column -->
+        <!-- Resolved -->
         <DockPanel Grid.Column="4"
                    Visibility="{Binding ShowInsightColumns, Converter={StaticResource BoolToVis}}">
-            <Border DockPanel.Dock="Top" Background="#F5F7FA" Padding="8,4"
-                    BorderBrush="{StaticResource IdeBorderBrush}" BorderThickness="0,0,0,1">
-                <TextBlock Text="Value (Resolved)" FontSize="11" FontWeight="SemiBold"
-                           Foreground="{StaticResource FgMutedBrush}"/>
+            <Border DockPanel.Dock="Top" Style="{StaticResource IdeEditorColumnHeaderStyle}">
+                <StackPanel Orientation="Horizontal">
+                    <md:PackIcon Kind="Variable" Width="12" Height="12"
+                                 Foreground="#6A1B9A" VerticalAlignment="Center"/>
+                    <TextBlock Text="Resolved" FontSize="11" FontWeight="SemiBold"
+                               Foreground="{StaticResource FgMutedBrush}" Margin="6,0,0,0"/>
+                </StackPanel>
             </Border>
             <ListBox ItemsSource="{Binding InsightEditorLines}"
                      BorderThickness="0" Background="Transparent"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type design:InsightEditorLineVm}">
-                        <Border Padding="4,3" Margin="0,1">
+                        <Border Padding="6,4" Margin="0,1">
                             <StackPanel>
-                                <TextBlock Text="{Binding ReferenceText}" FontFamily="Consolas" FontSize="10"
-                                           FontStyle="Italic" Foreground="#757575"
+                                <TextBlock Text="{Binding ReferenceText}" FontFamily="{StaticResource MonoFont}" FontSize="10"
+                                           FontStyle="Italic" Foreground="#757575" Margin="0,0,0,3"
                                            Visibility="{Binding ReferenceText, Converter={StaticResource NullOrEmptyToVisibilityConverter}}"/>
                                 <TextBox Text="{Binding ResolvedValue, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+                                         Style="{StaticResource IdeMonoInputStyle}"
                                          IsReadOnly="{Binding CanEdit, Converter={StaticResource InverseBoolConverter}}"
-                                         FontFamily="Consolas" FontSize="11" Padding="3,2"
                                          AcceptsReturn="True" TextWrapping="Wrap"
-                                         MinHeight="22" BorderBrush="#CE93D8" BorderThickness="1"
+                                         MinHeight="24"
                                          LostFocus="ResolvedValue_LostFocus"
                                          Tag="{Binding}"/>
                             </StackPanel>

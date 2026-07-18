@@ -1,0 +1,1694 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "UI/Views/Controls/NavigationPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 201,
+      "nonEmptyLines": 189,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Controls/NavigationPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 48,
+      "nonEmptyLines": 41,
+      "functions": [
+        {
+          "name": "NavigationPanel",
+          "startLine": 10,
+          "endLine": 13,
+          "params": []
+        },
+        {
+          "name": "MenuTree_SelectedItemChanged",
+          "startLine": 15,
+          "endLine": 20,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "TreeViewItem_MouseDoubleClick",
+          "startLine": 22,
+          "endLine": 33,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "MenuTree_RequestBringIntoView",
+          "startLine": 39,
+          "endLine": 42,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "TreeViewItem_RequestBringIntoView",
+          "startLine": 44,
+          "endLine": 47,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "NavigationPanel",
+          "startLine": 8,
+          "endLine": 48,
+          "methods": [
+            "NavigationPanel",
+            "MenuTree_SelectedItemChanged",
+            "TreeViewItem_MouseDoubleClick",
+            "MenuTree_RequestBringIntoView",
+            "TreeViewItem_RequestBringIntoView"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "NavigationPanel",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "NavigationPanel",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "NavigationPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 12
+        },
+        {
+          "caller": "TreeViewItem_MouseDoubleClick",
+          "callee": "nav_vm.OpenNodeCommand.Execute",
+          "lineNumber": 30
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 5,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/PixelRuler.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 261,
+      "nonEmptyLines": 225,
+      "functions": [
+        {
+          "name": "PixelRuler",
+          "startLine": 68,
+          "endLine": 75,
+          "params": []
+        },
+        {
+          "name": "PixelRuler",
+          "startLine": 77,
+          "endLine": 81,
+          "params": []
+        },
+        {
+          "name": "ScreenToFormPx",
+          "startLine": 138,
+          "endLine": 142,
+          "params": [
+            "screen_pos"
+          ]
+        },
+        {
+          "name": "OnMouseLeftButtonDown",
+          "startLine": 144,
+          "endLine": 149,
+          "params": [
+            "e"
+          ]
+        },
+        {
+          "name": "OnRender",
+          "startLine": 151,
+          "endLine": 221,
+          "params": [
+            "dc"
+          ]
+        },
+        {
+          "name": "IsMajorTick",
+          "startLine": 223,
+          "endLine": 227,
+          "params": [
+            "form_px",
+            "major"
+          ]
+        },
+        {
+          "name": "DrawMarker",
+          "startLine": 229,
+          "endLine": 246,
+          "params": [
+            "dc",
+            "form_px",
+            "origin",
+            "zoom",
+            "scroll",
+            "width",
+            "height",
+            "is_horizontal",
+            "pen"
+          ]
+        },
+        {
+          "name": "FormatLabel",
+          "startLine": 248,
+          "endLine": 248,
+          "params": [
+            "px"
+          ]
+        },
+        {
+          "name": "CreateText",
+          "startLine": 250,
+          "endLine": 254,
+          "params": [
+            "text",
+            "pixels_per_dip"
+          ]
+        },
+        {
+          "name": "GetPixelsPerDip",
+          "startLine": 256,
+          "endLine": 260,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PixelRuler",
+          "startLine": 13,
+          "endLine": 261,
+          "methods": [
+            "PixelRuler",
+            "PixelRuler",
+            "ScreenToFormPx",
+            "OnMouseLeftButtonDown",
+            "OnRender",
+            "IsMajorTick",
+            "DrawMarker",
+            "FormatLabel",
+            "CreateText",
+            "GetPixelsPerDip"
+          ],
+          "properties": [
+            "OrientationProperty",
+            "ZoomProperty",
+            "OffsetProperty",
+            "OriginOffsetProperty",
+            "MajorStepProperty",
+            "MinorStepProperty",
+            "MouseMarkerProperty",
+            "SelectionMarkerProperty",
+            "GuidelineDragStartEvent",
+            "BgBrush",
+            "MajorPen",
+            "MinorPen",
+            "MousePen",
+            "SelectionPen",
+            "Typeface",
+            "Orientation",
+            "Zoom",
+            "Offset",
+            "OriginOffset",
+            "MajorStep",
+            "MinorStep",
+            "MouseMarker",
+            "SelectionMarker"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "OrientationProperty",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "ZoomProperty",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "OffsetProperty",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "OriginOffsetProperty",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "MajorStepProperty",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "MinorStepProperty",
+          "line": 41,
+          "isDefault": false
+        },
+        {
+          "name": "MouseMarkerProperty",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "SelectionMarkerProperty",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "GuidelineDragStartEvent",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "PixelRuler",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "Orientation",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "Zoom",
+          "line": 89,
+          "isDefault": false
+        },
+        {
+          "name": "Offset",
+          "line": 95,
+          "isDefault": false
+        },
+        {
+          "name": "OriginOffset",
+          "line": 101,
+          "isDefault": false
+        },
+        {
+          "name": "MajorStep",
+          "line": 107,
+          "isDefault": false
+        },
+        {
+          "name": "MinorStep",
+          "line": 113,
+          "isDefault": false
+        },
+        {
+          "name": "MouseMarker",
+          "line": 119,
+          "isDefault": false
+        },
+        {
+          "name": "SelectionMarker",
+          "line": 125,
+          "isDefault": false
+        },
+        {
+          "name": "ScreenToFormPx",
+          "line": 138,
+          "isDefault": false
+        },
+        {
+          "name": "PixelRuler",
+          "line": 13,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PixelRuler",
+          "callee": "BgBrush.Freeze",
+          "lineNumber": 70
+        },
+        {
+          "caller": "PixelRuler",
+          "callee": "MajorPen.Freeze",
+          "lineNumber": 71
+        },
+        {
+          "caller": "PixelRuler",
+          "callee": "MinorPen.Freeze",
+          "lineNumber": 72
+        },
+        {
+          "caller": "PixelRuler",
+          "callee": "MousePen.Freeze",
+          "lineNumber": 73
+        },
+        {
+          "caller": "PixelRuler",
+          "callee": "SelectionPen.Freeze",
+          "lineNumber": 74
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "RaiseEvent",
+          "lineNumber": 146
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "new RoutedEventArgs",
+          "lineNumber": 146
+        },
+        {
+          "caller": "OnMouseLeftButtonDown",
+          "callee": "base.OnMouseLeftButtonDown",
+          "lineNumber": 148
+        },
+        {
+          "caller": "OnRender",
+          "callee": "dc.DrawRectangle",
+          "lineNumber": 157
+        },
+        {
+          "caller": "OnRender",
+          "callee": "new Rect",
+          "lineNumber": 157
+        },
+        {
+          "caller": "OnRender",
+          "callee": "GetPixelsPerDip",
+          "lineNumber": 158
+        },
+        {
+          "caller": "OnRender",
+          "callee": "Math.Max",
+          "lineNumber": 161
+        },
+        {
+          "caller": "OnRender",
+          "callee": "Math.Max",
+          "lineNumber": 162
+        },
+        {
+          "caller": "OnRender",
+          "callee": "Math.Floor",
+          "lineNumber": 176
+        },
+        {
+          "caller": "OnRender",
+          "callee": "IsMajorTick",
+          "lineNumber": 181
+        },
+        {
+          "caller": "OnRender",
+          "callee": "dc.DrawLine",
+          "lineNumber": 183
+        },
+        {
+          "caller": "OnRender",
+          "callee": "new Point",
+          "lineNumber": 184
+        },
+        {
+          "caller": "OnRender",
+          "callee": "new Point",
+          "lineNumber": 184
+        },
+        {
+          "caller": "OnRender",
+          "callee": "CreateText",
+          "lineNumber": 187
+        },
+        {
+          "caller": "OnRender",
+          "callee": "FormatLabel",
+          "lineNumber": 187
+        },
+        {
+          "caller": "OnRender",
+          "callee": "dc.DrawText",
+          "lineNumber": 189
+        },
+        {
+          "caller": "OnRender",
+          "callee": "new Point",
+          "lineNumber": 189
+        },
+        {
+          "caller": "OnRender",
+          "callee": "DrawMarker",
+          "lineNumber": 193
+        },
+        {
+          "caller": "OnRender",
+          "callee": "DrawMarker",
+          "lineNumber": 194
+        },
+        {
+          "caller": "OnRender",
+          "callee": "Math.Floor",
+          "lineNumber": 200
+        },
+        {
+          "caller": "OnRender",
+          "callee": "IsMajorTick",
+          "lineNumber": 205
+        },
+        {
+          "caller": "OnRender",
+          "callee": "dc.DrawLine",
+          "lineNumber": 207
+        },
+        {
+          "caller": "OnRender",
+          "callee": "new Point",
+          "lineNumber": 208
+        },
+        {
+          "caller": "OnRender",
+          "callee": "new Point",
+          "lineNumber": 208
+        },
+        {
+          "caller": "OnRender",
+          "callee": "CreateText",
+          "lineNumber": 211
+        },
+        {
+          "caller": "OnRender",
+          "callee": "FormatLabel",
+          "lineNumber": 211
+        },
+        {
+          "caller": "OnRender",
+          "callee": "dc.PushTransform",
+          "lineNumber": 212
+        },
+        {
+          "caller": "OnRender",
+          "callee": "new RotateTransform",
+          "lineNumber": 212
+        },
+        {
+          "caller": "OnRender",
+          "callee": "dc.DrawText",
+          "lineNumber": 213
+        },
+        {
+          "caller": "OnRender",
+          "callee": "new Point",
+          "lineNumber": 213
+        },
+        {
+          "caller": "OnRender",
+          "callee": "dc.Pop",
+          "lineNumber": 214
+        },
+        {
+          "caller": "OnRender",
+          "callee": "DrawMarker",
+          "lineNumber": 218
+        },
+        {
+          "caller": "OnRender",
+          "callee": "DrawMarker",
+          "lineNumber": 219
+        },
+        {
+          "caller": "IsMajorTick",
+          "callee": "Math.Abs",
+          "lineNumber": 226
+        },
+        {
+          "caller": "IsMajorTick",
+          "callee": "Math.Abs",
+          "lineNumber": 226
+        },
+        {
+          "caller": "IsMajorTick",
+          "callee": "Math.Abs",
+          "lineNumber": 226
+        },
+        {
+          "caller": "DrawMarker",
+          "callee": "dc.DrawLine",
+          "lineNumber": 238
+        },
+        {
+          "caller": "DrawMarker",
+          "callee": "new Point",
+          "lineNumber": 238
+        },
+        {
+          "caller": "DrawMarker",
+          "callee": "new Point",
+          "lineNumber": 238
+        },
+        {
+          "caller": "DrawMarker",
+          "callee": "dc.DrawLine",
+          "lineNumber": 244
+        },
+        {
+          "caller": "DrawMarker",
+          "callee": "new Point",
+          "lineNumber": 244
+        },
+        {
+          "caller": "DrawMarker",
+          "callee": "new Point",
+          "lineNumber": 244
+        },
+        {
+          "caller": "FormatLabel",
+          "callee": "((int)Math.Round(px)).ToString",
+          "lineNumber": 248
+        },
+        {
+          "caller": "FormatLabel",
+          "callee": "Math.Round",
+          "lineNumber": 248
+        },
+        {
+          "caller": "CreateText",
+          "callee": "new SolidColorBrush",
+          "lineNumber": 253
+        },
+        {
+          "caller": "CreateText",
+          "callee": "Color.FromRgb",
+          "lineNumber": 253
+        },
+        {
+          "caller": "GetPixelsPerDip",
+          "callee": "VisualTreeHelper.GetDpi",
+          "lineNumber": 258
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 20,
+        "functionCount": 10,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/SelectionChrome.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 44,
+      "nonEmptyLines": 43,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Controls/SelectionChrome.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 58,
+      "nonEmptyLines": 47,
+      "functions": [
+        {
+          "name": "SelectionChrome",
+          "startLine": 27,
+          "endLine": 27,
+          "params": []
+        },
+        {
+          "name": "East_DragStarted",
+          "startLine": 47,
+          "endLine": 48,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "East_DragDelta",
+          "startLine": 50,
+          "endLine": 51,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "East_DragCompleted",
+          "startLine": 53,
+          "endLine": 57,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SelectionChrome",
+          "startLine": 10,
+          "endLine": 58,
+          "methods": [
+            "SelectionChrome",
+            "East_DragStarted",
+            "East_DragDelta",
+            "East_DragCompleted"
+          ],
+          "properties": [
+            "EastDragStartedEvent",
+            "EastDragDeltaEvent",
+            "EastDragCompletedEvent"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "EastDragStartedEvent",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "EastDragDeltaEvent",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "EastDragCompletedEvent",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "SelectionChrome",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "SelectionChrome",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SelectionChrome",
+          "callee": "InitializeComponent",
+          "lineNumber": 27
+        },
+        {
+          "caller": "East_DragStarted",
+          "callee": "RaiseEvent",
+          "lineNumber": 48
+        },
+        {
+          "caller": "East_DragStarted",
+          "callee": "new DragStartedEventArgs",
+          "lineNumber": 48
+        },
+        {
+          "caller": "East_DragDelta",
+          "callee": "RaiseEvent",
+          "lineNumber": 51
+        },
+        {
+          "caller": "East_DragDelta",
+          "callee": "new DragDeltaEventArgs",
+          "lineNumber": 51
+        },
+        {
+          "caller": "East_DragCompleted",
+          "callee": "RaiseEvent",
+          "lineNumber": 54
+        },
+        {
+          "caller": "East_DragCompleted",
+          "callee": "new DragCompletedEventArgs",
+          "lineNumber": 54
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 4,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Controls/WorkspaceHost.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 33,
+      "nonEmptyLines": 31,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Controls/WorkspaceHost.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "functions": [
+        {
+          "name": "WorkspaceHost",
+          "startLine": 7,
+          "endLine": 10,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "WorkspaceHost",
+          "startLine": 5,
+          "endLine": 11,
+          "methods": [
+            "WorkspaceHost"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "WorkspaceHost",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "WorkspaceHost",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "WorkspaceHost",
+          "callee": "InitializeComponent",
+          "lineNumber": 9
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Explorer/DatabaseExplorerPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 31,
+      "nonEmptyLines": 28,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "DatabaseExplorerPanel",
+          "startLine": 8,
+          "endLine": 8,
+          "params": []
+        },
+        {
+          "name": "ExplorerTreePanel_NodeActivated",
+          "startLine": 10,
+          "endLine": 15,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DatabaseExplorerPanel",
+          "startLine": 6,
+          "endLine": 16,
+          "methods": [
+            "DatabaseExplorerPanel",
+            "ExplorerTreePanel_NodeActivated"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DatabaseExplorerPanel",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "DatabaseExplorerPanel",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "DatabaseExplorerPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 8
+        },
+        {
+          "caller": "ExplorerTreePanel_NodeActivated",
+          "callee": "vm.OnTreeNodeActivated",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Explorer/ExplorerPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 31,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Explorer/ExplorerPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "ExplorerPanel",
+          "startLine": 8,
+          "endLine": 8,
+          "params": []
+        },
+        {
+          "name": "ExplorerTreePanel_NodeActivated",
+          "startLine": 10,
+          "endLine": 15,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ExplorerPanel",
+          "startLine": 6,
+          "endLine": 16,
+          "methods": [
+            "ExplorerPanel",
+            "ExplorerTreePanel_NodeActivated"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ExplorerPanel",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "ExplorerPanel",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ExplorerPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 8
+        },
+        {
+          "caller": "ExplorerTreePanel_NodeActivated",
+          "callee": "vm.OnTreeNodeActivated",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Explorer/ExplorerTreePanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 80,
+      "nonEmptyLines": 71,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 125,
+      "nonEmptyLines": 106,
+      "functions": [
+        {
+          "name": "ExplorerTreePanel",
+          "startLine": 28,
+          "endLine": 31,
+          "params": []
+        },
+        {
+          "name": "TreeViewItem_Expanded",
+          "startLine": 33,
+          "endLine": 41,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "TreeView_SelectedItemChanged",
+          "startLine": 43,
+          "endLine": 66,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "ActivationTimer_Tick",
+          "startLine": 68,
+          "endLine": 73,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "TreeViewItem_MouseDoubleClick",
+          "startLine": 75,
+          "endLine": 88,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "RaiseNodeActivated",
+          "startLine": 90,
+          "endLine": 96,
+          "params": [
+            "node",
+            "is_double_click"
+          ]
+        },
+        {
+          "name": "FindAncestorTreeViewItem",
+          "startLine": 98,
+          "endLine": 108,
+          "params": [
+            "current"
+          ]
+        },
+        {
+          "name": "ExplorerTreeNodeActivatedEventArgs",
+          "startLine": 113,
+          "endLine": 121,
+          "params": [
+            "routed_event",
+            "node",
+            "is_double_click"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "ExplorerTreePanel",
+          "startLine": 10,
+          "endLine": 109,
+          "methods": [
+            "ExplorerTreePanel",
+            "TreeViewItem_Expanded",
+            "TreeView_SelectedItemChanged",
+            "ActivationTimer_Tick",
+            "TreeViewItem_MouseDoubleClick",
+            "RaiseNodeActivated",
+            "FindAncestorTreeViewItem"
+          ],
+          "properties": [
+            "_activation_timer",
+            "_pending_node",
+            "NodeActivatedEvent"
+          ]
+        },
+        {
+          "name": "ExplorerTreeNodeActivatedEventArgs",
+          "startLine": 111,
+          "endLine": 125,
+          "methods": [
+            "ExplorerTreeNodeActivatedEventArgs"
+          ],
+          "properties": [
+            "Node",
+            "IsDoubleClick"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "NodeActivatedEvent",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "ExplorerTreePanel",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "ExplorerTreePanel",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "ExplorerTreeNodeActivatedEventArgs",
+          "line": 113,
+          "isDefault": false
+        },
+        {
+          "name": "Node",
+          "line": 123,
+          "isDefault": false
+        },
+        {
+          "name": "IsDoubleClick",
+          "line": 124,
+          "isDefault": false
+        },
+        {
+          "name": "ExplorerTreeNodeActivatedEventArgs",
+          "line": 111,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ExplorerTreePanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 30
+        },
+        {
+          "caller": "TreeViewItem_Expanded",
+          "callee": "ReferenceEquals",
+          "lineNumber": 36
+        },
+        {
+          "caller": "TreeViewItem_Expanded",
+          "callee": "node.EnsureChildren",
+          "lineNumber": 40
+        },
+        {
+          "caller": "TreeView_SelectedItemChanged",
+          "callee": "RaiseNodeActivated",
+          "lineNumber": 51
+        },
+        {
+          "caller": "TreeView_SelectedItemChanged",
+          "callee": "new DispatcherTimer",
+          "lineNumber": 55
+        },
+        {
+          "caller": "TreeView_SelectedItemChanged",
+          "callee": "TimeSpan.FromMilliseconds",
+          "lineNumber": 59
+        },
+        {
+          "caller": "TreeView_SelectedItemChanged",
+          "callee": "TimeSpan.FromMilliseconds",
+          "lineNumber": 61
+        },
+        {
+          "caller": "TreeView_SelectedItemChanged",
+          "callee": "_activation_timer.Stop",
+          "lineNumber": 62
+        },
+        {
+          "caller": "TreeView_SelectedItemChanged",
+          "callee": "_activation_timer.Start",
+          "lineNumber": 65
+        },
+        {
+          "caller": "ActivationTimer_Tick",
+          "callee": "_activation_timer?.Stop",
+          "lineNumber": 70
+        },
+        {
+          "caller": "ActivationTimer_Tick",
+          "callee": "RaiseNodeActivated",
+          "lineNumber": 72
+        },
+        {
+          "caller": "TreeViewItem_MouseDoubleClick",
+          "callee": "FindAncestorTreeViewItem",
+          "lineNumber": 79
+        },
+        {
+          "caller": "TreeViewItem_MouseDoubleClick",
+          "callee": "ReferenceEquals",
+          "lineNumber": 80
+        },
+        {
+          "caller": "TreeViewItem_MouseDoubleClick",
+          "callee": "_activation_timer?.Stop",
+          "lineNumber": 84
+        },
+        {
+          "caller": "TreeViewItem_MouseDoubleClick",
+          "callee": "RaiseNodeActivated",
+          "lineNumber": 86
+        },
+        {
+          "caller": "RaiseNodeActivated",
+          "callee": "RaiseEvent",
+          "lineNumber": 92
+        },
+        {
+          "caller": "RaiseNodeActivated",
+          "callee": "new ExplorerTreeNodeActivatedEventArgs",
+          "lineNumber": 92
+        },
+        {
+          "caller": "FindAncestorTreeViewItem",
+          "callee": "VisualTreeHelper.GetParent",
+          "lineNumber": 104
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 7,
+        "functionCount": 8,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "UI/Views/Explorer/MenuExplorerPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 31,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Explorer/MenuExplorerPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "MenuExplorerPanel",
+          "startLine": 9,
+          "endLine": 9,
+          "params": []
+        },
+        {
+          "name": "ExplorerTreePanel_NodeActivated",
+          "startLine": 11,
+          "endLine": 16,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "MenuExplorerPanel",
+          "startLine": 7,
+          "endLine": 17,
+          "methods": [
+            "MenuExplorerPanel",
+            "ExplorerTreePanel_NodeActivated"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "MenuExplorerPanel",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "MenuExplorerPanel",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "MenuExplorerPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 9
+        },
+        {
+          "caller": "ExplorerTreePanel_NodeActivated",
+          "callee": "vm.OnTreeNodeActivated",
+          "lineNumber": 15
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Explorer/OutlinePanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 35,
+      "nonEmptyLines": 31,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Explorer/OutlinePanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 16,
+      "nonEmptyLines": 13,
+      "functions": [
+        {
+          "name": "OutlinePanel",
+          "startLine": 8,
+          "endLine": 8,
+          "params": []
+        },
+        {
+          "name": "ExplorerTreePanel_NodeActivated",
+          "startLine": 10,
+          "endLine": 15,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "OutlinePanel",
+          "startLine": 6,
+          "endLine": 16,
+          "methods": [
+            "OutlinePanel",
+            "ExplorerTreePanel_NodeActivated"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "OutlinePanel",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "OutlinePanel",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "OutlinePanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 8
+        },
+        {
+          "caller": "ExplorerTreePanel_NodeActivated",
+          "callee": "vm.OnTreeNodeActivated",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Insight/InsightPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 68,
+      "nonEmptyLines": 64,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Insight/InsightPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "functions": [
+        {
+          "name": "InsightPanel",
+          "startLine": 5,
+          "endLine": 8,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "InsightPanel",
+          "startLine": 3,
+          "endLine": 9,
+          "methods": [
+            "InsightPanel"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "InsightPanel",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "InsightPanel",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "InsightPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Insight/SymbolInfoPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 57,
+      "nonEmptyLines": 49,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Insight/SymbolInfoPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "functions": [
+        {
+          "name": "SymbolInfoPanel",
+          "startLine": 5,
+          "endLine": 8,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "SymbolInfoPanel",
+          "startLine": 3,
+          "endLine": 9,
+          "methods": [
+            "SymbolInfoPanel"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SymbolInfoPanel",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "SymbolInfoPanel",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SymbolInfoPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Pages/FormBuilderPage.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 789,
+      "nonEmptyLines": 756,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 65,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "FormBuilderPage",
+          "startLine": 15,
+          "endLine": 15,
+          "params": []
+        },
+        {
+          "name": "Cell_MouseLeftButtonDown",
+          "startLine": 17,
+          "endLine": 26,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "Cell_PreviewMouseLeftButtonDown",
+          "startLine": 32,
+          "endLine": 41,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "Chrome_EastDragStarted",
+          "startLine": 43,
+          "endLine": 50,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "Chrome_EastDragDelta",
+          "startLine": 52,
+          "endLine": 57,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "Chrome_EastDragCompleted",
+          "startLine": 59,
+          "endLine": 64,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FormBuilderPage",
+          "startLine": 10,
+          "endLine": 65,
+          "methods": [
+            "FormBuilderPage",
+            "Cell_MouseLeftButtonDown",
+            "Cell_PreviewMouseLeftButtonDown",
+            "Chrome_EastDragStarted",
+            "Chrome_EastDragDelta",
+            "Chrome_EastDragCompleted"
+          ],
+          "properties": [
+            "_span_drag_cell",
+            "_span_drag_width"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FormBuilderPage",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "FormBuilderPage",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "FormBuilderPage",
+          "callee": "InitializeComponent",
+          "lineNumber": 15
+        },
+        {
+          "caller": "Cell_MouseLeftButtonDown",
+          "callee": "Keyboard.Modifiers.HasFlag",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Cell_MouseLeftButtonDown",
+          "callee": "vm.SelectCell",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Cell_PreviewMouseLeftButtonDown",
+          "callee": "Keyboard.Modifiers.HasFlag",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Cell_PreviewMouseLeftButtonDown",
+          "callee": "vm.SelectCell",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Chrome_EastDragStarted",
+          "callee": "vm.SelectCell",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Chrome_EastDragDelta",
+          "callee": "System.Math.Max",
+          "lineNumber": 55
+        },
+        {
+          "caller": "Chrome_EastDragDelta",
+          "callee": "vm.ResizeCellSpanToWidth",
+          "lineNumber": 56
+        },
+        {
+          "caller": "Chrome_EastDragCompleted",
+          "callee": "vm.ResizeCellSpanToWidth",
+          "lineNumber": 62
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Pages/SqlStudioPage.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 113,
+      "nonEmptyLines": 105,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Pages/SqlStudioPage.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 5,
+      "functions": [
+        {
+          "name": "SqlStudioPage",
+          "startLine": 5,
+          "endLine": 5,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "SqlStudioPage",
+          "startLine": 3,
+          "endLine": 6,
+          "methods": [
+            "SqlStudioPage"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SqlStudioPage",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "SqlStudioPage",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SqlStudioPage",
+          "callee": "InitializeComponent",
+          "lineNumber": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,250 @@
+{
+  "batchIndex": 6,
+  "nodes": [
+    {
+      "id": "document:docs/AI_RULES.md",
+      "type": "document",
+      "name": "AI_RULES.md",
+      "filePath": "docs/AI_RULES.md",
+      "summary": "Quy tắc làm việc với AI trên codebase FBO Studio.",
+      "tags": [
+        "documentation",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/ARCHITECTURE.md",
+      "type": "document",
+      "name": "ARCHITECTURE.md",
+      "filePath": "docs/ARCHITECTURE.md",
+      "summary": "Mô tả kiến trúc Clean Architecture (Domain/Application/Infrastructure/UI).",
+      "tags": [
+        "documentation",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/DECISIONS.md",
+      "type": "document",
+      "name": "DECISIONS.md",
+      "filePath": "docs/DECISIONS.md",
+      "summary": "Architecture Decision Records (ADR) của dự án.",
+      "tags": [
+        "documentation",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/ERP_LANGUAGE_SERVICE.md",
+      "type": "document",
+      "name": "ERP_LANGUAGE_SERVICE.md",
+      "filePath": "docs/ERP_LANGUAGE_SERVICE.md",
+      "summary": "Thiết kế ERP Language Service (workspace, bind, navigation, diagnostics).",
+      "tags": [
+        "documentation",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/EXPLORER_TREE_PANEL.md",
+      "type": "document",
+      "name": "EXPLORER_TREE_PANEL.md",
+      "filePath": "docs/EXPLORER_TREE_PANEL.md",
+      "summary": "Thiết kế Explorer Tree Panel.",
+      "tags": [
+        "documentation",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/NAVIGATION_SERVICE.md",
+      "type": "document",
+      "name": "NAVIGATION_SERVICE.md",
+      "filePath": "docs/NAVIGATION_SERVICE.md",
+      "summary": "Thiết kế Navigation Service trong IDE.",
+      "tags": [
+        "documentation",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:docs/PRODUCT_VISION.md",
+      "type": "document",
+      "name": "PRODUCT_VISION.md",
+      "filePath": "docs/PRODUCT_VISION.md",
+      "summary": "Tầm nhìn sản phẩm FBO Studio — IDE cho FBO ERP.",
+      "tags": [
+        "documentation",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:docs/PROJECT_STATUS.md",
+      "type": "document",
+      "name": "PROJECT_STATUS.md",
+      "filePath": "docs/PROJECT_STATUS.md",
+      "summary": "Trạng thái hiện tại của các module FBO Studio.",
+      "tags": [
+        "documentation",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:docs/ROADMAP.md",
+      "type": "document",
+      "name": "ROADMAP.md",
+      "filePath": "docs/ROADMAP.md",
+      "summary": "Lộ trình phát triển và các cột mốc tính năng.",
+      "tags": [
+        "documentation",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex"
+    }
+  ],
+  "edges": [
+    {
+      "source": "document:docs/AI_RULES.md",
+      "target": "document:README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/ARCHITECTURE.md",
+      "target": "document:README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/ARCHITECTURE.md",
+      "target": "file:UI/App.xaml.cs",
+      "type": "documents",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/DECISIONS.md",
+      "target": "document:README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/ERP_LANGUAGE_SERVICE.md",
+      "target": "document:README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/EXPLORER_TREE_PANEL.md",
+      "target": "document:README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/NAVIGATION_SERVICE.md",
+      "target": "document:README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/PRODUCT_VISION.md",
+      "target": "document:README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/PROJECT_STATUS.md",
+      "target": "document:README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    },
+    {
+      "source": "document:docs/ROADMAP.md",
+      "target": "document:README.md",
+      "type": "related",
+      "direction": "forward",
+      "weight": 0.5
+    }
+  ],
+  "batchFiles": [
+    {
+      "path": "docs/AI_RULES.md",
+      "language": "markdown",
+      "sizeLines": 134,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "language": "markdown",
+      "sizeLines": 172,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "language": "markdown",
+      "sizeLines": 313,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/ERP_LANGUAGE_SERVICE.md",
+      "language": "markdown",
+      "sizeLines": 1129,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/EXPLORER_TREE_PANEL.md",
+      "language": "markdown",
+      "sizeLines": 206,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/NAVIGATION_SERVICE.md",
+      "language": "markdown",
+      "sizeLines": 101,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/PRODUCT_VISION.md",
+      "language": "markdown",
+      "sizeLines": 63,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/PROJECT_STATUS.md",
+      "language": "markdown",
+      "sizeLines": 527,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "docs/ROADMAP.md",
+      "language": "markdown",
+      "sizeLines": 595,
+      "fileCategory": "docs"
+    }
+  ]
+}

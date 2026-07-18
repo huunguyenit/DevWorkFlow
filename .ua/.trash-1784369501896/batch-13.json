@@ -1,0 +1,5401 @@
+{
+  "batchIndex": 13,
+  "nodes": [
+    {
+      "id": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "type": "file",
+      "name": "DatabaseExplorerViewModel.cs",
+      "filePath": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "summary": "ViewModel MVVM của UI: DatabaseExplorerViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:DatabaseExplorerViewModel",
+      "type": "class",
+      "name": "DatabaseExplorerViewModel",
+      "filePath": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "summary": "Kiểu DatabaseExplorerViewModel trong DatabaseExplorerViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:DatabaseExplorerViewModel",
+      "type": "function",
+      "name": "DatabaseExplorerViewModel",
+      "filePath": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "summary": "Hàm/method DatabaseExplorerViewModel trong DatabaseExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:RefreshAfterProgramChangeAsync",
+      "type": "function",
+      "name": "RefreshAfterProgramChangeAsync",
+      "filePath": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "summary": "Hàm/method RefreshAfterProgramChangeAsync trong DatabaseExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:OnTreeNodeActivated",
+      "type": "function",
+      "name": "OnTreeNodeActivated",
+      "filePath": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "summary": "Hàm/method OnTreeNodeActivated trong DatabaseExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:OpenObjectScriptAsync",
+      "type": "function",
+      "name": "OpenObjectScriptAsync",
+      "filePath": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "summary": "Hàm/method OpenObjectScriptAsync trong DatabaseExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:Dispose",
+      "type": "function",
+      "name": "Dispose",
+      "filePath": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "summary": "Hàm/method Dispose trong DatabaseExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:RebuildConnectionTargets",
+      "type": "function",
+      "name": "RebuildConnectionTargets",
+      "filePath": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "summary": "Hàm/method RebuildConnectionTargets trong DatabaseExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:RefreshAsync",
+      "type": "function",
+      "name": "RefreshAsync",
+      "filePath": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "summary": "Hàm/method RefreshAsync trong DatabaseExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:BuildTreeOffline",
+      "type": "function",
+      "name": "BuildTreeOffline",
+      "filePath": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "summary": "Hàm/method BuildTreeOffline trong DatabaseExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:ApplyFilterAsync",
+      "type": "function",
+      "name": "ApplyFilterAsync",
+      "filePath": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "summary": "Hàm/method ApplyFilterAsync trong DatabaseExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "type": "file",
+      "name": "ExplorerTreeFilterEngine.cs",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "ViewModel MVVM của UI: ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:DebouncedTreeFilter",
+      "type": "class",
+      "name": "DebouncedTreeFilter",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "Kiểu DebouncedTreeFilter trong ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:ExplorerTreeFilterEngine",
+      "type": "class",
+      "name": "ExplorerTreeFilterEngine",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "Kiểu ExplorerTreeFilterEngine trong ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:DebouncedTreeFilter",
+      "type": "function",
+      "name": "DebouncedTreeFilter",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "Hàm/method DebouncedTreeFilter trong ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:Schedule",
+      "type": "function",
+      "name": "Schedule",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "Hàm/method Schedule trong ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:FlushAsync",
+      "type": "function",
+      "name": "FlushAsync",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "Hàm/method FlushAsync trong ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:RunPendingAsync",
+      "type": "function",
+      "name": "RunPendingAsync",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "Hàm/method RunPendingAsync trong ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:Dispose",
+      "type": "function",
+      "name": "Dispose",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "Hàm/method Dispose trong ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:BuildIndex",
+      "type": "function",
+      "name": "BuildIndex",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "Hàm/method BuildIndex trong ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:AddNode",
+      "type": "function",
+      "name": "AddNode",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "Hàm/method AddNode trong ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:CalculateVisibility",
+      "type": "function",
+      "name": "CalculateVisibility",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "Hàm/method CalculateVisibility trong ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:ApplyVisibilityAsync",
+      "type": "function",
+      "name": "ApplyVisibilityAsync",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "Hàm/method ApplyVisibilityAsync trong ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:PreloadChildren",
+      "type": "function",
+      "name": "PreloadChildren",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "summary": "Hàm/method PreloadChildren trong ExplorerTreeFilterEngine.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "type": "file",
+      "name": "ExplorerTreeNodeMapper.cs",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "ViewModel MVVM của UI: ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:ExplorerFileTag",
+      "type": "class",
+      "name": "ExplorerFileTag",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Kiểu ExplorerFileTag trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:ExplorerTreeNodeMapper",
+      "type": "class",
+      "name": "ExplorerTreeNodeMapper",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Kiểu ExplorerTreeNodeMapper trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:DatabaseObjectTag",
+      "type": "class",
+      "name": "DatabaseObjectTag",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Kiểu DatabaseObjectTag trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:ToControllerKind",
+      "type": "function",
+      "name": "ToControllerKind",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Hàm/method ToControllerKind trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:GuessEncryptedKind",
+      "type": "function",
+      "name": "GuessEncryptedKind",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Hàm/method GuessEncryptedKind trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:CreateFileNode",
+      "type": "function",
+      "name": "CreateFileNode",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Hàm/method CreateFileNode trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:CreateLoadingPlaceholder",
+      "type": "function",
+      "name": "CreateLoadingPlaceholder",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Hàm/method CreateLoadingPlaceholder trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:IsLoadingPlaceholder",
+      "type": "function",
+      "name": "IsLoadingPlaceholder",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Hàm/method IsLoadingPlaceholder trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:CreateDatabaseFolder",
+      "type": "function",
+      "name": "CreateDatabaseFolder",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Hàm/method CreateDatabaseFolder trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:CreateDatabaseObject",
+      "type": "function",
+      "name": "CreateDatabaseObject",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Hàm/method CreateDatabaseObject trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:FromMenuNode",
+      "type": "function",
+      "name": "FromMenuNode",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Hàm/method FromMenuNode trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:ParseFolderKind",
+      "type": "function",
+      "name": "ParseFolderKind",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Hàm/method ParseFolderKind trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:ParseDatabaseKind",
+      "type": "function",
+      "name": "ParseDatabaseKind",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "summary": "Hàm/method ParseDatabaseKind trong ExplorerTreeNodeMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "type": "file",
+      "name": "ExplorerTreeNodeVm.cs",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "summary": "ViewModel MVVM của UI: ExplorerTreeNodeVm.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs:ExplorerTreeNodeVm",
+      "type": "class",
+      "name": "ExplorerTreeNodeVm",
+      "filePath": "UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "summary": "Kiểu ExplorerTreeNodeVm trong ExplorerTreeNodeVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "type": "file",
+      "name": "IExplorerTreeSource.cs",
+      "filePath": "UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "summary": "ViewModel MVVM của UI: IExplorerTreeSource.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Explorer/IExplorerTreeSource.cs:IExplorerTreeSource",
+      "type": "class",
+      "name": "IExplorerTreeSource",
+      "filePath": "UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "summary": "Kiểu IExplorerTreeSource trong IExplorerTreeSource.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "type": "file",
+      "name": "OutlineViewModel.cs",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "ViewModel MVVM của UI: OutlineViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Explorer/OutlineViewModel.cs:OutlineNavTag",
+      "type": "class",
+      "name": "OutlineNavTag",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Kiểu OutlineNavTag trong OutlineViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Explorer/OutlineViewModel.cs:OutlineViewModel",
+      "type": "class",
+      "name": "OutlineViewModel",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Kiểu OutlineViewModel trong OutlineViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:OutlineViewModel",
+      "type": "function",
+      "name": "OutlineViewModel",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Hàm/method OutlineViewModel trong OutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:BindTo",
+      "type": "function",
+      "name": "BindTo",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Hàm/method BindTo trong OutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:OnTreeNodeActivated",
+      "type": "function",
+      "name": "OnTreeNodeActivated",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Hàm/method OnTreeNodeActivated trong OutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:Refresh",
+      "type": "function",
+      "name": "Refresh",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Hàm/method Refresh trong OutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:Dispose",
+      "type": "function",
+      "name": "Dispose",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Hàm/method Dispose trong OutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:OnFormBuilderChanged",
+      "type": "function",
+      "name": "OnFormBuilderChanged",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Hàm/method OnFormBuilderChanged trong OutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:RebuildNow",
+      "type": "function",
+      "name": "RebuildNow",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Hàm/method RebuildNow trong OutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:ToTreeNode",
+      "type": "function",
+      "name": "ToTreeNode",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Hàm/method ToTreeNode trong OutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:IconFor",
+      "type": "function",
+      "name": "IconFor",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Hàm/method IconFor trong OutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:NavigateByNodeId",
+      "type": "function",
+      "name": "NavigateByNodeId",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Hàm/method NavigateByNodeId trong OutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:ApplyFilterAsync",
+      "type": "function",
+      "name": "ApplyFilterAsync",
+      "filePath": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "summary": "Hàm/method ApplyFilterAsync trong OutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "type": "file",
+      "name": "ProjectExplorerViewModel.cs",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "ViewModel MVVM của UI: ProjectExplorerViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:ProjectExplorerViewModel",
+      "type": "class",
+      "name": "ProjectExplorerViewModel",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Kiểu ProjectExplorerViewModel trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:ProjectExplorerViewModel",
+      "type": "function",
+      "name": "ProjectExplorerViewModel",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method ProjectExplorerViewModel trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:OnTreeNodeActivated",
+      "type": "function",
+      "name": "OnTreeNodeActivated",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method OnTreeNodeActivated trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:Dispose",
+      "type": "function",
+      "name": "Dispose",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method Dispose trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:SelectProgramAsync",
+      "type": "function",
+      "name": "SelectProgramAsync",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method SelectProgramAsync trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:RebuildTreeAsync",
+      "type": "function",
+      "name": "RebuildTreeAsync",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method RebuildTreeAsync trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:EnsureChildrenAsync",
+      "type": "function",
+      "name": "EnsureChildrenAsync",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method EnsureChildrenAsync trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:WaitInflightAsync",
+      "type": "function",
+      "name": "WaitInflightAsync",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method WaitInflightAsync trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:LoadChildrenCoreAsync",
+      "type": "function",
+      "name": "LoadChildrenCoreAsync",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method LoadChildrenCoreAsync trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:BuildChildrenList",
+      "type": "function",
+      "name": "BuildChildrenList",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method BuildChildrenList trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:PreferredOrder",
+      "type": "function",
+      "name": "PreferredOrder",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method PreferredOrder trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:ResolveFolderKind",
+      "type": "function",
+      "name": "ResolveFolderKind",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method ResolveFolderKind trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:ResolveFileKind",
+      "type": "function",
+      "name": "ResolveFileKind",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method ResolveFileKind trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:ApplyFilterAsync",
+      "type": "function",
+      "name": "ApplyFilterAsync",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method ApplyFilterAsync trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:GetOrBuildFileIndexAsync",
+      "type": "function",
+      "name": "GetOrBuildFileIndexAsync",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method GetOrBuildFileIndexAsync trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:ScanAllExplorerFiles",
+      "type": "function",
+      "name": "ScanAllExplorerFiles",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method ScanAllExplorerFiles trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:EnsureFilePathInTreeAsync",
+      "type": "function",
+      "name": "EnsureFilePathInTreeAsync",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method EnsureFilePathInTreeAsync trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:OpenNode",
+      "type": "function",
+      "name": "OpenNode",
+      "filePath": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "summary": "Hàm/method OpenNode trong ProjectExplorerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "file",
+      "name": "FormBuilderViewModel.cs",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "ViewModel MVVM của UI: FormBuilderViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/FormBuilderViewModel.cs:FormBuilderViewModel",
+      "type": "class",
+      "name": "FormBuilderViewModel",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Kiểu FormBuilderViewModel trong FormBuilderViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:FormBuilderViewModel",
+      "type": "function",
+      "name": "FormBuilderViewModel",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method FormBuilderViewModel trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:LoadControllerXml",
+      "type": "function",
+      "name": "LoadControllerXml",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method LoadControllerXml trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:IsCodeOnlyPath",
+      "type": "function",
+      "name": "IsCodeOnlyPath",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method IsCodeOnlyPath trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:RefreshEntitiesFromSemantic",
+      "type": "function",
+      "name": "RefreshEntitiesFromSemantic",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method RefreshEntitiesFromSemantic trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:ToggleInsightMode",
+      "type": "function",
+      "name": "ToggleInsightMode",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method ToggleInsightMode trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:OpenSqlFromForm",
+      "type": "function",
+      "name": "OpenSqlFromForm",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method OpenSqlFromForm trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:UpdateEntityInline",
+      "type": "function",
+      "name": "UpdateEntityInline",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method UpdateEntityInline trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:ParseXml",
+      "type": "function",
+      "name": "ParseXml",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method ParseXml trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:ApplyLanguageDocument",
+      "type": "function",
+      "name": "ApplyLanguageDocument",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method ApplyLanguageDocument trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:SelectCell",
+      "type": "function",
+      "name": "SelectCell",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method SelectCell trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:FinishSelectionChange",
+      "type": "function",
+      "name": "FinishSelectionChange",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method FinishSelectionChange trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:UpdateSelectionMarkers",
+      "type": "function",
+      "name": "UpdateSelectionMarkers",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method UpdateSelectionMarkers trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:SelectFieldByName",
+      "type": "function",
+      "name": "SelectFieldByName",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method SelectFieldByName trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:NavigateToLine",
+      "type": "function",
+      "name": "NavigateToLine",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method NavigateToLine trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:NavigateToTarget",
+      "type": "function",
+      "name": "NavigateToTarget",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method NavigateToTarget trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:ApplyCaretOffset",
+      "type": "function",
+      "name": "ApplyCaretOffset",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method ApplyCaretOffset trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:PathsEqual",
+      "type": "function",
+      "name": "PathsEqual",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method PathsEqual trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:SelectFieldByNameQuiet",
+      "type": "function",
+      "name": "SelectFieldByNameQuiet",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method SelectFieldByNameQuiet trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:NavigateToOffset",
+      "type": "function",
+      "name": "NavigateToOffset",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method NavigateToOffset trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:UpdateCaretPosition",
+      "type": "function",
+      "name": "UpdateCaretPosition",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method UpdateCaretPosition trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:CommitEntityValue",
+      "type": "function",
+      "name": "CommitEntityValue",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method CommitEntityValue trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:RefreshInsightEditorLines",
+      "type": "function",
+      "name": "RefreshInsightEditorLines",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method RefreshInsightEditorLines trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:FindFieldLine",
+      "type": "function",
+      "name": "FindFieldLine",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method FindFieldLine trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:SliceHasNameAttribute",
+      "type": "function",
+      "name": "SliceHasNameAttribute",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method SliceHasNameAttribute trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:SelectCategory",
+      "type": "function",
+      "name": "SelectCategory",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method SelectCategory trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:UpdateFieldProperty",
+      "type": "function",
+      "name": "UpdateFieldProperty",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method UpdateFieldProperty trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:EnumerateAllCells",
+      "type": "function",
+      "name": "EnumerateAllCells",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method EnumerateAllCells trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:ApplyColumnWidth",
+      "type": "function",
+      "name": "ApplyColumnWidth",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method ApplyColumnWidth trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:RefreshRowCellWidths",
+      "type": "function",
+      "name": "RefreshRowCellWidths",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method RefreshRowCellWidths trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:ApplyCategoryColumnWidth",
+      "type": "function",
+      "name": "ApplyCategoryColumnWidth",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method ApplyCategoryColumnWidth trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:RulerInsertColumn",
+      "type": "function",
+      "name": "RulerInsertColumn",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method RulerInsertColumn trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:RulerDeleteColumn",
+      "type": "function",
+      "name": "RulerDeleteColumn",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method RulerDeleteColumn trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:RulerSplitColumn",
+      "type": "function",
+      "name": "RulerSplitColumn",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method RulerSplitColumn trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:RulerMergeColumns",
+      "type": "function",
+      "name": "RulerMergeColumns",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method RulerMergeColumns trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:ColumnOp",
+      "type": "function",
+      "name": "ColumnOp",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method ColumnOp trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:MergeWidth",
+      "type": "function",
+      "name": "MergeWidth",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method MergeWidth trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:MergePatternChars",
+      "type": "function",
+      "name": "MergePatternChars",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method MergePatternChars trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:ResizeCellSpanToWidth",
+      "type": "function",
+      "name": "ResizeCellSpanToWidth",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method ResizeCellSpanToWidth trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:ChangeSelectedCellSpan",
+      "type": "function",
+      "name": "ChangeSelectedCellSpan",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method ChangeSelectedCellSpan trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:MaxSpanFor",
+      "type": "function",
+      "name": "MaxSpanFor",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method MaxSpanFor trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:ApplyCellSpan",
+      "type": "function",
+      "name": "ApplyCellSpan",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method ApplyCellSpan trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:BuildRowPattern",
+      "type": "function",
+      "name": "BuildRowPattern",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method BuildRowPattern trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:FindRowOf",
+      "type": "function",
+      "name": "FindRowOf",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method FindRowOf trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:AddColumn",
+      "type": "function",
+      "name": "AddColumn",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method AddColumn trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:BuildFieldProperties",
+      "type": "function",
+      "name": "BuildFieldProperties",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method BuildFieldProperties trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:SaveAsync",
+      "type": "function",
+      "name": "SaveAsync",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method SaveAsync trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:Clear",
+      "type": "function",
+      "name": "Clear",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method Clear trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/FormBuilderViewModel.cs:SyncDpi",
+      "type": "function",
+      "name": "SyncDpi",
+      "filePath": "UI/ViewModels/FormBuilderViewModel.cs",
+      "summary": "Hàm/method SyncDpi trong FormBuilderViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "type": "file",
+      "name": "InsightPanelViewModel.cs",
+      "filePath": "UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "summary": "ViewModel MVVM của UI: InsightPanelViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Insight/InsightPanelViewModel.cs:InsightEntityRowVm",
+      "type": "class",
+      "name": "InsightEntityRowVm",
+      "filePath": "UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "summary": "Kiểu InsightEntityRowVm trong InsightPanelViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Insight/InsightPanelViewModel.cs:InsightValidationRowVm",
+      "type": "class",
+      "name": "InsightValidationRowVm",
+      "filePath": "UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "summary": "Kiểu InsightValidationRowVm trong InsightPanelViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Insight/InsightPanelViewModel.cs:InsightPanelViewModel",
+      "type": "class",
+      "name": "InsightPanelViewModel",
+      "filePath": "UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "summary": "Kiểu InsightPanelViewModel trong InsightPanelViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Insight/InsightPanelViewModel.cs:InsightPanelViewModel",
+      "type": "function",
+      "name": "InsightPanelViewModel",
+      "filePath": "UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "summary": "Hàm/method InsightPanelViewModel trong InsightPanelViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Insight/InsightPanelViewModel.cs:BindTo",
+      "type": "function",
+      "name": "BindTo",
+      "filePath": "UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "summary": "Hàm/method BindTo trong InsightPanelViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Insight/InsightPanelViewModel.cs:Refresh",
+      "type": "function",
+      "name": "Refresh",
+      "filePath": "UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "summary": "Hàm/method Refresh trong InsightPanelViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "type": "file",
+      "name": "SymbolInfoViewModel.cs",
+      "filePath": "UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "summary": "ViewModel MVVM của UI: SymbolInfoViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Insight/SymbolInfoViewModel.cs:SymbolReferenceRowVm",
+      "type": "class",
+      "name": "SymbolReferenceRowVm",
+      "filePath": "UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "summary": "Kiểu SymbolReferenceRowVm trong SymbolInfoViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Insight/SymbolInfoViewModel.cs:SymbolInfoViewModel",
+      "type": "class",
+      "name": "SymbolInfoViewModel",
+      "filePath": "UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "summary": "Kiểu SymbolInfoViewModel trong SymbolInfoViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Insight/SymbolInfoViewModel.cs:SymbolInfoViewModel",
+      "type": "function",
+      "name": "SymbolInfoViewModel",
+      "filePath": "UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "summary": "Hàm/method SymbolInfoViewModel trong SymbolInfoViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Insight/SymbolInfoViewModel.cs:BindTo",
+      "type": "function",
+      "name": "BindTo",
+      "filePath": "UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "summary": "Hàm/method BindTo trong SymbolInfoViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Insight/SymbolInfoViewModel.cs:Refresh",
+      "type": "function",
+      "name": "Refresh",
+      "filePath": "UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "summary": "Hàm/method Refresh trong SymbolInfoViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:UI/ViewModels/MainViewModel.cs",
+      "type": "file",
+      "name": "MainViewModel.cs",
+      "filePath": "UI/ViewModels/MainViewModel.cs",
+      "summary": "ViewModel MVVM của UI: MainViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/MainViewModel.cs:MainViewModel",
+      "type": "class",
+      "name": "MainViewModel",
+      "filePath": "UI/ViewModels/MainViewModel.cs",
+      "summary": "Kiểu MainViewModel trong MainViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/MainViewModel.cs:MainViewModel",
+      "type": "function",
+      "name": "MainViewModel",
+      "filePath": "UI/ViewModels/MainViewModel.cs",
+      "summary": "Hàm/method MainViewModel trong MainViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/MainViewModel.cs:OpenFormDocument",
+      "type": "function",
+      "name": "OpenFormDocument",
+      "filePath": "UI/ViewModels/MainViewModel.cs",
+      "summary": "Hàm/method OpenFormDocument trong MainViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/MainViewModel.cs:OpenViaLanguageService",
+      "type": "function",
+      "name": "OpenViaLanguageService",
+      "filePath": "UI/ViewModels/MainViewModel.cs",
+      "summary": "Hàm/method OpenViaLanguageService trong MainViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/MainViewModel.cs:OnShellDocumentsChanged",
+      "type": "function",
+      "name": "OnShellDocumentsChanged",
+      "filePath": "UI/ViewModels/MainViewModel.cs",
+      "summary": "Hàm/method OnShellDocumentsChanged trong MainViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/MainViewModel.cs:OpenSqlDocument",
+      "type": "function",
+      "name": "OpenSqlDocument",
+      "filePath": "UI/ViewModels/MainViewModel.cs",
+      "summary": "Hàm/method OpenSqlDocument trong MainViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/MainViewModel.cs:SetActiveForm",
+      "type": "function",
+      "name": "SetActiveForm",
+      "filePath": "UI/ViewModels/MainViewModel.cs",
+      "summary": "Hàm/method SetActiveForm trong MainViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/MainViewModel.cs:BindToolsToActiveForm",
+      "type": "function",
+      "name": "BindToolsToActiveForm",
+      "filePath": "UI/ViewModels/MainViewModel.cs",
+      "summary": "Hàm/method BindToolsToActiveForm trong MainViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/MainViewModel.cs:SyncStatusFromForm",
+      "type": "function",
+      "name": "SyncStatusFromForm",
+      "filePath": "UI/ViewModels/MainViewModel.cs",
+      "summary": "Hàm/method SyncStatusFromForm trong MainViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/MainViewModel.cs:SyncStatusFromActiveDocument",
+      "type": "function",
+      "name": "SyncStatusFromActiveDocument",
+      "filePath": "UI/ViewModels/MainViewModel.cs",
+      "summary": "Hàm/method SyncStatusFromActiveDocument trong MainViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/MainViewModel.cs:OnPageChanged",
+      "type": "function",
+      "name": "OnPageChanged",
+      "filePath": "UI/ViewModels/MainViewModel.cs",
+      "summary": "Hàm/method OnPageChanged trong MainViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/ViewModels/MenuNodeViewModel.cs",
+      "type": "file",
+      "name": "MenuNodeViewModel.cs",
+      "filePath": "UI/ViewModels/MenuNodeViewModel.cs",
+      "summary": "ViewModel MVVM của UI: MenuNodeViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/MenuNodeViewModel.cs:MenuNodeViewModel",
+      "type": "class",
+      "name": "MenuNodeViewModel",
+      "filePath": "UI/ViewModels/MenuNodeViewModel.cs",
+      "summary": "Kiểu MenuNodeViewModel trong MenuNodeViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/MenuNodeViewModel.cs:MenuNodeViewModel",
+      "type": "function",
+      "name": "MenuNodeViewModel",
+      "filePath": "UI/ViewModels/MenuNodeViewModel.cs",
+      "summary": "Hàm/method MenuNodeViewModel trong MenuNodeViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/MenuNodeViewModel.cs:MenuNodeViewModel",
+      "type": "function",
+      "name": "MenuNodeViewModel",
+      "filePath": "UI/ViewModels/MenuNodeViewModel.cs",
+      "summary": "Hàm/method MenuNodeViewModel trong MenuNodeViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/MenuNodeViewModel.cs:ApplyFilter",
+      "type": "function",
+      "name": "ApplyFilter",
+      "filePath": "UI/ViewModels/MenuNodeViewModel.cs",
+      "summary": "Hàm/method ApplyFilter trong MenuNodeViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/MenuNodeViewModel.cs:RestoreDefaultExpand",
+      "type": "function",
+      "name": "RestoreDefaultExpand",
+      "filePath": "UI/ViewModels/MenuNodeViewModel.cs",
+      "summary": "Hàm/method RestoreDefaultExpand trong MenuNodeViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/MenuNodeViewModel.cs:AttachResourceFiles",
+      "type": "function",
+      "name": "AttachResourceFiles",
+      "filePath": "UI/ViewModels/MenuNodeViewModel.cs",
+      "summary": "Hàm/method AttachResourceFiles trong MenuNodeViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/NavigationViewModel.cs",
+      "type": "file",
+      "name": "NavigationViewModel.cs",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "ViewModel MVVM của UI: NavigationViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/NavigationViewModel.cs:NavigationViewModel",
+      "type": "class",
+      "name": "NavigationViewModel",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Kiểu NavigationViewModel trong NavigationViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:NavigationViewModel",
+      "type": "function",
+      "name": "NavigationViewModel",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method NavigationViewModel trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:TryRestoreLastProgramAsync",
+      "type": "function",
+      "name": "TryRestoreLastProgramAsync",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method TryRestoreLastProgramAsync trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:OnTreeNodeActivated",
+      "type": "function",
+      "name": "OnTreeNodeActivated",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method OnTreeNodeActivated trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:SelectProgramAsync",
+      "type": "function",
+      "name": "SelectProgramAsync",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method SelectProgramAsync trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:LoadProgramAsync",
+      "type": "function",
+      "name": "LoadProgramAsync",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method LoadProgramAsync trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:RefreshMenuAsync",
+      "type": "function",
+      "name": "RefreshMenuAsync",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method RefreshMenuAsync trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:OpenNode",
+      "type": "function",
+      "name": "OpenNode",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method OpenNode trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:LoadMenuResourcesAsync",
+      "type": "function",
+      "name": "LoadMenuResourcesAsync",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method LoadMenuResourcesAsync trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:SyncTreeNodeChildren",
+      "type": "function",
+      "name": "SyncTreeNodeChildren",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method SyncTreeNodeChildren trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:OpenFile",
+      "type": "function",
+      "name": "OpenFile",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method OpenFile trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:ResolveRelatedPaths",
+      "type": "function",
+      "name": "ResolveRelatedPaths",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method ResolveRelatedPaths trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:FindParentMenuRecursive",
+      "type": "function",
+      "name": "FindParentMenuRecursive",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method FindParentMenuRecursive trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:OpenSqlFileDialog",
+      "type": "function",
+      "name": "OpenSqlFileDialog",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method OpenSqlFileDialog trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:ApplyFilterAsync",
+      "type": "function",
+      "name": "ApplyFilterAsync",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method ApplyFilterAsync trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:RebuildTreeRoots",
+      "type": "function",
+      "name": "RebuildTreeRoots",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method RebuildTreeRoots trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:AddToFilterIndex",
+      "type": "function",
+      "name": "AddToFilterIndex",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method AddToFilterIndex trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:CalculateFilterVisibility",
+      "type": "function",
+      "name": "CalculateFilterVisibility",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method CalculateFilterVisibility trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/NavigationViewModel.cs:CountNodes",
+      "type": "function",
+      "name": "CountNodes",
+      "filePath": "UI/ViewModels/NavigationViewModel.cs",
+      "summary": "Hàm/method CountNodes trong NavigationViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "type": "file",
+      "name": "PropertyGridViewModel.cs",
+      "filePath": "UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "summary": "ViewModel MVVM của UI: PropertyGridViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Properties/PropertyGridViewModel.cs:PropertyGridViewModel",
+      "type": "class",
+      "name": "PropertyGridViewModel",
+      "filePath": "UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "summary": "Kiểu PropertyGridViewModel trong PropertyGridViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:PropertyGridViewModel",
+      "type": "function",
+      "name": "PropertyGridViewModel",
+      "filePath": "UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "summary": "Hàm/method PropertyGridViewModel trong PropertyGridViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:IsFavorite",
+      "type": "function",
+      "name": "IsFavorite",
+      "filePath": "UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "summary": "Hàm/method IsFavorite trong PropertyGridViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:BindTo",
+      "type": "function",
+      "name": "BindTo",
+      "filePath": "UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "summary": "Hàm/method BindTo trong PropertyGridViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:OnFormBuilderChanged",
+      "type": "function",
+      "name": "OnFormBuilderChanged",
+      "filePath": "UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "summary": "Hàm/method OnFormBuilderChanged trong PropertyGridViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:RefreshView",
+      "type": "function",
+      "name": "RefreshView",
+      "filePath": "UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "summary": "Hàm/method RefreshView trong PropertyGridViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:FilterProperty",
+      "type": "function",
+      "name": "FilterProperty",
+      "filePath": "UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "summary": "Hàm/method FilterProperty trong PropertyGridViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:MapIdeCategory",
+      "type": "function",
+      "name": "MapIdeCategory",
+      "filePath": "UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "summary": "Hàm/method MapIdeCategory trong PropertyGridViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Shell/DocumentItemVm.cs",
+      "type": "file",
+      "name": "DocumentItemVm.cs",
+      "filePath": "UI/ViewModels/Shell/DocumentItemVm.cs",
+      "summary": "ViewModel MVVM của UI: DocumentItemVm.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Shell/DocumentItemVm.cs:DocumentItemVm",
+      "type": "class",
+      "name": "DocumentItemVm",
+      "filePath": "UI/ViewModels/Shell/DocumentItemVm.cs",
+      "summary": "Kiểu DocumentItemVm trong DocumentItemVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "type": "file",
+      "name": "IdeShellViewModel.cs",
+      "filePath": "UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "summary": "ViewModel MVVM của UI: IdeShellViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Shell/IdeShellViewModel.cs:IdeShellViewModel",
+      "type": "class",
+      "name": "IdeShellViewModel",
+      "filePath": "UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "summary": "Kiểu IdeShellViewModel trong IdeShellViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Shell/IdeShellViewModel.cs:IdeShellViewModel",
+      "type": "function",
+      "name": "IdeShellViewModel",
+      "filePath": "UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "summary": "Hàm/method IdeShellViewModel trong IdeShellViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Shell/IdeShellViewModel.cs:OpenOrActivate",
+      "type": "function",
+      "name": "OpenOrActivate",
+      "filePath": "UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "summary": "Hàm/method OpenOrActivate trong IdeShellViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Shell/IdeShellViewModel.cs:ActivateDocument",
+      "type": "function",
+      "name": "ActivateDocument",
+      "filePath": "UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "summary": "Hàm/method ActivateDocument trong IdeShellViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Shell/IdeShellViewModel.cs:CloseDocument",
+      "type": "function",
+      "name": "CloseDocument",
+      "filePath": "UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "summary": "Hàm/method CloseDocument trong IdeShellViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Shell/IdeShellViewModel.cs:SeedPlaceholderPanes",
+      "type": "function",
+      "name": "SeedPlaceholderPanes",
+      "filePath": "UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "summary": "Hàm/method SeedPlaceholderPanes trong IdeShellViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/ViewModels/Shell/ToolPaneVm.cs",
+      "type": "file",
+      "name": "ToolPaneVm.cs",
+      "filePath": "UI/ViewModels/Shell/ToolPaneVm.cs",
+      "summary": "ViewModel MVVM của UI: ToolPaneVm.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Shell/ToolPaneVm.cs:ToolPaneVm",
+      "type": "class",
+      "name": "ToolPaneVm",
+      "filePath": "UI/ViewModels/Shell/ToolPaneVm.cs",
+      "summary": "Kiểu ToolPaneVm trong ToolPaneVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Shell/ToolPaneVm.cs:CreatePlaceholder",
+      "type": "function",
+      "name": "CreatePlaceholder",
+      "filePath": "UI/ViewModels/Shell/ToolPaneVm.cs",
+      "summary": "Hàm/method CreatePlaceholder trong ToolPaneVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "type": "file",
+      "name": "SqlDocumentViewModel.cs",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "ViewModel MVVM của UI: SqlDocumentViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/SqlDocumentViewModel.cs:SqlDocumentViewModel",
+      "type": "class",
+      "name": "SqlDocumentViewModel",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "Kiểu SqlDocumentViewModel trong SqlDocumentViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:UI/ViewModels/SqlDocumentViewModel.cs:SqlConnectionTargetVm",
+      "type": "class",
+      "name": "SqlConnectionTargetVm",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "Kiểu SqlConnectionTargetVm trong SqlDocumentViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/SqlDocumentViewModel.cs:SqlResultSetVm",
+      "type": "class",
+      "name": "SqlResultSetVm",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "Kiểu SqlResultSetVm trong SqlDocumentViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/SqlDocumentViewModel.cs:SqlDocumentViewModel",
+      "type": "function",
+      "name": "SqlDocumentViewModel",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "Hàm/method SqlDocumentViewModel trong SqlDocumentViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/SqlDocumentViewModel.cs:Initialize",
+      "type": "function",
+      "name": "Initialize",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "Hàm/method Initialize trong SqlDocumentViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/SqlDocumentViewModel.cs:ReplaceScript",
+      "type": "function",
+      "name": "ReplaceScript",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "Hàm/method ReplaceScript trong SqlDocumentViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/SqlDocumentViewModel.cs:TrySelectTarget",
+      "type": "function",
+      "name": "TrySelectTarget",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "Hàm/method TrySelectTarget trong SqlDocumentViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/SqlDocumentViewModel.cs:Save",
+      "type": "function",
+      "name": "Save",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "Hàm/method Save trong SqlDocumentViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/SqlDocumentViewModel.cs:RebuildConnectionTargets",
+      "type": "function",
+      "name": "RebuildConnectionTargets",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "Hàm/method RebuildConnectionTargets trong SqlDocumentViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/SqlDocumentViewModel.cs:SyncProgramAppIfNeeded",
+      "type": "function",
+      "name": "SyncProgramAppIfNeeded",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "Hàm/method SyncProgramAppIfNeeded trong SqlDocumentViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/SqlDocumentViewModel.cs:ExecuteAsync",
+      "type": "function",
+      "name": "ExecuteAsync",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "Hàm/method ExecuteAsync trong SqlDocumentViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/SqlDocumentViewModel.cs:SqlResultSetVm",
+      "type": "function",
+      "name": "SqlResultSetVm",
+      "filePath": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "summary": "Hàm/method SqlResultSetVm trong SqlDocumentViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/TemplateManagerViewModel.cs",
+      "type": "file",
+      "name": "TemplateManagerViewModel.cs",
+      "filePath": "UI/ViewModels/TemplateManagerViewModel.cs",
+      "summary": "ViewModel MVVM của UI: TemplateManagerViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/TemplateManagerViewModel.cs:TemplateManagerViewModel",
+      "type": "class",
+      "name": "TemplateManagerViewModel",
+      "filePath": "UI/ViewModels/TemplateManagerViewModel.cs",
+      "summary": "Kiểu TemplateManagerViewModel trong TemplateManagerViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/TemplateManagerViewModel.cs:TemplateManagerViewModel",
+      "type": "function",
+      "name": "TemplateManagerViewModel",
+      "filePath": "UI/ViewModels/TemplateManagerViewModel.cs",
+      "summary": "Hàm/method TemplateManagerViewModel trong TemplateManagerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/TemplateManagerViewModel.cs:LoadAsync",
+      "type": "function",
+      "name": "LoadAsync",
+      "filePath": "UI/ViewModels/TemplateManagerViewModel.cs",
+      "summary": "Hàm/method LoadAsync trong TemplateManagerViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "type": "file",
+      "name": "ToolboxViewModel.cs",
+      "filePath": "UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "summary": "ViewModel MVVM của UI: ToolboxViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Toolbox/ToolboxViewModel.cs:ToolboxItemVm",
+      "type": "class",
+      "name": "ToolboxItemVm",
+      "filePath": "UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "summary": "Kiểu ToolboxItemVm trong ToolboxViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Toolbox/ToolboxViewModel.cs:ToolboxViewModel",
+      "type": "class",
+      "name": "ToolboxViewModel",
+      "filePath": "UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "summary": "Kiểu ToolboxViewModel trong ToolboxViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Toolbox/ToolboxViewModel.cs:ToolboxViewModel",
+      "type": "function",
+      "name": "ToolboxViewModel",
+      "filePath": "UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "summary": "Hàm/method ToolboxViewModel trong ToolboxViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Toolbox/ToolboxViewModel.cs:RefreshView",
+      "type": "function",
+      "name": "RefreshView",
+      "filePath": "UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "summary": "Hàm/method RefreshView trong ToolboxViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Toolbox/ToolboxViewModel.cs:BuildCatalog",
+      "type": "function",
+      "name": "BuildCatalog",
+      "filePath": "UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "summary": "Hàm/method BuildCatalog trong ToolboxViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Bottom/ErrorListPanel.xaml",
+      "type": "file",
+      "name": "ErrorListPanel.xaml",
+      "filePath": "UI/Views/Bottom/ErrorListPanel.xaml",
+      "summary": "View WPF: ErrorListPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Bottom/ErrorListPanel.xaml.cs",
+      "type": "file",
+      "name": "ErrorListPanel.xaml.cs",
+      "filePath": "UI/Views/Bottom/ErrorListPanel.xaml.cs",
+      "summary": "View WPF: ErrorListPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Bottom/ErrorListPanel.xaml.cs:ErrorListPanel",
+      "type": "class",
+      "name": "ErrorListPanel",
+      "filePath": "UI/Views/Bottom/ErrorListPanel.xaml.cs",
+      "summary": "Kiểu ErrorListPanel trong ErrorListPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Bottom/ErrorListPanel.xaml.cs:ErrorListPanel",
+      "type": "function",
+      "name": "ErrorListPanel",
+      "filePath": "UI/Views/Bottom/ErrorListPanel.xaml.cs",
+      "summary": "Hàm/method ErrorListPanel trong ErrorListPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Bottom/LogPanel.xaml",
+      "type": "file",
+      "name": "LogPanel.xaml",
+      "filePath": "UI/Views/Bottom/LogPanel.xaml",
+      "summary": "View WPF: LogPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Bottom/LogPanel.xaml.cs",
+      "type": "file",
+      "name": "LogPanel.xaml.cs",
+      "filePath": "UI/Views/Bottom/LogPanel.xaml.cs",
+      "summary": "View WPF: LogPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Bottom/LogPanel.xaml.cs:LogPanel",
+      "type": "class",
+      "name": "LogPanel",
+      "filePath": "UI/Views/Bottom/LogPanel.xaml.cs",
+      "summary": "Kiểu LogPanel trong LogPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Bottom/LogPanel.xaml.cs:LogPanel",
+      "type": "function",
+      "name": "LogPanel",
+      "filePath": "UI/Views/Bottom/LogPanel.xaml.cs",
+      "summary": "Hàm/method LogPanel trong LogPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Bottom/OutputPanel.xaml",
+      "type": "file",
+      "name": "OutputPanel.xaml",
+      "filePath": "UI/Views/Bottom/OutputPanel.xaml",
+      "summary": "View WPF: OutputPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "class:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:DatabaseExplorerViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:DatabaseExplorerViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:RefreshAfterProgramChangeAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:OnTreeNodeActivated",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:OpenObjectScriptAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:Dispose",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:RebuildConnectionTargets",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:RefreshAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:BuildTreeOffline",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs:ApplyFilterAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:UI/App.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:UI/Services/AppConfigStore.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:UI/Services/DatabaseObjectScripter.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:UI/Services/SqlStudioNavigator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "class:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:DebouncedTreeFilter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "class:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:ExplorerTreeFilterEngine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:DebouncedTreeFilter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:Schedule",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:FlushAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:RunPendingAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:Dispose",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:BuildIndex",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:AddNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:CalculateVisibility",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:ApplyVisibilityAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs:PreloadChildren",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "class:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:ExplorerFileTag",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "class:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:ExplorerTreeNodeMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "class:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:DatabaseObjectTag",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:ToControllerKind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:GuessEncryptedKind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:CreateFileNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:CreateLoadingPlaceholder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:IsLoadingPlaceholder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:CreateDatabaseFolder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:CreateDatabaseObject",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:FromMenuNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:ParseFolderKind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "function:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs:ParseDatabaseKind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "file:UI/Services/AppConfigStore.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "target": "file:UI/ViewModels/MenuNodeViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "target": "class:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs:ExplorerTreeNodeVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "target": "class:UI/ViewModels/Explorer/IExplorerTreeSource.cs:IExplorerTreeSource",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "class:UI/ViewModels/Explorer/OutlineViewModel.cs:OutlineNavTag",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "class:UI/ViewModels/Explorer/OutlineViewModel.cs:OutlineViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:OutlineViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:BindTo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:OnTreeNodeActivated",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:Refresh",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:Dispose",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:OnFormBuilderChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:RebuildNow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:ToTreeNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:IconFor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:NavigateByNodeId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/OutlineViewModel.cs:ApplyFilterAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/NavigationMap.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/DocumentNode.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/NodeId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "class:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:ProjectExplorerViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:ProjectExplorerViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:OnTreeNodeActivated",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:Dispose",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:SelectProgramAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:RebuildTreeAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:EnsureChildrenAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:WaitInflightAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:LoadChildrenCoreAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:BuildChildrenList",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:PreferredOrder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:ResolveFolderKind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:ResolveFileKind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:ApplyFilterAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:GetOrBuildFileIndexAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:ScanAllExplorerFiles",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:EnsureFilePathInTreeAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "function:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs:OpenNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/MainWindow.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/Services/AppConfigStore.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/Services/FormDocumentNavigator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/Services/LeftExplorerLoadCoordinator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/Services/SqlStudioNavigator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "target": "file:UI/ViewModels/NavigationViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "class:UI/ViewModels/FormBuilderViewModel.cs:FormBuilderViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:FormBuilderViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:LoadControllerXml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:IsCodeOnlyPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:RefreshEntitiesFromSemantic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:ToggleInsightMode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:OpenSqlFromForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:UpdateEntityInline",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:ParseXml",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:ApplyLanguageDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:SelectCell",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:FinishSelectionChange",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:UpdateSelectionMarkers",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:SelectFieldByName",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:NavigateToLine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:NavigateToTarget",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:ApplyCaretOffset",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:PathsEqual",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:SelectFieldByNameQuiet",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:NavigateToOffset",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:UpdateCaretPosition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:CommitEntityValue",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:RefreshInsightEditorLines",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:FindFieldLine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:SliceHasNameAttribute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:SelectCategory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:UpdateFieldProperty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:EnumerateAllCells",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:ApplyColumnWidth",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:RefreshRowCellWidths",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:ApplyCategoryColumnWidth",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:RulerInsertColumn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:RulerDeleteColumn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:RulerSplitColumn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:RulerMergeColumns",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:ColumnOp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:MergeWidth",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:MergePatternChars",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:ResizeCellSpanToWidth",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:ChangeSelectedCellSpan",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:MaxSpanFor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:ApplyCellSpan",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:BuildRowPattern",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:FindRowOf",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:AddColumn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:BuildFieldProperties",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:SaveAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:Clear",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "function:UI/ViewModels/FormBuilderViewModel.cs:SyncDpi",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentProjection.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpSemanticModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Insights.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/TextRange.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:UI/MainWindow.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:UI/Services/FboDesignMapper.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:UI/Services/FieldPropertySchema.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:UI/Services/SqlStudioNavigator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "target": "file:UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "target": "class:UI/ViewModels/Insight/InsightPanelViewModel.cs:InsightEntityRowVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "target": "class:UI/ViewModels/Insight/InsightPanelViewModel.cs:InsightValidationRowVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "target": "class:UI/ViewModels/Insight/InsightPanelViewModel.cs:InsightPanelViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "target": "function:UI/ViewModels/Insight/InsightPanelViewModel.cs:InsightPanelViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "target": "function:UI/ViewModels/Insight/InsightPanelViewModel.cs:BindTo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "target": "function:UI/ViewModels/Insight/InsightPanelViewModel.cs:Refresh",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "target": "class:UI/ViewModels/Insight/SymbolInfoViewModel.cs:SymbolReferenceRowVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "target": "class:UI/ViewModels/Insight/SymbolInfoViewModel.cs:SymbolInfoViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "target": "function:UI/ViewModels/Insight/SymbolInfoViewModel.cs:SymbolInfoViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "target": "function:UI/ViewModels/Insight/SymbolInfoViewModel.cs:BindTo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "target": "function:UI/ViewModels/Insight/SymbolInfoViewModel.cs:Refresh",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbol.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "class:UI/ViewModels/MainViewModel.cs:MainViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "function:UI/ViewModels/MainViewModel.cs:MainViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "function:UI/ViewModels/MainViewModel.cs:OpenFormDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "function:UI/ViewModels/MainViewModel.cs:OpenViaLanguageService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "function:UI/ViewModels/MainViewModel.cs:OnShellDocumentsChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "function:UI/ViewModels/MainViewModel.cs:OpenSqlDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "function:UI/ViewModels/MainViewModel.cs:SetActiveForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "function:UI/ViewModels/MainViewModel.cs:BindToolsToActiveForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "function:UI/ViewModels/MainViewModel.cs:SyncStatusFromForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "function:UI/ViewModels/MainViewModel.cs:SyncStatusFromActiveDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "function:UI/ViewModels/MainViewModel.cs:OnPageChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/IErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/Docking/IDockService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/MainWindow.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/Services/FormDocumentNavigator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/Services/SqlStudioNavigator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/NavigationViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Shell/DocumentItemVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/TemplateManagerViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MainViewModel.cs",
+      "target": "file:UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MenuNodeViewModel.cs",
+      "target": "class:UI/ViewModels/MenuNodeViewModel.cs:MenuNodeViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MenuNodeViewModel.cs",
+      "target": "function:UI/ViewModels/MenuNodeViewModel.cs:MenuNodeViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MenuNodeViewModel.cs",
+      "target": "function:UI/ViewModels/MenuNodeViewModel.cs:ApplyFilter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MenuNodeViewModel.cs",
+      "target": "function:UI/ViewModels/MenuNodeViewModel.cs:RestoreDefaultExpand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MenuNodeViewModel.cs",
+      "target": "function:UI/ViewModels/MenuNodeViewModel.cs:AttachResourceFiles",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/MenuNodeViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/ControllerFileItem.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MenuNodeViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/MenuTreeNode.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/MenuNodeViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "class:UI/ViewModels/NavigationViewModel.cs:NavigationViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:NavigationViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:TryRestoreLastProgramAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:OnTreeNodeActivated",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:SelectProgramAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:LoadProgramAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:RefreshMenuAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:OpenNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:LoadMenuResourcesAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:SyncTreeNodeChildren",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:OpenFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:ResolveRelatedPaths",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:FindParentMenuRecursive",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:OpenSqlFileDialog",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:ApplyFilterAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:RebuildTreeRoots",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:AddToFilterIndex",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:CalculateFilterVisibility",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "function:UI/ViewModels/NavigationViewModel.cs:CountNodes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Engine/ControllerRelatedFileResolver.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/ControllerFileItem.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/ProgramContext.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/App.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/MainWindow.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/Services/AppConfigStore.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/Services/FormDocumentNavigator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/Services/LeftExplorerLoadCoordinator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/Services/SqlStudioNavigator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/NavigationViewModel.cs",
+      "target": "file:UI/ViewModels/MenuNodeViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "target": "class:UI/ViewModels/Properties/PropertyGridViewModel.cs:PropertyGridViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "target": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:PropertyGridViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "target": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:IsFavorite",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "target": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:BindTo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "target": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:OnFormBuilderChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "target": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:RefreshView",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "target": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:FilterProperty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "target": "function:UI/ViewModels/Properties/PropertyGridViewModel.cs:MapIdeCategory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "target": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/DocumentItemVm.cs",
+      "target": "class:UI/ViewModels/Shell/DocumentItemVm.cs:DocumentItemVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/DocumentItemVm.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "target": "class:UI/ViewModels/Shell/IdeShellViewModel.cs:IdeShellViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "target": "function:UI/ViewModels/Shell/IdeShellViewModel.cs:IdeShellViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "target": "function:UI/ViewModels/Shell/IdeShellViewModel.cs:OpenOrActivate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "target": "function:UI/ViewModels/Shell/IdeShellViewModel.cs:ActivateDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "target": "function:UI/ViewModels/Shell/IdeShellViewModel.cs:CloseDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "target": "function:UI/ViewModels/Shell/IdeShellViewModel.cs:SeedPlaceholderPanes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "target": "file:UI/Docking/DockPanelHost.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "target": "file:UI/Docking/IDockService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "target": "file:UI/ViewModels/Shell/DocumentItemVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "target": "file:UI/ViewModels/Shell/ToolPaneVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/ToolPaneVm.cs",
+      "target": "class:UI/ViewModels/Shell/ToolPaneVm.cs:ToolPaneVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/ToolPaneVm.cs",
+      "target": "function:UI/ViewModels/Shell/ToolPaneVm.cs:CreatePlaceholder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Shell/ToolPaneVm.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "class:UI/ViewModels/SqlDocumentViewModel.cs:SqlDocumentViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "class:UI/ViewModels/SqlDocumentViewModel.cs:SqlConnectionTargetVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "class:UI/ViewModels/SqlDocumentViewModel.cs:SqlResultSetVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "function:UI/ViewModels/SqlDocumentViewModel.cs:SqlDocumentViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "function:UI/ViewModels/SqlDocumentViewModel.cs:Initialize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "function:UI/ViewModels/SqlDocumentViewModel.cs:ReplaceScript",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "function:UI/ViewModels/SqlDocumentViewModel.cs:TrySelectTarget",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "function:UI/ViewModels/SqlDocumentViewModel.cs:Save",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "function:UI/ViewModels/SqlDocumentViewModel.cs:RebuildConnectionTargets",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "function:UI/ViewModels/SqlDocumentViewModel.cs:SyncProgramAppIfNeeded",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "function:UI/ViewModels/SqlDocumentViewModel.cs:ExecuteAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "function:UI/ViewModels/SqlDocumentViewModel.cs:SqlResultSetVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/AppConnectionResolver.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "file:UI/App.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/TemplateManagerViewModel.cs",
+      "target": "class:UI/ViewModels/TemplateManagerViewModel.cs:TemplateManagerViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/TemplateManagerViewModel.cs",
+      "target": "function:UI/ViewModels/TemplateManagerViewModel.cs:TemplateManagerViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/TemplateManagerViewModel.cs",
+      "target": "function:UI/ViewModels/TemplateManagerViewModel.cs:LoadAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/TemplateManagerViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/TemplateManagerViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/WorkflowInstance.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/TemplateManagerViewModel.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/TemplateManagerViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/TemplateManagerViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/TemplateManagerViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "target": "class:UI/ViewModels/Toolbox/ToolboxViewModel.cs:ToolboxItemVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "target": "class:UI/ViewModels/Toolbox/ToolboxViewModel.cs:ToolboxViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "target": "function:UI/ViewModels/Toolbox/ToolboxViewModel.cs:ToolboxViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "target": "function:UI/ViewModels/Toolbox/ToolboxViewModel.cs:RefreshView",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "target": "function:UI/ViewModels/Toolbox/ToolboxViewModel.cs:BuildCatalog",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Bottom/ErrorListPanel.xaml.cs",
+      "target": "class:UI/Views/Bottom/ErrorListPanel.xaml.cs:ErrorListPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/ErrorListPanel.xaml.cs",
+      "target": "function:UI/Views/Bottom/ErrorListPanel.xaml.cs:ErrorListPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/LogPanel.xaml.cs",
+      "target": "class:UI/Views/Bottom/LogPanel.xaml.cs:LogPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/LogPanel.xaml.cs",
+      "target": "function:UI/Views/Bottom/LogPanel.xaml.cs:LogPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    }
+  ],
+  "batchFiles": [
+    {
+      "path": "UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 483,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Explorer/ExplorerTreeFilterEngine.cs",
+      "language": "csharp",
+      "sizeLines": 201,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Explorer/ExplorerTreeNodeMapper.cs",
+      "language": "csharp",
+      "sizeLines": 216,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "language": "csharp",
+      "sizeLines": 76,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "language": "csharp",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 333,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 702,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/FormBuilderViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 1515,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 141,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 178,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/MainViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 560,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/MenuNodeViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 270,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/NavigationViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 779,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 187,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Shell/DocumentItemVm.cs",
+      "language": "csharp",
+      "sizeLines": 42,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Shell/IdeShellViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 274,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Shell/ToolPaneVm.cs",
+      "language": "csharp",
+      "sizeLines": 59,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/SqlDocumentViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 436,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/TemplateManagerViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 130,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 112,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Bottom/ErrorListPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Bottom/ErrorListPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Bottom/LogPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Bottom/LogPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Bottom/OutputPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    }
+  ]
+}

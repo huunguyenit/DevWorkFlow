@@ -1,0 +1,1306 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 9,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "docs/AI_RULES.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 135,
+      "nonEmptyLines": 70,
+      "sections": [
+        {
+          "heading": "1.",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "2.",
+          "level": 2,
+          "line": 13
+        },
+        {
+          "heading": "3.",
+          "level": 2,
+          "line": 27
+        },
+        {
+          "heading": "4.",
+          "level": 2,
+          "line": 35
+        },
+        {
+          "heading": "5.",
+          "level": 2,
+          "line": 43
+        },
+        {
+          "heading": "6.",
+          "level": 2,
+          "line": 53
+        },
+        {
+          "heading": "7.",
+          "level": 2,
+          "line": 63
+        },
+        {
+          "heading": "8.",
+          "level": 2,
+          "line": 73
+        },
+        {
+          "heading": "9.",
+          "level": 2,
+          "line": 95
+        },
+        {
+          "heading": "10.",
+          "level": 2,
+          "line": 109
+        },
+        {
+          "heading": "Editor View Modes",
+          "level": 2,
+          "line": 117
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": "docs/ARCHITECTURE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 172,
+      "nonEmptyLines": 136,
+      "sections": [
+        {
+          "heading": "FBO Studio — Architecture",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. Mục tiêu kiến trúc",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "2. Solution As-Is",
+          "level": 2,
+          "line": 15
+        },
+        {
+          "heading": "2.1 Projects trong solution",
+          "level": 3,
+          "line": 17
+        },
+        {
+          "heading": "2.2 Dependency",
+          "level": 3,
+          "line": 31
+        },
+        {
+          "heading": "2.3 Legacy trên disk (ngoài solution)",
+          "level": 3,
+          "line": 50
+        },
+        {
+          "heading": "3. Runtime composition",
+          "level": 2,
+          "line": 63
+        },
+        {
+          "heading": "4. Module và storage adapters tạm thời",
+          "level": 2,
+          "line": 94
+        },
+        {
+          "heading": "5. To-Be: ERP Language Service",
+          "level": 2,
+          "line": 112
+        },
+        {
+          "heading": "6. Quality gates",
+          "level": 2,
+          "line": 157
+        },
+        {
+          "heading": "7. Tài liệu liên quan",
+          "level": 2,
+          "line": 165
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 11
+      }
+    },
+    {
+      "path": "docs/DECISIONS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 313,
+      "nonEmptyLines": 214,
+      "sections": [
+        {
+          "heading": "FBO Studio — Architecture Decision Records",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "ADR-001 — Legacy projects ngoài solution, giữ trên disk",
+          "level": 2,
+          "line": 5
+        },
+        {
+          "heading": "Context",
+          "level": 3,
+          "line": 10
+        },
+        {
+          "heading": "Decision",
+          "level": 3,
+          "line": 16
+        },
+        {
+          "heading": "Consequences",
+          "level": 3,
+          "line": 23
+        },
+        {
+          "heading": "ADR-002 — Golden tests đọc SP226 in-place",
+          "level": 2,
+          "line": 31
+        },
+        {
+          "heading": "Context",
+          "level": 3,
+          "line": 36
+        },
+        {
+          "heading": "Decision",
+          "level": 3,
+          "line": 41
+        },
+        {
+          "heading": "Consequences",
+          "level": 3,
+          "line": 49
+        },
+        {
+          "heading": "ADR-003 — CI Windows + .NET 10",
+          "level": 2,
+          "line": 57
+        },
+        {
+          "heading": "Context",
+          "level": 3,
+          "line": 62
+        },
+        {
+          "heading": "Decision",
+          "level": 3,
+          "line": 66
+        },
+        {
+          "heading": "Consequences",
+          "level": 3,
+          "line": 73
+        },
+        {
+          "heading": "ADR-004 — Không thêm XML parser ngoài Language Service",
+          "level": 2,
+          "line": 80
+        },
+        {
+          "heading": "Context",
+          "level": 3,
+          "line": 85
+        },
+        {
+          "heading": "Decision",
+          "level": 3,
+          "line": 90
+        },
+        {
+          "heading": "Consequences",
+          "level": 3,
+          "line": 98
+        },
+        {
+          "heading": "ADR-005 — Phase 1 Language Service contracts + legacy adapter",
+          "level": 2,
+          "line": 105
+        },
+        {
+          "heading": "Context",
+          "level": 3,
+          "line": 110
+        },
+        {
+          "heading": "Decision",
+          "level": 3,
+          "line": 115
+        },
+        {
+          "heading": "Consequences",
+          "level": 3,
+          "line": 128
+        },
+        {
+          "heading": "ADR-006 — Phase 2 Lossless syntax tree + Structure projection",
+          "level": 2,
+          "line": 136
+        },
+        {
+          "heading": "Context",
+          "level": 3,
+          "line": 141
+        },
+        {
+          "heading": "Decision",
+          "level": 3,
+          "line": 146
+        },
+        {
+          "heading": "Consequences",
+          "level": 3,
+          "line": 156
+        },
+        {
+          "heading": "ADR-007 — Phase 3 ERP Semantic Model + Fbo* transitional",
+          "level": 2,
+          "line": 164
+        },
+        {
+          "heading": "Context",
+          "level": 3,
+          "line": 169
+        },
+        {
+          "heading": "Decision",
+          "level": 3,
+          "line": 174
+        },
+        {
+          "heading": "Consequences",
+          "level": 3,
+          "line": 183
+        },
+        {
+          "heading": "ADR-008 — EntitySymbol graph thay scanner/expander",
+          "level": 2,
+          "line": 190
+        },
+        {
+          "heading": "Context",
+          "level": 3,
+          "line": 195
+        },
+        {
+          "heading": "Decision",
+          "level": 3,
+          "line": 201
+        },
+        {
+          "heading": "Consequences",
+          "level": 3,
+          "line": 212
+        },
+        {
+          "heading": "ADR-009 — Architecture Freeze 1.0: Insight Provider Pipeline",
+          "level": 2,
+          "line": 221
+        },
+        {
+          "heading": "Context",
+          "level": 3,
+          "line": 226
+        },
+        {
+          "heading": "Decision",
+          "level": 3,
+          "line": 233
+        },
+        {
+          "heading": "Consequences",
+          "level": 3,
+          "line": 249
+        },
+        {
+          "heading": "ADR-012 — ERP Navigation Service (NodeId / Symbol)",
+          "level": 2,
+          "line": 259
+        },
+        {
+          "heading": "Context",
+          "level": 3,
+          "line": 264
+        },
+        {
+          "heading": "Decision",
+          "level": 3,
+          "line": 269
+        },
+        {
+          "heading": "Consequences",
+          "level": 3,
+          "line": 279
+        },
+        {
+          "heading": "ADR-011 — Left dock TreePanel chung (Explorer / Menu / Database)",
+          "level": 2,
+          "line": 287
+        },
+        {
+          "heading": "Context",
+          "level": 3,
+          "line": 292
+        },
+        {
+          "heading": "Decision",
+          "level": 3,
+          "line": 297
+        },
+        {
+          "heading": "Consequences",
+          "level": 3,
+          "line": 309
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 45
+      }
+    },
+    {
+      "path": "docs/ERP_LANGUAGE_SERVICE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 1130,
+      "nonEmptyLines": 683,
+      "sections": [
+        {
+          "heading": "Mục tiêu",
+          "level": 1,
+          "line": 6
+        },
+        {
+          "heading": "Design Philosophy",
+          "level": 1,
+          "line": 20
+        },
+        {
+          "heading": "Overall Architecture",
+          "level": 1,
+          "line": 32
+        },
+        {
+          "heading": "ERP Language Service",
+          "level": 1,
+          "line": 76
+        },
+        {
+          "heading": "ERP Semantic Model",
+          "level": 1,
+          "line": 96
+        },
+        {
+          "heading": "Symbol",
+          "level": 1,
+          "line": 117
+        },
+        {
+          "heading": "Workflow Engine",
+          "level": 1,
+          "line": 155
+        },
+        {
+          "heading": "AI Engine",
+          "level": 1,
+          "line": 181
+        },
+        {
+          "heading": "Editor Rendering Architecture",
+          "level": 1,
+          "line": 211
+        },
+        {
+          "heading": "View Modes",
+          "level": 1,
+          "line": 239
+        },
+        {
+          "heading": "Source Mode",
+          "level": 2,
+          "line": 243
+        },
+        {
+          "heading": "Insight Mode",
+          "level": 2,
+          "line": 264
+        },
+        {
+          "heading": "Designer Mode",
+          "level": 2,
+          "line": 289
+        },
+        {
+          "heading": "Insight Layer",
+          "level": 1,
+          "line": 303
+        },
+        {
+          "heading": "Entity Rendering",
+          "level": 1,
+          "line": 315
+        },
+        {
+          "heading": "Nested Entity",
+          "level": 1,
+          "line": 359
+        },
+        {
+          "heading": "Inline Editing",
+          "level": 1,
+          "line": 390
+        },
+        {
+          "heading": "Search",
+          "level": 1,
+          "line": 436
+        },
+        {
+          "heading": "Rename",
+          "level": 1,
+          "line": 456
+        },
+        {
+          "heading": "Insight Provider Pipeline",
+          "level": 1,
+          "line": 466
+        },
+        {
+          "heading": "Insight Item",
+          "level": 1,
+          "line": 508
+        },
+        {
+          "heading": "Layer Priority",
+          "level": 1,
+          "line": 536
+        },
+        {
+          "heading": "Plugin Extension",
+          "level": 1,
+          "line": 556
+        },
+        {
+          "heading": "Performance",
+          "level": 1,
+          "line": 586
+        },
+        {
+          "heading": "Responsibilities",
+          "level": 1,
+          "line": 602
+        },
+        {
+          "heading": "ERP Language Service",
+          "level": 2,
+          "line": 604
+        },
+        {
+          "heading": "Insight Provider",
+          "level": 2,
+          "line": 618
+        },
+        {
+          "heading": "Rendering Engine",
+          "level": 2,
+          "line": 627
+        },
+        {
+          "heading": "Editor",
+          "level": 2,
+          "line": 639
+        },
+        {
+          "heading": "Design Principles",
+          "level": 1,
+          "line": 650
+        },
+        {
+          "heading": "Architecture Decision (ADR-0001)",
+          "level": 1,
+          "line": 678
+        },
+        {
+          "heading": "Navigation Service",
+          "level": 1,
+          "line": 692
+        },
+        {
+          "heading": "Mục tiêu",
+          "level": 2,
+          "line": 694
+        },
+        {
+          "heading": "Design Philosophy",
+          "level": 1,
+          "line": 706
+        },
+        {
+          "heading": "Semantic Navigation",
+          "level": 1,
+          "line": 722
+        },
+        {
+          "heading": "Document Model",
+          "level": 1,
+          "line": 746
+        },
+        {
+          "heading": "Navigation Target",
+          "level": 1,
+          "line": 778
+        },
+        {
+          "heading": "Navigation Workflow",
+          "level": 1,
+          "line": 800
+        },
+        {
+          "heading": "Outline",
+          "level": 1,
+          "line": 830
+        },
+        {
+          "heading": "Go To Definition",
+          "level": 1,
+          "line": 864
+        },
+        {
+          "heading": "Find References",
+          "level": 1,
+          "line": 888
+        },
+        {
+          "heading": "Peek Definition",
+          "level": 1,
+          "line": 908
+        },
+        {
+          "heading": "Breadcrumb",
+          "level": 1,
+          "line": 926
+        },
+        {
+          "heading": "Designer Navigation",
+          "level": 1,
+          "line": 956
+        },
+        {
+          "heading": "Validation Navigation",
+          "level": 1,
+          "line": 994
+        },
+        {
+          "heading": "AI Navigation",
+          "level": 1,
+          "line": 1020
+        },
+        {
+          "heading": "Workflow Navigation",
+          "level": 1,
+          "line": 1046
+        },
+        {
+          "heading": "Incremental Update",
+          "level": 1,
+          "line": 1066
+        },
+        {
+          "heading": "Responsibilities",
+          "level": 1,
+          "line": 1096
+        },
+        {
+          "heading": "Design Principles",
+          "level": 1,
+          "line": 1120
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 50
+      }
+    },
+    {
+      "path": "docs/EXPLORER_TREE_PANEL.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 206,
+      "nonEmptyLines": 151,
+      "sections": [
+        {
+          "heading": "Explorer TreePanel — Hiện trạng",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. Tổng quan",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "2. UI chung — `ExplorerTreePanel`",
+          "level": 2,
+          "line": 33
+        },
+        {
+          "heading": "Binding",
+          "level": 3,
+          "line": 35
+        },
+        {
+          "heading": "Activation",
+          "level": 3,
+          "line": 42
+        },
+        {
+          "heading": "3. Tab Explorer — filesystem Program",
+          "level": 2,
+          "line": 50
+        },
+        {
+          "heading": "Load",
+          "level": 3,
+          "line": 54
+        },
+        {
+          "heading": "Click",
+          "level": 3,
+          "line": 62
+        },
+        {
+          "heading": "Search",
+          "level": 3,
+          "line": 69
+        },
+        {
+          "heading": "Config",
+          "level": 3,
+          "line": 75
+        },
+        {
+          "heading": "4. Tab Menu — `wcommand`",
+          "level": 2,
+          "line": 79
+        },
+        {
+          "heading": "Load",
+          "level": 3,
+          "line": 83
+        },
+        {
+          "heading": "Click",
+          "level": 3,
+          "line": 88
+        },
+        {
+          "heading": "Khôi phục Program",
+          "level": 3,
+          "line": 96
+        },
+        {
+          "heading": "Config",
+          "level": 3,
+          "line": 101
+        },
+        {
+          "heading": "5. Outline (left dock dưới Explorer)",
+          "level": 2,
+          "line": 105
+        },
+        {
+          "heading": "Hành vi",
+          "level": 3,
+          "line": 109
+        },
+        {
+          "heading": "6. Tab Database — SQL objects",
+          "level": 2,
+          "line": 115
+        },
+        {
+          "heading": "Target Sys / App",
+          "level": 3,
+          "line": 119
+        },
+        {
+          "heading": "Click object",
+          "level": 3,
+          "line": 126
+        },
+        {
+          "heading": "Mở SQL Studio",
+          "level": 3,
+          "line": 135
+        },
+        {
+          "heading": "Config",
+          "level": 3,
+          "line": 142
+        },
+        {
+          "heading": "7. Program session & coordinator",
+          "level": 2,
+          "line": 151
+        },
+        {
+          "heading": "8. Performance (đã áp dụng — giữ nguyên)",
+          "level": 2,
+          "line": 170
+        },
+        {
+          "heading": "9. File map nhanh",
+          "level": 2,
+          "line": 180
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 25
+      }
+    },
+    {
+      "path": "docs/NAVIGATION_SERVICE.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 101,
+      "nonEmptyLines": 78,
+      "sections": [
+        {
+          "heading": "ERP Navigation Service — Hiện trạng",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "Nguyên tắc",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "Luồng",
+          "level": 2,
+          "line": 16
+        },
+        {
+          "heading": "Schema-driven (XSD)",
+          "level": 2,
+          "line": 23
+        },
+        {
+          "heading": "Gắn Symbol (offset-match)",
+          "level": 2,
+          "line": 30
+        },
+        {
+          "heading": "Types (Domain)",
+          "level": 2,
+          "line": 36
+        },
+        {
+          "heading": "Implementation (Application)",
+          "level": 2,
+          "line": 48
+        },
+        {
+          "heading": "Entity resolve (INCLUDE / IGNORE)",
+          "level": 2,
+          "line": 77
+        },
+        {
+          "heading": "Editor",
+          "level": 2,
+          "line": 88
+        },
+        {
+          "heading": "API nhanh",
+          "level": 2,
+          "line": 93
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    },
+    {
+      "path": "docs/PRODUCT_VISION.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 63,
+      "nonEmptyLines": 47,
+      "sections": [
+        {
+          "heading": "Mục tiêu",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "Đối tượng sử dụng",
+          "level": 1,
+          "line": 9
+        },
+        {
+          "heading": "Công nghệ dự kiến",
+          "level": 1,
+          "line": 16
+        },
+        {
+          "heading": "Tầm nhìn dài hạn",
+          "level": 1,
+          "line": 25
+        },
+        {
+          "heading": "Nguyên tắc phát triển",
+          "level": 1,
+          "line": 37
+        },
+        {
+          "heading": "Kiến trúc định hướng",
+          "level": 1,
+          "line": 46
+        },
+        {
+          "heading": "Các module dự kiến",
+          "level": 1,
+          "line": 53
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 7
+      }
+    },
+    {
+      "path": "docs/PROJECT_STATUS.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 527,
+      "nonEmptyLines": 379,
+      "sections": [
+        {
+          "heading": "1. Tóm tắt",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "2. Build health",
+          "level": 2,
+          "line": 26
+        },
+        {
+          "heading": "3. Kiến trúc solution hiện tại",
+          "level": 2,
+          "line": 52
+        },
+        {
+          "heading": "4. Trạng thái module",
+          "level": 2,
+          "line": 90
+        },
+        {
+          "heading": "4.1 IDE Shell — Hoạt động",
+          "level": 3,
+          "line": 92
+        },
+        {
+          "heading": "4.2 Program và Navigation — Hoạt động",
+          "level": 3,
+          "line": 110
+        },
+        {
+          "heading": "4.3 Left Explorer TreePanel — Hoạt động",
+          "level": 3,
+          "line": 148
+        },
+        {
+          "heading": "Project Explorer (filesystem)",
+          "level": 4,
+          "line": 153
+        },
+        {
+          "heading": "Database Explorer",
+          "level": 4,
+          "line": 168
+        },
+        {
+          "heading": "4.4 Form Designer — Prototype sử dụng được",
+          "level": 3,
+          "line": 182
+        },
+        {
+          "heading": "4.5 Entity — Phase 4 hoàn thành",
+          "level": 3,
+          "line": 201
+        },
+        {
+          "heading": "4.6 XML/code tooling — Prototype tạm thời",
+          "level": 3,
+          "line": 219
+        },
+        {
+          "heading": "4.7 SQL Studio — Prototype sử dụng được",
+          "level": 3,
+          "line": 237
+        },
+        {
+          "heading": "4.8 Template Manager — Stub",
+          "level": 3,
+          "line": 255
+        },
+        {
+          "heading": "4.9 Workflow — Engine code tồn tại, chưa tích hợp sản phẩm",
+          "level": 3,
+          "line": 268
+        },
+        {
+          "heading": "4.10 Include Manager — Chưa triển khai theo vision ban đầu",
+          "level": 3,
+          "line": 278
+        },
+        {
+          "heading": "4.11 Deployment, Plugin và AI — Chưa triển khai",
+          "level": 3,
+          "line": 286
+        },
+        {
+          "heading": "5. Thành phần kỹ thuật hiện có",
+          "level": 2,
+          "line": 292
+        },
+        {
+          "heading": "Domain",
+          "level": 3,
+          "line": 294
+        },
+        {
+          "heading": "Application",
+          "level": 3,
+          "line": 315
+        },
+        {
+          "heading": "Infrastructure",
+          "level": 3,
+          "line": 335
+        },
+        {
+          "heading": "UI",
+          "level": 3,
+          "line": 353
+        },
+        {
+          "heading": "6. Mức độ phù hợp Semantic First",
+          "level": 2,
+          "line": 381
+        },
+        {
+          "heading": "7. Quality status",
+          "level": 2,
+          "line": 411
+        },
+        {
+          "heading": "Đã xác nhận",
+          "level": 3,
+          "line": 413
+        },
+        {
+          "heading": "Chưa có",
+          "level": 3,
+          "line": 419
+        },
+        {
+          "heading": "Rủi ro hiện tại",
+          "level": 3,
+          "line": 424
+        },
+        {
+          "heading": "8. Tiến trình theo roadmap",
+          "level": 2,
+          "line": 434
+        },
+        {
+          "heading": "Phase 0 — Baseline và governance: Hoàn thành",
+          "level": 3,
+          "line": 436
+        },
+        {
+          "heading": "Phase 1 — Language Service contracts: Hoàn thành",
+          "level": 3,
+          "line": 449
+        },
+        {
+          "heading": "Phase 2 — Lossless syntax layer: Hoàn thành",
+          "level": 3,
+          "line": 459
+        },
+        {
+          "heading": "Phase 3 — ERP Semantic Model: Hoàn thành",
+          "level": 3,
+          "line": 467
+        },
+        {
+          "heading": "Phase 4 — Entity Symbol System: Hoàn thành",
+          "level": 3,
+          "line": 474
+        },
+        {
+          "heading": "Phase 5+ — Bắt đầu",
+          "level": 3,
+          "line": 482
+        },
+        {
+          "heading": "9. Ưu tiên tiếp theo",
+          "level": 2,
+          "line": 495
+        },
+        {
+          "heading": "10. Tài liệu liên quan",
+          "level": 2,
+          "line": 516
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 36
+      }
+    },
+    {
+      "path": "docs/ROADMAP.md",
+      "language": "markdown",
+      "fileCategory": "docs",
+      "totalLines": 595,
+      "nonEmptyLines": 438,
+      "sections": [
+        {
+          "heading": "FBO Studio — Product Architecture Roadmap",
+          "level": 1,
+          "line": 1
+        },
+        {
+          "heading": "1. Mục tiêu sản phẩm",
+          "level": 2,
+          "line": 7
+        },
+        {
+          "heading": "2. Kiến trúc hiện tại (As-Is)",
+          "level": 2,
+          "line": 29
+        },
+        {
+          "heading": "2.1 Solution",
+          "level": 3,
+          "line": 31
+        },
+        {
+          "heading": "2.2 Runtime composition",
+          "level": 3,
+          "line": 65
+        },
+        {
+          "heading": "2.3 Module hiện có",
+          "level": 3,
+          "line": 94
+        },
+        {
+          "heading": "Program và Navigation",
+          "level": 4,
+          "line": 96
+        },
+        {
+          "heading": "Form Builder",
+          "level": 4,
+          "line": 104
+        },
+        {
+          "heading": "Entity",
+          "level": 4,
+          "line": 111
+        },
+        {
+          "heading": "SQL Studio",
+          "level": 4,
+          "line": 118
+        },
+        {
+          "heading": "XML/code tooling",
+          "level": 4,
+          "line": 125
+        },
+        {
+          "heading": "2.4 Điểm tốt hiện tại",
+          "level": 3,
+          "line": 132
+        },
+        {
+          "heading": "2.5 Technical debt kiến trúc",
+          "level": 3,
+          "line": 140
+        },
+        {
+          "heading": "3. Kiến trúc đích (To-Be)",
+          "level": 2,
+          "line": 166
+        },
+        {
+          "heading": "3.1 Layer trách nhiệm",
+          "level": 3,
+          "line": 199
+        },
+        {
+          "heading": "DevWorkFlow.Domain",
+          "level": 4,
+          "line": 201
+        },
+        {
+          "heading": "DevWorkFlow.Application",
+          "level": 4,
+          "line": 220
+        },
+        {
+          "heading": "DevWorkFlow.Infrastructure",
+          "level": 4,
+          "line": 234
+        },
+        {
+          "heading": "UI",
+          "level": 4,
+          "line": 246
+        },
+        {
+          "heading": "3.2 Document model thống nhất",
+          "level": 3,
+          "line": 257
+        },
+        {
+          "heading": "3.3 Entity model",
+          "level": 3,
+          "line": 281
+        },
+        {
+          "heading": "4. Roadmap triển khai",
+          "level": 2,
+          "line": 309
+        },
+        {
+          "heading": "Phase 0 — Baseline và governance — Hoàn thành (2026-07-17)",
+          "level": 2,
+          "line": 311
+        },
+        {
+          "heading": "Phase 1 — Language Service contracts — Hoàn thành (2026-07-17)",
+          "level": 2,
+          "line": 328
+        },
+        {
+          "heading": "Phase 2 — Lossless syntax layer — Hoàn thành (2026-07-17)",
+          "level": 2,
+          "line": 344
+        },
+        {
+          "heading": "Phase 3 — ERP Semantic Model — Hoàn thành (2026-07-17)",
+          "level": 2,
+          "line": 361
+        },
+        {
+          "heading": "Phase 4 — Entity Symbol System — Hoàn thành (2026-07-17)",
+          "level": 2,
+          "line": 377
+        },
+        {
+          "heading": "Phase 5 — Workspace Symbol Index và IDE navigation",
+          "level": 2,
+          "line": 406
+        },
+        {
+          "heading": "Phase 6 — Semantic editing và serializer",
+          "level": 2,
+          "line": 437
+        },
+        {
+          "heading": "Phase 7 — SQL Language integration",
+          "level": 2,
+          "line": 464
+        },
+        {
+          "heading": "Phase 8 — Product expansion",
+          "level": 2,
+          "line": 485
+        },
+        {
+          "heading": "5. Thứ tự ưu tiên gần nhất",
+          "level": 2,
+          "line": 500
+        },
+        {
+          "heading": "6. Chiến lược migration",
+          "level": 2,
+          "line": 520
+        },
+        {
+          "heading": "7. Quality gates",
+          "level": 2,
+          "line": 541
+        },
+        {
+          "heading": "8. Definition of Done cho nền tảng Language Service",
+          "level": 2,
+          "line": 566
+        },
+        {
+          "heading": "9. Ngoài phạm vi roadmap gần",
+          "level": 2,
+          "line": 583
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 36
+      }
+    }
+  ]
+}

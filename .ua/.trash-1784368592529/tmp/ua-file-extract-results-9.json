@@ -1,0 +1,2697 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 25,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 26,
+      "nonEmptyLines": 22,
+      "classes": [
+        {
+          "name": "IWorkspaceSymbolIndex",
+          "startLine": 7,
+          "endLine": 26,
+          "methods": [
+            "Search",
+            "GetDefinition",
+            "FindReferences",
+            "GetDocumentSymbols"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IWorkspaceSymbolIndex",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 28,
+      "nonEmptyLines": 19,
+      "classes": [
+        {
+          "name": "NavigationTarget",
+          "startLine": 7,
+          "endLine": 28,
+          "methods": [],
+          "properties": [
+            "NodeId",
+            "DocumentUri",
+            "TextRange",
+            "NodeType",
+            "SymbolId",
+            "Symbol",
+            "StartLine",
+            "EndLine",
+            "PreferCaretOnly"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "NodeId",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentUri",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "TextRange",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "NodeType",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "SymbolId",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "Symbol",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "StartLine",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "EndLine",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "PreferCaretOnly",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "NavigationTarget",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 10,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/NodeId.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 30,
+      "nonEmptyLines": 24,
+      "functions": [
+        {
+          "name": "New",
+          "startLine": 13,
+          "endLine": 13,
+          "params": []
+        },
+        {
+          "name": "FromStableKey",
+          "startLine": 16,
+          "endLine": 27,
+          "params": [
+            "key"
+          ]
+        },
+        {
+          "name": "ToString",
+          "startLine": 29,
+          "endLine": 29,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "NodeId",
+          "startLine": 7,
+          "endLine": 30,
+          "methods": [
+            "New",
+            "FromStableKey",
+            "ToString"
+          ],
+          "properties": [
+            "Empty",
+            "IsEmpty"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Empty",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "IsEmpty",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "New",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "FromStableKey",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "ToString",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "NodeId",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "New",
+          "callee": "Guid.NewGuid",
+          "lineNumber": 13
+        },
+        {
+          "caller": "FromStableKey",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 18
+        },
+        {
+          "caller": "FromStableKey",
+          "callee": "System.Security.Cryptography.MD5.HashData",
+          "lineNumber": 21
+        },
+        {
+          "caller": "FromStableKey",
+          "callee": "System.Text.Encoding.UTF8.GetBytes",
+          "lineNumber": 22
+        },
+        {
+          "caller": "FromStableKey",
+          "callee": "new NodeId",
+          "lineNumber": 26
+        },
+        {
+          "caller": "FromStableKey",
+          "callee": "new Guid",
+          "lineNumber": 26
+        },
+        {
+          "caller": "ToString",
+          "callee": "Value.ToString",
+          "lineNumber": 29
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 39,
+      "nonEmptyLines": 30,
+      "functions": [
+        {
+          "name": "ToString",
+          "startLine": 35,
+          "endLine": 38,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "SourceSpan",
+          "startLine": 6,
+          "endLine": 14,
+          "methods": [],
+          "properties": [
+            "EndOffset",
+            "Empty",
+            "IsEmpty"
+          ]
+        },
+        {
+          "name": "SourceLocation",
+          "startLine": 19,
+          "endLine": 39,
+          "methods": [
+            "ToString"
+          ],
+          "properties": [
+            "Path",
+            "Span",
+            "Line",
+            "Column",
+            "None"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "EndOffset",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "Empty",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "IsEmpty",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "SourceSpan",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "Path",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Span",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "Line",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "Column",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "None",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "ToString",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "SourceLocation",
+          "line": 19,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ToString",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 36
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 11,
+        "functionCount": 1,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/StorageSnapshot.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 18,
+      "nonEmptyLines": 14,
+      "classes": [
+        {
+          "name": "StorageSnapshot",
+          "startLine": 6,
+          "endLine": 18,
+          "methods": [],
+          "properties": [
+            "Path",
+            "RawText",
+            "EncodingName",
+            "Version"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Path",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "RawText",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "EncodingName",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "Version",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "StorageSnapshot",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 12,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "SymbolReference",
+          "startLine": 4,
+          "endLine": 12,
+          "methods": [],
+          "properties": [
+            "SymbolId",
+            "Location",
+            "Kind"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SymbolId",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "Location",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "Kind",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "SymbolReference",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 46,
+      "nonEmptyLines": 38,
+      "functions": [
+        {
+          "name": "LineMap",
+          "startLine": 8,
+          "endLine": 18,
+          "params": [
+            "text"
+          ]
+        },
+        {
+          "name": "GetLineColumn",
+          "startLine": 24,
+          "endLine": 37,
+          "params": [
+            "offset"
+          ]
+        },
+        {
+          "name": "GetOffset",
+          "startLine": 39,
+          "endLine": 45,
+          "params": [
+            "line",
+            "column"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "LineMap",
+          "startLine": 4,
+          "endLine": 46,
+          "methods": [
+            "LineMap",
+            "GetLineColumn",
+            "GetOffset"
+          ],
+          "properties": [
+            "_line_starts",
+            "TextLength",
+            "LineCount"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "LineMap",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "TextLength",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "LineCount",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "GetLineColumn",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "GetOffset",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "LineMap",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "LineMap",
+          "callee": "new List<int>",
+          "lineNumber": 10
+        },
+        {
+          "caller": "LineMap",
+          "callee": "starts.Add",
+          "lineNumber": 14
+        },
+        {
+          "caller": "LineMap",
+          "callee": "starts.ToArray",
+          "lineNumber": 16
+        },
+        {
+          "caller": "GetLineColumn",
+          "callee": "Array.BinarySearch",
+          "lineNumber": 29
+        },
+        {
+          "caller": "GetOffset",
+          "callee": "Math.Min",
+          "lineNumber": 44
+        },
+        {
+          "caller": "GetOffset",
+          "callee": "Math.Max",
+          "lineNumber": 44
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/Syntax/SyntaxKind.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 29,
+      "nonEmptyLines": 26,
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 67,
+      "nonEmptyLines": 51,
+      "functions": [
+        {
+          "name": "SyntaxNode",
+          "startLine": 11,
+          "endLine": 15,
+          "params": [
+            "kind",
+            "name"
+          ]
+        },
+        {
+          "name": "AddChild",
+          "startLine": 36,
+          "endLine": 36,
+          "params": [
+            "child"
+          ]
+        },
+        {
+          "name": "AddToken",
+          "startLine": 38,
+          "endLine": 38,
+          "params": [
+            "token"
+          ]
+        },
+        {
+          "name": "Seal",
+          "startLine": 40,
+          "endLine": 45,
+          "params": [
+            "span",
+            "start_line",
+            "end_line"
+          ]
+        },
+        {
+          "name": "GetFullText",
+          "startLine": 48,
+          "endLine": 53,
+          "params": []
+        },
+        {
+          "name": "AppendFullText",
+          "startLine": 55,
+          "endLine": 66,
+          "params": [
+            "sb"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "SyntaxNode",
+          "startLine": 6,
+          "endLine": 67,
+          "methods": [
+            "SyntaxNode",
+            "AddChild",
+            "AddToken",
+            "Seal",
+            "GetFullText",
+            "AppendFullText"
+          ],
+          "properties": [
+            "_children",
+            "_tokens",
+            "Kind",
+            "Name",
+            "Qualifier",
+            "Span",
+            "StartLine",
+            "EndLine",
+            "Children",
+            "DirectTokens"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SyntaxNode",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Kind",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Name",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "Qualifier",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Span",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "StartLine",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "EndLine",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "Children",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "DirectTokens",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "AddChild",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "AddToken",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "Seal",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "GetFullText",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "SyntaxNode",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "AddChild",
+          "callee": "_children.Add",
+          "lineNumber": 36
+        },
+        {
+          "caller": "AddToken",
+          "callee": "_tokens.Add",
+          "lineNumber": 38
+        },
+        {
+          "caller": "GetFullText",
+          "callee": "Math.Max",
+          "lineNumber": 50
+        },
+        {
+          "caller": "GetFullText",
+          "callee": "AppendFullText",
+          "lineNumber": 51
+        },
+        {
+          "caller": "GetFullText",
+          "callee": "sb.ToString",
+          "lineNumber": 52
+        },
+        {
+          "caller": "AppendFullText",
+          "callee": "new List<(int Offset, Action Append)>",
+          "lineNumber": 58
+        },
+        {
+          "caller": "AppendFullText",
+          "callee": "parts.Add",
+          "lineNumber": 60
+        },
+        {
+          "caller": "AppendFullText",
+          "callee": "sb.Append",
+          "lineNumber": 60
+        },
+        {
+          "caller": "AppendFullText",
+          "callee": "parts.Add",
+          "lineNumber": 62
+        },
+        {
+          "caller": "AppendFullText",
+          "callee": "c.AppendFullText",
+          "lineNumber": 62
+        },
+        {
+          "caller": "AppendFullText",
+          "callee": "parts.OrderBy",
+          "lineNumber": 64
+        },
+        {
+          "caller": "AppendFullText",
+          "callee": "part.Append",
+          "lineNumber": 65
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 14,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 34,
+      "nonEmptyLines": 26,
+      "functions": [
+        {
+          "name": "SyntaxToken",
+          "startLine": 8,
+          "endLine": 15,
+          "params": [
+            "kind",
+            "text",
+            "span",
+            "line",
+            "column"
+          ]
+        },
+        {
+          "name": "ToString",
+          "startLine": 33,
+          "endLine": 33,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "SyntaxToken",
+          "startLine": 6,
+          "endLine": 34,
+          "methods": [
+            "SyntaxToken",
+            "ToString"
+          ],
+          "properties": [
+            "Kind",
+            "Text",
+            "Span",
+            "Line",
+            "Column",
+            "IsTrivia"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "SyntaxToken",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "Kind",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "Text",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "Span",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "Line",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "Column",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "IsTrivia",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "ToString",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "SyntaxToken",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 64,
+      "nonEmptyLines": 50,
+      "functions": [
+        {
+          "name": "SyntaxTree",
+          "startLine": 24,
+          "endLine": 36,
+          "params": [
+            "source_text",
+            "root",
+            "line_map",
+            "tokens",
+            "diagnostics"
+          ]
+        },
+        {
+          "name": "Serialize",
+          "startLine": 48,
+          "endLine": 63,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ISyntaxTree",
+          "startLine": 4,
+          "endLine": 19,
+          "methods": [
+            "Serialize"
+          ],
+          "properties": [
+            "SourceText",
+            "Root",
+            "LineMap",
+            "Tokens",
+            "Diagnostics"
+          ]
+        },
+        {
+          "name": "SyntaxTree",
+          "startLine": 22,
+          "endLine": 64,
+          "methods": [
+            "SyntaxTree",
+            "Serialize"
+          ],
+          "properties": [
+            "SourceText",
+            "Root",
+            "LineMap",
+            "Tokens",
+            "Diagnostics"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ISyntaxTree",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "SyntaxTree",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "SourceText",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "Root",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "LineMap",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "Tokens",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "Diagnostics",
+          "line": 46,
+          "isDefault": false
+        },
+        {
+          "name": "Serialize",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "SyntaxTree",
+          "line": 22,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Serialize",
+          "callee": "sb.Append",
+          "lineNumber": 57
+        },
+        {
+          "caller": "Serialize",
+          "callee": "sb.ToString",
+          "lineNumber": 59
+        },
+        {
+          "caller": "Serialize",
+          "callee": "Root.GetFullText",
+          "lineNumber": 62
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 2,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/TextRange.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 15,
+      "functions": [
+        {
+          "name": "FromSpan",
+          "startLine": 15,
+          "endLine": 16,
+          "params": [
+            "span"
+          ]
+        },
+        {
+          "name": "ToSpan",
+          "startLine": 18,
+          "endLine": 19,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "TextRange",
+          "startLine": 7,
+          "endLine": 20,
+          "methods": [
+            "FromSpan",
+            "ToSpan"
+          ],
+          "properties": [
+            "Length",
+            "IsEmpty",
+            "Empty"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Length",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "IsEmpty",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Empty",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "FromSpan",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "ToSpan",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "TextRange",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 6,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 8,
+      "classes": [
+        {
+          "name": "WorkspaceSymbolEntry",
+          "startLine": 6,
+          "endLine": 9,
+          "methods": [],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "WorkspaceSymbolEntry",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 1,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/AppDatabaseInfo.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 11,
+      "nonEmptyLines": 9,
+      "classes": [
+        {
+          "name": "AppDatabaseInfo",
+          "startLine": 4,
+          "endLine": 11,
+          "methods": [],
+          "properties": [
+            "Code",
+            "Name",
+            "DatabaseName"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Code",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "Name",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "DatabaseName",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "AppDatabaseInfo",
+          "line": 4,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/ControllerFileItem.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 61,
+      "nonEmptyLines": 53,
+      "classes": [
+        {
+          "name": "ControllerFileItem",
+          "startLine": 20,
+          "endLine": 61,
+          "methods": [],
+          "properties": [
+            "Kind",
+            "ControllerName",
+            "DisplayName",
+            "RelativePath",
+            "FullPath",
+            "IsEncrypted",
+            "IsXml",
+            "IsFormSource",
+            "KindLabel",
+            "SortOrder",
+            "ExtensionLabel"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Kind",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "ControllerName",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayName",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "RelativePath",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "FullPath",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "IsEncrypted",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "IsXml",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "IsFormSource",
+          "line": 36,
+          "isDefault": false
+        },
+        {
+          "name": "KindLabel",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "SortOrder",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "ExtensionLabel",
+          "line": 57,
+          "isDefault": false
+        },
+        {
+          "name": "ControllerFileItem",
+          "line": 20,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 12,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 34,
+      "functions": [
+        {
+          "name": "Get",
+          "startLine": 35,
+          "endLine": 38,
+          "params": [
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "ToString",
+          "startLine": 40,
+          "endLine": 40,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "LocalizedText",
+          "startLine": 30,
+          "endLine": 41,
+          "methods": [
+            "Get",
+            "ToString"
+          ],
+          "properties": [
+            "V",
+            "E"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "V",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "E",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "Get",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "ToString",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "LocalizedText",
+          "line": 30,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "Get",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 37
+        },
+        {
+          "caller": "Get",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 38
+        },
+        {
+          "caller": "ToString",
+          "callee": "Get",
+          "lineNumber": 40
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 56,
+      "nonEmptyLines": 49,
+      "functions": [
+        {
+          "name": "FromForm",
+          "startLine": 27,
+          "endLine": 35,
+          "params": [
+            "form",
+            "file_path",
+            "xml"
+          ]
+        },
+        {
+          "name": "FromGrid",
+          "startLine": 37,
+          "endLine": 45,
+          "params": [
+            "grid",
+            "file_path",
+            "xml"
+          ]
+        },
+        {
+          "name": "FromLookup",
+          "startLine": 47,
+          "endLine": 55,
+          "params": [
+            "lookup",
+            "file_path",
+            "xml"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FboControllerDocument",
+          "startLine": 6,
+          "endLine": 56,
+          "methods": [
+            "FromForm",
+            "FromGrid",
+            "FromLookup"
+          ],
+          "properties": [
+            "DisplayKind",
+            "FolderKind",
+            "ControllerName",
+            "FilePath",
+            "XmlSource",
+            "Form",
+            "Grid",
+            "Lookup",
+            "DisplayTitle"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "DisplayKind",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "FolderKind",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "ControllerName",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "FilePath",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "XmlSource",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Form",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "Grid",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "Lookup",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayTitle",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "FromForm",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "FromGrid",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "FromLookup",
+          "line": 47,
+          "isDefault": false
+        },
+        {
+          "name": "FboControllerDocument",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 13,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 9,
+      "nonEmptyLines": 7,
+      "functions": [
+        {
+          "name": "GetText",
+          "startLine": 8,
+          "endLine": 8,
+          "params": [
+            "vietnamese"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FboDropDownItem",
+          "startLine": 3,
+          "endLine": 9,
+          "methods": [
+            "GetText"
+          ],
+          "properties": [
+            "Value",
+            "Text"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Value",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "Text",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "GetText",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "FboDropDownItem",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GetText",
+          "callee": "Text.Get",
+          "lineNumber": 8
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 4,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 126,
+      "nonEmptyLines": 90,
+      "functions": [
+        {
+          "name": "GetDisplayLabel",
+          "startLine": 115,
+          "endLine": 115,
+          "params": [
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "GetDisplayFooter",
+          "startLine": 117,
+          "endLine": 118,
+          "params": [
+            "vietnamese"
+          ]
+        },
+        {
+          "name": "StripHtml",
+          "startLine": 120,
+          "endLine": 125,
+          "params": [
+            "text"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FboField",
+          "startLine": 8,
+          "endLine": 126,
+          "methods": [
+            "GetDisplayLabel",
+            "GetDisplayFooter",
+            "StripHtml"
+          ],
+          "properties": [
+            "Name",
+            "AliasName",
+            "DataType",
+            "DataTypeEnum",
+            "IsPrimaryKey",
+            "OnDemand",
+            "Align",
+            "Width",
+            "MaxLength",
+            "DataFormatString",
+            "HyperlinkFormatString",
+            "Columns",
+            "Rows",
+            "Aggregate",
+            "CategoryIndex",
+            "ReadOnly",
+            "Inactivate",
+            "Hidden",
+            "Disabled",
+            "AllowContain",
+            "AllowQbe",
+            "AllowSorting",
+            "AllowFilter",
+            "AllowNulls",
+            "DefaultValue",
+            "ClientDefault",
+            "When",
+            "External",
+            "Operation",
+            "FilterSource",
+            "Header",
+            "Footer",
+            "ItemsStyle",
+            "ItemsController",
+            "ItemsReference",
+            "ItemsKey",
+            "ItemsCheck",
+            "ItemsInformation",
+            "ItemsNew",
+            "DropDownItems",
+            "IsBooleanType",
+            "IsDateTimeType",
+            "HasLookupStyle",
+            "IsDropDownList",
+            "ReferenceFieldName",
+            "IsRequired",
+            "DisplayLabel",
+            "DisplayFooter"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Name",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "AliasName",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "DataType",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "DataTypeEnum",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "IsPrimaryKey",
+          "line": 20,
+          "isDefault": false
+        },
+        {
+          "name": "OnDemand",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "Align",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Width",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "MaxLength",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "DataFormatString",
+          "line": 28,
+          "isDefault": false
+        },
+        {
+          "name": "HyperlinkFormatString",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "Columns",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "Rows",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "Aggregate",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "CategoryIndex",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "ReadOnly",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "Inactivate",
+          "line": 38,
+          "isDefault": false
+        },
+        {
+          "name": "Hidden",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "Disabled",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "AllowContain",
+          "line": 42,
+          "isDefault": false
+        },
+        {
+          "name": "AllowQbe",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "AllowSorting",
+          "line": 44,
+          "isDefault": false
+        },
+        {
+          "name": "AllowFilter",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "AllowNulls",
+          "line": 48,
+          "isDefault": false
+        },
+        {
+          "name": "DefaultValue",
+          "line": 50,
+          "isDefault": false
+        },
+        {
+          "name": "ClientDefault",
+          "line": 51,
+          "isDefault": false
+        },
+        {
+          "name": "When",
+          "line": 53,
+          "isDefault": false
+        },
+        {
+          "name": "External",
+          "line": 54,
+          "isDefault": false
+        },
+        {
+          "name": "Operation",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "FilterSource",
+          "line": 56,
+          "isDefault": false
+        },
+        {
+          "name": "Header",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "Footer",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "ItemsStyle",
+          "line": 64,
+          "isDefault": false
+        },
+        {
+          "name": "ItemsController",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "ItemsReference",
+          "line": 70,
+          "isDefault": false
+        },
+        {
+          "name": "ItemsKey",
+          "line": 73,
+          "isDefault": false
+        },
+        {
+          "name": "ItemsCheck",
+          "line": 76,
+          "isDefault": false
+        },
+        {
+          "name": "ItemsInformation",
+          "line": 82,
+          "isDefault": false
+        },
+        {
+          "name": "ItemsNew",
+          "line": 85,
+          "isDefault": false
+        },
+        {
+          "name": "DropDownItems",
+          "line": 87,
+          "isDefault": false
+        },
+        {
+          "name": "IsBooleanType",
+          "line": 89,
+          "isDefault": false
+        },
+        {
+          "name": "IsDateTimeType",
+          "line": 92,
+          "isDefault": false
+        },
+        {
+          "name": "HasLookupStyle",
+          "line": 96,
+          "isDefault": false
+        },
+        {
+          "name": "IsDropDownList",
+          "line": 100,
+          "isDefault": false
+        },
+        {
+          "name": "ReferenceFieldName",
+          "line": 104,
+          "isDefault": false
+        },
+        {
+          "name": "IsRequired",
+          "line": 109,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayLabel",
+          "line": 111,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayFooter",
+          "line": 113,
+          "isDefault": false
+        },
+        {
+          "name": "GetDisplayLabel",
+          "line": 115,
+          "isDefault": false
+        },
+        {
+          "name": "GetDisplayFooter",
+          "line": 117,
+          "isDefault": false
+        },
+        {
+          "name": "FboField",
+          "line": 8,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GetDisplayLabel",
+          "callee": "StripHtml",
+          "lineNumber": 115
+        },
+        {
+          "caller": "GetDisplayLabel",
+          "callee": "Header.Get",
+          "lineNumber": 115
+        },
+        {
+          "caller": "GetDisplayFooter",
+          "callee": "StripHtml",
+          "lineNumber": 118
+        },
+        {
+          "caller": "GetDisplayFooter",
+          "callee": "Footer.Get",
+          "lineNumber": 118
+        },
+        {
+          "caller": "StripHtml",
+          "callee": "string.IsNullOrEmpty",
+          "lineNumber": 122
+        },
+        {
+          "caller": "StripHtml",
+          "callee": "System.Net.WebUtility.HtmlDecode",
+          "lineNumber": 123
+        },
+        {
+          "caller": "StripHtml",
+          "callee": "System.Text.RegularExpressions.Regex.Replace(s, \"<.*?>\", string.Empty).Trim",
+          "lineNumber": 124
+        },
+        {
+          "caller": "StripHtml",
+          "callee": "System.Text.RegularExpressions.Regex.Replace",
+          "lineNumber": 124
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 51,
+        "functionCount": 3,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 41,
+      "nonEmptyLines": 29,
+      "functions": [
+        {
+          "name": "FindField",
+          "startLine": 37,
+          "endLine": 38,
+          "params": [
+            "name"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FboFormModel",
+          "startLine": 7,
+          "endLine": 41,
+          "methods": [
+            "FindField"
+          ],
+          "properties": [
+            "FolderKind",
+            "ControllerName",
+            "Table",
+            "CodeField",
+            "OrderBy",
+            "AppType",
+            "Database",
+            "UniKey",
+            "Navigation",
+            "Title",
+            "Fields",
+            "Layout",
+            "FieldsByName",
+            "DisplayTitle"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FolderKind",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "ControllerName",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "Table",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "CodeField",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "OrderBy",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "AppType",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "Database",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "UniKey",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "Navigation",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "Title",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "Fields",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "Layout",
+          "line": 32,
+          "isDefault": false
+        },
+        {
+          "name": "FieldsByName",
+          "line": 34,
+          "isDefault": false
+        },
+        {
+          "name": "FindField",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayTitle",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "FboFormModel",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "FindField",
+          "callee": "FieldsByName.TryGetValue",
+          "lineNumber": 38
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 16,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 62,
+      "nonEmptyLines": 50,
+      "classes": [
+        {
+          "name": "GridToolbarButton",
+          "startLine": 4,
+          "endLine": 11,
+          "methods": [],
+          "properties": [
+            "Command",
+            "Title",
+            "IsSeparator"
+          ]
+        },
+        {
+          "name": "FboGridModel",
+          "startLine": 17,
+          "endLine": 62,
+          "methods": [],
+          "properties": [
+            "ControllerName",
+            "Table",
+            "CodeField",
+            "OrderBy",
+            "Title",
+            "SubTitle",
+            "Fields",
+            "VisibleFieldNames",
+            "Toolbar",
+            "FieldsByName",
+            "VisibleColumns",
+            "DisplayTitle",
+            "DisplaySubTitle"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Command",
+          "line": 6,
+          "isDefault": false
+        },
+        {
+          "name": "Title",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "IsSeparator",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "GridToolbarButton",
+          "line": 4,
+          "isDefault": false
+        },
+        {
+          "name": "ControllerName",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "Table",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "CodeField",
+          "line": 22,
+          "isDefault": false
+        },
+        {
+          "name": "OrderBy",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "Title",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "SubTitle",
+          "line": 26,
+          "isDefault": false
+        },
+        {
+          "name": "Fields",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "VisibleFieldNames",
+          "line": 35,
+          "isDefault": false
+        },
+        {
+          "name": "Toolbar",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "FieldsByName",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "VisibleColumns",
+          "line": 43,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayTitle",
+          "line": 60,
+          "isDefault": false
+        },
+        {
+          "name": "DisplaySubTitle",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "FboGridModel",
+          "line": 17,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 18,
+        "functionCount": 0,
+        "classCount": 2
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 32,
+      "nonEmptyLines": 22,
+      "classes": [
+        {
+          "name": "FboLookupModel",
+          "startLine": 7,
+          "endLine": 32,
+          "methods": [],
+          "properties": [
+            "ControllerName",
+            "Table",
+            "CodeField",
+            "NameField",
+            "OrderBy",
+            "Header",
+            "Fields",
+            "FieldsByName",
+            "SearchField",
+            "DisplayTitle"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "ControllerName",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "Table",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "CodeField",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "NameField",
+          "line": 17,
+          "isDefault": false
+        },
+        {
+          "name": "OrderBy",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "Header",
+          "line": 21,
+          "isDefault": false
+        },
+        {
+          "name": "Fields",
+          "line": 23,
+          "isDefault": false
+        },
+        {
+          "name": "FieldsByName",
+          "line": 25,
+          "isDefault": false
+        },
+        {
+          "name": "SearchField",
+          "line": 29,
+          "isDefault": false
+        },
+        {
+          "name": "DisplayTitle",
+          "line": 31,
+          "isDefault": false
+        },
+        {
+          "name": "FboLookupModel",
+          "line": 7,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 11,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FormCategory.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 20,
+      "nonEmptyLines": 18,
+      "functions": [
+        {
+          "name": "GetHeader",
+          "startLine": 16,
+          "endLine": 19,
+          "params": [
+            "vietnamese"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FormCategory",
+          "startLine": 6,
+          "endLine": 20,
+          "methods": [
+            "GetHeader"
+          ],
+          "properties": [
+            "Index",
+            "HeaderV",
+            "HeaderE",
+            "ColumnWidths",
+            "Anchor",
+            "Split",
+            "Rows"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Index",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "HeaderV",
+          "line": 9,
+          "isDefault": false
+        },
+        {
+          "name": "HeaderE",
+          "line": 10,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnWidths",
+          "line": 11,
+          "isDefault": false
+        },
+        {
+          "name": "Anchor",
+          "line": 12,
+          "isDefault": false
+        },
+        {
+          "name": "Split",
+          "line": 13,
+          "isDefault": false
+        },
+        {
+          "name": "Rows",
+          "line": 14,
+          "isDefault": false
+        },
+        {
+          "name": "GetHeader",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "FormCategory",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "GetHeader",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 18
+        },
+        {
+          "caller": "GetHeader",
+          "callee": "string.IsNullOrWhiteSpace",
+          "lineNumber": 19
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 9,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 92,
+      "nonEmptyLines": 72,
+      "classes": [
+        {
+          "name": "FormViewCell",
+          "startLine": 16,
+          "endLine": 34,
+          "methods": [],
+          "properties": [
+            "Kind",
+            "FieldName",
+            "Suffix",
+            "ColumnIndex",
+            "ColumnSpan",
+            "WidthPx"
+          ]
+        },
+        {
+          "name": "FormViewRow",
+          "startLine": 37,
+          "endLine": 46,
+          "methods": [],
+          "properties": [
+            "Pattern",
+            "Cells",
+            "CategoryIndex"
+          ]
+        },
+        {
+          "name": "FormViewLayout",
+          "startLine": 53,
+          "endLine": 92,
+          "methods": [],
+          "properties": [
+            "ViewId",
+            "HeightExpression",
+            "HeightPx",
+            "Anchor",
+            "Split",
+            "ColumnWidths",
+            "Rows",
+            "TopRows",
+            "BottomRows",
+            "Categories",
+            "HasCategories",
+            "ColumnCount",
+            "TotalWidthPx"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Kind",
+          "line": 18,
+          "isDefault": false
+        },
+        {
+          "name": "FieldName",
+          "line": 19,
+          "isDefault": false
+        },
+        {
+          "name": "Suffix",
+          "line": 24,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnIndex",
+          "line": 27,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnSpan",
+          "line": 30,
+          "isDefault": false
+        },
+        {
+          "name": "WidthPx",
+          "line": 33,
+          "isDefault": false
+        },
+        {
+          "name": "FormViewCell",
+          "line": 16,
+          "isDefault": false
+        },
+        {
+          "name": "Pattern",
+          "line": 39,
+          "isDefault": false
+        },
+        {
+          "name": "Cells",
+          "line": 40,
+          "isDefault": false
+        },
+        {
+          "name": "CategoryIndex",
+          "line": 45,
+          "isDefault": false
+        },
+        {
+          "name": "FormViewRow",
+          "line": 37,
+          "isDefault": false
+        },
+        {
+          "name": "ViewId",
+          "line": 55,
+          "isDefault": false
+        },
+        {
+          "name": "HeightExpression",
+          "line": 58,
+          "isDefault": false
+        },
+        {
+          "name": "HeightPx",
+          "line": 61,
+          "isDefault": false
+        },
+        {
+          "name": "Anchor",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "Split",
+          "line": 72,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnWidths",
+          "line": 74,
+          "isDefault": false
+        },
+        {
+          "name": "Rows",
+          "line": 77,
+          "isDefault": false
+        },
+        {
+          "name": "TopRows",
+          "line": 80,
+          "isDefault": false
+        },
+        {
+          "name": "BottomRows",
+          "line": 83,
+          "isDefault": false
+        },
+        {
+          "name": "Categories",
+          "line": 86,
+          "isDefault": false
+        },
+        {
+          "name": "HasCategories",
+          "line": 88,
+          "isDefault": false
+        },
+        {
+          "name": "ColumnCount",
+          "line": 90,
+          "isDefault": false
+        },
+        {
+          "name": "TotalWidthPx",
+          "line": 91,
+          "isDefault": false
+        },
+        {
+          "name": "FormViewLayout",
+          "line": 53,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 25,
+        "functionCount": 0,
+        "classCount": 3
+      }
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/Schema/FboSchemaEnums.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 70,
+      "nonEmptyLines": 65,
+      "classes": [
+        {
+          "name": "FboSchemaPaths",
+          "startLine": 64,
+          "endLine": 70,
+          "methods": [],
+          "properties": [
+            "Dir",
+            "Grid",
+            "Lookup",
+            "Report"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "Dir",
+          "line": 66,
+          "isDefault": false
+        },
+        {
+          "name": "Grid",
+          "line": 67,
+          "isDefault": false
+        },
+        {
+          "name": "Lookup",
+          "line": 68,
+          "isDefault": false
+        },
+        {
+          "name": "Report",
+          "line": 69,
+          "isDefault": false
+        },
+        {
+          "name": "FboSchemaPaths",
+          "line": 64,
+          "isDefault": false
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 5,
+        "functionCount": 0,
+        "classCount": 1
+      }
+    }
+  ]
+}

@@ -1,0 +1,3413 @@
+{
+  "batchIndex": 12,
+  "nodes": [
+    {
+      "id": "file:UI/MainWindow.xaml",
+      "type": "file",
+      "name": "MainWindow.xaml",
+      "filePath": "UI/MainWindow.xaml",
+      "summary": "Cửa sổ chính IDE FBO Studio.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:UI/MainWindow.xaml.cs",
+      "type": "file",
+      "name": "MainWindow.xaml.cs",
+      "filePath": "UI/MainWindow.xaml.cs",
+      "summary": "Cửa sổ chính IDE FBO Studio.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/MainWindow.xaml.cs:MainWindow",
+      "type": "class",
+      "name": "MainWindow",
+      "filePath": "UI/MainWindow.xaml.cs",
+      "summary": "Kiểu MainWindow trong MainWindow.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/MainWindow.xaml.cs:MainWindow",
+      "type": "function",
+      "name": "MainWindow",
+      "filePath": "UI/MainWindow.xaml.cs",
+      "summary": "Hàm/method MainWindow trong MainWindow.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/MainWindow.xaml.cs:OnLoaded",
+      "type": "function",
+      "name": "OnLoaded",
+      "filePath": "UI/MainWindow.xaml.cs",
+      "summary": "Hàm/method OnLoaded trong MainWindow.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/MainWindow.xaml.cs:OnSearch",
+      "type": "function",
+      "name": "OnSearch",
+      "filePath": "UI/MainWindow.xaml.cs",
+      "summary": "Hàm/method OnSearch trong MainWindow.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/MainWindow.xaml.cs:OnReplace",
+      "type": "function",
+      "name": "OnReplace",
+      "filePath": "UI/MainWindow.xaml.cs",
+      "summary": "Hàm/method OnReplace trong MainWindow.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/MainWindow.xaml.cs:OnGoToDefinition",
+      "type": "function",
+      "name": "OnGoToDefinition",
+      "filePath": "UI/MainWindow.xaml.cs",
+      "summary": "Hàm/method OnGoToDefinition trong MainWindow.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/MainWindow.xaml.cs:OnFindReferences",
+      "type": "function",
+      "name": "OnFindReferences",
+      "filePath": "UI/MainWindow.xaml.cs",
+      "summary": "Hàm/method OnFindReferences trong MainWindow.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/MainWindow.xaml.cs:FindVisualChild",
+      "type": "function",
+      "name": "FindVisualChild",
+      "filePath": "UI/MainWindow.xaml.cs",
+      "summary": "Hàm/method FindVisualChild trong MainWindow.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/MainWindow.xaml.cs:CanSave",
+      "type": "function",
+      "name": "CanSave",
+      "filePath": "UI/MainWindow.xaml.cs",
+      "summary": "Hàm/method CanSave trong MainWindow.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Services/AppConfigStore.cs",
+      "type": "file",
+      "name": "AppConfigStore.cs",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Mã nguồn C# định nghĩa AppConfigStore, ExplorerOptions, DatabaseOptions.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Services/AppConfigStore.cs:AppConfigStore",
+      "type": "class",
+      "name": "AppConfigStore",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Kiểu AppConfigStore trong AppConfigStore.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:UI/Services/AppConfigStore.cs:ExplorerOptions",
+      "type": "class",
+      "name": "ExplorerOptions",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Kiểu ExplorerOptions trong AppConfigStore.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/Services/AppConfigStore.cs:DatabaseOptions",
+      "type": "class",
+      "name": "DatabaseOptions",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Kiểu DatabaseOptions trong AppConfigStore.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/Services/AppConfigStore.cs:MenuOptions",
+      "type": "class",
+      "name": "MenuOptions",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Kiểu MenuOptions trong AppConfigStore.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/Services/AppConfigStore.cs:ControllerFolderOption",
+      "type": "class",
+      "name": "ControllerFolderOption",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Kiểu ControllerFolderOption trong AppConfigStore.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/Services/AppConfigStore.cs:DatabaseObjectTypeOption",
+      "type": "class",
+      "name": "DatabaseObjectTypeOption",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Kiểu DatabaseObjectTypeOption trong AppConfigStore.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/Services/AppConfigStore.cs:DatabaseObjectActionOption",
+      "type": "class",
+      "name": "DatabaseObjectActionOption",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Kiểu DatabaseObjectActionOption trong AppConfigStore.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:AppConfigStore",
+      "type": "function",
+      "name": "AppConfigStore",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method AppConfigStore trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:GetSqlPath",
+      "type": "function",
+      "name": "GetSqlPath",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method GetSqlPath trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:GetJsonPath",
+      "type": "function",
+      "name": "GetJsonPath",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method GetJsonPath trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:GetXmlPath",
+      "type": "function",
+      "name": "GetXmlPath",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method GetXmlPath trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:LoadSqlFile",
+      "type": "function",
+      "name": "LoadSqlFile",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method LoadSqlFile trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:FreezeBrush",
+      "type": "function",
+      "name": "FreezeBrush",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method FreezeBrush trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:ResolveConfigRoot",
+      "type": "function",
+      "name": "ResolveConfigRoot",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method ResolveConfigRoot trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:LoadSql",
+      "type": "function",
+      "name": "LoadSql",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method LoadSql trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:LoadControllerFolders",
+      "type": "function",
+      "name": "LoadControllerFolders",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method LoadControllerFolders trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:LoadDatabaseObjectTypes",
+      "type": "function",
+      "name": "LoadDatabaseObjectTypes",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method LoadDatabaseObjectTypes trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:LoadDatabaseObjectActions",
+      "type": "function",
+      "name": "LoadDatabaseObjectActions",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method LoadDatabaseObjectActions trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:ReadJson",
+      "type": "function",
+      "name": "ReadJson",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method ReadJson trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:DefaultDatabaseObjectTypes",
+      "type": "function",
+      "name": "DefaultDatabaseObjectTypes",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method DefaultDatabaseObjectTypes trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/AppConfigStore.cs:DefaultDatabaseObjectActions",
+      "type": "function",
+      "name": "DefaultDatabaseObjectActions",
+      "filePath": "UI/Services/AppConfigStore.cs",
+      "summary": "Hàm/method DefaultDatabaseObjectActions trong AppConfigStore.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Services/DatabaseObjectScripter.cs",
+      "type": "file",
+      "name": "DatabaseObjectScripter.cs",
+      "filePath": "UI/Services/DatabaseObjectScripter.cs",
+      "summary": "Mã nguồn C# định nghĩa DatabaseObjectScripter.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Services/DatabaseObjectScripter.cs:DatabaseObjectScripter",
+      "type": "class",
+      "name": "DatabaseObjectScripter",
+      "filePath": "UI/Services/DatabaseObjectScripter.cs",
+      "summary": "Kiểu DatabaseObjectScripter trong DatabaseObjectScripter.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Services/DatabaseObjectScripter.cs:DatabaseObjectScripter",
+      "type": "function",
+      "name": "DatabaseObjectScripter",
+      "filePath": "UI/Services/DatabaseObjectScripter.cs",
+      "summary": "Hàm/method DatabaseObjectScripter trong DatabaseObjectScripter.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/DatabaseObjectScripter.cs:BuildAsync",
+      "type": "function",
+      "name": "BuildAsync",
+      "filePath": "UI/Services/DatabaseObjectScripter.cs",
+      "summary": "Hàm/method BuildAsync trong DatabaseObjectScripter.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Services/DatabaseObjectScripter.cs:TransformBody",
+      "type": "function",
+      "name": "TransformBody",
+      "filePath": "UI/Services/DatabaseObjectScripter.cs",
+      "summary": "Hàm/method TransformBody trong DatabaseObjectScripter.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/DatabaseObjectScripter.cs:BuildCreateTable",
+      "type": "function",
+      "name": "BuildCreateTable",
+      "filePath": "UI/Services/DatabaseObjectScripter.cs",
+      "summary": "Hàm/method BuildCreateTable trong DatabaseObjectScripter.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Services/DatabaseObjectScripter.cs:FormatType",
+      "type": "function",
+      "name": "FormatType",
+      "filePath": "UI/Services/DatabaseObjectScripter.cs",
+      "summary": "Hàm/method FormatType trong DatabaseObjectScripter.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/DatabaseObjectScripter.cs:ApplyPlaceholders",
+      "type": "function",
+      "name": "ApplyPlaceholders",
+      "filePath": "UI/Services/DatabaseObjectScripter.cs",
+      "summary": "Hàm/method ApplyPlaceholders trong DatabaseObjectScripter.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Services/FboDesignMapper.cs",
+      "type": "file",
+      "name": "FboDesignMapper.cs",
+      "filePath": "UI/Services/FboDesignMapper.cs",
+      "summary": "Mã nguồn C# định nghĩa FboDesignMapper.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Services/FboDesignMapper.cs:FboDesignMapper",
+      "type": "class",
+      "name": "FboDesignMapper",
+      "filePath": "UI/Services/FboDesignMapper.cs",
+      "summary": "Kiểu FboDesignMapper trong FboDesignMapper.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Services/FboDesignMapper.cs:SetOptions",
+      "type": "function",
+      "name": "SetOptions",
+      "filePath": "UI/Services/FboDesignMapper.cs",
+      "summary": "Hàm/method SetOptions trong FboDesignMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/FboDesignMapper.cs:Map",
+      "type": "function",
+      "name": "Map",
+      "filePath": "UI/Services/FboDesignMapper.cs",
+      "summary": "Hàm/method Map trong FboDesignMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/FboDesignMapper.cs:MapForm",
+      "type": "function",
+      "name": "MapForm",
+      "filePath": "UI/Services/FboDesignMapper.cs",
+      "summary": "Hàm/method MapForm trong FboDesignMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Services/FboDesignMapper.cs:BuildRuler",
+      "type": "function",
+      "name": "BuildRuler",
+      "filePath": "UI/Services/FboDesignMapper.cs",
+      "summary": "Hàm/method BuildRuler trong FboDesignMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Services/FboDesignMapper.cs:MapFormRow",
+      "type": "function",
+      "name": "MapFormRow",
+      "filePath": "UI/Services/FboDesignMapper.cs",
+      "summary": "Hàm/method MapFormRow trong FboDesignMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Services/FboDesignMapper.cs:MapFallbackRow",
+      "type": "function",
+      "name": "MapFallbackRow",
+      "filePath": "UI/Services/FboDesignMapper.cs",
+      "summary": "Hàm/method MapFallbackRow trong FboDesignMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Services/FboDesignMapper.cs:MapGrid",
+      "type": "function",
+      "name": "MapGrid",
+      "filePath": "UI/Services/FboDesignMapper.cs",
+      "summary": "Hàm/method MapGrid trong FboDesignMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Services/FboDesignMapper.cs:MapLookup",
+      "type": "function",
+      "name": "MapLookup",
+      "filePath": "UI/Services/FboDesignMapper.cs",
+      "summary": "Hàm/method MapLookup trong FboDesignMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Services/FboDesignMapper.cs:PrefixFormTitle",
+      "type": "function",
+      "name": "PrefixFormTitle",
+      "filePath": "UI/Services/FboDesignMapper.cs",
+      "summary": "Hàm/method PrefixFormTitle trong FboDesignMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/FboDesignMapper.cs:ResolveToolbarTitle",
+      "type": "function",
+      "name": "ResolveToolbarTitle",
+      "filePath": "UI/Services/FboDesignMapper.cs",
+      "summary": "Hàm/method ResolveToolbarTitle trong FboDesignMapper.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Services/FieldPropertySchema.cs",
+      "type": "file",
+      "name": "FieldPropertySchema.cs",
+      "filePath": "UI/Services/FieldPropertySchema.cs",
+      "summary": "Mã nguồn C# định nghĩa FieldPropertySchema.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Services/FieldPropertySchema.cs:FieldPropertySchema",
+      "type": "class",
+      "name": "FieldPropertySchema",
+      "filePath": "UI/Services/FieldPropertySchema.cs",
+      "summary": "Kiểu FieldPropertySchema trong FieldPropertySchema.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Services/FieldPropertySchema.cs:BuildEditable",
+      "type": "function",
+      "name": "BuildEditable",
+      "filePath": "UI/Services/FieldPropertySchema.cs",
+      "summary": "Hàm/method BuildEditable trong FieldPropertySchema.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Services/FieldPropertySchema.cs:ApplyToField",
+      "type": "function",
+      "name": "ApplyToField",
+      "filePath": "UI/Services/FieldPropertySchema.cs",
+      "summary": "Hàm/method ApplyToField trong FieldPropertySchema.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Services/FieldPropertySchema.cs:Text",
+      "type": "function",
+      "name": "Text",
+      "filePath": "UI/Services/FieldPropertySchema.cs",
+      "summary": "Hàm/method Text trong FieldPropertySchema.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/FieldPropertySchema.cs:Enum",
+      "type": "function",
+      "name": "Enum",
+      "filePath": "UI/Services/FieldPropertySchema.cs",
+      "summary": "Hàm/method Enum trong FieldPropertySchema.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Services/FormDocumentNavigator.cs",
+      "type": "file",
+      "name": "FormDocumentNavigator.cs",
+      "filePath": "UI/Services/FormDocumentNavigator.cs",
+      "summary": "Mã nguồn C# định nghĩa FormDocumentNavigator.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Services/FormDocumentNavigator.cs:FormDocumentNavigator",
+      "type": "class",
+      "name": "FormDocumentNavigator",
+      "filePath": "UI/Services/FormDocumentNavigator.cs",
+      "summary": "Kiểu FormDocumentNavigator trong FormDocumentNavigator.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/FormDocumentNavigator.cs:Attach",
+      "type": "function",
+      "name": "Attach",
+      "filePath": "UI/Services/FormDocumentNavigator.cs",
+      "summary": "Hàm/method Attach trong FormDocumentNavigator.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/FormDocumentNavigator.cs:Open",
+      "type": "function",
+      "name": "Open",
+      "filePath": "UI/Services/FormDocumentNavigator.cs",
+      "summary": "Hàm/method Open trong FormDocumentNavigator.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Services/LeftExplorerLoadCoordinator.cs",
+      "type": "file",
+      "name": "LeftExplorerLoadCoordinator.cs",
+      "filePath": "UI/Services/LeftExplorerLoadCoordinator.cs",
+      "summary": "Mã nguồn C# định nghĩa LeftExplorerLoadCoordinator.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Services/LeftExplorerLoadCoordinator.cs:LeftExplorerLoadCoordinator",
+      "type": "class",
+      "name": "LeftExplorerLoadCoordinator",
+      "filePath": "UI/Services/LeftExplorerLoadCoordinator.cs",
+      "summary": "Kiểu LeftExplorerLoadCoordinator trong LeftExplorerLoadCoordinator.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/LeftExplorerLoadCoordinator.cs:LeftExplorerLoadCoordinator",
+      "type": "function",
+      "name": "LeftExplorerLoadCoordinator",
+      "filePath": "UI/Services/LeftExplorerLoadCoordinator.cs",
+      "summary": "Hàm/method LeftExplorerLoadCoordinator trong LeftExplorerLoadCoordinator.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/LeftExplorerLoadCoordinator.cs:DebouncedRefreshAsync",
+      "type": "function",
+      "name": "DebouncedRefreshAsync",
+      "filePath": "UI/Services/LeftExplorerLoadCoordinator.cs",
+      "summary": "Hàm/method DebouncedRefreshAsync trong LeftExplorerLoadCoordinator.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Services/SqlStudioNavigator.cs",
+      "type": "file",
+      "name": "SqlStudioNavigator.cs",
+      "filePath": "UI/Services/SqlStudioNavigator.cs",
+      "summary": "Mã nguồn C# định nghĩa SqlStudioNavigator.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Services/SqlStudioNavigator.cs:SqlStudioNavigator",
+      "type": "class",
+      "name": "SqlStudioNavigator",
+      "filePath": "UI/Services/SqlStudioNavigator.cs",
+      "summary": "Kiểu SqlStudioNavigator trong SqlStudioNavigator.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/SqlStudioNavigator.cs:Attach",
+      "type": "function",
+      "name": "Attach",
+      "filePath": "UI/Services/SqlStudioNavigator.cs",
+      "summary": "Hàm/method Attach trong SqlStudioNavigator.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/SqlStudioNavigator.cs:OpenFile",
+      "type": "function",
+      "name": "OpenFile",
+      "filePath": "UI/Services/SqlStudioNavigator.cs",
+      "summary": "Hàm/method OpenFile trong SqlStudioNavigator.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Services/SqlStudioNavigator.cs:OpenBuffer",
+      "type": "function",
+      "name": "OpenBuffer",
+      "filePath": "UI/Services/SqlStudioNavigator.cs",
+      "summary": "Hàm/method OpenBuffer trong SqlStudioNavigator.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Themes/AppStyles.xaml",
+      "type": "file",
+      "name": "AppStyles.xaml",
+      "filePath": "UI/Themes/AppStyles.xaml",
+      "summary": "Markup XAML UI: AppStyles.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:UI/Themes/IdeShell.xaml",
+      "type": "file",
+      "name": "IdeShell.xaml",
+      "filePath": "UI/Themes/IdeShell.xaml",
+      "summary": "Markup XAML UI: IdeShell.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:UI/UI.csproj",
+      "type": "config",
+      "name": "UI.csproj",
+      "filePath": "UI/UI.csproj",
+      "summary": "Project file .NET cho UI.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/UI.csproj.user",
+      "type": "file",
+      "name": "UI.csproj.user",
+      "filePath": "UI/UI.csproj.user",
+      "summary": "File nguồn: UI.csproj.user.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "type": "file",
+      "name": "RelayCommand.cs",
+      "filePath": "UI/ViewModels/Base/RelayCommand.cs",
+      "summary": "ViewModel MVVM của UI: RelayCommand.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Base/RelayCommand.cs:RelayCommand",
+      "type": "class",
+      "name": "RelayCommand",
+      "filePath": "UI/ViewModels/Base/RelayCommand.cs",
+      "summary": "Kiểu RelayCommand trong RelayCommand.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Base/RelayCommand.cs:AsyncRelayCommand",
+      "type": "class",
+      "name": "AsyncRelayCommand",
+      "filePath": "UI/ViewModels/Base/RelayCommand.cs",
+      "summary": "Kiểu AsyncRelayCommand trong RelayCommand.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Base/RelayCommand.cs:RelayCommand",
+      "type": "function",
+      "name": "RelayCommand",
+      "filePath": "UI/ViewModels/Base/RelayCommand.cs",
+      "summary": "Hàm/method RelayCommand trong RelayCommand.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Base/RelayCommand.cs:RelayCommand",
+      "type": "function",
+      "name": "RelayCommand",
+      "filePath": "UI/ViewModels/Base/RelayCommand.cs",
+      "summary": "Hàm/method RelayCommand trong RelayCommand.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Base/RelayCommand.cs:CanExecute",
+      "type": "function",
+      "name": "CanExecute",
+      "filePath": "UI/ViewModels/Base/RelayCommand.cs",
+      "summary": "Hàm/method CanExecute trong RelayCommand.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Base/RelayCommand.cs:Execute",
+      "type": "function",
+      "name": "Execute",
+      "filePath": "UI/ViewModels/Base/RelayCommand.cs",
+      "summary": "Hàm/method Execute trong RelayCommand.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Base/RelayCommand.cs:RaiseCanExecuteChanged",
+      "type": "function",
+      "name": "RaiseCanExecuteChanged",
+      "filePath": "UI/ViewModels/Base/RelayCommand.cs",
+      "summary": "Hàm/method RaiseCanExecuteChanged trong RelayCommand.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Base/RelayCommand.cs:AsyncRelayCommand",
+      "type": "function",
+      "name": "AsyncRelayCommand",
+      "filePath": "UI/ViewModels/Base/RelayCommand.cs",
+      "summary": "Hàm/method AsyncRelayCommand trong RelayCommand.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Base/RelayCommand.cs:AsyncRelayCommand",
+      "type": "function",
+      "name": "AsyncRelayCommand",
+      "filePath": "UI/ViewModels/Base/RelayCommand.cs",
+      "summary": "Hàm/method AsyncRelayCommand trong RelayCommand.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Base/RelayCommand.cs:CanExecute",
+      "type": "function",
+      "name": "CanExecute",
+      "filePath": "UI/ViewModels/Base/RelayCommand.cs",
+      "summary": "Hàm/method CanExecute trong RelayCommand.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Base/RelayCommand.cs:Execute",
+      "type": "function",
+      "name": "Execute",
+      "filePath": "UI/ViewModels/Base/RelayCommand.cs",
+      "summary": "Hàm/method Execute trong RelayCommand.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "file",
+      "name": "RelayCommandT.cs",
+      "filePath": "UI/ViewModels/Base/RelayCommandT.cs",
+      "summary": "ViewModel MVVM của UI: RelayCommandT.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Base/RelayCommandT.cs:RelayCommand",
+      "type": "class",
+      "name": "RelayCommand",
+      "filePath": "UI/ViewModels/Base/RelayCommandT.cs",
+      "summary": "Kiểu RelayCommand trong RelayCommandT.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Base/RelayCommandT.cs:RelayCommand",
+      "type": "function",
+      "name": "RelayCommand",
+      "filePath": "UI/ViewModels/Base/RelayCommandT.cs",
+      "summary": "Hàm/method RelayCommand trong RelayCommandT.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Base/RelayCommandT.cs:CanExecute",
+      "type": "function",
+      "name": "CanExecute",
+      "filePath": "UI/ViewModels/Base/RelayCommandT.cs",
+      "summary": "Hàm/method CanExecute trong RelayCommandT.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Base/RelayCommandT.cs:Execute",
+      "type": "function",
+      "name": "Execute",
+      "filePath": "UI/ViewModels/Base/RelayCommandT.cs",
+      "summary": "Hàm/method Execute trong RelayCommandT.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "file",
+      "name": "ViewModelBase.cs",
+      "filePath": "UI/ViewModels/Base/ViewModelBase.cs",
+      "summary": "ViewModel MVVM của UI: ViewModelBase.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Base/ViewModelBase.cs:ViewModelBase",
+      "type": "class",
+      "name": "ViewModelBase",
+      "filePath": "UI/ViewModels/Base/ViewModelBase.cs",
+      "summary": "Kiểu ViewModelBase trong ViewModelBase.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "type": "file",
+      "name": "FormBuilderDiagnosticsBridge.cs",
+      "filePath": "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "summary": "ViewModel MVVM của UI: FormBuilderDiagnosticsBridge.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:FormBuilderDiagnosticsBridge",
+      "type": "class",
+      "name": "FormBuilderDiagnosticsBridge",
+      "filePath": "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "summary": "Kiểu FormBuilderDiagnosticsBridge trong FormBuilderDiagnosticsBridge.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:FormBuilderDiagnosticsBridge",
+      "type": "function",
+      "name": "FormBuilderDiagnosticsBridge",
+      "filePath": "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "summary": "Hàm/method FormBuilderDiagnosticsBridge trong FormBuilderDiagnosticsBridge.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:BindTo",
+      "type": "function",
+      "name": "BindTo",
+      "filePath": "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "summary": "Hàm/method BindTo trong FormBuilderDiagnosticsBridge.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:OnChanged",
+      "type": "function",
+      "name": "OnChanged",
+      "filePath": "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "summary": "Hàm/method OnChanged trong FormBuilderDiagnosticsBridge.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:SyncDocumentDiagnostics",
+      "type": "function",
+      "name": "SyncDocumentDiagnostics",
+      "filePath": "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "summary": "Hàm/method SyncDocumentDiagnostics trong FormBuilderDiagnosticsBridge.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:ResolveSymbolAtCaret",
+      "type": "function",
+      "name": "ResolveSymbolAtCaret",
+      "filePath": "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "summary": "Hàm/method ResolveSymbolAtCaret trong FormBuilderDiagnosticsBridge.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:ForwardStatusMessage",
+      "type": "function",
+      "name": "ForwardStatusMessage",
+      "filePath": "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "summary": "Hàm/method ForwardStatusMessage trong FormBuilderDiagnosticsBridge.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "type": "file",
+      "name": "IdeDiagnosticsViewModel.cs",
+      "filePath": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "summary": "ViewModel MVVM của UI: IdeDiagnosticsViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:LogEntryVm",
+      "type": "class",
+      "name": "LogEntryVm",
+      "filePath": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "summary": "Kiểu LogEntryVm trong IdeDiagnosticsViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:ErrorItemVm",
+      "type": "class",
+      "name": "ErrorItemVm",
+      "filePath": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "summary": "Kiểu ErrorItemVm trong IdeDiagnosticsViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:IdeDiagnosticsViewModel",
+      "type": "class",
+      "name": "IdeDiagnosticsViewModel",
+      "filePath": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "summary": "Kiểu IdeDiagnosticsViewModel trong IdeDiagnosticsViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:IdeDiagnosticsViewModel",
+      "type": "function",
+      "name": "IdeDiagnosticsViewModel",
+      "filePath": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "summary": "Hàm/method IdeDiagnosticsViewModel trong IdeDiagnosticsViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:Info",
+      "type": "function",
+      "name": "Info",
+      "filePath": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "summary": "Hàm/method Info trong IdeDiagnosticsViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:Warn",
+      "type": "function",
+      "name": "Warn",
+      "filePath": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "summary": "Hàm/method Warn trong IdeDiagnosticsViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:Error",
+      "type": "function",
+      "name": "Error",
+      "filePath": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "summary": "Hàm/method Error trong IdeDiagnosticsViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:SyncProblems",
+      "type": "function",
+      "name": "SyncProblems",
+      "filePath": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "summary": "Hàm/method SyncProblems trong IdeDiagnosticsViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:SyncReferences",
+      "type": "function",
+      "name": "SyncReferences",
+      "filePath": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "summary": "Hàm/method SyncReferences trong IdeDiagnosticsViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:ClearProblems",
+      "type": "function",
+      "name": "ClearProblems",
+      "filePath": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "summary": "Hàm/method ClearProblems trong IdeDiagnosticsViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:Add",
+      "type": "function",
+      "name": "Add",
+      "filePath": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "summary": "Hàm/method Add trong IdeDiagnosticsViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "type": "file",
+      "name": "ProblemItemVm.cs",
+      "filePath": "UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "summary": "ViewModel MVVM của UI: ProblemItemVm.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Bottom/ProblemItemVm.cs:ProblemItemVm",
+      "type": "class",
+      "name": "ProblemItemVm",
+      "filePath": "UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "summary": "Kiểu ProblemItemVm trong ProblemItemVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Bottom/ProblemItemVm.cs:ReferenceItemVm",
+      "type": "class",
+      "name": "ReferenceItemVm",
+      "filePath": "UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "summary": "Kiểu ReferenceItemVm trong ProblemItemVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/ProblemItemVm.cs:FromGridRow",
+      "type": "function",
+      "name": "FromGridRow",
+      "filePath": "UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "summary": "Hàm/method FromGridRow trong ProblemItemVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "type": "file",
+      "name": "XmlBottomViewModel.cs",
+      "filePath": "UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "summary": "ViewModel MVVM của UI: XmlBottomViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Bottom/XmlBottomViewModel.cs:XmlBottomViewModel",
+      "type": "class",
+      "name": "XmlBottomViewModel",
+      "filePath": "UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "summary": "Kiểu XmlBottomViewModel trong XmlBottomViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/XmlBottomViewModel.cs:XmlBottomViewModel",
+      "type": "function",
+      "name": "XmlBottomViewModel",
+      "filePath": "UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "summary": "Hàm/method XmlBottomViewModel trong XmlBottomViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/XmlBottomViewModel.cs:BindTo",
+      "type": "function",
+      "name": "BindTo",
+      "filePath": "UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "summary": "Hàm/method BindTo trong XmlBottomViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/XmlBottomViewModel.cs:OnFormBuilderChanged",
+      "type": "function",
+      "name": "OnFormBuilderChanged",
+      "filePath": "UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "summary": "Hàm/method OnFormBuilderChanged trong XmlBottomViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/XmlBottomViewModel.cs:RaiseAll",
+      "type": "function",
+      "name": "RaiseAll",
+      "filePath": "UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "summary": "Hàm/method RaiseAll trong XmlBottomViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "type": "file",
+      "name": "XmlStructureOutlineViewModel.cs",
+      "filePath": "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "summary": "ViewModel MVVM của UI: XmlStructureOutlineViewModel.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:XmlStructureNodeVm",
+      "type": "class",
+      "name": "XmlStructureNodeVm",
+      "filePath": "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "summary": "Kiểu XmlStructureNodeVm trong XmlStructureOutlineViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:XmlStructureOutlineViewModel",
+      "type": "class",
+      "name": "XmlStructureOutlineViewModel",
+      "filePath": "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "summary": "Kiểu XmlStructureOutlineViewModel trong XmlStructureOutlineViewModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:XmlStructureOutlineViewModel",
+      "type": "function",
+      "name": "XmlStructureOutlineViewModel",
+      "filePath": "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "summary": "Hàm/method XmlStructureOutlineViewModel trong XmlStructureOutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:BindTo",
+      "type": "function",
+      "name": "BindTo",
+      "filePath": "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "summary": "Hàm/method BindTo trong XmlStructureOutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:OnFormChanged",
+      "type": "function",
+      "name": "OnFormChanged",
+      "filePath": "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "summary": "Hàm/method OnFormChanged trong XmlStructureOutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:RebuildNow",
+      "type": "function",
+      "name": "RebuildNow",
+      "filePath": "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "summary": "Hàm/method RebuildNow trong XmlStructureOutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:ToVm",
+      "type": "function",
+      "name": "ToVm",
+      "filePath": "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "summary": "Hàm/method ToVm trong XmlStructureOutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:IconFor",
+      "type": "function",
+      "name": "IconFor",
+      "filePath": "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "summary": "Hàm/method IconFor trong XmlStructureOutlineViewModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "type": "file",
+      "name": "DesignSurfaceVm.cs",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "ViewModel MVVM của UI: DesignSurfaceVm.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignCellVm",
+      "type": "class",
+      "name": "DesignCellVm",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Kiểu DesignCellVm trong DesignSurfaceVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignFormRowVm",
+      "type": "class",
+      "name": "DesignFormRowVm",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Kiểu DesignFormRowVm trong DesignSurfaceVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:RulerTickVm",
+      "type": "class",
+      "name": "RulerTickVm",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Kiểu RulerTickVm trong DesignSurfaceVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignFieldPropertyVm",
+      "type": "class",
+      "name": "DesignFieldPropertyVm",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Kiểu DesignFieldPropertyVm trong DesignSurfaceVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignCategoryTabVm",
+      "type": "class",
+      "name": "DesignCategoryTabVm",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Kiểu DesignCategoryTabVm trong DesignSurfaceVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignSurfaceVm",
+      "type": "class",
+      "name": "DesignSurfaceVm",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Kiểu DesignSurfaceVm trong DesignSurfaceVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignColumnVm",
+      "type": "class",
+      "name": "DesignColumnVm",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Kiểu DesignColumnVm trong DesignSurfaceVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignDataRowVm",
+      "type": "class",
+      "name": "DesignDataRowVm",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Kiểu DesignDataRowVm trong DesignSurfaceVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignToolbarItemVm",
+      "type": "class",
+      "name": "DesignToolbarItemVm",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Kiểu DesignToolbarItemVm trong DesignSurfaceVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/DesignSurfaceVm.cs:ApplyLanguage",
+      "type": "function",
+      "name": "ApplyLanguage",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Hàm/method ApplyLanguage trong DesignSurfaceVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/DesignSurfaceVm.cs:ApplyLanguage",
+      "type": "function",
+      "name": "ApplyLanguage",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Hàm/method ApplyLanguage trong DesignSurfaceVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/DesignSurfaceVm.cs:ApplyLanguage",
+      "type": "function",
+      "name": "ApplyLanguage",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Hàm/method ApplyLanguage trong DesignSurfaceVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/DesignSurfaceVm.cs:ApplyLanguage",
+      "type": "function",
+      "name": "ApplyLanguage",
+      "filePath": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "summary": "Hàm/method ApplyLanguage trong DesignSurfaceVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "type": "file",
+      "name": "DesignViewportVm.cs",
+      "filePath": "UI/ViewModels/Design/DesignViewportVm.cs",
+      "summary": "ViewModel MVVM của UI: DesignViewportVm.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Design/DesignViewportVm.cs:DesignViewportVm",
+      "type": "class",
+      "name": "DesignViewportVm",
+      "filePath": "UI/ViewModels/Design/DesignViewportVm.cs",
+      "summary": "Kiểu DesignViewportVm trong DesignViewportVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/DesignViewportVm.cs:DesignViewportVm",
+      "type": "function",
+      "name": "DesignViewportVm",
+      "filePath": "UI/ViewModels/Design/DesignViewportVm.cs",
+      "summary": "Hàm/method DesignViewportVm trong DesignViewportVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/DesignViewportVm.cs:Snap",
+      "type": "function",
+      "name": "Snap",
+      "filePath": "UI/ViewModels/Design/DesignViewportVm.cs",
+      "summary": "Hàm/method Snap trong DesignViewportVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/DesignViewportVm.cs:AddGuideline",
+      "type": "function",
+      "name": "AddGuideline",
+      "filePath": "UI/ViewModels/Design/DesignViewportVm.cs",
+      "summary": "Hàm/method AddGuideline trong DesignViewportVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/DesignViewportVm.cs:ClearActiveGuides",
+      "type": "function",
+      "name": "ClearActiveGuides",
+      "filePath": "UI/ViewModels/Design/DesignViewportVm.cs",
+      "summary": "Hàm/method ClearActiveGuides trong DesignViewportVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/DesignViewportVm.cs:SetResizeFeedback",
+      "type": "function",
+      "name": "SetResizeFeedback",
+      "filePath": "UI/ViewModels/Design/DesignViewportVm.cs",
+      "summary": "Hàm/method SetResizeFeedback trong DesignViewportVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/DesignViewportVm.cs:ZoomIn",
+      "type": "function",
+      "name": "ZoomIn",
+      "filePath": "UI/ViewModels/Design/DesignViewportVm.cs",
+      "summary": "Hàm/method ZoomIn trong DesignViewportVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/DesignViewportVm.cs:ZoomOut",
+      "type": "function",
+      "name": "ZoomOut",
+      "filePath": "UI/ViewModels/Design/DesignViewportVm.cs",
+      "summary": "Hàm/method ZoomOut trong DesignViewportVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/DesignViewportVm.cs:NextStep",
+      "type": "function",
+      "name": "NextStep",
+      "filePath": "UI/ViewModels/Design/DesignViewportVm.cs",
+      "summary": "Hàm/method NextStep trong DesignViewportVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Design/GuidelineVm.cs",
+      "type": "file",
+      "name": "GuidelineVm.cs",
+      "filePath": "UI/ViewModels/Design/GuidelineVm.cs",
+      "summary": "ViewModel MVVM của UI: GuidelineVm.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Design/GuidelineVm.cs:GuidelineVm",
+      "type": "class",
+      "name": "GuidelineVm",
+      "filePath": "UI/ViewModels/Design/GuidelineVm.cs",
+      "summary": "Kiểu GuidelineVm trong GuidelineVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/GuidelineVm.cs:GuidelineVm",
+      "type": "function",
+      "name": "GuidelineVm",
+      "filePath": "UI/ViewModels/Design/GuidelineVm.cs",
+      "summary": "Hàm/method GuidelineVm trong GuidelineVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "type": "file",
+      "name": "InsightEditorLineVm.cs",
+      "filePath": "UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "summary": "ViewModel MVVM của UI: InsightEditorLineVm.cs.",
+      "tags": [
+        "viewmodel",
+        "mvvm",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/ViewModels/Design/InsightEditorLineVm.cs:InsightEditorLineVm",
+      "type": "class",
+      "name": "InsightEditorLineVm",
+      "filePath": "UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "summary": "Kiểu InsightEditorLineVm trong InsightEditorLineVm.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/InsightEditorLineVm.cs:FromInsight",
+      "type": "function",
+      "name": "FromInsight",
+      "filePath": "UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "summary": "Hàm/method FromInsight trong InsightEditorLineVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/ViewModels/Design/InsightEditorLineVm.cs:FromField",
+      "type": "function",
+      "name": "FromField",
+      "filePath": "UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "summary": "Hàm/method FromField trong InsightEditorLineVm.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "class:UI/MainWindow.xaml.cs:MainWindow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "function:UI/MainWindow.xaml.cs:MainWindow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "function:UI/MainWindow.xaml.cs:OnLoaded",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "function:UI/MainWindow.xaml.cs:OnSearch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "function:UI/MainWindow.xaml.cs:OnReplace",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "function:UI/MainWindow.xaml.cs:OnGoToDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "function:UI/MainWindow.xaml.cs:OnFindReferences",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "function:UI/MainWindow.xaml.cs:FindVisualChild",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "function:UI/MainWindow.xaml.cs:CanSave",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "file:UI/Commands/IdeCommands.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "file:UI/ViewModels/MainViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "file:UI/ViewModels/SqlDocumentViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "file:UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/MainWindow.xaml.cs",
+      "target": "file:UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "class:UI/Services/AppConfigStore.cs:AppConfigStore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "class:UI/Services/AppConfigStore.cs:ExplorerOptions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "class:UI/Services/AppConfigStore.cs:DatabaseOptions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "class:UI/Services/AppConfigStore.cs:MenuOptions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "class:UI/Services/AppConfigStore.cs:ControllerFolderOption",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "class:UI/Services/AppConfigStore.cs:DatabaseObjectTypeOption",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "class:UI/Services/AppConfigStore.cs:DatabaseObjectActionOption",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:AppConfigStore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:GetSqlPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:GetJsonPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:GetXmlPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:LoadSqlFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:FreezeBrush",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:ResolveConfigRoot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:LoadSql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:LoadControllerFolders",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:LoadDatabaseObjectTypes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:LoadDatabaseObjectActions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:ReadJson",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:DefaultDatabaseObjectTypes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "function:UI/Services/AppConfigStore.cs:DefaultDatabaseObjectActions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/AppConfigStore.cs",
+      "target": "file:UI/App.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/DatabaseObjectScripter.cs",
+      "target": "class:UI/Services/DatabaseObjectScripter.cs:DatabaseObjectScripter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/DatabaseObjectScripter.cs",
+      "target": "function:UI/Services/DatabaseObjectScripter.cs:DatabaseObjectScripter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/DatabaseObjectScripter.cs",
+      "target": "function:UI/Services/DatabaseObjectScripter.cs:BuildAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/DatabaseObjectScripter.cs",
+      "target": "function:UI/Services/DatabaseObjectScripter.cs:TransformBody",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/DatabaseObjectScripter.cs",
+      "target": "function:UI/Services/DatabaseObjectScripter.cs:BuildCreateTable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/DatabaseObjectScripter.cs",
+      "target": "function:UI/Services/DatabaseObjectScripter.cs:FormatType",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/DatabaseObjectScripter.cs",
+      "target": "function:UI/Services/DatabaseObjectScripter.cs:ApplyPlaceholders",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/DatabaseObjectScripter.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/ISqlScriptRunner.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/DatabaseObjectScripter.cs",
+      "target": "file:UI/Services/AppConfigStore.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "class:UI/Services/FboDesignMapper.cs:FboDesignMapper",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "function:UI/Services/FboDesignMapper.cs:SetOptions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "function:UI/Services/FboDesignMapper.cs:Map",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "function:UI/Services/FboDesignMapper.cs:MapForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "function:UI/Services/FboDesignMapper.cs:BuildRuler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "function:UI/Services/FboDesignMapper.cs:MapFormRow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "function:UI/Services/FboDesignMapper.cs:MapFallbackRow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "function:UI/Services/FboDesignMapper.cs:MapGrid",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "function:UI/Services/FboDesignMapper.cs:MapLookup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "function:UI/Services/FboDesignMapper.cs:PrefixFormTitle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "function:UI/Services/FboDesignMapper.cs:ResolveToolbarTitle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboOptionsCatalog.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "file:DevWorkFlow.Application/Engine/LookupReferenceResolver.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FboDesignMapper.cs",
+      "target": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FieldPropertySchema.cs",
+      "target": "class:UI/Services/FieldPropertySchema.cs:FieldPropertySchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FieldPropertySchema.cs",
+      "target": "function:UI/Services/FieldPropertySchema.cs:BuildEditable",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FieldPropertySchema.cs",
+      "target": "function:UI/Services/FieldPropertySchema.cs:ApplyToField",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FieldPropertySchema.cs",
+      "target": "function:UI/Services/FieldPropertySchema.cs:Text",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FieldPropertySchema.cs",
+      "target": "function:UI/Services/FieldPropertySchema.cs:Enum",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FieldPropertySchema.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FieldPropertySchema.cs",
+      "target": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/FormDocumentNavigator.cs",
+      "target": "class:UI/Services/FormDocumentNavigator.cs:FormDocumentNavigator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FormDocumentNavigator.cs",
+      "target": "function:UI/Services/FormDocumentNavigator.cs:Attach",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/FormDocumentNavigator.cs",
+      "target": "function:UI/Services/FormDocumentNavigator.cs:Open",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/LeftExplorerLoadCoordinator.cs",
+      "target": "class:UI/Services/LeftExplorerLoadCoordinator.cs:LeftExplorerLoadCoordinator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/LeftExplorerLoadCoordinator.cs",
+      "target": "function:UI/Services/LeftExplorerLoadCoordinator.cs:LeftExplorerLoadCoordinator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/LeftExplorerLoadCoordinator.cs",
+      "target": "function:UI/Services/LeftExplorerLoadCoordinator.cs:DebouncedRefreshAsync",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/LeftExplorerLoadCoordinator.cs",
+      "target": "file:DevWorkFlow.Application/Abstractions/IServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/LeftExplorerLoadCoordinator.cs",
+      "target": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/LeftExplorerLoadCoordinator.cs",
+      "target": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/LeftExplorerLoadCoordinator.cs",
+      "target": "file:UI/ViewModels/NavigationViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Services/SqlStudioNavigator.cs",
+      "target": "class:UI/Services/SqlStudioNavigator.cs:SqlStudioNavigator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/SqlStudioNavigator.cs",
+      "target": "function:UI/Services/SqlStudioNavigator.cs:Attach",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/SqlStudioNavigator.cs",
+      "target": "function:UI/Services/SqlStudioNavigator.cs:OpenFile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/SqlStudioNavigator.cs",
+      "target": "function:UI/Services/SqlStudioNavigator.cs:OpenBuffer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Services/SqlStudioNavigator.cs",
+      "target": "file:UI/ViewModels/MainViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "target": "class:UI/ViewModels/Base/RelayCommand.cs:RelayCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "target": "class:UI/ViewModels/Base/RelayCommand.cs:AsyncRelayCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "target": "function:UI/ViewModels/Base/RelayCommand.cs:RelayCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "target": "function:UI/ViewModels/Base/RelayCommand.cs:CanExecute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "target": "function:UI/ViewModels/Base/RelayCommand.cs:Execute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "target": "function:UI/ViewModels/Base/RelayCommand.cs:RaiseCanExecuteChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "target": "function:UI/ViewModels/Base/RelayCommand.cs:AsyncRelayCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Base/RelayCommand.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "target": "class:UI/ViewModels/Base/RelayCommandT.cs:RelayCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "target": "function:UI/ViewModels/Base/RelayCommandT.cs:RelayCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "target": "function:UI/ViewModels/Base/RelayCommandT.cs:CanExecute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "target": "function:UI/ViewModels/Base/RelayCommandT.cs:Execute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "target": "class:UI/ViewModels/Base/ViewModelBase.cs:ViewModelBase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "target": "class:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:FormBuilderDiagnosticsBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "target": "function:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:FormBuilderDiagnosticsBridge",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "target": "function:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:BindTo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "target": "function:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:OnChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "target": "function:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:SyncDocumentDiagnostics",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "target": "function:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:ResolveSymbolAtCaret",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "target": "function:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs:ForwardStatusMessage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "target": "file:DevWorkFlow.Application/Language/IErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "target": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "class:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:LogEntryVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "class:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:ErrorItemVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "class:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:IdeDiagnosticsViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:IdeDiagnosticsViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:Info",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:Warn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:Error",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:SyncProblems",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:SyncReferences",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:ClearProblems",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs:Add",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDiagnostic.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "target": "file:UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "target": "class:UI/ViewModels/Bottom/ProblemItemVm.cs:ProblemItemVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "target": "class:UI/ViewModels/Bottom/ProblemItemVm.cs:ReferenceItemVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "target": "function:UI/ViewModels/Bottom/ProblemItemVm.cs:FromGridRow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "target": "file:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "target": "class:UI/ViewModels/Bottom/XmlBottomViewModel.cs:XmlBottomViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/XmlBottomViewModel.cs:XmlBottomViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/XmlBottomViewModel.cs:BindTo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/XmlBottomViewModel.cs:OnFormBuilderChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/XmlBottomViewModel.cs:RaiseAll",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Insights.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "target": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "target": "class:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:XmlStructureNodeVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "target": "class:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:XmlStructureOutlineViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:XmlStructureOutlineViewModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:BindTo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:OnFormChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:RebuildNow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:ToVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "target": "function:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs:IconFor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "target": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "target": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignCellVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "target": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignFormRowVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "target": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:RulerTickVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "target": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignFieldPropertyVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "target": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignCategoryTabVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "target": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignSurfaceVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "target": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignColumnVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "target": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignDataRowVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "target": "class:UI/ViewModels/Design/DesignSurfaceVm.cs:DesignToolbarItemVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "target": "function:UI/ViewModels/Design/DesignSurfaceVm.cs:ApplyLanguage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "target": "class:UI/ViewModels/Design/DesignViewportVm.cs:DesignViewportVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "target": "function:UI/ViewModels/Design/DesignViewportVm.cs:DesignViewportVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "target": "function:UI/ViewModels/Design/DesignViewportVm.cs:Snap",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "target": "function:UI/ViewModels/Design/DesignViewportVm.cs:AddGuideline",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "target": "function:UI/ViewModels/Design/DesignViewportVm.cs:ClearActiveGuides",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "target": "function:UI/ViewModels/Design/DesignViewportVm.cs:SetResizeFeedback",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "target": "function:UI/ViewModels/Design/DesignViewportVm.cs:ZoomIn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "target": "function:UI/ViewModels/Design/DesignViewportVm.cs:ZoomOut",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "target": "function:UI/ViewModels/Design/DesignViewportVm.cs:NextStep",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "target": "file:UI/ViewModels/Base/RelayCommandT.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Design/DesignViewportVm.cs",
+      "target": "file:UI/ViewModels/Design/GuidelineVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Design/GuidelineVm.cs",
+      "target": "class:UI/ViewModels/Design/GuidelineVm.cs:GuidelineVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/GuidelineVm.cs",
+      "target": "function:UI/ViewModels/Design/GuidelineVm.cs:GuidelineVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/GuidelineVm.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "target": "class:UI/ViewModels/Design/InsightEditorLineVm.cs:InsightEditorLineVm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "target": "function:UI/ViewModels/Design/InsightEditorLineVm.cs:FromInsight",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "target": "function:UI/ViewModels/Design/InsightEditorLineVm.cs:FromField",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Insights.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "target": "file:UI/ViewModels/Base/ViewModelBase.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ],
+  "batchFiles": [
+    {
+      "path": "UI/MainWindow.xaml",
+      "language": "xaml",
+      "sizeLines": 429,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/MainWindow.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 242,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Services/AppConfigStore.cs",
+      "language": "csharp",
+      "sizeLines": 370,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Services/DatabaseObjectScripter.cs",
+      "language": "csharp",
+      "sizeLines": 180,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Services/FboDesignMapper.cs",
+      "language": "csharp",
+      "sizeLines": 512,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Services/FieldPropertySchema.cs",
+      "language": "csharp",
+      "sizeLines": 255,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Services/FormDocumentNavigator.cs",
+      "language": "csharp",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Services/LeftExplorerLoadCoordinator.cs",
+      "language": "csharp",
+      "sizeLines": 57,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Services/SqlStudioNavigator.cs",
+      "language": "csharp",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Themes/AppStyles.xaml",
+      "language": "xaml",
+      "sizeLines": 490,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Themes/IdeShell.xaml",
+      "language": "xaml",
+      "sizeLines": 111,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/UI.csproj",
+      "language": "csproj",
+      "sizeLines": 28,
+      "fileCategory": "config"
+    },
+    {
+      "path": "UI/UI.csproj.user",
+      "language": "user",
+      "sizeLines": 3,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Base/RelayCommand.cs",
+      "language": "csharp",
+      "sizeLines": 67,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Base/RelayCommandT.cs",
+      "language": "csharp",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Base/ViewModelBase.cs",
+      "language": "csharp",
+      "sizeLines": 21,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "language": "csharp",
+      "sizeLines": 108,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 179,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "language": "csharp",
+      "sizeLines": 43,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 125,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "language": "csharp",
+      "sizeLines": 178,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "language": "csharp",
+      "sizeLines": 490,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Design/DesignViewportVm.cs",
+      "language": "csharp",
+      "sizeLines": 238,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Design/GuidelineVm.cs",
+      "language": "csharp",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "language": "csharp",
+      "sizeLines": 93,
+      "fileCategory": "code"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{
+  "plugins": {
+    "egonex-ai-understand-anything/understand-anything": {
+      "enabled": true
+    }
+  }
+}

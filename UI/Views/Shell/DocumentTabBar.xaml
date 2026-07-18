@@ -26,11 +26,9 @@
                                          VerticalAlignment="Center" Margin="0,0,6,0"
                                          Foreground="{StaticResource PrimaryBrush}"/>
                             <TextBlock Text="{Binding DisplayTitle}" VerticalAlignment="Center"/>
-                            <Button Margin="8,0,0,0" Padding="2,0" Width="16" Height="16"
-                                    Cursor="Hand" ToolTip="Close"
-                                    Background="Transparent" BorderThickness="0"
-                                    Foreground="{StaticResource FgMutedBrush}"
-                                    FontSize="11" Content="✕"
+                            <Button Style="{StaticResource IdeTabCloseButtonStyle}"
+                                    ToolTip="Close"
+                                    Content="✕"
                                     Command="{Binding DataContext.CloseDocumentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                     CommandParameter="{Binding}"
                                     PreviewMouseLeftButtonDown="CloseButton_PreviewMouseLeftButtonDown"/>

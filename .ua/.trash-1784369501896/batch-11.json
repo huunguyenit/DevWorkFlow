@@ -1,0 +1,3017 @@
+{
+  "batchIndex": 11,
+  "nodes": [
+    {
+      "id": "config:tests/DevWorkFlow.Application.Tests/DevWorkFlow.Application.Tests.csproj",
+      "type": "config",
+      "name": "DevWorkFlow.Application.Tests.csproj",
+      "filePath": "tests/DevWorkFlow.Application.Tests/DevWorkFlow.Application.Tests.csproj",
+      "summary": "Project file .NET cho DevWorkFlow.Application.Tests.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "type": "file",
+      "name": "DiagnosticGridMapperTests.cs",
+      "filePath": "tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "summary": "Unit test: DiagnosticGridMapperTests.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs:DiagnosticGridMapperTests",
+      "type": "class",
+      "name": "DiagnosticGridMapperTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "summary": "Kiểu DiagnosticGridMapperTests trong DiagnosticGridMapperTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs:MapProblems_skips_hidden_and_maps_severity_badges",
+      "type": "function",
+      "name": "MapProblems_skips_hidden_and_maps_severity_badges",
+      "filePath": "tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "summary": "Hàm/method MapProblems_skips_hidden_and_maps_severity_badges trong DiagnosticGridMapperTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs:CountBySeverity_aggregates_error_warning_hint",
+      "type": "function",
+      "name": "CountBySeverity_aggregates_error_warning_hint",
+      "filePath": "tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "summary": "Hàm/method CountBySeverity_aggregates_error_warning_hint trong DiagnosticGridMapperTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "type": "file",
+      "name": "EntitySymbolSystemTests.cs",
+      "filePath": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "summary": "Unit test: EntitySymbolSystemTests.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:EntitySymbolSystemTests",
+      "type": "class",
+      "name": "EntitySymbolSystemTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "summary": "Kiểu EntitySymbolSystemTests trong EntitySymbolSystemTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:EntitySymbolSystemTests",
+      "type": "function",
+      "name": "EntitySymbolSystemTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "summary": "Hàm/method EntitySymbolSystemTests trong EntitySymbolSystemTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:Binder_builds_inline_external_parameter_and_nested_graph",
+      "type": "function",
+      "name": "Binder_builds_inline_external_parameter_and_nested_graph",
+      "filePath": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "summary": "Hàm/method Binder_builds_inline_external_parameter_and_nested_graph trong EntitySymbolSystemTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:Binder_reports_cycle_and_missing_file",
+      "type": "function",
+      "name": "Binder_reports_cycle_and_missing_file",
+      "filePath": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "summary": "Hàm/method Binder_reports_cycle_and_missing_file trong EntitySymbolSystemTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:Inline_edit_updates_definition_but_preserves_reference",
+      "type": "function",
+      "name": "Inline_edit_updates_definition_but_preserves_reference",
+      "filePath": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "summary": "Hàm/method Inline_edit_updates_definition_but_preserves_reference trong EntitySymbolSystemTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:External_edit_writes_resolved_document_and_keeps_controller_source",
+      "type": "function",
+      "name": "External_edit_writes_resolved_document_and_keeps_controller_source",
+      "filePath": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "summary": "Hàm/method External_edit_writes_resolved_document_and_keeps_controller_source trong EntitySymbolSystemTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:Include_ignore_conditional_section_uses_active_value",
+      "type": "function",
+      "name": "Include_ignore_conditional_section_uses_active_value",
+      "filePath": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "summary": "Hàm/method Include_ignore_conditional_section_uses_active_value trong EntitySymbolSystemTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:SP226_customer_unitfields_is_empty_after_ignore",
+      "type": "function",
+      "name": "SP226_customer_unitfields_is_empty_after_ignore",
+      "filePath": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "summary": "Hàm/method SP226_customer_unitfields_is_empty_after_ignore trong EntitySymbolSystemTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:SP226_customer_entities_have_definitions_and_references",
+      "type": "function",
+      "name": "SP226_customer_entities_have_definitions_and_references",
+      "filePath": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "summary": "Hàm/method SP226_customer_entities_have_definitions_and_references trong EntitySymbolSystemTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:Dispose",
+      "type": "function",
+      "name": "Dispose",
+      "filePath": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "summary": "Hàm/method Dispose trong EntitySymbolSystemTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "type": "file",
+      "name": "ErpLanguageServiceContractTests.cs",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "summary": "Unit test: ErpLanguageServiceContractTests.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs:ErpLanguageServiceContractTests",
+      "type": "class",
+      "name": "ErpLanguageServiceContractTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "summary": "Kiểu ErpLanguageServiceContractTests trong ErpLanguageServiceContractTests.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs:OpenFromText_sets_snapshot_and_workspace",
+      "type": "function",
+      "name": "OpenFromText_sets_snapshot_and_workspace",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "summary": "Hàm/method OpenFromText_sets_snapshot_and_workspace trong ErpLanguageServiceContractTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs:Reload_increments_version_Close_removes",
+      "type": "function",
+      "name": "Reload_increments_version_Close_removes",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "summary": "Hàm/method Reload_increments_version_Close_removes trong ErpLanguageServiceContractTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs:Open_unsupported_root_still_returns_document",
+      "type": "function",
+      "name": "Open_unsupported_root_still_returns_document",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "summary": "Hàm/method Open_unsupported_root_still_returns_document trong ErpLanguageServiceContractTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs:Open_SP226_Customer_has_field_ma_kh",
+      "type": "function",
+      "name": "Open_SP226_Customer_has_field_ma_kh",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "summary": "Hàm/method Open_SP226_Customer_has_field_ma_kh trong ErpLanguageServiceContractTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs:Open_SP226_Report_returns_document",
+      "type": "function",
+      "name": "Open_SP226_Report_returns_document",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "summary": "Hàm/method Open_SP226_Report_returns_document trong ErpLanguageServiceContractTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "type": "file",
+      "name": "ErpNavigationOutlineFixTests.cs",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "summary": "Unit test: ErpNavigationOutlineFixTests.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs:ErpNavigationOutlineFixTests",
+      "type": "class",
+      "name": "ErpNavigationOutlineFixTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "summary": "Kiểu ErpNavigationOutlineFixTests trong ErpNavigationOutlineFixTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs:Views_lists_all_view_elements_with_spans",
+      "type": "function",
+      "name": "Views_lists_all_view_elements_with_spans",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "summary": "Hàm/method Views_lists_all_view_elements_with_spans trong ErpNavigationOutlineFixTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs:Response_section_shows_entity_fragment_children",
+      "type": "function",
+      "name": "Response_section_shows_entity_fragment_children",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "summary": "Hàm/method Response_section_shows_entity_fragment_children trong ErpNavigationOutlineFixTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs:Script_functions_prefer_caret_only",
+      "type": "function",
+      "name": "Script_functions_prefer_caret_only",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "summary": "Hàm/method Script_functions_prefer_caret_only trong ErpNavigationOutlineFixTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs:Commands_named_by_event_from_schema_key",
+      "type": "function",
+      "name": "Commands_named_by_event_from_schema_key",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "summary": "Hàm/method Commands_named_by_event_from_schema_key trong ErpNavigationOutlineFixTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs:Fields_named_by_name_and_linked_to_symbol",
+      "type": "function",
+      "name": "Fields_named_by_name_and_linked_to_symbol",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "summary": "Hàm/method Fields_named_by_name_and_linked_to_symbol trong ErpNavigationOutlineFixTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "type": "file",
+      "name": "ErpNavigationServiceTests.cs",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "summary": "Unit test: ErpNavigationServiceTests.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs:ErpNavigationServiceTests",
+      "type": "class",
+      "name": "ErpNavigationServiceTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "summary": "Kiểu ErpNavigationServiceTests trong ErpNavigationServiceTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs:GoToNode_returns_target_from_schema_field",
+      "type": "function",
+      "name": "GoToNode_returns_target_from_schema_field",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "summary": "Hàm/method GoToNode_returns_target_from_schema_field trong ErpNavigationServiceTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs:GoToDefinition_by_symbol_id",
+      "type": "function",
+      "name": "GoToDefinition_by_symbol_id",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "summary": "Hàm/method GoToDefinition_by_symbol_id trong ErpNavigationServiceTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs:FindChildren_and_FindParent_roundtrip",
+      "type": "function",
+      "name": "FindChildren_and_FindParent_roundtrip",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "summary": "Hàm/method FindChildren_and_FindParent_roundtrip trong ErpNavigationServiceTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "type": "file",
+      "name": "ErpSemanticBinderTests.cs",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "summary": "Unit test: ErpSemanticBinderTests.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs:ErpSemanticBinderTests",
+      "type": "class",
+      "name": "ErpSemanticBinderTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "summary": "Kiểu ErpSemanticBinderTests trong ErpSemanticBinderTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs:Bind_dir_produces_controller_field_view_symbols",
+      "type": "function",
+      "name": "Bind_dir_produces_controller_field_view_symbols",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "summary": "Hàm/method Bind_dir_produces_controller_field_view_symbols trong ErpSemanticBinderTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs:Bind_duplicate_fields_emits_ERP2001",
+      "type": "function",
+      "name": "Bind_duplicate_fields_emits_ERP2001",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "summary": "Hàm/method Bind_duplicate_fields_emits_ERP2001 trong ErpSemanticBinderTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs:Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+      "type": "function",
+      "name": "Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "summary": "Hàm/method Bind_SP226_Customer_has_ma_kh_and_script_or_commands trong ErpSemanticBinderTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs:LanguageService_semantic_matches_binder",
+      "type": "function",
+      "name": "LanguageService_semantic_matches_binder",
+      "filePath": "tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "summary": "Hàm/method LanguageService_semantic_matches_binder trong ErpSemanticBinderTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "type": "file",
+      "name": "InsightProviderPipelineTests.cs",
+      "filePath": "tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "summary": "Unit test: InsightProviderPipelineTests.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs:InsightProviderPipelineTests",
+      "type": "class",
+      "name": "InsightProviderPipelineTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "summary": "Kiểu InsightProviderPipelineTests trong InsightProviderPipelineTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs:Entity_provider_preserves_reference_value_and_nested_tree",
+      "type": "function",
+      "name": "Entity_provider_preserves_reference_value_and_nested_tree",
+      "filePath": "tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "summary": "Hàm/method Entity_provider_preserves_reference_value_and_nested_tree trong InsightProviderPipelineTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs:Validation_provider_converts_diagnostics_to_common_insight_items",
+      "type": "function",
+      "name": "Validation_provider_converts_diagnostics_to_common_insight_items",
+      "filePath": "tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "summary": "Hàm/method Validation_provider_converts_diagnostics_to_common_insight_items trong InsightProviderPipelineTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs:Customer_ClientDefault_is_an_editable_entity_insight",
+      "type": "function",
+      "name": "Customer_ClientDefault_is_an_editable_entity_insight",
+      "filePath": "tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "summary": "Hàm/method Customer_ClientDefault_is_an_editable_entity_insight trong InsightProviderPipelineTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "type": "file",
+      "name": "LosslessSyntaxTests.cs",
+      "filePath": "tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "summary": "Unit test: LosslessSyntaxTests.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs:LosslessSyntaxTests",
+      "type": "class",
+      "name": "LosslessSyntaxTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "summary": "Kiểu LosslessSyntaxTests trong LosslessSyntaxTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs:Serialize_roundtrip_exact_synthetic",
+      "type": "function",
+      "name": "Serialize_roundtrip_exact_synthetic",
+      "filePath": "tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "summary": "Hàm/method Serialize_roundtrip_exact_synthetic trong LosslessSyntaxTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs:Invalid_xml_recovers_without_throw",
+      "type": "function",
+      "name": "Invalid_xml_recovers_without_throw",
+      "filePath": "tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "summary": "Hàm/method Invalid_xml_recovers_without_throw trong LosslessSyntaxTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs:LanguageService_attaches_syntax_tree",
+      "type": "function",
+      "name": "LanguageService_attaches_syntax_tree",
+      "filePath": "tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "summary": "Hàm/method LanguageService_attaches_syntax_tree trong LosslessSyntaxTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs:Roundtrip_SP226_Customer",
+      "type": "function",
+      "name": "Roundtrip_SP226_Customer",
+      "filePath": "tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "summary": "Hàm/method Roundtrip_SP226_Customer trong LosslessSyntaxTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs:Roundtrip_SP226_SODetail_and_Report",
+      "type": "function",
+      "name": "Roundtrip_SP226_SODetail_and_Report",
+      "filePath": "tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "summary": "Hàm/method Roundtrip_SP226_SODetail_and_Report trong LosslessSyntaxTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "type": "file",
+      "name": "Sp226GoldenTests.cs",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Unit test: Sp226GoldenTests.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Sp226GoldenParseTests",
+      "type": "class",
+      "name": "Sp226GoldenParseTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Kiểu Sp226GoldenParseTests trong Sp226GoldenTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Sp226StructureAndEntityTests",
+      "type": "class",
+      "name": "Sp226StructureAndEntityTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Kiểu Sp226StructureAndEntityTests trong Sp226GoldenTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:FboXmlWriterRoundtripTests",
+      "type": "class",
+      "name": "FboXmlWriterRoundtripTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Kiểu FboXmlWriterRoundtripTests trong Sp226GoldenTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Parse_Dir_Customer_has_fields_and_form",
+      "type": "function",
+      "name": "Parse_Dir_Customer_has_fields_and_form",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Hàm/method Parse_Dir_Customer_has_fields_and_form trong Sp226GoldenTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Parse_Dir_DataCopy_has_fields_and_form",
+      "type": "function",
+      "name": "Parse_Dir_DataCopy_has_fields_and_form",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Hàm/method Parse_Dir_DataCopy_has_fields_and_form trong Sp226GoldenTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Parse_Filter_rptIncomeStatement_has_fields",
+      "type": "function",
+      "name": "Parse_Filter_rptIncomeStatement_has_fields",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Hàm/method Parse_Filter_rptIncomeStatement_has_fields trong Sp226GoldenTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Parse_Grid_SODetail_has_fields",
+      "type": "function",
+      "name": "Parse_Grid_SODetail_has_fields",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Hàm/method Parse_Grid_SODetail_has_fields trong Sp226GoldenTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Parse_Lookup_Customer_has_fields",
+      "type": "function",
+      "name": "Parse_Lookup_Customer_has_fields",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Hàm/method Parse_Lookup_Customer_has_fields trong Sp226GoldenTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Structure_Report_rptIncomeStatement_has_report_root",
+      "type": "function",
+      "name": "Structure_Report_rptIncomeStatement_has_report_root",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Hàm/method Structure_Report_rptIncomeStatement_has_report_root trong Sp226GoldenTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:EntitySymbols_SODetail_resolve_Grid_ent_include",
+      "type": "function",
+      "name": "EntitySymbols_SODetail_resolve_Grid_ent_include",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Hàm/method EntitySymbols_SODetail_resolve_Grid_ent_include trong Sp226GoldenTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Include_FilterQuery_xml_exists_and_has_structure",
+      "type": "function",
+      "name": "Include_FilterQuery_xml_exists_and_has_structure",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Hàm/method Include_FilterQuery_xml_exists_and_has_structure trong Sp226GoldenTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:SqlExtractor_Dir_Customer_returns_without_throw",
+      "type": "function",
+      "name": "SqlExtractor_Dir_Customer_returns_without_throw",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Hàm/method SqlExtractor_Dir_Customer_returns_without_throw trong Sp226GoldenTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:ApplyLayout_updates_column_widths_on_synthetic_dir",
+      "type": "function",
+      "name": "ApplyLayout_updates_column_widths_on_synthetic_dir",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Hàm/method ApplyLayout_updates_column_widths_on_synthetic_dir trong Sp226GoldenTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:ParseCategories_without_header_does_not_throw",
+      "type": "function",
+      "name": "ParseCategories_without_header_does_not_throw",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "summary": "Hàm/method ParseCategories_without_header_does_not_throw trong Sp226GoldenTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "type": "file",
+      "name": "Sp226Paths.cs",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "summary": "Unit test: Sp226Paths.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs:Sp226Paths",
+      "type": "class",
+      "name": "Sp226Paths",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "summary": "Kiểu Sp226Paths trong Sp226Paths.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs:Sp226FactAttribute",
+      "type": "class",
+      "name": "Sp226FactAttribute",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "summary": "Kiểu Sp226FactAttribute trong Sp226Paths.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs:Require",
+      "type": "function",
+      "name": "Require",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "summary": "Hàm/method Require trong Sp226Paths.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs:RequireRoot",
+      "type": "function",
+      "name": "RequireRoot",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "summary": "Hàm/method RequireRoot trong Sp226Paths.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs:ResolveProgramRoot",
+      "type": "function",
+      "name": "ResolveProgramRoot",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "summary": "Hàm/method ResolveProgramRoot trong Sp226Paths.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs:Sp226FactAttribute",
+      "type": "function",
+      "name": "Sp226FactAttribute",
+      "filePath": "tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "summary": "Hàm/method Sp226FactAttribute trong Sp226Paths.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "type": "file",
+      "name": "WorkspaceSymbolIndexTests.cs",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Unit test: WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:WorkspaceSymbolIndexTests",
+      "type": "class",
+      "name": "WorkspaceSymbolIndexTests",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Kiểu WorkspaceSymbolIndexTests trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:SearchSymbols_returns_matching_entries_across_documents",
+      "type": "function",
+      "name": "SearchSymbols_returns_matching_entries_across_documents",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Hàm/method SearchSymbols_returns_matching_entries_across_documents trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:SearchSymbols_by_display_name_matches_header",
+      "type": "function",
+      "name": "SearchSymbols_by_display_name_matches_header",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Hàm/method SearchSymbols_by_display_name_matches_header trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:SearchSymbols_kind_filter_narrows_results",
+      "type": "function",
+      "name": "SearchSymbols_kind_filter_narrows_results",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Hàm/method SearchSymbols_kind_filter_narrows_results trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:SearchSymbols_empty_query_returns_empty",
+      "type": "function",
+      "name": "SearchSymbols_empty_query_returns_empty",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Hàm/method SearchSymbols_empty_query_returns_empty trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:SearchSymbols_maxResults_limits_output",
+      "type": "function",
+      "name": "SearchSymbols_maxResults_limits_output",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Hàm/method SearchSymbols_maxResults_limits_output trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:GetSymbolDefinition_returns_location_for_known_symbol",
+      "type": "function",
+      "name": "GetSymbolDefinition_returns_location_for_known_symbol",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Hàm/method GetSymbolDefinition_returns_location_for_known_symbol trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:GetSymbolDefinition_unknown_id_returns_null",
+      "type": "function",
+      "name": "GetSymbolDefinition_unknown_id_returns_null",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Hàm/method GetSymbolDefinition_unknown_id_returns_null trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:FindSymbolReferences_unknown_symbol_returns_empty",
+      "type": "function",
+      "name": "FindSymbolReferences_unknown_symbol_returns_empty",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Hàm/method FindSymbolReferences_unknown_symbol_returns_empty trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:GetDocumentSymbols_returns_symbols_for_document",
+      "type": "function",
+      "name": "GetDocumentSymbols_returns_symbols_for_document",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Hàm/method GetDocumentSymbols_returns_symbols_for_document trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:Close_removes_symbols_from_index",
+      "type": "function",
+      "name": "Close_removes_symbols_from_index",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Hàm/method Close_removes_symbols_from_index trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:Reload_refreshes_symbol_index",
+      "type": "function",
+      "name": "Reload_refreshes_symbol_index",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Hàm/method Reload_refreshes_symbol_index trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:SearchSymbols_cross_document_finds_correct_documentPath",
+      "type": "function",
+      "name": "SearchSymbols_cross_document_finds_correct_documentPath",
+      "filePath": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "summary": "Hàm/method SearchSymbols_cross_document_finds_correct_documentPath trong WorkspaceSymbolIndexTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:tests/DevWorkFlow.Domain.Tests/DevWorkFlow.Domain.Tests.csproj",
+      "type": "config",
+      "name": "DevWorkFlow.Domain.Tests.csproj",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/DevWorkFlow.Domain.Tests.csproj",
+      "summary": "Project file .NET cho DevWorkFlow.Domain.Tests.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "test"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "type": "file",
+      "name": "LanguageContractTests.cs",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "summary": "Unit test: LanguageContractTests.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs:LanguageContractTests",
+      "type": "class",
+      "name": "LanguageContractTests",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "summary": "Kiểu LanguageContractTests trong LanguageContractTests.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs:ErpDocumentId_ignores_path_case",
+      "type": "function",
+      "name": "ErpDocumentId_ignores_path_case",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "summary": "Hàm/method ErpDocumentId_ignores_path_case trong LanguageContractTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs:SourceSpan_end_offset",
+      "type": "function",
+      "name": "SourceSpan_end_offset",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "summary": "Hàm/method SourceSpan_end_offset trong LanguageContractTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs:EntitySymbol_is_entity_kind",
+      "type": "function",
+      "name": "EntitySymbol_is_entity_kind",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "summary": "Hàm/method EntitySymbol_is_entity_kind trong LanguageContractTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "type": "file",
+      "name": "LocalizedTextAndDocumentTests.cs",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "summary": "Unit test: LocalizedTextAndDocumentTests.cs.",
+      "tags": [
+        "test",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs:LocalizedTextTests",
+      "type": "class",
+      "name": "LocalizedTextTests",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "summary": "Kiểu LocalizedTextTests trong LocalizedTextAndDocumentTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs:FboControllerDocumentTests",
+      "type": "class",
+      "name": "FboControllerDocumentTests",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "summary": "Kiểu FboControllerDocumentTests trong LocalizedTextAndDocumentTests.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs:Get_prefers_vietnamese_when_available",
+      "type": "function",
+      "name": "Get_prefers_vietnamese_when_available",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "summary": "Hàm/method Get_prefers_vietnamese_when_available trong LocalizedTextAndDocumentTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs:Get_falls_back_when_preferred_empty",
+      "type": "function",
+      "name": "Get_falls_back_when_preferred_empty",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "summary": "Hàm/method Get_falls_back_when_preferred_empty trong LocalizedTextAndDocumentTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs:FromForm_sets_display_and_folder_kind",
+      "type": "function",
+      "name": "FromForm_sets_display_and_folder_kind",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "summary": "Hàm/method FromForm_sets_display_and_folder_kind trong LocalizedTextAndDocumentTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs:FromGrid_and_FromLookup_set_expected_kinds",
+      "type": "function",
+      "name": "FromGrid_and_FromLookup_set_expected_kinds",
+      "filePath": "tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "summary": "Hàm/method FromGrid_and_FromLookup_set_expected_kinds trong LocalizedTextAndDocumentTests.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/App.xaml",
+      "type": "file",
+      "name": "App.xaml",
+      "filePath": "UI/App.xaml",
+      "summary": "Composition root WPF — khởi tạo DI và cửa sổ chính.",
+      "tags": [
+        "ui",
+        "wpf",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/App.xaml.cs",
+      "type": "file",
+      "name": "App.xaml.cs",
+      "filePath": "UI/App.xaml.cs",
+      "summary": "Composition root WPF — khởi tạo DI và cửa sổ chính.",
+      "tags": [
+        "entry-point",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/App.xaml.cs:App",
+      "type": "class",
+      "name": "App",
+      "filePath": "UI/App.xaml.cs",
+      "summary": "Kiểu App trong App.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/App.xaml.cs:Application_Startup",
+      "type": "function",
+      "name": "Application_Startup",
+      "filePath": "UI/App.xaml.cs",
+      "summary": "Hàm/method Application_Startup trong App.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:UI/AssemblyInfo.cs",
+      "type": "file",
+      "name": "AssemblyInfo.cs",
+      "filePath": "UI/AssemblyInfo.cs",
+      "summary": "File nguồn: AssemblyInfo.cs.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "file:UI/Commands/IdeCommands.cs",
+      "type": "file",
+      "name": "IdeCommands.cs",
+      "filePath": "UI/Commands/IdeCommands.cs",
+      "summary": "Mã nguồn C# định nghĩa IdeCommands.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Commands/IdeCommands.cs:IdeCommands",
+      "type": "class",
+      "name": "IdeCommands",
+      "filePath": "UI/Commands/IdeCommands.cs",
+      "summary": "Kiểu IdeCommands trong IdeCommands.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Converters/Converters.cs",
+      "type": "file",
+      "name": "Converters.cs",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Mã nguồn C# định nghĩa NullToVisibilityConverter, NullOrEmptyToVisibilityConverter, InverseBoolConverter.",
+      "tags": [
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Converters/Converters.cs:NullToVisibilityConverter",
+      "type": "class",
+      "name": "NullToVisibilityConverter",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Kiểu NullToVisibilityConverter trong Converters.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/Converters/Converters.cs:NullOrEmptyToVisibilityConverter",
+      "type": "class",
+      "name": "NullOrEmptyToVisibilityConverter",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Kiểu NullOrEmptyToVisibilityConverter trong Converters.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/Converters/Converters.cs:InverseBoolConverter",
+      "type": "class",
+      "name": "InverseBoolConverter",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Kiểu InverseBoolConverter trong Converters.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/Converters/Converters.cs:FormHeightConverter",
+      "type": "class",
+      "name": "FormHeightConverter",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Kiểu FormHeightConverter trong Converters.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Converters/Converters.cs:Convert",
+      "type": "function",
+      "name": "Convert",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Hàm/method Convert trong Converters.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Converters/Converters.cs:ConvertBack",
+      "type": "function",
+      "name": "ConvertBack",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Hàm/method ConvertBack trong Converters.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Converters/Converters.cs:Convert",
+      "type": "function",
+      "name": "Convert",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Hàm/method Convert trong Converters.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Converters/Converters.cs:ConvertBack",
+      "type": "function",
+      "name": "ConvertBack",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Hàm/method ConvertBack trong Converters.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Converters/Converters.cs:Convert",
+      "type": "function",
+      "name": "Convert",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Hàm/method Convert trong Converters.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Converters/Converters.cs:ConvertBack",
+      "type": "function",
+      "name": "ConvertBack",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Hàm/method ConvertBack trong Converters.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Converters/Converters.cs:Convert",
+      "type": "function",
+      "name": "Convert",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Hàm/method Convert trong Converters.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Converters/Converters.cs:ConvertBack",
+      "type": "function",
+      "name": "ConvertBack",
+      "filePath": "UI/Converters/Converters.cs",
+      "summary": "Hàm/method ConvertBack trong Converters.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Docking/DockPanelHost.xaml",
+      "type": "file",
+      "name": "DockPanelHost.xaml",
+      "filePath": "UI/Docking/DockPanelHost.xaml",
+      "summary": "Hệ thống docking panel IDE: DockPanelHost.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "ide-shell",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Docking/DockPanelHost.xaml.cs",
+      "type": "file",
+      "name": "DockPanelHost.xaml.cs",
+      "filePath": "UI/Docking/DockPanelHost.xaml.cs",
+      "summary": "Hệ thống docking panel IDE: DockPanelHost.xaml.cs.",
+      "tags": [
+        "ide-shell",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Docking/DockPanelHost.xaml.cs:DockPanelHost",
+      "type": "class",
+      "name": "DockPanelHost",
+      "filePath": "UI/Docking/DockPanelHost.xaml.cs",
+      "summary": "Kiểu DockPanelHost trong DockPanelHost.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Docking/DockPanelHost.xaml.cs:DockPanelHost",
+      "type": "function",
+      "name": "DockPanelHost",
+      "filePath": "UI/Docking/DockPanelHost.xaml.cs",
+      "summary": "Hàm/method DockPanelHost trong DockPanelHost.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Docking/DockRegion.cs",
+      "type": "file",
+      "name": "DockRegion.cs",
+      "filePath": "UI/Docking/DockRegion.cs",
+      "summary": "Hệ thống docking panel IDE: DockRegion.cs.",
+      "tags": [
+        "ide-shell",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "file:UI/Docking/DockService.cs",
+      "type": "file",
+      "name": "DockService.cs",
+      "filePath": "UI/Docking/DockService.cs",
+      "summary": "Hệ thống docking panel IDE: DockService.cs.",
+      "tags": [
+        "ide-shell",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Docking/DockService.cs:DockService",
+      "type": "class",
+      "name": "DockService",
+      "filePath": "UI/Docking/DockService.cs",
+      "summary": "Kiểu DockService trong DockService.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Docking/DockService.cs:IsVisible",
+      "type": "function",
+      "name": "IsVisible",
+      "filePath": "UI/Docking/DockService.cs",
+      "summary": "Hàm/method IsVisible trong DockService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Docking/DockService.cs:Show",
+      "type": "function",
+      "name": "Show",
+      "filePath": "UI/Docking/DockService.cs",
+      "summary": "Hàm/method Show trong DockService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Docking/DockService.cs:Hide",
+      "type": "function",
+      "name": "Hide",
+      "filePath": "UI/Docking/DockService.cs",
+      "summary": "Hàm/method Hide trong DockService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Docking/DockService.cs:Toggle",
+      "type": "function",
+      "name": "Toggle",
+      "filePath": "UI/Docking/DockService.cs",
+      "summary": "Hàm/method Toggle trong DockService.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Docking/IDockService.cs",
+      "type": "file",
+      "name": "IDockService.cs",
+      "filePath": "UI/Docking/IDockService.cs",
+      "summary": "Hệ thống docking panel IDE: IDockService.cs.",
+      "tags": [
+        "ide-shell",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Docking/IDockService.cs:IDockService",
+      "type": "class",
+      "name": "IDockService",
+      "filePath": "UI/Docking/IDockService.cs",
+      "summary": "Kiểu IDockService trong IDockService.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs:DiagnosticGridMapperTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs:MapProblems_skips_hidden_and_maps_severity_badges",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs:CountBySeverity_aggregates_error_warning_hint",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/DiagnosticGridMapper.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDiagnostic.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:EntitySymbolSystemTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:EntitySymbolSystemTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:Binder_builds_inline_external_parameter_and_nested_graph",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:Binder_reports_cycle_and_missing_file",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:Inline_edit_updates_definition_but_preserves_reference",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:External_edit_writes_resolved_document_and_keeps_controller_source",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:Include_ignore_conditional_section_uses_active_value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:SP226_customer_unitfields_is_empty_after_ignore",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:SP226_customer_entities_have_definitions_and_references",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs:Dispose",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/EntitySymbolBinder.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/Syntax/FboSyntaxParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "target": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs:ErpLanguageServiceContractTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs:OpenFromText_sets_snapshot_and_workspace",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs:Reload_increments_version_Close_removes",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs:Open_unsupported_root_still_returns_document",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs:Open_SP226_Customer_has_field_ma_kh",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs:Open_SP226_Report_returns_document",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "target": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs:ErpNavigationOutlineFixTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs:Views_lists_all_view_elements_with_spans",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs:Response_section_shows_entity_fragment_children",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs:Script_functions_prefer_caret_only",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs:Commands_named_by_event_from_schema_key",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs:Fields_named_by_name_and_linked_to_symbol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/TextRange.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs:ErpNavigationServiceTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs:GoToNode_returns_target_from_schema_field",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs:GoToDefinition_by_symbol_id",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs:FindChildren_and_FindParent_roundtrip",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/NodeId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/TextRange.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs:ErpSemanticBinderTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs:Bind_dir_produces_controller_field_view_symbols",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs:Bind_duplicate_fields_emits_ERP2001",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs:Bind_SP226_Customer_has_ma_kh_and_script_or_commands",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs:LanguageService_semantic_matches_binder",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpSemanticBinder.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpSemanticModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/Syntax/FboSyntaxParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "target": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs:InsightProviderPipelineTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs:Entity_provider_preserves_reference_value_and_nested_tree",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs:Validation_provider_converts_diagnostics_to_common_insight_items",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs:Customer_ClientDefault_is_an_editable_entity_insight",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "target": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs:LosslessSyntaxTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs:Serialize_roundtrip_exact_synthetic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs:Invalid_xml_recovers_without_throw",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs:LanguageService_attaches_syntax_tree",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs:Roundtrip_SP226_Customer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs:Roundtrip_SP226_SODetail_and_Report",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "target": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/Syntax/FboSyntaxParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "target": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Sp226GoldenParseTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Sp226StructureAndEntityTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:FboXmlWriterRoundtripTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Parse_Dir_Customer_has_fields_and_form",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Parse_Dir_DataCopy_has_fields_and_form",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Parse_Filter_rptIncomeStatement_has_fields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Parse_Grid_SODetail_has_fields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Parse_Lookup_Customer_has_fields",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Structure_Report_rptIncomeStatement_has_report_root",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:EntitySymbols_SODetail_resolve_Grid_ent_include",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:Include_FilterQuery_xml_exists_and_has_structure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:SqlExtractor_Dir_Customer_returns_without_throw",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:ApplyLayout_updates_column_widths_on_synthetic_dir",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs:ParseCategories_without_header_does_not_throw",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboSqlFragmentExtractor.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboXmlParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboXmlWriter.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "target": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs:Sp226Paths",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs:Sp226FactAttribute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs:Require",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs:RequireRoot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs:ResolveProgramRoot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/Sp226Paths.cs:Sp226FactAttribute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "class:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:WorkspaceSymbolIndexTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:SearchSymbols_returns_matching_entries_across_documents",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:SearchSymbols_by_display_name_matches_header",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:SearchSymbols_kind_filter_narrows_results",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:SearchSymbols_empty_query_returns_empty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:SearchSymbols_maxResults_limits_output",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:GetSymbolDefinition_returns_location_for_known_symbol",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:GetSymbolDefinition_unknown_id_returns_null",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:FindSymbolReferences_unknown_symbol_returns_empty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:GetDocumentSymbols_returns_symbols_for_document",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:Close_removes_symbols_from_index",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:Reload_refreshes_symbol_index",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "function:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs:SearchSymbols_cross_document_finds_correct_documentPath",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "target": "class:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs:LanguageContractTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "target": "function:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs:ErpDocumentId_ignores_path_case",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "target": "function:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs:SourceSpan_end_offset",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "target": "function:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs:EntitySymbol_is_entity_kind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "target": "class:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs:LocalizedTextTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "target": "class:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs:FboControllerDocumentTests",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "target": "function:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs:Get_prefers_vietnamese_when_available",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "target": "function:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs:Get_falls_back_when_preferred_empty",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "target": "function:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs:FromForm_sets_display_and_folder_kind",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "target": "function:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs:FromGrid_and_FromLookup_set_expected_kinds",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "class:UI/App.xaml.cs:App",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "function:UI/App.xaml.cs:Application_Startup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:DevWorkFlow.Application/Language/ErpLanguageService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/EntityRepository.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/InMemoryServices.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/MenuService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/ProgramSession.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/SqlScriptRunner.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/UserSettingsStore.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/WcommandRepository.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/WebConfigReader.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/Docking/DockService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/MainWindow.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/Services/AppConfigStore.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/Services/DatabaseObjectScripter.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/Services/FormDocumentNavigator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/Services/LeftExplorerLoadCoordinator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/Services/SqlStudioNavigator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/Bottom/FormBuilderDiagnosticsBridge.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/Explorer/DatabaseExplorerViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/Explorer/ProjectExplorerViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/Insight/InsightPanelViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/Insight/SymbolInfoViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/MainViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/NavigationViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/Properties/PropertyGridViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/TemplateManagerViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/App.xaml.cs",
+      "target": "file:UI/ViewModels/Toolbox/ToolboxViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Commands/IdeCommands.cs",
+      "target": "class:UI/Commands/IdeCommands.cs:IdeCommands",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Commands/IdeCommands.cs",
+      "target": "file:UI/MainWindow.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Converters/Converters.cs",
+      "target": "class:UI/Converters/Converters.cs:NullToVisibilityConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Converters/Converters.cs",
+      "target": "class:UI/Converters/Converters.cs:NullOrEmptyToVisibilityConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Converters/Converters.cs",
+      "target": "class:UI/Converters/Converters.cs:InverseBoolConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Converters/Converters.cs",
+      "target": "class:UI/Converters/Converters.cs:FormHeightConverter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Converters/Converters.cs",
+      "target": "function:UI/Converters/Converters.cs:Convert",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Converters/Converters.cs",
+      "target": "function:UI/Converters/Converters.cs:ConvertBack",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Docking/DockPanelHost.xaml.cs",
+      "target": "class:UI/Docking/DockPanelHost.xaml.cs:DockPanelHost",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Docking/DockPanelHost.xaml.cs",
+      "target": "function:UI/Docking/DockPanelHost.xaml.cs:DockPanelHost",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Docking/DockService.cs",
+      "target": "class:UI/Docking/DockService.cs:DockService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Docking/DockService.cs",
+      "target": "function:UI/Docking/DockService.cs:IsVisible",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Docking/DockService.cs",
+      "target": "function:UI/Docking/DockService.cs:Show",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Docking/DockService.cs",
+      "target": "function:UI/Docking/DockService.cs:Hide",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Docking/DockService.cs",
+      "target": "function:UI/Docking/DockService.cs:Toggle",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Docking/DockService.cs",
+      "target": "file:UI/Docking/IDockService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Docking/IDockService.cs",
+      "target": "class:UI/Docking/IDockService.cs:IDockService",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    }
+  ],
+  "batchFiles": [
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/DevWorkFlow.Application.Tests.csproj",
+      "language": "csproj",
+      "sizeLines": 24,
+      "fileCategory": "config"
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/DiagnosticGridMapperTests.cs",
+      "language": "csharp",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/EntitySymbolSystemTests.cs",
+      "language": "csharp",
+      "sizeLines": 228,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/ErpLanguageServiceContractTests.cs",
+      "language": "csharp",
+      "sizeLines": 86,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/ErpNavigationOutlineFixTests.cs",
+      "language": "csharp",
+      "sizeLines": 167,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/ErpNavigationServiceTests.cs",
+      "language": "csharp",
+      "sizeLines": 90,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/ErpSemanticBinderTests.cs",
+      "language": "csharp",
+      "sizeLines": 96,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs",
+      "language": "csharp",
+      "sizeLines": 73,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/LosslessSyntaxTests.cs",
+      "language": "csharp",
+      "sizeLines": 98,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/Sp226GoldenTests.cs",
+      "language": "csharp",
+      "sizeLines": 210,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/Sp226Paths.cs",
+      "language": "csharp",
+      "sizeLines": 67,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/DevWorkFlow.Application.Tests/WorkspaceSymbolIndexTests.cs",
+      "language": "csharp",
+      "sizeLines": 177,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/DevWorkFlow.Domain.Tests/DevWorkFlow.Domain.Tests.csproj",
+      "language": "csproj",
+      "sizeLines": 24,
+      "fileCategory": "config"
+    },
+    {
+      "path": "tests/DevWorkFlow.Domain.Tests/LanguageContractTests.cs",
+      "language": "csharp",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/DevWorkFlow.Domain.Tests/LocalizedTextAndDocumentTests.cs",
+      "language": "csharp",
+      "sizeLines": 63,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/App.xaml",
+      "language": "xaml",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/App.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/AssemblyInfo.cs",
+      "language": "csharp",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Commands/IdeCommands.cs",
+      "language": "csharp",
+      "sizeLines": 50,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Converters/Converters.cs",
+      "language": "csharp",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Docking/DockPanelHost.xaml",
+      "language": "xaml",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Docking/DockPanelHost.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Docking/DockRegion.cs",
+      "language": "csharp",
+      "sizeLines": 10,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Docking/DockService.cs",
+      "language": "csharp",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Docking/IDockService.cs",
+      "language": "csharp",
+      "sizeLines": 14,
+      "fileCategory": "code"
+    }
+  ]
+}

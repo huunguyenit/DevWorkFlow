@@ -1,0 +1,68 @@
+{
+  "batchIndex": 4,
+  "nodes": [
+    {
+      "id": "config:UI/Config/json/database.json",
+      "type": "config",
+      "name": "database.json",
+      "filePath": "UI/Config/json/database.json",
+      "summary": "Cấu hình: database.json.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:UI/Config/json/explorer.json",
+      "type": "config",
+      "name": "explorer.json",
+      "filePath": "UI/Config/json/explorer.json",
+      "summary": "Cấu hình: explorer.json.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:UI/Config/json/menu.json",
+      "type": "config",
+      "name": "menu.json",
+      "filePath": "UI/Config/json/menu.json",
+      "summary": "Cấu hình: menu.json.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [],
+  "batchFiles": [
+    {
+      "path": "UI/Config/json/database.json",
+      "language": "json",
+      "sizeLines": 12,
+      "fileCategory": "config"
+    },
+    {
+      "path": "UI/Config/json/explorer.json",
+      "language": "json",
+      "sizeLines": 36,
+      "fileCategory": "config"
+    },
+    {
+      "path": "UI/Config/json/menu.json",
+      "language": "json",
+      "sizeLines": 4,
+      "fileCategory": "config"
+    }
+  ]
+}

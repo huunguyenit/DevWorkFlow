@@ -1,0 +1,2421 @@
+{
+  "batchIndex": 14,
+  "nodes": [
+    {
+      "id": "file:UI/Views/Bottom/OutputPanel.xaml.cs",
+      "type": "file",
+      "name": "OutputPanel.xaml.cs",
+      "filePath": "UI/Views/Bottom/OutputPanel.xaml.cs",
+      "summary": "View WPF: OutputPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Bottom/OutputPanel.xaml.cs:OutputPanel",
+      "type": "class",
+      "name": "OutputPanel",
+      "filePath": "UI/Views/Bottom/OutputPanel.xaml.cs",
+      "summary": "Kiểu OutputPanel trong OutputPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Bottom/OutputPanel.xaml.cs:OutputPanel",
+      "type": "function",
+      "name": "OutputPanel",
+      "filePath": "UI/Views/Bottom/OutputPanel.xaml.cs",
+      "summary": "Hàm/method OutputPanel trong OutputPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Bottom/ProblemsPanel.xaml",
+      "type": "file",
+      "name": "ProblemsPanel.xaml",
+      "filePath": "UI/Views/Bottom/ProblemsPanel.xaml",
+      "summary": "View WPF: ProblemsPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "type": "file",
+      "name": "ProblemsPanel.xaml.cs",
+      "filePath": "UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "summary": "View WPF: ProblemsPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Bottom/ProblemsPanel.xaml.cs:ProblemsPanel",
+      "type": "class",
+      "name": "ProblemsPanel",
+      "filePath": "UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "summary": "Kiểu ProblemsPanel trong ProblemsPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Bottom/ProblemsPanel.xaml.cs:ProblemsPanel",
+      "type": "function",
+      "name": "ProblemsPanel",
+      "filePath": "UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "summary": "Hàm/method ProblemsPanel trong ProblemsPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Bottom/ProblemsPanel.xaml.cs:ProblemsGrid_MouseDoubleClick",
+      "type": "function",
+      "name": "ProblemsGrid_MouseDoubleClick",
+      "filePath": "UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "summary": "Hàm/method ProblemsGrid_MouseDoubleClick trong ProblemsPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Bottom/ReferencesPanel.xaml",
+      "type": "file",
+      "name": "ReferencesPanel.xaml",
+      "filePath": "UI/Views/Bottom/ReferencesPanel.xaml",
+      "summary": "View WPF: ReferencesPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "type": "file",
+      "name": "ReferencesPanel.xaml.cs",
+      "filePath": "UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "summary": "View WPF: ReferencesPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Bottom/ReferencesPanel.xaml.cs:ReferencesPanel",
+      "type": "class",
+      "name": "ReferencesPanel",
+      "filePath": "UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "summary": "Kiểu ReferencesPanel trong ReferencesPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Bottom/ReferencesPanel.xaml.cs:ReferencesPanel",
+      "type": "function",
+      "name": "ReferencesPanel",
+      "filePath": "UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "summary": "Hàm/method ReferencesPanel trong ReferencesPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Bottom/ReferencesPanel.xaml.cs:ReferencesList_MouseDoubleClick",
+      "type": "function",
+      "name": "ReferencesList_MouseDoubleClick",
+      "filePath": "UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "summary": "Hàm/method ReferencesList_MouseDoubleClick trong ReferencesPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Bottom/XmlBottomPanel.xaml",
+      "type": "file",
+      "name": "XmlBottomPanel.xaml",
+      "filePath": "UI/Views/Bottom/XmlBottomPanel.xaml",
+      "summary": "View WPF: XmlBottomPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "type": "file",
+      "name": "XmlBottomPanel.xaml.cs",
+      "filePath": "UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "summary": "View WPF: XmlBottomPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Bottom/XmlBottomPanel.xaml.cs:XmlBottomPanel",
+      "type": "class",
+      "name": "XmlBottomPanel",
+      "filePath": "UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "summary": "Kiểu XmlBottomPanel trong XmlBottomPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Bottom/XmlBottomPanel.xaml.cs:XmlBottomPanel",
+      "type": "function",
+      "name": "XmlBottomPanel",
+      "filePath": "UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "summary": "Hàm/method XmlBottomPanel trong XmlBottomPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Bottom/XmlBottomPanel.xaml.cs:OpenSearch",
+      "type": "function",
+      "name": "OpenSearch",
+      "filePath": "UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "summary": "Hàm/method OpenSearch trong XmlBottomPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Bottom/XmlBottomPanel.xaml.cs:OpenReplace",
+      "type": "function",
+      "name": "OpenReplace",
+      "filePath": "UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "summary": "Hàm/method OpenReplace trong XmlBottomPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/AppStatusBar.xaml",
+      "type": "file",
+      "name": "AppStatusBar.xaml",
+      "filePath": "UI/Views/Controls/AppStatusBar.xaml",
+      "summary": "View WPF: AppStatusBar.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/AppStatusBar.xaml.cs",
+      "type": "file",
+      "name": "AppStatusBar.xaml.cs",
+      "filePath": "UI/Views/Controls/AppStatusBar.xaml.cs",
+      "summary": "View WPF: AppStatusBar.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/AppStatusBar.xaml.cs:AppStatusBar",
+      "type": "class",
+      "name": "AppStatusBar",
+      "filePath": "UI/Views/Controls/AppStatusBar.xaml.cs",
+      "summary": "Kiểu AppStatusBar trong AppStatusBar.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/AppStatusBar.xaml.cs:AppStatusBar",
+      "type": "function",
+      "name": "AppStatusBar",
+      "filePath": "UI/Views/Controls/AppStatusBar.xaml.cs",
+      "summary": "Hàm/method AppStatusBar trong AppStatusBar.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/BindableSqlEditor.cs",
+      "type": "file",
+      "name": "BindableSqlEditor.cs",
+      "filePath": "UI/Views/Controls/BindableSqlEditor.cs",
+      "summary": "View WPF: BindableSqlEditor.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/BindableSqlEditor.cs:BindableSqlEditor",
+      "type": "class",
+      "name": "BindableSqlEditor",
+      "filePath": "UI/Views/Controls/BindableSqlEditor.cs",
+      "summary": "Kiểu BindableSqlEditor trong BindableSqlEditor.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/BindableSqlEditor.cs:BindableSqlEditor",
+      "type": "function",
+      "name": "BindableSqlEditor",
+      "filePath": "UI/Views/Controls/BindableSqlEditor.cs",
+      "summary": "Hàm/method BindableSqlEditor trong BindableSqlEditor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/BindableSqlEditor.cs:OnBoundTextChanged",
+      "type": "function",
+      "name": "OnBoundTextChanged",
+      "filePath": "UI/Views/Controls/BindableSqlEditor.cs",
+      "summary": "Hàm/method OnBoundTextChanged trong BindableSqlEditor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "type": "file",
+      "name": "BindableXmlEditor.cs",
+      "filePath": "UI/Views/Controls/BindableXmlEditor.cs",
+      "summary": "View WPF: BindableXmlEditor.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/BindableXmlEditor.cs:BindableXmlEditor",
+      "type": "class",
+      "name": "BindableXmlEditor",
+      "filePath": "UI/Views/Controls/BindableXmlEditor.cs",
+      "summary": "Kiểu BindableXmlEditor trong BindableXmlEditor.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Views/Controls/BindableXmlEditor.cs:BindableXmlEditor",
+      "type": "function",
+      "name": "BindableXmlEditor",
+      "filePath": "UI/Views/Controls/BindableXmlEditor.cs",
+      "summary": "Hàm/method BindableXmlEditor trong BindableXmlEditor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/BindableXmlEditor.cs:OpenSearch",
+      "type": "function",
+      "name": "OpenSearch",
+      "filePath": "UI/Views/Controls/BindableXmlEditor.cs",
+      "summary": "Hàm/method OpenSearch trong BindableXmlEditor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/BindableXmlEditor.cs:OpenReplace",
+      "type": "function",
+      "name": "OpenReplace",
+      "filePath": "UI/Views/Controls/BindableXmlEditor.cs",
+      "summary": "Hàm/method OpenReplace trong BindableXmlEditor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/BindableXmlEditor.cs:TryGoToDefinition",
+      "type": "function",
+      "name": "TryGoToDefinition",
+      "filePath": "UI/Views/Controls/BindableXmlEditor.cs",
+      "summary": "Hàm/method TryGoToDefinition trong BindableXmlEditor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/BindableXmlEditor.cs:OnPreviewKeyDown",
+      "type": "function",
+      "name": "OnPreviewKeyDown",
+      "filePath": "UI/Views/Controls/BindableXmlEditor.cs",
+      "summary": "Hàm/method OnPreviewKeyDown trong BindableXmlEditor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/BindableXmlEditor.cs:IsFocusInsideInsight",
+      "type": "function",
+      "name": "IsFocusInsideInsight",
+      "filePath": "UI/Views/Controls/BindableXmlEditor.cs",
+      "summary": "Hàm/method IsFocusInsideInsight trong BindableXmlEditor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/BindableXmlEditor.cs:JumpToOffset",
+      "type": "function",
+      "name": "JumpToOffset",
+      "filePath": "UI/Views/Controls/BindableXmlEditor.cs",
+      "summary": "Hàm/method JumpToOffset trong BindableXmlEditor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/BindableXmlEditor.cs:OnScrollToLineChanged",
+      "type": "function",
+      "name": "OnScrollToLineChanged",
+      "filePath": "UI/Views/Controls/BindableXmlEditor.cs",
+      "summary": "Hàm/method OnScrollToLineChanged trong BindableXmlEditor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/BindableXmlEditor.cs:OnBoundTextChanged",
+      "type": "function",
+      "name": "OnBoundTextChanged",
+      "filePath": "UI/Views/Controls/BindableXmlEditor.cs",
+      "summary": "Hàm/method OnBoundTextChanged trong BindableXmlEditor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/BindableXmlEditor.cs:LoadBuiltinXmlHighlighting",
+      "type": "function",
+      "name": "LoadBuiltinXmlHighlighting",
+      "filePath": "UI/Views/Controls/BindableXmlEditor.cs",
+      "summary": "Hàm/method LoadBuiltinXmlHighlighting trong BindableXmlEditor.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/ColumnGuides.cs",
+      "type": "file",
+      "name": "ColumnGuides.cs",
+      "filePath": "UI/Views/Controls/ColumnGuides.cs",
+      "summary": "View WPF: ColumnGuides.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/ColumnGuides.cs:ColumnGuides",
+      "type": "class",
+      "name": "ColumnGuides",
+      "filePath": "UI/Views/Controls/ColumnGuides.cs",
+      "summary": "Kiểu ColumnGuides trong ColumnGuides.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/ColumnGuides.cs:ColumnGuides",
+      "type": "function",
+      "name": "ColumnGuides",
+      "filePath": "UI/Views/Controls/ColumnGuides.cs",
+      "summary": "Hàm/method ColumnGuides trong ColumnGuides.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/ColumnGuides.cs:OnTicksChanged",
+      "type": "function",
+      "name": "OnTicksChanged",
+      "filePath": "UI/Views/Controls/ColumnGuides.cs",
+      "summary": "Hàm/method OnTicksChanged trong ColumnGuides.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/ColumnGuides.cs:MeasureOverride",
+      "type": "function",
+      "name": "MeasureOverride",
+      "filePath": "UI/Views/Controls/ColumnGuides.cs",
+      "summary": "Hàm/method MeasureOverride trong ColumnGuides.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/ColumnGuides.cs:Rebuild",
+      "type": "function",
+      "name": "Rebuild",
+      "filePath": "UI/Views/Controls/ColumnGuides.cs",
+      "summary": "Hàm/method Rebuild trong ColumnGuides.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Controls/DesignViewport.xaml",
+      "type": "file",
+      "name": "DesignViewport.xaml",
+      "filePath": "UI/Views/Controls/DesignViewport.xaml",
+      "summary": "View WPF: DesignViewport.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "type": "file",
+      "name": "DesignViewport.xaml.cs",
+      "filePath": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "summary": "View WPF: DesignViewport.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/DesignViewport.xaml.cs:DesignViewport",
+      "type": "class",
+      "name": "DesignViewport",
+      "filePath": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "summary": "Kiểu DesignViewport trong DesignViewport.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Views/Controls/DesignViewport.xaml.cs:DesignViewport",
+      "type": "function",
+      "name": "DesignViewport",
+      "filePath": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "summary": "Hàm/method DesignViewport trong DesignViewport.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/DesignViewport.xaml.cs:SurfaceScroll_PreviewMouseDown",
+      "type": "function",
+      "name": "SurfaceScroll_PreviewMouseDown",
+      "filePath": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "summary": "Hàm/method SurfaceScroll_PreviewMouseDown trong DesignViewport.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/DesignViewport.xaml.cs:SurfaceScroll_PreviewMouseMove",
+      "type": "function",
+      "name": "SurfaceScroll_PreviewMouseMove",
+      "filePath": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "summary": "Hàm/method SurfaceScroll_PreviewMouseMove trong DesignViewport.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/DesignViewport.xaml.cs:SurfaceScroll_PreviewMouseUp",
+      "type": "function",
+      "name": "SurfaceScroll_PreviewMouseUp",
+      "filePath": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "summary": "Hàm/method SurfaceScroll_PreviewMouseUp trong DesignViewport.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/DesignViewport.xaml.cs:BeginPlaceGuideline",
+      "type": "function",
+      "name": "BeginPlaceGuideline",
+      "filePath": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "summary": "Hàm/method BeginPlaceGuideline trong DesignViewport.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/DesignViewport.xaml.cs:UpdateFormOrigin",
+      "type": "function",
+      "name": "UpdateFormOrigin",
+      "filePath": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "summary": "Hàm/method UpdateFormOrigin trong DesignViewport.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/DesignViewport.xaml.cs:FindActiveSurface",
+      "type": "function",
+      "name": "FindActiveSurface",
+      "filePath": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "summary": "Hàm/method FindActiveSurface trong DesignViewport.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/DesignViewport.xaml.cs:OnPreviewKeyDown",
+      "type": "function",
+      "name": "OnPreviewKeyDown",
+      "filePath": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "summary": "Hàm/method OnPreviewKeyDown trong DesignViewport.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/DesignViewport.xaml.cs:OnPreviewKeyUp",
+      "type": "function",
+      "name": "OnPreviewKeyUp",
+      "filePath": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "summary": "Hàm/method OnPreviewKeyUp trong DesignViewport.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/DotGridBackground.cs",
+      "type": "file",
+      "name": "DotGridBackground.cs",
+      "filePath": "UI/Views/Controls/DotGridBackground.cs",
+      "summary": "View WPF: DotGridBackground.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/DotGridBackground.cs:DotGridBackground",
+      "type": "class",
+      "name": "DotGridBackground",
+      "filePath": "UI/Views/Controls/DotGridBackground.cs",
+      "summary": "Kiểu DotGridBackground trong DotGridBackground.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/DotGridBackground.cs:DotGridBackground",
+      "type": "function",
+      "name": "DotGridBackground",
+      "filePath": "UI/Views/Controls/DotGridBackground.cs",
+      "summary": "Hàm/method DotGridBackground trong DotGridBackground.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/DotGridBackground.cs:OnRender",
+      "type": "function",
+      "name": "OnRender",
+      "filePath": "UI/Views/Controls/DotGridBackground.cs",
+      "summary": "Hàm/method OnRender trong DotGridBackground.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Controls/EntityInsightBlock.cs",
+      "type": "file",
+      "name": "EntityInsightBlock.cs",
+      "filePath": "UI/Views/Controls/EntityInsightBlock.cs",
+      "summary": "View WPF: EntityInsightBlock.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/EntityInsightBlock.cs:EntityInsightBlock",
+      "type": "class",
+      "name": "EntityInsightBlock",
+      "filePath": "UI/Views/Controls/EntityInsightBlock.cs",
+      "summary": "Kiểu EntityInsightBlock trong EntityInsightBlock.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/EntityInsightBlock.cs:EntityInsightBlock",
+      "type": "function",
+      "name": "EntityInsightBlock",
+      "filePath": "UI/Views/Controls/EntityInsightBlock.cs",
+      "summary": "Hàm/method EntityInsightBlock trong EntityInsightBlock.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Views/Controls/EntityInsightBlock.cs:Commit",
+      "type": "function",
+      "name": "Commit",
+      "filePath": "UI/Views/Controls/EntityInsightBlock.cs",
+      "summary": "Hàm/method Commit trong EntityInsightBlock.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Controls/FormRuler.cs",
+      "type": "file",
+      "name": "FormRuler.cs",
+      "filePath": "UI/Views/Controls/FormRuler.cs",
+      "summary": "View WPF: FormRuler.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/FormRuler.cs:FormRuler",
+      "type": "class",
+      "name": "FormRuler",
+      "filePath": "UI/Views/Controls/FormRuler.cs",
+      "summary": "Kiểu FormRuler trong FormRuler.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/FormRuler.cs:FormRuler",
+      "type": "function",
+      "name": "FormRuler",
+      "filePath": "UI/Views/Controls/FormRuler.cs",
+      "summary": "Hàm/method FormRuler trong FormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/FormRuler.cs:OnTicksChanged",
+      "type": "function",
+      "name": "OnTicksChanged",
+      "filePath": "UI/Views/Controls/FormRuler.cs",
+      "summary": "Hàm/method OnTicksChanged trong FormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/FormRuler.cs:Rebuild",
+      "type": "function",
+      "name": "Rebuild",
+      "filePath": "UI/Views/Controls/FormRuler.cs",
+      "summary": "Hàm/method Rebuild trong FormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/FormRuler.cs:AddRedLine",
+      "type": "function",
+      "name": "AddRedLine",
+      "filePath": "UI/Views/Controls/FormRuler.cs",
+      "summary": "Hàm/method AddRedLine trong FormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/GuidelineLayer.cs",
+      "type": "file",
+      "name": "GuidelineLayer.cs",
+      "filePath": "UI/Views/Controls/GuidelineLayer.cs",
+      "summary": "View WPF: GuidelineLayer.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/GuidelineLayer.cs:GuidelineLayer",
+      "type": "class",
+      "name": "GuidelineLayer",
+      "filePath": "UI/Views/Controls/GuidelineLayer.cs",
+      "summary": "Kiểu GuidelineLayer trong GuidelineLayer.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Views/Controls/GuidelineLayer.cs:GuidelineLayer",
+      "type": "function",
+      "name": "GuidelineLayer",
+      "filePath": "UI/Views/Controls/GuidelineLayer.cs",
+      "summary": "Hàm/method GuidelineLayer trong GuidelineLayer.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/GuidelineLayer.cs:OnGuidelinesChanged",
+      "type": "function",
+      "name": "OnGuidelinesChanged",
+      "filePath": "UI/Views/Controls/GuidelineLayer.cs",
+      "summary": "Hàm/method OnGuidelinesChanged trong GuidelineLayer.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/GuidelineLayer.cs:OnPropertyChanged",
+      "type": "function",
+      "name": "OnPropertyChanged",
+      "filePath": "UI/Views/Controls/GuidelineLayer.cs",
+      "summary": "Hàm/method OnPropertyChanged trong GuidelineLayer.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/GuidelineLayer.cs:Rebuild",
+      "type": "function",
+      "name": "Rebuild",
+      "filePath": "UI/Views/Controls/GuidelineLayer.cs",
+      "summary": "Hàm/method Rebuild trong GuidelineLayer.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:UI/Views/Controls/InsightEditorSurface.xaml",
+      "type": "file",
+      "name": "InsightEditorSurface.xaml",
+      "filePath": "UI/Views/Controls/InsightEditorSurface.xaml",
+      "summary": "View WPF: InsightEditorSurface.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "type": "file",
+      "name": "InsightEditorSurface.xaml.cs",
+      "filePath": "UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "summary": "View WPF: InsightEditorSurface.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/InsightEditorSurface.xaml.cs:InsightEditorSurface",
+      "type": "class",
+      "name": "InsightEditorSurface",
+      "filePath": "UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "summary": "Kiểu InsightEditorSurface trong InsightEditorSurface.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InsightEditorSurface.xaml.cs:InsightEditorSurface",
+      "type": "function",
+      "name": "InsightEditorSurface",
+      "filePath": "UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "summary": "Hàm/method InsightEditorSurface trong InsightEditorSurface.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InsightEditorSurface.xaml.cs:WireCaretTracking",
+      "type": "function",
+      "name": "WireCaretTracking",
+      "filePath": "UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "summary": "Hàm/method WireCaretTracking trong InsightEditorSurface.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InsightEditorSurface.xaml.cs:ResolvedValue_LostFocus",
+      "type": "function",
+      "name": "ResolvedValue_LostFocus",
+      "filePath": "UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "summary": "Hàm/method ResolvedValue_LostFocus trong InsightEditorSurface.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InsightEditorSurface.xaml.cs:OpenSearch",
+      "type": "function",
+      "name": "OpenSearch",
+      "filePath": "UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "summary": "Hàm/method OpenSearch trong InsightEditorSurface.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InsightEditorSurface.xaml.cs:OpenReplace",
+      "type": "function",
+      "name": "OpenReplace",
+      "filePath": "UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "summary": "Hàm/method OpenReplace trong InsightEditorSurface.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InsightEditorSurface.xaml.cs:TryGoToDefinition",
+      "type": "function",
+      "name": "TryGoToDefinition",
+      "filePath": "UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "summary": "Hàm/method TryGoToDefinition trong InsightEditorSurface.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/InsightElementGenerator.cs",
+      "type": "file",
+      "name": "InsightElementGenerator.cs",
+      "filePath": "UI/Views/Controls/InsightElementGenerator.cs",
+      "summary": "View WPF: InsightElementGenerator.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/InsightElementGenerator.cs:InsightElementGenerator",
+      "type": "class",
+      "name": "InsightElementGenerator",
+      "filePath": "UI/Views/Controls/InsightElementGenerator.cs",
+      "summary": "Kiểu InsightElementGenerator trong InsightElementGenerator.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/InsightElementGenerator.cs:GetFirstInterestedOffset",
+      "type": "function",
+      "name": "GetFirstInterestedOffset",
+      "filePath": "UI/Views/Controls/InsightElementGenerator.cs",
+      "summary": "Hàm/method GetFirstInterestedOffset trong InsightElementGenerator.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InsightElementGenerator.cs:ConstructElement",
+      "type": "function",
+      "name": "ConstructElement",
+      "filePath": "UI/Views/Controls/InsightElementGenerator.cs",
+      "summary": "Hàm/method ConstructElement trong InsightElementGenerator.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "type": "file",
+      "name": "InteractiveFormRuler.cs",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "View WPF: InteractiveFormRuler.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/InteractiveFormRuler.cs:InteractiveFormRuler",
+      "type": "class",
+      "name": "InteractiveFormRuler",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Kiểu InteractiveFormRuler trong InteractiveFormRuler.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:UI/Views/Controls/InteractiveFormRuler.cs:ColumnWidthChangedEventArgs",
+      "type": "class",
+      "name": "ColumnWidthChangedEventArgs",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Kiểu ColumnWidthChangedEventArgs trong InteractiveFormRuler.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:UI/Views/Controls/InteractiveFormRuler.cs:RulerColumnActionEventArgs",
+      "type": "class",
+      "name": "RulerColumnActionEventArgs",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Kiểu RulerColumnActionEventArgs trong InteractiveFormRuler.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:InteractiveFormRuler",
+      "type": "function",
+      "name": "InteractiveFormRuler",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method InteractiveFormRuler trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:BoundaryHitIndex",
+      "type": "function",
+      "name": "BoundaryHitIndex",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method BoundaryHitIndex trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:ColumnHitIndex",
+      "type": "function",
+      "name": "ColumnHitIndex",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method ColumnHitIndex trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:OnMouseLeftButtonDown",
+      "type": "function",
+      "name": "OnMouseLeftButtonDown",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method OnMouseLeftButtonDown trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:OnMouseMove",
+      "type": "function",
+      "name": "OnMouseMove",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method OnMouseMove trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:OnMouseLeave",
+      "type": "function",
+      "name": "OnMouseLeave",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method OnMouseLeave trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:OnMouseLeftButtonUp",
+      "type": "function",
+      "name": "OnMouseLeftButtonUp",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method OnMouseLeftButtonUp trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:OnMouseRightButtonUp",
+      "type": "function",
+      "name": "OnMouseRightButtonUp",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method OnMouseRightButtonUp trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:ShowColumnMenu",
+      "type": "function",
+      "name": "ShowColumnMenu",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method ShowColumnMenu trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:Rebuild",
+      "type": "function",
+      "name": "Rebuild",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method Rebuild trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:AddInsertButton",
+      "type": "function",
+      "name": "AddInsertButton",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method AddInsertButton trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:ColumnWidthChangedEventArgs",
+      "type": "function",
+      "name": "ColumnWidthChangedEventArgs",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method ColumnWidthChangedEventArgs trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/InteractiveFormRuler.cs:RulerColumnActionEventArgs",
+      "type": "function",
+      "name": "RulerColumnActionEventArgs",
+      "filePath": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "summary": "Hàm/method RulerColumnActionEventArgs trong InteractiveFormRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/NavigationPanel.xaml",
+      "type": "file",
+      "name": "NavigationPanel.xaml",
+      "filePath": "UI/Views/Controls/NavigationPanel.xaml",
+      "summary": "View WPF: NavigationPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Controls/NavigationPanel.xaml.cs",
+      "type": "file",
+      "name": "NavigationPanel.xaml.cs",
+      "filePath": "UI/Views/Controls/NavigationPanel.xaml.cs",
+      "summary": "View WPF: NavigationPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/NavigationPanel.xaml.cs:NavigationPanel",
+      "type": "class",
+      "name": "NavigationPanel",
+      "filePath": "UI/Views/Controls/NavigationPanel.xaml.cs",
+      "summary": "Kiểu NavigationPanel trong NavigationPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/NavigationPanel.xaml.cs:NavigationPanel",
+      "type": "function",
+      "name": "NavigationPanel",
+      "filePath": "UI/Views/Controls/NavigationPanel.xaml.cs",
+      "summary": "Hàm/method NavigationPanel trong NavigationPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/NavigationPanel.xaml.cs:TreeViewItem_MouseDoubleClick",
+      "type": "function",
+      "name": "TreeViewItem_MouseDoubleClick",
+      "filePath": "UI/Views/Controls/NavigationPanel.xaml.cs",
+      "summary": "Hàm/method TreeViewItem_MouseDoubleClick trong NavigationPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/PixelRuler.cs",
+      "type": "file",
+      "name": "PixelRuler.cs",
+      "filePath": "UI/Views/Controls/PixelRuler.cs",
+      "summary": "View WPF: PixelRuler.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/PixelRuler.cs:PixelRuler",
+      "type": "class",
+      "name": "PixelRuler",
+      "filePath": "UI/Views/Controls/PixelRuler.cs",
+      "summary": "Kiểu PixelRuler trong PixelRuler.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Views/Controls/PixelRuler.cs:PixelRuler",
+      "type": "function",
+      "name": "PixelRuler",
+      "filePath": "UI/Views/Controls/PixelRuler.cs",
+      "summary": "Hàm/method PixelRuler trong PixelRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/PixelRuler.cs:PixelRuler",
+      "type": "function",
+      "name": "PixelRuler",
+      "filePath": "UI/Views/Controls/PixelRuler.cs",
+      "summary": "Hàm/method PixelRuler trong PixelRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/PixelRuler.cs:ScreenToFormPx",
+      "type": "function",
+      "name": "ScreenToFormPx",
+      "filePath": "UI/Views/Controls/PixelRuler.cs",
+      "summary": "Hàm/method ScreenToFormPx trong PixelRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/PixelRuler.cs:OnRender",
+      "type": "function",
+      "name": "OnRender",
+      "filePath": "UI/Views/Controls/PixelRuler.cs",
+      "summary": "Hàm/method OnRender trong PixelRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:UI/Views/Controls/PixelRuler.cs:DrawMarker",
+      "type": "function",
+      "name": "DrawMarker",
+      "filePath": "UI/Views/Controls/PixelRuler.cs",
+      "summary": "Hàm/method DrawMarker trong PixelRuler.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:UI/Views/Bottom/OutputPanel.xaml.cs",
+      "target": "class:UI/Views/Bottom/OutputPanel.xaml.cs:OutputPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/OutputPanel.xaml.cs",
+      "target": "function:UI/Views/Bottom/OutputPanel.xaml.cs:OutputPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "target": "class:UI/Views/Bottom/ProblemsPanel.xaml.cs:ProblemsPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "target": "function:UI/Views/Bottom/ProblemsPanel.xaml.cs:ProblemsPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "target": "function:UI/Views/Bottom/ProblemsPanel.xaml.cs:ProblemsGrid_MouseDoubleClick",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "target": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "target": "file:UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "target": "file:UI/ViewModels/MainViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "target": "class:UI/Views/Bottom/ReferencesPanel.xaml.cs:ReferencesPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "target": "function:UI/Views/Bottom/ReferencesPanel.xaml.cs:ReferencesPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "target": "function:UI/Views/Bottom/ReferencesPanel.xaml.cs:ReferencesList_MouseDoubleClick",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "target": "file:UI/ViewModels/Bottom/IdeDiagnosticsViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "target": "file:UI/ViewModels/Bottom/ProblemItemVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "target": "file:UI/ViewModels/MainViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "target": "class:UI/Views/Bottom/XmlBottomPanel.xaml.cs:XmlBottomPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "target": "function:UI/Views/Bottom/XmlBottomPanel.xaml.cs:XmlBottomPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "target": "function:UI/Views/Bottom/XmlBottomPanel.xaml.cs:OpenSearch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "target": "function:UI/Views/Bottom/XmlBottomPanel.xaml.cs:OpenReplace",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "target": "file:UI/ViewModels/Bottom/XmlBottomViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "target": "file:UI/ViewModels/Bottom/XmlStructureOutlineViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/AppStatusBar.xaml.cs",
+      "target": "class:UI/Views/Controls/AppStatusBar.xaml.cs:AppStatusBar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/AppStatusBar.xaml.cs",
+      "target": "function:UI/Views/Controls/AppStatusBar.xaml.cs:AppStatusBar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableSqlEditor.cs",
+      "target": "class:UI/Views/Controls/BindableSqlEditor.cs:BindableSqlEditor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableSqlEditor.cs",
+      "target": "function:UI/Views/Controls/BindableSqlEditor.cs:BindableSqlEditor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableSqlEditor.cs",
+      "target": "function:UI/Views/Controls/BindableSqlEditor.cs:OnBoundTextChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "class:UI/Views/Controls/BindableXmlEditor.cs:BindableXmlEditor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "function:UI/Views/Controls/BindableXmlEditor.cs:BindableXmlEditor",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "function:UI/Views/Controls/BindableXmlEditor.cs:OpenSearch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "function:UI/Views/Controls/BindableXmlEditor.cs:OpenReplace",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "function:UI/Views/Controls/BindableXmlEditor.cs:TryGoToDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "function:UI/Views/Controls/BindableXmlEditor.cs:OnPreviewKeyDown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "function:UI/Views/Controls/BindableXmlEditor.cs:IsFocusInsideInsight",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "function:UI/Views/Controls/BindableXmlEditor.cs:JumpToOffset",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "function:UI/Views/Controls/BindableXmlEditor.cs:OnScrollToLineChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "function:UI/Views/Controls/BindableXmlEditor.cs:OnBoundTextChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "function:UI/Views/Controls/BindableXmlEditor.cs:LoadBuiltinXmlHighlighting",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "file:DevWorkFlow.Application/Engine/XmlStructureParser.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Insights.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "file:UI/Views/Controls/EntityInsightBlock.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/BindableXmlEditor.cs",
+      "target": "file:UI/Views/Controls/InsightElementGenerator.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/ColumnGuides.cs",
+      "target": "class:UI/Views/Controls/ColumnGuides.cs:ColumnGuides",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/ColumnGuides.cs",
+      "target": "function:UI/Views/Controls/ColumnGuides.cs:ColumnGuides",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/ColumnGuides.cs",
+      "target": "function:UI/Views/Controls/ColumnGuides.cs:OnTicksChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/ColumnGuides.cs",
+      "target": "function:UI/Views/Controls/ColumnGuides.cs:MeasureOverride",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/ColumnGuides.cs",
+      "target": "function:UI/Views/Controls/ColumnGuides.cs:Rebuild",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/ColumnGuides.cs",
+      "target": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "target": "class:UI/Views/Controls/DesignViewport.xaml.cs:DesignViewport",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "target": "function:UI/Views/Controls/DesignViewport.xaml.cs:DesignViewport",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "target": "function:UI/Views/Controls/DesignViewport.xaml.cs:SurfaceScroll_PreviewMouseDown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "target": "function:UI/Views/Controls/DesignViewport.xaml.cs:SurfaceScroll_PreviewMouseMove",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "target": "function:UI/Views/Controls/DesignViewport.xaml.cs:SurfaceScroll_PreviewMouseUp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "target": "function:UI/Views/Controls/DesignViewport.xaml.cs:BeginPlaceGuideline",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "target": "function:UI/Views/Controls/DesignViewport.xaml.cs:UpdateFormOrigin",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "target": "function:UI/Views/Controls/DesignViewport.xaml.cs:FindActiveSurface",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "target": "function:UI/Views/Controls/DesignViewport.xaml.cs:OnPreviewKeyDown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "target": "function:UI/Views/Controls/DesignViewport.xaml.cs:OnPreviewKeyUp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "target": "file:UI/ViewModels/Design/GuidelineVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/DesignViewport.xaml.cs",
+      "target": "file:UI/Views/Controls/PixelRuler.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/DotGridBackground.cs",
+      "target": "class:UI/Views/Controls/DotGridBackground.cs:DotGridBackground",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/DotGridBackground.cs",
+      "target": "function:UI/Views/Controls/DotGridBackground.cs:DotGridBackground",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/DotGridBackground.cs",
+      "target": "function:UI/Views/Controls/DotGridBackground.cs:OnRender",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/EntityInsightBlock.cs",
+      "target": "class:UI/Views/Controls/EntityInsightBlock.cs:EntityInsightBlock",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/EntityInsightBlock.cs",
+      "target": "function:UI/Views/Controls/EntityInsightBlock.cs:EntityInsightBlock",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/EntityInsightBlock.cs",
+      "target": "function:UI/Views/Controls/EntityInsightBlock.cs:Commit",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/EntityInsightBlock.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentProjection.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/EntityInsightBlock.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Insights.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/FormRuler.cs",
+      "target": "class:UI/Views/Controls/FormRuler.cs:FormRuler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/FormRuler.cs",
+      "target": "function:UI/Views/Controls/FormRuler.cs:FormRuler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/FormRuler.cs",
+      "target": "function:UI/Views/Controls/FormRuler.cs:OnTicksChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/FormRuler.cs",
+      "target": "function:UI/Views/Controls/FormRuler.cs:Rebuild",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/FormRuler.cs",
+      "target": "function:UI/Views/Controls/FormRuler.cs:AddRedLine",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/FormRuler.cs",
+      "target": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/GuidelineLayer.cs",
+      "target": "class:UI/Views/Controls/GuidelineLayer.cs:GuidelineLayer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/GuidelineLayer.cs",
+      "target": "function:UI/Views/Controls/GuidelineLayer.cs:GuidelineLayer",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/GuidelineLayer.cs",
+      "target": "function:UI/Views/Controls/GuidelineLayer.cs:OnGuidelinesChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/GuidelineLayer.cs",
+      "target": "function:UI/Views/Controls/GuidelineLayer.cs:OnPropertyChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/GuidelineLayer.cs",
+      "target": "function:UI/Views/Controls/GuidelineLayer.cs:Rebuild",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/GuidelineLayer.cs",
+      "target": "file:UI/ViewModels/Design/GuidelineVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "target": "class:UI/Views/Controls/InsightEditorSurface.xaml.cs:InsightEditorSurface",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "target": "function:UI/Views/Controls/InsightEditorSurface.xaml.cs:InsightEditorSurface",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "target": "function:UI/Views/Controls/InsightEditorSurface.xaml.cs:WireCaretTracking",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "target": "function:UI/Views/Controls/InsightEditorSurface.xaml.cs:ResolvedValue_LostFocus",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "target": "function:UI/Views/Controls/InsightEditorSurface.xaml.cs:OpenSearch",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "target": "function:UI/Views/Controls/InsightEditorSurface.xaml.cs:OpenReplace",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "target": "function:UI/Views/Controls/InsightEditorSurface.xaml.cs:TryGoToDefinition",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "target": "file:UI/ViewModels/Design/InsightEditorLineVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightElementGenerator.cs",
+      "target": "class:UI/Views/Controls/InsightElementGenerator.cs:InsightElementGenerator",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightElementGenerator.cs",
+      "target": "function:UI/Views/Controls/InsightElementGenerator.cs:GetFirstInterestedOffset",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightElementGenerator.cs",
+      "target": "function:UI/Views/Controls/InsightElementGenerator.cs:ConstructElement",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightElementGenerator.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Insights.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/InsightElementGenerator.cs",
+      "target": "file:UI/Views/Controls/EntityInsightBlock.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "class:UI/Views/Controls/InteractiveFormRuler.cs:InteractiveFormRuler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "class:UI/Views/Controls/InteractiveFormRuler.cs:ColumnWidthChangedEventArgs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "class:UI/Views/Controls/InteractiveFormRuler.cs:RulerColumnActionEventArgs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:InteractiveFormRuler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:BoundaryHitIndex",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:ColumnHitIndex",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:OnMouseLeftButtonDown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:OnMouseMove",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:OnMouseLeave",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:OnMouseLeftButtonUp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:OnMouseRightButtonUp",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:ShowColumnMenu",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:Rebuild",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:AddInsertButton",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:ColumnWidthChangedEventArgs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "function:UI/Views/Controls/InteractiveFormRuler.cs:RulerColumnActionEventArgs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "file:DevWorkFlow.Application/Engine/FboLayoutUnits.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/InteractiveFormRuler.cs",
+      "target": "file:UI/Views/Controls/FormRuler.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/NavigationPanel.xaml.cs",
+      "target": "class:UI/Views/Controls/NavigationPanel.xaml.cs:NavigationPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/NavigationPanel.xaml.cs",
+      "target": "function:UI/Views/Controls/NavigationPanel.xaml.cs:NavigationPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/NavigationPanel.xaml.cs",
+      "target": "function:UI/Views/Controls/NavigationPanel.xaml.cs:TreeViewItem_MouseDoubleClick",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/NavigationPanel.xaml.cs",
+      "target": "file:UI/ViewModels/MenuNodeViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/NavigationPanel.xaml.cs",
+      "target": "file:UI/ViewModels/NavigationViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Controls/PixelRuler.cs",
+      "target": "class:UI/Views/Controls/PixelRuler.cs:PixelRuler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/PixelRuler.cs",
+      "target": "function:UI/Views/Controls/PixelRuler.cs:PixelRuler",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/PixelRuler.cs",
+      "target": "function:UI/Views/Controls/PixelRuler.cs:ScreenToFormPx",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/PixelRuler.cs",
+      "target": "function:UI/Views/Controls/PixelRuler.cs:OnRender",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/PixelRuler.cs",
+      "target": "function:UI/Views/Controls/PixelRuler.cs:DrawMarker",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    }
+  ],
+  "batchFiles": [
+    {
+      "path": "UI/Views/Bottom/OutputPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Bottom/ProblemsPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Bottom/ProblemsPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Bottom/ReferencesPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Bottom/ReferencesPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Bottom/XmlBottomPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 153,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Bottom/XmlBottomPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/AppStatusBar.xaml",
+      "language": "xaml",
+      "sizeLines": 48,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/AppStatusBar.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/BindableSqlEditor.cs",
+      "language": "csharp",
+      "sizeLines": 114,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/BindableXmlEditor.cs",
+      "language": "csharp",
+      "sizeLines": 352,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/ColumnGuides.cs",
+      "language": "csharp",
+      "sizeLines": 147,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/DesignViewport.xaml",
+      "language": "xaml",
+      "sizeLines": 82,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/DesignViewport.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 424,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/DotGridBackground.cs",
+      "language": "csharp",
+      "sizeLines": 132,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/EntityInsightBlock.cs",
+      "language": "csharp",
+      "sizeLines": 127,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/FormRuler.cs",
+      "language": "csharp",
+      "sizeLines": 136,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/GuidelineLayer.cs",
+      "language": "csharp",
+      "sizeLines": 278,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/InsightEditorSurface.xaml",
+      "language": "xaml",
+      "sizeLines": 112,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/InsightEditorSurface.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 53,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/InsightElementGenerator.cs",
+      "language": "csharp",
+      "sizeLines": 63,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/InteractiveFormRuler.cs",
+      "language": "csharp",
+      "sizeLines": 370,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/NavigationPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 201,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/NavigationPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 48,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/PixelRuler.cs",
+      "language": "csharp",
+      "sizeLines": 261,
+      "fileCategory": "code"
+    }
+  ]
+}

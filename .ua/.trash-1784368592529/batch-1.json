@@ -1,0 +1,28 @@
+{
+  "batchIndex": 1,
+  "nodes": [
+    {
+      "id": "pipeline:.github/workflows/ci.yml",
+      "type": "pipeline",
+      "name": "ci.yml",
+      "filePath": ".github/workflows/ci.yml",
+      "summary": "Pipeline CI GitHub Actions cho build/test.",
+      "tags": [
+        "ci-cd",
+        "deployment",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [],
+  "batchFiles": [
+    {
+      "path": ".github/workflows/ci.yml",
+      "language": "yaml",
+      "sizeLines": 30,
+      "fileCategory": "infra"
+    }
+  ]
+}

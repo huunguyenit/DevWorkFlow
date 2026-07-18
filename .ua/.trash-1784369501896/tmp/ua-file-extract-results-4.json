@@ -1,0 +1,190 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 3,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "UI/Config/json/database.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 12,
+      "nonEmptyLines": 12,
+      "sections": [
+        {
+          "heading": "filterDebounceMs",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "filterMinLength",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "commandTimeoutSeconds",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "catalogScriptFile",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "defaultTarget",
+          "level": 1,
+          "line": 6
+        },
+        {
+          "heading": "showModifiedDate",
+          "level": 1,
+          "line": 7
+        },
+        {
+          "heading": "sortByModifiedDesc",
+          "level": 1,
+          "line": 8
+        },
+        {
+          "heading": "batchUiSize",
+          "level": 1,
+          "line": 9
+        },
+        {
+          "heading": "singleClickDelayMs",
+          "level": 1,
+          "line": 10
+        },
+        {
+          "heading": "objectActionsFile",
+          "level": 1,
+          "line": 11
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 10
+      }
+    },
+    {
+      "path": "UI/Config/json/explorer.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 36,
+      "nonEmptyLines": 36,
+      "sections": [
+        {
+          "heading": "filterDebounceMs",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "filterMinLength",
+          "level": 1,
+          "line": 3
+        },
+        {
+          "heading": "preloadOnFilter",
+          "level": 1,
+          "line": 4
+        },
+        {
+          "heading": "expandOnFolderClick",
+          "level": 1,
+          "line": 5
+        },
+        {
+          "heading": "searchScanFilesystem",
+          "level": 1,
+          "line": 6
+        },
+        {
+          "heading": "searchMaxHits",
+          "level": 1,
+          "line": 7
+        },
+        {
+          "heading": "activationDelayMs",
+          "level": 1,
+          "line": 8
+        },
+        {
+          "heading": "folderIcon",
+          "level": 1,
+          "line": 9
+        },
+        {
+          "heading": "fileIcon",
+          "level": 1,
+          "line": 10
+        },
+        {
+          "heading": "folderIconColor",
+          "level": 1,
+          "line": 11
+        },
+        {
+          "heading": "fileIconColor",
+          "level": 1,
+          "line": 12
+        },
+        {
+          "heading": "showFileBadges",
+          "level": 1,
+          "line": 13
+        },
+        {
+          "heading": "preferredRootFolders",
+          "level": 1,
+          "line": 14
+        },
+        {
+          "heading": "explorerFileExtensions",
+          "level": 1,
+          "line": 25
+        },
+        {
+          "heading": "hiddenRootFolders",
+          "level": 1,
+          "line": 33
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 15
+      }
+    },
+    {
+      "path": "UI/Config/json/menu.json",
+      "language": "json",
+      "fileCategory": "config",
+      "totalLines": 4,
+      "nonEmptyLines": 4,
+      "sections": [
+        {
+          "heading": "filterDebounceMs",
+          "level": 1,
+          "line": 2
+        },
+        {
+          "heading": "filterBatchSize",
+          "level": 1,
+          "line": 3
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 0,
+        "functionCount": 0,
+        "classCount": 0,
+        "sectionCount": 2
+      }
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "batchIndex": 3,
+  "nodes": [
+    {
+      "id": "table:UI/Config/SQL/database_catalog.sql",
+      "type": "table",
+      "name": "database_catalog.sql",
+      "filePath": "UI/Config/SQL/database_catalog.sql",
+      "summary": "Script/schema dữ liệu: database_catalog.sql.",
+      "tags": [
+        "database",
+        "schema-definition",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:UI/Config/SQL/object_definition.sql",
+      "type": "table",
+      "name": "object_definition.sql",
+      "filePath": "UI/Config/SQL/object_definition.sql",
+      "summary": "Script/schema dữ liệu: object_definition.sql.",
+      "tags": [
+        "database",
+        "schema-definition",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "table:UI/Config/SQL/table_columns.sql",
+      "type": "table",
+      "name": "table_columns.sql",
+      "filePath": "UI/Config/SQL/table_columns.sql",
+      "summary": "Script/schema dữ liệu: table_columns.sql.",
+      "tags": [
+        "database",
+        "schema-definition",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [],
+  "batchFiles": [
+    {
+      "path": "UI/Config/SQL/database_catalog.sql",
+      "language": "sql",
+      "sizeLines": 8,
+      "fileCategory": "data"
+    },
+    {
+      "path": "UI/Config/SQL/object_definition.sql",
+      "language": "sql",
+      "sizeLines": 5,
+      "fileCategory": "data"
+    },
+    {
+      "path": "UI/Config/SQL/table_columns.sql",
+      "language": "sql",
+      "sizeLines": 25,
+      "fileCategory": "data"
+    }
+  ]
+}

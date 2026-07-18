@@ -1,0 +1,1861 @@
+{
+  "batchIndex": 9,
+  "nodes": [
+    {
+      "id": "file:DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+      "type": "file",
+      "name": "IWorkspaceSymbolIndex.cs",
+      "filePath": "DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+      "summary": "Thành phần ERP Language Service: IWorkspaceSymbolIndex.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs:IWorkspaceSymbolIndex",
+      "type": "class",
+      "name": "IWorkspaceSymbolIndex",
+      "filePath": "DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+      "summary": "Kiểu IWorkspaceSymbolIndex trong IWorkspaceSymbolIndex.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "type": "file",
+      "name": "NavigationTarget.cs",
+      "filePath": "DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "summary": "Thành phần ERP Language Service: NavigationTarget.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/NavigationTarget.cs:NavigationTarget",
+      "type": "class",
+      "name": "NavigationTarget",
+      "filePath": "DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "summary": "Kiểu NavigationTarget trong NavigationTarget.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Language/NodeId.cs",
+      "type": "file",
+      "name": "NodeId.cs",
+      "filePath": "DevWorkFlow.Domain/Language/NodeId.cs",
+      "summary": "Thành phần ERP Language Service: NodeId.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/NodeId.cs:NodeId",
+      "type": "class",
+      "name": "NodeId",
+      "filePath": "DevWorkFlow.Domain/Language/NodeId.cs",
+      "summary": "Kiểu NodeId trong NodeId.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/NodeId.cs:New",
+      "type": "function",
+      "name": "New",
+      "filePath": "DevWorkFlow.Domain/Language/NodeId.cs",
+      "summary": "Hàm/method New trong NodeId.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/NodeId.cs:FromStableKey",
+      "type": "function",
+      "name": "FromStableKey",
+      "filePath": "DevWorkFlow.Domain/Language/NodeId.cs",
+      "summary": "Hàm/method FromStableKey trong NodeId.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/NodeId.cs:ToString",
+      "type": "function",
+      "name": "ToString",
+      "filePath": "DevWorkFlow.Domain/Language/NodeId.cs",
+      "summary": "Hàm/method ToString trong NodeId.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "file",
+      "name": "SourceLocation.cs",
+      "filePath": "DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "summary": "Thành phần ERP Language Service: SourceLocation.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/SourceLocation.cs:SourceSpan",
+      "type": "class",
+      "name": "SourceSpan",
+      "filePath": "DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "summary": "Kiểu SourceSpan trong SourceLocation.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/SourceLocation.cs:SourceLocation",
+      "type": "class",
+      "name": "SourceLocation",
+      "filePath": "DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "summary": "Kiểu SourceLocation trong SourceLocation.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/SourceLocation.cs:ToString",
+      "type": "function",
+      "name": "ToString",
+      "filePath": "DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "summary": "Hàm/method ToString trong SourceLocation.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Language/StorageSnapshot.cs",
+      "type": "file",
+      "name": "StorageSnapshot.cs",
+      "filePath": "DevWorkFlow.Domain/Language/StorageSnapshot.cs",
+      "summary": "Thành phần ERP Language Service: StorageSnapshot.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/StorageSnapshot.cs:StorageSnapshot",
+      "type": "class",
+      "name": "StorageSnapshot",
+      "filePath": "DevWorkFlow.Domain/Language/StorageSnapshot.cs",
+      "summary": "Kiểu StorageSnapshot trong StorageSnapshot.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "type": "file",
+      "name": "SymbolReference.cs",
+      "filePath": "DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "summary": "Thành phần ERP Language Service: SymbolReference.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/SymbolReference.cs:SymbolReference",
+      "type": "class",
+      "name": "SymbolReference",
+      "filePath": "DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "summary": "Kiểu SymbolReference trong SymbolReference.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "type": "file",
+      "name": "LineMap.cs",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "summary": "Thành phần ERP Language Service: LineMap.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/Syntax/LineMap.cs:LineMap",
+      "type": "class",
+      "name": "LineMap",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "summary": "Kiểu LineMap trong LineMap.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/LineMap.cs:LineMap",
+      "type": "function",
+      "name": "LineMap",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "summary": "Hàm/method LineMap trong LineMap.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/LineMap.cs:GetLineColumn",
+      "type": "function",
+      "name": "GetLineColumn",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "summary": "Hàm/method GetLineColumn trong LineMap.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/LineMap.cs:GetOffset",
+      "type": "function",
+      "name": "GetOffset",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "summary": "Hàm/method GetOffset trong LineMap.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxKind.cs",
+      "type": "file",
+      "name": "SyntaxKind.cs",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxKind.cs",
+      "summary": "Thành phần ERP Language Service: SyntaxKind.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "type": "file",
+      "name": "SyntaxNode.cs",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "summary": "Thành phần ERP Language Service: SyntaxNode.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:SyntaxNode",
+      "type": "class",
+      "name": "SyntaxNode",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "summary": "Kiểu SyntaxNode trong SyntaxNode.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:SyntaxNode",
+      "type": "function",
+      "name": "SyntaxNode",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "summary": "Hàm/method SyntaxNode trong SyntaxNode.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:AddChild",
+      "type": "function",
+      "name": "AddChild",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "summary": "Hàm/method AddChild trong SyntaxNode.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:AddToken",
+      "type": "function",
+      "name": "AddToken",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "summary": "Hàm/method AddToken trong SyntaxNode.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:Seal",
+      "type": "function",
+      "name": "Seal",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "summary": "Hàm/method Seal trong SyntaxNode.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:GetFullText",
+      "type": "function",
+      "name": "GetFullText",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "summary": "Hàm/method GetFullText trong SyntaxNode.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:AppendFullText",
+      "type": "function",
+      "name": "AppendFullText",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "summary": "Hàm/method AppendFullText trong SyntaxNode.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "type": "file",
+      "name": "SyntaxToken.cs",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "summary": "Thành phần ERP Language Service: SyntaxToken.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs:SyntaxToken",
+      "type": "class",
+      "name": "SyntaxToken",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "summary": "Kiểu SyntaxToken trong SyntaxToken.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs:SyntaxToken",
+      "type": "function",
+      "name": "SyntaxToken",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "summary": "Hàm/method SyntaxToken trong SyntaxToken.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs:ToString",
+      "type": "function",
+      "name": "ToString",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "summary": "Hàm/method ToString trong SyntaxToken.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "type": "file",
+      "name": "SyntaxTree.cs",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "summary": "Thành phần ERP Language Service: SyntaxTree.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs:ISyntaxTree",
+      "type": "class",
+      "name": "ISyntaxTree",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "summary": "Kiểu ISyntaxTree trong SyntaxTree.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs:SyntaxTree",
+      "type": "class",
+      "name": "SyntaxTree",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "summary": "Kiểu SyntaxTree trong SyntaxTree.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs:SyntaxTree",
+      "type": "function",
+      "name": "SyntaxTree",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "summary": "Hàm/method SyntaxTree trong SyntaxTree.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs:Serialize",
+      "type": "function",
+      "name": "Serialize",
+      "filePath": "DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "summary": "Hàm/method Serialize trong SyntaxTree.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Language/TextRange.cs",
+      "type": "file",
+      "name": "TextRange.cs",
+      "filePath": "DevWorkFlow.Domain/Language/TextRange.cs",
+      "summary": "Thành phần ERP Language Service: TextRange.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/TextRange.cs:TextRange",
+      "type": "class",
+      "name": "TextRange",
+      "filePath": "DevWorkFlow.Domain/Language/TextRange.cs",
+      "summary": "Kiểu TextRange trong TextRange.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/TextRange.cs:FromSpan",
+      "type": "function",
+      "name": "FromSpan",
+      "filePath": "DevWorkFlow.Domain/Language/TextRange.cs",
+      "summary": "Hàm/method FromSpan trong TextRange.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Language/TextRange.cs:ToSpan",
+      "type": "function",
+      "name": "ToSpan",
+      "filePath": "DevWorkFlow.Domain/Language/TextRange.cs",
+      "summary": "Hàm/method ToSpan trong TextRange.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs",
+      "type": "file",
+      "name": "WorkspaceSymbolEntry.cs",
+      "filePath": "DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs",
+      "summary": "Thành phần ERP Language Service: WorkspaceSymbolEntry.cs.",
+      "tags": [
+        "language-service",
+        "service",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs:WorkspaceSymbolEntry",
+      "type": "class",
+      "name": "WorkspaceSymbolEntry",
+      "filePath": "DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs",
+      "summary": "Kiểu WorkspaceSymbolEntry trong WorkspaceSymbolEntry.cs.",
+      "tags": [
+        "class",
+        "language-service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/AppDatabaseInfo.cs",
+      "type": "file",
+      "name": "AppDatabaseInfo.cs",
+      "filePath": "DevWorkFlow.Domain/Models/AppDatabaseInfo.cs",
+      "summary": "Domain model: AppDatabaseInfo.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/AppDatabaseInfo.cs:AppDatabaseInfo",
+      "type": "class",
+      "name": "AppDatabaseInfo",
+      "filePath": "DevWorkFlow.Domain/Models/AppDatabaseInfo.cs",
+      "summary": "Kiểu AppDatabaseInfo trong AppDatabaseInfo.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/ControllerFileItem.cs",
+      "type": "file",
+      "name": "ControllerFileItem.cs",
+      "filePath": "DevWorkFlow.Domain/Models/ControllerFileItem.cs",
+      "summary": "Domain model: ControllerFileItem.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/ControllerFileItem.cs:ControllerFileItem",
+      "type": "class",
+      "name": "ControllerFileItem",
+      "filePath": "DevWorkFlow.Domain/Models/ControllerFileItem.cs",
+      "summary": "Kiểu ControllerFileItem trong ControllerFileItem.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "type": "file",
+      "name": "ControllerDisplayKind.cs",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "summary": "Domain model: ControllerDisplayKind.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs:LocalizedText",
+      "type": "class",
+      "name": "LocalizedText",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "summary": "Kiểu LocalizedText trong ControllerDisplayKind.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs:Get",
+      "type": "function",
+      "name": "Get",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "summary": "Hàm/method Get trong ControllerDisplayKind.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs:ToString",
+      "type": "function",
+      "name": "ToString",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "summary": "Hàm/method ToString trong ControllerDisplayKind.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "type": "file",
+      "name": "FboControllerDocument.cs",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "summary": "Domain model: FboControllerDocument.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs:FboControllerDocument",
+      "type": "class",
+      "name": "FboControllerDocument",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "summary": "Kiểu FboControllerDocument trong FboControllerDocument.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs:FromForm",
+      "type": "function",
+      "name": "FromForm",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "summary": "Hàm/method FromForm trong FboControllerDocument.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs:FromGrid",
+      "type": "function",
+      "name": "FromGrid",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "summary": "Hàm/method FromGrid trong FboControllerDocument.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs:FromLookup",
+      "type": "function",
+      "name": "FromLookup",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "summary": "Hàm/method FromLookup trong FboControllerDocument.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs",
+      "type": "file",
+      "name": "FboDropDownItem.cs",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs",
+      "summary": "Domain model: FboDropDownItem.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs:FboDropDownItem",
+      "type": "class",
+      "name": "FboDropDownItem",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs",
+      "summary": "Kiểu FboDropDownItem trong FboDropDownItem.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs:GetText",
+      "type": "function",
+      "name": "GetText",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs",
+      "summary": "Hàm/method GetText trong FboDropDownItem.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "type": "file",
+      "name": "FboField.cs",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "summary": "Domain model: FboField.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/FboField.cs:FboField",
+      "type": "class",
+      "name": "FboField",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "summary": "Kiểu FboField trong FboField.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Models/Fbo/FboField.cs:GetDisplayLabel",
+      "type": "function",
+      "name": "GetDisplayLabel",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "summary": "Hàm/method GetDisplayLabel trong FboField.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Models/Fbo/FboField.cs:GetDisplayFooter",
+      "type": "function",
+      "name": "GetDisplayFooter",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "summary": "Hàm/method GetDisplayFooter trong FboField.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "type": "file",
+      "name": "FboFormModel.cs",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "summary": "Domain model: FboFormModel.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs:FboFormModel",
+      "type": "class",
+      "name": "FboFormModel",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "summary": "Kiểu FboFormModel trong FboFormModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs:FindField",
+      "type": "function",
+      "name": "FindField",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "summary": "Hàm/method FindField trong FboFormModel.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "type": "file",
+      "name": "FboGridModel.cs",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "summary": "Domain model: FboGridModel.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs:GridToolbarButton",
+      "type": "class",
+      "name": "GridToolbarButton",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "summary": "Kiểu GridToolbarButton trong FboGridModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs:FboGridModel",
+      "type": "class",
+      "name": "FboGridModel",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "summary": "Kiểu FboGridModel trong FboGridModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "type": "file",
+      "name": "FboLookupModel.cs",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "summary": "Domain model: FboLookupModel.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs:FboLookupModel",
+      "type": "class",
+      "name": "FboLookupModel",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "summary": "Kiểu FboLookupModel trong FboLookupModel.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/Fbo/FormCategory.cs",
+      "type": "file",
+      "name": "FormCategory.cs",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FormCategory.cs",
+      "summary": "Domain model: FormCategory.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/FormCategory.cs:FormCategory",
+      "type": "class",
+      "name": "FormCategory",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FormCategory.cs",
+      "summary": "Kiểu FormCategory trong FormCategory.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:DevWorkFlow.Domain/Models/Fbo/FormCategory.cs:GetHeader",
+      "type": "function",
+      "name": "GetHeader",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FormCategory.cs",
+      "summary": "Hàm/method GetHeader trong FormCategory.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "type": "file",
+      "name": "FormViewLayout.cs",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "summary": "Domain model: FormViewLayout.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs:FormViewCell",
+      "type": "class",
+      "name": "FormViewCell",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "summary": "Kiểu FormViewCell trong FormViewLayout.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs:FormViewRow",
+      "type": "class",
+      "name": "FormViewRow",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "summary": "Kiểu FormViewRow trong FormViewLayout.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs:FormViewLayout",
+      "type": "class",
+      "name": "FormViewLayout",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "summary": "Kiểu FormViewLayout trong FormViewLayout.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:DevWorkFlow.Domain/Models/Fbo/Schema/FboSchemaEnums.cs",
+      "type": "file",
+      "name": "FboSchemaEnums.cs",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/Schema/FboSchemaEnums.cs",
+      "summary": "Domain model: FboSchemaEnums.cs.",
+      "tags": [
+        "data-model",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:DevWorkFlow.Domain/Models/Fbo/Schema/FboSchemaEnums.cs:FboSchemaPaths",
+      "type": "class",
+      "name": "FboSchemaPaths",
+      "filePath": "DevWorkFlow.Domain/Models/Fbo/Schema/FboSchemaEnums.cs",
+      "summary": "Kiểu FboSchemaPaths trong FboSchemaEnums.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+      "target": "class:DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs:IWorkspaceSymbolIndex",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbolTypes.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+      "target": "file:DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "target": "class:DevWorkFlow.Domain/Language/NavigationTarget.cs:NavigationTarget",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbol.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "target": "file:DevWorkFlow.Domain/Language/NodeId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "target": "file:DevWorkFlow.Domain/Language/TextRange.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/NodeId.cs",
+      "target": "class:DevWorkFlow.Domain/Language/NodeId.cs:NodeId",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/NodeId.cs",
+      "target": "function:DevWorkFlow.Domain/Language/NodeId.cs:New",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/NodeId.cs",
+      "target": "function:DevWorkFlow.Domain/Language/NodeId.cs:FromStableKey",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/NodeId.cs",
+      "target": "function:DevWorkFlow.Domain/Language/NodeId.cs:ToString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "target": "class:DevWorkFlow.Domain/Language/SourceLocation.cs:SourceSpan",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "target": "class:DevWorkFlow.Domain/Language/SourceLocation.cs:SourceLocation",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "target": "function:DevWorkFlow.Domain/Language/SourceLocation.cs:ToString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/StorageSnapshot.cs",
+      "target": "class:DevWorkFlow.Domain/Language/StorageSnapshot.cs:StorageSnapshot",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "target": "class:DevWorkFlow.Domain/Language/SymbolReference.cs:SymbolReference",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbol.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "target": "class:DevWorkFlow.Domain/Language/Syntax/LineMap.cs:LineMap",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/LineMap.cs:LineMap",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/LineMap.cs:GetLineColumn",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/LineMap.cs:GetOffset",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "target": "class:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:SyntaxNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:SyntaxNode",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:AddChild",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:AddToken",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:Seal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:GetFullText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs:AppendFullText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "target": "class:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs:SyntaxToken",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs:SyntaxToken",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs:ToString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "target": "class:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs:ISyntaxTree",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "target": "class:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs:SyntaxTree",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs:SyntaxTree",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "target": "function:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs:Serialize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDiagnostic.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "target": "file:DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/TextRange.cs",
+      "target": "class:DevWorkFlow.Domain/Language/TextRange.cs:TextRange",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/TextRange.cs",
+      "target": "function:DevWorkFlow.Domain/Language/TextRange.cs:FromSpan",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/TextRange.cs",
+      "target": "function:DevWorkFlow.Domain/Language/TextRange.cs:ToSpan",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/TextRange.cs",
+      "target": "file:DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/TextRange.cs",
+      "target": "file:DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs",
+      "target": "class:DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs:WorkspaceSymbolEntry",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpDocumentId.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs",
+      "target": "file:DevWorkFlow.Domain/Language/ErpSymbol.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/AppDatabaseInfo.cs",
+      "target": "class:DevWorkFlow.Domain/Models/AppDatabaseInfo.cs:AppDatabaseInfo",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/ControllerFileItem.cs",
+      "target": "class:DevWorkFlow.Domain/Models/ControllerFileItem.cs:ControllerFileItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs:LocalizedText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "target": "function:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs:Get",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "target": "function:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs:ToString",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs:FboControllerDocument",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "target": "function:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs:FromForm",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "target": "function:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs:FromGrid",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "target": "function:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs:FromLookup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs:FboDropDownItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs",
+      "target": "function:DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs:GetText",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/FboField.cs:FboField",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "target": "function:DevWorkFlow.Domain/Models/Fbo/FboField.cs:GetDisplayLabel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "target": "function:DevWorkFlow.Domain/Models/Fbo/FboField.cs:GetDisplayFooter",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs:FboFormModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "target": "function:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs:FindField",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "target": "file:UI/App.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs:GridToolbarButton",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs:FboGridModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs:FboLookupModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FormCategory.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/FormCategory.cs:FormCategory",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FormCategory.cs",
+      "target": "function:DevWorkFlow.Domain/Models/Fbo/FormCategory.cs:GetHeader",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FormCategory.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs:FormViewCell",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs:FormViewRow",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs:FormViewLayout",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "target": "file:DevWorkFlow.Domain/Models/Fbo/FormCategory.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/Schema/FboSchemaEnums.cs",
+      "target": "class:DevWorkFlow.Domain/Models/Fbo/Schema/FboSchemaEnums.cs:FboSchemaPaths",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:DevWorkFlow.Domain/Models/Fbo/Schema/FboSchemaEnums.cs",
+      "target": "file:UI/App.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ],
+  "batchFiles": [
+    {
+      "path": "DevWorkFlow.Domain/Language/IWorkspaceSymbolIndex.cs",
+      "language": "csharp",
+      "sizeLines": 26,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/NavigationTarget.cs",
+      "language": "csharp",
+      "sizeLines": 28,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/NodeId.cs",
+      "language": "csharp",
+      "sizeLines": 30,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/SourceLocation.cs",
+      "language": "csharp",
+      "sizeLines": 39,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/StorageSnapshot.cs",
+      "language": "csharp",
+      "sizeLines": 18,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/SymbolReference.cs",
+      "language": "csharp",
+      "sizeLines": 12,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/Syntax/LineMap.cs",
+      "language": "csharp",
+      "sizeLines": 46,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/Syntax/SyntaxKind.cs",
+      "language": "csharp",
+      "sizeLines": 29,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/Syntax/SyntaxNode.cs",
+      "language": "csharp",
+      "sizeLines": 67,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/Syntax/SyntaxToken.cs",
+      "language": "csharp",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/Syntax/SyntaxTree.cs",
+      "language": "csharp",
+      "sizeLines": 64,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/TextRange.cs",
+      "language": "csharp",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Language/WorkspaceSymbolEntry.cs",
+      "language": "csharp",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/AppDatabaseInfo.cs",
+      "language": "csharp",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/ControllerFileItem.cs",
+      "language": "csharp",
+      "sizeLines": 61,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/ControllerDisplayKind.cs",
+      "language": "csharp",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FboControllerDocument.cs",
+      "language": "csharp",
+      "sizeLines": 56,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FboDropDownItem.cs",
+      "language": "csharp",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FboField.cs",
+      "language": "csharp",
+      "sizeLines": 126,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FboFormModel.cs",
+      "language": "csharp",
+      "sizeLines": 41,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FboGridModel.cs",
+      "language": "csharp",
+      "sizeLines": 62,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FboLookupModel.cs",
+      "language": "csharp",
+      "sizeLines": 32,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FormCategory.cs",
+      "language": "csharp",
+      "sizeLines": 20,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/FormViewLayout.cs",
+      "language": "csharp",
+      "sizeLines": 92,
+      "fileCategory": "code"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Models/Fbo/Schema/FboSchemaEnums.cs",
+      "language": "csharp",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    }
+  ]
+}

@@ -1,0 +1,584 @@
+{
+  "scriptCompleted": true,
+  "filesAnalyzed": 15,
+  "filesSkipped": [],
+  "results": [
+    {
+      "path": "UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 65,
+      "nonEmptyLines": 57,
+      "functions": [
+        {
+          "name": "FormBuilderPage",
+          "startLine": 15,
+          "endLine": 15,
+          "params": []
+        },
+        {
+          "name": "Cell_MouseLeftButtonDown",
+          "startLine": 17,
+          "endLine": 26,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "Cell_PreviewMouseLeftButtonDown",
+          "startLine": 32,
+          "endLine": 41,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "Chrome_EastDragStarted",
+          "startLine": 43,
+          "endLine": 50,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "Chrome_EastDragDelta",
+          "startLine": 52,
+          "endLine": 57,
+          "params": [
+            "sender",
+            "e"
+          ]
+        },
+        {
+          "name": "Chrome_EastDragCompleted",
+          "startLine": 59,
+          "endLine": 64,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "FormBuilderPage",
+          "startLine": 10,
+          "endLine": 65,
+          "methods": [
+            "FormBuilderPage",
+            "Cell_MouseLeftButtonDown",
+            "Cell_PreviewMouseLeftButtonDown",
+            "Chrome_EastDragStarted",
+            "Chrome_EastDragDelta",
+            "Chrome_EastDragCompleted"
+          ],
+          "properties": [
+            "_span_drag_cell",
+            "_span_drag_width"
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "name": "FormBuilderPage",
+          "line": 15,
+          "isDefault": false
+        },
+        {
+          "name": "FormBuilderPage",
+          "line": 10,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "FormBuilderPage",
+          "callee": "InitializeComponent",
+          "lineNumber": 15
+        },
+        {
+          "caller": "Cell_MouseLeftButtonDown",
+          "callee": "Keyboard.Modifiers.HasFlag",
+          "lineNumber": 22
+        },
+        {
+          "caller": "Cell_MouseLeftButtonDown",
+          "callee": "vm.SelectCell",
+          "lineNumber": 23
+        },
+        {
+          "caller": "Cell_PreviewMouseLeftButtonDown",
+          "callee": "Keyboard.Modifiers.HasFlag",
+          "lineNumber": 38
+        },
+        {
+          "caller": "Cell_PreviewMouseLeftButtonDown",
+          "callee": "vm.SelectCell",
+          "lineNumber": 39
+        },
+        {
+          "caller": "Chrome_EastDragStarted",
+          "callee": "vm.SelectCell",
+          "lineNumber": 49
+        },
+        {
+          "caller": "Chrome_EastDragDelta",
+          "callee": "System.Math.Max",
+          "lineNumber": 55
+        },
+        {
+          "caller": "Chrome_EastDragDelta",
+          "callee": "vm.ResizeCellSpanToWidth",
+          "lineNumber": 56
+        },
+        {
+          "caller": "Chrome_EastDragCompleted",
+          "callee": "vm.ResizeCellSpanToWidth",
+          "lineNumber": 62
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 6,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Pages/SqlStudioPage.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 113,
+      "nonEmptyLines": 105,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Pages/SqlStudioPage.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 6,
+      "nonEmptyLines": 5,
+      "functions": [
+        {
+          "name": "SqlStudioPage",
+          "startLine": 5,
+          "endLine": 5,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "SqlStudioPage",
+          "startLine": 3,
+          "endLine": 6,
+          "methods": [
+            "SqlStudioPage"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "SqlStudioPage",
+          "line": 5,
+          "isDefault": false
+        },
+        {
+          "name": "SqlStudioPage",
+          "line": 3,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "SqlStudioPage",
+          "callee": "InitializeComponent",
+          "lineNumber": 5
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Pages/TemplateManagerPage.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 79,
+      "nonEmptyLines": 74,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Pages/TemplateManagerPage.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "functions": [
+        {
+          "name": "TemplateManagerPage",
+          "startLine": 7,
+          "endLine": 7,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "TemplateManagerPage",
+          "startLine": 5,
+          "endLine": 8,
+          "methods": [
+            "TemplateManagerPage"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "TemplateManagerPage",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "TemplateManagerPage",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "TemplateManagerPage",
+          "callee": "InitializeComponent",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Properties/PropertyGridPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 164,
+      "nonEmptyLines": 153,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Properties/PropertyGridPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "functions": [
+        {
+          "name": "PropertyGridPanel",
+          "startLine": 7,
+          "endLine": 7,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "PropertyGridPanel",
+          "startLine": 5,
+          "endLine": 8,
+          "methods": [
+            "PropertyGridPanel"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "PropertyGridPanel",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "PropertyGridPanel",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "PropertyGridPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Shell/DocumentTabBar.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 43,
+      "nonEmptyLines": 43,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Shell/DocumentTabBar.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 17,
+      "nonEmptyLines": 14,
+      "functions": [
+        {
+          "name": "DocumentTabBar",
+          "startLine": 8,
+          "endLine": 8,
+          "params": []
+        },
+        {
+          "name": "CloseButton_PreviewMouseLeftButtonDown",
+          "startLine": 11,
+          "endLine": 16,
+          "params": [
+            "sender",
+            "e"
+          ]
+        }
+      ],
+      "classes": [
+        {
+          "name": "DocumentTabBar",
+          "startLine": 6,
+          "endLine": 17,
+          "methods": [
+            "DocumentTabBar",
+            "CloseButton_PreviewMouseLeftButtonDown"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "DocumentTabBar",
+          "line": 8,
+          "isDefault": false
+        },
+        {
+          "name": "DocumentTabBar",
+          "line": 6,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "DocumentTabBar",
+          "callee": "InitializeComponent",
+          "lineNumber": 8
+        },
+        {
+          "caller": "CloseButton_PreviewMouseLeftButtonDown",
+          "callee": "cmd.CanExecute",
+          "lineNumber": 13
+        },
+        {
+          "caller": "CloseButton_PreviewMouseLeftButtonDown",
+          "callee": "cmd.Execute",
+          "lineNumber": 14
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 2,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Shell/IdeMenuBar.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 60,
+      "nonEmptyLines": 60,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Shell/IdeMenuBar.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "functions": [
+        {
+          "name": "IdeMenuBar",
+          "startLine": 7,
+          "endLine": 7,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "IdeMenuBar",
+          "startLine": 5,
+          "endLine": 8,
+          "methods": [
+            "IdeMenuBar"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IdeMenuBar",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "IdeMenuBar",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "IdeMenuBar",
+          "callee": "InitializeComponent",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Shell/IdeRibbon.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 175,
+      "nonEmptyLines": 163,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Shell/IdeRibbon.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "functions": [
+        {
+          "name": "IdeRibbon",
+          "startLine": 7,
+          "endLine": 7,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "IdeRibbon",
+          "startLine": 5,
+          "endLine": 8,
+          "methods": [
+            "IdeRibbon"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "IdeRibbon",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "IdeRibbon",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "IdeRibbon",
+          "callee": "InitializeComponent",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    },
+    {
+      "path": "UI/Views/Toolbox/ToolboxPanel.xaml",
+      "language": "xaml",
+      "fileCategory": "code",
+      "totalLines": 70,
+      "nonEmptyLines": 65,
+      "metrics": {}
+    },
+    {
+      "path": "UI/Views/Toolbox/ToolboxPanel.xaml.cs",
+      "language": "csharp",
+      "fileCategory": "code",
+      "totalLines": 8,
+      "nonEmptyLines": 6,
+      "functions": [
+        {
+          "name": "ToolboxPanel",
+          "startLine": 7,
+          "endLine": 7,
+          "params": []
+        }
+      ],
+      "classes": [
+        {
+          "name": "ToolboxPanel",
+          "startLine": 5,
+          "endLine": 8,
+          "methods": [
+            "ToolboxPanel"
+          ],
+          "properties": []
+        }
+      ],
+      "exports": [
+        {
+          "name": "ToolboxPanel",
+          "line": 7,
+          "isDefault": false
+        },
+        {
+          "name": "ToolboxPanel",
+          "line": 5,
+          "isDefault": false
+        }
+      ],
+      "callGraph": [
+        {
+          "caller": "ToolboxPanel",
+          "callee": "InitializeComponent",
+          "lineNumber": 7
+        }
+      ],
+      "metrics": {
+        "importCount": 0,
+        "exportCount": 2,
+        "functionCount": 1,
+        "classCount": 1
+      }
+    }
+  ]
+}

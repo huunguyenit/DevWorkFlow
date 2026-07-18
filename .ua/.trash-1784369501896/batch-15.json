@@ -1,0 +1,1197 @@
+{
+  "batchIndex": 15,
+  "nodes": [
+    {
+      "id": "file:UI/Views/Controls/SelectionChrome.xaml",
+      "type": "file",
+      "name": "SelectionChrome.xaml",
+      "filePath": "UI/Views/Controls/SelectionChrome.xaml",
+      "summary": "View WPF: SelectionChrome.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/SelectionChrome.xaml.cs",
+      "type": "file",
+      "name": "SelectionChrome.xaml.cs",
+      "filePath": "UI/Views/Controls/SelectionChrome.xaml.cs",
+      "summary": "View WPF: SelectionChrome.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/SelectionChrome.xaml.cs:SelectionChrome",
+      "type": "class",
+      "name": "SelectionChrome",
+      "filePath": "UI/Views/Controls/SelectionChrome.xaml.cs",
+      "summary": "Kiểu SelectionChrome trong SelectionChrome.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/SelectionChrome.xaml.cs:SelectionChrome",
+      "type": "function",
+      "name": "SelectionChrome",
+      "filePath": "UI/Views/Controls/SelectionChrome.xaml.cs",
+      "summary": "Hàm/method SelectionChrome trong SelectionChrome.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/WorkspaceHost.xaml",
+      "type": "file",
+      "name": "WorkspaceHost.xaml",
+      "filePath": "UI/Views/Controls/WorkspaceHost.xaml",
+      "summary": "View WPF: WorkspaceHost.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Controls/WorkspaceHost.xaml.cs",
+      "type": "file",
+      "name": "WorkspaceHost.xaml.cs",
+      "filePath": "UI/Views/Controls/WorkspaceHost.xaml.cs",
+      "summary": "View WPF: WorkspaceHost.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Controls/WorkspaceHost.xaml.cs:WorkspaceHost",
+      "type": "class",
+      "name": "WorkspaceHost",
+      "filePath": "UI/Views/Controls/WorkspaceHost.xaml.cs",
+      "summary": "Kiểu WorkspaceHost trong WorkspaceHost.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Controls/WorkspaceHost.xaml.cs:WorkspaceHost",
+      "type": "function",
+      "name": "WorkspaceHost",
+      "filePath": "UI/Views/Controls/WorkspaceHost.xaml.cs",
+      "summary": "Hàm/method WorkspaceHost trong WorkspaceHost.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Explorer/DatabaseExplorerPanel.xaml",
+      "type": "file",
+      "name": "DatabaseExplorerPanel.xaml",
+      "filePath": "UI/Views/Explorer/DatabaseExplorerPanel.xaml",
+      "summary": "View WPF: DatabaseExplorerPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs",
+      "type": "file",
+      "name": "DatabaseExplorerPanel.xaml.cs",
+      "filePath": "UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs",
+      "summary": "View WPF: DatabaseExplorerPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs:DatabaseExplorerPanel",
+      "type": "class",
+      "name": "DatabaseExplorerPanel",
+      "filePath": "UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs",
+      "summary": "Kiểu DatabaseExplorerPanel trong DatabaseExplorerPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs:DatabaseExplorerPanel",
+      "type": "function",
+      "name": "DatabaseExplorerPanel",
+      "filePath": "UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs",
+      "summary": "Hàm/method DatabaseExplorerPanel trong DatabaseExplorerPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Explorer/ExplorerPanel.xaml",
+      "type": "file",
+      "name": "ExplorerPanel.xaml",
+      "filePath": "UI/Views/Explorer/ExplorerPanel.xaml",
+      "summary": "View WPF: ExplorerPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Explorer/ExplorerPanel.xaml.cs",
+      "type": "file",
+      "name": "ExplorerPanel.xaml.cs",
+      "filePath": "UI/Views/Explorer/ExplorerPanel.xaml.cs",
+      "summary": "View WPF: ExplorerPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Explorer/ExplorerPanel.xaml.cs:ExplorerPanel",
+      "type": "class",
+      "name": "ExplorerPanel",
+      "filePath": "UI/Views/Explorer/ExplorerPanel.xaml.cs",
+      "summary": "Kiểu ExplorerPanel trong ExplorerPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Explorer/ExplorerPanel.xaml.cs:ExplorerPanel",
+      "type": "function",
+      "name": "ExplorerPanel",
+      "filePath": "UI/Views/Explorer/ExplorerPanel.xaml.cs",
+      "summary": "Hàm/method ExplorerPanel trong ExplorerPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Explorer/ExplorerTreePanel.xaml",
+      "type": "file",
+      "name": "ExplorerTreePanel.xaml",
+      "filePath": "UI/Views/Explorer/ExplorerTreePanel.xaml",
+      "summary": "View WPF: ExplorerTreePanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "type": "file",
+      "name": "ExplorerTreePanel.xaml.cs",
+      "filePath": "UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "summary": "View WPF: ExplorerTreePanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:ExplorerTreePanel",
+      "type": "class",
+      "name": "ExplorerTreePanel",
+      "filePath": "UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "summary": "Kiểu ExplorerTreePanel trong ExplorerTreePanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:ExplorerTreeNodeActivatedEventArgs",
+      "type": "class",
+      "name": "ExplorerTreeNodeActivatedEventArgs",
+      "filePath": "UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "summary": "Kiểu ExplorerTreeNodeActivatedEventArgs trong ExplorerTreePanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:ExplorerTreePanel",
+      "type": "function",
+      "name": "ExplorerTreePanel",
+      "filePath": "UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "summary": "Hàm/method ExplorerTreePanel trong ExplorerTreePanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:TreeView_SelectedItemChanged",
+      "type": "function",
+      "name": "TreeView_SelectedItemChanged",
+      "filePath": "UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "summary": "Hàm/method TreeView_SelectedItemChanged trong ExplorerTreePanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:TreeViewItem_MouseDoubleClick",
+      "type": "function",
+      "name": "TreeViewItem_MouseDoubleClick",
+      "filePath": "UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "summary": "Hàm/method TreeViewItem_MouseDoubleClick trong ExplorerTreePanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:FindAncestorTreeViewItem",
+      "type": "function",
+      "name": "FindAncestorTreeViewItem",
+      "filePath": "UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "summary": "Hàm/method FindAncestorTreeViewItem trong ExplorerTreePanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:ExplorerTreeNodeActivatedEventArgs",
+      "type": "function",
+      "name": "ExplorerTreeNodeActivatedEventArgs",
+      "filePath": "UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "summary": "Hàm/method ExplorerTreeNodeActivatedEventArgs trong ExplorerTreePanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Explorer/MenuExplorerPanel.xaml",
+      "type": "file",
+      "name": "MenuExplorerPanel.xaml",
+      "filePath": "UI/Views/Explorer/MenuExplorerPanel.xaml",
+      "summary": "View WPF: MenuExplorerPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Explorer/MenuExplorerPanel.xaml.cs",
+      "type": "file",
+      "name": "MenuExplorerPanel.xaml.cs",
+      "filePath": "UI/Views/Explorer/MenuExplorerPanel.xaml.cs",
+      "summary": "View WPF: MenuExplorerPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Explorer/MenuExplorerPanel.xaml.cs:MenuExplorerPanel",
+      "type": "class",
+      "name": "MenuExplorerPanel",
+      "filePath": "UI/Views/Explorer/MenuExplorerPanel.xaml.cs",
+      "summary": "Kiểu MenuExplorerPanel trong MenuExplorerPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Explorer/MenuExplorerPanel.xaml.cs:MenuExplorerPanel",
+      "type": "function",
+      "name": "MenuExplorerPanel",
+      "filePath": "UI/Views/Explorer/MenuExplorerPanel.xaml.cs",
+      "summary": "Hàm/method MenuExplorerPanel trong MenuExplorerPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Explorer/OutlinePanel.xaml",
+      "type": "file",
+      "name": "OutlinePanel.xaml",
+      "filePath": "UI/Views/Explorer/OutlinePanel.xaml",
+      "summary": "View WPF: OutlinePanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Explorer/OutlinePanel.xaml.cs",
+      "type": "file",
+      "name": "OutlinePanel.xaml.cs",
+      "filePath": "UI/Views/Explorer/OutlinePanel.xaml.cs",
+      "summary": "View WPF: OutlinePanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Explorer/OutlinePanel.xaml.cs:OutlinePanel",
+      "type": "class",
+      "name": "OutlinePanel",
+      "filePath": "UI/Views/Explorer/OutlinePanel.xaml.cs",
+      "summary": "Kiểu OutlinePanel trong OutlinePanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Explorer/OutlinePanel.xaml.cs:OutlinePanel",
+      "type": "function",
+      "name": "OutlinePanel",
+      "filePath": "UI/Views/Explorer/OutlinePanel.xaml.cs",
+      "summary": "Hàm/method OutlinePanel trong OutlinePanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Insight/InsightPanel.xaml",
+      "type": "file",
+      "name": "InsightPanel.xaml",
+      "filePath": "UI/Views/Insight/InsightPanel.xaml",
+      "summary": "View WPF: InsightPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Insight/InsightPanel.xaml.cs",
+      "type": "file",
+      "name": "InsightPanel.xaml.cs",
+      "filePath": "UI/Views/Insight/InsightPanel.xaml.cs",
+      "summary": "View WPF: InsightPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Insight/InsightPanel.xaml.cs:InsightPanel",
+      "type": "class",
+      "name": "InsightPanel",
+      "filePath": "UI/Views/Insight/InsightPanel.xaml.cs",
+      "summary": "Kiểu InsightPanel trong InsightPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Insight/InsightPanel.xaml.cs:InsightPanel",
+      "type": "function",
+      "name": "InsightPanel",
+      "filePath": "UI/Views/Insight/InsightPanel.xaml.cs",
+      "summary": "Hàm/method InsightPanel trong InsightPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Insight/SymbolInfoPanel.xaml",
+      "type": "file",
+      "name": "SymbolInfoPanel.xaml",
+      "filePath": "UI/Views/Insight/SymbolInfoPanel.xaml",
+      "summary": "View WPF: SymbolInfoPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Insight/SymbolInfoPanel.xaml.cs",
+      "type": "file",
+      "name": "SymbolInfoPanel.xaml.cs",
+      "filePath": "UI/Views/Insight/SymbolInfoPanel.xaml.cs",
+      "summary": "View WPF: SymbolInfoPanel.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Insight/SymbolInfoPanel.xaml.cs:SymbolInfoPanel",
+      "type": "class",
+      "name": "SymbolInfoPanel",
+      "filePath": "UI/Views/Insight/SymbolInfoPanel.xaml.cs",
+      "summary": "Kiểu SymbolInfoPanel trong SymbolInfoPanel.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Insight/SymbolInfoPanel.xaml.cs:SymbolInfoPanel",
+      "type": "function",
+      "name": "SymbolInfoPanel",
+      "filePath": "UI/Views/Insight/SymbolInfoPanel.xaml.cs",
+      "summary": "Hàm/method SymbolInfoPanel trong SymbolInfoPanel.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Pages/FormBuilderPage.xaml",
+      "type": "file",
+      "name": "FormBuilderPage.xaml",
+      "filePath": "UI/Views/Pages/FormBuilderPage.xaml",
+      "summary": "View WPF: FormBuilderPage.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "type": "file",
+      "name": "FormBuilderPage.xaml.cs",
+      "filePath": "UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "summary": "View WPF: FormBuilderPage.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Pages/FormBuilderPage.xaml.cs:FormBuilderPage",
+      "type": "class",
+      "name": "FormBuilderPage",
+      "filePath": "UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "summary": "Kiểu FormBuilderPage trong FormBuilderPage.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:UI/Views/Pages/FormBuilderPage.xaml.cs:FormBuilderPage",
+      "type": "function",
+      "name": "FormBuilderPage",
+      "filePath": "UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "summary": "Hàm/method FormBuilderPage trong FormBuilderPage.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Pages/FormBuilderPage.xaml.cs:Cell_MouseLeftButtonDown",
+      "type": "function",
+      "name": "Cell_MouseLeftButtonDown",
+      "filePath": "UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "summary": "Hàm/method Cell_MouseLeftButtonDown trong FormBuilderPage.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Pages/FormBuilderPage.xaml.cs:Cell_PreviewMouseLeftButtonDown",
+      "type": "function",
+      "name": "Cell_PreviewMouseLeftButtonDown",
+      "filePath": "UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "summary": "Hàm/method Cell_PreviewMouseLeftButtonDown trong FormBuilderPage.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Pages/SqlStudioPage.xaml",
+      "type": "file",
+      "name": "SqlStudioPage.xaml",
+      "filePath": "UI/Views/Pages/SqlStudioPage.xaml",
+      "summary": "View WPF: SqlStudioPage.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Pages/SqlStudioPage.xaml.cs",
+      "type": "file",
+      "name": "SqlStudioPage.xaml.cs",
+      "filePath": "UI/Views/Pages/SqlStudioPage.xaml.cs",
+      "summary": "View WPF: SqlStudioPage.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Pages/SqlStudioPage.xaml.cs:SqlStudioPage",
+      "type": "class",
+      "name": "SqlStudioPage",
+      "filePath": "UI/Views/Pages/SqlStudioPage.xaml.cs",
+      "summary": "Kiểu SqlStudioPage trong SqlStudioPage.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Pages/SqlStudioPage.xaml.cs:SqlStudioPage",
+      "type": "function",
+      "name": "SqlStudioPage",
+      "filePath": "UI/Views/Pages/SqlStudioPage.xaml.cs",
+      "summary": "Hàm/method SqlStudioPage trong SqlStudioPage.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Pages/TemplateManagerPage.xaml",
+      "type": "file",
+      "name": "TemplateManagerPage.xaml",
+      "filePath": "UI/Views/Pages/TemplateManagerPage.xaml",
+      "summary": "View WPF: TemplateManagerPage.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:UI/Views/Pages/TemplateManagerPage.xaml.cs",
+      "type": "file",
+      "name": "TemplateManagerPage.xaml.cs",
+      "filePath": "UI/Views/Pages/TemplateManagerPage.xaml.cs",
+      "summary": "View WPF: TemplateManagerPage.xaml.cs.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "simple",
+      "languageNotes": "C# / .NET"
+    },
+    {
+      "id": "class:UI/Views/Pages/TemplateManagerPage.xaml.cs:TemplateManagerPage",
+      "type": "class",
+      "name": "TemplateManagerPage",
+      "filePath": "UI/Views/Pages/TemplateManagerPage.xaml.cs",
+      "summary": "Kiểu TemplateManagerPage trong TemplateManagerPage.xaml.cs.",
+      "tags": [
+        "class",
+        "domain"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:UI/Views/Pages/TemplateManagerPage.xaml.cs:TemplateManagerPage",
+      "type": "function",
+      "name": "TemplateManagerPage",
+      "filePath": "UI/Views/Pages/TemplateManagerPage.xaml.cs",
+      "summary": "Hàm/method TemplateManagerPage trong TemplateManagerPage.xaml.cs.",
+      "tags": [
+        "function"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:UI/Views/Properties/PropertyGridPanel.xaml",
+      "type": "file",
+      "name": "PropertyGridPanel.xaml",
+      "filePath": "UI/Views/Properties/PropertyGridPanel.xaml",
+      "summary": "View WPF: PropertyGridPanel.xaml.",
+      "tags": [
+        "ui",
+        "wpf",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:UI/Views/Controls/SelectionChrome.xaml.cs",
+      "target": "class:UI/Views/Controls/SelectionChrome.xaml.cs:SelectionChrome",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/SelectionChrome.xaml.cs",
+      "target": "function:UI/Views/Controls/SelectionChrome.xaml.cs:SelectionChrome",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/WorkspaceHost.xaml.cs",
+      "target": "class:UI/Views/Controls/WorkspaceHost.xaml.cs:WorkspaceHost",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Controls/WorkspaceHost.xaml.cs",
+      "target": "function:UI/Views/Controls/WorkspaceHost.xaml.cs:WorkspaceHost",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs",
+      "target": "class:UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs:DatabaseExplorerPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs",
+      "target": "function:UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs:DatabaseExplorerPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs",
+      "target": "file:UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs",
+      "target": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerPanel.xaml.cs",
+      "target": "class:UI/Views/Explorer/ExplorerPanel.xaml.cs:ExplorerPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerPanel.xaml.cs",
+      "target": "function:UI/Views/Explorer/ExplorerPanel.xaml.cs:ExplorerPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerPanel.xaml.cs",
+      "target": "file:UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerPanel.xaml.cs",
+      "target": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "target": "class:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:ExplorerTreePanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "target": "class:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:ExplorerTreeNodeActivatedEventArgs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "target": "function:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:ExplorerTreePanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "target": "function:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:TreeView_SelectedItemChanged",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "target": "function:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:TreeViewItem_MouseDoubleClick",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "target": "function:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:FindAncestorTreeViewItem",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "target": "function:UI/Views/Explorer/ExplorerTreePanel.xaml.cs:ExplorerTreeNodeActivatedEventArgs",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "target": "file:UI/ViewModels/Explorer/ExplorerTreeNodeVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "target": "file:UI/ViewModels/Explorer/IExplorerTreeSource.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Explorer/MenuExplorerPanel.xaml.cs",
+      "target": "class:UI/Views/Explorer/MenuExplorerPanel.xaml.cs:MenuExplorerPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/MenuExplorerPanel.xaml.cs",
+      "target": "function:UI/Views/Explorer/MenuExplorerPanel.xaml.cs:MenuExplorerPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/MenuExplorerPanel.xaml.cs",
+      "target": "file:UI/ViewModels/NavigationViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Explorer/MenuExplorerPanel.xaml.cs",
+      "target": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Explorer/OutlinePanel.xaml.cs",
+      "target": "class:UI/Views/Explorer/OutlinePanel.xaml.cs:OutlinePanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/OutlinePanel.xaml.cs",
+      "target": "function:UI/Views/Explorer/OutlinePanel.xaml.cs:OutlinePanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Explorer/OutlinePanel.xaml.cs",
+      "target": "file:UI/ViewModels/Explorer/OutlineViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Explorer/OutlinePanel.xaml.cs",
+      "target": "file:UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Insight/InsightPanel.xaml.cs",
+      "target": "class:UI/Views/Insight/InsightPanel.xaml.cs:InsightPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Insight/InsightPanel.xaml.cs",
+      "target": "function:UI/Views/Insight/InsightPanel.xaml.cs:InsightPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Insight/SymbolInfoPanel.xaml.cs",
+      "target": "class:UI/Views/Insight/SymbolInfoPanel.xaml.cs:SymbolInfoPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Insight/SymbolInfoPanel.xaml.cs",
+      "target": "function:UI/Views/Insight/SymbolInfoPanel.xaml.cs:SymbolInfoPanel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "target": "class:UI/Views/Pages/FormBuilderPage.xaml.cs:FormBuilderPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "target": "function:UI/Views/Pages/FormBuilderPage.xaml.cs:FormBuilderPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "target": "function:UI/Views/Pages/FormBuilderPage.xaml.cs:Cell_MouseLeftButtonDown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "target": "function:UI/Views/Pages/FormBuilderPage.xaml.cs:Cell_PreviewMouseLeftButtonDown",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "target": "file:UI/ViewModels/Design/DesignSurfaceVm.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "target": "file:UI/ViewModels/FormBuilderViewModel.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Pages/SqlStudioPage.xaml.cs",
+      "target": "class:UI/Views/Pages/SqlStudioPage.xaml.cs:SqlStudioPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Pages/SqlStudioPage.xaml.cs",
+      "target": "function:UI/Views/Pages/SqlStudioPage.xaml.cs:SqlStudioPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Pages/SqlStudioPage.xaml.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:UI/Views/Pages/TemplateManagerPage.xaml.cs",
+      "target": "class:UI/Views/Pages/TemplateManagerPage.xaml.cs:TemplateManagerPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Pages/TemplateManagerPage.xaml.cs",
+      "target": "function:UI/Views/Pages/TemplateManagerPage.xaml.cs:TemplateManagerPage",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:UI/Views/Pages/TemplateManagerPage.xaml.cs",
+      "target": "file:DevWorkFlow.Infrastructure/Services/NavigationService.cs",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ],
+  "batchFiles": [
+    {
+      "path": "UI/Views/Controls/SelectionChrome.xaml",
+      "language": "xaml",
+      "sizeLines": 44,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/SelectionChrome.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/WorkspaceHost.xaml",
+      "language": "xaml",
+      "sizeLines": 33,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Controls/WorkspaceHost.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 11,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Explorer/DatabaseExplorerPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 31,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Explorer/DatabaseExplorerPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Explorer/ExplorerPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Explorer/ExplorerPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Explorer/ExplorerTreePanel.xaml",
+      "language": "xaml",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Explorer/ExplorerTreePanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 125,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Explorer/MenuExplorerPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Explorer/MenuExplorerPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Explorer/OutlinePanel.xaml",
+      "language": "xaml",
+      "sizeLines": 35,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Explorer/OutlinePanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 16,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Insight/InsightPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 68,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Insight/InsightPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Insight/SymbolInfoPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 57,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Insight/SymbolInfoPanel.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 9,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Pages/FormBuilderPage.xaml",
+      "language": "xaml",
+      "sizeLines": 789,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Pages/FormBuilderPage.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 65,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Pages/SqlStudioPage.xaml",
+      "language": "xaml",
+      "sizeLines": 113,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Pages/SqlStudioPage.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Pages/TemplateManagerPage.xaml",
+      "language": "xaml",
+      "sizeLines": 79,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Pages/TemplateManagerPage.xaml.cs",
+      "language": "csharp",
+      "sizeLines": 8,
+      "fileCategory": "code"
+    },
+    {
+      "path": "UI/Views/Properties/PropertyGridPanel.xaml",
+      "language": "xaml",
+      "sizeLines": 164,
+      "fileCategory": "code"
+    }
+  ]
+}

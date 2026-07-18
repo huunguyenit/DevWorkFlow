@@ -1,0 +1,88 @@
+{
+  "batchIndex": 2,
+  "nodes": [
+    {
+      "id": "config:DevWorkFlow.Domain/Schemas/Dir.xsd",
+      "type": "config",
+      "name": "Dir.xsd",
+      "filePath": "DevWorkFlow.Domain/Schemas/Dir.xsd",
+      "summary": "Cấu hình: Dir.xsd.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:DevWorkFlow.Domain/Schemas/Grid.xsd",
+      "type": "config",
+      "name": "Grid.xsd",
+      "filePath": "DevWorkFlow.Domain/Schemas/Grid.xsd",
+      "summary": "Cấu hình: Grid.xsd.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:DevWorkFlow.Domain/Schemas/Lookup.xsd",
+      "type": "config",
+      "name": "Lookup.xsd",
+      "filePath": "DevWorkFlow.Domain/Schemas/Lookup.xsd",
+      "summary": "Cấu hình: Lookup.xsd.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:DevWorkFlow.Domain/Schemas/Report.xsd",
+      "type": "config",
+      "name": "Report.xsd",
+      "filePath": "DevWorkFlow.Domain/Schemas/Report.xsd",
+      "summary": "Cấu hình: Report.xsd.",
+      "tags": [
+        "configuration",
+        "build-system",
+        "csharp",
+        "devworkflow"
+      ],
+      "complexity": "moderate"
+    }
+  ],
+  "edges": [],
+  "batchFiles": [
+    {
+      "path": "DevWorkFlow.Domain/Schemas/Dir.xsd",
+      "language": "xml",
+      "sizeLines": 470,
+      "fileCategory": "config"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Schemas/Grid.xsd",
+      "language": "xml",
+      "sizeLines": 499,
+      "fileCategory": "config"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Schemas/Lookup.xsd",
+      "language": "xml",
+      "sizeLines": 164,
+      "fileCategory": "config"
+    },
+    {
+      "path": "DevWorkFlow.Domain/Schemas/Report.xsd",
+      "language": "xml",
+      "sizeLines": 142,
+      "fileCategory": "config"
+    }
+  ]
+}
