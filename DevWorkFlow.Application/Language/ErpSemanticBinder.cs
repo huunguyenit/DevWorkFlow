@@ -68,7 +68,9 @@ public sealed class ErpSemanticBinder
             profile,
             legacy,
             entity_result?.ClearText,
-            entity_result?.Segments);
+            entity_result?.Segments,
+            entity_result?.ClearTextSegments,
+            entity_result?.ClearTextOffsets);
     }
 
     private static void MapFieldsFromSyntax(ISyntaxTree tree, List<ErpSymbol> symbols, string path)

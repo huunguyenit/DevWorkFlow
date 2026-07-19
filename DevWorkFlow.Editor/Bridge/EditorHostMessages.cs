@@ -107,8 +107,13 @@ public static class EditorHostCommands
     public const string SetValue = "setValue";
     public const string GetValue = "getValue";
     public const string SetReadOnly = "setReadOnly";
-    public const string SetInsights = "setInsights";
     public const string SetShowInsights = "setShowInsights";
+
+    /// <summary>
+    /// Insight mode: tô màu các đoạn ClearText có nguồn từ entity — payload khớp
+    /// <c>DevWorkFlow.Domain.Language.ClearTextSegment</c> serialize camelCase.
+    /// </summary>
+    public const string SetClearTextSegments = "setClearTextSegments";
     public const string RevealLine = "revealLine";
     public const string RevealOffset = "revealOffset";
     public const string SelectRange = "selectRange";
@@ -125,8 +130,11 @@ public static class EditorHostEvents
     public const string Ready = "ready";
     public const string ContentChanged = "contentChanged";
     public const string SelectionChanged = "selectionChanged";
-    public const string EntityValueCommitted = "entityValueCommitted";
 
-    /// <summary>Double-click entity SYSTEM — yêu cầu host mở file entity ra tab mới.</summary>
-    public const string OpenFileRequested = "openFileRequested";
+    /// <summary>
+    /// Ctrl+Click một vùng entity trong Insight mode. Host quyết định điều hướng: entity
+    /// SYSTEM (hoặc khai báo ở file khác) → mở tab mới, giữ nguyên caret/scroll tab hiện tại;
+    /// entity inline khai báo trong chính document → nhảy tới khai báo trong tab đang mở.
+    /// </summary>
+    public const string OpenEntityRequested = "openEntityRequested";
 }

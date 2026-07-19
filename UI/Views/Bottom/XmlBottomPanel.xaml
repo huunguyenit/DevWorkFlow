@@ -80,8 +80,7 @@
                 BoundText="{Binding EditorText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                 IsReadOnly="{Binding IsEditorReadOnly}"
                 ShowInsights="{Binding ShowInsights}"
-                Insights="{Binding Insights}"
-                InsightEditCommand="{Binding FormBuilder.UpdateEntityValueCommand}"
+                ClearTextSegments="{Binding ClearTextSegments}"
                 ScrollToLine="{Binding CaretLine, Mode=OneWay}"
                 ScrollToOffset="{Binding CaretOffset, Mode=OneWay}"/>
 

@@ -60,6 +60,9 @@ public sealed class XmlBottomViewModel : ViewModelBase
     public IReadOnlyList<InsightItem> Insights =>
         _form_builder_vm?.Insights ?? [];
 
+    public IReadOnlyList<ClearTextSegment> ClearTextSegments =>
+        _form_builder_vm?.ClearTextSegments ?? [];
+
     public string EditorModeText => _form_builder_vm?.EditorModeText ?? string.Empty;
 
     public string EditorModeButtonText =>
@@ -94,6 +97,7 @@ public sealed class XmlBottomViewModel : ViewModelBase
             or nameof(FormBuilderViewModel.ActiveEditorMode)
             or nameof(FormBuilderViewModel.ShowInsights)
             or nameof(FormBuilderViewModel.Insights)
+            or nameof(FormBuilderViewModel.ClearTextSegments)
             or nameof(FormBuilderViewModel.HasDocument))
             RaiseAll();
         else if (e.PropertyName is nameof(FormBuilderViewModel.CaretLine))
@@ -115,6 +119,7 @@ public sealed class XmlBottomViewModel : ViewModelBase
         OnPropertyChanged(nameof(ActiveEditorMode));
         OnPropertyChanged(nameof(ShowInsights));
         OnPropertyChanged(nameof(Insights));
+        OnPropertyChanged(nameof(ClearTextSegments));
         OnPropertyChanged(nameof(EditorModeText));
         OnPropertyChanged(nameof(EditorModeButtonText));
         OnPropertyChanged(nameof(ToggleInsightCommand));

@@ -480,9 +480,22 @@ public sealed class EditorTokenPalette
     public EditorTokenStyle AttributeName { get; set; } = new() { Color = "#B8860B" };
     public EditorTokenStyle AttributeValue { get; set; } = new() { Color = "#0451A5" };
     public EditorTokenStyle EntityReference { get; set; } = new() { Color = "#AB47BC", FontStyle = "italic" };
+
+    /// <summary>Tên trong khai báo &lt;!ENTITY X ...&gt; — khác tham chiếu &amp;X;, không in nghiêng.</summary>
+    public EditorTokenStyle EntityName { get; set; } = new() { Color = "#267F99" };
+
+    /// <summary>Từ khoá DTD (SYSTEM/PUBLIC).</summary>
+    public EditorTokenStyle Keyword { get; set; } = new() { Color = "#0000FF" };
+
     public EditorTokenStyle Comment { get; set; } = new() { Color = "#008000", FontStyle = "italic" };
     public EditorTokenStyle Cdata { get; set; } = new() { Color = "#1E1E1E" };
-    public EditorTokenStyle Delimiter { get; set; } = new() { Color = "#800000" };
+
+    /// <summary>
+    /// Dấu cú pháp: &lt; &gt; /&gt; &lt;/ = . Phải XÁM NHẠT, không cùng màu với tên thẻ —
+    /// đây là thay đổi chính giúp file nhiều thẻ bớt rối (xem erp-xml-language.js).
+    /// </summary>
+    public EditorTokenStyle Delimiter { get; set; } = new() { Color = "#767676" };
+
     public EditorTokenStyle Metatag { get; set; } = new() { Color = "#808080" };
 }
 
@@ -497,6 +510,49 @@ public sealed class EditorInsightBlockPalette
     public string BackgroundNested { get; set; } = "#FCF8FD";
 }
 
+/// <summary>
+/// clearTextEntity.* trong editor-theme.json — nền tô cho các đoạn ClearText có nguồn từ
+/// entity trong Insight mode.
+///
+/// Màu do CẤP LỒNG quyết định: cấp 1 (entity tham chiếu trực tiếp trong body) lấy
+/// <see cref="Levels"/>[0], cấp 2 lấy [1], ... Tối đa 9 cấp — từ cấp 10 trở đi dùng chung
+/// màu của cấp 9 (không sinh thêm màu, tránh bảng màu vô hạn).
+///
+/// Nền phải NHẠT (alpha thấp) để chữ và syntax highlighting bên dưới vẫn đọc được — đây là
+/// lớp nền chỉ ra nguồn gốc, không phải lớp tô chữ.
+/// </summary>
+public sealed class EditorClearTextEntityPalette
+{
+    /// <summary>
+    /// Màu nền theo cấp lồng, index 0 = cấp 1. Tối đa 9 phần tử được dùng; thừa thì bỏ qua,
+    /// thiếu thì các cấp còn lại dùng màu cuối cùng có trong danh sách.
+    /// </summary>
+    public string[] Levels { get; set; } =
+    [
+        "rgba(240, 180,  0, 0.20)",  // cấp 1 — vàng
+        "rgba( 38, 166, 91, 0.18)",  // cấp 2 — xanh lá
+        "rgba(231,  76, 60, 0.16)",  // cấp 3 — đỏ
+        "rgba( 41, 128, 185, 0.16)", // cấp 4 — xanh dương
+        "rgba(155,  89, 182, 0.16)", // cấp 5 — tím
+        "rgba(230, 126, 34, 0.16)",  // cấp 6 — cam
+        "rgba( 26, 188, 156, 0.18)", // cấp 7 — ngọc
+        "rgba(233,  30, 99, 0.14)",  // cấp 8 — hồng
+        "rgba(121,  85, 72, 0.16)"   // cấp 9+ — nâu
+    ];
+
+    /// <summary>Entity không resolve được / chu kỳ — thắng mọi màu cấp.</summary>
+    public string Error { get; set; } = "#FBE0E0";
+
+    /// <summary>
+    /// Màu gạch chân đứt cho entity SYSTEM (nội dung đến từ file ngoài). Dùng kênh riêng
+    /// thay vì màu nền vì màu nền đã thuộc về cấp lồng — xem ghi chú trong index.html.
+    /// </summary>
+    public string SystemMarker { get; set; } = "#0B6E99";
+
+    /// <summary>Màu gạch chân khi hover — báo vùng Ctrl+Click được.</summary>
+    public string HoverBorder { get; set; } = "#7E57C2";
+}
+
 /// <summary>Toàn bộ editor-theme.json — nguồn cấu hình màu/font cho Monaco (không hardcode trong bridge.js).</summary>
 public sealed class EditorThemeOptions
 {
@@ -506,6 +562,7 @@ public sealed class EditorThemeOptions
     public string Foreground { get; set; } = "#1E1E1E";
     public EditorTokenPalette Tokens { get; set; } = new();
     public EditorInsightBlockPalette InsightBlock { get; set; } = new();
+    public EditorClearTextEntityPalette ClearTextEntity { get; set; } = new();
 }
 
 /// <summary>Một mã Diagnostic trong diagnostics.catalog.xml (message/severity/resolution).</summary>

@@ -12,6 +12,23 @@ Related Specs: insight-editor-surface.md
 
 ---
 
+# Triết lý hiển thị đã đổi (2026-07-20) — đọc trước phần còn lại
+
+Spec này mô tả cách hiển thị "giữ `&X;` + chèn giá trị resolve ngay sau nó". **Cách đó không
+còn là hành vi hiện hành.** Từ 2026-07-20, Insight mode hiển thị toàn bộ document dưới dạng
+clear text (entity đã expand) và chỉ tô nền để cho biết đoạn text đến từ entity nào —
+inline ≠ SYSTEM, cấp 0 ≠ lồng; hover hiện tên entity; Ctrl+Click mở entity (tab mới với
+entity SYSTEM, giữ nguyên caret tab hiện tại); Insight mode là **read-only**.
+
+Xem `insight-editor-surface.md` mục "Cập nhật 2026-07-20" cho spec hiện hành.
+
+Các mục dưới đây còn hiệu lực về **nguyên tắc** (Layer 1 không bị sửa; entity lồng không
+được flatten; lỗi phải hiện inline; không MessageBox; search theo giá trị resolve vẫn là
+backlog), nhưng phần mô tả *hình thức hiển thị* (xám/nghiêng, giá trị nằm sau reference,
+inline edit tại chỗ) đã bị thay thế.
+
+---
+
 # Implementation Status (bổ sung 2026-07-19)
 
 Spec dưới đây mô tả **hành vi mục tiêu** theo ADR-0004/ADR-0005 (Insight Layer trên

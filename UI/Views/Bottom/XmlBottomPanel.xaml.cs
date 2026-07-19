@@ -10,10 +10,10 @@ public partial class XmlBottomPanel
     public XmlBottomPanel()
     {
         InitializeComponent();
-        XmlEditor.OpenFileRequested += path =>
+        XmlEditor.OpenEntityRequested += request =>
         {
             if (DataContext is XmlBottomViewModel vm)
-                vm.FormBuilder?.OpenEntityFile(path);
+                vm.FormBuilder?.NavigateToEntity(request);
         };
     }
 

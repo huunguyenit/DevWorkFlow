@@ -9,24 +9,46 @@
     body { background: #FFFFFF; }
 
     /* ── Insight Layer (ADR-0004): tô ngữ nghĩa như syntax highlighting ──
-       Không HTML control — chỉ class trên chính text run của Monaco. */
-    .dwf-entity-ref {
-      opacity: 0.45;
-      font-style: italic;
+       Insight mode hiển thị clear text (entity đã expand). Các class dưới đây chỉ tô NỀN
+       lên chính text run của Monaco để cho biết đoạn text đến từ entity nào — không HTML
+       control, không đè lên màu chữ của syntax highlighting.
+
+       Màu do CẤP LỒNG quyết định (.dwf-ct-l1 … .dwf-ct-l9); cấp 10+ dùng lại .dwf-ct-l9.
+
+       THỨ TỰ KHAI BÁO CÓ Ý NGHĨA: entity lồng nằm trọn trong entity cha nên vùng chồng lấn
+       nhận CẢ HAI class (ví dụ "dwf-ct-l1 dwf-ct-l2"). Mọi selector dưới đây cùng độ đặc
+       hiệu (1 class) nên cái khai báo SAU thắng — l1…l9 tăng dần, rồi .dwf-ct-error cuối
+       cùng. Nhờ vậy vùng chồng lấn luôn hiện màu của cấp SÂU NHẤT mà không cần JS tính toán.
+
+       Entity SYSTEM (nội dung từ file ngoài) KHÔNG dùng màu nền riêng — kênh màu đã thuộc về
+       cấp lồng — mà được đánh dấu bằng gạch chân đứt (.dwf-ct-system). Hai tín hiệu độc lập:
+       màu = cấp, gạch chân = nguồn ở file khác.
+
+       Giá trị mặc định ở đây khớp clearTextEntity trong UI/Config/json/editor-theme.json;
+       applyTheme() ghi đè qua CSS variable nếu config khác. */
+    .dwf-ct-l1 { background-color: var(--dwf-ct-l1, rgba(240, 180,   0, 0.20)); }
+    .dwf-ct-l2 { background-color: var(--dwf-ct-l2, rgba( 38, 166,  91, 0.18)); }
+    .dwf-ct-l3 { background-color: var(--dwf-ct-l3, rgba(231,  76,  60, 0.16)); }
+    .dwf-ct-l4 { background-color: var(--dwf-ct-l4, rgba( 41, 128, 185, 0.16)); }
+    .dwf-ct-l5 { background-color: var(--dwf-ct-l5, rgba(155,  89, 182, 0.16)); }
+    .dwf-ct-l6 { background-color: var(--dwf-ct-l6, rgba(230, 126,  34, 0.16)); }
+    .dwf-ct-l7 { background-color: var(--dwf-ct-l7, rgba( 26, 188, 156, 0.18)); }
+    .dwf-ct-l8 { background-color: var(--dwf-ct-l8, rgba(233,  30,  99, 0.14)); }
+    .dwf-ct-l9 { background-color: var(--dwf-ct-l9, rgba(121,  85,  72, 0.16)); }
+
+    .dwf-ct-error { background-color: var(--dwf-ct-error, #FBE0E0); }
+
+    /* Nguồn từ file ngoài — độc lập với màu cấp, dùng border nên không đụng background. */
+    .dwf-ct-system {
+      border-bottom: 1px dashed var(--dwf-ct-system-marker, #0B6E99);
     }
-    .dwf-entity-value {
-      opacity: 1;
-      font-style: normal;
+
+    /* Gạch chân khi rê chuột — báo vùng này Ctrl+Click mở được entity. */
+    .dwf-ct-l1:hover, .dwf-ct-l2:hover, .dwf-ct-l3:hover,
+    .dwf-ct-l4:hover, .dwf-ct-l5:hover, .dwf-ct-l6:hover,
+    .dwf-ct-l7:hover, .dwf-ct-l8:hover, .dwf-ct-l9:hover {
+      box-shadow: inset 0 -1px 0 0 var(--dwf-ct-hover-border, #7E57C2);
     }
-    /* View zone phân cấp nested entity: text thuần, cùng font/line-height editor. */
-    .dwf-entity-zone {
-      font-family: var(--dwf-editor-font, "Cascadia Code", Consolas, "Courier New", monospace);
-      font-size: var(--dwf-editor-font-size, 13px);
-      line-height: var(--dwf-editor-line-height, 19px);
-      white-space: pre;
-      overflow: hidden;
-    }
-    .dwf-zone-line { white-space: pre; }
   </style>
 </head>
 <body>

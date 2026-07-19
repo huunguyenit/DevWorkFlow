@@ -301,6 +301,151 @@ public sealed class EntitySymbolSystemTests : IDisposable
             document.GetProjection(ErpProjectionKind.Source).Text);
     }
 
+    // ── ClearText projection (Insight mode) ──────────────────────────────────
+
+    [Fact]
+    public void ClearText_segments_cover_expanded_text_with_kind_and_depth()
+    {
+        var controller_path = Path.Combine(_temp_directory, "Controller.xml");
+        File.WriteAllText(Path.Combine(_temp_directory, "external.ent"), "External");
+
+        const string xml = """
+            <!DOCTYPE dir [
+              <!ENTITY Inline "Hello">
+              <!ENTITY External SYSTEM "external.ent">
+              <!ENTITY Nested "say &Inline;">
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">&External; &Nested;</dir>
+            """;
+        var syntax = FboSyntaxParser.Parse(xml, controller_path);
+        var result = new EntitySymbolBinder().Bind(controller_path, xml, syntax);
+
+        Assert.Contains("External say Hello", result.ClearText);
+
+        // Mọi segment phải trỏ đúng đoạn text nó sinh ra trong ClearText.
+        foreach (var segment in result.ClearTextSegments)
+        {
+            Assert.InRange(segment.Span.StartOffset, 0, result.ClearText.Length);
+            Assert.InRange(
+                segment.Span.StartOffset + segment.Span.Length, 0, result.ClearText.Length);
+        }
+
+        var external = Assert.Single(
+            result.ClearTextSegments, s => s.EntityName == "External");
+        Assert.Equal(ClearTextSegmentKind.System, external.Kind);
+        Assert.Equal(0, external.Depth);
+        Assert.Equal("External", Text(result.ClearText, external));
+        Assert.EndsWith("external.ent", external.OpenPath, StringComparison.OrdinalIgnoreCase);
+
+        var nested_root = Assert.Single(
+            result.ClearTextSegments, s => s.EntityName == "Nested");
+        Assert.Equal(ClearTextSegmentKind.Inline, nested_root.Kind);
+        Assert.Equal(0, nested_root.Depth);
+        Assert.Equal("say Hello", Text(result.ClearText, nested_root));
+        Assert.Empty(nested_root.OpenPath);
+
+        // Entity lồng: depth 1, span nằm TRỌN trong span của entity cha.
+        var inline_child = Assert.Single(
+            result.ClearTextSegments, s => s.EntityName == "Inline");
+        Assert.Equal(1, inline_child.Depth);
+        Assert.Equal("Hello", Text(result.ClearText, inline_child));
+        Assert.True(inline_child.Span.StartOffset >= nested_root.Span.StartOffset);
+        Assert.True(
+            inline_child.Span.StartOffset + inline_child.Span.Length
+            <= nested_root.Span.StartOffset + nested_root.Span.Length);
+    }
+
+    [Fact]
+    public void ClearText_keeps_doctype_offsets_identical_to_source()
+    {
+        // Ctrl+Click entity inline nhảy tới khai báo bằng offset source — chỉ đúng nếu
+        // vùng DOCTYPE không bị dịch chuyển bởi việc expand entity trong body.
+        var controller_path = Path.Combine(_temp_directory, "Controller.xml");
+        const string xml = """
+            <!DOCTYPE dir [
+              <!ENTITY Inline "a-much-longer-value-than-the-reference">
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">&Inline;</dir>
+            """;
+        var syntax = FboSyntaxParser.Parse(xml, controller_path);
+        var result = new EntitySymbolBinder().Bind(controller_path, xml, syntax);
+
+        var segment = Assert.Single(result.ClearTextSegments);
+        Assert.Equal(
+            xml.Substring(segment.DefinitionOffset, "<!ENTITY Inline".Length),
+            result.ClearText.Substring(segment.DefinitionOffset, "<!ENTITY Inline".Length));
+    }
+
+    [Fact]
+    public void ClearText_offset_map_translates_navigation_offsets_after_expansion()
+    {
+        // Outline/F12 tính offset trên source; Insight mode hiển thị ClearText. Mọi offset
+        // NẰM SAU một tham chiếu entity đều bị dịch — không có bảng ánh xạ thì nhảy sai chỗ.
+        var controller_path = Path.Combine(_temp_directory, "Controller.xml");
+        const string xml = """
+            <!DOCTYPE dir [
+              <!ENTITY Inline "a-much-longer-value-than-the-reference">
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">&Inline;<mark/></dir>
+            """;
+        var syntax = FboSyntaxParser.Parse(xml, controller_path);
+        var result = new EntitySymbolBinder().Bind(controller_path, xml, syntax);
+        var map = result.ClearTextOffsets;
+
+        // Offset của <mark/> lệch hẳn giữa hai buffer — đây chính là lỗi được vá.
+        var source_mark = xml.IndexOf("<mark/>", StringComparison.Ordinal);
+        var clear_mark = result.ClearText.IndexOf("<mark/>", StringComparison.Ordinal);
+        Assert.NotEqual(source_mark, clear_mark);
+        Assert.Equal(clear_mark, map.ToClearText(source_mark));
+        Assert.Equal(source_mark, map.ToSource(clear_mark));
+
+        // Vùng DOCTYPE nằm trước mọi expansion → ánh xạ đồng nhất (bất biến cũ vẫn giữ).
+        var doctype_offset = xml.IndexOf("<!ENTITY", StringComparison.Ordinal);
+        Assert.Equal(doctype_offset, map.ToClearText(doctype_offset));
+
+        // Offset trỏ vào giữa "&Inline;" không có ảnh 1-1 → snap về đầu đoạn đã expand.
+        var reference_offset = xml.IndexOf("&Inline;", StringComparison.Ordinal);
+        var expanded_start = Assert.Single(result.ClearTextSegments).Span.StartOffset;
+        Assert.Equal(expanded_start, map.ToClearText(reference_offset + 3));
+    }
+
+    [Fact]
+    public void ClearText_offset_map_is_identity_when_document_has_no_entity()
+    {
+        var controller_path = Path.Combine(_temp_directory, "Controller.xml");
+        const string xml = """
+            <dir xmlns="urn:schemas-fast-com:data-dir"><mark/></dir>
+            """;
+        var syntax = FboSyntaxParser.Parse(xml, controller_path);
+        var result = new EntitySymbolBinder().Bind(controller_path, xml, syntax);
+
+        var offset = xml.IndexOf("<mark/>", StringComparison.Ordinal);
+        Assert.Equal(offset, result.ClearTextOffsets.ToClearText(offset));
+        Assert.Equal(offset, result.ClearTextOffsets.ToSource(offset));
+    }
+
+    [Fact]
+    public void ClearText_marks_circular_entity_as_error_and_keeps_reference()
+    {
+        var controller_path = Path.Combine(_temp_directory, "Controller.xml");
+        const string xml = """
+            <!DOCTYPE dir [
+              <!ENTITY A "&B;">
+              <!ENTITY B "&A;">
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">&A;</dir>
+            """;
+        var syntax = FboSyntaxParser.Parse(xml, controller_path);
+        var result = new EntitySymbolBinder().Bind(controller_path, xml, syntax);
+
+        // Không treo, không đệ quy vô hạn; điểm cắt chu kỳ giữ nguyên "&X;".
+        Assert.Contains(result.ClearTextSegments, s => s.IsError);
+        Assert.Contains("&A;", result.ClearText);
+    }
+
+    private static string Text(string clear_text, ClearTextSegment segment) =>
+        clear_text.Substring(segment.Span.StartOffset, segment.Span.Length);
+
     public void Dispose()
     {
         try

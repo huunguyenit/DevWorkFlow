@@ -51,13 +51,16 @@ public sealed class ErpDocument : IErpDocument
                 Kind = kind,
                 Text = Snapshot.RawText
             },
-            ErpProjectionKind.ClearText => new ErpDocumentProjection
-            {
-                Kind = kind,
-                Text = string.IsNullOrEmpty(semantic?.ClearText)
-                    ? Snapshot.RawText
-                    : semantic.ClearText
-            },
+            ErpProjectionKind.ClearText => string.IsNullOrEmpty(semantic?.ClearText)
+                // Chưa bind được entity → ClearText đồng nhất Source, không có segment nào.
+                ? new ErpDocumentProjection { Kind = kind, Text = Snapshot.RawText }
+                : new ErpDocumentProjection
+                {
+                    Kind = kind,
+                    Text = semantic.ClearText,
+                    ClearTextSegments = semantic.ClearTextSegments,
+                    OffsetMap = semantic.ClearTextOffsets
+                },
             ErpProjectionKind.Semantic => new ErpDocumentProjection
             {
                 Kind = kind,

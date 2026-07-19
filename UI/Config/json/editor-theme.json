@@ -8,9 +8,11 @@
     "attributeName": { "color": "#B8860B", "fontStyle": "" },
     "attributeValue": { "color": "#0451A5", "fontStyle": "" },
     "entityReference": { "color": "#AB47BC", "fontStyle": "italic" },
+    "entityName": { "color": "#267F99", "fontStyle": "" },
+    "keyword": { "color": "#0000FF", "fontStyle": "" },
     "comment": { "color": "#008000", "fontStyle": "italic" },
     "cdata": { "color": "#1E1E1E", "fontStyle": "" },
-    "delimiter": { "color": "#800000", "fontStyle": "" },
+    "delimiter": { "color": "#767676", "fontStyle": "" },
     "metatag": { "color": "#808080", "fontStyle": "" }
   },
   "insightBlock": {
@@ -20,5 +22,21 @@
     "border": "#CE93D8",
     "backgroundDepth0": "#F8F0FA",
     "backgroundNested": "#FCF8FD"
+  },
+  "clearTextEntity": {
+    "levels": [
+      "rgba(240, 180, 0, 0.20)",
+      "rgba(38, 166, 91, 0.18)",
+      "rgba(231, 76, 60, 0.16)",
+      "rgba(41, 128, 185, 0.16)",
+      "rgba(155, 89, 182, 0.16)",
+      "rgba(230, 126, 34, 0.16)",
+      "rgba(26, 188, 156, 0.18)",
+      "rgba(233, 30, 99, 0.14)",
+      "rgba(121, 85, 72, 0.16)"
+    ],
+    "error": "#FBE0E0",
+    "systemMarker": "#0B6E99",
+    "hoverBorder": "#7E57C2"
   }
 }

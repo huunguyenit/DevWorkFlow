@@ -68,6 +68,13 @@ public sealed class InsightItem
 
     public string ResolvedValue { get; init; } = string.Empty;
 
+    /// <summary>
+    /// Text chú giải hiển thị sau reference trong Insight mode (xem
+    /// EntitySymbol.AnnotatedText): entity lá → giá trị resolve; entity nhiều cấp →
+    /// RawValue với mỗi ref con dạng "&amp;Con;|giá_trị".
+    /// </summary>
+    public string AnnotatedValue { get; init; } = string.Empty;
+
     public bool CanEditResolvedValue { get; init; }
 
     public IReadOnlyList<InsightAction> Actions { get; init; } = [];

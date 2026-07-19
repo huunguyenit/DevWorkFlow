@@ -44,6 +44,10 @@
             return (color || '').replace('#', '');
         }
 
+        // Số cấp lồng entity có màu riêng; cấp sâu hơn dùng chung màu của cấp cuối.
+        // Phải khớp số class .dwf-ct-l1…l9 khai báo trong index.html.
+        var MAX_ENTITY_LEVEL = 9;
+
         // theme = EditorThemeOptions (camelCase) từ C#. Map tokens.* → tên token Monarch
         // thật của erp-xml (phải khớp erp-xml-language.js).
         function applyTheme(theme) {
@@ -63,7 +67,10 @@
                 rule('attribute.name', tokens.attributeName),
                 rule('attribute.value', tokens.attributeValue),
                 rule('entity.reference', tokens.entityReference),
-                rule('entity.name', tokens.entityReference),
+                // Tên trong KHAI BÁO <!ENTITY X ...> — token riêng, không in nghiêng như
+                // tham chiếu &X; (xem ghi chú nguyên tắc trong erp-xml-language.js).
+                rule('entity.name', tokens.entityName),
+                rule('keyword', tokens.keyword),
                 rule('comment', tokens.comment),
                 rule('string.cdata', tokens.cdata),
                 rule('delimiter.cdata', tokens.delimiter),
@@ -87,10 +94,35 @@
             var fontSize = theme.baseFontSize || 13;
             editor.updateOptions({ fontFamily: fontFamily, fontSize: fontSize });
             syncEditorFontVars(fontFamily, fontSize);
+
+            // Màu nền vùng entity trong Insight mode — đổ vào CSS variable, giữ selector
+            // trong index.html làm nguồn duy nhất cho thứ tự ưu tiên (l1 < … < l9 < error).
+            var ct = theme.clearTextEntity;
+            if (ct) {
+                var root = document.documentElement;
+                var levels = ct.levels || [];
+                // Thiếu màu ở cuối danh sách → các cấp còn lại kế thừa màu cuối cùng có thật,
+                // không rơi về "không tô" (cấp sâu vẫn phải phân biệt được với cấp cha).
+                var last = null;
+                for (var lv = 1; lv <= MAX_ENTITY_LEVEL; lv++) {
+                    var color = levels[lv - 1] || last;
+                    if (!color) continue;
+                    root.style.setProperty('--dwf-ct-l' + lv, color);
+                    last = color;
+                }
+
+                var map = {
+                    '--dwf-ct-error': ct.error,
+                    '--dwf-ct-system-marker': ct.systemMarker,
+                    '--dwf-ct-hover-border': ct.hoverBorder
+                };
+                Object.keys(map).forEach(function (name) {
+                    if (map[name]) root.style.setProperty(name, map[name]);
+                });
+            }
         }
 
         var suppressChangeEvent = false;
-        var lastInsights = [];
         var lastShowInsights = false;
 
         function post(obj) {
@@ -125,210 +157,129 @@
             });
         });
 
-        // ── Insight Layer — Layer 3: semantic rendering bằng API native Monaco ──
-        // (ADR-0004: Insight như syntax highlighting, KHÔNG phải widget/control.)
-        //   1. inlineClassName 'dwf-entity-ref' làm mờ reference (italic ~45% opacity)
-        //   2. injected text (decoration options.after) hiển thị giá trị resolve ngay
-        //      sau reference — cùng font/baseline/line-height, do chính text renderer
-        //      của Monaco vẽ; Monaco tự virtualize theo viewport và reuse decoration
-        //      khi update qua createDecorationsCollection.
-        //   3. Entity nhiều cấp: view zone text thuần (không control) hiển thị phân
-        //      cấp con dưới dòng chứa reference — không flatten, không giấu cấp cha.
-        // Text buffer (Layer 1) không bao giờ bị sửa bởi lớp này.
-        var insightDecorations = editor.createDecorationsCollection([]);
-        var insightZoneIds = [];
+        // ── Insight Layer — Layer 3: ClearText + tô nguồn gốc entity ────────────
+        // Triết lý (thay thế hoàn toàn cách hiển thị "chèn giá trị sau &X;" trước đây):
+        // Insight mode hiển thị TOÀN BỘ document dưới dạng clear text — mọi tham chiếu
+        // entity đã được Language Service expand thành nội dung thật. Lớp này chỉ tô nền
+        // để cho biết đoạn text nào đến từ entity nào:
+        //   - entity inline (<!ENTITY X "...">)  ≠ màu  entity SYSTEM (file ngoài)
+        //   - entity chính (depth 0)             ≠ màu  entity lồng bên trong (depth > 0)
+        //   - hover  → hiện tên entity (tooltip là phụ; nội dung chính đã nằm inline)
+        //   - Ctrl+Click → báo host mở entity; editor KHÔNG tự mở file, không tự cuộn
+        //
+        // Span trong segments tính trên CLEAR TEXT đang hiển thị, không phải source XML.
+        // Buffer ở Insight mode là read-only (host set), nên decoration không bị lệch do gõ.
+        var segmentDecorations = editor.createDecorationsCollection([]);
+        var lastSegments = [];
 
-        // Giữ NGUYÊN định dạng nội dung entity (đa dòng, thụt lề) — không cắt, không
-        // ép về 1 dòng. Giá trị 1 dòng render inline (injected text); giá trị nhiều
-        // dòng render đầy đủ trong view zone, mỗi dòng đúng như file gốc.
-        function valueLines(text) {
-            return (text || '').split(/\r?\n/);
+        // depth 0 = cấp 1. Từ cấp 10 trở đi dùng chung màu cấp 9 (xem index.html).
+        function segmentLevel(segment) {
+            return Math.min(segment.depth + 1, MAX_ENTITY_LEVEL);
         }
 
-        function isMultiline(text) {
-            return /\r?\n/.test(text || '');
+        // ClearTextSegmentKind: 0 = Inline, 1 = System (xem ErpDocumentProjection.cs).
+        // Màu = cấp lồng; entity SYSTEM thêm class đánh dấu (gạch chân đứt), không đổi màu.
+        function segmentClass(segment) {
+            if (segment.isError) return 'dwf-ct-error';
+            var css = 'dwf-ct-l' + segmentLevel(segment);
+            if (segment.kind === 1) css += ' dwf-ct-system';
+            return css;
         }
 
-        function makeZoneLine(padding_px, class_name, text) {
-            var line = document.createElement('div');
-            line.className = 'dwf-zone-line ' + class_name;
-            line.style.paddingLeft = padding_px + 'px';
-            line.textContent = text.length ? text : ' ';
-            return line;
+        function segmentHover(segment) {
+            var kind_text = segment.kind === 1 ? 'entity SYSTEM' : 'entity inline';
+            var level = segmentLevel(segment);
+            var level_text = ' — cấp ' + (segment.depth + 1)
+                + (level === MAX_ENTITY_LEVEL && segment.depth + 1 > MAX_ENTITY_LEVEL
+                    ? ' (dùng màu cấp ' + MAX_ENTITY_LEVEL + ')'
+                    : '');
+            var lines = ['**&' + segment.entityName + ';** — ' + kind_text + level_text];
+            if (segment.isError)
+                lines.push('_Không resolve được (thiếu file hoặc chu kỳ entity)._');
+            else
+                lines.push('_Ctrl+Click để mở entity._');
+            return { value: lines.join('\n\n') };
         }
 
-        // Zone giá trị đa dòng của MỘT entity: toàn bộ nội dung, định dạng gốc.
-        function buildValueZoneDom(item) {
-            var container = document.createElement('div');
-            container.className = 'dwf-entity-zone';
-            valueLines(item.resolvedValue).forEach(function (line_text) {
-                container.appendChild(makeZoneLine(0, 'dwf-entity-value', line_text));
-            });
-            return container;
-        }
-
-        function countValueZoneLines(item) {
-            return valueLines(item.resolvedValue).length;
-        }
-
-        // Zone phân cấp entity nhiều cấp: mỗi con một dòng "&Ref;  giá_trị"; giá trị
-        // đa dòng của con hiển thị đủ các dòng tiếp theo (thụt lề sâu hơn 1 cấp).
-        function countZoneLines(item) {
-            var n = 0;
-            (item.children || []).forEach(function (child) {
-                n += valueLines(child.resolvedValue).length;
-                n += countZoneLines(child);
-            });
-            return n;
-        }
-
-        // DOM của view zone chỉ gồm text span thuần (như chính Monaco render dòng code),
-        // không input/button/border — giữ cảm giác "vẫn là source code".
-        function buildZoneDom(item) {
-            var container = document.createElement('div');
-            container.className = 'dwf-entity-zone';
-            (function addLines(children, depth) {
-                children.forEach(function (child) {
-                    var lines = valueLines(child.resolvedValue);
-
-                    var first = document.createElement('div');
-                    first.className = 'dwf-zone-line';
-                    first.style.paddingLeft = (depth * 24) + 'px';
-                    var ref = document.createElement('span');
-                    ref.className = 'dwf-entity-ref';
-                    ref.textContent = child.referenceText || '';
-                    var value = document.createElement('span');
-                    value.className = 'dwf-entity-value';
-                    value.textContent = '  ' + (lines[0] || '');
-                    first.appendChild(ref);
-                    first.appendChild(value);
-                    container.appendChild(first);
-
-                    for (var i = 1; i < lines.length; i++) {
-                        container.appendChild(
-                            makeZoneLine((depth + 1) * 24, 'dwf-entity-value', lines[i]));
-                    }
-
-                    addLines(child.children || [], depth + 1);
-                });
-            })(item.children || [], 1);
-            return container;
-        }
-
-        // items[].range là DevWorkFlow.Domain.Language.SourceLocation serialize camelCase
-        // trực tiếp (không có DTO trung gian): { path, span: { startOffset, length, endOffset,
-        // isEmpty }, line, column }. Đổi shape ở đây thì phải đổi khớp bên MonacoEditorHost.cs.
-        function renderInsights(items, show) {
-            lastInsights = items || [];
+        function renderClearTextSegments(segments, show) {
+            lastSegments = segments || [];
             lastShowInsights = !!show;
 
             var model = editor.getModel();
-
-            editor.changeViewZones(function (accessor) {
-                insightZoneIds.forEach(function (id) { accessor.removeZone(id); });
-                insightZoneIds = [];
-            });
-
             if (!lastShowInsights || !model) {
-                insightDecorations.set([]);
+                segmentDecorations.set([]);
                 return;
             }
 
+            var length = model.getValueLength();
             var decorations = [];
-            var zone_items = [];
 
-            lastInsights.forEach(function (item) {
-                // InsightType.Entity == 0 (xem DevWorkFlow.Domain.Language.InsightType)
-                var span = item.range && item.range.span;
-                if (item.type !== 0 || !span || span.length <= 0) return;
+            // Sắp xếp nông → sâu: decoration của entity lồng được thêm SAU entity cha nên
+            // nằm trên trong thứ tự class; CSS khai báo nhóm "nested" sau nhóm "root" để
+            // vùng chồng lấn lấy màu của cấp sâu nhất.
+            lastSegments
+                .slice()
+                .sort(function (a, b) { return a.depth - b.depth; })
+                .forEach(function (segment) {
+                    var span = segment.span;
+                    if (!span || span.length <= 0) return;
+                    // Bỏ segment lệch khỏi text hiện tại (segments tới trước setValue mới).
+                    if (span.startOffset + span.length > length) return;
 
-                var start = model.getPositionAt(span.startOffset);
-                var end = model.getPositionAt(span.startOffset + span.length);
-                var range = new monaco.Range(
-                    start.lineNumber, start.column, end.lineNumber, end.column);
-                var hasChildren = (item.children || []).length > 0;
-
-                var options = {
-                    inlineClassName: 'dwf-entity-ref',
-                    stickiness: monaco.editor.TrackedRangeStickiness.NeverGrowsWhenTypingAtEdges
-                };
-                if (!hasChildren && item.resolvedValue) {
-                    if (isMultiline(item.resolvedValue)) {
-                        // Nội dung đa dòng (file SYSTEM, script...) → zone đầy đủ,
-                        // giữ nguyên định dạng gốc — không ép về 1 dòng.
-                        zone_items.push({ kind: 'value', item: item, afterLine: end.lineNumber });
-                    } else {
-                        options.after = {
-                            content: ' ' + item.resolvedValue,
-                            inlineClassName: 'dwf-entity-value'
-                        };
-                    }
-                }
-                decorations.push({ range: range, options: options });
-
-                if (hasChildren)
-                    zone_items.push({ kind: 'tree', item: item, afterLine: end.lineNumber });
-            });
-
-            insightDecorations.set(decorations);
-
-            editor.changeViewZones(function (accessor) {
-                zone_items.forEach(function (zone) {
-                    var lines = zone.kind === 'value'
-                        ? countValueZoneLines(zone.item)
-                        : countZoneLines(zone.item);
-                    if (lines === 0) return;
-                    insightZoneIds.push(accessor.addZone({
-                        afterLineNumber: zone.afterLine,
-                        heightInLines: lines,
-                        domNode: zone.kind === 'value'
-                            ? buildValueZoneDom(zone.item)
-                            : buildZoneDom(zone.item)
-                    }));
+                    var start = model.getPositionAt(span.startOffset);
+                    var end = model.getPositionAt(span.startOffset + span.length);
+                    decorations.push({
+                        range: new monaco.Range(
+                            start.lineNumber, start.column, end.lineNumber, end.column),
+                        options: {
+                            className: segmentClass(segment),
+                            hoverMessage: segmentHover(segment),
+                            stickiness: monaco.editor.TrackedRangeStickiness
+                                .NeverGrowsWhenTypingAtEdges
+                        }
+                    });
                 });
-            });
+
+            segmentDecorations.set(decorations);
         }
 
-        // Double-click vào reference → chọn đúng đoạn giá trị thật trong khai báo
-        // <!ENTITY X "..."> (value_start/value_length do EntityInsightProvider cung cấp,
-        // chỉ có với entity khai báo inline trong chính document). Người dùng sửa bằng
-        // text editing thật: Undo/Redo/Selection nguyên bản Monaco, &X; trong body
-        // không đổi, reparse cập nhật lại chú giải. Không có metadata (entity từ file
-        // include/external) → double-click giữ hành vi chọn từ mặc định của Monaco.
+        // Segment sâu nhất chứa offset — entity lồng thắng entity cha, đúng với cái mà
+        // người dùng nhìn thấy màu của nó tại điểm click.
+        function segmentAt(offset) {
+            var found = null;
+            for (var i = 0; i < lastSegments.length; i++) {
+                var span = lastSegments[i].span;
+                if (!span || span.length <= 0) continue;
+                if (offset < span.startOffset) continue;
+                if (offset >= span.startOffset + span.length) continue;
+                if (found === null || lastSegments[i].depth > found.depth)
+                    found = lastSegments[i];
+            }
+            return found;
+        }
+
+        // Ctrl+Click → chỉ POST yêu cầu; KHÔNG preventDefault để Monaco vẫn đặt caret tại
+        // đúng chỗ vừa click, và tuyệt đối không cuộn/không đổi selection. Nhờ vậy khi host
+        // mở entity ra tab mới, quay lại tab này vẫn thấy đúng vị trí đã click.
         editor.onMouseDown(function (e) {
-            if (!e.event || e.event.detail !== 2) return;
+            if (!e.event || !(e.event.ctrlKey || e.event.metaKey)) return;
             if (!e.target || !e.target.position || !lastShowInsights) return;
             var model = editor.getModel();
             if (!model) return;
 
-            var offset = model.getOffsetAt(e.target.position);
-            for (var i = 0; i < lastInsights.length; i++) {
-                var item = lastInsights[i];
-                var span = item.range && item.range.span;
-                if (item.type !== 0 || !span || span.length <= 0) continue;
-                if (offset < span.startOffset || offset > span.startOffset + span.length) continue;
+            var segment = segmentAt(model.getOffsetAt(e.target.position));
+            if (!segment || segment.isError) return;
 
-                var meta = item.metadata || {};
-                var value_start = parseInt(meta.value_start, 10);
-                var value_length = parseInt(meta.value_length, 10);
-                if (!isNaN(value_start) && !isNaN(value_length) && value_length >= 0) {
-                    var s = model.getPositionAt(value_start);
-                    var en = model.getPositionAt(value_start + value_length);
-                    var target = new monaco.Range(s.lineNumber, s.column, en.lineNumber, en.column);
-                    editor.setSelection(target);
-                    editor.revealRangeInCenterIfOutsideViewport(target);
-                    e.event.preventDefault();
-                    return;
+            post({
+                event: 'openEntityRequested',
+                payload: {
+                    entityName: segment.entityName,
+                    symbolId: segment.symbolId,
+                    definitionPath: segment.definitionPath,
+                    definitionOffset: segment.definitionOffset,
+                    openPath: segment.openPath
                 }
-
-                // Entity SYSTEM: yêu cầu host mở file entity ra tab mới (editor không
-                // tự mở file — chỉ báo qua Message Bridge).
-                if (meta.open_path) {
-                    post({ event: 'openFileRequested', payload: { path: meta.open_path } });
-                    e.event.preventDefault();
-                }
-                return;
-            }
+            });
         });
 
         // ── Command handling (C# → JS) ──────────────────────────────────────
@@ -362,6 +313,10 @@
                                 }
                             }
                             finally { suppressChangeEvent = false; }
+                            // Đổi buffer (kể cả chuyển Source ↔ Insight) làm mọi span cũ vô
+                            // nghĩa — vẽ lại theo segments hiện có; segment lệch độ dài sẽ bị
+                            // renderClearTextSegments bỏ qua cho tới khi host gửi bộ mới.
+                            renderClearTextSegments(lastSegments, lastShowInsights);
                         }
                         respond(msg.id, true);
                         break;
@@ -373,12 +328,14 @@
                         editor.updateOptions({ readOnly: !!(msg.payload && msg.payload.value) });
                         respond(msg.id, true);
                         break;
-                    case 'setInsights':
-                        renderInsights(msg.payload && msg.payload.items, msg.payload && msg.payload.show);
+                    case 'setClearTextSegments':
+                        renderClearTextSegments(
+                            msg.payload && msg.payload.segments,
+                            msg.payload && msg.payload.show);
                         respond(msg.id, true);
                         break;
                     case 'setShowInsights':
-                        renderInsights(lastInsights, msg.payload && msg.payload.show);
+                        renderClearTextSegments(lastSegments, msg.payload && msg.payload.show);
                         respond(msg.id, true);
                         break;
                     case 'revealLine': {

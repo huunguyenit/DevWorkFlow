@@ -4,22 +4,23 @@
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:ctrl="clr-namespace:UI.Views.Controls">
 
-    <!-- Cột Semantic + Resolved đã bỏ (2026-07-19): chú giải entity hiển thị INLINE ngay
-         trong editor qua Insight widget ("&X; | giá_trị"), không cần panel song song. -->
+    <!-- Một editor duy nhất, đổi nội dung theo mode (không panel song song):
+         Source  → XML storage nguyên bản.
+         Insight → ClearText đã expand entity, read-only, tô màu theo nguồn entity. -->
     <DockPanel Background="{StaticResource EditorBgBrush}">
         <Border DockPanel.Dock="Top" Style="{StaticResource IdeEditorColumnHeaderStyle}">
             <StackPanel Orientation="Horizontal">
                 <md:PackIcon Kind="CodeTags" Width="12" Height="12"
                              Foreground="{StaticResource FgMutedBrush}" VerticalAlignment="Center"/>
-                <TextBlock Text="Source" FontSize="11" FontWeight="SemiBold"
+                <TextBlock Text="{Binding EditorSurfaceHeader}" FontSize="11" FontWeight="SemiBold"
                            Foreground="{StaticResource FgMutedBrush}" Margin="6,0,0,0"/>
             </StackPanel>
         </Border>
         <ctrl:MonacoEditorHost x:Name="SourceEditor"
             BoundText="{Binding EditorText, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
+            IsReadOnly="{Binding IsEditorReadOnly}"
             ShowInsights="{Binding ShowInsights}"
-            Insights="{Binding Insights}"
-            InsightEditCommand="{Binding UpdateEntityValueCommand}"
+            ClearTextSegments="{Binding ClearTextSegments}"
             ScrollToLine="{Binding CaretLine, Mode=OneWay}"
             ScrollToOffset="{Binding CaretOffset, Mode=OneWay}"/>
     </DockPanel>

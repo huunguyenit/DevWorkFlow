@@ -10,8 +10,19 @@
 //     docs/specs/language/parsing-and-semantic-model.md)
 //
 // Token names (theme map trong bridge.js phải khớp):
-//   tag, attribute.name, attribute.value, entity.reference, entity.name,
-//   comment, string.cdata, delimiter.cdata, metatag, metatag.content
+//   tag, delimiter, attribute.name, attribute.value, entity.reference, entity.name,
+//   keyword, comment, string.cdata, delimiter.cdata, metatag, metatag.content
+//
+// NGUYÊN TẮC TÔ MÀU (theo cách VS Code xử lý XML/HTML — sửa 2026-07-20):
+//   1. Dấu cú pháp KHÔNG cùng màu với tên. "<", ">", "/>", "</", "=" là 'delimiter' (xám
+//      nhạt); chỉ TÊN thẻ mới là 'tag'. Trước đây "<div" bị gộp thành một token 'tag' nên
+//      mọi dấu ngoặc đều đỏ đậm — đó là nguồn gây rối mắt chính trong file nhiều thẻ.
+//   2. Chỉ ~4 màu "mạnh" trong một file: tên thẻ, tên attribute, chuỗi giá trị, comment.
+//      Mọi thứ còn lại kế thừa màu chữ nền hoặc dùng màu xám phụ.
+//   3. Tên entity trong KHAI BÁO (<!ENTITY X ...>) khác token với THAM CHIẾU (&X;) — trước
+//      đây cả hai map về cùng 'entityReference' nên khai báo cũng bị in nghiêng như tham
+//      chiếu, gây cảm giác cả khối DOCTYPE đang "nháy".
+//   4. Từ khoá DTD (SYSTEM/PUBLIC) có token riêng thay vì lẫn vào 'metatag' xám.
 //
 // GHI CHÚ RỦI RO: Monarch tokenizer không kiểm chứng trực quan được trong môi trường
 // viết code này — cần xác nhận bằng mắt sau khi chạy thật.
@@ -39,7 +50,8 @@
                     [/<!--/, { token: 'comment', next: '@comment' }],
                     [/<!DOCTYPE/, { token: 'metatag', next: '@doctype' }],
                     [/<\?/, { token: 'metatag', next: '@pi' }],
-                    [/<\/[ \t]*[\w.:-]+/, { token: 'tag', next: '@tagClose' }],
+                    [/(<\/)([ \t]*)([\w.:-]+)/,
+                        ['delimiter', '', { token: 'tag', next: '@tagClose' }]],
 
                     // Thứ tự quan trọng: command CÓ event= → JS; command/query/response
                     // không event → SQL; còn lại → tag thường. @rematch không tiêu thụ ký
@@ -52,20 +64,22 @@
 
                 tagClose: [
                     [/[ \t\r\n]+/, ''],
-                    [/>/, { token: 'tag', next: '@pop' }]
+                    [/>/, { token: 'delimiter', next: '@pop' }]
                 ],
 
                 // ── Tag mở thường ──────────────────────────────────────────────
                 tagOpen: [
-                    [/<[\w.:-]+/, 'tag'],
+                    [/(<)([\w.:-]+)/, ['delimiter', 'tag']],
                     [/[ \t\r\n]+/, ''],
-                    [/([\w.:-]+)(\s*=\s*)(")/,
-                        ['attribute.name', '', { token: 'attribute.value', next: '@attrDq' }]],
-                    [/([\w.:-]+)(\s*=\s*)(')/,
-                        ['attribute.name', '', { token: 'attribute.value', next: '@attrSq' }]],
+                    [/([\w.:-]+)(\s*)(=)(\s*)(")/,
+                        ['attribute.name', '', 'delimiter', '',
+                         { token: 'attribute.value', next: '@attrDq' }]],
+                    [/([\w.:-]+)(\s*)(=)(\s*)(')/,
+                        ['attribute.name', '', 'delimiter', '',
+                         { token: 'attribute.value', next: '@attrSq' }]],
                     [/[\w.:-]+/, 'attribute.name'],
-                    [/\/>/, { token: 'tag', next: '@pop' }],
-                    [/>/, { token: 'tag', next: '@pop' }]
+                    [/\/>/, { token: 'delimiter', next: '@pop' }],
+                    [/>/, { token: 'delimiter', next: '@pop' }]
                 ],
 
                 // Giá trị attribute: highlight &Entity; bên trong (đây là chỗ người dùng
@@ -85,28 +99,32 @@
 
                 // ── Tag mở nhúng JS (<script>, <command event=...>) ────────────
                 tagOpenJs: [
-                    [/<[\w.:-]+/, 'tag'],
+                    [/(<)([\w.:-]+)/, ['delimiter', 'tag']],
                     [/[ \t\r\n]+/, ''],
-                    [/([\w.:-]+)(\s*=\s*)(")/,
-                        ['attribute.name', '', { token: 'attribute.value', next: '@attrDq' }]],
-                    [/([\w.:-]+)(\s*=\s*)(')/,
-                        ['attribute.name', '', { token: 'attribute.value', next: '@attrSq' }]],
+                    [/([\w.:-]+)(\s*)(=)(\s*)(")/,
+                        ['attribute.name', '', 'delimiter', '',
+                         { token: 'attribute.value', next: '@attrDq' }]],
+                    [/([\w.:-]+)(\s*)(=)(\s*)(')/,
+                        ['attribute.name', '', 'delimiter', '',
+                         { token: 'attribute.value', next: '@attrSq' }]],
                     [/[\w.:-]+/, 'attribute.name'],
-                    [/\/>/, { token: 'tag', next: '@pop' }],
-                    [/>/, { token: 'tag', next: '@embedJs', nextEmbedded: 'text/javascript' }]
+                    [/\/>/, { token: 'delimiter', next: '@pop' }],
+                    [/>/, { token: 'delimiter', next: '@embedJs', nextEmbedded: 'text/javascript' }]
                 ],
 
                 // ── Tag mở nhúng SQL (<command>/<query>/<response> không event) ─
                 tagOpenSql: [
-                    [/<[\w.:-]+/, 'tag'],
+                    [/(<)([\w.:-]+)/, ['delimiter', 'tag']],
                     [/[ \t\r\n]+/, ''],
-                    [/([\w.:-]+)(\s*=\s*)(")/,
-                        ['attribute.name', '', { token: 'attribute.value', next: '@attrDq' }]],
-                    [/([\w.:-]+)(\s*=\s*)(')/,
-                        ['attribute.name', '', { token: 'attribute.value', next: '@attrSq' }]],
+                    [/([\w.:-]+)(\s*)(=)(\s*)(")/,
+                        ['attribute.name', '', 'delimiter', '',
+                         { token: 'attribute.value', next: '@attrDq' }]],
+                    [/([\w.:-]+)(\s*)(=)(\s*)(')/,
+                        ['attribute.name', '', 'delimiter', '',
+                         { token: 'attribute.value', next: '@attrSq' }]],
                     [/[\w.:-]+/, 'attribute.name'],
-                    [/\/>/, { token: 'tag', next: '@pop' }],
-                    [/>/, { token: 'tag', next: '@embedSql', nextEmbedded: 'sql' }]
+                    [/\/>/, { token: 'delimiter', next: '@pop' }],
+                    [/>/, { token: 'delimiter', next: '@embedSql', nextEmbedded: 'sql' }]
                 ],
 
                 // Vùng nhúng: tokenize bằng ngôn ngữ nhúng tới khi gặp tag đóng tương ứng.
@@ -148,12 +166,14 @@
                 ],
                 entityDecl: [
                     [/[ \t\r\n]+/, ''],
-                    [/SYSTEM|PUBLIC/, 'metatag'],
+                    [/(?:SYSTEM|PUBLIC)\b/, 'keyword'],
+                    // Giá trị entity: tô như chuỗi, KHÔNG xám như phần còn lại của DOCTYPE —
+                    // đây là nội dung thật người đọc quan tâm.
                     [/"[^"]*"/, 'attribute.value'],
                     [/'[^']*'/, 'attribute.value'],
                     [/%/, 'entity.name'],
                     [/[\w.-]+/, 'entity.name'],
-                    [/>/, { token: 'metatag', next: '@pop' }]
+                    [/>/, { token: 'delimiter', next: '@pop' }]
                 ],
 
                 pi: [

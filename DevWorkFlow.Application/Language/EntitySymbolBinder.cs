@@ -15,6 +15,12 @@ public sealed class EntityBindResult
     public string ClearText { get; init; } = string.Empty;
 
     public IReadOnlyList<EntityProjectionSegment> Segments { get; init; } = [];
+
+    /// <summary>Provenance của từng đoạn text đã expand trong <see cref="ClearText"/>.</summary>
+    public IReadOnlyList<ClearTextSegment> ClearTextSegments { get; init; } = [];
+
+    /// <summary>Ánh xạ offset Source ↔ <see cref="ClearText"/> cho navigation ở Insight mode.</summary>
+    public ClearTextOffsetMap ClearTextOffsets { get; init; } = ClearTextOffsetMap.Identity;
 }
 
 /// <summary>
@@ -168,14 +174,21 @@ public sealed class EntitySymbolBinder
             source_text,
             doctype_token?.Span,
             symbols);
-        var clear_text = BuildClearText(source_text, doctype_token?.Span, symbols);
+        var clear_text = BuildClearTextProjection(
+            source_text,
+            doctype_token?.Span,
+            symbols,
+            out var clear_text_segments,
+            out var clear_text_offsets);
 
         return new EntityBindResult
         {
             Symbols = symbols,
             Diagnostics = diagnostics,
             ClearText = clear_text,
-            Segments = segments
+            Segments = segments,
+            ClearTextSegments = clear_text_segments,
+            ClearTextOffsets = clear_text_offsets
         };
     }
 
@@ -985,27 +998,178 @@ public sealed class EntitySymbolBinder
         return segments;
     }
 
-    private static string BuildClearText(
+    /// <summary>
+    /// ClearText projection: toàn bộ document với mọi tham chiếu entity trong body đã được
+    /// thay bằng nội dung thật (đệ quy), kèm map cho biết mỗi đoạn text đến từ entity nào.
+    /// DOCTYPE giữ nguyên — expand chỉ xảy ra sau DOCTYPE, nên offset trong DOCTYPE (khai báo
+    /// &lt;!ENTITY&gt;) trùng nhau giữa Source và ClearText; Insight mode dựa vào tính chất này
+    /// để Ctrl+Click nhảy tới khai báo inline mà không cần bảng ánh xạ offset riêng.
+    /// Ngoài DOCTYPE thì offset KHÔNG trùng — <paramref name="offsets"/> là bảng ánh xạ để
+    /// navigation (Outline/F12, tính offset trên source) nhảy đúng chỗ trên buffer ClearText.
+    /// </summary>
+    private static string BuildClearTextProjection(
         string source_text,
         SourceSpan? doctype_span,
-        IReadOnlyList<EntitySymbol> symbols)
+        IReadOnlyList<EntitySymbol> symbols,
+        out IReadOnlyList<ClearTextSegment> segments,
+        out ClearTextOffsetMap offsets)
     {
         var by_name = symbols.ToDictionary(
             symbol => symbol.Name,
             StringComparer.OrdinalIgnoreCase);
-        return GeneralReferenceRegex.Replace(source_text, match =>
+        var builder = new System.Text.StringBuilder(source_text.Length);
+        var collected = new List<ClearTextSegment>();
+        var regions = new List<ClearTextOffsetRegion>();
+        var cursor = 0;
+
+        foreach (Match match in GeneralReferenceRegex.Matches(source_text))
         {
             if (doctype_span is { } excluded
                 && match.Index >= excluded.StartOffset
                 && match.Index < excluded.EndOffset)
-                return match.Value;
+                continue;
+            // Match lồng trong vùng đã ghi (không xảy ra với regex này, nhưng giữ an toàn).
+            if (match.Index < cursor)
+                continue;
+
+            AppendLiteral(source_text, cursor, match.Index - cursor, builder, regions);
+            cursor = match.Index + match.Length;
 
             var name = match.Groups["name"].Value;
-            return by_name.TryGetValue(name, out var symbol) && symbol.IsResolved
-                ? symbol.DisplayText
-                : match.Value;
-        });
+            if (BuiltInNames.Contains(name) || !by_name.TryGetValue(name, out var symbol))
+            {
+                // Entity không khai báo — giữ nguyên "&X;" (ERP3003 đã được phát ở nơi khác).
+                // Copy 1:1 nên vẫn là vùng literal, offset không lệch.
+                AppendLiteral(source_text, match.Index, match.Length, builder, regions);
+                continue;
+            }
+
+            var clear_start = builder.Length;
+            AppendExpansion(
+                symbol,
+                depth: 0,
+                by_name,
+                builder,
+                collected,
+                new HashSet<string>(StringComparer.OrdinalIgnoreCase));
+            regions.Add(new ClearTextOffsetRegion(
+                match.Index,
+                match.Length,
+                clear_start,
+                builder.Length - clear_start,
+                IsExpansion: true));
+        }
+
+        AppendLiteral(source_text, cursor, source_text.Length - cursor, builder, regions);
+        segments = collected;
+        offsets = new ClearTextOffsetMap(regions);
+        return builder.ToString();
     }
+
+    /// <summary>
+    /// Copy một đoạn source vào ClearText nguyên văn và ghi nhận vùng ánh xạ tuyến tính.
+    /// Gộp với vùng literal liền trước để bảng ánh xạ không phình theo số tham chiếu.
+    /// </summary>
+    private static void AppendLiteral(
+        string source_text,
+        int start,
+        int length,
+        System.Text.StringBuilder builder,
+        List<ClearTextOffsetRegion> regions)
+    {
+        if (length <= 0) return;
+
+        var clear_start = builder.Length;
+        builder.Append(source_text, start, length);
+
+        if (regions.Count > 0
+            && regions[^1] is { IsExpansion: false } previous
+            && previous.SourceOffset + previous.SourceLength == start)
+        {
+            regions[^1] = previous with
+            {
+                SourceLength = previous.SourceLength + length,
+                ClearTextLength = previous.ClearTextLength + length
+            };
+            return;
+        }
+
+        regions.Add(new ClearTextOffsetRegion(start, length, clear_start, length, IsExpansion: false));
+    }
+
+    /// <summary>
+    /// Ghi nội dung đã expand của một entity vào <paramref name="builder"/> và ghi nhận
+    /// segment phủ đúng đoạn vừa ghi. Ref con bên trong RawValue được expand đệ quy và sinh
+    /// segment depth + 1 nằm trọn trong segment cha (không flatten — renderer phân biệt được
+    /// entity chính và entity lồng).
+    /// </summary>
+    private static void AppendExpansion(
+        EntitySymbol symbol,
+        int depth,
+        IReadOnlyDictionary<string, EntitySymbol> by_name,
+        System.Text.StringBuilder builder,
+        List<ClearTextSegment> collected,
+        HashSet<string> resolving)
+    {
+        var start = builder.Length;
+
+        // Chu kỳ hoặc không resolve được → giữ nguyên "&X;" và đánh dấu lỗi để renderer tô khác.
+        if (!symbol.IsResolved || !resolving.Add(symbol.Name))
+        {
+            builder.Append('&').Append(symbol.Name).Append(';');
+            collected.Add(Segment(symbol, depth, start, builder.Length - start, is_error: true));
+            return;
+        }
+
+        var raw_value = symbol.RawValue ?? string.Empty;
+        var cursor = 0;
+        foreach (Match match in GeneralReferenceRegex.Matches(raw_value))
+        {
+            if (match.Index < cursor)
+                continue;
+
+            builder.Append(raw_value, cursor, match.Index - cursor);
+            cursor = match.Index + match.Length;
+
+            var child_name = match.Groups["name"].Value;
+            if (BuiltInNames.Contains(child_name)
+                || !by_name.TryGetValue(child_name, out var child))
+            {
+                builder.Append(match.Value);
+                continue;
+            }
+
+            AppendExpansion(child, depth + 1, by_name, builder, collected, resolving);
+        }
+
+        builder.Append(raw_value, cursor, raw_value.Length - cursor);
+        resolving.Remove(symbol.Name);
+
+        collected.Add(Segment(symbol, depth, start, builder.Length - start, is_error: false));
+    }
+
+    private static ClearTextSegment Segment(
+        EntitySymbol symbol,
+        int depth,
+        int start,
+        int length,
+        bool is_error) =>
+        new()
+        {
+            SymbolId = symbol.Id,
+            EntityName = symbol.Name,
+            Span = new SourceSpan(start, length),
+            Depth = depth,
+            Kind = symbol.DeclarationKind == EntityDeclarationKind.ExternalSystem
+                ? ClearTextSegmentKind.System
+                : ClearTextSegmentKind.Inline,
+            DefinitionPath = symbol.Definition.Path,
+            DefinitionOffset = symbol.Definition.Span.StartOffset,
+            OpenPath = symbol.DeclarationKind == EntityDeclarationKind.ExternalSystem
+                ? symbol.ResolvedPath ?? string.Empty
+                : string.Empty,
+            IsError = is_error
+        };
 
     private static string? ResolveSystemPath(string declaring_path, string system_id)
     {

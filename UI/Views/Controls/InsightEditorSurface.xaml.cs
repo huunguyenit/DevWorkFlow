@@ -19,10 +19,10 @@ public partial class InsightEditorSurface : UserControl
             if (DataContext is not FormBuilderViewModel vm) return;
             vm.UpdateCaretPosition(line, column);
         };
-        SourceEditor.OpenFileRequested += path =>
+        SourceEditor.OpenEntityRequested += request =>
         {
             if (DataContext is FormBuilderViewModel vm)
-                vm.OpenEntityFile(path);
+                vm.NavigateToEntity(request);
         };
     }
 

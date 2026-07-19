@@ -1,7 +1,7 @@
-# CURRENT_STATE — AI entry
+# CURRENT_STATE
 
-Read first each session; open only needed `*_SUMMARY.md`.  
-Authority: Architecture/ADR > Specs/GAPS > Roadmap wording. Full docs: `docs/`. Update: 2026-07-19.
+Where the project stands today. Entry point + rules: `CLAUDE.md`.
+For long-form background, open the one `docs/` file the task needs — never the set. Update: 2026-07-19.
 
 ## Maturity
 
@@ -63,16 +63,13 @@ Monaco Adapter when? Designer migrate now vs dual-write? Roadmap relabel to whic
 
 XML=storage · Semantic First via LS/Commands · Nav Symbol/NodeId · Insight inline (not tooltip primary) · Plugin≠Core patch · Editor=render only · Tree=display only · **Left Panel UX freeze**.
 
+**Insight mode (2026-07-20, đổi triết lý):** editor hiển thị **ClearText** (entity đã expand),
+**read-only**; lớp Insight chỉ tô nền theo nguồn entity (inline≠SYSTEM, cấp 0≠lồng), hover =
+tên entity, Ctrl+Click = mở entity (SYSTEM → tab mới, giữ nguyên caret tab cũ). Nguồn:
+`GetProjection(ClearText).ClearTextSegments`. Sửa nội dung chỉ ở Source mode.
+Spec: `docs/specs/editor/insight-editor-surface.md` §2026-07-20.
+
 ## Next milestone: Language Sync Foundation
 
 1) T0 Outline · 2) LS events (`DocumentChanged`/`SemanticChanged`/`DiagnosticsChanged`) · 3) Shell on events · 4) Continue Platform migration · 5) Relabel Roadmap + keep GAPS current.  
 **Exit:** no R1/R7 Outline violation; ≥1 real Editor←LS event path; build+tests green.
-
-## KB map
-
-| File | Open when |
-|------|-----------|
-| `ARCHITECTURE_SUMMARY` | Layers, R1–R10, philosophy |
-| `ADR_SUMMARY` | Decisions 0001–0008 |
-| `ERP_LANGUAGE` / `EDITOR` / `TREE` / `UI` | Domain contracts |
-| `PLUGIN` / `WORKFLOW` / `ROADMAP` | Future + levels |

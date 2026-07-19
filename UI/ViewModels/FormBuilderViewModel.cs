@@ -7,6 +7,7 @@ using DevWorkFlow.Application.Language;
 using DevWorkFlow.Domain.Language;
 using DevWorkFlow.Domain.Models.Fbo;
 using DevWorkFlow.Domain.Models.Sql;
+using DevWorkFlow.Editor;
 using UI.Services;
 using UI.ViewModels.Base;
 using UI.ViewModels.Design;
@@ -46,6 +47,8 @@ public class FormBuilderViewModel : ViewModelBase
     private ErpEditorMode _active_editor_mode = ErpEditorMode.Insight;
     private bool _is_code_only_view;
     private IReadOnlyList<InsightItem> _insights = [];
+    private IReadOnlyList<ClearTextSegment> _clear_text_segments = [];
+    private ClearTextOffsetMap _clear_text_offsets = ClearTextOffsetMap.Identity;
     private InsightEditorLineVm? _selected_insight_line;
     private int _caret_column = 1;
     private bool _in_reparse;
@@ -176,12 +179,22 @@ public class FormBuilderViewModel : ViewModelBase
     }
 
     /// <summary>
-    /// Editor luôn giữ Source. Insight chỉ là virtual rendering, không đổi TextBuffer.
+    /// Text hiển thị trong Editor theo mode:
+    ///   - Source/Designer: XML storage nguyên bản (tham chiếu &amp;X; giữ nguyên).
+    ///   - Insight: ClearText projection — toàn bộ document đã expand entity thành nội dung
+    ///     thật, kèm <see cref="ClearTextSegments"/> để tô nguồn gốc.
+    /// Cả hai chỉ là bản CHIẾU của cùng một storage: ClearText không bao giờ được ghi ngược
+    /// (Insight mode read-only — xem <see cref="IsEditorReadOnly"/>), nên setter chỉ nhận
+    /// thay đổi khi editor đang hiển thị Source.
     /// </summary>
     public string EditorText
     {
-        get => XmlSource;
-        set => XmlSource = value;
+        get => IsInsightMode ? ExpandedXml : XmlSource;
+        set
+        {
+            if (IsInsightMode) return;
+            XmlSource = value;
+        }
     }
 
     public ObservableCollection<InsightEditorLineVm> InsightEditorLines { get; }
@@ -200,7 +213,15 @@ public class FormBuilderViewModel : ViewModelBase
             if (!SetProperty(ref _active_editor_mode, value)) return;
             OnPropertyChanged(nameof(EditorModeText));
             OnPropertyChanged(nameof(EditorModeButtonText));
+            OnPropertyChanged(nameof(EditorSurfaceHeader));
+            OnPropertyChanged(nameof(IsEditorReadOnly));
             OnPropertyChanged(nameof(ShowInsights));
+
+            // EditorText TRƯỚC ClearTextSegments: span của segment tính trên ClearText, nên
+            // buffer phải đổi xong rồi mới tô. Ngược lại thì tô một nhịp lên text cũ.
+            OnPropertyChanged(nameof(EditorText));
+            OnPropertyChanged(nameof(ClearTextSegments));
+
             OnPropertyChanged(nameof(ShowInsightColumns));
             OnPropertyChanged(nameof(IsSourceMode));
             OnPropertyChanged(nameof(IsInsightMode));
@@ -208,7 +229,6 @@ public class FormBuilderViewModel : ViewModelBase
             OnPropertyChanged(nameof(ShowEditorSurface));
             OnPropertyChanged(nameof(ShowDesignerModeSurface));
             OnPropertyChanged(nameof(ShowDesignerTab));
-            OnPropertyChanged(nameof(EditorText));
         }
     }
 
@@ -232,7 +252,24 @@ public class FormBuilderViewModel : ViewModelBase
 
     public IReadOnlyList<InsightItem> Insights => _insights;
 
-    public bool IsEditorReadOnly => false;
+    /// <summary>
+    /// Provenance entity của <see cref="ExpandedXml"/> — chỉ có nghĩa ở Insight mode, nơi
+    /// Editor hiển thị ClearText. Ở Source/Designer trả rỗng để editor không tô nhầm span
+    /// (span tính trên ClearText, không khớp source XML).
+    /// </summary>
+    public IReadOnlyList<ClearTextSegment> ClearTextSegments =>
+        IsInsightMode ? _clear_text_segments : [];
+
+    /// <summary>
+    /// Insight mode là read-only: buffer đang là ClearText (entity đã expand), không ánh xạ
+    /// ngược được về XML — sửa ở đây sẽ khiến storage và màn hình lệch nhau. Mọi chỉnh sửa
+    /// thực hiện ở Source mode; entity sửa qua Ctrl+Click mở đúng nơi khai báo.
+    /// </summary>
+    public bool IsEditorReadOnly => IsInsightMode;
+
+    /// <summary>Nhãn cột editor — phải nói đúng nội dung đang hiển thị, không cố định "Source".</summary>
+    public string EditorSurfaceHeader =>
+        IsInsightMode ? "Clear text (read-only)" : "Source";
 
     public string EditorModeText => ActiveEditorMode switch
     {
@@ -384,12 +421,15 @@ public class FormBuilderViewModel : ViewModelBase
     {
         _insights = ErpDocument?.Insights ?? [];
 
-        ExpandedXml = ErpDocument?
-            .GetProjection(ErpProjectionKind.ClearText)
-            .Text ?? XmlSource;
+        var clear_text = ErpDocument?.GetProjection(ErpProjectionKind.ClearText);
+        ExpandedXml = clear_text?.Text ?? XmlSource;
+        _clear_text_segments = clear_text?.ClearTextSegments ?? [];
+        _clear_text_offsets = clear_text?.OffsetMap ?? ClearTextOffsetMap.Identity;
+
         OnPropertyChanged(nameof(EditorText));
         OnPropertyChanged(nameof(Insights));
         OnPropertyChanged(nameof(ExpandedXml));
+        OnPropertyChanged(nameof(ClearTextSegments));
         RefreshInsightEditorLines();
     }
 
@@ -674,12 +714,42 @@ public class FormBuilderViewModel : ViewModelBase
         NavigateToLine(line);
     }
 
-    /// <summary>Structure outline / F12 — nhảy tới dòng (1-based).</summary>
+    /// <summary>Structure outline / F12 — nhảy tới dòng (1-based) tính trên source XML.</summary>
     public void NavigateToLine(int line)
     {
         if (line <= 0) return;
+
+        // Insight mode: buffer là ClearText, số dòng đã lệch so với source vì entity expand
+        // có thể chứa xuống dòng. Đổi sang offset để đi qua bảng ánh xạ.
+        if (IsInsightMode)
+        {
+            var source_offset = SourceOffsetOfLine(line);
+            if (source_offset >= 0)
+            {
+                ApplyCaretOffset(source_offset, defer: false);
+                return;
+            }
+        }
+
         CaretLine = 0;
         CaretLine = line;
+    }
+
+    /// <summary>Offset đầu dòng (1-based) trong <see cref="XmlSource"/>; -1 nếu không có.</summary>
+    private int SourceOffsetOfLine(int line)
+    {
+        var text = XmlSource;
+        if (string.IsNullOrEmpty(text)) return -1;
+
+        var offset = 0;
+        for (var current = 1; current < line; current++)
+        {
+            var next = text.IndexOf('\n', offset);
+            if (next < 0) return -1;
+            offset = next + 1;
+        }
+
+        return offset;
     }
 
     /// <summary>
@@ -744,9 +814,13 @@ public class FormBuilderViewModel : ViewModelBase
     /// Set CaretOffset để trigger ScrollToOffset binding trên editor.
     /// Nếu vừa switch mode (editor cần layout pass), defer đến DispatcherPriority.Loaded
     /// để BringCaretToView chạy sau khi editor đã hiển thị đầy đủ.
+    /// <paramref name="offset"/> luôn tính trên source XML — hàm này chịu trách nhiệm đổi
+    /// sang offset của buffer đang hiển thị.
     /// </summary>
     private void ApplyCaretOffset(int offset, bool defer)
     {
+        offset = ToEditorOffset(offset);
+
         if (defer)
         {
             var captured = offset;
@@ -763,6 +837,21 @@ public class FormBuilderViewModel : ViewModelBase
             CaretOffset = -1;
             CaretOffset = offset;
         }
+    }
+
+    /// <summary>
+    /// Offset trên source XML → offset trên buffer editor đang hiển thị.
+    /// Source mode: giữ nguyên. Insight mode: buffer là ClearText (entity đã expand thành nội
+    /// dung thật) nên mọi offset sau tham chiếu entity đầu tiên đều lệch — phải đi qua bảng
+    /// ánh xạ, nếu không Outline/F12 nhảy sai chỗ.
+    /// </summary>
+    private int ToEditorOffset(int source_offset)
+    {
+        if (!IsInsightMode || source_offset < 0) return source_offset;
+
+        var mapped = _clear_text_offsets.ToClearText(source_offset);
+        var buffer_len = ExpandedXml?.Length ?? 0;
+        return mapped > buffer_len ? buffer_len : mapped;
     }
 
     private static bool PathsEqual(string a, string b)
@@ -813,13 +902,12 @@ public class FormBuilderViewModel : ViewModelBase
             ActiveEditorMode = ErpEditorMode.Insight;
 
         var source_len = XmlSource?.Length ?? 0;
-        if (offset >= 0 && source_len >= 0)
+        if (offset >= 0)
         {
             if (offset > source_len)
                 offset = source_len;
 
-            CaretOffset = -1;
-            CaretOffset = offset;
+            ApplyCaretOffset(offset, defer: false);
             return;
         }
 
@@ -878,6 +966,51 @@ public class FormBuilderViewModel : ViewModelBase
         {
             StatusMessage = $"Lỗi mở file entity: {ex.Message}";
         }
+    }
+
+    /// <summary>
+    /// Ctrl+Click một vùng entity trong Insight mode (ClearText). Xem
+    /// <see cref="EntityNavigationRequest"/> cho thứ tự quyết định.
+    ///
+    /// Hai nhánh "mở tab mới" KHÔNG đụng tới caret/scroll của tab hiện tại — đó chính là
+    /// điểm khác so với Go-To-Definition cũ: quay lại tab này vẫn thấy đúng chỗ vừa click,
+    /// không phải cuộn tìm lại đoạn text đang đọc.
+    /// </summary>
+    public void NavigateToEntity(EntityNavigationRequest request)
+    {
+        // Entity SYSTEM — nội dung nằm ở file khác. Đuôi file là bất kỳ (.ent/.xml/.txt/...),
+        // OpenEntityFile tự phân loại; không được giả định .ent.
+        if (!string.IsNullOrWhiteSpace(request.OpenPath))
+        {
+            OpenEntityFile(request.OpenPath);
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(request.DefinitionPath))
+        {
+            StatusMessage = $"Không xác định được nơi khai báo entity {request.EntityName}.";
+            return;
+        }
+
+        // Khai báo nằm ở file include khác (ví dụ Unit.ent) → cũng mở tab mới.
+        if (string.IsNullOrWhiteSpace(LoadedFilePath)
+            || !PathsEqual(request.DefinitionPath, LoadedFilePath))
+        {
+            OpenEntityFile(request.DefinitionPath);
+            return;
+        }
+
+        // Entity inline khai báo trong chính document đang mở → nhảy tới <!ENTITY ...>.
+        // Offset là offset SOURCE, dùng được cả khi buffer đang là ClearText: expand entity
+        // chỉ xảy ra trong body, sau DOCTYPE, nên vùng khai báo không bị dịch chuyển.
+        if (request.DefinitionOffset >= 0)
+        {
+            NavigateToOffset(request.DefinitionOffset, line_hint: 0);
+            StatusMessage = $"Khai báo entity {request.EntityName}";
+            return;
+        }
+
+        StatusMessage = $"Không có vị trí khai báo cho entity {request.EntityName}.";
     }
 
     public void UpdateCaretPosition(int line, int column)

@@ -18,7 +18,9 @@ public sealed class ErpSemanticModel : IErpSemanticModel
         ErpMetadataProfile? profile = null,
         FboControllerDocument? legacy_document = null,
         string? clear_text = null,
-        IReadOnlyList<EntityProjectionSegment>? entity_segments = null)
+        IReadOnlyList<EntityProjectionSegment>? entity_segments = null,
+        IReadOnlyList<ClearTextSegment>? clear_text_segments = null,
+        ClearTextOffsetMap? clear_text_offsets = null)
     {
         DocumentId = document_id;
         Profile = profile ?? ErpMetadataProfile.Default;
@@ -27,6 +29,8 @@ public sealed class ErpSemanticModel : IErpSemanticModel
         LegacyDocument = legacy_document;
         ClearText = clear_text ?? string.Empty;
         EntitySegments = entity_segments ?? [];
+        ClearTextSegments = clear_text_segments ?? [];
+        ClearTextOffsets = clear_text_offsets ?? ClearTextOffsetMap.Identity;
         Controller = _symbols.OfType<ControllerSymbol>().FirstOrDefault();
     }
 
@@ -46,6 +50,12 @@ public sealed class ErpSemanticModel : IErpSemanticModel
 
     /// <summary>Entity inline segments cho Semantic projection.</summary>
     public IReadOnlyList<EntityProjectionSegment> EntitySegments { get; }
+
+    /// <summary>Provenance entity của từng đoạn trong <see cref="ClearText"/> (Insight mode).</summary>
+    public IReadOnlyList<ClearTextSegment> ClearTextSegments { get; }
+
+    /// <summary>Ánh xạ offset Source ↔ <see cref="ClearText"/> — navigation ở Insight mode.</summary>
+    public ClearTextOffsetMap ClearTextOffsets { get; }
 
     public IReadOnlyList<ErpSymbol> Symbols => _symbols;
 

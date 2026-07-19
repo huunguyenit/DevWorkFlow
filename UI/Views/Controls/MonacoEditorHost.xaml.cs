@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using DevWorkFlow.Application.Engine;
 using DevWorkFlow.Domain.Language;
+using DevWorkFlow.Editor;
 using DevWorkFlow.Editor.Bridge;
 using Microsoft.Web.WebView2.Core;
 
@@ -13,9 +14,14 @@ namespace UI.Views.Controls;
 /// <summary>
 /// Adapter Monaco cho Editor Platform (ADR-0002/ADR-0005) — thay thế BindableXmlEditor/
 /// BindableSqlEditor (AvalonEdit). Expose CÙNG property/method surface với các control cũ
-/// (BoundText/IsReadOnly/ShowInsights/Insights/InsightEditCommand/ScrollToLine/
-/// ScrollToOffset/OpenSearch/OpenReplace/TryGoToDefinition) để View/ViewModel không cần đổi
-/// — chỉ đổi tên tag XAML (Adapter Pattern, xem ADR-0002 §Replaceable).
+/// (BoundText/IsReadOnly/ShowInsights/ScrollToLine/ScrollToOffset/OpenSearch/OpenReplace/
+/// TryGoToDefinition) để View/ViewModel không cần đổi — chỉ đổi tên tag XAML
+/// (Adapter Pattern, xem ADR-0002 §Replaceable).
+///
+/// Insight mode (ShowInsights = true): BoundText là ClearText projection — text đã expand
+/// entity — và ClearTextSegments cho biết đoạn nào đến từ entity nào để tô màu. Không còn
+/// render InsightItem (chèn giá trị resolve sau &amp;X;) như thiết kế trước; xem
+/// docs/specs/editor/insight-editor-surface.md.
 ///
 /// Không chứa Business Logic ERP: chỉ Render + relay Command/Event qua Message Bridge tới
 /// bridge.js (DevWorkFlow.Editor.Bridge chứa phần logic bridge thuần, dùng chung ở đây).
@@ -37,8 +43,11 @@ public partial class MonacoEditorHost : UserControl
     /// <summary>Caret line/column đổi (1-based) — thay cho TextArea.Caret.PositionChanged của AvalonEdit.</summary>
     public event Action<int, int>? CaretPositionChanged;
 
-    /// <summary>Double-click entity SYSTEM trong editor — yêu cầu mở file entity ra tab mới.</summary>
-    public event Action<string>? OpenFileRequested;
+    /// <summary>
+    /// Ctrl+Click một vùng entity trong Insight mode (ClearText). Host quyết định điều hướng
+    /// — xem <see cref="EntityNavigationRequest"/>.
+    /// </summary>
+    public event Action<EntityNavigationRequest>? OpenEntityRequested;
 
     /// <summary>
     /// Theme dùng chung cho mọi instance (màu token XML, font, Insight Block) — đọc từ
@@ -84,14 +93,18 @@ public partial class MonacoEditorHost : UserControl
             nameof(ShowInsights),
             typeof(bool),
             typeof(MonacoEditorHost),
-            new PropertyMetadata(true, OnInsightsChanged));
+            new PropertyMetadata(true, OnClearTextSegmentsChanged));
 
-    public static readonly DependencyProperty InsightsProperty =
+    /// <summary>
+    /// Insight mode: provenance entity của text đang hiển thị (ClearText). Chỉ có nghĩa khi
+    /// BoundText chính là ClearText projection — span tính trên text đó, không phải source XML.
+    /// </summary>
+    public static readonly DependencyProperty ClearTextSegmentsProperty =
         DependencyProperty.Register(
-            nameof(Insights),
-            typeof(IReadOnlyList<InsightItem>),
+            nameof(ClearTextSegments),
+            typeof(IReadOnlyList<ClearTextSegment>),
             typeof(MonacoEditorHost),
-            new PropertyMetadata(null, OnInsightsChanged));
+            new PropertyMetadata(null, OnClearTextSegmentsChanged));
 
     /// <summary>Nội dung vùng chọn hiện tại — rỗng nếu không bôi đen. Dùng bởi SQL Studio (Run Selection).</summary>
     public static readonly DependencyProperty SelectedScriptProperty =
@@ -102,13 +115,6 @@ public partial class MonacoEditorHost : UserControl
             new FrameworkPropertyMetadata(
                 string.Empty,
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-
-    public static readonly DependencyProperty InsightEditCommandProperty =
-        DependencyProperty.Register(
-            nameof(InsightEditCommand),
-            typeof(ICommand),
-            typeof(MonacoEditorHost),
-            new PropertyMetadata(null));
 
     /// <summary>
     /// Ngôn ngữ Monaco cho instance này ("xml" mặc định, "sql" cho SQL Studio) — cố định lúc
@@ -152,16 +158,10 @@ public partial class MonacoEditorHost : UserControl
         set => SetValue(ShowInsightsProperty, value);
     }
 
-    public IReadOnlyList<InsightItem>? Insights
+    public IReadOnlyList<ClearTextSegment>? ClearTextSegments
     {
-        get => (IReadOnlyList<InsightItem>?)GetValue(InsightsProperty);
-        set => SetValue(InsightsProperty, value);
-    }
-
-    public ICommand? InsightEditCommand
-    {
-        get => (ICommand?)GetValue(InsightEditCommandProperty);
-        set => SetValue(InsightEditCommandProperty, value);
+        get => (IReadOnlyList<ClearTextSegment>?)GetValue(ClearTextSegmentsProperty);
+        set => SetValue(ClearTextSegmentsProperty, value);
     }
 
     public string SelectedScript
@@ -280,28 +280,27 @@ public partial class MonacoEditorHost : UserControl
                 }
                 break;
 
-            case EditorHostEvents.OpenFileRequested:
-                if (evt.Payload?.TryGetProperty("path", out var path_prop) == true
-                    && path_prop.ValueKind == JsonValueKind.String
-                    && path_prop.GetString() is { Length: > 0 } file_path)
-                    OpenFileRequested?.Invoke(file_path);
-                break;
-
-            case EditorHostEvents.EntityValueCommitted:
-                if (evt.Payload?.TryGetProperty("entityName", out var name_prop) == true
-                    && evt.Payload.Value.TryGetProperty("newValue", out var value_prop))
-                {
-                    var edit = new EntityValueEdit
+            case EditorHostEvents.OpenEntityRequested:
+                if (evt.Payload is { } entity_payload)
+                    OpenEntityRequested?.Invoke(new EntityNavigationRequest
                     {
-                        EntityName = name_prop.GetString() ?? string.Empty,
-                        NewValue = value_prop.GetString() ?? string.Empty
-                    };
-                    if (InsightEditCommand?.CanExecute(edit) == true)
-                        InsightEditCommand.Execute(edit);
-                }
+                        EntityName = ReadString(entity_payload, "entityName"),
+                        SymbolId = ReadString(entity_payload, "symbolId"),
+                        DefinitionPath = ReadString(entity_payload, "definitionPath"),
+                        DefinitionOffset = entity_payload.TryGetProperty("definitionOffset", out var def_offset)
+                            && def_offset.ValueKind == JsonValueKind.Number
+                                ? def_offset.GetInt32()
+                                : -1,
+                        OpenPath = ReadString(entity_payload, "openPath")
+                    });
                 break;
         }
     }
+
+    private static string ReadString(JsonElement payload, string name) =>
+        payload.TryGetProperty(name, out var prop) && prop.ValueKind == JsonValueKind.String
+            ? prop.GetString() ?? string.Empty
+            : string.Empty;
 
     private void FlushPendingBeforeReady()
     {
@@ -317,7 +316,7 @@ public partial class MonacoEditorHost : UserControl
             SendCommandFireAndForget(EditorHostCommands.ApplyTheme, SharedTheme);
         SendCommandFireAndForget(EditorHostCommands.SetValue, new { text = BoundText });
         SendCommandFireAndForget(EditorHostCommands.SetReadOnly, new { value = IsReadOnly });
-        SendInsights();
+        SendClearTextSegments();
     }
 
     private void RunOrQueue(Action action)
@@ -341,9 +340,9 @@ public partial class MonacoEditorHost : UserControl
             EditorHostMessage.BuildRequestJson(id, command, payload));
     }
 
-    private void SendInsights() =>
-        SendCommandFireAndForget(EditorHostCommands.SetInsights,
-            new { items = (IReadOnlyList<InsightItem>?)Insights ?? [], show = ShowInsights });
+    private void SendClearTextSegments() =>
+        SendCommandFireAndForget(EditorHostCommands.SetClearTextSegments,
+            new { segments = (IReadOnlyList<ClearTextSegment>?)ClearTextSegments ?? [], show = ShowInsights });
 
     /// <summary>Mở Find (Ctrl+F).</summary>
     public void OpenSearch() =>
@@ -421,9 +420,9 @@ public partial class MonacoEditorHost : UserControl
         host.RunOrQueue(() => host.SendCommandFireAndForget(EditorHostCommands.RevealOffset, new { offset }));
     }
 
-    private static void OnInsightsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    private static void OnClearTextSegmentsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
         if (d is not MonacoEditorHost host) return;
-        host.RunOrQueue(host.SendInsights);
+        host.RunOrQueue(host.SendClearTextSegments);
     }
 }
