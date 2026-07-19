@@ -3,9 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-    <!-- FBO Studio shell — object-oriented controls + soft interaction -->
+    <!-- DevWorkFlow shell — object-oriented controls + soft interaction -->
 
-    <SolidColorBrush x:Key="IdeRibbonBgBrush" Color="#F3F3F3"/>
+    <!-- Ribbon: nền trắng tách biệt icon well / chữ đậm -->
+    <SolidColorBrush x:Key="IdeRibbonBgBrush" Color="#FFFFFF"/>
     <SolidColorBrush x:Key="IdeMenuBgBrush" Color="#F3F3F3"/>
     <SolidColorBrush x:Key="IdeDockHeaderBgBrush" Color="#EEEEF2"/>
     <SolidColorBrush x:Key="IdeTabActiveBgBrush" Color="#FFFFFF"/>
@@ -26,19 +27,23 @@
         <Setter Property="BorderThickness" Value="0"/>
     </Style>
 
-    <!-- Ribbon command — animated lift / scale / glow -->
+    <!-- Ribbon command — lift + glow only (no ScaleTransform: tránh vỡ nét chữ) -->
     <Style x:Key="IdeRibbonButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Padding" Value="6,4"/>
+        <Setter Property="Padding" Value="7,5"/>
         <Setter Property="Margin" Value="2,0"/>
-        <Setter Property="MinWidth" Value="52"/>
-        <Setter Property="MinHeight" Value="52"/>
+        <Setter Property="MinWidth" Value="56"/>
+        <Setter Property="MinHeight" Value="58"/>
         <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
         <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -49,12 +54,10 @@
                             Padding="{TemplateBinding Padding}"
                             CornerRadius="5"
                             SnapsToDevicePixels="True"
+                            UseLayoutRounding="True"
                             RenderTransformOrigin="0.5,0.5">
                         <Border.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform x:Name="scaleTx" ScaleX="1" ScaleY="1"/>
-                                <TranslateTransform x:Name="liftTx" Y="0"/>
-                            </TransformGroup>
+                            <TranslateTransform x:Name="liftTx" Y="0"/>
                         </Border.RenderTransform>
                         <Grid>
                             <Border x:Name="glow"
@@ -62,27 +65,16 @@
                                     CornerRadius="5"
                                     Opacity="0"/>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                              RecognizesAccessKey="True"/>
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="True"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="MouseEnter">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleX"
-                                                     To="1.06" Duration="0:0:0.12">
-                                        <DoubleAnimation.EasingFunction>
-                                            <QuadraticEase EasingMode="EaseOut"/>
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleY"
-                                                     To="1.06" Duration="0:0:0.12">
-                                        <DoubleAnimation.EasingFunction>
-                                            <QuadraticEase EasingMode="EaseOut"/>
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
                                     <DoubleAnimation Storyboard.TargetName="liftTx" Storyboard.TargetProperty="Y"
-                                                     To="-1.5" Duration="0:0:0.12">
+                                                     To="-1" Duration="0:0:0.12">
                                         <DoubleAnimation.EasingFunction>
                                             <QuadraticEase EasingMode="EaseOut"/>
                                         </DoubleAnimation.EasingFunction>
@@ -95,18 +87,6 @@
                         <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleX"
-                                                     To="1" Duration="0:0:0.14">
-                                        <DoubleAnimation.EasingFunction>
-                                            <QuadraticEase EasingMode="EaseOut"/>
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleY"
-                                                     To="1" Duration="0:0:0.14">
-                                        <DoubleAnimation.EasingFunction>
-                                            <QuadraticEase EasingMode="EaseOut"/>
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
                                     <DoubleAnimation Storyboard.TargetName="liftTx" Storyboard.TargetProperty="Y"
                                                      To="0" Duration="0:0:0.14"/>
                                     <DoubleAnimation Storyboard.TargetName="glow" Storyboard.TargetProperty="Opacity"
@@ -117,10 +97,6 @@
                         <EventTrigger RoutedEvent="PreviewMouseLeftButtonDown">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleX"
-                                                     To="0.94" Duration="0:0:0.06"/>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleY"
-                                                     To="0.94" Duration="0:0:0.06"/>
                                     <DoubleAnimation Storyboard.TargetName="liftTx" Storyboard.TargetProperty="Y"
                                                      To="0.5" Duration="0:0:0.06"/>
                                 </Storyboard>
@@ -129,20 +105,8 @@
                         <EventTrigger RoutedEvent="PreviewMouseLeftButtonUp">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleX"
-                                                     To="1.06" Duration="0:0:0.1">
-                                        <DoubleAnimation.EasingFunction>
-                                            <QuadraticEase EasingMode="EaseOut"/>
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleY"
-                                                     To="1.06" Duration="0:0:0.1">
-                                        <DoubleAnimation.EasingFunction>
-                                            <QuadraticEase EasingMode="EaseOut"/>
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
                                     <DoubleAnimation Storyboard.TargetName="liftTx" Storyboard.TargetProperty="Y"
-                                                     To="-1.5" Duration="0:0:0.1"/>
+                                                     To="-1" Duration="0:0:0.1"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -175,12 +139,10 @@
                             Padding="{TemplateBinding Padding}"
                             CornerRadius="5"
                             SnapsToDevicePixels="True"
+                            UseLayoutRounding="True"
                             RenderTransformOrigin="0.5,0.5">
                         <Border.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform x:Name="scaleTx" ScaleX="1" ScaleY="1"/>
-                                <TranslateTransform x:Name="liftTx" Y="0"/>
-                            </TransformGroup>
+                            <TranslateTransform x:Name="liftTx" Y="0"/>
                         </Border.RenderTransform>
                         <Grid>
                             <Border x:Name="glow"
@@ -188,27 +150,16 @@
                                     CornerRadius="5"
                                     Opacity="0.55"/>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                              RecognizesAccessKey="True"/>
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="True"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="MouseEnter">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleX"
-                                                     To="1.07" Duration="0:0:0.12">
-                                        <DoubleAnimation.EasingFunction>
-                                            <QuadraticEase EasingMode="EaseOut"/>
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleY"
-                                                     To="1.07" Duration="0:0:0.12">
-                                        <DoubleAnimation.EasingFunction>
-                                            <QuadraticEase EasingMode="EaseOut"/>
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
                                     <DoubleAnimation Storyboard.TargetName="liftTx" Storyboard.TargetProperty="Y"
-                                                     To="-1.5" Duration="0:0:0.12"/>
+                                                     To="-1" Duration="0:0:0.12"/>
                                     <DoubleAnimation Storyboard.TargetName="glow" Storyboard.TargetProperty="Opacity"
                                                      To="1" Duration="0:0:0.12"/>
                                 </Storyboard>
@@ -217,10 +168,6 @@
                         <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleX"
-                                                     To="1" Duration="0:0:0.14"/>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleY"
-                                                     To="1" Duration="0:0:0.14"/>
                                     <DoubleAnimation Storyboard.TargetName="liftTx" Storyboard.TargetProperty="Y"
                                                      To="0" Duration="0:0:0.14"/>
                                     <DoubleAnimation Storyboard.TargetName="glow" Storyboard.TargetProperty="Opacity"
@@ -231,20 +178,16 @@
                         <EventTrigger RoutedEvent="PreviewMouseLeftButtonDown">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleX"
-                                                     To="0.94" Duration="0:0:0.06"/>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleY"
-                                                     To="0.94" Duration="0:0:0.06"/>
+                                    <DoubleAnimation Storyboard.TargetName="liftTx" Storyboard.TargetProperty="Y"
+                                                     To="0.5" Duration="0:0:0.06"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <EventTrigger RoutedEvent="PreviewMouseLeftButtonUp">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleX"
-                                                     To="1.07" Duration="0:0:0.1"/>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleY"
-                                                     To="1.07" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetName="liftTx" Storyboard.TargetProperty="Y"
+                                                     To="-1" Duration="0:0:0.1"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -276,12 +219,10 @@
                             Padding="{TemplateBinding Padding}"
                             CornerRadius="5"
                             SnapsToDevicePixels="True"
+                            UseLayoutRounding="True"
                             RenderTransformOrigin="0.5,0.5">
                         <Border.RenderTransform>
-                            <TransformGroup>
-                                <ScaleTransform x:Name="scaleTx" ScaleX="1" ScaleY="1"/>
-                                <TranslateTransform x:Name="liftTx" Y="0"/>
-                            </TransformGroup>
+                            <TranslateTransform x:Name="liftTx" Y="0"/>
                         </Border.RenderTransform>
                         <Grid>
                             <Border x:Name="glow"
@@ -289,27 +230,16 @@
                                     CornerRadius="5"
                                     Opacity="0.5"/>
                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"
-                                              RecognizesAccessKey="True"/>
+                                              RecognizesAccessKey="True"
+                                              SnapsToDevicePixels="True"/>
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <EventTrigger RoutedEvent="MouseEnter">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleX"
-                                                     To="1.07" Duration="0:0:0.12">
-                                        <DoubleAnimation.EasingFunction>
-                                            <QuadraticEase EasingMode="EaseOut"/>
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleY"
-                                                     To="1.07" Duration="0:0:0.12">
-                                        <DoubleAnimation.EasingFunction>
-                                            <QuadraticEase EasingMode="EaseOut"/>
-                                        </DoubleAnimation.EasingFunction>
-                                    </DoubleAnimation>
                                     <DoubleAnimation Storyboard.TargetName="liftTx" Storyboard.TargetProperty="Y"
-                                                     To="-1.5" Duration="0:0:0.12"/>
+                                                     To="-1" Duration="0:0:0.12"/>
                                     <DoubleAnimation Storyboard.TargetName="glow" Storyboard.TargetProperty="Opacity"
                                                      To="1" Duration="0:0:0.12"/>
                                 </Storyboard>
@@ -318,10 +248,6 @@
                         <EventTrigger RoutedEvent="MouseLeave">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleX"
-                                                     To="1" Duration="0:0:0.14"/>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleY"
-                                                     To="1" Duration="0:0:0.14"/>
                                     <DoubleAnimation Storyboard.TargetName="liftTx" Storyboard.TargetProperty="Y"
                                                      To="0" Duration="0:0:0.14"/>
                                     <DoubleAnimation Storyboard.TargetName="glow" Storyboard.TargetProperty="Opacity"
@@ -332,20 +258,16 @@
                         <EventTrigger RoutedEvent="PreviewMouseLeftButtonDown">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleX"
-                                                     To="0.94" Duration="0:0:0.06"/>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleY"
-                                                     To="0.94" Duration="0:0:0.06"/>
+                                    <DoubleAnimation Storyboard.TargetName="liftTx" Storyboard.TargetProperty="Y"
+                                                     To="0.5" Duration="0:0:0.06"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
                         <EventTrigger RoutedEvent="PreviewMouseLeftButtonUp">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleX"
-                                                     To="1.07" Duration="0:0:0.1"/>
-                                    <DoubleAnimation Storyboard.TargetName="scaleTx" Storyboard.TargetProperty="ScaleY"
-                                                     To="1.07" Duration="0:0:0.1"/>
+                                    <DoubleAnimation Storyboard.TargetName="liftTx" Storyboard.TargetProperty="Y"
+                                                     To="-1" Duration="0:0:0.1"/>
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -362,10 +284,13 @@
     </Style>
 
     <Style x:Key="IdeRibbonGroupLabelStyle" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="9"/>
-        <Setter Property="Foreground" Value="{StaticResource FgMutedBrush}"/>
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="#4A5560"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="0,2,0,0"/>
+        <Setter Property="Margin" Value="0,3,0,1"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
     </Style>
 
     <Style x:Key="IdeRibbonSeparatorStyle" TargetType="Rectangle">
@@ -464,40 +389,6 @@
         </Setter>
     </Style>
 
-    <!-- Dock / explorer tab strip -->
-    <Style x:Key="IdeDockTabButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{StaticResource FgMutedBrush}"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0,0,0,2"/>
-        <Setter Property="Padding" Value="10,6"/>
-        <Setter Property="Margin" Value="0,0,1,0"/>
-        <Setter Property="FontSize" Value="11"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="bd"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="bd" Property="Background" Value="#F5F7FA"/>
-                            <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="bd" Property="Background" Value="{StaticResource IdePressBrush}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <!-- Segmented editor mode (Source / Insight / Designer) -->
     <Style x:Key="IdeSegmentButtonStyle" TargetType="Button">
         <Setter Property="Background" Value="Transparent"/>
@@ -531,13 +422,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="IdeDockHeaderStyle" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource IdeDockHeaderBgBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource IdeBorderBrush}"/>
-        <Setter Property="BorderThickness" Value="0,0,0,1"/>
-        <Setter Property="Padding" Value="8,4"/>
-        <Setter Property="Height" Value="28"/>
-    </Style>
+    <!-- IdeDockHeader* / IdeDockTab* → Themes/Controls/Dock.xaml -->
 
     <Style x:Key="IdeEditorColumnHeaderStyle" TargetType="Border">
         <Setter Property="Background" Value="#F5F7FA"/>
@@ -621,50 +506,6 @@
         <Setter Property="Margin" Value="12"/>
     </Style>
 
-    <!-- Object-style input (form / property / resolved value) -->
-    <Style x:Key="IdeInputStyle" TargetType="TextBox">
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
-        <Setter Property="CaretBrush" Value="{StaticResource FgBrightBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource IdeBorderBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="8,5"/>
-        <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
-        <Setter Property="FontFamily" Value="{StaticResource AppFont}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="TextBox">
-                    <Border x:Name="bd"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="3"
-                            Padding="{TemplateBinding Padding}"
-                            SnapsToDevicePixels="True">
-                        <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="bd" Property="BorderBrush" Value="#90A4AE"/>
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="bd" Property="BorderBrush" Value="{StaticResource IdeFocusRingBrush}"/>
-                            <Setter TargetName="bd" Property="BorderThickness" Value="1.5"/>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="bd" Property="Background" Value="#F5F5F5"/>
-                            <Setter Property="Opacity" Value="0.7"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="IdeMonoInputStyle" TargetType="TextBox" BasedOn="{StaticResource IdeInputStyle}">
-        <Setter Property="FontFamily" Value="{StaticResource MonoFont}"/>
-        <Setter Property="FontSize" Value="12"/>
-        <Setter Property="Padding" Value="6,4"/>
-    </Style>
+    <!-- IdeInputStyle / IdeMonoInputStyle → Themes/Controls/Inputs.xaml -->
 
 </ResourceDictionary>

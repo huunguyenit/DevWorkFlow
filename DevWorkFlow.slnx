@@ -1,19 +1,37 @@
 <Solution>
   <Folder Name="/docs/">
-    <File Path="docs/AI_RULES.md" />
-    <File Path="docs/ARCHITECTURE.md" />
-    <File Path="docs/DECISIONS.md" />
-    <File Path="docs/ERP_LANGUAGE_SERVICE.md" />
-    <File Path="docs/PRODUCT_VISION.md" />
-    <File Path="docs/PROJECT_STATUS.md" />
-    <File Path="docs/ROADMAP.md" />
+    <File Path="docs/00-VISION.md" />
+    <File Path="docs/01-ARCHITECTURE.md" />
+    <File Path="docs/02-ERP_LANGUAGE_SERVICE.md" />
+    <File Path="docs/03-EDITOR_PLATFORM.md" />
+    <File Path="docs/04-TREE_FRAMEWORK.md" />
+    <File Path="docs/05-WORKFLOW_ENGINE.md" />
+    <File Path="docs/06-PLUGIN_SYSTEM.md" />
+    <File Path="docs/07-UI_GUIDELINES.md" />
+    <File Path="docs/08-CODING_STANDARDS.md" />
+    <File Path="docs/09-ROADMAP.md" />
+    <File Path="docs/10-DEVWORKFLOW_BOOK.md" />
+  </Folder>
+  <Folder Name="/docs/adr/">
+    <File Path="ADR-0001-LanguageService.md" />
+      <File Path="ADR-0002-MonacoEditor.md" />
+      <File Path="ADR-0003-TreeDataSource.md" />
+      <File Path="ADR-0004-InsightLayer.md" />
+      <File Path="ADR-0005-EditorPlatform.md" />
+      <File Path="ADR-0006-SemanticModel.md" />
+      <File Path="ADR-0007-Workspace.md" />
+      <File Path="ADR-0008-PluginArchitecture.md" />
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/DevWorkFlow.Application.Tests/DevWorkFlow.Application.Tests.csproj" />
     <Project Path="tests/DevWorkFlow.Domain.Tests/DevWorkFlow.Domain.Tests.csproj" />
+    <Project Path="tests/DevWorkFlow.Editor.Tests/DevWorkFlow.Editor.Tests.csproj" />
+    <Project Path="tests/DevWorkFlow.Tree.Tests/DevWorkFlow.Tree.Tests.csproj" />
   </Folder>
   <Project Path="DevWorkFlow.Application/DevWorkFlow.Application.csproj" />
   <Project Path="DevWorkFlow.Domain/DevWorkFlow.Domain.csproj" />
+  <Project Path="DevWorkFlow.Editor/DevWorkFlow.Editor.csproj" />
   <Project Path="DevWorkFlow.Infrastructure/DevWorkFlow.Infrastructure.csproj" />
+  <Project Path="DevWorkFlow.Tree/DevWorkFlow.Tree.csproj" />
   <Project Path="UI/UI.csproj" />
 </Solution>

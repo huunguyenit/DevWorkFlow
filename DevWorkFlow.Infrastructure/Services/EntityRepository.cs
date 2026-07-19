@@ -25,7 +25,10 @@ public sealed class EntityRepository : IEntityRepository
         var items = new List<AppDatabaseInfo>();
         await using var conn = new SqlConnection(sys_connection_string);
         await conn.OpenAsync();
-        await using var cmd = new SqlCommand(Sql, conn);
+        await using var cmd = new SqlCommand(Sql, conn)
+        {
+            CommandTimeout = WebConfigReader.GetTimeoutSeconds(sys_connection_string)
+        };
         await using var reader = await cmd.ExecuteReaderAsync();
         while (await reader.ReadAsync())
         {

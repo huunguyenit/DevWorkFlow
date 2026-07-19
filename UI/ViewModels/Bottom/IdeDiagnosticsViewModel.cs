@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using DevWorkFlow.Application.Language;
 using DevWorkFlow.Domain.Language;
+using UI.Services;
 using UI.ViewModels.Base;
 
 namespace UI.ViewModels.Bottom;
@@ -40,6 +41,7 @@ public sealed class ErrorItemVm
 public sealed class IdeDiagnosticsViewModel : ViewModelBase
 {
     private const int MaxEntries = 500;
+    private readonly IReadOnlyDictionary<string, DiagnosticCatalogEntry> _diagnostics_catalog;
     private int _error_count;
     private int _warning_count;
     private int _hint_count;
@@ -73,13 +75,15 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
     public RelayCommand ClearErrorsCommand { get; }
     public RelayCommand ClearProblemsCommand { get; }
 
-    public IdeDiagnosticsViewModel()
+    public IdeDiagnosticsViewModel(AppConfigStore? app_config = null)
     {
+        _diagnostics_catalog = app_config?.DiagnosticsCatalog
+            ?? new Dictionary<string, DiagnosticCatalogEntry>();
         ClearLogCommand = new RelayCommand(() => LogEntries.Clear());
         ClearOutputCommand = new RelayCommand(() => OutputEntries.Clear());
         ClearErrorsCommand = new RelayCommand(ClearProblems);
         ClearProblemsCommand = new RelayCommand(ClearProblems);
-        Info("FBO Studio ready.", "Shell");
+        Info("DevWorkFlow ready.", "Shell");
     }
 
     public void Info(string message, string source = "IDE") =>
@@ -108,7 +112,7 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
 
         foreach (var row in DiagnosticGridMapper.MapProblems(diagnostics, default_file))
         {
-            var problem = ProblemItemVm.FromGridRow(row);
+            var problem = ProblemItemVm.FromGridRow(row, _diagnostics_catalog);
             Problems.Add(problem);
             if (row.SeverityBadge == "E")
             {

@@ -25,17 +25,6 @@ public class MenuService : IMenuService
         ("Report", ControllerFileKind.Report)
     ];
 
-    private static readonly (string RelativeFolder, ControllerFileKind Kind)[] TemplateFolders =
-    [
-        (Path.Combine("Templates", "Upload"), ControllerFileKind.TemplateUpload),
-        (Path.Combine("Templates", "Excel"), ControllerFileKind.TemplateExcel),
-        (Path.Combine("Templates", "Rpt"), ControllerFileKind.TemplateRpt),
-        // Alias: Template/… (một số program)
-        (Path.Combine("Template", "Upload"), ControllerFileKind.TemplateUpload),
-        (Path.Combine("Template", "Excel"), ControllerFileKind.TemplateExcel),
-        (Path.Combine("Template", "Rpt"), ControllerFileKind.TemplateRpt)
-    ];
-
     private static readonly string[] FormExtensions = [".xml", ".f"];
 
     public MenuService(
@@ -88,7 +77,6 @@ public class MenuService : IMenuService
         if (controllers.Count == 0)
         {
             bundle.ErrorMessage = $"File aspx không khai báo Controller: {Path.GetFileName(aspx_path)}";
-            // Vẫn gắn Main để user thấy
             TryAddFile(bundle, program.ProgramPath, aspx_path, ControllerFileKind.Aspx, string.Empty);
             return SortBundle(bundle);
         }
@@ -113,10 +101,9 @@ public class MenuService : IMenuService
             AddTemplateFiles(bundle, program.ProgramPath, controllers_root, controller_name);
         }
 
-        // Main aspx — cuối danh sách (sau sort)
         TryAddFile(bundle, program.ProgramPath, aspx_path, ControllerFileKind.Aspx, string.Empty);
 
-        // Đọc XML/.f đã có → load Grid (items.style=Grid) + Filter (showForm)
+        // Dir/Grid/Filter/Report → related Grid / Filter / Upload / Rpt / Excel
         EnrichFromXmlReferences(bundle, program.ProgramPath, controllers_root);
 
         var form_count = bundle.Files.Count(f => f.IsFormSource);
@@ -134,7 +121,6 @@ public class MenuService : IMenuService
         string program_path,
         string controllers_root)
     {
-        // Snapshot — tránh modify khi foreach
         var seed_files = bundle.Files
             .Where(f => f.IsXml || f.IsEncrypted)
             .Where(f => f.Kind is ControllerFileKind.Dir
@@ -152,50 +138,124 @@ public class MenuService : IMenuService
             var file = pending.Dequeue();
             if (!scanned.Add(file.FullPath)) continue;
 
-            IErpDocument? document = null;
-            var close_after_analysis = false;
-            try
+            var clear_text = TryReadClearText(file.FullPath);
+            if (string.IsNullOrWhiteSpace(clear_text)) continue;
+
+            var parent_controller = !string.IsNullOrWhiteSpace(file.ControllerName)
+                ? file.ControllerName
+                : bundle.ControllerName;
+
+            foreach (var related in ControllerRelatedFileResolver.FindRelated(clear_text, parent_controller))
             {
-                var document_id = ErpDocumentId.FromPath(file.FullPath);
-                document = _language_service.GetDocument(document_id);
-                if (document is null)
-                {
-                    document = _language_service.OpenDocument(file.FullPath);
-                    close_after_analysis = true;
-                }
+                var added = TryAddRelated(
+                    bundle, program_path, controllers_root, related, parent_controller);
+                if (added is null) continue;
+                if (added.IsXml || added.IsEncrypted)
+                    pending.Enqueue(added);
             }
-            catch
-            {
-                continue;
-            }
-
-            foreach (var related in ControllerRelatedFileResolver.FindRelated(document))
-            {
-                var folder = related.Kind == ControllerRelatedFileResolver.RelatedKind.Grid
-                    ? "Grid"
-                    : "Filter";
-                var kind = related.Kind == ControllerRelatedFileResolver.RelatedKind.Grid
-                    ? ControllerFileKind.Grid
-                    : ControllerFileKind.Filter;
-
-                var path = FindControllerFile(controllers_root, folder, related.ControllerName);
-                if (path is null) continue;
-
-                if (bundle.Files.Any(f =>
-                        string.Equals(f.FullPath, path, StringComparison.OrdinalIgnoreCase)))
-                    continue;
-
-                var item = CreateFileItem(program_path, path, kind, related.ControllerName);
-                bundle.Files.Add(item);
-                pending.Enqueue(item);
-
-                // Template theo tên related
-                AddTemplateFiles(bundle, program_path, controllers_root, related.ControllerName);
-            }
-
-            if (close_after_analysis)
-                _language_service.CloseDocument(document.Id);
         }
+    }
+
+    private ControllerFileItem? TryAddRelated(
+        MenuResourceBundle bundle,
+        string program_path,
+        string controllers_root,
+        ControllerRelatedFileResolver.RelatedRef related,
+        string parent_controller)
+    {
+        string? path;
+        ControllerFileKind kind;
+        var name = related.ControllerName;
+
+        switch (related.Kind)
+        {
+            case ControllerRelatedFileResolver.RelatedKind.Grid:
+                kind = ControllerFileKind.Grid;
+                path = FindControllerFile(controllers_root, "Grid", name);
+                break;
+
+            case ControllerRelatedFileResolver.RelatedKind.Filter:
+                kind = ControllerFileKind.Filter;
+                path = FindControllerFile(controllers_root, "Filter", name);
+                break;
+
+            case ControllerRelatedFileResolver.RelatedKind.UploadFromParent:
+                name = parent_controller;
+                if (string.IsNullOrWhiteSpace(name)) return null;
+                kind = ControllerFileKind.TemplateUpload;
+                path = FindTemplateAsset(controllers_root, "Upload", name, [".xml", ".f"]);
+                break;
+
+            case ControllerRelatedFileResolver.RelatedKind.Upload:
+                kind = ControllerFileKind.TemplateUpload;
+                path = FindTemplateAsset(controllers_root, "Upload", name, [".xml", ".f"]);
+                break;
+
+            case ControllerRelatedFileResolver.RelatedKind.Excel:
+                kind = ControllerFileKind.TemplateExcel;
+                path = FindTemplateAsset(controllers_root, "Excel", name, [".xlsx", ".xls", ".xml"]);
+                break;
+
+            case ControllerRelatedFileResolver.RelatedKind.Rpt:
+                kind = ControllerFileKind.TemplateRpt;
+                path = FindTemplateAsset(controllers_root, "Rpt", name, [".rpt"]);
+                break;
+
+            default:
+                return null;
+        }
+
+        if (path is null) return null;
+        if (bundle.Files.Any(f =>
+                string.Equals(f.FullPath, path, StringComparison.OrdinalIgnoreCase)))
+            return null;
+
+        var item = CreateFileItem(program_path, path, kind, name);
+        bundle.Files.Add(item);
+
+        if (kind is ControllerFileKind.Grid or ControllerFileKind.Filter or ControllerFileKind.Report)
+            AddTemplateFiles(bundle, program_path, controllers_root, name);
+
+        return item;
+    }
+
+    /// <summary>Ưu tiên ClearText từ Language Service; fallback đọc file .xml thô.</summary>
+    private string? TryReadClearText(string file_path)
+    {
+        try
+        {
+            var document_id = ErpDocumentId.FromPath(file_path);
+            var document = _language_service.GetDocument(document_id);
+            var close_after = false;
+            if (document is null)
+            {
+                document = _language_service.OpenDocument(file_path);
+                close_after = true;
+            }
+
+            var text = document.GetProjection(ErpProjectionKind.ClearText).Text;
+            if (close_after)
+                _language_service.CloseDocument(document.Id);
+
+            if (!string.IsNullOrWhiteSpace(text))
+                return text;
+        }
+        catch
+        {
+            // fallback
+        }
+
+        try
+        {
+            if (file_path.EndsWith(".xml", StringComparison.OrdinalIgnoreCase))
+                return File.ReadAllText(file_path);
+        }
+        catch
+        {
+            // ignore
+        }
+
+        return null;
     }
 
     private static void AddTemplateFiles(
@@ -206,15 +266,72 @@ public class MenuService : IMenuService
     {
         if (string.IsNullOrWhiteSpace(controller_name)) return;
 
-        foreach (var (relative_folder, kind) in TemplateFolders)
-        {
-            var folder_path = ResolveNestedFolder(controllers_root, relative_folder);
-            if (folder_path is null) continue;
+        TryAddTemplateKind(bundle, program_path, controllers_root, controller_name,
+            "Upload", ControllerFileKind.TemplateUpload, [".xml", ".f"]);
+        TryAddTemplateKind(bundle, program_path, controllers_root, controller_name,
+            "Excel", ControllerFileKind.TemplateExcel, [".xlsx", ".xls", ".xml"]);
+        TryAddTemplateKind(bundle, program_path, controllers_root, controller_name,
+            "Rpt", ControllerFileKind.TemplateRpt, [".rpt"]);
+    }
 
-            var file_path = FindFileInFolder(folder_path, controller_name);
-            if (file_path is null) continue;
-            TryAddFile(bundle, program_path, file_path, kind, controller_name);
+    private static void TryAddTemplateKind(
+        MenuResourceBundle bundle,
+        string program_path,
+        string controllers_root,
+        string controller_name,
+        string template_subfolder,
+        ControllerFileKind kind,
+        string[] extensions)
+    {
+        var path = FindTemplateAsset(controllers_root, template_subfolder, controller_name, extensions);
+        if (path is null) return;
+        TryAddFile(bundle, program_path, path, kind, controller_name);
+    }
+
+    /// <summary>Tìm Templates|Template / {Upload|Excel|Rpt} / {name}.{ext}.</summary>
+    public static string? FindTemplateAsset(
+        string controllers_root,
+        string template_subfolder,
+        string name,
+        string[] extensions)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return null;
+
+        foreach (var root_name in new[] { "Templates", "Template" })
+        {
+            var folder = ResolveNestedFolder(
+                controllers_root, Path.Combine(root_name, template_subfolder));
+            if (folder is null) continue;
+
+            foreach (var ext in extensions)
+            {
+                var direct = Path.Combine(folder, name + ext);
+                if (File.Exists(direct)) return direct;
+            }
+
+            try
+            {
+                var match = Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly)
+                    .FirstOrDefault(f =>
+                    {
+                        var file_ext = Path.GetExtension(f);
+                        if (!extensions.Any(e =>
+                                string.Equals(file_ext, e, StringComparison.OrdinalIgnoreCase)))
+                            return false;
+                        return string.Equals(
+                            Path.GetFileNameWithoutExtension(f),
+                            name,
+                            StringComparison.OrdinalIgnoreCase);
+                    });
+                if (match is not null) return match;
+            }
+            catch
+            {
+                // ignore
+            }
         }
+
+        return null;
     }
 
     private static string? ResolveNestedFolder(string controllers_root, string relative_folder)
@@ -222,7 +339,6 @@ public class MenuService : IMenuService
         var direct = Path.Combine(controllers_root, relative_folder);
         if (Directory.Exists(direct)) return direct;
 
-        // Walk từng segment không phân biệt hoa thường
         try
         {
             var current = controllers_root;
@@ -237,34 +353,6 @@ public class MenuService : IMenuService
                 current = next;
             }
             return current;
-        }
-        catch
-        {
-            return null;
-        }
-    }
-
-    private static string? FindFileInFolder(string folder, string controller_name)
-    {
-        foreach (var ext in FormExtensions)
-        {
-            var direct = Path.Combine(folder, controller_name + ext);
-            if (File.Exists(direct)) return direct;
-        }
-
-        try
-        {
-            return Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly)
-                .Where(f =>
-                {
-                    var ext = Path.GetExtension(f);
-                    return FormExtensions.Any(e =>
-                        string.Equals(ext, e, StringComparison.OrdinalIgnoreCase));
-                })
-                .FirstOrDefault(f => string.Equals(
-                    Path.GetFileNameWithoutExtension(f),
-                    controller_name,
-                    StringComparison.OrdinalIgnoreCase));
         }
         catch
         {
@@ -324,7 +412,6 @@ public class MenuService : IMenuService
         return bundle;
     }
 
-    /// <summary>Resolve App_Data/Controllers (không phân biệt hoa thường).</summary>
     public static string? ResolveControllersRoot(string program_path)
     {
         var direct = Path.Combine(program_path, "App_Data", "Controllers");
@@ -336,9 +423,8 @@ public class MenuService : IMenuService
                 .FirstOrDefault(d => string.Equals(Path.GetFileName(d), "App_Data", StringComparison.OrdinalIgnoreCase));
             if (app_data is null) return null;
 
-            var controllers = Directory.EnumerateDirectories(app_data)
+            return Directory.EnumerateDirectories(app_data)
                 .FirstOrDefault(d => string.Equals(Path.GetFileName(d), "Controllers", StringComparison.OrdinalIgnoreCase));
-            return controllers;
         }
         catch
         {
@@ -346,9 +432,6 @@ public class MenuService : IMenuService
         }
     }
 
-    /// <summary>
-    /// Tìm file controller trong folder: ưu tiên .xml, không có thì .f.
-    /// </summary>
     public static string? FindControllerFile(string controllers_root, string folder, string controller_name)
     {
         if (string.IsNullOrWhiteSpace(controller_name)) return null;
@@ -403,7 +486,6 @@ public class MenuService : IMenuService
         }
     }
 
-    /// <summary>Resolve đường dẫn aspx từ link menu (~/Reports/X.aspx, Reports/X.aspx, ...).</summary>
     internal static string? ResolveAspxPath(string program_path, string link)
     {
         if (string.IsNullOrWhiteSpace(link)) return null;

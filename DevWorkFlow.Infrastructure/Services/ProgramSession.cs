@@ -9,6 +9,7 @@ public class ProgramSession : IProgramSession
     public ProgramContext? Current { get; private set; }
 
     public event EventHandler? ProgramChanged;
+    public event EventHandler? ProgramUpdated;
 
     public void SetProgram(ProgramContext program)
     {
@@ -16,10 +17,11 @@ public class ProgramSession : IProgramSession
         ProgramChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    /// <summary>Cập nhật Program không phát ProgramChanged (tránh refresh trùng).</summary>
+    /// <summary>Cập nhật Program không phát ProgramChanged (tránh refresh Explorer trùng).</summary>
     public void UpdateProgram(ProgramContext program)
     {
         Current = program ?? throw new ArgumentNullException(nameof(program));
+        ProgramUpdated?.Invoke(this, EventArgs.Empty);
     }
 
     public void Clear()

@@ -54,6 +54,94 @@ public sealed class EntitySymbolSystemTests : IDisposable
     }
 
     [Fact]
+    public void Binder_excludes_entities_declared_in_include_but_not_referenced()
+    {
+        // Mô phỏng Account.xml + Unit.ent: include khai báo nhiều entity dùng chung,
+        // document chỉ gọi một phần — entity không gọi tới không được tạo symbol.
+        var controller_path = Path.Combine(_temp_directory, "Controller.xml");
+        File.WriteAllText(
+            Path.Combine(_temp_directory, "shared.ent"),
+            """
+            <!ENTITY UsedEntity "used-value">
+            <!ENTITY Lookup.Job "job-value">
+            """);
+
+        const string xml = """
+            <!DOCTYPE dir [
+              <!ENTITY % Shared SYSTEM "shared.ent">
+              %Shared;
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">&UsedEntity;</dir>
+            """;
+        var syntax = FboSyntaxParser.Parse(xml, controller_path);
+        var result = new EntitySymbolBinder().Bind(controller_path, xml, syntax);
+
+        Assert.Contains(result.Symbols, entity => entity.Name == "UsedEntity");
+        Assert.DoesNotContain(result.Symbols, entity => entity.Name == "Lookup.Job");
+    }
+
+    [Fact]
+    public void Binder_builds_annotated_text_for_multi_level_entities()
+    {
+        // &A;=xin, &B;=chào, &C;=&A;&B;Claude → C.AnnotatedText = "&A;|xin&B;|chàoClaude";
+        // A và B dùng gián tiếp qua C nên vẫn được tạo symbol.
+        var controller_path = Path.Combine(_temp_directory, "Controller.xml");
+        const string xml = """
+            <!DOCTYPE dir [
+              <!ENTITY A "xin">
+              <!ENTITY B "chào">
+              <!ENTITY C "&A;&B;Claude">
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">&C;</dir>
+            """;
+        var syntax = FboSyntaxParser.Parse(xml, controller_path);
+        var result = new EntitySymbolBinder().Bind(controller_path, xml, syntax);
+
+        var c = Assert.Single(result.Symbols, entity => entity.Name == "C");
+        Assert.Equal("&A;|xin&B;|chàoClaude", c.AnnotatedText);
+
+        var a = Assert.Single(result.Symbols, entity => entity.Name == "A");
+        Assert.Equal("xin", a.AnnotatedText);
+        Assert.Contains(result.Symbols, entity => entity.Name == "B");
+    }
+
+    [Fact]
+    public void Insight_metadata_carries_value_span_for_inline_entity_in_document()
+    {
+        // Editor dùng value_start/value_length để double-click → chọn giá trị thật trong
+        // <!ENTITY X "..."> (sửa bằng text editing native, không HTML control).
+        var controller_path = Path.Combine(_temp_directory, "Controller.xml");
+        File.WriteAllText(
+            Path.Combine(_temp_directory, "included.ent"),
+            """<!ENTITY FromInclude "included-value">""");
+        const string xml = """
+            <!DOCTYPE dir [
+              <!ENTITY ClientDefault "Default">
+              <!ENTITY % Inc SYSTEM "included.ent">
+              %Inc;
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">&ClientDefault; &FromInclude;</dir>
+            """;
+        var language_service = new ErpLanguageService();
+        var document = language_service.OpenDocumentFromText(controller_path, xml);
+
+        var inline_item = Assert.Single(
+            document.Insights,
+            item => item.Type == InsightType.Entity && item.ReferenceText == "&ClientDefault;");
+        Assert.True(inline_item.Metadata.TryGetValue("value_start", out var start_text));
+        Assert.True(inline_item.Metadata.TryGetValue("value_length", out var length_text));
+        var start = int.Parse(start_text);
+        var length = int.Parse(length_text);
+        Assert.Equal("Default", xml.Substring(start, length));
+
+        // Entity khai báo trong file include → không có value span trong document này.
+        var include_item = Assert.Single(
+            document.Insights,
+            item => item.Type == InsightType.Entity && item.ReferenceText == "&FromInclude;");
+        Assert.False(include_item.Metadata.ContainsKey("value_start"));
+    }
+
+    [Fact]
     public void Binder_reports_cycle_and_missing_file()
     {
         var controller_path = Path.Combine(_temp_directory, "Controller.xml");
@@ -185,11 +273,10 @@ public sealed class EntitySymbolSystemTests : IDisposable
         Assert.Equal(EntityDeclarationKind.Inline, unit_fields!.DeclarationKind);
         Assert.Equal(string.Empty, unit_fields.RawValue);
 
-        // Lookup.Item nằm trong IGNORE (Customer chỉ Include.Customer) → stub rỗng, không SYSTEM.
-        var lookup_item = document.SemanticModel.FindEntity("Lookup.Item");
-        Assert.NotNull(lookup_item);
-        Assert.Equal(EntityDeclarationKind.Inline, lookup_item!.DeclarationKind);
-        Assert.Equal(string.Empty, lookup_item.RawValue);
+        // Lookup.Item khai báo trong include nhưng Customer.xml KHÔNG tham chiếu &Lookup.Item;
+        // → theo used-entity closure, không tạo symbol (trước đây lấy mọi declaration —
+        // hành vi cũ sai, đã sửa 2026-07-19).
+        Assert.Null(document.SemanticModel.FindEntity("Lookup.Item"));
 
         // Insight không lấy parameter %Control.Unit;
         Assert.DoesNotContain(

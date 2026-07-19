@@ -52,27 +52,3 @@ public class TemplateService : ITemplateService
         return Task.FromResult(true);
     }
 }
-
-/// <summary>In-memory FormService – lưu FormDefinition theo Id.</summary>
-public class FormService : IFormService
-{
-    private readonly Dictionary<string, FormDefinition> _store = [];
-
-    public Task<FormDefinition?> GetFormAsync(string id) =>
-        Task.FromResult(_store.TryGetValue(id, out var f) ? f : null);
-
-    public Task<IEnumerable<FormDefinition>> GetAllFormsAsync() =>
-        Task.FromResult<IEnumerable<FormDefinition>>(_store.Values);
-
-    public Task SaveFormAsync(FormDefinition form)
-    {
-        _store[form.Id] = form;
-        return Task.CompletedTask;
-    }
-
-    public Task DeleteFormAsync(string id)
-    {
-        _store.Remove(id);
-        return Task.CompletedTask;
-    }
-}

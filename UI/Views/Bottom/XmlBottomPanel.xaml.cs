@@ -7,7 +7,15 @@ namespace UI.Views.Bottom;
 
 public partial class XmlBottomPanel
 {
-    public XmlBottomPanel() => InitializeComponent();
+    public XmlBottomPanel()
+    {
+        InitializeComponent();
+        XmlEditor.OpenFileRequested += path =>
+        {
+            if (DataContext is XmlBottomViewModel vm)
+                vm.FormBuilder?.OpenEntityFile(path);
+        };
+    }
 
     private void StructureTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
     {

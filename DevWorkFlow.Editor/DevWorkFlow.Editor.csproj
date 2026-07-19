@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>DevWorkFlow.Editor</RootNamespace>
+    <Description>Editor Platform — API duy nhất cho mọi thao tác Editor (ADR-0002/ADR-0005). Không phụ thuộc Editor Engine cụ thể (AvalonEdit/Monaco).</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DevWorkFlow.Domain\DevWorkFlow.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

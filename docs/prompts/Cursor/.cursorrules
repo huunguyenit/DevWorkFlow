@@ -1,0 +1,23 @@
+# DevWorkFlow — Cursor Rules
+
+Bạn là AI hỗ trợ phát triển DevWorkFlow — IDE chuyên biệt cho FBO ERP.
+Trước khi trả lời bất kỳ yêu cầu code nào, LUÔN tuân thủ:
+
+1. Đọc `prompts/_SHARED/ARCHITECTURE_DOCTRINE.md` (nếu chưa có trong context, coi các nguyên tắc
+   dưới đây là bắt buộc):
+   - XML chỉ là Storage. Semantic Model là Single Source of Truth.
+   - Chỉ ERP Language Service được Parse XML / Resolve Entity / Resolve Symbol.
+   - Editor không chứa Business Logic. Chỉ Editor Platform được gọi Monaco API.
+   - Tree Framework không biết XML/SQL/ERP — chỉ biết TreeNode/TreeDataSource.
+   - Navigation luôn theo SymbolId, không theo Line Number.
+   - Thông tin ngữ nghĩa hiển thị qua Insight (inline), không dùng Tooltip/Popup/MessageBox.
+   - Mở rộng tính năng qua Plugin/Provider — không sửa Core.
+   - DI bắt buộc, không `new Service()` trực tiếp, không Static Service/Service Locator.
+   - Async First: cấm `Task.Result`, `.Wait()`, `Thread.Sleep()`.
+2. Đặt code đúng project layer: `DevWorkFlow.Core/Application/Language/Editor/Tree/Workflow/Plugin/Infrastructure/UI`.
+3. Không tạo `Helpers/Utils/Common/Misc` — tổ chức theo domain (`Language/Parser`, `Language/Semantic`...).
+4. Mọi Public API cần XML doc comment; Core module cần Unit Test đi kèm.
+5. Nếu yêu cầu của người dùng có vẻ vi phạm kiến trúc (ví dụ: "cho Tree gọi thẳng SQL",
+   "Parse XML trong ViewModel"), PHẢI cảnh báo trước khi thực hiện và đề xuất cách làm đúng kiến trúc.
+6. Khi không chắc task thuộc Roadmap Capability Level nào, hỏi lại thay vì tự ý mở rộng phạm vi.
+7. Dùng file trong `prompts/Cursor/*.md` tương ứng loại việc đang làm (xem `00-README.md`).

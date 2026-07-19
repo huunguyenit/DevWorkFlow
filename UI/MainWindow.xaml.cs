@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using UI.Commands;
+using UI.Services;
 using UI.ViewModels;
 using UI.ViewModels.Shell;
 using UI.Views.Controls;
@@ -15,8 +16,40 @@ public partial class MainWindow
         Loaded += OnLoaded;
     }
 
+    private void OnSourceInitialized(object? sender, EventArgs e)
+    {
+        WindowMaximizeFix.Attach(this);
+        ApplyMaximizedChrome();
+    }
+
+    private void OnWindowStateChanged(object? sender, EventArgs e)
+    {
+        ApplyMaximizedChrome();
+    }
+
+    /// <summary>
+    /// Maximized: bỏ border cửa sổ (tránh double-inset). Work area do WM_GETMINMAXINFO.
+    /// </summary>
+    private void ApplyMaximizedChrome()
+    {
+        if (RootLayout is null) return;
+
+        if (WindowState == WindowState.Maximized)
+        {
+            BorderThickness = new Thickness(0);
+            RootLayout.Margin = new Thickness(0);
+        }
+        else
+        {
+            BorderThickness = new Thickness(1);
+            RootLayout.Margin = new Thickness(0);
+        }
+    }
+
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
+        ApplyMaximizedChrome();
+
         // Routed commands — phần lớn NoOp; Save/Parse ủy quyền FormBuilder
         CommandBindings.Add(new CommandBinding(IdeCommands.Exit, (_, _) =>
         {
@@ -59,11 +92,23 @@ public partial class MainWindow
         CommandBindings.Add(new CommandBinding(IdeCommands.GoToDefinition, OnGoToDefinition, CanWhenFormBuilder));
         CommandBindings.Add(new CommandBinding(IdeCommands.FindReferences, OnFindReferences, CanWhenFormBuilder));
 
-        // Stubs an toàn — không crash
+        // Stubs an toàn — không crash. CHÚ Ý: Undo/Redo/Cut/Copy/Paste/Delete KHÔNG được đặt
+        // ở đây dù chưa có implementation IDE-wide thật — RoutedUICommand của chúng có
+        // InputGesture trùng phím tắt chuẩn (Ctrl+Z/Y/X/C/V, Delete). Một CommandBinding
+        // NoOp ở MainWindow (root) sẽ chặn phím đó trước khi tới Editor: với AvalonEdit
+        // (WPF control thật) trước đây, TextArea tự xử lý các phím này trước khi bubbling
+        // lên tới MainWindow nên không bị lộ; với MonacoEditorHost (WebView2 — native HWND
+        // "airspace" island), WPF interop dịch native key event thành routed KeyDown ở
+        // chính cấp HwndHost, không có control WPF trung gian nào "giành" xử lý trước —
+        // CommandBinding NoOp ở MainWindow sẽ thắng và nuốt mất phím, khiến Monaco/WebView2
+        // không bao giờ nhận được Ctrl+C/V/X/Delete/Z/Y thật. Không có CommandBinding nào ở
+        // đây cho các phím này → WPF không đánh dấu Handled → phím tới Monaco bình thường,
+        // dùng Undo/Redo/Copy/Paste/Delete NGUYÊN SINH của Monaco. Menu Edit tương ứng
+        // (IdeMenuBar.xaml) sẽ hiện disabled (đúng — chưa có IDE-wide command thật) thay vì
+        // giả vờ hoạt động mà không làm gì.
         foreach (var cmd in new[]
                  {
-                     IdeCommands.New, IdeCommands.Undo, IdeCommands.Redo,
-                     IdeCommands.Cut, IdeCommands.Copy, IdeCommands.Paste, IdeCommands.Delete,
+                     IdeCommands.New,
                      IdeCommands.Add, IdeCommands.ValidateXml, IdeCommands.Preview,
                      IdeCommands.Settings
                  })

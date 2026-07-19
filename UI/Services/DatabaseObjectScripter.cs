@@ -2,6 +2,7 @@ using System.Data;
 using System.Text;
 using System.Text.RegularExpressions;
 using DevWorkFlow.Application.Abstractions;
+using DevWorkFlow.Infrastructure.Services;
 using UI.ViewModels.Explorer;
 
 namespace UI.Services;
@@ -44,7 +45,9 @@ public sealed class DatabaseObjectScripter
         var result = await _sql_runner.ExecuteAsync(
             connection_string,
             sql,
-            command_timeout_seconds: _config.Database.CommandTimeoutSeconds,
+            command_timeout_seconds: WebConfigReader.GetTimeoutSeconds(
+                connection_string,
+                _config.Database.CommandTimeoutSeconds),
             cancellation_token: ct);
 
         if (!result.Succeeded)

@@ -5,6 +5,8 @@ namespace DevWorkFlow.Application.Language;
 /// <summary>Map ErpDiagnostic → hàng grid Problems (UI-agnostic).</summary>
 public sealed class DiagnosticGridRow
 {
+    /// <summary>Mã ổn định (ví dụ ERP3001) — dùng để tra cứu diagnostics.catalog.xml.</summary>
+    public string Code { get; init; } = string.Empty;
     public string Description { get; init; } = string.Empty;
     public string File { get; init; } = string.Empty;
     public int Line { get; init; }
@@ -38,6 +40,7 @@ public static class DiagnosticGridMapper
 
             rows.Add(new DiagnosticGridRow
             {
+                Code = diagnostic.Id,
                 Description = diagnostic.Message,
                 File = file,
                 Line = diagnostic.Location.Line,

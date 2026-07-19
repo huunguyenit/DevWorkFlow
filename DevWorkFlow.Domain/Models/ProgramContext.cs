@@ -25,5 +25,12 @@ public class ProgramContext
     /// <summary>Danh sách app DB từ sys.entity (nhiều công ty / DB).</summary>
     public IReadOnlyList<AppDatabaseInfo> AppDatabases { get; set; } = [];
 
+    /// <summary>
+    /// Timeout (giây) từ Web.config appSettings/commandTimeout.
+    /// Chỉ gắn vào Connect Timeout trong CS sau khi kết nối Sys lần đầu thành công;
+    /// khi mở Program dùng probe timeout ngắn để phát hiện kết nối sai nhanh.
+    /// </summary>
+    public int CommandTimeoutSeconds { get; set; } = 30;
+
     public string ControllersPath => Path.Combine(ProgramPath, "App_Data", "Controllers");
 }

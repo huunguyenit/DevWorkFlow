@@ -2,6 +2,7 @@ using System.IO;
 using System.Text.Json;
 using System.Windows.Media;
 using System.Xml.Linq;
+using UI.Tree;
 
 namespace UI.Services;
 
@@ -27,6 +28,8 @@ public sealed class AppConfigStore
         DatabaseObjectTypes = LoadDatabaseObjectTypes();
         DatabaseObjectActions = LoadDatabaseObjectActions();
         CatalogSql = LoadSql(Database.CatalogScriptFile);
+        DiagnosticsCatalog = LoadDiagnosticsCatalog();
+        EditorTheme = LoadEditorTheme();
     }
 
     public string ConfigRoot { get; }
@@ -38,6 +41,12 @@ public sealed class AppConfigStore
     public IReadOnlyList<DatabaseObjectTypeOption> DatabaseObjectTypes { get; }
     public IReadOnlyList<DatabaseObjectActionOption> DatabaseObjectActions { get; }
     public string CatalogSql { get; }
+
+    /// <summary>Màu/kích thước/kiểu chữ cho từng loại token XML + Insight Block, đọc từ editor-theme.json.</summary>
+    public EditorThemeOptions EditorTheme { get; }
+
+    /// <summary>Mã Diagnostic (ERP3001, …) → message/severity/resolution, đọc từ diagnostics.catalog.xml.</summary>
+    public IReadOnlyDictionary<string, DiagnosticCatalogEntry> DiagnosticsCatalog { get; }
 
     public string GetSqlPath(string file_name) =>
         Path.Combine(ConfigRoot, "SQL", file_name);
@@ -91,11 +100,34 @@ public sealed class AppConfigStore
         var options = ReadJson(path, new ExplorerOptions());
         options.FolderBrush = FreezeBrush(options.FolderIconColor, Brushes.Gray);
         options.FileBrush = FreezeBrush(options.FileIconColor, Brushes.Gray);
+        options.FileIcons = NormalizeFileIcons(options.FileIcons);
         return options;
+    }
+
+    private static Dictionary<string, string> NormalizeFileIcons(Dictionary<string, string>? raw)
+    {
+        var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        foreach (var (ext, icon) in TreeIconCatalog.DefaultFileIcons)
+            map[ext] = icon;
+
+        if (raw is null) return map;
+        foreach (var (key, value) in raw)
+        {
+            if (string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(value)) continue;
+            var ext = key.Trim();
+            if (!ext.StartsWith('.'))
+                ext = "." + ext;
+            map[ext] = value.Trim();
+        }
+
+        return map;
     }
 
     private DatabaseOptions LoadDatabaseOptions() =>
         ReadJson(GetJsonPath("database.json"), new DatabaseOptions());
+
+    private EditorThemeOptions LoadEditorTheme() =>
+        ReadJson(GetJsonPath("editor-theme.json"), new EditorThemeOptions());
 
     private MenuOptions LoadMenuOptions() =>
         ReadJson(GetJsonPath("menu.json"), new MenuOptions());
@@ -218,6 +250,38 @@ public sealed class AppConfigStore
         }
     }
 
+    private IReadOnlyDictionary<string, DiagnosticCatalogEntry> LoadDiagnosticsCatalog()
+    {
+        var path = GetXmlPath("diagnostics.catalog.xml");
+        if (!File.Exists(path))
+            return new Dictionary<string, DiagnosticCatalogEntry>();
+
+        try
+        {
+            var doc = XDocument.Load(path);
+            var map = new Dictionary<string, DiagnosticCatalogEntry>(StringComparer.OrdinalIgnoreCase);
+            foreach (var el in doc.Root?.Elements("diagnostic") ?? Enumerable.Empty<XElement>())
+            {
+                var code = ((string?)el.Attribute("code") ?? string.Empty).Trim();
+                if (string.IsNullOrWhiteSpace(code)) continue;
+
+                map[code] = new DiagnosticCatalogEntry
+                {
+                    Code = code,
+                    Severity = (string?)el.Attribute("severity") ?? "Info",
+                    Message = (string?)el.Attribute("message") ?? string.Empty,
+                    Resolution = (string?)el.Attribute("resolution") ?? string.Empty
+                };
+            }
+
+            return map;
+        }
+        catch
+        {
+            return new Dictionary<string, DiagnosticCatalogEntry>();
+        }
+    }
+
     private T ReadJson<T>(string path, T fallback) where T : class
     {
         try
@@ -251,9 +315,9 @@ public sealed class AppConfigStore
         {
             new() { Code = "U", Kind = "Table", Folder = "Tables", Icon = "Table", Color = "#1565C0", Order = 1 },
             new() { Code = "V", Kind = "View", Folder = "Views", Icon = "EyeOutline", Color = "#2E7D32", Order = 2 },
-            new() { Code = "FN", Kind = "Function", Folder = "Functions", Icon = "Function", Color = "#6A1B9A", Order = 3 },
-            new() { Code = "IF", Kind = "Function", Folder = "Functions", Icon = "Function", Color = "#6A1B9A", Order = 3 },
-            new() { Code = "TF", Kind = "Function", Folder = "Functions", Icon = "Function", Color = "#6A1B9A", Order = 3 },
+            new() { Code = "FN", Kind = "Function", Folder = "Functions", Icon = "FunctionVariant", Color = "#6A1B9A", Order = 3 },
+            new() { Code = "IF", Kind = "Function", Folder = "Functions", Icon = "FunctionVariant", Color = "#6A1B9A", Order = 3 },
+            new() { Code = "TF", Kind = "Function", Folder = "Functions", Icon = "FunctionVariant", Color = "#6A1B9A", Order = 3 },
             new() { Code = "P", Kind = "Procedure", Folder = "Stored Procedures", Icon = "DatabaseCogOutline", Color = "#E65100", Order = 4 }
         };
         foreach (var item in list)
@@ -303,9 +367,9 @@ public sealed class ExplorerOptions
     public bool SearchScanFilesystem { get; set; } = true;
     public int SearchMaxHits { get; set; } = 400;
     public int ActivationDelayMs { get; set; } = 200;
-    public string FolderIcon { get; set; } = "FolderOutline";
+        public string FolderIcon { get; set; } = "Folder";
     public string FileIcon { get; set; } = "FileOutline";
-    public string FolderIconColor { get; set; } = "#757575";
+    public string FolderIconColor { get; set; } = "#C9A227";
     public string FileIconColor { get; set; } = "#616161";
     public bool ShowFileBadges { get; set; }
     public string[] PreferredRootFolders { get; set; } =
@@ -313,9 +377,41 @@ public sealed class ExplorerOptions
         "App_Data", "Main", "ClientScript", "Css", "Images", "Help",
         "AppHandler", "AppService", "Upload"
     ];
+    /// <summary>
+    /// Extension bị loại khỏi Explorer (blacklist). Rỗng = hiện mọi file.
+    /// JSON: explorerFileExtensions
+    /// </summary>
     public string[] ExplorerFileExtensions { get; set; } =
-        [".xml", ".f", ".aspx", ".js", ".css", ".sql"];
+        [".dll", ".pdb", ".exe", ".cache", ".user", ".bak", ".tmp"];
+
+    /// <summary>
+    /// Extension KHÔNG cho mở làm document (file nhị phân/không phải text — editor
+    /// không đọc được: Excel, Crystal Report, ảnh, thư viện...). JSON: blockedOpenExtensions.
+    /// </summary>
+    public string[] BlockedOpenExtensions { get; set; } =
+    [
+        ".xls", ".xlsx", ".xlsm", ".rpt", ".png", ".jpg", ".jpeg", ".gif", ".bmp",
+        ".ico", ".dll", ".exe", ".pdb", ".zip", ".rar", ".7z", ".pdf", ".doc", ".docx"
+    ];
     public string[] HiddenRootFolders { get; set; } = ["bin"];
+
+    /// <summary>
+    /// Map extension → PackIcon Kind hoặc alias (PlainText, XML, Excel, PDF, javascript, CSS, webservice, api).
+    /// JSON: fileIcons — { ".txt": "PlainText", ".xml": "XML", ... }
+    /// </summary>
+    public Dictionary<string, string> FileIcons { get; set; } = new(StringComparer.OrdinalIgnoreCase)
+    {
+        [".txt"] = "PlainText",
+        [".xml"] = "XML",
+        [".f"] = "FileLockOutline",
+        [".asmx"] = "webservice",
+        [".ashx"] = "api",
+        [".xls"] = "Excel",
+        [".xlsx"] = "Excel",
+        [".rpt"] = "PDF",
+        [".js"] = "javascript",
+        [".css"] = "CSS"
+    };
 
     public Brush FolderBrush { get; set; } = Brushes.Gray;
     public Brush FileBrush { get; set; } = Brushes.Gray;
@@ -367,4 +463,56 @@ public sealed class DatabaseObjectActionOption
     public string Script { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string DropTemplate { get; set; } = string.Empty;
+}
+
+/// <summary>Màu/kiểu chữ cho một loại token (dùng cho cả tokens.* và insightBlock.*.color/fontStyle trong editor-theme.json).</summary>
+public sealed class EditorTokenStyle
+{
+    public string Color { get; set; } = "#1E1E1E";
+    public string FontStyle { get; set; } = string.Empty;
+    public int? FontSize { get; set; }
+}
+
+/// <summary>tokens.* trong editor-theme.json — theo đúng tên token Monarch thật của erp-xml (xem erp-xml-language.js).</summary>
+public sealed class EditorTokenPalette
+{
+    public EditorTokenStyle Tag { get; set; } = new() { Color = "#800000" };
+    public EditorTokenStyle AttributeName { get; set; } = new() { Color = "#B8860B" };
+    public EditorTokenStyle AttributeValue { get; set; } = new() { Color = "#0451A5" };
+    public EditorTokenStyle EntityReference { get; set; } = new() { Color = "#AB47BC", FontStyle = "italic" };
+    public EditorTokenStyle Comment { get; set; } = new() { Color = "#008000", FontStyle = "italic" };
+    public EditorTokenStyle Cdata { get; set; } = new() { Color = "#1E1E1E" };
+    public EditorTokenStyle Delimiter { get; set; } = new() { Color = "#800000" };
+    public EditorTokenStyle Metatag { get; set; } = new() { Color = "#808080" };
+}
+
+/// <summary>insightBlock.* trong editor-theme.json — màu cho khối hiển thị Entity Insight (xem bridge.js buildInsightNode).</summary>
+public sealed class EditorInsightBlockPalette
+{
+    public EditorTokenStyle ReferenceText { get; set; } = new() { Color = "#757575", FontStyle = "italic", FontSize = 12 };
+    public EditorTokenStyle Separator { get; set; } = new() { Color = "#AB47BC" };
+    public EditorTokenStyle ResolvedValue { get; set; } = new() { Color = "#2D2D2D", FontSize = 12 };
+    public string Border { get; set; } = "#CE93D8";
+    public string BackgroundDepth0 { get; set; } = "#F8F0FA";
+    public string BackgroundNested { get; set; } = "#FCF8FD";
+}
+
+/// <summary>Toàn bộ editor-theme.json — nguồn cấu hình màu/font cho Monaco (không hardcode trong bridge.js).</summary>
+public sealed class EditorThemeOptions
+{
+    public string FontFamily { get; set; } = "Cascadia Code, Consolas, Courier New";
+    public int BaseFontSize { get; set; } = 13;
+    public string Background { get; set; } = "#FFFFFF";
+    public string Foreground { get; set; } = "#1E1E1E";
+    public EditorTokenPalette Tokens { get; set; } = new();
+    public EditorInsightBlockPalette InsightBlock { get; set; } = new();
+}
+
+/// <summary>Một mã Diagnostic trong diagnostics.catalog.xml (message/severity/resolution).</summary>
+public sealed class DiagnosticCatalogEntry
+{
+    public string Code { get; set; } = string.Empty;
+    public string Severity { get; set; } = "Info";
+    public string Message { get; set; } = string.Empty;
+    public string Resolution { get; set; } = string.Empty;
 }

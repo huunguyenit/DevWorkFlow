@@ -1,4 +1,4 @@
-﻿<action id="GetVoucherNumber">
+<action id="GetVoucherNumber">
   <text>
     <![CDATA[
 if exists(select 1 from v20dmnk where ma_nk = @voucherBook)

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Danh mục Diagnostic của ERP Language Service — nguồn tra cứu "cách giải quyết" cho
+  Problems panel. Sửa file này không cần rebuild logic C# (đọc qua AppConfigStore).
+
+  message   = mô tả chung của mã lỗi (Diagnostic thật do binder sinh ra có thể kèm chi
+              tiết cụ thể hơn — ví dụ tên Entity — message ở đây chỉ dùng khi cần label
+              chung hoặc khi Description gốc không có).
+  severity  = Error | Warning | Info (khớp ErpDiagnosticSeverity, không tính Hidden).
+  resolution = gợi ý cách xử lý, hiển thị trong cột "Gợi ý" của Problems panel.
+
+  Nguồn danh sách mã: docs/specs/language/diagnostics-pipeline.md.
+-->
+<diagnostics>
+  <diagnostic code="ERP0001" severity="Warning"
+              message="Lỗi mở rộng nội dung (expand) trong ERP Language Service."
+              resolution="Kiểm tra lại nội dung nguồn tại vị trí báo lỗi; nếu lặp lại nhiều lần, báo cho đội phát triển vì đường dẫn này hiện chưa có call site nào tạo ra trong thực tế." />
+
+  <diagnostic code="ERP0002" severity="Info"
+              message="Parser FBO chuyên biệt (FboXmlParser) không map được Document; đã dùng dữ liệu tối thiểu từ Syntax Tree."
+              resolution="Kiểm tra Document có đúng cấu trúc Controller FBO chuẩn không (thiếu node bắt buộc, sai namespace). Semantic Model vẫn dùng được nhưng thiếu chi tiết (Field/View đầy đủ)." />
+
+  <diagnostic code="ERP1001" severity="Warning"
+              message="XML/FBO có lỗi cú pháp đã được tự phục hồi (tag không đóng hoặc không khớp)."
+              resolution="Mở file tại vị trí Line/Column được báo, kiểm tra tag mở/đóng. Parser đã tự phục hồi nên Document vẫn dùng được, nhưng nên sửa để tránh sai lệch cấu trúc khi Serialize lại." />
+
+  <diagnostic code="ERP2001" severity="Warning"
+              message="Trùng tên Field trong cùng Document."
+              resolution="Đổi tên một trong các Field trùng, hoặc xác nhận đây là chủ đích (override) — nếu chủ đích, cân nhắc dùng cơ chế kế thừa/override rõ ràng hơn thay vì trùng tên." />
+
+  <diagnostic code="ERP3001" severity="Error"
+              message="File SYSTEM của Entity không tồn tại hoặc không đọc được."
+              resolution="Kiểm tra đường dẫn SYSTEM trong khai báo &lt;!ENTITY ... SYSTEM &quot;...&quot;&gt; có đúng và file có tồn tại trên đĩa không; kiểm tra quyền đọc file." />
+
+  <diagnostic code="ERP3002" severity="Error"
+              message="Vòng lặp tham chiếu Entity (include file hoặc giá trị)."
+              resolution="Truy theo chuỗi tham chiếu được báo (A → B → A) và phá vỡ vòng lặp bằng cách bỏ một tham chiếu hoặc tách giá trị dùng chung ra Entity gốc không phụ thuộc ngược." />
+
+  <diagnostic code="ERP3003" severity="Warning"
+              message="Tham chiếu tới Entity không có khai báo."
+              resolution="Kiểm tra tên Entity có đúng chính tả không; nếu Entity đáng lẽ tồn tại, thêm khai báo &lt;!ENTITY Name &quot;value&quot;&gt; hoặc SYSTEM include còn thiếu." />
+
+  <diagnostic code="ERP3004" severity="Warning"
+              message="Trùng tên khai báo Entity (fallback khi DTD pre-resolve thất bại)."
+              resolution="Xoá hoặc đổi tên khai báo ENTITY trùng lặp; hệ thống hiện chọn khai báo theo thứ tự xuất hiện nên kết quả có thể không như mong đợi." />
+
+  <diagnostic code="ERP3010" severity="Info"
+              message="Không pre-resolve được DTD bằng XmlDocument/XmlReader; đã fallback về kết quả regex."
+              resolution="Thường do DOCTYPE không hợp lệ theo chuẩn XML nghiêm ngặt. Document vẫn mở được qua fallback; nếu cần độ chính xác Entity cao hơn, sửa DOCTYPE cho hợp lệ với XML chuẩn." />
+</diagnostics>

@@ -1,7 +1,7 @@
-﻿<command event="Closing">
+<command event="Closing">
   <text>
     <![CDATA[
-select 'close$VoucherFilter$(this);' as message
+select 'close123$VoucherFilter$(this);' as message
 return
 ]]>
   </text>

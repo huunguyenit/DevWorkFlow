@@ -70,7 +70,7 @@
     <sys:Double x:Key="FontSizeMedium">14</sys:Double>
     <sys:Double x:Key="FontSizeLarge">16</sys:Double>
     <sys:Double x:Key="FontSizeTitle">18</sys:Double>
-    <sys:Double x:Key="TreeFontSize">12</sys:Double>
+    <sys:Double x:Key="TreeFontSize">13</sys:Double>
 
     <Thickness x:Key="CardPadding">16</Thickness>
     <Thickness x:Key="SectionMargin">0,0,0,16</Thickness>
@@ -218,17 +218,18 @@
     <!-- Chevron expander giống VS Code (định nghĩa trước ItemStyle) -->
     <Style x:Key="IdeTreeExpanderStyle" TargetType="ToggleButton">
         <Setter Property="Focusable" Value="False"/>
-        <Setter Property="Width" Value="16"/>
-        <Setter Property="Height" Value="24"/>
+        <Setter Property="Width" Value="18"/>
+        <Setter Property="Height" Value="28"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
                     <Border Background="Transparent">
                         <Path x:Name="Arrow"
-                              Data="M 0,0 L 4,4 L 0,8 Z"
+                              Data="M 0,0 L 5,5 L 0,10 Z"
                               Fill="{StaticResource FgMutedBrush}"
                               HorizontalAlignment="Center"
                               VerticalAlignment="Center"
+                              SnapsToDevicePixels="True"
                               RenderTransformOrigin="0.5,0.5">
                             <Path.RenderTransform>
                                 <RotateTransform Angle="0"/>
@@ -261,8 +262,12 @@
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Margin" Value="0"/>
         <Setter Property="FontSize" Value="{StaticResource TreeFontSize}"/>
-        <Setter Property="MinHeight" Value="24"/>
+        <Setter Property="MinHeight" Value="28"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TreeViewItem">
@@ -272,15 +277,17 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
+                        <!-- Chỉ tô dòng header (Bd) — không lan sang ItemsHost / cấp mẹ -->
                         <Border x:Name="Bd"
                                 Grid.Row="0"
                                 Background="{TemplateBinding Background}"
                                 Padding="0"
                                 SnapsToDevicePixels="True"
-                                MinHeight="24">
+                                UseLayoutRounding="True"
+                                MinHeight="28">
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="16"/>
+                                    <ColumnDefinition Width="18"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
@@ -295,13 +302,14 @@
                                                   ContentSource="Header"
                                                   HorizontalAlignment="Stretch"
                                                   VerticalAlignment="Center"
-                                                  Margin="2,1,8,1"/>
+                                                  Margin="2,2,8,2"
+                                                  SnapsToDevicePixels="True"/>
                             </Grid>
                         </Border>
 
                         <ItemsPresenter x:Name="ItemsHost"
                                         Grid.Row="1"
-                                        Margin="12,0,0,0"
+                                        Margin="14,0,0,0"
                                         Visibility="Collapsed"/>
                     </Grid>
                     <ControlTemplate.Triggers>
@@ -311,7 +319,8 @@
                         <Trigger Property="HasItems" Value="False">
                             <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
                         </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
+                        <!-- SourceName=Bd: hover chỉ khi chuột trên dòng header, không khi trên con -->
+                        <Trigger SourceName="Bd" Property="IsMouseOver" Value="True">
                             <Setter TargetName="Bd" Property="Background" Value="{StaticResource SidebarHoverBrush}"/>
                         </Trigger>
                         <Trigger Property="IsSelected" Value="True">
@@ -426,97 +435,7 @@
         <Setter Property="Padding" Value="10,0"/>
     </Style>
 
-    <Style x:Key="IconButtonStyle" TargetType="Button">
-        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Margin" Value="0"/>
-        <Setter Property="Width" Value="32"/>
-        <Setter Property="Height" Value="32"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-        <Setter Property="RenderTransform">
-            <Setter.Value>
-                <ScaleTransform ScaleX="1" ScaleY="1"/>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="bd" Background="{TemplateBinding Background}"
-                            CornerRadius="4" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="bd" Property="Background" Value="#E8EEF5"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="bd" Property="Background" Value="#D6E4F5"/>
-                            <Setter Property="RenderTransform">
-                                <Setter.Value>
-                                    <ScaleTransform ScaleX="0.92" ScaleY="0.92"/>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.4"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <!-- Object toolbar / secondary action — hover + press scale -->
-    <Style x:Key="ActionButtonStyle" TargetType="Button">
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource BorderBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Margin" Value="4,0"/>
-        <Setter Property="Height" Value="28"/>
-        <Setter Property="Padding" Value="12,0"/>
-        <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
-        <Setter Property="RenderTransform">
-            <Setter.Value>
-                <ScaleTransform ScaleX="1" ScaleY="1"/>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="Bd"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Padding="{TemplateBinding Padding}"
-                            CornerRadius="3">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="#E8EEF5"/>
-                            <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="Bd" Property="Background" Value="#D6E4F5"/>
-                            <Setter Property="RenderTransform">
-                                <Setter.Value>
-                                    <ScaleTransform ScaleX="0.97" ScaleY="0.97"/>
-                                </Setter.Value>
-                            </Setter>
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Opacity" Value="0.45"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    <!-- IconButtonStyle / ActionButtonStyle → Themes/Controls/Buttons.xaml -->
 
     <Style x:Key="DataGridRowStyle" TargetType="DataGridRow">
         <Setter Property="Height" Value="30"/>
@@ -580,39 +499,6 @@
         <Setter Property="MinWidth" Value="140"/>
     </Style>
 
-    <!-- Filter / search box trong sidebar -->
-    <Style x:Key="IdeSearchBoxStyle" TargetType="TextBox">
-        <Setter Property="Background" Value="White"/>
-        <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
-        <Setter Property="CaretBrush" Value="{StaticResource FgBrightBrush}"/>
-        <Setter Property="BorderBrush" Value="{StaticResource IdeBorderBrush}"/>
-        <Setter Property="BorderThickness" Value="1"/>
-        <Setter Property="Padding" Value="8,6"/>
-        <Setter Property="FontSize" Value="{StaticResource FontSizeNormal}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="TextBox">
-                    <Border x:Name="bd"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="3"
-                            Padding="{TemplateBinding Padding}"
-                            SnapsToDevicePixels="True">
-                        <ScrollViewer x:Name="PART_ContentHost" Margin="0"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="bd" Property="BorderBrush" Value="#90A4AE"/>
-                        </Trigger>
-                        <Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="bd" Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
-                            <Setter TargetName="bd" Property="BorderThickness" Value="1.5"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
+    <!-- IdeSearchBox* → Themes/Controls/Inputs.xaml -->
 
 </ResourceDictionary>

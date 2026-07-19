@@ -64,6 +64,7 @@ public sealed class EntityInsightProvider : IInsightProvider
                     entity,
                     reference.Location,
                     by_id,
+                    document_path,
                     new HashSet<string>(StringComparer.OrdinalIgnoreCase)));
             }
         }
@@ -76,6 +77,7 @@ public sealed class EntityInsightProvider : IInsightProvider
         EntitySymbol entity,
         SourceLocation range,
         IReadOnlyDictionary<string, EntitySymbol> by_id,
+        string document_path,
         HashSet<string> path)
     {
         if (!path.Add(entity.Id))
@@ -100,8 +102,28 @@ public sealed class EntityInsightProvider : IInsightProvider
                 by_id[child_id],
                 by_id[child_id].Definition,
                 by_id,
+                document_path,
                 new HashSet<string>(path, StringComparer.OrdinalIgnoreCase)))
             .ToList();
+
+        // Span giá trị thật trong <!ENTITY X "..."> — chỉ khi khai báo inline nằm trong
+        // chính document đang mở. Editor dùng để double-click → chọn giá trị và sửa bằng
+        // text editing thật (không HTML control; &X; trong body không đổi — ADR-0004).
+        var metadata = new Dictionary<string, string>(entity.Metadata, StringComparer.OrdinalIgnoreCase);
+        if (entity.DeclarationKind == EntityDeclarationKind.Inline
+            && !entity.ValueLocation.Span.IsEmpty
+            && PathsEqual(entity.ValueLocation.Path, document_path))
+        {
+            metadata["value_start"] = entity.ValueLocation.Span.StartOffset.ToString();
+            metadata["value_length"] = entity.ValueLocation.Span.Length.ToString();
+        }
+        else if (entity.DeclarationKind == EntityDeclarationKind.ExternalSystem
+                 && !string.IsNullOrWhiteSpace(entity.ResolvedPath))
+        {
+            // Entity SYSTEM: double-click mở file entity ra tab mới (editor gửi
+            // openFileRequested về host — editor không tự mở file, chỉ báo).
+            metadata["open_path"] = entity.ResolvedPath!;
+        }
 
         return new InsightItem
         {
@@ -114,6 +136,9 @@ public sealed class EntityInsightProvider : IInsightProvider
             ReferenceText = $"&{entity.Name};",
             DisplayContent = entity.DisplayText,
             ResolvedValue = entity.RawValue ?? entity.DisplayText,
+            AnnotatedValue = string.IsNullOrEmpty(entity.AnnotatedText)
+                ? entity.DisplayText
+                : entity.AnnotatedText,
             CanEditResolvedValue = entity.IsResolved
                                    && entity.DeclarationKind != EntityDeclarationKind.Parameter,
             Actions =
@@ -123,7 +148,7 @@ public sealed class EntityInsightProvider : IInsightProvider
                 Action("symbol.references", "Find References", entity),
                 Action("symbol.rename", "Rename Symbol", entity)
             ],
-            Metadata = entity.Metadata,
+            Metadata = metadata,
             Children = children
         };
     }

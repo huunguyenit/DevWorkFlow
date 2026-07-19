@@ -6,23 +6,46 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-    <ApplicationIcon>Flow.ico</ApplicationIcon>
+    <ApplicationIcon>DevWorkFlow.ico</ApplicationIcon>
+    <Title>DevWorkFlow</Title>
+    <Product>DevWorkFlow</Product>
+    <AssemblyName>DevWorkFlow</AssemblyName>
+    <AssemblyTitle>DevWorkFlow</AssemblyTitle>
+    <Description>DevWorkFlow — IDE for FBO</Description>
+    <Copyright>NGUYENTDH</Copyright>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <PackageIcon>DevWorkFlow.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Flow.ico" />
+    <Resource Include="DevWorkFlow.png" />
+    <Content Include="DevWorkFlow.ico" />
     <None Include="Config\**\*" CopyToOutputDirectory="PreserveNewest" LinkBase="Config" />
+    <!-- Monaco Editor (vendored, ADR-0002) + Editor Host web shell (ADR-0005 Message Bridge) -->
+    <None Include="Assets\Monaco\**\*" CopyToOutputDirectory="PreserveNewest" LinkBase="Assets\Monaco" />
+    <None Include="Assets\EditorHost\**\*" CopyToOutputDirectory="PreserveNewest" LinkBase="Assets\EditorHost" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="DevWorkFlow.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
+    <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4022.49" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\DevWorkFlow.Domain\DevWorkFlow.Domain.csproj" />
     <ProjectReference Include="..\DevWorkFlow.Application\DevWorkFlow.Application.csproj" />
+    <ProjectReference Include="..\DevWorkFlow.Editor\DevWorkFlow.Editor.csproj" />
     <ProjectReference Include="..\DevWorkFlow.Infrastructure\DevWorkFlow.Infrastructure.csproj" />
+    <ProjectReference Include="..\DevWorkFlow.Tree\DevWorkFlow.Tree.csproj" />
   </ItemGroup>
 
 </Project>

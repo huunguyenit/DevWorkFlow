@@ -51,6 +51,25 @@ public class WorkspaceSymbolIndexTests
     }
 
     [Fact]
+    public void SearchSymbols_entity_matches_reference_name_and_resolved_value()
+    {
+        // "&ClientDefault;" / "ClientDefault" / "Default" đều phải tìm ra cùng một
+        // Semantic Symbol (yêu cầu Search của Insight redesign 2026-07-19).
+        const string xml = """
+            <!DOCTYPE dir [<!ENTITY ClientDefault "Default">]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">&ClientDefault;</dir>
+            """;
+        var ls = new ErpLanguageService();
+        ls.OpenDocumentFromText("Entity.xml", xml);
+
+        foreach (var query in new[] { "&ClientDefault;", "ClientDefault", "Default" })
+        {
+            var results = ls.SearchSymbols(query, kind: ErpSymbolKind.Entity);
+            Assert.Contains(results, e => e.Symbol.Name == "ClientDefault");
+        }
+    }
+
+    [Fact]
     public void SearchSymbols_kind_filter_narrows_results()
     {
         var ls = new ErpLanguageService();

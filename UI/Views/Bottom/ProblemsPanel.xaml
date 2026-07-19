@@ -42,8 +42,10 @@
                   MouseDoubleClick="ProblemsGrid_MouseDoubleClick">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="" Binding="{Binding SeverityBadge}" Width="28"/>
-                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="*"/>
-                <DataGridTextColumn Header="File" Binding="{Binding File}" Width="160"/>
+                <DataGridTextColumn Header="Code" Binding="{Binding Code}" Width="64"/>
+                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2*"/>
+                <DataGridTextColumn Header="Gợi ý" Binding="{Binding Resolution}" Width="3*"/>
+                <DataGridTextColumn Header="File" Binding="{Binding File}" Width="140"/>
                 <DataGridTextColumn Header="Line" Binding="{Binding Line}" Width="48"/>
                 <DataGridTextColumn Header="Col" Binding="{Binding Column}" Width="40"/>
                 <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="72"/>

@@ -1,0 +1,172 @@
+<UserControl x:Class="UI.Tree.TreeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:tree="clr-namespace:UI.Tree"
+             SnapsToDevicePixels="True"
+             UseLayoutRounding="True"
+             ClipToBounds="False"
+             TextOptions.TextFormattingMode="Display"
+             TextOptions.TextRenderingMode="ClearType"
+             Focusable="True">
+
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </UserControl.Resources>
+
+    <DockPanel Background="{StaticResource SidebarBgBrush}"
+               ClipToBounds="False"
+               LastChildFill="True"
+               Margin="0,0,1,0">
+        <Border x:Name="FilterHost"
+                DockPanel.Dock="Top"
+                Style="{StaticResource IdeSearchBoxHostStyle}"
+                Visibility="{Binding ShowFilter, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource BoolToVis}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <md:PackIcon Kind="Magnify" Width="15" Height="15"
+                             Foreground="#8A929C" VerticalAlignment="Center" Margin="0,0,8,0"
+                             SnapsToDevicePixels="True"/>
+                <TextBox x:Name="FilterBox"
+                         Grid.Column="1"
+                         Style="{StaticResource IdeSearchBoxInnerStyle}"
+                         Text="{Binding FilterText, RelativeSource={RelativeSource AncestorType=UserControl}, UpdateSourceTrigger=PropertyChanged}"
+                         TextChanged="FilterBox_TextChanged"/>
+            </Grid>
+        </Border>
+
+        <TextBlock DockPanel.Dock="Bottom"
+                   Text="{Binding StatusText, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                   Style="{StaticResource IdeDockSubTitleStyle}"
+                   Margin="8,4,10,6"
+                   TextTrimming="CharacterEllipsis"
+                   TextOptions.TextFormattingMode="Display"/>
+
+        <ListBox x:Name="RowList"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 Padding="2,2,6,2"
+                 Margin="0"
+                 Focusable="True"
+                 ClipToBounds="False"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                 ScrollViewer.CanContentScroll="True"
+                 ScrollViewer.IsDeferredScrollingEnabled="False"
+                 VirtualizingPanel.IsVirtualizing="True"
+                 VirtualizingPanel.VirtualizationMode="Recycling"
+                 VirtualizingPanel.ScrollUnit="Item"
+                 SelectionMode="Extended"
+                 KeyDown="RowList_KeyDown"
+                 ContextMenuOpening="RowList_ContextMenuOpening"
+                 SnapsToDevicePixels="True"
+                 UseLayoutRounding="True"
+                 TextOptions.TextFormattingMode="Display"
+                 TextOptions.TextRenderingMode="ClearType">
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel/>
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="Margin" Value="0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="UseLayoutRounding" Value="True"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border x:Name="Bd"
+                                        Background="Transparent"
+                                        Padding="0,1"
+                                        Margin="0,0,2,0"
+                                        SnapsToDevicePixels="True"
+                                        UseLayoutRounding="True"
+                                        ClipToBounds="False">
+                                    <ContentPresenter/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="{StaticResource IdeHoverBrush}"/>
+                                    </Trigger>
+                                    <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="{StaticResource SidebarSelectedBrush}"/>
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type tree:TreeRowVm}">
+                    <Grid MinHeight="28"
+                          Background="Transparent"
+                          ClipToBounds="False"
+                          SnapsToDevicePixels="True"
+                          UseLayoutRounding="True"
+                          MouseLeftButtonDown="Row_MouseLeftButtonDown">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="18"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*" MinWidth="24"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Indent: VS Code-style depth gutter -->
+                        <Border Grid.Column="0" Width="{Binding Indent}" MinWidth="0"/>
+
+                        <!-- Always reserve expander column so icons align (Hidden ≠ Collapsed) -->
+                        <ToggleButton Grid.Column="1"
+                                      Width="18" Height="28"
+                                      Focusable="False"
+                                      IsChecked="{Binding IsExpanded, Mode=OneWay}"
+                                      Click="Expander_Click">
+                            <ToggleButton.Style>
+                                <Style TargetType="ToggleButton" BasedOn="{StaticResource IdeTreeExpanderStyle}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Setter Property="Opacity" Value="1"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsExpandable}" Value="False">
+                                            <Setter Property="Visibility" Value="Hidden"/>
+                                            <Setter Property="IsHitTestVisible" Value="False"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ToggleButton.Style>
+                        </ToggleButton>
+
+                        <md:PackIcon Grid.Column="2"
+                                     Width="16" Height="16"
+                                     Kind="{Binding Icon}"
+                                     Foreground="{Binding IconBrush}"
+                                     VerticalAlignment="Center"
+                                     Margin="0,0,8,0"
+                                     SnapsToDevicePixels="True"
+                                     UseLayoutRounding="True"/>
+
+                        <TextBlock Grid.Column="3"
+                                   Text="{Binding DisplayName}"
+                                   FontSize="13"
+                                   FontFamily="{StaticResource AppFont}"
+                                   FontStyle="{Binding FontStyle}"
+                                   Foreground="{Binding TextBrush}"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,4,0"
+                                   TextTrimming="CharacterEllipsis"
+                                   TextWrapping="NoWrap"
+                                   SnapsToDevicePixels="True"
+                                   TextOptions.TextFormattingMode="Display"
+                                   TextOptions.TextRenderingMode="ClearType"/>
+                    </Grid>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>
+</UserControl>

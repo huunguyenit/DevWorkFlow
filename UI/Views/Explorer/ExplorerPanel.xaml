@@ -2,33 +2,34 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-             xmlns:ex="clr-namespace:UI.Views.Explorer">
+             xmlns:tree="clr-namespace:UI.Tree">
 
     <DockPanel Background="{StaticResource SidebarBgBrush}">
         <Border DockPanel.Dock="Top" Style="{StaticResource IdeDockHeaderStyle}">
             <DockPanel>
-                <TextBlock Text="EXPLORER" FontSize="11" FontWeight="SemiBold"
-                           Foreground="{StaticResource FgMutedBrush}"
-                           VerticalAlignment="Center"/>
+                <TextBlock Text="EXPLORER" Style="{StaticResource IdeDockHeaderTitleStyle}"/>
                 <StackPanel DockPanel.Dock="Right" Orientation="Horizontal"
-                            HorizontalAlignment="Right">
-                    <Button Style="{StaticResource IconButtonStyle}" Width="24" Height="24"
+                            HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Style="{StaticResource IdeDockHeaderIconButtonStyle}"
                             Command="{Binding RefreshCommand}" ToolTip="Refresh">
-                        <md:PackIcon Kind="Refresh" Width="14" Height="14"/>
+                        <md:PackIcon Kind="Refresh" Style="{StaticResource IdeDockHeaderPackIconStyle}"/>
                     </Button>
-                    <Button Style="{StaticResource IconButtonStyle}" Width="24" Height="24"
+                    <Button Style="{StaticResource IdeDockHeaderIconButtonStyle}"
                             Command="{Binding SelectProgramCommand}" ToolTip="Chọn Program">
-                        <md:PackIcon Kind="FolderOpenOutline" Width="14" Height="14"/>
+                        <md:PackIcon Kind="FolderOpenOutline" Style="{StaticResource IdeDockHeaderPackIconStyle}"/>
                     </Button>
                 </StackPanel>
             </DockPanel>
         </Border>
 
         <TextBlock DockPanel.Dock="Top" Text="{Binding ProgramTitle}"
-                   FontSize="12" FontWeight="SemiBold" Margin="8,6,8,2"
-                   Foreground="{StaticResource FgBrightBrush}"
-                   TextTrimming="CharacterEllipsis"/>
+                   Style="{StaticResource IdeDockSubTitleStyle}"/>
 
-        <ex:ExplorerTreePanel NodeActivated="ExplorerTreePanel_NodeActivated"/>
+        <tree:TreeControl x:Name="Tree"
+                          Engine="{Binding TreeRendering}"
+                          FilterText="{Binding FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                          StatusText="{Binding StatusText}"
+                          ShowFilter="True"
+                          NodeActivated="Tree_NodeActivated"/>
     </DockPanel>
 </UserControl>

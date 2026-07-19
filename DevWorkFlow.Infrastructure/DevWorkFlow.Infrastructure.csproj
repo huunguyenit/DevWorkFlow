@@ -3,6 +3,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DevWorkFlow.Domain\DevWorkFlow.Domain.csproj" />
     <ProjectReference Include="..\DevWorkFlow.Application\DevWorkFlow.Application.csproj" />
+    <ProjectReference Include="..\DevWorkFlow.Tree\DevWorkFlow.Tree.csproj" />
   </ItemGroup>
 
   <ItemGroup>

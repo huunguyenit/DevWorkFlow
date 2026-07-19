@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <RootNamespace>DevWorkFlow.Tree</RootNamespace>
+    <Description>Generic Tree Framework — independent of ERP / FS / SQL</Description>
+  </PropertyGroup>
+
+</Project>

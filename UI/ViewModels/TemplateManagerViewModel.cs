@@ -10,7 +10,6 @@ namespace UI.ViewModels;
 public class TemplateManagerViewModel : ViewModelBase
 {
     private readonly ITemplateService _templateSvc;
-    private readonly IFormService     _formSvc;
     private readonly INavigationService _nav;
     private readonly TemplateType     _type;
 
@@ -21,12 +20,10 @@ public class TemplateManagerViewModel : ViewModelBase
 
     public TemplateManagerViewModel(
         ITemplateService templateSvc,
-        IFormService formSvc,
         INavigationService nav,
         TemplateType type)
     {
         _templateSvc = templateSvc;
-        _formSvc     = formSvc;
         _nav         = nav;
         _type        = type;
 

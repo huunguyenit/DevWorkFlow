@@ -1,10 +1,11 @@
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Media;
 using System.Windows.Threading;
 using DevWorkFlow.Application.Language;
 using DevWorkFlow.Domain.Language;
+using DevWorkFlow.Infrastructure.Tree;
+using DevWorkFlow.Tree;
+using UI.Tree;
 using UI.ViewModels.Base;
 
 namespace UI.ViewModels.Explorer;
@@ -19,33 +20,30 @@ public sealed class OutlineNavTag
 }
 
 /// <summary>
-/// Outline — đọc Document Model / Navigation Map từ ERP Language Service.
-/// Click → NodeId → Navigation Service → NavigationTarget → Editor.ScrollTo.
-/// Không parse XML.
+/// Outline — chỉ qua DevWorkFlow.Tree + XmlSemanticDataSource (không dual TreeRoots).
 /// </summary>
-public sealed class OutlineViewModel : ViewModelBase, IExplorerTreeSource, IDisposable
+public sealed class OutlineViewModel : ViewModelBase, IDisposable
 {
-    private static readonly Brush IconBrush = FreezeBrush("#6B6B6B");
-
     private FormBuilderViewModel? _form_builder_vm;
     private readonly IErpLanguageService _language_service;
     private readonly DispatcherTimer _rebuild_timer;
-    private readonly DebouncedTreeFilter _filter;
+    private readonly XmlSemanticDataSource _xml_source = new();
+    private readonly TreeFrameworkHost _tree_host;
     private string _header = "Outline";
     private string _empty_message = "Mở một form XML để xem cấu trúc.";
     private string _filter_text = string.Empty;
     private string _status_text = string.Empty;
     private bool _suppress_activation;
     private bool _is_navigating;
-    private List<ExplorerTreeFilterEngine.FilterIndexItem> _filter_index = [];
+    private bool _has_nodes;
 
     public OutlineViewModel(
         FormBuilderViewModel? form_builder_vm,
         IErpLanguageService language_service)
     {
         _language_service = language_service;
-        TreeRoots = [];
         RefreshCommand = new RelayCommand(RebuildNow);
+        _tree_host = new TreeFrameworkHost(250, ApplyTreeFilterAsync);
 
         _rebuild_timer = new DispatcherTimer(DispatcherPriority.Background)
         {
@@ -57,11 +55,10 @@ public sealed class OutlineViewModel : ViewModelBase, IExplorerTreeSource, IDisp
             RebuildNow();
         };
 
-        _filter = new DebouncedTreeFilter(250, ApplyFilterAsync);
         BindTo(form_builder_vm);
     }
 
-    public ObservableCollection<ExplorerTreeNodeVm> TreeRoots { get; }
+    public TreeRenderingEngine? TreeRendering => _tree_host.Rendering;
 
     public string Header
     {
@@ -81,20 +78,33 @@ public sealed class OutlineViewModel : ViewModelBase, IExplorerTreeSource, IDisp
         set
         {
             if (!SetProperty(ref _filter_text, value)) return;
-            _filter.Schedule(value);
+            _tree_host.FilterText = value;
         }
     }
 
     public string StatusText
     {
         get => _status_text;
-        private set => SetProperty(ref _status_text, value);
+        private set
+        {
+            if (!SetProperty(ref _status_text, value)) return;
+            _tree_host.StatusText = value;
+        }
     }
 
     public int ActivationDelayMs => 100;
 
-    public bool HasNodes => TreeRoots.Count > 0;
-    public bool IsEmpty => TreeRoots.Count == 0;
+    public bool HasNodes
+    {
+        get => _has_nodes;
+        private set
+        {
+            if (!SetProperty(ref _has_nodes, value)) return;
+            OnPropertyChanged(nameof(IsEmpty));
+        }
+    }
+
+    public bool IsEmpty => !_has_nodes;
 
     public RelayCommand RefreshCommand { get; }
 
@@ -109,11 +119,11 @@ public sealed class OutlineViewModel : ViewModelBase, IExplorerTreeSource, IDisp
         RebuildNow();
     }
 
-    public void OnTreeNodeActivated(ExplorerTreeNodeVm node, bool is_double_click)
+    public void OnTreeNodeActivated(TreeNode node, bool is_double_click)
     {
         _ = is_double_click;
         if (_suppress_activation || _is_navigating) return;
-        if (node.Tag is not OutlineNavTag tag || _form_builder_vm is null) return;
+        if (node.Metadata is not OutlineNavTag tag || _form_builder_vm is null) return;
 
         var form = _form_builder_vm;
         var captured = tag;
@@ -126,10 +136,10 @@ public sealed class OutlineViewModel : ViewModelBase, IExplorerTreeSource, IDisp
 
     public void Dispose()
     {
-        _filter.Dispose();
         _rebuild_timer.Stop();
         if (_form_builder_vm is not null)
             _form_builder_vm.PropertyChanged -= OnFormBuilderChanged;
+        _ = _tree_host.DisposeAsync().AsTask();
     }
 
     private void OnFormBuilderChanged(object? sender, PropertyChangedEventArgs e)
@@ -151,21 +161,18 @@ public sealed class OutlineViewModel : ViewModelBase, IExplorerTreeSource, IDisp
         _suppress_activation = true;
         try
         {
-            TreeRoots.Clear();
-            _filter_index = [];
-
             var erp_doc = _form_builder_vm?.ErpDocument;
             if (erp_doc is null)
             {
                 Header = "Outline";
                 EmptyMessage = "Mở một form XML để xem cấu trúc.";
                 StatusText = EmptyMessage;
-                OnPropertyChanged(nameof(HasNodes));
-                OnPropertyChanged(nameof(IsEmpty));
+                HasNodes = false;
+                _ = _tree_host.DetachAsync();
+                OnPropertyChanged(nameof(TreeRendering));
                 return;
             }
 
-            // Đảm bảo Navigation Map sẵn sàng từ Language Service.
             var map = erp_doc.NavigationMap
                       ?? _language_service.Navigation.GetMap(erp_doc.Id);
             if (map is null)
@@ -173,8 +180,9 @@ public sealed class OutlineViewModel : ViewModelBase, IExplorerTreeSource, IDisp
                 Header = "Outline";
                 EmptyMessage = "Chưa có Navigation Map.";
                 StatusText = EmptyMessage;
-                OnPropertyChanged(nameof(HasNodes));
-                OnPropertyChanged(nameof(IsEmpty));
+                HasNodes = false;
+                _ = _tree_host.DetachAsync();
+                OnPropertyChanged(nameof(TreeRendering));
                 return;
             }
 
@@ -182,19 +190,12 @@ public sealed class OutlineViewModel : ViewModelBase, IExplorerTreeSource, IDisp
                 ? $"Outline · {map.Document.Root.DisplayName}"
                 : $"Outline: {_form_builder_vm!.LoadedTitle}";
 
-            foreach (var root in map.GetOutlineRoots())
-                TreeRoots.Add(ToTreeNode(root, expand: true));
-
-            _filter_index = ExplorerTreeFilterEngine.BuildIndex(TreeRoots);
-            EmptyMessage = TreeRoots.Count == 0
-                ? "Semantic Model chưa có symbol."
-                : string.Empty;
-            StatusText = $"{_filter_index.Count} mục (Navigation Map)";
-            OnPropertyChanged(nameof(HasNodes));
-            OnPropertyChanged(nameof(IsEmpty));
+            var roots = map.GetOutlineRoots();
+            TreeNodeAdapters.FillXmlSemanticFromDocumentNodes(_xml_source, roots);
+            _ = SyncXmlTreeAsync(roots.Count);
 
             if (!string.IsNullOrWhiteSpace(_filter_text))
-                _ = _filter.FlushAsync();
+                _ = ApplyTreeFilterAsync(_filter_text, CancellationToken.None);
         }
         finally
         {
@@ -202,69 +203,33 @@ public sealed class OutlineViewModel : ViewModelBase, IExplorerTreeSource, IDisp
         }
     }
 
-    private static ExplorerTreeNodeVm ToTreeNode(DocumentNode node, bool expand)
+    private async Task SyncXmlTreeAsync(int root_count)
     {
-        var display = string.IsNullOrWhiteSpace(node.DisplayName)
-            ? node.NodeType
-            : node.DisplayName;
-
-        var vm = new ExplorerTreeNodeVm
-        {
-            Name = node.SymbolId ?? node.Id.ToString(),
-            DisplayText = display,
-            IconKind = IconFor(node.NodeType),
-            IconForeground = IconBrush,
-            Tooltip = $"{node.NodeType} · {display}",
-            SearchKey = $"{node.NodeType} {display} {node.SymbolId}",
-            Tag = new OutlineNavTag
-            {
-                NodeId = node.Id,
-                NodeType = node.NodeType,
-                SymbolId = node.SymbolId,
-                DisplayName = display
-            },
-            ChildrenLoaded = true,
-            IsExpanded = expand || IsPrimarySection(node.NodeType)
-        };
-
-        foreach (var child in node.Children)
-            vm.Children.Add(ToTreeNode(child, expand: false));
-
-        return vm;
+        await _tree_host.AttachAsync(_xml_source, Application.Current?.Dispatcher)
+            .ConfigureAwait(true);
+        OnPropertyChanged(nameof(TreeRendering));
+        HasNodes = root_count > 0;
+        EmptyMessage = HasNodes ? string.Empty : "Semantic Model chưa có symbol.";
+        StatusText = HasNodes
+            ? $"{_tree_host.Rendering?.Rows.Count ?? 0} mục (Navigation Map)"
+            : EmptyMessage;
     }
 
-    // Container element (theo schema) — mở sẵn để thấy con.
-    private static readonly HashSet<string> ContainerTypes = new(StringComparer.OrdinalIgnoreCase)
+    private async Task ApplyTreeFilterAsync(string raw, CancellationToken ct)
     {
-        "dir", "grid", "lookup", "report", "notify", "controller",
-        "fields", "views", "commands", "response", "script", "entities", "partition"
-    };
-
-    private static bool IsPrimarySection(string node_type) =>
-        ContainerTypes.Contains(node_type);
-
-    private static string IconFor(string node_type) =>
-        node_type.ToLowerInvariant() switch
+        var engine = _tree_host.Engine;
+        if (engine is null) return;
+        var keyword = raw.Trim();
+        if (string.IsNullOrEmpty(keyword))
         {
-            // Leaf / định danh
-            "field" => "FormTextbox",
-            "view" => "ViewDashboard",
-            "command" or "query" => "Database",
-            "action" or "response" or "responseaction" or "entityref" => "Reply",
-            "function" or "scriptfunction" => "CodeBraces",
-            "entity" => "Variable",
-            "title" => "FormatTitle",
-            "css" => "LanguageCss3",
-            "item" or "category" => "TableColumn",
-            // Container / section
-            "dir" or "grid" or "lookup" or "report" or "notify" or "controller" => "FileDocumentOutline",
-            "fields" => "FormTextbox",
-            "views" => "ViewDashboard",
-            "commands" => "Database",
-            "script" => "LanguageJavascript",
-            "entities" => "Variable",
-            _ => "CodeTags"
-        };
+            engine.ClearSearchFilter();
+            return;
+        }
+
+        var hits = await _xml_source.SearchAsync(keyword, ct).ConfigureAwait(true);
+        await engine.ApplySearchMatchesAsync(hits, ct).ConfigureAwait(true);
+        StatusText = $"Lọc \"{keyword}\" · {hits.Count} mục";
+    }
 
     private void NavigateByNodeId(FormBuilderViewModel form, OutlineNavTag tag)
     {
@@ -297,37 +262,5 @@ public sealed class OutlineViewModel : ViewModelBase, IExplorerTreeSource, IDisp
         {
             _is_navigating = false;
         }
-    }
-
-    private async Task ApplyFilterAsync(string raw, CancellationToken ct)
-    {
-        var keyword = (raw ?? string.Empty).Trim();
-        if (_filter_index.Count == 0 && TreeRoots.Count > 0)
-            _filter_index = ExplorerTreeFilterEngine.BuildIndex(TreeRoots);
-
-        var visible = await Task.Run(
-            () => ExplorerTreeFilterEngine.CalculateVisibility(_filter_index, keyword, ct),
-            ct).ConfigureAwait(true);
-
-        ct.ThrowIfCancellationRequested();
-        await ExplorerTreeFilterEngine.ApplyVisibilityAsync(
-            _filter_index,
-            visible,
-            keyword,
-            batch_size: 80,
-            expand_matches: !string.IsNullOrEmpty(keyword),
-            ct).ConfigureAwait(true);
-
-        var match_count = visible.Count(v => v);
-        StatusText = string.IsNullOrEmpty(keyword)
-            ? $"{_filter_index.Count} mục (Navigation Map)"
-            : $"{match_count}/{_filter_index.Count} khớp \"{keyword}\"";
-    }
-
-    private static Brush FreezeBrush(string hex)
-    {
-        var brush = (Brush)new BrushConverter().ConvertFromString(hex)!;
-        if (brush.CanFreeze) brush.Freeze();
-        return brush;
     }
 }

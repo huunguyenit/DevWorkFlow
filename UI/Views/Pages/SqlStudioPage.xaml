@@ -43,13 +43,19 @@
 
                     <TextBlock Text="Target:" VerticalAlignment="Center" Margin="0,0,6,0"
                                Foreground="{StaticResource FgMutedBrush}" FontSize="11"/>
-                    <ComboBox ItemsSource="{Binding ConnectionTargets}"
-                              SelectedItem="{Binding SelectedTarget, Mode=TwoWay}"
-                              DisplayMemberPath="Display"
+                    <ComboBox Style="{StaticResource IdeComboBoxStyle}"
+                              Margin="0"
                               MinWidth="280" MaxWidth="420"
+                              ItemsSource="{Binding ConnectionTargets}"
+                              SelectedItem="{Binding SelectedTarget, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               VerticalAlignment="Center"
-                              FontSize="12"
-                              ToolTip="Sys hoặc App DB (1 sys có thể nhiều app)"/>
+                              ToolTip="Sys hoặc App DB (1 sys có thể nhiều app)">
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Display}" TextTrimming="CharacterEllipsis"/>
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
                 </StackPanel>
 
                 <TextBlock Text="{Binding Status}" DockPanel.Dock="Right"
@@ -67,7 +73,7 @@
             </Grid.RowDefinitions>
 
             <Border Grid.Row="0" BorderBrush="{StaticResource IdeBorderBrush}" BorderThickness="0,0,0,1">
-                <ctrl:BindableSqlEditor
+                <ctrl:MonacoEditorHost EditorLanguage="sql"
                     BoundText="{Binding ScriptText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     SelectedScript="{Binding SelectedScript, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
             </Border>

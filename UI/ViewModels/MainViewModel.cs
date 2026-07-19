@@ -25,7 +25,7 @@ public enum LeftExplorerTab
 }
 
 /// <summary>
-/// Root ViewModel – gắn với MainWindow (FBO Studio shell).
+/// Root ViewModel – gắn với MainWindow (DevWorkFlow shell).
 /// </summary>
 public class MainViewModel : ViewModelBase
 {
@@ -41,7 +41,7 @@ public class MainViewModel : ViewModelBase
     private ViewModelBase? _currentWorkspace;
     private string _currentPageTitle = "Form";
     private string _appStatus = "Chưa chọn Program – bấm \"Chọn Program\" trên Explorer";
-    private string _window_title = "FBO Studio";
+    private string _window_title = "DevWorkFlow";
     private string _status_encoding = "UTF-8";
     private string _status_language = "XML";
     private string _status_caret = "Ln 1, Col 1";
@@ -500,8 +500,8 @@ public class MainViewModel : ViewModelBase
     {
         var program = _program_session.Current;
         WindowTitle = program is null || string.IsNullOrWhiteSpace(program.DisplayTitle)
-            ? "FBO Studio"
-            : $"FBO Studio — {program.DisplayTitle}";
+            ? "DevWorkFlow"
+            : $"DevWorkFlow — {program.DisplayTitle}";
     }
 
     private void SyncStatusFromActiveDocument()

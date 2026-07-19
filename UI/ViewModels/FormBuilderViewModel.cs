@@ -18,10 +18,19 @@ public class FormBuilderViewModel : ViewModelBase
 {
     private readonly FboXmlWriter _xml_writer = new();
     private readonly FboOptionsCatalog _options = new();
-    private readonly IFormService _form_svc;
     private readonly IProgramSession? _program_session;
     private readonly SqlStudioNavigator? _sql_navigator;
     private readonly IErpLanguageService? _language_service;
+    private readonly FormDocumentNavigator? _form_navigator;
+    private DevWorkFlow.Editor.IEditorPlatform? _platform;
+
+    /// <summary>
+    /// Editor Platform (ADR-0002/ADR-0005) cho Document đang mở trong ViewModel này —
+    /// điểm truy cập được khuyến nghị cho consumer mới thay vì tham chiếu trực tiếp
+    /// FormBuilderViewModel. Xem docs/specs/editor/insight-editor-surface.md.
+    /// </summary>
+    public DevWorkFlow.Editor.IEditorPlatform Platform =>
+        _platform ??= new FormBuilderEditorPlatform(this);
 
     private FboControllerDocument? _document;
     private IErpDocument? _erp_document;
@@ -43,13 +52,13 @@ public class FormBuilderViewModel : ViewModelBase
     private System.Windows.Threading.DispatcherTimer? _reparse_timer;
 
     public FormBuilderViewModel(
-        IFormService form_svc,
         IProgramSession? program_session = null,
         SqlStudioNavigator? sql_navigator = null,
-        IErpLanguageService? language_service = null)
+        IErpLanguageService? language_service = null,
+        FormDocumentNavigator? form_navigator = null)
     {
-        _form_svc = form_svc;
         _program_session = program_session;
+        _form_navigator = form_navigator;
         _sql_navigator = sql_navigator;
         _language_service = language_service;
         RelatedFiles = [];
@@ -825,6 +834,52 @@ public class FormBuilderViewModel : ViewModelBase
         private set => SetProperty(ref _caret_column, value);
     }
 
+    /// <summary>
+    /// Mở file entity SYSTEM ra tab mới (double-click reference trong editor).
+    /// .sql → SQL Studio; còn lại (.ent/.txt/.xml/...) → Form document tab, code-only
+    /// trừ khi là form source thật (.xml/.f).
+    /// </summary>
+    public void OpenEntityFile(string path)
+    {
+        if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
+        {
+            StatusMessage = $"Không tìm thấy file entity: {path}";
+            return;
+        }
+
+        try
+        {
+            var ext = Path.GetExtension(path);
+            if (ext.Equals(".sql", StringComparison.OrdinalIgnoreCase))
+            {
+                _sql_navigator?.OpenFile(path);
+                StatusMessage = path;
+                return;
+            }
+
+            if (_form_navigator is null)
+            {
+                StatusMessage = "Chưa gắn FormDocumentNavigator — không mở được tab mới.";
+                return;
+            }
+
+            var is_form_source = ext.Equals(".xml", StringComparison.OrdinalIgnoreCase)
+                                 || ext.Equals(".f", StringComparison.OrdinalIgnoreCase);
+            var code_only = !is_form_source || IsCodeOnlyPath(path);
+            _form_navigator.Open(
+                path,
+                $"Entity: {Path.GetFileName(path)}",
+                raw_xml: null,
+                related_files: null,
+                code_only);
+            StatusMessage = path;
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Lỗi mở file entity: {ex.Message}";
+        }
+    }
+
     public void UpdateCaretPosition(int line, int column)
     {
         if (line > 0 && line != _caret_line)
@@ -1007,218 +1062,6 @@ public class FormBuilderViewModel : ViewModelBase
             foreach (var cell in row.Cells) yield return cell;
     }
 
-    public void ApplyColumnWidth(int column_index, int new_width_px, bool commit)
-    {
-        if (Design is null || column_index < 0 || column_index >= Design.RulerTicks.Count)
-            return;
-
-        var tick = Design.RulerTicks[column_index];
-        tick.WidthPx = new_width_px;
-        tick.WidthDip = FboLayoutUnits.PxToDip(new_width_px);
-
-        double offset = 0;
-        for (var i = 0; i < Design.RulerTicks.Count; i++)
-        {
-            Design.RulerTicks[i].OffsetDip = offset;
-            offset += Design.RulerTicks[i].WidthDip;
-        }
-
-        Design.ColumnWidthsPx[column_index] = new_width_px;
-        Design.FormTableWidthPx = Design.ColumnWidthsPx.Sum();
-        Design.FormTableWidthDip = offset;
-
-        RefreshRowCellWidths(Design.FormRows, Design.ColumnWidthsPx, column_index);
-        RefreshRowCellWidths(Design.BottomRows, Design.ColumnWidthsPx, column_index);
-
-        if (commit)
-            SyncLayoutToDocument();
-    }
-
-    private static void RefreshRowCellWidths(
-        IEnumerable<DesignFormRowVm> rows, IList<int> widths, int changed_col)
-    {
-        foreach (var row in rows)
-        {
-            foreach (var cell in row.Cells)
-            {
-                if (cell.ColumnIndex > changed_col || cell.ColumnIndex + cell.ColumnSpan <= changed_col)
-                    continue;
-                var px = 0;
-                for (var c = cell.ColumnIndex; c < cell.ColumnIndex + cell.ColumnSpan && c < widths.Count; c++)
-                    px += Math.Max(widths[c], 1);
-                cell.WidthPx = Math.Max(1, px);
-                cell.WidthDip = FboLayoutUnits.PxToDip(cell.WidthPx);
-            }
-        }
-    }
-
-    public void ApplyCategoryColumnWidth(int column_index, int new_width_px, bool commit)
-    {
-        var cat = Design?.SelectedCategory;
-        if (cat is null || column_index < 0 || column_index >= cat.RulerTicks.Count)
-            return;
-
-        var tick = cat.RulerTicks[column_index];
-        tick.WidthPx = new_width_px;
-        tick.WidthDip = FboLayoutUnits.PxToDip(new_width_px);
-
-        double offset = 0;
-        for (var i = 0; i < cat.RulerTicks.Count; i++)
-        {
-            cat.RulerTicks[i].OffsetDip = offset;
-            offset += cat.RulerTicks[i].WidthDip;
-        }
-
-        if (column_index < cat.ColumnWidthsPx.Count)
-            cat.ColumnWidthsPx[column_index] = new_width_px;
-        cat.FormTableWidthPx = cat.ColumnWidthsPx.Sum();
-        cat.FormTableWidthDip = offset;
-
-        foreach (var row in cat.Rows)
-        {
-            foreach (var cell in row.Cells)
-            {
-                if (cell.ColumnIndex <= column_index && cell.ColumnIndex + cell.ColumnSpan > column_index)
-                {
-                    var start = cell.ColumnIndex;
-                    var end = cell.ColumnIndex + cell.ColumnSpan;
-                    var px = 0;
-                    for (var c = start; c < end && c < cat.ColumnWidthsPx.Count; c++)
-                        px += cat.ColumnWidthsPx[c];
-                    cell.WidthPx = Math.Max(1, px);
-                    cell.WidthDip = FboLayoutUnits.PxToDip(cell.WidthPx);
-                }
-            }
-        }
-
-        if (commit)
-            SyncCategoryLayoutToDocument(cat);
-    }
-
-    private void SyncCategoryLayoutToDocument(DesignCategoryTabVm cat)
-    {
-        if (Document?.Form?.Layout is null) return;
-        var category = Document.Form.Layout.Categories.FirstOrDefault(c => c.Index == cat.Index);
-        if (category is null) return;
-        category.ColumnWidths = cat.ColumnWidthsPx.ToList();
-        XmlSource = _xml_writer.ApplyLayout(XmlSource, Document.Form);
-    }
-
-    // ── Thao tác cấu trúc cột trên ruler (chèn / gộp / chia / xóa) ────
-    private const int DefaultNewColPx = 30;
-
-    public void RulerInsertColumn(bool is_category, int at) =>
-        ColumnOp(is_category, w => InsertWidth(w, at), p => InsertPatternChar(p, at));
-
-    public void RulerDeleteColumn(bool is_category, int col) =>
-        ColumnOp(is_category, w => DeleteWidth(w, col), p => DeletePatternChar(p, col));
-
-    public void RulerSplitColumn(bool is_category, int col) =>
-        ColumnOp(is_category, w => SplitWidth(w, col), p => SplitPatternChar(p, col));
-
-    public void RulerMergeColumns(bool is_category, int start, int count) =>
-        ColumnOp(is_category, w => MergeWidth(w, start, count), p => MergePatternChars(p, start, count));
-
-    private void ColumnOp(bool is_category, Func<List<int>, List<int>> width_op, Func<string, string> pattern_op)
-    {
-        if (Document?.Form?.Layout is null) return;
-        var layout = Document.Form.Layout;
-        var selected_cat_index = Design?.SelectedCategory?.Index;
-
-        if (is_category)
-        {
-            var cat_vm = Design?.SelectedCategory;
-            if (cat_vm is null) return;
-            var cat = layout.Categories.FirstOrDefault(c => c.Index == cat_vm.Index);
-            if (cat is null) return;
-
-            cat.ColumnWidths = width_op(cat.ColumnWidths.ToList());
-            foreach (var row in layout.Rows.Where(r => r.CategoryIndex == cat.Index))
-                row.Pattern = pattern_op(row.Pattern);
-        }
-        else
-        {
-            layout.ColumnWidths = width_op(layout.ColumnWidths.ToList());
-            foreach (var row in layout.Rows.Where(r => r.CategoryIndex <= 0))
-                row.Pattern = pattern_op(row.Pattern);
-        }
-
-        XmlSource = _xml_writer.ApplyLayout(XmlSource, Document.Form);
-        ParseXml();
-
-        // Giữ lại tab đang chọn sau khi re-map
-        if (selected_cat_index is int idx && Design is not null)
-        {
-            var restored = Design.CategoryTabs.FirstOrDefault(c => c.Index == idx);
-            if (restored is not null) Design.SelectedCategory = restored;
-        }
-    }
-
-    // widths (danh sách đầy đủ)
-    private static List<int> InsertWidth(List<int> w, int at)
-    {
-        w.Insert(Math.Clamp(at, 0, w.Count), DefaultNewColPx);
-        return w;
-    }
-
-    private static List<int> DeleteWidth(List<int> w, int col)
-    {
-        if (col >= 0 && col < w.Count && w.Count > 1) w.RemoveAt(col);
-        return w;
-    }
-
-    private static List<int> SplitWidth(List<int> w, int col)
-    {
-        if (col < 0 || col >= w.Count) return w;
-        var half = Math.Max(1, w[col] / 2);
-        var rest = Math.Max(1, w[col] - half);
-        w[col] = rest;
-        w.Insert(col + 1, half);
-        return w;
-    }
-
-    private static List<int> MergeWidth(List<int> w, int start, int count)
-    {
-        if (start < 0 || start >= w.Count || count < 2) return w;
-        var end = Math.Min(start + count, w.Count);
-        var sum = 0;
-        for (var i = start; i < end; i++) sum += w[i];
-        w[start] = sum;
-        for (var i = end - 1; i > start; i--) w.RemoveAt(i);
-        return w;
-    }
-
-    // pattern (chuỗi 1/0/-, cột ngoài chiều dài là '-' ngầm định)
-    private static string InsertPatternChar(string p, int at)
-    {
-        if (at < 0 || at > p.Length) return p; // ngoài vùng thực → không đổi
-        return p.Insert(at, "-");
-    }
-
-    private static string DeletePatternChar(string p, int col)
-    {
-        if (col < 0 || col >= p.Length) return p;
-        return p.Remove(col, 1);
-    }
-
-    private static string SplitPatternChar(string p, int col)
-    {
-        if (col < 0 || col >= p.Length) return p;
-        var ch = p[col];
-        var added = ch == '1' ? '0' : ch; // control giữ nguyên bề rộng: thêm phần nối tiếp
-        return p.Insert(col + 1, added.ToString());
-    }
-
-    private static string MergePatternChars(string p, int start, int count)
-    {
-        if (start < 0 || start >= p.Length || count < 2) return p;
-        var end = Math.Min(start + count, p.Length);
-        var slice = p[start..end];
-        var merged = '-';
-        foreach (var c in slice)
-            if (c != '-') { merged = c; break; }
-        return p[..start] + merged + p[end..];
-    }
 
     // ── Span / merge cell (kéo hoặc nút) ─────────────────────────────
 

@@ -1,0 +1,67 @@
+﻿diff --git a/DevWorkFlow.Domain/Language/Insights.cs b/DevWorkFlow.Domain/Language/Insights.cs
+index ec4f29c5..750d9a35 100644
+--- a/DevWorkFlow.Domain/Language/Insights.cs
++++ b/DevWorkFlow.Domain/Language/Insights.cs
+@@ -27,20 +27,28 @@ public enum InsightLayer
+     Error = 0,
+     Warning = 1,
+     Entity = 2,
+     AI = 3,
+     Workflow = 4,
+     Documentation = 5,
+     Git = 6,
+     Other = 7
+ }
+ 
++/// <summary>Lß╗ùi Entity Insight (ADR-0004 / entity-insight-rendering).</summary>
++public enum InsightErrorKind
++{
++    None = 0,
++    Unresolved = 1,
++    Circular = 2
++}
++
+ /// <summary>Action descriptor; Provider kh├┤ng chß╗⌐a ICommand hoß║╖c logic UI.</summary>
+ public sealed class InsightAction
+ {
+     public string Id { get; init; } = string.Empty;
+ 
+     public string DisplayName { get; init; } = string.Empty;
+ 
+     public IReadOnlyDictionary<string, string> Metadata { get; init; } =
+         new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+ }
+@@ -61,22 +69,33 @@ public sealed class InsightItem
+     public InsightLayer Layer { get; init; }
+ 
+     public string DisplayContent { get; init; } = string.Empty;
+ 
+     public string? SymbolId { get; init; }
+ 
+     public string ReferenceText { get; init; } = string.Empty;
+ 
+     public string ResolvedValue { get; init; } = string.Empty;
+ 
++    /// <summary>
++    /// Text ch├║ giß║úi hiß╗ân thß╗ï sau reference trong Insight mode (xem
++    /// EntitySymbol.AnnotatedText) ΓÇö AvalonEdit renderer hiß╗ân thß╗ï "|" + gi├í trß╗ï n├áy.
++    /// Monaco Approach A ignores pipe layout (children-driven ViewZone).
++    /// </summary>
++    public string AnnotatedValue { get; init; } = string.Empty;
++
+     public bool CanEditResolvedValue { get; init; }
+ 
++    public InsightErrorKind ErrorKind { get; init; }
++
++    public string? ErrorMessage { get; init; }
++
+     public IReadOnlyList<InsightAction> Actions { get; init; } = [];
+ 
+     public IReadOnlyDictionary<string, string> Metadata { get; init; } =
+         new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+ 
+     /// <summary>Nested entity/insight tree; renderer kh├┤ng ─æ╞░ß╗úc flatten.</summary>
+     public IReadOnlyList<InsightItem> Children { get; init; } = [];
+ }
+ 
+ /// <summary>

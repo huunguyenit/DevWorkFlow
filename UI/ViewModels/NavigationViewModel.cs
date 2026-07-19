@@ -1,4 +1,4 @@
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Threading;
@@ -8,17 +8,21 @@ using DevWorkFlow.Application.Language;
 using DevWorkFlow.Domain.Language;
 using DevWorkFlow.Domain.Models;
 using DevWorkFlow.Infrastructure.Services;
+using DevWorkFlow.Infrastructure.Tree;
+using DevWorkFlow.Tree;
 using Microsoft.Win32;
 using UI.Services;
+using UI.Tree;
 using UI.ViewModels.Base;
 using UI.ViewModels.Explorer;
 
 namespace UI.ViewModels;
 
 /// <summary>
-/// Sidebar: chọn Program → load wcommand → click menu (link) → hiện phân cấp file từ aspx/Controller.
+/// Sidebar: chọn Program → load wcommand → click/expand menu (link)
+/// → hiện file từ aspx/Controller (AspxControllerParser + ControllerRelatedFileResolver).
 /// </summary>
-public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
+public class NavigationViewModel : ViewModelBase
 {
     private readonly INavigationService _nav;
     private readonly IWebConfigReader _web_config_reader;
@@ -28,15 +32,11 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
     private readonly FormDocumentNavigator _form_navigator;
     private readonly SqlStudioNavigator _sql_navigator;
     private readonly IErpLanguageService _language_service;
-    private readonly DispatcherTimer _filter_timer;
     private readonly UserSettingsStore _settings_store;
-    private readonly int _filter_batch_size;
     private readonly int _activation_delay_ms;
-    private CancellationTokenSource? _filter_cts;
-    private IReadOnlyList<FilterIndexItem> _filter_index = [];
-    private int _filter_version;
-
-    private readonly Dictionary<MenuNodeViewModel, ExplorerTreeNodeVm> _menu_tree_map = new();
+    private readonly string[] _blocked_open_extensions;
+    private readonly CommandDataSource _command_source = new();
+    private readonly TreeFrameworkHost _tree_host;
     private readonly HashSet<MenuNodeViewModel> _loading_menu_nodes = new();
 
     private MenuNodeViewModel? _selected_node;
@@ -45,7 +45,6 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
     private string _status_text = "Chưa chọn Program";
     private string _program_name = "(chưa chọn)";
     private string _filter_text = string.Empty;
-    private string _pending_filter = string.Empty;
 
     public NavigationViewModel(
         INavigationService nav,
@@ -68,17 +67,11 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
         _settings_store = settings_store;
         _sql_navigator = sql_navigator;
         _language_service = language_service;
-        _filter_batch_size = Math.Max(40, config.Menu.FilterBatchSize);
         _activation_delay_ms = config.Explorer.ActivationDelayMs;
+        _blocked_open_extensions = config.Explorer.BlockedOpenExtensions;
+        _tree_host = new TreeFrameworkHost(config.Menu.FilterDebounceMs, ApplyTreeFilterAsync);
 
         MenuRoots = [];
-        TreeRoots = [];
-
-        _filter_timer = new DispatcherTimer(DispatcherPriority.Background)
-        {
-            Interval = TimeSpan.FromMilliseconds(Math.Max(50, config.Menu.FilterDebounceMs))
-        };
-        _filter_timer.Tick += FilterTimer_Tick;
 
         SelectProgramCommand = new AsyncRelayCommand(SelectProgramAsync, () => !IsBusy);
         RefreshMenuCommand = new AsyncRelayCommand(RefreshMenuAsync, () => !IsBusy && _program_session.Current is not null);
@@ -86,6 +79,9 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
         OpenSqlFileCommand = new RelayCommand(OpenSqlFileDialog);
         ToggleSidebarCommand = new RelayCommand(() => IsExpanded = !IsExpanded);
     }
+
+    public TreeRenderingEngine? TreeRendering => _tree_host.Rendering;
+    public CommandDataSource CommandSource => _command_source;
 
     /// <summary>Khôi phục Program lần cuối — gọi sau khi LeftExplorerLoadCoordinator đã gắn.</summary>
     public Task TryRestoreLastProgramAsync()
@@ -97,17 +93,15 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
     }
 
     public ObservableCollection<MenuNodeViewModel> MenuRoots { get; }
-    public ObservableCollection<ExplorerTreeNodeVm> TreeRoots { get; }
 
-    public void OnTreeNodeActivated(ExplorerTreeNodeVm node, bool is_double_click)
+    public void OnTreeNodeActivated(TreeNode node, bool is_double_click)
     {
-        if (node.Tag is not MenuNodeViewModel menu_node) return;
+        if (node.Metadata is not CommandNodeMeta { Source: MenuNodeViewModel menu_node }) return;
         if (menu_node.IsSeparator) return;
 
         _selected_node = menu_node;
         OnPropertyChanged(nameof(SelectedNode));
 
-        // File: chỉ mở khi double-click.
         if (menu_node.IsFileNode)
         {
             if (is_double_click)
@@ -115,9 +109,23 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
             return;
         }
 
-        // Menu có link: load resource async — không rebuild cả cây.
+        // Folder Kind (Dir/Grid/…) — chỉ expand, không mở file
+        if (menu_node.IsKindFolder)
+            return;
+
         if (menu_node.IsMenuNode && menu_node.HasLink)
             _ = LoadMenuResourcesAsync(menu_node);
+    }
+
+    /// <summary>
+    /// Expand menu có link → resolve file controller trước khi hiện children.
+    /// </summary>
+    public void OnTreeNodeExpanding(TreeNode node)
+    {
+        if (node.Metadata is not CommandNodeMeta { Source: MenuNodeViewModel menu_node }) return;
+        if (menu_node.IsSeparator || !menu_node.IsMenuNode || !menu_node.HasLink) return;
+        if (menu_node.ResourcesLoaded) return;
+        _ = LoadMenuResourcesAsync(menu_node);
     }
 
     public MenuNodeViewModel? SelectedNode
@@ -141,7 +149,11 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
     public string StatusText
     {
         get => _status_text;
-        private set => SetProperty(ref _status_text, value);
+        private set
+        {
+            if (!SetProperty(ref _status_text, value)) return;
+            _tree_host.StatusText = value;
+        }
     }
 
     public int ActivationDelayMs => _activation_delay_ms;
@@ -158,10 +170,7 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
         set
         {
             if (!SetProperty(ref _filter_text, value)) return;
-            _pending_filter = value ?? string.Empty;
-            _filter_cts?.Cancel();
-            _filter_timer.Stop();
-            _filter_timer.Start();
+            _tree_host.FilterText = value;
         }
     }
 
@@ -170,12 +179,6 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
     public RelayCommand<MenuNodeViewModel> OpenNodeCommand { get; }
     public RelayCommand OpenSqlFileCommand { get; }
     public RelayCommand ToggleSidebarCommand { get; }
-
-    private async void FilterTimer_Tick(object? sender, EventArgs e)
-    {
-        _filter_timer.Stop();
-        await ApplyFilterAsync(_pending_filter);
-    }
 
     private async Task SelectProgramAsync()
     {
@@ -202,6 +205,11 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
         await LoadProgramAsync(Path.GetFullPath(path));
     }
 
+    /// <summary>
+    /// Mở Program: Web.config + wcommand (cây menu).
+    /// File controller resolve khi click/expand menu có link → <see cref="LoadMenuResourcesAsync"/>
+    /// → <c>IMenuService.ResolveFromMenu</c> (AspxControllerParser + ControllerRelatedFileResolver).
+    /// </summary>
     public async Task LoadProgramAsync(string program_path)
     {
         if (string.IsNullOrWhiteSpace(program_path))
@@ -214,7 +222,7 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
         if (!Directory.Exists(program_path))
         {
             StatusText = $"Không tìm thấy thư mục: {program_path}";
-            MessageBox.Show(StatusText, "FBO Studio", MessageBoxButton.OK, MessageBoxImage.Warning);
+            IdeMessage.Warning(StatusText, "Mở Program");
             return;
         }
 
@@ -239,6 +247,9 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
                     AppConnectionString = string.Empty
                 };
                 StatusText = $"Đã mở folder (web.config: {web_ex.Message})";
+                IdeMessage.Warning(
+                    $"Không đọc được Web.config — chỉ mở thư mục để xem Explorer.\n\n{web_ex.Message}",
+                    "Web.config");
             }
 
             // SetProgram → Explorer RebuildTree ngay (không chờ SQL menu).
@@ -252,21 +263,37 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
             {
                 MenuRoots.Clear();
                 StatusText = $"Program: {ProgramName} | Chưa có sysConnectionString — chỉ xem Explorer.";
+                IdeMessage.Warning(
+                    "Program chưa có sysConnectionString trong Web.config.\n"
+                    + "Tab Menu cần kết nối Sys DB để load wcommand.\n"
+                    + "Bạn vẫn dùng được Explorer với thư mục Program.",
+                    "Menu chưa tải được");
                 return;
             }
 
             // Resolve %Database từ sys.entity.cdata (1 sys — nhiều app)
+            // Dùng probe timeout ngắn — chưa áp dụng commandTimeout dài
+            var sys_ok = false;
             try
             {
                 var apps = await _entity_repo.GetAppDatabasesAsync(program.SysConnectionString);
-                AppConnectionResolver.ApplyAppDatabase(program, apps);
+                AppConnectionResolver.ApplyAppDatabase(
+                    program,
+                    apps,
+                    WebConfigReader.ConnectionProbeTimeoutSeconds);
                 _program_session.UpdateProgram(program);
+                sys_ok = true;
                 if (!string.IsNullOrWhiteSpace(program.AppDatabaseName))
                     StatusText = $"Program: {ProgramName} | App DB: {program.AppDatabaseName}";
             }
             catch (Exception ent_ex)
             {
                 StatusText = $"Program: {ProgramName} | entity.cdata: {ent_ex.Message}";
+                IdeMessage.ShowException(
+                    ent_ex,
+                    "Không đọc được danh sách App DB từ sys (entity.cdata).\n"
+                    + "Menu vẫn thử load từ Sys connection.",
+                    IdeMessageKind.Warning);
             }
 
             StatusText = "Đang load menu wcommand...";
@@ -274,16 +301,17 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
             {
                 var roots = await _menu_service.LoadMenuTreeAsync(program);
 
-                _filter_timer.Stop();
                 _filter_text = string.Empty;
-                _pending_filter = string.Empty;
                 OnPropertyChanged(nameof(FilterText));
 
                 MenuRoots.Clear();
                 foreach (var root in roots)
                     MenuRoots.Add(new MenuNodeViewModel(root));
-                RebuildFilterIndex();
-                RebuildTreeRoots();
+                await SyncCommandTreeAsync().ConfigureAwait(true);
+
+                // Kết nối Sys OK → mới gắn commandTimeout đầy đủ vào CS
+                WebConfigReader.ApplyFullCommandTimeout(program);
+                _program_session.UpdateProgram(program);
 
                 var app_info = string.IsNullOrWhiteSpace(program.AppDatabaseName)
                     ? ""
@@ -293,20 +321,43 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
             catch (Exception menu_ex)
             {
                 MenuRoots.Clear();
-                TreeRoots.Clear();
-                _menu_tree_map.Clear();
+                await _tree_host.DetachAsync().ConfigureAwait(true);
+                OnPropertyChanged(nameof(TreeRendering));
                 StatusText = $"Program: {ProgramName} | Menu lỗi: {menu_ex.Message}";
-                // Không MessageBox chặn — Explorer đã có cây; menu là phụ.
+
+                // entity OK nhưng menu lỗi: vẫn giữ probe timeout (chưa chắc kết nối ổn)
+                // Nếu entity đã OK và chỉ menu SQL lỗi, vẫn có thể promote — nhưng ưu tiên fail-fast
+                if (sys_ok)
+                {
+                    // entity đã chứng minh CS đúng → có thể gắn full timeout cho các thao tác sau
+                    WebConfigReader.ApplyFullCommandTimeout(program);
+                    _program_session.UpdateProgram(program);
+                }
+
+                try
+                {
+                    IdeMessage.ShowException(
+                        menu_ex,
+                        "Không load được cây menu (wcommand).\n"
+                        + "Kiểm tra kết nối Sys DB và bảng wcommand.");
+                }
+                catch
+                {
+                    // IdeMessage đã có fallback; không để crash vòng catch
+                }
             }
         }
         catch (Exception ex)
         {
             StatusText = $"Lỗi: {ex.Message}";
-            MessageBox.Show(
-                $"Không mở được Program:\n{ex.Message}",
-                "FBO Studio",
-                MessageBoxButton.OK,
-                MessageBoxImage.Error);
+            try
+            {
+                IdeMessage.ShowException(ex, "Không mở được Program.");
+            }
+            catch
+            {
+                // ignore
+            }
         }
         finally
         {
@@ -326,22 +377,23 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
         {
             var roots = await _menu_service.LoadMenuTreeAsync(program);
 
-            _filter_timer.Stop();
             _filter_text = string.Empty;
-            _pending_filter = string.Empty;
             OnPropertyChanged(nameof(FilterText));
 
             MenuRoots.Clear();
             foreach (var root in roots)
                 MenuRoots.Add(new MenuNodeViewModel(root));
-            RebuildFilterIndex();
-            RebuildTreeRoots();
+            await SyncCommandTreeAsync().ConfigureAwait(true);
 
             StatusText = $"Program: {ProgramName} | Menu: {CountNodes(MenuRoots)} mục";
         }
         catch (Exception ex)
         {
             StatusText = $"Menu lỗi: {ex.Message}";
+            IdeMessage.ShowException(
+                ex,
+                "Không refresh được cây menu (wcommand).\n"
+                + "Kiểm tra kết nối Sys DB.");
         }
         finally
         {
@@ -363,6 +415,10 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
             _ = LoadMenuResourcesAsync(node);
     }
 
+    /// <summary>
+    /// Resolve file gắn menu: aspx → Controller (AspxControllerParser)
+    /// → Dir/Grid/Filter/… + related (ControllerRelatedFileResolver) qua IMenuService.ResolveFromMenu.
+    /// </summary>
     private async Task LoadMenuResourcesAsync(MenuNodeViewModel menu_node)
     {
         var program = _program_session.Current;
@@ -372,11 +428,9 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
             return;
         }
 
-        if (menu_node.ResourcesLoaded && menu_node.Children.Any(c => c.IsFileNode))
+        if (menu_node.ResourcesLoaded && menu_node.Children.Any(c => c.IsKindFolder || c.IsFileNode))
         {
             menu_node.IsExpanded = true;
-            if (_menu_tree_map.TryGetValue(menu_node, out var existing))
-                existing.IsExpanded = true;
             return;
         }
 
@@ -387,19 +441,19 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
         try
         {
             var menu_tree_node = menu_node.Node!;
+            // AspxControllerParser + ControllerRelatedFileResolver (trong MenuService)
             var bundle = await Task.Run(() => _menu_service.ResolveFromMenu(program, menu_tree_node))
                 .ConfigureAwait(true);
 
             if (!string.IsNullOrWhiteSpace(bundle.ErrorMessage) && bundle.Files.Count == 0)
             {
                 StatusText = bundle.ErrorMessage;
-                MessageBox.Show(bundle.ErrorMessage, "DevWorkFlow", MessageBoxButton.OK, MessageBoxImage.Warning);
+                IdeMessage.Warning(bundle.ErrorMessage, "Load controller");
                 return;
             }
 
             menu_node.AttachResourceFiles(bundle.Files);
-            RebuildFilterIndex();
-            SyncTreeNodeChildren(menu_node);
+            await SyncCommandTreeAsync().ConfigureAwait(true);
 
             var controller_label = string.IsNullOrWhiteSpace(bundle.ControllerName)
                 ? "(không có Controller)"
@@ -412,6 +466,7 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
         catch (Exception ex)
         {
             StatusText = $"Lỗi load menu: {ex.Message}";
+            IdeMessage.ShowException(ex, "Không load được file controller gắn với menu.");
         }
         finally
         {
@@ -419,51 +474,97 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
         }
     }
 
-    /// <summary>Cập nhật children trên TreeRoots — không rebuild toàn bộ (tránh treo).</summary>
-    private void SyncTreeNodeChildren(MenuNodeViewModel menu_node)
+    private async Task SyncCommandTreeAsync()
     {
-        if (!_menu_tree_map.TryGetValue(menu_node, out var tree_node))
-        {
-            RebuildTreeRoots();
-            return;
-        }
+        TreeNodeAdapters.FillCommandDataSource(_command_source, MenuRoots);
+        await _tree_host.AttachAsync(_command_source, Application.Current?.Dispatcher)
+            .ConfigureAwait(true);
+        OnPropertyChanged(nameof(TreeRendering));
+        await RestoreExpandedStateAsync().ConfigureAwait(true);
+        if (!string.IsNullOrWhiteSpace(_filter_text))
+            await ApplyTreeFilterAsync(_filter_text, CancellationToken.None).ConfigureAwait(true);
+    }
 
-        tree_node.Children.Clear();
-        foreach (var child_menu in menu_node.Children)
+    /// <summary>
+    /// Attach tạo engine mới (mất trạng thái expand). Khôi phục theo MenuNodeViewModel.IsExpanded / ResourcesLoaded
+    /// để file controller vừa load vẫn hiện dưới menu.
+    /// </summary>
+    private async Task RestoreExpandedStateAsync()
+    {
+        var engine = _tree_host.Engine;
+        if (engine is null) return;
+        await RestoreExpandedLevelAsync(MenuRoots, parent: null, engine).ConfigureAwait(true);
+    }
+
+    private async Task RestoreExpandedLevelAsync(
+        IReadOnlyList<MenuNodeViewModel> menus,
+        TreeNode? parent,
+        VirtualTreeEngine engine)
+    {
+        var tree_children = await _command_source.GetChildrenAsync(parent).ConfigureAwait(true);
+        var count = Math.Min(menus.Count, tree_children.Count);
+        for (var i = 0; i < count; i++)
         {
-            if (child_menu.IsMenuNode
-                && _menu_tree_map.TryGetValue(child_menu, out var existing))
+            var menu = menus[i];
+            var node = tree_children[i];
+            if (!menu.IsExpanded && !menu.ResourcesLoaded)
+                continue;
+            if (!node.HasChildren && !_command_source.HasChildren(node))
+                continue;
+
+            try
             {
-                tree_node.Children.Add(existing);
+                await engine.ExpandAsync(node.Id).ConfigureAwait(true);
+            }
+            catch
+            {
                 continue;
             }
 
-            var created = ExplorerTreeNodeMapper.FromMenuNode(child_menu);
-            RegisterTreeMap(child_menu, created);
-            tree_node.Children.Add(created);
+            if (menu.Children.Count > 0)
+                await RestoreExpandedLevelAsync(menu.Children, node, engine).ConfigureAwait(true);
+        }
+    }
+
+    private async Task ApplyTreeFilterAsync(string raw, CancellationToken ct)
+    {
+        var engine = _tree_host.Engine;
+        if (engine is null) return;
+        var keyword = raw.Trim();
+        if (string.IsNullOrEmpty(keyword))
+        {
+            engine.ClearSearchFilter();
+            return;
         }
 
-        tree_node.IsExpanded = true;
-        menu_node.IsExpanded = true;
+        var hits = await _command_source.SearchAsync(keyword, ct).ConfigureAwait(true);
+        await engine.ApplySearchMatchesAsync(hits, ct).ConfigureAwait(true);
+        StatusText = $"Lọc \"{keyword}\" · {hits.Count} mục";
+    }
+
+    private static int CountNodes(IEnumerable<MenuNodeViewModel> nodes)
+    {
+        var count = 0;
+        foreach (var n in nodes)
+        {
+            if (!n.IsMenuNode) continue;
+            count++;
+            count += CountNodes(n.Children);
+        }
+        return count;
     }
 
     private void OpenFile(ControllerFileItem file_item)
     {
-        // main.aspx không render design
-        if (file_item.Kind == ControllerFileKind.Aspx
-            && file_item.DisplayName.Equals("main.aspx", StringComparison.OrdinalIgnoreCase))
-        {
-            StatusText = $"Bỏ qua design: {file_item.RelativePath}";
-            return;
-        }
-
-        if (file_item.Kind == ControllerFileKind.Aspx)
-        {
-            StatusText = $"ASPX không hỗ trợ design: {file_item.DisplayName}";
-            return;
-        }
-
         var ext = Path.GetExtension(file_item.FullPath);
+
+        // File nhị phân (Excel/Crystal Report/ảnh/thư viện...) editor không đọc được —
+        // chặn theo config Explorer.BlockedOpenExtensions. ASPX mở bình thường (code-only).
+        if (_blocked_open_extensions.Contains(ext, StringComparer.OrdinalIgnoreCase))
+        {
+            StatusText = $"File nhị phân, không mở được trong editor: {file_item.DisplayName}";
+            return;
+        }
         if (ext.Equals(".sql", StringComparison.OrdinalIgnoreCase))
         {
             try
@@ -474,17 +575,19 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
             catch (Exception ex)
             {
                 StatusText = $"Lỗi đọc SQL: {ex.Message}";
-                MessageBox.Show(ex.Message, "SQL Studio", MessageBoxButton.OK, MessageBoxImage.Error);
+                IdeMessage.Danger(ex.Message, "SQL Studio");
             }
             return;
         }
 
         try
         {
-            // Related files lấy từ ClearText projection của Language Service.
             var related = ResolveRelatedPaths(file_item).ToList();
             var title = $"{file_item.KindLabel}: {file_item.DisplayName}";
-            var code_only = file_item.Kind is ControllerFileKind.Report
+            var is_form_source = ext.Equals(".xml", StringComparison.OrdinalIgnoreCase)
+                                 || ext.Equals(".f", StringComparison.OrdinalIgnoreCase);
+            var code_only = !is_form_source
+                            || file_item.Kind is ControllerFileKind.Report
                                 or ControllerFileKind.TemplateUpload
                                 or ControllerFileKind.TemplateExcel
                                 or ControllerFileKind.TemplateRpt
@@ -496,33 +599,29 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
         catch (Exception ex)
         {
             StatusText = $"Lỗi đọc file: {ex.Message}";
-            MessageBox.Show(ex.Message, "DevWorkFlow", MessageBoxButton.OK, MessageBoxImage.Error);
+            IdeMessage.Danger(ex.Message, "Đọc file");
         }
     }
 
-    /// <summary>
-    /// Sibling dưới cùng menu đã load + Grid/Filter suy ra từ XML hiện tại.
-    /// </summary>
     private IEnumerable<string> ResolveRelatedPaths(ControllerFileItem file_item)
     {
         var paths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         if (SelectedNode?.IsFileNode == true)
         {
-            // Parent menu node chứa danh sách file
             var parent = FindParentMenu(SelectedNode);
             if (parent is not null)
             {
-                foreach (var child in parent.Children.Where(c => c.IsFileNode && c.FileItem is not null))
+                foreach (var child in parent.EnumerateFileNodes())
                 {
-                    if (string.Equals(child.FileItem!.FullPath, file_item.FullPath, StringComparison.OrdinalIgnoreCase))
+                    if (child.FileItem is null) continue;
+                    if (string.Equals(child.FileItem.FullPath, file_item.FullPath, StringComparison.OrdinalIgnoreCase))
                         continue;
                     paths.Add(child.FileItem.FullPath);
                 }
             }
         }
 
-        // Bổ sung từ nội dung XML (Grid / showForm→Filter) nếu chưa có trong tree
         try
         {
             var program = _program_session.Current;
@@ -534,12 +633,30 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
             var document_id = ErpDocumentId.FromPath(file_item.FullPath);
             var document = _language_service.GetDocument(document_id);
             document ??= _language_service.OpenDocument(file_item.FullPath);
-            foreach (var related in ControllerRelatedFileResolver.FindRelated(document))
+            var parent_controller = file_item.ControllerName;
+            var clear_text = document.GetProjection(ErpProjectionKind.ClearText).Text;
+            foreach (var related in ControllerRelatedFileResolver.FindRelated(clear_text, parent_controller))
             {
-                var folder = related.Kind == ControllerRelatedFileResolver.RelatedKind.Grid
-                    ? "Grid"
-                    : "Filter";
-                var path = MenuService.FindControllerFile(controllers_root, folder, related.ControllerName);
+                string? path = related.Kind switch
+                {
+                    ControllerRelatedFileResolver.RelatedKind.Grid =>
+                        MenuService.FindControllerFile(controllers_root, "Grid", related.ControllerName),
+                    ControllerRelatedFileResolver.RelatedKind.Filter =>
+                        MenuService.FindControllerFile(controllers_root, "Filter", related.ControllerName),
+                    ControllerRelatedFileResolver.RelatedKind.Upload =>
+                        MenuService.FindTemplateAsset(controllers_root, "Upload", related.ControllerName, [".xml", ".f"]),
+                    ControllerRelatedFileResolver.RelatedKind.UploadFromParent =>
+                        MenuService.FindTemplateAsset(
+                            controllers_root, "Upload",
+                            string.IsNullOrWhiteSpace(parent_controller) ? related.ControllerName : parent_controller,
+                            [".xml", ".f"]),
+                    ControllerRelatedFileResolver.RelatedKind.Excel =>
+                        MenuService.FindTemplateAsset(controllers_root, "Excel", related.ControllerName, [".xlsx", ".xls", ".xml"]),
+                    ControllerRelatedFileResolver.RelatedKind.Rpt =>
+                        MenuService.FindTemplateAsset(controllers_root, "Rpt", related.ControllerName, [".rpt"]),
+                    _ => null
+                };
+
                 if (path is not null
                     && !string.Equals(path, file_item.FullPath, StringComparison.OrdinalIgnoreCase))
                     paths.Add(path);
@@ -567,11 +684,15 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
         MenuNodeViewModel current,
         MenuNodeViewModel target)
     {
-        if (current.Children.Contains(target))
-            return current.IsMenuNode ? current : null;
-
         foreach (var child in current.Children)
         {
+            if (ReferenceEquals(child, target))
+                return current.IsMenuNode ? current : null;
+
+            // Menu → KindFolder → File
+            if (child.IsKindFolder && child.Children.Contains(target))
+                return current.IsMenuNode ? current : null;
+
             var found = FindParentMenuRecursive(child, target);
             if (found is not null) return found;
         }
@@ -601,179 +722,7 @@ public class NavigationViewModel : ViewModelBase, IExplorerTreeSource
         catch (Exception ex)
         {
             StatusText = $"Lỗi đọc SQL: {ex.Message}";
-            MessageBox.Show(ex.Message, "SQL Studio", MessageBoxButton.OK, MessageBoxImage.Error);
+            IdeMessage.Danger(ex.Message, "SQL Studio");
         }
-    }
-
-    private async Task ApplyFilterAsync(string raw_keyword)
-    {
-        var keyword = raw_keyword?.Trim() ?? string.Empty;
-        var version = ++_filter_version;
-
-        _filter_cts?.Cancel();
-        _filter_cts?.Dispose();
-        _filter_cts = new CancellationTokenSource();
-        var ct = _filter_cts.Token;
-
-        // Snapshot chỉ chứa chuỗi cache; bước search không chạm WPF/ObservableCollection.
-        var index = _filter_index;
-        bool[] visible;
-        try
-        {
-            visible = await Task.Run(
-                () => CalculateFilterVisibility(index, keyword, ct),
-                ct);
-        }
-        catch (OperationCanceledException)
-        {
-            return;
-        }
-
-        if (ct.IsCancellationRequested || version != _filter_version)
-            return;
-
-        // Cập nhật từng lô để Dispatcher xử lý phím mới giữa các lô.
-        var batch_size = _filter_batch_size;
-        for (var i = 0; i < index.Count; i++)
-        {
-            if (ct.IsCancellationRequested || version != _filter_version)
-                return;
-
-            var item = index[i];
-            if (item.Node.IsVisible != visible[i])
-                item.Node.IsVisible = visible[i];
-
-            if (_menu_tree_map.TryGetValue(item.Node, out var tree_node))
-            {
-                if (tree_node.IsVisible != visible[i])
-                    tree_node.IsVisible = visible[i];
-            }
-
-            if (string.IsNullOrEmpty(keyword) && item.Node.IsMenuNode)
-            {
-                var should_expand = item.Node.Node?.Level <= 1
-                                    && !item.Node.IsSeparator;
-                if (item.Node.IsExpanded != should_expand)
-                    item.Node.IsExpanded = should_expand;
-                if (_menu_tree_map.TryGetValue(item.Node, out tree_node)
-                    && tree_node.IsExpanded != should_expand)
-                    tree_node.IsExpanded = should_expand;
-            }
-            else if (!string.IsNullOrEmpty(keyword)
-                     && visible[i]
-                     && item.Node.IsMenuNode
-                     && item.Node.Children.Count > 0
-                     && !item.Node.IsExpanded)
-            {
-                item.Node.IsExpanded = true;
-                if (_menu_tree_map.TryGetValue(item.Node, out tree_node))
-                    tree_node.IsExpanded = true;
-            }
-
-            if ((i + 1) % batch_size == 0)
-                await Dispatcher.Yield(DispatcherPriority.Background);
-        }
-    }
-
-    private void RebuildFilterIndex()
-    {
-        var result = new List<FilterIndexItem>();
-        foreach (var root in MenuRoots)
-            AddToFilterIndex(root, parent_index: -1, result);
-        _filter_index = result;
-    }
-
-    private void RebuildTreeRoots()
-    {
-        TreeRoots.Clear();
-        _menu_tree_map.Clear();
-        foreach (var root in MenuRoots)
-        {
-            var tree_root = ExplorerTreeNodeMapper.FromMenuNode(root);
-            RegisterTreeMap(root, tree_root);
-            TreeRoots.Add(tree_root);
-        }
-    }
-
-    private void RegisterTreeMap(MenuNodeViewModel menu_node, ExplorerTreeNodeVm tree_node)
-    {
-        _menu_tree_map[menu_node] = tree_node;
-        var child_count = Math.Min(menu_node.Children.Count, tree_node.Children.Count);
-        for (var i = 0; i < child_count; i++)
-            RegisterTreeMap(menu_node.Children[i], tree_node.Children[i]);
-    }
-
-    private static void AddToFilterIndex(
-        MenuNodeViewModel node,
-        int parent_index,
-        List<FilterIndexItem> result)
-    {
-        var current_index = result.Count;
-        var search_key = node.IsMenuNode
-            ? string.Join(
-                '\u001F',
-                node.Title,
-                node.SysId ?? string.Empty,
-                node.WmenuId ?? string.Empty)
-            : string.Empty;
-
-        result.Add(new FilterIndexItem(
-            node,
-            parent_index,
-            search_key,
-            node.IsMenuNode && !node.IsSeparator));
-
-        foreach (var child in node.Children)
-            AddToFilterIndex(child, current_index, result);
-    }
-
-    private static bool[] CalculateFilterVisibility(
-        IReadOnlyList<FilterIndexItem> index,
-        string keyword,
-        CancellationToken ct)
-    {
-        var visible = new bool[index.Count];
-        if (string.IsNullOrEmpty(keyword))
-        {
-            Array.Fill(visible, true);
-            return visible;
-        }
-
-        for (var i = 0; i < index.Count; i++)
-        {
-            ct.ThrowIfCancellationRequested();
-            var item = index[i];
-            if (!item.IsSearchable
-                || !item.SearchKey.Contains(keyword, StringComparison.OrdinalIgnoreCase))
-                continue;
-
-            // Hiện node khớp và toàn bộ ancestor để giữ đúng nhánh cây.
-            var current = i;
-            while (current >= 0 && !visible[current])
-            {
-                visible[current] = true;
-                current = index[current].ParentIndex;
-            }
-        }
-
-        return visible;
-    }
-
-    private sealed record FilterIndexItem(
-        MenuNodeViewModel Node,
-        int ParentIndex,
-        string SearchKey,
-        bool IsSearchable);
-
-    private static int CountNodes(IEnumerable<MenuNodeViewModel> nodes)
-    {
-        var count = 0;
-        foreach (var n in nodes)
-        {
-            if (!n.IsMenuNode) continue;
-            count++;
-            count += CountNodes(n.Children);
-        }
-        return count;
     }
 }

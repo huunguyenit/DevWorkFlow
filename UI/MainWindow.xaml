@@ -15,14 +15,16 @@
         TextElement.Foreground="{StaticResource FgBrush}"
         Background="{StaticResource WorkspaceBgBrush}"
         FontFamily="{StaticResource AppFont}"
-        Title="{Binding WindowTitle, FallbackValue='FBO Studio'}"
+        Title="{Binding WindowTitle, FallbackValue='DevWorkFlow'}"
         WindowStyle="None"
         ResizeMode="CanResize"
         WindowState="Maximized"
         WindowStartupLocation="CenterScreen"
         MinHeight="640" MinWidth="1024"
         BorderBrush="{StaticResource BorderBrush}"
-        BorderThickness="1">
+        BorderThickness="1"
+        StateChanged="OnWindowStateChanged"
+        SourceInitialized="OnSourceInitialized">
 
     <shell:WindowChrome.WindowChrome>
         <shell:WindowChrome CaptionHeight="32"
@@ -32,7 +34,7 @@
                             UseAeroCaptionButtons="False"/>
     </shell:WindowChrome.WindowChrome>
 
-    <Grid>
+    <Grid x:Name="RootLayout">
         <Grid.RowDefinitions>
             <RowDefinition Height="32"/>
             <RowDefinition Height="Auto"/>
@@ -60,10 +62,13 @@
                         <md:PackIcon Kind="Menu" Width="16" Height="16"
                                      Foreground="{StaticResource FgBrush}"/>
                     </Button>
-                    <md:PackIcon Kind="ApplicationBracketsOutline" Width="16" Height="16"
-                                 Foreground="{StaticResource PrimaryBrush}"
-                                 VerticalAlignment="Center" Margin="6,0,0,0"/>
-                    <TextBlock Text="{Binding WindowTitle, FallbackValue='FBO Studio'}"
+                    <Image Source="pack://application:,,,/DevWorkFlow.png"
+                           Width="18" Height="18"
+                           Stretch="Uniform"
+                           SnapsToDevicePixels="True"
+                           RenderOptions.BitmapScalingMode="HighQuality"
+                           VerticalAlignment="Center" Margin="6,0,0,0"/>
+                    <TextBlock Text="{Binding WindowTitle, FallbackValue='DevWorkFlow'}"
                                Foreground="{StaticResource FgBrightBrush}"
                                FontSize="12" FontWeight="SemiBold"
                                VerticalAlignment="Center" Margin="6,0,0,0"/>
@@ -108,8 +113,14 @@
                               DataContext="{Binding}"
                               shell:WindowChrome.IsHitTestVisibleInChrome="True"/>
 
-        <!-- Body: Left full-height | Center+Right+Bottom -->
+
+        <!-- Body: hàng trên 2* (Explorer | Editor+Right), hàng dưới * (Outline | Bottom) — cùng chiều cao -->
         <Grid Grid.Row="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*" MinHeight="120"/>
+                <RowDefinition Height="4"/>
+                <RowDefinition Height="*" MinHeight="100"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition MinWidth="0">
                     <ColumnDefinition.Style>
@@ -129,164 +140,151 @@
                 <ColumnDefinition Width="*" MinWidth="200"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Left dock: full body height (không bị bottom đè) -->
-            <Border Grid.Column="0"
+            <!-- Explorer (trái — hàng trên) -->
+            <Border Grid.Row="0" Grid.Column="0"
                     HorizontalAlignment="Stretch"
                     Background="{StaticResource SidebarBgBrush}"
                     BorderBrush="{StaticResource IdeBorderBrush}"
                     BorderThickness="0,0,1,0"
                     Visibility="{Binding Shell.IsLeftDockOpen, Converter={StaticResource BoolToVisibilityConverter}}">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="2*" MinHeight="120"/>
-                        <RowDefinition Height="4"/>
-                        <RowDefinition Height="*" MinHeight="100"/>
-                    </Grid.RowDefinitions>
+                <DockPanel>
+                    <Border DockPanel.Dock="Top"
+                            Background="{StaticResource IdeDockHeaderBgBrush}"
+                            BorderBrush="{StaticResource IdeBorderBrush}"
+                            BorderThickness="0,0,0,1"
+                            Padding="4,2"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True">
+                        <StackPanel Orientation="Horizontal">
+                            <Button Content="Explorer"
+                                    Command="{Binding SelectLeftExplorerTabCommand}"
+                                    CommandParameter="{x:Static vm:LeftExplorerTab.Tree}">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource IdeDockTabButtonStyle}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsTreeExplorerSelected}" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource FgBrightBrush}"/>
+                                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                                <Setter Property="Background" Value="White"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <TextBlock Style="{StaticResource IdeDockTabSeparatorStyle}"/>
+                            <Button Content="Menu"
+                                    Command="{Binding SelectLeftExplorerTabCommand}"
+                                    CommandParameter="{x:Static vm:LeftExplorerTab.Menu}">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource IdeDockTabButtonStyle}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsMenuExplorerSelected}" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource FgBrightBrush}"/>
+                                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                                <Setter Property="Background" Value="White"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                            <TextBlock Style="{StaticResource IdeDockTabSeparatorStyle}"/>
+                            <Button Content="Database"
+                                    Command="{Binding SelectLeftExplorerTabCommand}"
+                                    CommandParameter="{x:Static vm:LeftExplorerTab.Database}">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource IdeDockTabButtonStyle}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsDatabaseExplorerSelected}" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource FgBrightBrush}"/>
+                                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                                <Setter Property="Background" Value="White"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </StackPanel>
+                    </Border>
 
-                    <!-- Explorer host: 3 tabs -->
-                    <DockPanel Grid.Row="0">
-                        <Border DockPanel.Dock="Top"
-                                Background="{StaticResource IdeDockHeaderBgBrush}"
-                                BorderBrush="{StaticResource IdeBorderBrush}"
-                                BorderThickness="0,0,0,1">
-                            <StackPanel Orientation="Horizontal">
-                                <Button Content="Explorer"
-                                        Command="{Binding SelectLeftExplorerTabCommand}"
-                                        CommandParameter="{x:Static vm:LeftExplorerTab.Tree}">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource IdeDockTabButtonStyle}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsTreeExplorerSelected}" Value="True">
-                                                    <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
-                                                    <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
-                                                    <Setter Property="FontWeight" Value="SemiBold"/>
-                                                    <Setter Property="Background" Value="{StaticResource IdeAccentSoftBrush}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                                <Button Content="Menu"
-                                        Command="{Binding SelectLeftExplorerTabCommand}"
-                                        CommandParameter="{x:Static vm:LeftExplorerTab.Menu}">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource IdeDockTabButtonStyle}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsMenuExplorerSelected}" Value="True">
-                                                    <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
-                                                    <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
-                                                    <Setter Property="FontWeight" Value="SemiBold"/>
-                                                    <Setter Property="Background" Value="{StaticResource IdeAccentSoftBrush}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                                <Button Content="Database"
-                                        Command="{Binding SelectLeftExplorerTabCommand}"
-                                        CommandParameter="{x:Static vm:LeftExplorerTab.Database}">
-                                    <Button.Style>
-                                        <Style TargetType="Button" BasedOn="{StaticResource IdeDockTabButtonStyle}">
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsDatabaseExplorerSelected}" Value="True">
-                                                    <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
-                                                    <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
-                                                    <Setter Property="FontWeight" Value="SemiBold"/>
-                                                    <Setter Property="Background" Value="{StaticResource IdeAccentSoftBrush}"/>
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Button.Style>
-                                </Button>
-                            </StackPanel>
-                        </Border>
-
-                        <Grid>
-                            <Grid Visibility="{Binding IsTreeExplorerSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <ex:ExplorerPanel DataContext="{Binding ExplorerVm}"/>
-                            </Grid>
-                            <Grid Visibility="{Binding IsMenuExplorerSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <ex:MenuExplorerPanel DataContext="{Binding NavigationVm}"/>
-                            </Grid>
-                            <Grid Visibility="{Binding IsDatabaseExplorerSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <ex:DatabaseExplorerPanel DataContext="{Binding DatabaseExplorerVm}"/>
-                            </Grid>
+                    <Grid>
+                        <Grid Visibility="{Binding IsTreeExplorerSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ex:ExplorerPanel DataContext="{Binding ExplorerVm}"/>
                         </Grid>
-                    </DockPanel>
-
-                    <GridSplitter Grid.Row="1" Height="4"
-                                  Background="{StaticResource IdeBorderBrush}"
-                                  ResizeBehavior="PreviousAndNext" ResizeDirection="Rows"/>
-
-                    <ex:OutlinePanel Grid.Row="2" DataContext="{Binding OutlineVm}"/>
-                </Grid>
+                        <Grid Visibility="{Binding IsMenuExplorerSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ex:MenuExplorerPanel DataContext="{Binding NavigationVm}"/>
+                        </Grid>
+                        <Grid Visibility="{Binding IsDatabaseExplorerSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <ex:DatabaseExplorerPanel DataContext="{Binding DatabaseExplorerVm}"/>
+                        </Grid>
+                    </Grid>
+                </DockPanel>
             </Border>
 
-            <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center"
+            <GridSplitter Grid.Row="0" Grid.RowSpan="3" Grid.Column="1"
+                          Width="4" HorizontalAlignment="Center"
                           Background="{StaticResource IdeBorderBrush}"
                           Visibility="{Binding Shell.IsLeftDockOpen, Converter={StaticResource BoolToVisibilityConverter}}"
                           ResizeBehavior="PreviousAndNext" ResizeDirection="Columns"/>
 
-            <!-- Center + Right + Bottom (bottom không đè Left) -->
-            <Grid Grid.Column="2">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" MinHeight="80"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition MinHeight="0">
-                        <RowDefinition.Style>
-                            <Style TargetType="RowDefinition">
-                                <Setter Property="Height" Value="220"/>
-                                <Setter Property="MinHeight" Value="120"/>
+            <!-- Editor + Right (hàng trên; khi đóng Bottom thì span cả chiều cao) -->
+            <Grid Grid.Row="0" Grid.Column="2">
+                <Grid.Style>
+                    <Style TargetType="Grid">
+                        <Setter Property="Grid.RowSpan" Value="1"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Shell.IsBottomDockOpen}" Value="False">
+                                <Setter Property="Grid.RowSpan" Value="3"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="200"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition MinWidth="0">
+                        <ColumnDefinition.Style>
+                            <Style TargetType="ColumnDefinition">
+                                <Setter Property="Width" Value="300"/>
+                                <Setter Property="MinWidth" Value="200"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding Shell.IsBottomDockOpen}" Value="False">
-                                        <Setter Property="Height" Value="0"/>
-                                        <Setter Property="MinHeight" Value="0"/>
+                                    <DataTrigger Binding="{Binding Shell.IsRightDockOpen}" Value="False">
+                                        <Setter Property="Width" Value="0"/>
+                                        <Setter Property="MinWidth" Value="0"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
-                        </RowDefinition.Style>
-                    </RowDefinition>
-                </Grid.RowDefinitions>
+                        </ColumnDefinition.Style>
+                    </ColumnDefinition>
+                </Grid.ColumnDefinitions>
 
-                <Grid Grid.Row="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" MinWidth="200"/>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition MinWidth="0">
-                            <ColumnDefinition.Style>
-                                <Style TargetType="ColumnDefinition">
-                                    <Setter Property="Width" Value="300"/>
-                                    <Setter Property="MinWidth" Value="200"/>
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Shell.IsRightDockOpen}" Value="False">
-                                            <Setter Property="Width" Value="0"/>
-                                            <Setter Property="MinWidth" Value="0"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ColumnDefinition.Style>
-                        </ColumnDefinition>
-                    </Grid.ColumnDefinitions>
+                <DockPanel Grid.Column="0">
+                    <shellViews:DocumentTabBar DockPanel.Dock="Top"
+                                               DataContext="{Binding Shell}"/>
+                    <ctrl:WorkspaceHost DataContext="{Binding Shell.ActiveContent}"/>
+                </DockPanel>
 
-                    <DockPanel Grid.Column="0">
-                        <shellViews:DocumentTabBar DockPanel.Dock="Top"
-                                                   DataContext="{Binding Shell}"/>
-                        <ctrl:WorkspaceHost DataContext="{Binding Shell.ActiveContent}"/>
-                    </DockPanel>
+                <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center"
+                              Background="{StaticResource IdeBorderBrush}"
+                              Visibility="{Binding Shell.IsRightDockOpen, Converter={StaticResource BoolToVisibilityConverter}}"
+                              ResizeBehavior="PreviousAndNext" ResizeDirection="Columns"/>
 
-                    <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Center"
-                                  Background="{StaticResource IdeBorderBrush}"
-                                  Visibility="{Binding Shell.IsRightDockOpen, Converter={StaticResource BoolToVisibilityConverter}}"
-                                  ResizeBehavior="PreviousAndNext" ResizeDirection="Columns"/>
-
-                    <Border Grid.Column="2"
-                            HorizontalAlignment="Stretch"
-                            Background="{StaticResource SidebarBgBrush}"
-                            BorderBrush="{StaticResource IdeBorderBrush}"
-                            BorderThickness="1,0,0,0"
-                            Visibility="{Binding Shell.IsRightDockOpen, Converter={StaticResource BoolToVisibilityConverter}}">
-                        <DockPanel>
-                            <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Shell.RightPanes}">
+                <Border Grid.Column="2"
+                        HorizontalAlignment="Stretch"
+                        Background="{StaticResource SidebarBgBrush}"
+                        BorderBrush="{StaticResource IdeBorderBrush}"
+                        BorderThickness="1,0,0,0"
+                        Visibility="{Binding Shell.IsRightDockOpen, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <DockPanel>
+                        <Border DockPanel.Dock="Top"
+                                Background="{StaticResource IdeDockHeaderBgBrush}"
+                                BorderBrush="{StaticResource IdeBorderBrush}"
+                                BorderThickness="0,0,0,1"
+                                Padding="4,2"
+                                SnapsToDevicePixels="True">
+                            <ItemsControl ItemsSource="{Binding Shell.RightPanes}">
                                 <ItemsControl.ItemsPanel>
                                     <ItemsPanelTemplate>
                                         <StackPanel Orientation="Horizontal"/>
@@ -299,13 +297,12 @@
                                                 CommandParameter="{Binding}">
                                             <Button.Style>
                                                 <Style TargetType="Button" BasedOn="{StaticResource IdeDockTabButtonStyle}">
-                                                    <Setter Property="Background" Value="{StaticResource IdeDockHeaderBgBrush}"/>
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                                            <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+                                                            <Setter Property="Foreground" Value="{StaticResource FgBrightBrush}"/>
                                                             <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
                                                             <Setter Property="FontWeight" Value="SemiBold"/>
-                                                            <Setter Property="Background" Value="{StaticResource IdeAccentSoftBrush}"/>
+                                                            <Setter Property="Background" Value="White"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -314,43 +311,61 @@
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
-                            <Grid>
-                                <Grid Visibility="{Binding Shell.IsInsightSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <insight:InsightPanel DataContext="{Binding InsightPanelVm}"/>
-                                </Grid>
-                                <Grid Visibility="{Binding Shell.IsSymbolInfoSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <insight:SymbolInfoPanel DataContext="{Binding SymbolInfoVm}"/>
-                                </Grid>
-                                <Grid Visibility="{Binding Shell.IsPropertiesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <props:PropertyGridPanel DataContext="{Binding PropertyGridVm}"/>
-                                </Grid>
-                                <Grid Visibility="{Binding Shell.IsToolboxSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <tb:ToolboxPanel DataContext="{Binding ToolboxVm}"/>
-                                </Grid>
-                                <Grid Visibility="{Binding Shell.IsRightPlaceholderSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                    <dock:DockPanelHost DataContext="{Binding Shell.SelectedRightPane}"/>
-                                </Grid>
+                        </Border>
+                        <Grid>
+                            <Grid Visibility="{Binding Shell.IsInsightSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <insight:InsightPanel DataContext="{Binding InsightPanelVm}"/>
                             </Grid>
-                        </DockPanel>
-                    </Border>
-                </Grid>
+                            <Grid Visibility="{Binding Shell.IsSymbolInfoSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <insight:SymbolInfoPanel DataContext="{Binding SymbolInfoVm}"/>
+                            </Grid>
+                            <Grid Visibility="{Binding Shell.IsPropertiesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <props:PropertyGridPanel DataContext="{Binding PropertyGridVm}"/>
+                            </Grid>
+                            <Grid Visibility="{Binding Shell.IsToolboxSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <tb:ToolboxPanel DataContext="{Binding ToolboxVm}"/>
+                            </Grid>
+                            <Grid Visibility="{Binding Shell.IsRightPlaceholderSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <dock:DockPanelHost DataContext="{Binding Shell.SelectedRightPane}"/>
+                            </Grid>
+                        </Grid>
+                    </DockPanel>
+                </Border>
+            </Grid>
 
-                <GridSplitter Grid.Row="1" Height="4" HorizontalAlignment="Stretch"
-                              VerticalAlignment="Center"
-                              Background="{StaticResource IdeBorderBrush}"
-                              Visibility="{Binding Shell.IsBottomDockOpen, Converter={StaticResource BoolToVisibilityConverter}}"
-                              ResizeBehavior="PreviousAndNext" ResizeDirection="Rows"
-                              ShowsPreview="True"/>
+            <!-- Splitter ngang chung — Outline và Bottom cùng hàng -->
+            <GridSplitter Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                          Height="4" HorizontalAlignment="Stretch"
+                          VerticalAlignment="Center"
+                          Background="{StaticResource IdeBorderBrush}"
+                          ResizeBehavior="PreviousAndNext" ResizeDirection="Rows"
+                          ShowsPreview="True"/>
 
-                <Border Grid.Row="2"
-                        MinHeight="120"
-                        VerticalAlignment="Stretch"
-                        Background="{StaticResource EditorBgBrush}"
-                        BorderBrush="{StaticResource IdeBorderBrush}"
-                        BorderThickness="0,1,0,0"
-                        Visibility="{Binding Shell.IsBottomDockOpen, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <DockPanel LastChildFill="True">
-                        <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Shell.BottomPanes}">
+            <!-- Outline (cùng chiều cao Bottom) -->
+            <Border Grid.Row="2" Grid.Column="0"
+                    Background="{StaticResource SidebarBgBrush}"
+                    BorderBrush="{StaticResource IdeBorderBrush}"
+                    BorderThickness="0,0,1,0"
+                    Visibility="{Binding Shell.IsLeftDockOpen, Converter={StaticResource BoolToVisibilityConverter}}">
+                <ex:OutlinePanel DataContext="{Binding OutlineVm}"/>
+            </Border>
+
+            <!-- Bottom panels -->
+            <Border Grid.Row="2" Grid.Column="2"
+                    MinHeight="100"
+                    VerticalAlignment="Stretch"
+                    Background="{StaticResource EditorBgBrush}"
+                    BorderBrush="{StaticResource IdeBorderBrush}"
+                    BorderThickness="0,1,0,0"
+                    Visibility="{Binding Shell.IsBottomDockOpen, Converter={StaticResource BoolToVisibilityConverter}}">
+                <DockPanel LastChildFill="True">
+                    <Border DockPanel.Dock="Top"
+                            Background="{StaticResource IdeDockHeaderBgBrush}"
+                            BorderBrush="{StaticResource IdeBorderBrush}"
+                            BorderThickness="0,0,0,1"
+                            Padding="4,2"
+                            SnapsToDevicePixels="True">
+                        <ItemsControl ItemsSource="{Binding Shell.BottomPanes}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <StackPanel Orientation="Horizontal"/>
@@ -363,13 +378,12 @@
                                             CommandParameter="{Binding}">
                                         <Button.Style>
                                             <Style TargetType="Button" BasedOn="{StaticResource IdeDockTabButtonStyle}">
-                                                <Setter Property="Background" Value="{StaticResource IdeDockHeaderBgBrush}"/>
                                                 <Style.Triggers>
                                                     <DataTrigger Binding="{Binding IsSelected}" Value="True">
-                                                        <Setter Property="Foreground" Value="{StaticResource PrimaryBrush}"/>
+                                                        <Setter Property="Foreground" Value="{StaticResource FgBrightBrush}"/>
                                                         <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
                                                         <Setter Property="FontWeight" Value="SemiBold"/>
-                                                        <Setter Property="Background" Value="{StaticResource IdeAccentSoftBrush}"/>
+                                                        <Setter Property="Background" Value="White"/>
                                                     </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
@@ -378,32 +392,32 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <Grid>
-                            <Grid Visibility="{Binding Shell.IsProblemsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <bottom:ProblemsPanel DataContext="{Binding DiagnosticsVm}"/>
-                            </Grid>
-                            <Grid Visibility="{Binding Shell.IsOutputSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <bottom:OutputPanel DataContext="{Binding DiagnosticsVm}"/>
-                            </Grid>
-                            <Grid Visibility="{Binding Shell.IsReferencesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <bottom:ReferencesPanel DataContext="{Binding DiagnosticsVm}"/>
-                            </Grid>
-                            <Grid Visibility="{Binding Shell.IsLogSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <bottom:LogPanel DataContext="{Binding DiagnosticsVm}"/>
-                            </Grid>
-                            <Grid Visibility="{Binding Shell.IsXmlBottomSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <bottom:XmlBottomPanel DataContext="{Binding XmlBottomVm}"/>
-                            </Grid>
-                            <Grid Visibility="{Binding Shell.IsErrorListSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <bottom:ErrorListPanel DataContext="{Binding DiagnosticsVm}"/>
-                            </Grid>
-                            <Grid Visibility="{Binding Shell.IsBottomPlaceholderSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                                <dock:DockPanelHost DataContext="{Binding Shell.SelectedBottomPane}"/>
-                            </Grid>
+                    </Border>
+                    <Grid>
+                        <Grid Visibility="{Binding Shell.IsProblemsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <bottom:ProblemsPanel DataContext="{Binding DiagnosticsVm}"/>
                         </Grid>
-                    </DockPanel>
-                </Border>
-            </Grid>
+                        <Grid Visibility="{Binding Shell.IsOutputSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <bottom:OutputPanel DataContext="{Binding DiagnosticsVm}"/>
+                        </Grid>
+                        <Grid Visibility="{Binding Shell.IsReferencesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <bottom:ReferencesPanel DataContext="{Binding DiagnosticsVm}"/>
+                        </Grid>
+                        <Grid Visibility="{Binding Shell.IsLogSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <bottom:LogPanel DataContext="{Binding DiagnosticsVm}"/>
+                        </Grid>
+                        <Grid Visibility="{Binding Shell.IsXmlBottomSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <bottom:XmlBottomPanel DataContext="{Binding XmlBottomVm}"/>
+                        </Grid>
+                        <Grid Visibility="{Binding Shell.IsErrorListSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <bottom:ErrorListPanel DataContext="{Binding DiagnosticsVm}"/>
+                        </Grid>
+                        <Grid Visibility="{Binding Shell.IsBottomPlaceholderSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <dock:DockPanelHost DataContext="{Binding Shell.SelectedBottomPane}"/>
+                        </Grid>
+                    </Grid>
+                </DockPanel>
+            </Border>
         </Grid>
 
         <ctrl:AppStatusBar Grid.Row="4" DataContext="{Binding}"/>

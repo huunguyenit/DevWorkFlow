@@ -73,7 +73,7 @@
                 <ColumnDefinition Width="260" MinWidth="160"/>
             </Grid.ColumnDefinitions>
 
-            <ctrl:BindableXmlEditor x:Name="XmlEditor"
+            <ctrl:MonacoEditorHost x:Name="XmlEditor"
                 Grid.Column="0"
                 HorizontalAlignment="Stretch"
                 VerticalAlignment="Stretch"

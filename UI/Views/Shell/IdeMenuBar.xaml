@@ -54,7 +54,7 @@
             <MenuItem Header="Toggle Bottom Dock" Command="{x:Static cmd:IdeCommands.ToggleBottomDock}"/>
         </MenuItem>
         <MenuItem Header="_Help">
-            <MenuItem Header="About FBO Studio" IsEnabled="False"/>
+            <MenuItem Header="About DevWorkFlow" IsEnabled="False"/>
         </MenuItem>
     </Menu>
 </UserControl>

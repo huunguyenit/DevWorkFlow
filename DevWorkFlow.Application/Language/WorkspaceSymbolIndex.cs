@@ -43,7 +43,10 @@ public sealed class WorkspaceSymbolIndex : IWorkspaceSymbolIndex
         int max_results = 50)
     {
         if (string.IsNullOrWhiteSpace(query)) return [];
-        var query_text = query.Trim();
+        // "&ClientDefault;", "ClientDefault" và "Default" (giá trị resolve) đều phải tìm
+        // ra cùng một Symbol — chuẩn hoá cú pháp reference trước khi so khớp.
+        var query_text = query.Trim().TrimStart('&', '%').TrimEnd(';');
+        if (query_text.Length == 0) return [];
 
         lock (_gate)
         {
@@ -113,5 +116,7 @@ public sealed class WorkspaceSymbolIndex : IWorkspaceSymbolIndex
 
     private static bool MatchesQuery(ErpSymbol symbol, string query) =>
         symbol.Name.Contains(query, StringComparison.OrdinalIgnoreCase) ||
-        symbol.DisplayName.Contains(query, StringComparison.OrdinalIgnoreCase);
+        symbol.DisplayName.Contains(query, StringComparison.OrdinalIgnoreCase) ||
+        (symbol is EntitySymbol entity
+         && entity.DisplayText.Contains(query, StringComparison.OrdinalIgnoreCase));
 }

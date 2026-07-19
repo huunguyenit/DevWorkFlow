@@ -13,9 +13,13 @@
                                  PrimaryColor="Blue"
                                  SecondaryColor="LightBlue"/>
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesign2.Defaults.xaml"/>
-                <!-- App styles – light IDE / VS Designer -->
+                <!-- Palette + shell brushes -->
                 <ResourceDictionary Source="Themes/AppStyles.xaml"/>
                 <ResourceDictionary Source="Themes/IdeShell.xaml"/>
+                <!-- Control templates dùng lặp lại -->
+                <ResourceDictionary Source="Themes/Controls/Buttons.xaml"/>
+                <ResourceDictionary Source="Themes/Controls/Inputs.xaml"/>
+                <ResourceDictionary Source="Themes/Controls/Dock.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!-- Global converters -->

@@ -1,42 +1,36 @@
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Windows;
-using System.Windows.Threading;
 using DevWorkFlow.Application.Abstractions;
 using DevWorkFlow.Domain.Models;
+using DevWorkFlow.Infrastructure.Tree;
+using DevWorkFlow.Tree;
 using Microsoft.Win32;
 using UI.Services;
+using UI.Tree;
+using UI.ViewModels;
 using UI.ViewModels.Base;
 
 namespace UI.ViewModels.Explorer;
 
 /// <summary>
-/// Project Explorer — cây thư mục Program FBO.
-/// Load async + filter debounce (không treo UI).
+/// Project Explorer — chỉ qua DevWorkFlow.Tree + FileSystemDataSource (không dual TreeRoots).
 /// </summary>
-public sealed class ProjectExplorerViewModel : ViewModelBase, IExplorerTreeSource, IDisposable
+public sealed class ProjectExplorerViewModel : ViewModelBase, IAsyncDisposable
 {
     private readonly IProgramSession _program_session;
     private readonly FormDocumentNavigator _form_navigator;
     private readonly NavigationViewModel _navigation_vm;
     private readonly SqlStudioNavigator _sql_navigator;
     private readonly AppConfigStore _config;
-    private readonly DebouncedTreeFilter _filter;
+    private readonly FileSystemDataSource _fs_source;
+    private readonly TreeFrameworkHost _tree_host;
     private readonly Dictionary<string, ExplorerNodeKind> _controller_folder_kinds;
-    private readonly HashSet<string> _file_extensions;
-    private readonly HashSet<string> _hidden_root_folders;
 
-    private ExplorerTreeNodeVm? _selected_node;
     private string _filter_text = string.Empty;
     private string _program_title = "(chưa chọn Program)";
     private string _status_text = "Chọn Program để xem cây project";
     private bool _is_busy;
     private CancellationTokenSource? _load_cts;
-    private List<ExplorerTreeFilterEngine.FilterIndexItem> _filter_index = [];
-    private List<string>? _file_index;
-    private string? _file_index_root;
-    private readonly HashSet<ExplorerTreeNodeVm> _loading_nodes = new();
-    private readonly Dictionary<ExplorerTreeNodeVm, Task> _loading_tasks = new();
 
     public ProjectExplorerViewModel(
         IProgramSession program_session,
@@ -54,31 +48,45 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IExplorerTreeSourc
         _controller_folder_kinds = config.ControllerFolders
             .ToDictionary(f => f.Name, f => ExplorerTreeNodeMapper.ParseFolderKind(f.Kind),
                 StringComparer.OrdinalIgnoreCase);
-        _file_extensions = new HashSet<string>(
-            config.Explorer.ExplorerFileExtensions,
-            StringComparer.OrdinalIgnoreCase);
-        _hidden_root_folders = new HashSet<string>(
-            config.Explorer.HiddenRootFolders,
+
+        var hidden = new HashSet<string>(config.Explorer.HiddenRootFolders, StringComparer.OrdinalIgnoreCase);
+        var excluded = new HashSet<string>(
+            config.Explorer.ExplorerFileExtensions
+                .Where(ext => !string.IsNullOrWhiteSpace(ext)
+                              && !ext.Equals(".*", StringComparison.Ordinal)),
             StringComparer.OrdinalIgnoreCase);
 
-        TreeRoots = [];
+        _fs_source = new FileSystemDataSource(() =>
+        {
+            var explorer = _config.Explorer;
+            return new FileSystemDataSourceOptions
+            {
+                HiddenRootFolders = hidden,
+                ExcludedExtensions = excluded,
+                SearchMaxHits = explorer.SearchMaxHits,
+                PreferredRootFolders = explorer.PreferredRootFolders,
+                HideDotFWhenXmlExistsFolders = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+                {
+                    "Dir", "Grid", "Filter"
+                },
+                ResolveVisual = (full_path, is_directory) =>
+                    TreeIconCatalog.ForExplorerPath(
+                        full_path,
+                        is_directory,
+                        explorer.FileIcons,
+                        explorer.FolderIcon,
+                        explorer.FolderIconColor,
+                        explorer.FileIcon,
+                        explorer.FileIconColor)
+            };
+        });
+        _tree_host = new TreeFrameworkHost(config.Explorer.FilterDebounceMs, ApplyTreeFilterAsync);
+
         SelectProgramCommand = new AsyncRelayCommand(SelectProgramAsync, () => !IsBusy);
         RefreshCommand = new AsyncRelayCommand(() => RebuildTreeAsync(), () => _program_session.Current is not null);
-
-        _filter = new DebouncedTreeFilter(
-            config.Explorer.FilterDebounceMs,
-            ApplyFilterAsync);
-
-        // Explorer rebuild qua LeftExplorerLoadCoordinator khi ProgramChanged.
     }
 
-    public ObservableCollection<ExplorerTreeNodeVm> TreeRoots { get; }
-
-    public ExplorerTreeNodeVm? SelectedNode
-    {
-        get => _selected_node;
-        set => SetProperty(ref _selected_node, value);
-    }
+    public TreeRenderingEngine? TreeRendering => _tree_host.Rendering;
 
     public string FilterText
     {
@@ -86,7 +94,7 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IExplorerTreeSourc
         set
         {
             if (!SetProperty(ref _filter_text, value)) return;
-            _filter.Schedule(value);
+            _tree_host.FilterText = value;
         }
     }
 
@@ -99,7 +107,11 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IExplorerTreeSourc
     public string StatusText
     {
         get => _status_text;
-        private set => SetProperty(ref _status_text, value);
+        private set
+        {
+            if (!SetProperty(ref _status_text, value)) return;
+            _tree_host.StatusText = value;
+        }
     }
 
     public int ActivationDelayMs => _config.Explorer.ActivationDelayMs;
@@ -113,31 +125,29 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IExplorerTreeSourc
     public AsyncRelayCommand SelectProgramCommand { get; }
     public AsyncRelayCommand RefreshCommand { get; }
 
-    public void OnTreeNodeActivated(ExplorerTreeNodeVm node, bool is_double_click)
+    public void OnTreeNodeActivated(TreeNode node, bool is_double_click)
     {
-        if (node.Tag is not ExplorerFileTag tag) return;
+        if (node.Metadata is not FileSystemNodeMeta meta) return;
 
-        if (tag.IsDirectory)
+        if (meta.IsDirectory)
         {
             if (_config.Explorer.ExpandOnFolderClick)
-            {
-                EnsureChildren(node);
-                node.IsExpanded = true;
-            }
+                _ = _tree_host.Engine?.ExpandAsync(node.Id);
             return;
         }
 
-        // File: chỉ mở khi double-click (single-click chỉ chọn).
         if (!is_double_click) return;
-        OpenNode(node);
+        OpenFilePath(meta.FullPath, node.DisplayName);
     }
 
-    public void Dispose()
+    public async ValueTask DisposeAsync()
     {
-        _filter.Dispose();
         _load_cts?.Cancel();
         _load_cts?.Dispose();
+        await _tree_host.DisposeAsync().ConfigureAwait(true);
     }
+
+    public void Dispose() => _ = DisposeAsync().AsTask();
 
     private async Task SelectProgramAsync()
     {
@@ -173,8 +183,7 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IExplorerTreeSourc
         try
         {
             await _navigation_vm.LoadProgramAsync(path);
-            // ProgramChanged sẽ rebuild Explorer + Database song song.
-            if (TreeRoots.Count == 0)
+            if (_tree_host.Engine is null)
                 StatusText = "Không dựng được cây — kiểm tra đường dẫn folder.";
         }
         finally
@@ -209,16 +218,13 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IExplorerTreeSourc
             return;
         }
 
-        TreeRoots.Clear();
-        _filter_index = [];
-        _file_index = null;
-        _file_index_root = null;
-
         var program = _program_session.Current;
         if (program is null)
         {
             ProgramTitle = "(chưa chọn Program)";
             StatusText = "Chọn Program để xem cây project";
+            await _tree_host.DetachAsync().ConfigureAwait(true);
+            OnPropertyChanged(nameof(TreeRendering));
             return;
         }
 
@@ -233,31 +239,17 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IExplorerTreeSourc
         }
 
         IsBusy = true;
-        StatusText = "Đang dựng cây Explorer…";
+        StatusText = "Đang load Explorer (lv1)…";
         try
         {
-            var program_title = ProgramTitle;
-            var program_path = program.ProgramPath;
-            var options = _config.Explorer;
+            _fs_source.SetRoot(program.ProgramPath);
+            await _tree_host.AttachAsync(_fs_source, dispatcher, ct).ConfigureAwait(true);
+            OnPropertyChanged(nameof(TreeRendering));
 
-            var root = ExplorerTreeNodeMapper.CreateFileNode(
-                program_title,
-                program_path,
-                is_directory: true,
-                ExplorerNodeKind.Project,
-                options);
-            root.EnsureChildren = EnsureChildren;
-            root.IsExpanded = true;
-            TreeRoots.Add(root);
-
-            await EnsureChildrenAsync(root, ct).ConfigureAwait(true);
-
-            ct.ThrowIfCancellationRequested();
-            _filter_index = ExplorerTreeFilterEngine.BuildIndex(TreeRoots);
-
-            StatusText = $"{program.ProgramPath}  ·  {_filter_index.Count} mục";
+            var rows = _tree_host.Rendering?.Rows.Count ?? 0;
+            StatusText = $"{program.ProgramPath}  ·  lv1: {rows} mục";
             if (!string.IsNullOrWhiteSpace(_filter_text))
-                await _filter.FlushAsync();
+                await ApplyTreeFilterAsync(_filter_text, ct).ConfigureAwait(true);
         }
         catch (OperationCanceledException)
         {
@@ -273,393 +265,48 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IExplorerTreeSourc
         }
     }
 
-    private void EnsureChildren(ExplorerTreeNodeVm node) =>
-        _ = EnsureChildrenAsync(node);
-
-    private Task EnsureChildrenAsync(ExplorerTreeNodeVm node, CancellationToken ct = default)
-    {
-        if (node.Tag is not ExplorerFileTag tag || !tag.IsDirectory || node.ChildrenLoaded)
-            return Task.CompletedTask;
-
-        Task task;
-        lock (_loading_tasks)
-        {
-            if (_loading_tasks.TryGetValue(node, out var inflight))
-                return WaitInflightAsync(inflight, ct);
-
-            task = LoadChildrenCoreAsync(node, tag, ct);
-            _loading_tasks[node] = task;
-        }
-
-        return task;
-    }
-
-    private static async Task WaitInflightAsync(Task inflight, CancellationToken ct)
-    {
-        if (inflight.IsCompleted)
-        {
-            await inflight.ConfigureAwait(true);
-            return;
-        }
-
-        var cancel_tcs = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        await using var reg = ct.Register(() => cancel_tcs.TrySetCanceled(ct));
-        var completed = await Task.WhenAny(inflight, cancel_tcs.Task).ConfigureAwait(true);
-        if (completed == cancel_tcs.Task)
-            ct.ThrowIfCancellationRequested();
-        await inflight.ConfigureAwait(true);
-    }
-
-    private async Task LoadChildrenCoreAsync(
-        ExplorerTreeNodeVm node,
-        ExplorerFileTag tag,
-        CancellationToken ct)
-    {
-        _loading_nodes.Add(node);
-        try
-        {
-            var options = _config.Explorer;
-            var children = await Task.Run(
-                () => BuildChildrenList(tag, options, ct),
-                ct).ConfigureAwait(true);
-
-            ct.ThrowIfCancellationRequested();
-            node.Children.Clear();
-            foreach (var child in children)
-            {
-                if (child.Tag is ExplorerFileTag { IsDirectory: true })
-                    child.EnsureChildren = EnsureChildren;
-                node.Children.Add(child);
-            }
-
-            node.ChildrenLoaded = true;
-        }
-        catch (OperationCanceledException)
-        {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            StatusText = $"Lỗi đọc thư mục: {ex.Message}";
-        }
-        finally
-        {
-            _loading_nodes.Remove(node);
-            lock (_loading_tasks)
-                _loading_tasks.Remove(node);
-        }
-    }
-
-    private List<ExplorerTreeNodeVm> BuildChildrenList(
-        ExplorerFileTag tag,
-        ExplorerOptions options,
-        CancellationToken ct)
-    {
-        var result = new List<ExplorerTreeNodeVm>();
-        if (!Directory.Exists(tag.FullPath))
-            return result;
-
-        try
-        {
-            var dirs = Directory.EnumerateDirectories(tag.FullPath)
-                .Select(d => new DirectoryInfo(d))
-                .Where(d => !d.Name.StartsWith('.'))
-                .OrderBy(d => PreferredOrder(d.Name, tag))
-                .ThenBy(d => d.Name, StringComparer.OrdinalIgnoreCase);
-
-            foreach (var dir in dirs)
-            {
-                ct.ThrowIfCancellationRequested();
-                if (tag.Kind == ExplorerNodeKind.Project
-                    && _hidden_root_folders.Contains(dir.Name))
-                    continue;
-
-                var kind = ResolveFolderKind(dir.Name, tag);
-                result.Add(ExplorerTreeNodeMapper.CreateFileNode(
-                    dir.Name,
-                    dir.FullName,
-                    is_directory: true,
-                    kind,
-                    options));
-            }
-
-            var files = Directory.EnumerateFiles(tag.FullPath)
-                .Select(f => new FileInfo(f))
-                .Where(f => IsExplorerFile(f.Name))
-                .OrderBy(f => f.Name, StringComparer.OrdinalIgnoreCase);
-
-            foreach (var file in files)
-            {
-                ct.ThrowIfCancellationRequested();
-                var kind = ResolveFileKind(file, tag);
-                result.Add(ExplorerTreeNodeMapper.CreateFileNode(
-                    file.Name,
-                    file.FullName,
-                    is_directory: false,
-                    kind,
-                    options));
-            }
-        }
-        catch (OperationCanceledException)
-        {
-            throw;
-        }
-
-        return result;
-    }
-
-    private int PreferredOrder(string name, ExplorerFileTag parent)
-    {
-        if (parent.Kind == ExplorerNodeKind.Project)
-        {
-            var preferred = _config.Explorer.PreferredRootFolders;
-            var idx = Array.FindIndex(preferred,
-                f => f.Equals(name, StringComparison.OrdinalIgnoreCase));
-            return idx >= 0 ? idx : 100;
-        }
-
-        if (parent.Kind == ExplorerNodeKind.Controllers
-            || Path.GetFileName(parent.FullPath).Equals("Controllers", StringComparison.OrdinalIgnoreCase))
-        {
-            var folder = _config.ControllerFolders.FirstOrDefault(f =>
-                f.Name.Equals(name, StringComparison.OrdinalIgnoreCase));
-            return folder?.Order ?? 50;
-        }
-
-        return 0;
-    }
-
-    private ExplorerNodeKind ResolveFolderKind(string name, ExplorerFileTag parent)
-    {
-        if (name.Equals("Controllers", StringComparison.OrdinalIgnoreCase))
-            return ExplorerNodeKind.Controllers;
-
-        if (parent.Kind == ExplorerNodeKind.Controllers
-            || Path.GetFileName(parent.FullPath).Equals("Controllers", StringComparison.OrdinalIgnoreCase))
-        {
-            if (_controller_folder_kinds.TryGetValue(name, out var kind))
-                return kind;
-        }
-
-        if (name.Equals("Include", StringComparison.OrdinalIgnoreCase))
-            return ExplorerNodeKind.Include;
-
-        return ExplorerNodeKind.Folder;
-    }
-
-    private bool IsExplorerFile(string name) =>
-        _file_extensions.Contains(Path.GetExtension(name));
-
-    private static ExplorerNodeKind ResolveFileKind(FileInfo file, ExplorerFileTag parent)
-    {
-        var ext = file.Extension;
-        if (ext.Equals(".f", StringComparison.OrdinalIgnoreCase))
-            return ExplorerNodeKind.Encrypted;
-        if (ext.Equals(".aspx", StringComparison.OrdinalIgnoreCase))
-            return ExplorerNodeKind.Aspx;
-        if (ext.Equals(".js", StringComparison.OrdinalIgnoreCase))
-            return ExplorerNodeKind.Script;
-        if (ext.Equals(".css", StringComparison.OrdinalIgnoreCase))
-            return ExplorerNodeKind.Css;
-        if (ext.Equals(".sql", StringComparison.OrdinalIgnoreCase))
-            return ExplorerNodeKind.Script;
-
-        if (ext.Equals(".xml", StringComparison.OrdinalIgnoreCase))
-        {
-            return parent.Kind switch
-            {
-                ExplorerNodeKind.Dir => ExplorerNodeKind.XmlForm,
-                ExplorerNodeKind.Grid => ExplorerNodeKind.XmlGrid,
-                ExplorerNodeKind.Filter => ExplorerNodeKind.XmlFilter,
-                ExplorerNodeKind.Lookup => ExplorerNodeKind.XmlLookup,
-                ExplorerNodeKind.Report => ExplorerNodeKind.XmlReport,
-                _ => ExplorerNodeKind.OtherFile
-            };
-        }
-
-        return ExplorerNodeKind.OtherFile;
-    }
-
-    private async Task ApplyFilterAsync(string raw, CancellationToken ct)
+    private async Task ApplyTreeFilterAsync(string raw, CancellationToken ct)
     {
         var keyword = raw.Trim();
-        var min_len = _config.Explorer.FilterMinLength;
+        var engine = _tree_host.Engine;
+        if (engine is null) return;
 
-        if (!string.IsNullOrEmpty(keyword) && keyword.Length < min_len)
-            return;
-
-        var program = _program_session.Current;
-        if (program is null || TreeRoots.Count == 0)
-            return;
-
-        if (string.IsNullOrEmpty(keyword))
+        if (string.IsNullOrEmpty(keyword)
+            || keyword.Length < _config.Explorer.FilterMinLength)
         {
-            _filter_index = ExplorerTreeFilterEngine.BuildIndex(TreeRoots);
-            var all_visible = ExplorerTreeFilterEngine.CalculateVisibility(_filter_index, string.Empty, ct);
-            await ExplorerTreeFilterEngine.ApplyVisibilityAsync(
-                _filter_index, all_visible, string.Empty, 120, expand_matches: false, ct);
-            StatusText = $"{program.ProgramPath}  ·  {_filter_index.Count} mục";
+            engine.ClearSearchFilter();
+            var program = _program_session.Current;
+            if (program is not null)
+                StatusText = program.ProgramPath;
             return;
         }
 
         StatusText = $"Đang quét file \"{keyword}\"…";
-
-        var root_path = program.ProgramPath;
-        var file_index = await GetOrBuildFileIndexAsync(root_path, ct).ConfigureAwait(true);
-        var max_hits = Math.Max(50, _config.Explorer.SearchMaxHits);
-        var hits = file_index
-            .Where(f => Path.GetFileName(f).Contains(keyword, StringComparison.OrdinalIgnoreCase))
-            .Take(max_hits)
-            .ToList();
-
+        var hits = await _fs_source.SearchAsync(keyword, ct).ConfigureAwait(true);
         ct.ThrowIfCancellationRequested();
-
-        for (var i = 0; i < hits.Count; i++)
-        {
-            ct.ThrowIfCancellationRequested();
-            await EnsureFilePathInTreeAsync(hits[i], ct).ConfigureAwait(true);
-            if ((i + 1) % 20 == 0)
-                await Dispatcher.Yield(DispatcherPriority.Background);
-        }
-
-        ct.ThrowIfCancellationRequested();
-        _filter_index = ExplorerTreeFilterEngine.BuildIndex(TreeRoots);
-
-        var visible = await Task.Run(
-            () => ExplorerTreeFilterEngine.CalculateVisibility(_filter_index, keyword, ct),
-            ct).ConfigureAwait(true);
-
-        ct.ThrowIfCancellationRequested();
-        await ExplorerTreeFilterEngine.ApplyVisibilityAsync(
-            _filter_index,
-            visible,
-            keyword,
-            batch_size: 120,
-            expand_matches: true,
-            ct);
-
-        var match_nodes = 0;
-        for (var i = 0; i < _filter_index.Count; i++)
-        {
-            if (visible[i]) match_nodes++;
-        }
-
-        StatusText = $"Lọc \"{keyword}\" · {hits.Count} file · {match_nodes} node hiện";
+        await engine.ApplySearchMatchesAsync(hits, ct).ConfigureAwait(true);
+        StatusText = $"Lọc \"{keyword}\" · {hits.Count} file";
     }
 
-    private async Task<List<string>> GetOrBuildFileIndexAsync(string root_path, CancellationToken ct)
+    private void OpenFilePath(string full_path, string display_name)
     {
-        if (string.Equals(_file_index_root, root_path, StringComparison.OrdinalIgnoreCase)
-            && _file_index is not null)
+        var kind = ResolveControllerKind(full_path);
+        var ext = Path.GetExtension(full_path);
+
+        // File nhị phân (Excel/Crystal Report/ảnh/thư viện...) editor không đọc được —
+        // chặn theo config Explorer.BlockedOpenExtensions (explorer.json).
+        if (_config.Explorer.BlockedOpenExtensions.Contains(ext, StringComparer.OrdinalIgnoreCase))
         {
-            return _file_index;
-        }
-
-        var files = await Task.Run(
-            () => ScanAllExplorerFiles(root_path, ct),
-            ct).ConfigureAwait(true);
-
-        _file_index_root = root_path;
-        _file_index = files;
-        return files;
-    }
-
-    private List<string> ScanAllExplorerFiles(string root_path, CancellationToken ct)
-    {
-        var results = new List<string>();
-        if (!Directory.Exists(root_path)) return results;
-
-        var options = new EnumerationOptions
-        {
-            RecurseSubdirectories = true,
-            IgnoreInaccessible = true,
-            AttributesToSkip = FileAttributes.ReparsePoint
-        };
-
-        foreach (var file in Directory.EnumerateFiles(root_path, "*.*", options))
-        {
-            ct.ThrowIfCancellationRequested();
-            var name = Path.GetFileName(file);
-            if (!IsExplorerFile(name)) continue;
-
-            var relative = Path.GetRelativePath(root_path, file);
-            var first = relative.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar)[0];
-            if (_hidden_root_folders.Contains(first)) continue;
-
-            results.Add(file);
-        }
-
-        return results;
-    }
-
-    private async Task EnsureFilePathInTreeAsync(string file_path, CancellationToken ct)
-    {
-        if (TreeRoots.Count == 0) return;
-        var root = TreeRoots[0];
-        if (root.Tag is not ExplorerFileTag root_tag) return;
-
-        var full = Path.GetFullPath(file_path);
-        var root_full = Path.GetFullPath(root_tag.FullPath);
-        if (!full.StartsWith(root_full, StringComparison.OrdinalIgnoreCase))
-            return;
-
-        var relative = Path.GetRelativePath(root_full, full);
-        var parts = relative.Split(
-            [Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar],
-            StringSplitOptions.RemoveEmptyEntries);
-
-        var current = root;
-        await EnsureChildrenAsync(current, ct).ConfigureAwait(true);
-
-        for (var i = 0; i < parts.Length; i++)
-        {
-            ct.ThrowIfCancellationRequested();
-            var part = parts[i];
-            var is_last = i == parts.Length - 1;
-            var child = current.Children.FirstOrDefault(c =>
-                !ExplorerTreeNodeMapper.IsLoadingPlaceholder(c)
-                && c.Name.Equals(part, StringComparison.OrdinalIgnoreCase));
-
-            if (child is null)
-            {
-                current.ChildrenLoaded = false;
-                await EnsureChildrenAsync(current, ct).ConfigureAwait(true);
-                child = current.Children.FirstOrDefault(c =>
-                    !ExplorerTreeNodeMapper.IsLoadingPlaceholder(c)
-                    && c.Name.Equals(part, StringComparison.OrdinalIgnoreCase));
-            }
-
-            if (child is null) return;
-
-            if (!is_last)
-            {
-                await EnsureChildrenAsync(child, ct).ConfigureAwait(true);
-                child.IsExpanded = true;
-                current = child;
-            }
-        }
-    }
-
-    private void OpenNode(ExplorerTreeNodeVm? node)
-    {
-        if (node?.Tag is not ExplorerFileTag tag || tag.IsDirectory) return;
-
-        var kind = tag.ToControllerKind() ?? ControllerFileKind.Other;
-
-        if (kind == ControllerFileKind.Aspx
-            || node.Name.Equals("main.aspx", StringComparison.OrdinalIgnoreCase))
-        {
-            StatusText = $"ASPX không hỗ trợ design: {node.Name}";
+            StatusText = $"File nhị phân, không mở được trong editor: {display_name}";
             return;
         }
 
-        var ext = Path.GetExtension(tag.FullPath);
         if (ext.Equals(".sql", StringComparison.OrdinalIgnoreCase))
         {
             try
             {
-                _sql_navigator.OpenFile(tag.FullPath);
-                StatusText = tag.FullPath;
+                _sql_navigator.OpenFile(full_path);
+                StatusText = full_path;
             }
             catch (Exception ex)
             {
@@ -669,34 +316,51 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IExplorerTreeSourc
             return;
         }
 
-        var is_form_source = ext.Equals(".xml", StringComparison.OrdinalIgnoreCase)
-                             || ext.Equals(".f", StringComparison.OrdinalIgnoreCase);
-        if (!is_form_source)
-        {
-            StatusText = $"Chưa hỗ trợ mở: {node.Name}";
-            return;
-        }
-
         try
         {
             var label = kind switch
             {
                 ControllerFileKind.Dir => "Dir",
-                ControllerFileKind.Grid => "Grid",
                 ControllerFileKind.Filter => "Filter",
+                ControllerFileKind.Grid => "Grid",
                 ControllerFileKind.Lookup => "Lookup",
                 ControllerFileKind.Report => "Report",
-                _ => "XML"
+                ControllerFileKind.Aspx => "Aspx",
+                _ => "Form"
             };
-            var title = $"{label}: {node.Name}";
-            var code_only = FormBuilderViewModel.IsCodeOnlyPath(tag.FullPath);
-            _form_navigator.Open(tag.FullPath, title, raw_xml: null, related_files: null, code_only);
-            StatusText = tag.FullPath;
+            var title = $"{label}: {display_name}";
+            // .xml/.f mở đầy đủ (Design/Insight); mọi file text khác (.aspx/.ent/.txt/
+            // .js/.css...) mở dạng code-only.
+            var is_form_source = ext.Equals(".xml", StringComparison.OrdinalIgnoreCase)
+                                 || ext.Equals(".f", StringComparison.OrdinalIgnoreCase);
+            var code_only = !is_form_source || FormBuilderViewModel.IsCodeOnlyPath(full_path);
+            _form_navigator.Open(full_path, title, raw_xml: null, related_files: null, code_only);
+            StatusText = full_path;
         }
         catch (Exception ex)
         {
-            StatusText = $"Lỗi đọc file: {ex.Message}";
-            MessageBox.Show(ex.Message, "FBO Studio", MessageBoxButton.OK, MessageBoxImage.Error);
+            StatusText = $"Lỗi mở form: {ex.Message}";
+            MessageBox.Show(ex.Message, "DevWorkFlow", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+    }
+
+    private ControllerFileKind ResolveControllerKind(string full_path)
+    {
+        var dir = Path.GetFileName(Path.GetDirectoryName(full_path) ?? string.Empty);
+        if (_controller_folder_kinds.TryGetValue(dir, out var mapped))
+        {
+            return mapped switch
+            {
+                ExplorerNodeKind.Dir or ExplorerNodeKind.XmlForm => ControllerFileKind.Dir,
+                ExplorerNodeKind.Filter or ExplorerNodeKind.XmlFilter => ControllerFileKind.Filter,
+                ExplorerNodeKind.Grid or ExplorerNodeKind.XmlGrid => ControllerFileKind.Grid,
+                ExplorerNodeKind.Lookup or ExplorerNodeKind.XmlLookup => ControllerFileKind.Lookup,
+                ExplorerNodeKind.Report or ExplorerNodeKind.XmlReport => ControllerFileKind.Report,
+                ExplorerNodeKind.Aspx => ControllerFileKind.Aspx,
+                _ => ControllerFileKind.Other
+            };
+        }
+
+        return ControllerFileKind.Other;
     }
 }

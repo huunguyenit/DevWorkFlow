@@ -53,5 +53,16 @@ public sealed class LeftExplorerLoadCoordinator
         {
             // ignore
         }
+        catch (Exception ex)
+        {
+            try
+            {
+                IdeMessage.ShowException(ex, "Không làm mới Explorer/Database sau khi đổi Program.");
+            }
+            catch
+            {
+                // ignore
+            }
+        }
     }
 }

@@ -36,6 +36,7 @@ public sealed class SqlDocumentViewModel : ViewModelBase
         _runner = runner;
         _program_session = program_session;
         _program_session.ProgramChanged += (_, _) => RebuildConnectionTargets();
+        _program_session.ProgramUpdated += (_, _) => RebuildConnectionTargets();
 
         ExecuteCommand = new AsyncRelayCommand(ExecuteAsync, () => !IsBusy && !string.IsNullOrWhiteSpace(ScriptToRun));
         CancelCommand = new RelayCommand(CancelExecute, () => IsBusy);
@@ -259,12 +260,14 @@ public sealed class SqlDocumentViewModel : ViewModelBase
 
         if (!string.IsNullOrWhiteSpace(program.SysConnectionString))
         {
+            var sys_db = AppConnectionResolver.TryGetDatabaseName(program.SysConnectionString) ?? "Sys";
             ConnectionTargets.Add(new SqlConnectionTargetVm
             {
                 Id = "sys",
-                Display = "Sys",
+                Display = sys_db,
                 ConnectionString = program.SysConnectionString,
-                IsSys = true
+                IsSys = true,
+                DatabaseName = sys_db
             });
         }
 
@@ -273,13 +276,10 @@ public sealed class SqlDocumentViewModel : ViewModelBase
             foreach (var app in program.AppDatabases)
             {
                 var cs = AppConnectionResolver.ResolveAppConnection(program, app.DatabaseName);
-                var label = string.IsNullOrWhiteSpace(app.Code)
-                    ? $"App · {app.DatabaseName}"
-                    : $"App · {app.Code} · {app.Name} · {app.DatabaseName}";
                 ConnectionTargets.Add(new SqlConnectionTargetVm
                 {
                     Id = $"app:{app.Code}:{app.DatabaseName}",
-                    Display = label,
+                    Display = app.DatabaseName,
                     ConnectionString = cs,
                     IsSys = false,
                     Code = app.Code,
@@ -290,16 +290,16 @@ public sealed class SqlDocumentViewModel : ViewModelBase
         else if (!string.IsNullOrWhiteSpace(program.AppConnectionString)
                  && !program.AppConnectionString.Contains("%Database", StringComparison.OrdinalIgnoreCase))
         {
-            var label = string.IsNullOrWhiteSpace(program.AppDatabaseName)
-                ? "App"
-                : $"App · {program.AppDatabaseName}";
+            var app_db = !string.IsNullOrWhiteSpace(program.AppDatabaseName)
+                ? program.AppDatabaseName
+                : AppConnectionResolver.TryGetDatabaseName(program.AppConnectionString) ?? "App";
             ConnectionTargets.Add(new SqlConnectionTargetVm
             {
                 Id = "app:default",
-                Display = label,
+                Display = app_db,
                 ConnectionString = program.AppConnectionString,
                 IsSys = false,
-                DatabaseName = program.AppDatabaseName
+                DatabaseName = app_db
             });
         }
 
@@ -380,7 +380,10 @@ public sealed class SqlDocumentViewModel : ViewModelBase
 
         try
         {
-            var result = await _runner.ExecuteAsync(cs, script, 60, ct);
+            var command_timeout = program.CommandTimeoutSeconds > 0
+                ? program.CommandTimeoutSeconds
+                : 60;
+            var result = await _runner.ExecuteAsync(cs, script, command_timeout, ct);
             MessagesText = string.Join(Environment.NewLine, result.Messages);
             foreach (var set in result.ResultSets)
                 ResultSets.Add(new SqlResultSetVm(set.Title, set.Table));

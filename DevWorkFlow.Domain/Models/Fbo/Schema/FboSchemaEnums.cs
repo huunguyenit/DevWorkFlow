@@ -43,28 +43,3 @@ public enum FboAggregateType
     Min
 }
 
-/// <summary>Theo Dir.xsd – simpleType appType.</summary>
-public enum FboAppType
-{
-    Dir,
-    Report,
-    Voucher,
-    Detail
-}
-
-/// <summary>Theo Dir.xsd – simpleType databaseName.</summary>
-public enum FboDatabaseName
-{
-    App,
-    Sys,
-    Ext
-}
-
-/// <summary>Đường dẫn XSD chuẩn Controllers (tham chiếu model).</summary>
-public static class FboSchemaPaths
-{
-    public const string Dir = "Schemas/Dir.xsd";
-    public const string Grid = "Schemas/Grid.xsd";
-    public const string Lookup = "Schemas/Lookup.xsd";
-    public const string Report = "Schemas/Report.xsd";
-}

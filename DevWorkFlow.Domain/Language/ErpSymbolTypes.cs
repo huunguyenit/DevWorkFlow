@@ -80,6 +80,13 @@ public sealed class EntitySymbol : ErpSymbol
     /// <summary>Giá trị hiển thị sau khi resolve nested entity.</summary>
     public string DisplayText { get; init; } = string.Empty;
 
+    /// <summary>
+    /// Giá trị chú giải cho Insight/Semantic mode: entity lá → giá trị resolve;
+    /// entity nhiều cấp → RawValue với mỗi ref con dạng "&amp;Con;|giá_trị"
+    /// (ví dụ C="&amp;A;&amp;B;Claude" → "&amp;A;|xin&amp;B;|chàoClaude").
+    /// </summary>
+    public string AnnotatedText { get; init; } = string.Empty;
+
     /// <summary>Giá trị khai báo chưa expand; external entity là nội dung file.</summary>
     public string? RawValue { get; init; }
 

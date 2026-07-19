@@ -71,22 +71,40 @@ public sealed class EntitySymbolBinder
             path,
             diagnostics);
 
+        // Chỉ entity thực sự ĐƯỢC SỬ DỤNG mới thành symbol: tham chiếu trực tiếp trong
+        // body document, hoặc gián tiếp qua giá trị của entity đã dùng. File include
+        // (Unit.ent, ...) khai báo hàng loạt entity dùng chung — không được đổ hết vào
+        // document (ví dụ Account.xml không gọi &Lookup.Job; thì không lấy Lookup.Job).
+        var used = ComputeUsedEntityClosure(source_text, doctype_token?.Span, definitions);
+
         var references = BuildReferenceIndex(
             path,
             source_text,
             doctype_token?.Span,
             definitions,
+            used,
             diagnostics);
 
         var resolved_values = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+        var annotated_values = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
         foreach (var declaration in definitions.Values)
         {
+            if (declaration.Kind != EntityDeclarationKind.Parameter
+                && !used.Contains(declaration.Name))
+                continue;
+
             ResolveValue(
                 declaration.Name,
                 definitions,
                 resolved_values,
                 new HashSet<string>(StringComparer.OrdinalIgnoreCase),
                 diagnostics);
+            BuildAnnotatedValue(
+                declaration.Name,
+                definitions,
+                resolved_values,
+                annotated_values,
+                new HashSet<string>(StringComparer.OrdinalIgnoreCase));
         }
 
         var symbols = new List<EntitySymbol>();
@@ -101,7 +119,13 @@ public sealed class EntitySymbolBinder
                 && string.IsNullOrWhiteSpace(declaration.SystemId))
                 continue;
 
+            // General entity không được sử dụng (trực tiếp lẫn gián tiếp) → không tạo symbol.
+            if (declaration.Kind != EntityDeclarationKind.Parameter
+                && !used.Contains(declaration.Name))
+                continue;
+
             resolved_values.TryGetValue(declaration.Name, out var display_text);
+            annotated_values.TryGetValue(declaration.Name, out var annotated_text);
             var symbol_diagnostics = diagnostics
                 .Where(item =>
                     item.Location.Path.Equals(
@@ -116,6 +140,7 @@ public sealed class EntitySymbolBinder
                 Name = declaration.Name,
                 DisplayName = declaration.Name,
                 DisplayText = display_text ?? declaration.RawValue ?? string.Empty,
+                AnnotatedText = annotated_text ?? display_text ?? declaration.RawValue ?? string.Empty,
                 RawValue = declaration.RawValue,
                 DeclarationKind = declaration.Kind,
                 SystemId = declaration.SystemId,
@@ -642,11 +667,58 @@ public sealed class EntitySymbolBinder
             file_stack.Remove(current_file);
     }
 
+    /// <summary>
+    /// Tập entity được sử dụng: tham chiếu &amp;Name; trong body document (ngoài DOCTYPE),
+    /// đóng bao gián tiếp qua RawValue của các entity đã dùng (BFS, cycle-safe vì visited
+    /// chính là tập kết quả).
+    /// </summary>
+    private static HashSet<string> ComputeUsedEntityClosure(
+        string source_text,
+        SourceSpan? doctype_span,
+        IReadOnlyDictionary<string, EntityDeclaration> definitions)
+    {
+        var used = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        var queue = new Queue<string>();
+
+        foreach (Match match in GeneralReferenceRegex.Matches(source_text))
+        {
+            if (doctype_span is { } excluded
+                && match.Index >= excluded.StartOffset
+                && match.Index < excluded.EndOffset)
+                continue;
+
+            var name = match.Groups["name"].Value;
+            if (BuiltInNames.Contains(name) || !definitions.ContainsKey(name))
+                continue;
+            if (used.Add(name))
+                queue.Enqueue(name);
+        }
+
+        while (queue.Count > 0)
+        {
+            var raw_value = definitions[queue.Dequeue()].RawValue;
+            if (string.IsNullOrEmpty(raw_value))
+                continue;
+
+            foreach (Match match in GeneralReferenceRegex.Matches(raw_value))
+            {
+                var child = match.Groups["name"].Value;
+                if (BuiltInNames.Contains(child) || !definitions.ContainsKey(child))
+                    continue;
+                if (used.Add(child))
+                    queue.Enqueue(child);
+            }
+        }
+
+        return used;
+    }
+
     private static Dictionary<string, List<SymbolReference>> BuildReferenceIndex(
         string path,
         string source_text,
         SourceSpan? doctype_span,
         IReadOnlyDictionary<string, EntityDeclaration> definitions,
+        IReadOnlySet<string> used,
         List<ErpDiagnostic> diagnostics)
     {
         var result = new Dictionary<string, List<SymbolReference>>(
@@ -679,11 +751,13 @@ public sealed class EntitySymbolBinder
                 include_parameter: true);
         }
 
-        // Chỉ quét RawValue của entity ACTIVE — không quét nội dung file trong IGNORE.
+        // Chỉ quét RawValue của entity ACTIVE và ĐƯỢC SỬ DỤNG — không quét nội dung file
+        // trong IGNORE, không lấy reference phát sinh từ entity mà document không dùng tới.
         foreach (var declaration in definitions.Values)
         {
             if (declaration.Kind == EntityDeclarationKind.Parameter
-                || string.IsNullOrEmpty(declaration.RawValue))
+                || string.IsNullOrEmpty(declaration.RawValue)
+                || !used.Contains(declaration.Name))
                 continue;
 
             var base_offset = declaration.Kind == EntityDeclarationKind.Inline
@@ -805,6 +879,58 @@ public sealed class EntitySymbolBinder
         resolving.Remove(name);
         cache[name] = resolved;
         return resolved;
+    }
+
+    /// <summary>
+    /// Giá trị chú giải cho Insight/Semantic mode:
+    /// - Entity lá (RawValue không chứa ref con): giá trị resolve ("1", "xin", ...).
+    /// - Entity nhiều cấp: RawValue với mỗi ref con thay bằng "&amp;Con;|chú_giải_con".
+    ///   Ví dụ A="xin", B="chào", C="&amp;A;&amp;B;Claude" → C = "&amp;A;|xin&amp;B;|chàoClaude".
+    /// Cycle: trả về "&amp;name;" (ERP3002 đã được ResolveValue phát, không phát lại).
+    /// </summary>
+    private static string BuildAnnotatedValue(
+        string name,
+        IReadOnlyDictionary<string, EntityDeclaration> definitions,
+        IReadOnlyDictionary<string, string> resolved_values,
+        Dictionary<string, string> cache,
+        HashSet<string> resolving)
+    {
+        if (cache.TryGetValue(name, out var cached))
+            return cached;
+        if (!definitions.TryGetValue(name, out var declaration))
+            return $"&{name};";
+        if (!resolving.Add(name))
+            return $"&{name};";
+
+        var raw_value = declaration.RawValue ?? string.Empty;
+        var has_children = GeneralReferenceRegex.Matches(raw_value).Any(match =>
+        {
+            var child = match.Groups["name"].Value;
+            return !BuiltInNames.Contains(child) && definitions.ContainsKey(child);
+        });
+
+        string annotated;
+        if (!has_children)
+        {
+            annotated = resolved_values.TryGetValue(name, out var resolved)
+                ? resolved
+                : raw_value;
+        }
+        else
+        {
+            annotated = GeneralReferenceRegex.Replace(raw_value, match =>
+            {
+                var child = match.Groups["name"].Value;
+                if (BuiltInNames.Contains(child) || !definitions.ContainsKey(child))
+                    return match.Value;
+                return $"&{child};|" + BuildAnnotatedValue(
+                    child, definitions, resolved_values, cache, resolving);
+            });
+        }
+
+        resolving.Remove(name);
+        cache[name] = annotated;
+        return annotated;
     }
 
     private static IReadOnlyList<string> GetChildEntityIds(

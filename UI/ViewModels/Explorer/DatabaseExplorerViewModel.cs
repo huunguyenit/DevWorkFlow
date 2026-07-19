@@ -1,9 +1,11 @@
 using System.Collections.ObjectModel;
-using System.Data;
 using System.Windows;
 using DevWorkFlow.Application.Abstractions;
 using DevWorkFlow.Infrastructure.Services;
+using DevWorkFlow.Infrastructure.Tree;
+using DevWorkFlow.Tree;
 using UI.Services;
+using UI.Tree;
 using UI.ViewModels.Base;
 
 namespace UI.ViewModels.Explorer;
@@ -11,15 +13,16 @@ namespace UI.ViewModels.Explorer;
 /// <summary>
 /// Tree database objects — load SQL async, build tree nền, filter debounce.
 /// </summary>
-public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSource, IDisposable
+public sealed class DatabaseExplorerViewModel : ViewModelBase, IDisposable
 {
     private readonly IProgramSession _program_session;
     private readonly ISqlScriptRunner _sql_runner;
     private readonly AppConfigStore _config;
     private readonly DatabaseObjectScripter _scripter;
     private readonly SqlStudioNavigator _sql_navigator;
-    private readonly DebouncedTreeFilter _filter;
     private readonly Dictionary<string, DatabaseObjectTypeOption> _type_map;
+    private readonly DatabaseDataSource _db_source;
+    private readonly TreeFrameworkHost _tree_host;
 
     private SqlConnectionTargetVm? _selected_target;
     private string _status_text = "Chọn Program rồi Refresh để tải object.";
@@ -28,7 +31,6 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
     private CancellationTokenSource? _load_cts;
     private CancellationTokenSource? _click_cts;
     private int _refresh_generation;
-    private List<ExplorerTreeFilterEngine.FilterIndexItem> _filter_index = [];
     private bool _suppress_target_refresh;
 
     public DatabaseExplorerViewModel(
@@ -46,15 +48,29 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
         _type_map = config.DatabaseObjectTypes
             .ToDictionary(t => t.Code, t => t, StringComparer.OrdinalIgnoreCase);
 
+        _db_source = new DatabaseDataSource();
+        _tree_host = new TreeFrameworkHost(config.Database.FilterDebounceMs, ApplyTreeFilterAsync);
+
         ConnectionTargets = [];
-        TreeRoots = [];
         RefreshCommand = new AsyncRelayCommand(() => RefreshAsync(), () => !IsBusy);
 
-        _filter = new DebouncedTreeFilter(
-            config.Database.FilterDebounceMs,
-            ApplyFilterAsync);
+        RebuildConnectionTargets();
+        _program_session.ProgramUpdated += OnProgramUpdated;
+    }
+
+    public TreeRenderingEngine? TreeRendering => _tree_host.Rendering;
+
+    private void OnProgramUpdated(object? sender, EventArgs e)
+    {
+        var dispatcher = Application.Current?.Dispatcher;
+        if (dispatcher is not null && !dispatcher.CheckAccess())
+        {
+            _ = dispatcher.InvokeAsync(() => OnProgramUpdated(sender, e));
+            return;
+        }
 
         RebuildConnectionTargets();
+        _ = RefreshAsync();
     }
 
     /// <summary>Gọi từ coordinator — rebuild target rồi load catalog.</summary>
@@ -65,7 +81,6 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
     }
 
     public ObservableCollection<SqlConnectionTargetVm> ConnectionTargets { get; }
-    public ObservableCollection<ExplorerTreeNodeVm> TreeRoots { get; }
 
     public SqlConnectionTargetVm? SelectedTarget
     {
@@ -84,14 +99,18 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
         set
         {
             if (!SetProperty(ref _filter_text, value)) return;
-            _filter.Schedule(value);
+            _tree_host.FilterText = value;
         }
     }
 
     public string StatusText
     {
         get => _status_text;
-        private set => SetProperty(ref _status_text, value);
+        private set
+        {
+            if (!SetProperty(ref _status_text, value)) return;
+            _tree_host.StatusText = value;
+        }
     }
 
     public int ActivationDelayMs => 0;
@@ -104,15 +123,22 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
 
     public AsyncRelayCommand RefreshCommand { get; }
 
-    public void OnTreeNodeActivated(ExplorerTreeNodeVm node, bool is_double_click)
+    public void OnTreeNodeActivated(TreeNode node, bool is_double_click)
     {
-        if (node.Tag is not DatabaseObjectTag tag) return;
-        if (tag.Kind == DatabaseObjectKind.Folder) return;
-        _ = OpenObjectScriptAsync(node, tag, is_double_click);
+        if (node.Metadata is not DatabaseNodeMeta meta || meta.IsFolder) return;
+        if (string.IsNullOrWhiteSpace(meta.Schema) || string.IsNullOrWhiteSpace(meta.ObjectName))
+            return;
+
+        var kind = ExplorerTreeNodeMapper.ParseDatabaseKind(
+            _type_map.TryGetValue(meta.ObjectType ?? "", out var opt) ? opt.Kind : "Folder");
+        if (kind == DatabaseObjectKind.Folder) return;
+
+        var tag = new DatabaseObjectTag { Schema = meta.Schema, Kind = kind };
+        _ = OpenObjectScriptAsync(meta.ObjectName, tag, is_double_click);
     }
 
     private async Task OpenObjectScriptAsync(
-        ExplorerTreeNodeVm node,
+        string object_name,
         DatabaseObjectTag tag,
         bool is_double_click)
     {
@@ -141,15 +167,15 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
         }
 
         StatusText = click == 1
-            ? $"Đang sinh script (click 1) {tag.Schema}.{node.Name}…"
-            : $"Đang sinh script (click 2) {tag.Schema}.{node.Name}…";
+            ? $"Đang sinh script (click 1) {tag.Schema}.{object_name}…"
+            : $"Đang sinh script (click 2) {tag.Schema}.{object_name}…";
 
         try
         {
             var built = await _scripter.BuildAsync(
                 SelectedTarget.ConnectionString,
                 tag.Schema,
-                node.Name,
+                object_name,
                 tag.Kind,
                 click,
                 ct).ConfigureAwait(true);
@@ -161,7 +187,7 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
             }
 
             var (title, script) = built.Value;
-            var buffer_id = $"db:{tag.Kind}:{tag.Schema}.{node.Name}:c{click}";
+            var buffer_id = $"db:{tag.Kind}:{tag.Schema}.{object_name}:c{click}";
             _sql_navigator.OpenBuffer(buffer_id, title, script, SelectedTarget.Id);
             StatusText = title;
         }
@@ -177,11 +203,12 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
 
     public void Dispose()
     {
-        _filter.Dispose();
+        _program_session.ProgramUpdated -= OnProgramUpdated;
         _load_cts?.Cancel();
         _load_cts?.Dispose();
         _click_cts?.Cancel();
         _click_cts?.Dispose();
+        _ = _tree_host.DisposeAsync().AsTask();
     }
 
     private void RebuildConnectionTargets()
@@ -201,12 +228,14 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
 
             if (!string.IsNullOrWhiteSpace(program.SysConnectionString))
             {
+                var sys_db = AppConnectionResolver.TryGetDatabaseName(program.SysConnectionString) ?? "Sys";
                 ConnectionTargets.Add(new SqlConnectionTargetVm
                 {
                     Id = "sys",
-                    Display = "Sys",
+                    Display = sys_db,
                     ConnectionString = program.SysConnectionString,
-                    IsSys = true
+                    IsSys = true,
+                    DatabaseName = sys_db
                 });
             }
 
@@ -215,13 +244,10 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
                 foreach (var app in program.AppDatabases)
                 {
                     var cs = AppConnectionResolver.ResolveAppConnection(program, app.DatabaseName);
-                    var label = string.IsNullOrWhiteSpace(app.Code)
-                        ? $"App · {app.DatabaseName}"
-                        : $"App · {app.Code} · {app.DatabaseName}";
                     ConnectionTargets.Add(new SqlConnectionTargetVm
                     {
                         Id = $"app:{app.Code}:{app.DatabaseName}",
-                        Display = label,
+                        Display = app.DatabaseName,
                         ConnectionString = cs,
                         IsSys = false,
                         Code = app.Code,
@@ -232,15 +258,16 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
             else if (!string.IsNullOrWhiteSpace(program.AppConnectionString)
                      && !program.AppConnectionString.Contains("%Database", StringComparison.OrdinalIgnoreCase))
             {
+                var app_db = !string.IsNullOrWhiteSpace(program.AppDatabaseName)
+                    ? program.AppDatabaseName
+                    : AppConnectionResolver.TryGetDatabaseName(program.AppConnectionString) ?? "App";
                 ConnectionTargets.Add(new SqlConnectionTargetVm
                 {
                     Id = "app:default",
-                    Display = string.IsNullOrWhiteSpace(program.AppDatabaseName)
-                        ? "App"
-                        : $"App · {program.AppDatabaseName}",
+                    Display = app_db,
                     ConnectionString = program.AppConnectionString,
                     IsSys = false,
-                    DatabaseName = program.AppDatabaseName
+                    DatabaseName = app_db
                 });
             }
 
@@ -304,12 +331,11 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
         var ct = _load_cts.Token;
         var generation = ++_refresh_generation;
 
-        TreeRoots.Clear();
-        _filter_index = [];
-
         if (_program_session.Current is null)
         {
             StatusText = "Chưa chọn Program.";
+            await _tree_host.DetachAsync().ConfigureAwait(true);
+            OnPropertyChanged(nameof(TreeRendering));
             return;
         }
 
@@ -333,7 +359,7 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
             var result = await _sql_runner.ExecuteAsync(
                 target.ConnectionString,
                 _config.CatalogSql,
-                command_timeout_seconds: _config.Database.CommandTimeoutSeconds,
+                command_timeout_seconds: ResolveCommandTimeout(),
                 cancellation_token: ct).ConfigureAwait(true);
 
             if (!result.Succeeded)
@@ -349,18 +375,20 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
                 return;
             }
 
-            var roots = await Task.Run(() => BuildTreeOffline(table), ct).ConfigureAwait(true);
             ct.ThrowIfCancellationRequested();
             if (generation != _refresh_generation) return;
 
-            foreach (var root in roots)
-                TreeRoots.Add(root);
+            var folder_map = TreeNodeAdapters.ToFolderMap(
+                _config.DatabaseObjectTypes.Select(t => (t.Code, t.Folder, t.Order, t.Icon, t.Color)));
+            _db_source.SetCatalog(table, folder_map, target.ConnectionString);
+            await _tree_host.AttachAsync(_db_source, Application.Current?.Dispatcher, ct)
+                .ConfigureAwait(true);
+            OnPropertyChanged(nameof(TreeRendering));
 
-            _filter_index = ExplorerTreeFilterEngine.BuildIndex(TreeRoots);
             if (!string.IsNullOrWhiteSpace(_filter_text))
-                await _filter.FlushAsync();
+                await ApplyTreeFilterAsync(_filter_text, ct).ConfigureAwait(true);
 
-            StatusText = $"{target.Display} · {_filter_index.Count(i => i.ParentIndex >= 0)} object(s)";
+            StatusText = $"{target.Display} · {table.Rows.Count} object(s)";
         }
         catch (OperationCanceledException)
         {
@@ -369,6 +397,8 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
         catch (Exception ex)
         {
             StatusText = ex.Message;
+            if (IdeMessage.IsConnectionFailure(ex))
+                IdeMessage.ShowException(ex, "Không tải được object database.");
         }
         finally
         {
@@ -377,107 +407,28 @@ public sealed class DatabaseExplorerViewModel : ViewModelBase, IExplorerTreeSour
         }
     }
 
-    private List<ExplorerTreeNodeVm> BuildTreeOffline(DataTable table)
+    private int ResolveCommandTimeout()
     {
-        var folder_map = new Dictionary<string, ExplorerTreeNodeVm>(StringComparer.OrdinalIgnoreCase);
-        var folder_order = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-
-        foreach (var type in _config.DatabaseObjectTypes)
-        {
-            if (folder_map.ContainsKey(type.Folder)) continue;
-            folder_map[type.Folder] = ExplorerTreeNodeMapper.CreateDatabaseFolder(type.Folder);
-            folder_order[type.Folder] = type.Order;
-        }
-
-        var show_modified = _config.Database.ShowModifiedDate;
-        var buckets = folder_map.Keys.ToDictionary(
-            k => k,
-            _ => new List<ExplorerTreeNodeVm>(),
-            StringComparer.OrdinalIgnoreCase);
-
-        foreach (DataRow row in table.Rows)
-        {
-            var schema = Convert.ToString(row["schema_name"]) ?? "dbo";
-            var name = Convert.ToString(row["object_name"]) ?? string.Empty;
-            var type_code = (Convert.ToString(row["object_type"]) ?? string.Empty).Trim();
-            if (string.IsNullOrWhiteSpace(name)) continue;
-            if (!_type_map.TryGetValue(type_code, out var type_option)) continue;
-
-            DateTime? modified_at = row["modify_date"] is DateTime dt ? dt : null;
-            var kind = ExplorerTreeNodeMapper.ParseDatabaseKind(type_option.Kind);
-            if (kind == DatabaseObjectKind.Folder) continue;
-
-            var node = ExplorerTreeNodeMapper.CreateDatabaseObject(
-                schema, name, kind, modified_at, type_option, show_modified);
-
-            if (!buckets.TryGetValue(type_option.Folder, out var list))
-            {
-                list = [];
-                buckets[type_option.Folder] = list;
-                if (!folder_map.ContainsKey(type_option.Folder))
-                {
-                    folder_map[type_option.Folder] = ExplorerTreeNodeMapper.CreateDatabaseFolder(type_option.Folder);
-                    folder_order[type_option.Folder] = type_option.Order;
-                }
-            }
-
-            list.Add(node);
-        }
-
-        var sort_desc = _config.Database.SortByModifiedDesc;
-        foreach (var (folder_name, list) in buckets)
-        {
-            IEnumerable<ExplorerTreeNodeVm> ordered = sort_desc
-                ? list.OrderByDescending(c => c.ModifiedAt ?? DateTime.MinValue)
-                    .ThenBy(c => c.Name, StringComparer.OrdinalIgnoreCase)
-                : list.OrderBy(c => c.Name, StringComparer.OrdinalIgnoreCase);
-
-            var folder = folder_map[folder_name];
-            foreach (var item in ordered)
-                folder.Children.Add(item);
-        }
-
-        return folder_map
-            .OrderBy(kv => folder_order.GetValueOrDefault(kv.Key, 99))
-            .ThenBy(kv => kv.Key, StringComparer.OrdinalIgnoreCase)
-            .Select(kv => kv.Value)
-            .Where(f => f.Children.Count > 0)
-            .ToList();
+        var program_timeout = _program_session.Current?.CommandTimeoutSeconds ?? 0;
+        if (program_timeout > 0)
+            return program_timeout;
+        return Math.Max(1, _config.Database.CommandTimeoutSeconds);
     }
 
-    private async Task ApplyFilterAsync(string raw, CancellationToken ct)
+    private async Task ApplyTreeFilterAsync(string raw, CancellationToken ct)
     {
+        var engine = _tree_host.Engine;
+        if (engine is null) return;
         var keyword = raw.Trim();
-        var min_len = _config.Database.FilterMinLength;
-        if (!string.IsNullOrEmpty(keyword) && keyword.Length < min_len)
-            return;
-
-        if (_filter_index.Count == 0)
-            _filter_index = ExplorerTreeFilterEngine.BuildIndex(TreeRoots);
-
-        var index = _filter_index;
-        var visible = await Task.Run(
-            () => ExplorerTreeFilterEngine.CalculateVisibility(index, keyword, ct),
-            ct).ConfigureAwait(true);
-
-        ct.ThrowIfCancellationRequested();
-        await ExplorerTreeFilterEngine.ApplyVisibilityAsync(
-            index,
-            visible,
-            keyword,
-            batch_size: _config.Database.BatchUiSize,
-            expand_matches: !string.IsNullOrEmpty(keyword),
-            ct);
-
-        var match_leaves = 0;
-        for (var i = 0; i < index.Count; i++)
+        if (string.IsNullOrEmpty(keyword)
+            || keyword.Length < _config.Database.FilterMinLength)
         {
-            if (index[i].ParentIndex >= 0 && visible[i])
-                match_leaves++;
+            engine.ClearSearchFilter();
+            return;
         }
 
-        StatusText = string.IsNullOrEmpty(keyword)
-            ? $"{SelectedTarget?.Display} · {match_leaves} object(s)"
-            : $"Lọc \"{keyword}\" · {match_leaves} object(s)";
+        var hits = await _db_source.SearchAsync(keyword, ct).ConfigureAwait(true);
+        await engine.ApplySearchMatchesAsync(hits, ct).ConfigureAwait(true);
+        StatusText = $"Lọc \"{keyword}\" · {hits.Count} object";
     }
 }

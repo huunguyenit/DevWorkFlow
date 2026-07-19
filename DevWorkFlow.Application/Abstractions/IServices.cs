@@ -21,15 +21,6 @@ public interface ITemplateService
     Task<bool> UpdateAsync(TemplateItem item);
 }
 
-/// <summary>Quản lý FormDefinition (CRUD + parse XML).</summary>
-public interface IFormService
-{
-    Task<FormDefinition?> GetFormAsync(string id);
-    Task<IEnumerable<FormDefinition>> GetAllFormsAsync();
-    Task SaveFormAsync(FormDefinition form);
-    Task DeleteFormAsync(string id);
-}
-
 /// <summary>Đọc connectionStrings từ web.config của Program FBO.</summary>
 public interface IWebConfigReader
 {
@@ -63,7 +54,16 @@ public interface IEntityRepository
 public interface IProgramSession
 {
     ProgramContext? Current { get; }
+
+    /// <summary>Program mới được chọn / clear (rebuild Explorer, Menu, …).</summary>
     event EventHandler? ProgramChanged;
+
+    /// <summary>
+    /// Program context cập nhật in-place (vd. resolve App DB) — không đổi Program path.
+    /// Consumer: Database / SQL Studio rebuild ConnectionTargets.
+    /// </summary>
+    event EventHandler? ProgramUpdated;
+
     void SetProgram(ProgramContext program);
     void UpdateProgram(ProgramContext program);
     void Clear();

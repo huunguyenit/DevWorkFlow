@@ -6,10 +6,10 @@
     "searchScanFilesystem": true,
     "searchMaxHits": 400,
     "activationDelayMs": 200,
-    "folderIcon": "FolderOutline",
+    "folderIcon": "Folder",
     "fileIcon": "FileOutline",
-    "folderIconColor": "#e5d619",
-    "fileIconColor": "#b92222",
+    "folderIconColor": "#C9A227",
+    "fileIconColor": "#616161",
     "showFileBadges": false,
     "preferredRootFolders": [
         "App_Data",
@@ -17,20 +17,58 @@
         "ClientScript",
         "Css",
         "Images",
-        "Help",
         "AppHandler",
-        "AppService",
-        "Upload"
+        "AppService"
     ],
     "explorerFileExtensions": [
-        ".xml",
-        ".f",
-        ".aspx",
-        ".js",
-        ".css",
-        ".sql"
+        ".dll",
+        ".pdb",
+        ".exe",
+        ".cache",
+        ".user",
+        ".bak",
+        ".tmp",
+        ".suo",
+        ".map"
     ],
     "hiddenRootFolders": [
         "bin"
-    ]
+    ],
+    "blockedOpenExtensions": [
+        ".xls",
+        ".xlsx",
+        ".xlsm",
+        ".rpt",
+        ".png",
+        ".jpg",
+        ".jpeg",
+        ".gif",
+        ".bmp",
+        ".ico",
+        ".dll",
+        ".exe",
+        ".pdb",
+        ".zip",
+        ".rar",
+        ".7z",
+        ".pdf",
+        ".doc",
+        ".docx"
+    ],
+  "fileIcons": {
+    ".txt": "PlainText",
+    ".xml": "FileTable",
+    ".f": "LockAlertOutline",
+    ".jpg": "FileImageOutline",
+    ".png": "FileImageOutline",
+    ".asmx": "Bridge",
+    ".ashx": "Api",
+    ".xls": "Excel",
+    ".xlsx": "Excel",
+    ".rpt": "PDF",
+    ".js": "LanguageJavascript",
+    ".css": "LanguageCss3",
+    ".aspx": "Web"
+
+  }
 }

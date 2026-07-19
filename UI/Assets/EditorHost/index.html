@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>DevWorkFlow Editor Host</title>
+  <style>
+    html, body, #container { margin: 0; padding: 0; width: 100%; height: 100%; overflow: hidden; }
+    body { background: #FFFFFF; }
+
+    /* ── Insight Layer (ADR-0004): tô ngữ nghĩa như syntax highlighting ──
+       Không HTML control — chỉ class trên chính text run của Monaco. */
+    .dwf-entity-ref {
+      opacity: 0.45;
+      font-style: italic;
+    }
+    .dwf-entity-value {
+      opacity: 1;
+      font-style: normal;
+    }
+    /* View zone phân cấp nested entity: text thuần, cùng font/line-height editor. */
+    .dwf-entity-zone {
+      font-family: var(--dwf-editor-font, "Cascadia Code", Consolas, "Courier New", monospace);
+      font-size: var(--dwf-editor-font-size, 13px);
+      line-height: var(--dwf-editor-line-height, 19px);
+      white-space: pre;
+      overflow: hidden;
+    }
+    .dwf-zone-line { white-space: pre; }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script src="../Monaco/vs/loader.js"></script>
+  <script src="erp-xml-language.js"></script>
+  <script src="bridge.js"></script>
+</body>
+</html>

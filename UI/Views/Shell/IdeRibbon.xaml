@@ -4,33 +4,50 @@
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:cmd="clr-namespace:UI.Commands">
     <UserControl.Resources>
+        <!-- Icon well: nền tách biệt ribbon trắng + viền nhẹ -->
         <Style x:Key="RibbonIconWell" TargetType="Border">
-            <Setter Property="Width" Value="28"/>
-            <Setter Property="Height" Value="28"/>
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
             <Setter Property="CornerRadius" Value="6"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Background" Value="#EEF2F6"/>
+            <Setter Property="Background" Value="#E8EEF5"/>
+            <Setter Property="BorderBrush" Value="#C5D0DC"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="UseLayoutRounding" Value="True"/>
         </Style>
         <Style x:Key="RibbonIconWellPrimary" TargetType="Border" BasedOn="{StaticResource RibbonIconWell}">
-            <Setter Property="Background" Value="#D6EBFF"/>
+            <Setter Property="Background" Value="#CDE5FA"/>
+            <Setter Property="BorderBrush" Value="#90CAF9"/>
         </Style>
         <Style x:Key="RibbonIconWellSuccess" TargetType="Border" BasedOn="{StaticResource RibbonIconWell}">
-            <Setter Property="Background" Value="#E8F5E9"/>
+            <Setter Property="Background" Value="#DCEFDE"/>
+            <Setter Property="BorderBrush" Value="#A5D6A7"/>
         </Style>
         <Style x:Key="RibbonIconWellAmber" TargetType="Border" BasedOn="{StaticResource RibbonIconWell}">
-            <Setter Property="Background" Value="#FFF8E1"/>
+            <Setter Property="Background" Value="#FFF3C4"/>
+            <Setter Property="BorderBrush" Value="#FFE082"/>
         </Style>
         <Style x:Key="RibbonLabel" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="10"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+            <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,3,0,0"/>
+            <Setter Property="Margin" Value="0,4,0,0"/>
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
         </Style>
     </UserControl.Resources>
 
     <Border Background="{StaticResource IdeRibbonBgBrush}"
             BorderBrush="{StaticResource IdeBorderBrush}"
             BorderThickness="0,0,0,1"
-            Padding="10,4,10,2">
+            Padding="10,5,10,3"
+            SnapsToDevicePixels="True"
+            UseLayoutRounding="True"
+            TextOptions.TextFormattingMode="Display"
+            TextOptions.TextRenderingMode="ClearType">
         <StackPanel Orientation="Horizontal">
 
             <!-- File -->
@@ -40,7 +57,7 @@
                             Command="{x:Static cmd:IdeCommands.New}" ToolTip="New (Ctrl+N)">
                         <StackPanel>
                             <Border Style="{StaticResource RibbonIconWell}">
-                                <md:PackIcon Kind="FilePlusOutline" Width="16" Height="16"
+                                <md:PackIcon Kind="FilePlusOutline" Width="18" Height="18"
                                              HorizontalAlignment="Center" VerticalAlignment="Center"
                                              Foreground="{StaticResource PrimaryBrush}"/>
                             </Border>
@@ -51,7 +68,7 @@
                             Command="{x:Static cmd:IdeCommands.Open}" ToolTip="Open (Ctrl+O)">
                         <StackPanel>
                             <Border Style="{StaticResource RibbonIconWell}">
-                                <md:PackIcon Kind="FolderOpenOutline" Width="16" Height="16"
+                                <md:PackIcon Kind="FolderOpenOutline" Width="18" Height="18"
                                              HorizontalAlignment="Center" VerticalAlignment="Center"
                                              Foreground="#1565C0"/>
                             </Border>
@@ -62,7 +79,7 @@
                             Command="{x:Static cmd:IdeCommands.Save}" ToolTip="Save (Ctrl+S)">
                         <StackPanel>
                             <Border Style="{StaticResource RibbonIconWellPrimary}">
-                                <md:PackIcon Kind="ContentSave" Width="16" Height="16"
+                                <md:PackIcon Kind="ContentSave" Width="18" Height="18"
                                              HorizontalAlignment="Center" VerticalAlignment="Center"
                                              Foreground="{StaticResource PrimaryDarkBrush}"/>
                             </Border>
@@ -84,7 +101,7 @@
                             Command="{x:Static cmd:IdeCommands.Undo}" ToolTip="Undo (Ctrl+Z)">
                         <StackPanel>
                             <Border Style="{StaticResource RibbonIconWell}">
-                                <md:PackIcon Kind="Undo" Width="16" Height="16"
+                                <md:PackIcon Kind="Undo" Width="18" Height="18"
                                              HorizontalAlignment="Center" VerticalAlignment="Center"
                                              Foreground="#5E6A75"/>
                             </Border>
@@ -95,7 +112,7 @@
                             Command="{x:Static cmd:IdeCommands.Redo}" ToolTip="Redo (Ctrl+Y)">
                         <StackPanel>
                             <Border Style="{StaticResource RibbonIconWell}">
-                                <md:PackIcon Kind="Redo" Width="16" Height="16"
+                                <md:PackIcon Kind="Redo" Width="18" Height="18"
                                              HorizontalAlignment="Center" VerticalAlignment="Center"
                                              Foreground="#5E6A75"/>
                             </Border>
@@ -115,7 +132,7 @@
                             Command="{x:Static cmd:IdeCommands.ValidateXml}" ToolTip="Validate XML">
                         <StackPanel>
                             <Border Style="{StaticResource RibbonIconWell}">
-                                <md:PackIcon Kind="CheckDecagramOutline" Width="16" Height="16"
+                                <md:PackIcon Kind="CheckDecagramOutline" Width="18" Height="18"
                                              HorizontalAlignment="Center" VerticalAlignment="Center"
                                              Foreground="#2E7D32"/>
                             </Border>
@@ -127,7 +144,7 @@
                             ToolTip="Toggle Source / Insight Mode">
                         <StackPanel>
                             <Border Style="{StaticResource RibbonIconWellAmber}">
-                                <md:PackIcon Kind="LightbulbOnOutline" Width="16" Height="16"
+                                <md:PackIcon Kind="LightbulbOnOutline" Width="18" Height="18"
                                              HorizontalAlignment="Center" VerticalAlignment="Center"
                                              Foreground="#F9A825"/>
                             </Border>
@@ -148,7 +165,7 @@
                             ToolTip="Execute SQL (F5)">
                         <StackPanel>
                             <Border Style="{StaticResource RibbonIconWellSuccess}">
-                                <md:PackIcon Kind="Play" Width="16" Height="16"
+                                <md:PackIcon Kind="Play" Width="18" Height="18"
                                              HorizontalAlignment="Center" VerticalAlignment="Center"
                                              Foreground="{StaticResource SuccessBrush}"/>
                             </Border>
@@ -162,7 +179,7 @@
                             ToolTip="Open SQL Studio from form commands">
                         <StackPanel>
                             <Border Style="{StaticResource RibbonIconWell}">
-                                <md:PackIcon Kind="Database" Width="16" Height="16"
+                                <md:PackIcon Kind="Database" Width="18" Height="18"
                                              HorizontalAlignment="Center" VerticalAlignment="Center"
                                              Foreground="#0277BD"/>
                             </Border>
@@ -182,7 +199,7 @@
                             Command="{x:Static cmd:IdeCommands.Search}" ToolTip="Find (Ctrl+F)">
                         <StackPanel>
                             <Border Style="{StaticResource RibbonIconWell}">
-                                <md:PackIcon Kind="Magnify" Width="16" Height="16"
+                                <md:PackIcon Kind="Magnify" Width="18" Height="18"
                                              HorizontalAlignment="Center" VerticalAlignment="Center"
                                              Foreground="#455A64"/>
                             </Border>
@@ -193,7 +210,7 @@
                             Command="{x:Static cmd:IdeCommands.Replace}" ToolTip="Replace (Ctrl+H)">
                         <StackPanel>
                             <Border Style="{StaticResource RibbonIconWell}">
-                                <md:PackIcon Kind="FindReplace" Width="16" Height="16"
+                                <md:PackIcon Kind="FindReplace" Width="18" Height="18"
                                              HorizontalAlignment="Center" VerticalAlignment="Center"
                                              Foreground="#455A64"/>
                             </Border>
@@ -204,7 +221,7 @@
                             Command="{x:Static cmd:IdeCommands.GoToDefinition}" ToolTip="Go To Definition (F12)">
                         <StackPanel>
                             <Border Style="{StaticResource RibbonIconWell}">
-                                <md:PackIcon Kind="ArrowRightBoldBoxOutline" Width="16" Height="16"
+                                <md:PackIcon Kind="ArrowRightBoldBoxOutline" Width="18" Height="18"
                                              HorizontalAlignment="Center" VerticalAlignment="Center"
                                              Foreground="{StaticResource PrimaryBrush}"/>
                             </Border>
