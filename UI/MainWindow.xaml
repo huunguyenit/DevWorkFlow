@@ -400,17 +400,11 @@
                         <Grid Visibility="{Binding Shell.IsOutputSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                             <bottom:OutputPanel DataContext="{Binding DiagnosticsVm}"/>
                         </Grid>
-                        <Grid Visibility="{Binding Shell.IsReferencesSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <bottom:ReferencesPanel DataContext="{Binding DiagnosticsVm}"/>
-                        </Grid>
                         <Grid Visibility="{Binding Shell.IsLogSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                             <bottom:LogPanel DataContext="{Binding DiagnosticsVm}"/>
                         </Grid>
                         <Grid Visibility="{Binding Shell.IsXmlBottomSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                             <bottom:XmlBottomPanel DataContext="{Binding XmlBottomVm}"/>
-                        </Grid>
-                        <Grid Visibility="{Binding Shell.IsErrorListSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                            <bottom:ErrorListPanel DataContext="{Binding DiagnosticsVm}"/>
                         </Grid>
                         <Grid Visibility="{Binding Shell.IsBottomPlaceholderSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                             <dock:DockPanelHost DataContext="{Binding Shell.SelectedBottomPane}"/>

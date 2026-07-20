@@ -15,6 +15,14 @@ public sealed class ProblemItemVm : ViewModelBase
     public required string Type { get; init; }
     public required string SeverityBadge { get; init; }
 
+    /// <summary>Offset trên source XML — double-click điều hướng chính xác tới vị trí lỗi.</summary>
+    public int StartOffset { get; init; }
+
+    /// <summary>File entity liên quan (.ent / SYSTEM) — mở được từ Problems. Null nếu cùng file.</summary>
+    public string? RelatedPath { get; init; }
+
+    public string? EntityName { get; init; }
+
     /// <summary>Gợi ý cách xử lý, tra theo Code trong diagnostics.catalog.xml (rỗng nếu không có mục khớp).</summary>
     public string Resolution { get; init; } = string.Empty;
 
@@ -41,20 +49,10 @@ public sealed class ProblemItemVm : ViewModelBase
             Column = row.Column,
             Type = row.Type,
             SeverityBadge = row.SeverityBadge,
-            Resolution = resolution
+            Resolution = resolution,
+            StartOffset = row.StartOffset,
+            RelatedPath = row.RelatedPath,
+            EntityName = row.EntityName
         };
     }
-}
-
-public sealed class ReferenceItemVm
-{
-    public string SymbolId { get; init; } = string.Empty;
-    public string Kind { get; init; } = string.Empty;
-    public string File { get; init; } = string.Empty;
-    public int Line { get; init; }
-    public int Column { get; init; }
-
-    public string Display => Line > 0
-        ? $"{Kind}  {File}:{Line}"
-        : Kind;
 }

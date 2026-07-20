@@ -25,19 +25,7 @@ public sealed class LogEntryVm
     public string Display => $"[{TimeText}] {LevelText}: {Message}";
 }
 
-public sealed class ErrorItemVm
-{
-    public string Description { get; init; } = string.Empty;
-    public string File { get; init; } = string.Empty;
-    public int Line { get; init; }
-    public string Category { get; init; } = "Error";
-
-    public string Display => Line > 0
-        ? $"{Description}  ({File}:{Line})"
-        : Description;
-}
-
-/// <summary>Hub log/output/problems/references dùng chung Bottom dock.</summary>
+/// <summary>Hub log/output/problems dùng chung Bottom dock.</summary>
 public sealed class IdeDiagnosticsViewModel : ViewModelBase
 {
     private const int MaxEntries = 500;
@@ -48,9 +36,7 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
 
     public ObservableCollection<LogEntryVm> LogEntries { get; } = [];
     public ObservableCollection<LogEntryVm> OutputEntries { get; } = [];
-    public ObservableCollection<ErrorItemVm> Errors { get; } = [];
     public ObservableCollection<ProblemItemVm> Problems { get; } = [];
-    public ObservableCollection<ReferenceItemVm> References { get; } = [];
 
     public int ErrorCount
     {
@@ -72,7 +58,6 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
 
     public RelayCommand ClearLogCommand { get; }
     public RelayCommand ClearOutputCommand { get; }
-    public RelayCommand ClearErrorsCommand { get; }
     public RelayCommand ClearProblemsCommand { get; }
 
     public IdeDiagnosticsViewModel(AppConfigStore? app_config = null)
@@ -81,7 +66,6 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
             ?? new Dictionary<string, DiagnosticCatalogEntry>();
         ClearLogCommand = new RelayCommand(() => LogEntries.Clear());
         ClearOutputCommand = new RelayCommand(() => OutputEntries.Clear());
-        ClearErrorsCommand = new RelayCommand(ClearProblems);
         ClearProblemsCommand = new RelayCommand(ClearProblems);
         Info("DevWorkFlow ready.", "Shell");
     }
@@ -92,38 +76,17 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
     public void Warn(string message, string source = "IDE") =>
         Add(LogLevel.Warning, message, source, to_output: true);
 
-    public void Error(string message, string source = "IDE", string? file = null, int line = 0)
-    {
+    public void Error(string message, string source = "IDE", string? file = null, int line = 0) =>
         Add(LogLevel.Error, message, source, to_output: true);
-        Errors.Insert(0, new ErrorItemVm
-        {
-            Description = message,
-            File = file ?? string.Empty,
-            Line = line,
-            Category = "Error"
-        });
-        Trim(Errors);
-    }
 
     public void SyncProblems(IEnumerable<ErpDiagnostic> diagnostics, string? default_file = null)
     {
         Problems.Clear();
-        Errors.Clear();
 
         foreach (var row in DiagnosticGridMapper.MapProblems(diagnostics, default_file))
         {
             var problem = ProblemItemVm.FromGridRow(row, _diagnostics_catalog);
             Problems.Add(problem);
-            if (row.SeverityBadge == "E")
-            {
-                Errors.Add(new ErrorItemVm
-                {
-                    Description = row.Description,
-                    File = row.File,
-                    Line = row.Line,
-                    Category = row.Type
-                });
-            }
         }
 
         var (errors, warnings, hints) = DiagnosticGridMapper.CountBySeverity(diagnostics);
@@ -132,26 +95,9 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
         HintCount = hints;
     }
 
-    public void SyncReferences(IEnumerable<SymbolReference> references)
-    {
-        References.Clear();
-        foreach (var reference in references)
-        {
-            References.Add(new ReferenceItemVm
-            {
-                SymbolId = reference.SymbolId,
-                Kind = reference.Kind,
-                File = reference.Location.Path,
-                Line = reference.Location.Line,
-                Column = reference.Location.Column
-            });
-        }
-    }
-
     public void ClearProblems()
     {
         Problems.Clear();
-        Errors.Clear();
         ErrorCount = 0;
         WarningCount = 0;
         HintCount = 0;

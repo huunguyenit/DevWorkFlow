@@ -167,12 +167,13 @@ public partial class MainWindow
     private void OnFindReferences(object sender, ExecutedRoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm) return;
-        if (!vm.Shell.IsBottomDockOpen)
-            vm.Shell.ToggleBottomDockCommand.Execute(null);
-        var references_pane = vm.Shell.BottomPanes
-            .FirstOrDefault(p => p.Kind == ToolPaneKind.References);
-        if (references_pane is not null)
-            vm.Shell.SelectBottomPaneCommand.Execute(references_pane);
+        if (!vm.Shell.IsRightDockOpen)
+            vm.Shell.ToggleRightDockCommand.Execute(null);
+        var symbol_info_pane = vm.Shell.RightPanes
+            .FirstOrDefault(p => p.Kind == ToolPaneKind.SymbolInfo);
+        if (symbol_info_pane is not null)
+            vm.Shell.SelectRightPaneCommand.Execute(symbol_info_pane);
+        vm.SymbolInfoVm.Refresh();
     }
 
     private void EnsureXmlBottomVisible()

@@ -84,7 +84,7 @@ public partial class App : Application
         var diagnostics_vm  = new IdeDiagnosticsViewModel(app_config);
         var xml_bottom_vm   = new XmlBottomViewModel(seed_form);
         var diagnostics_bridge = new FormBuilderDiagnosticsBridge(
-            diagnostics_vm, language_service, seed_form);
+            diagnostics_vm, seed_form);
         var catalog_vm      = new TemplateManagerViewModel(template_svc, nav_service, TemplateType.Catalog);
         var document_vm     = new TemplateManagerViewModel(template_svc, nav_service, TemplateType.Document);
         var report_vm       = new TemplateManagerViewModel(template_svc, nav_service, TemplateType.Report);

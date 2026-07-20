@@ -16,8 +16,6 @@ public enum ToolPaneKind
     Xml,
     Output,
     Problems,
-    ErrorList,
-    References,
     Log,
     SearchResult,
     Ai,

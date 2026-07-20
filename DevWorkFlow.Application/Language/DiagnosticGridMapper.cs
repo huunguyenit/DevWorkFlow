@@ -13,6 +13,14 @@ public sealed class DiagnosticGridRow
     public int Column { get; init; }
     public string Type { get; init; } = "Info";
     public string SeverityBadge { get; init; } = "H";
+
+    /// <summary>Offset trên source XML — điều hướng chính xác hơn Line/Column.</summary>
+    public int StartOffset { get; init; }
+
+    /// <summary>File entity liên quan (.ent / SYSTEM) — mở được từ Problems. Null nếu cùng file.</summary>
+    public string? RelatedPath { get; init; }
+
+    public string? EntityName { get; init; }
 }
 
 public static class DiagnosticGridMapper
@@ -46,7 +54,10 @@ public static class DiagnosticGridMapper
                 Line = diagnostic.Location.Line,
                 Column = diagnostic.Location.Column,
                 Type = type,
-                SeverityBadge = badge
+                SeverityBadge = badge,
+                StartOffset = diagnostic.Location.Span.StartOffset,
+                RelatedPath = diagnostic.RelatedPath,
+                EntityName = diagnostic.EntityName
             });
         }
 

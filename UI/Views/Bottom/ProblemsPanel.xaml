@@ -10,18 +10,31 @@
             <DockPanel>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <TextBlock Text="PROBLEMS" FontSize="11" FontWeight="SemiBold"
+                               VerticalAlignment="Center"
                                Foreground="{StaticResource FgMutedBrush}"/>
-                    <Border Background="#FFEBEE" CornerRadius="2" Padding="4,0" Margin="8,0,0,0">
-                        <TextBlock Text="{Binding ErrorCount, StringFormat=E {0}}" FontSize="10"
-                                   Foreground="#C62828" FontWeight="SemiBold"/>
+                    <Border Background="#FFEBEE" CornerRadius="8" Padding="7,1" Margin="10,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="CloseCircle" Width="11" Height="11"
+                                         Foreground="#C62828" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding ErrorCount}" FontSize="10" Margin="3,0,0,0"
+                                       Foreground="#C62828" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Border>
-                    <Border Background="#FFF8E1" CornerRadius="2" Padding="4,0" Margin="4,0,0,0">
-                        <TextBlock Text="{Binding WarningCount, StringFormat=W {0}}" FontSize="10"
-                                   Foreground="#F57F17" FontWeight="SemiBold"/>
+                    <Border Background="#FFF8E1" CornerRadius="8" Padding="7,1" Margin="4,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="Alert" Width="11" Height="11"
+                                         Foreground="#F57F17" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding WarningCount}" FontSize="10" Margin="3,0,0,0"
+                                       Foreground="#F57F17" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Border>
-                    <Border Background="#E3F2FD" CornerRadius="2" Padding="4,0" Margin="4,0,0,0">
-                        <TextBlock Text="{Binding HintCount, StringFormat=H {0}}" FontSize="10"
-                                   Foreground="#1565C0" FontWeight="SemiBold"/>
+                    <Border Background="#E3F2FD" CornerRadius="8" Padding="7,1" Margin="4,0,0,0">
+                        <StackPanel Orientation="Horizontal">
+                            <md:PackIcon Kind="LightbulbOutline" Width="11" Height="11"
+                                         Foreground="#1565C0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding HintCount}" FontSize="10" Margin="3,0,0,0"
+                                       Foreground="#1565C0" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </Border>
                 </StackPanel>
                 <Button DockPanel.Dock="Right" Content="Clear" FontSize="10" Padding="8,2"
@@ -31,25 +44,102 @@
             </DockPanel>
         </Border>
 
-        <DataGrid ItemsSource="{Binding Problems}"
-                  Style="{StaticResource IdeDataGridStyle}"
-                  CanUserDeleteRows="False"
-                  IsReadOnly="True"
-                  BorderThickness="0"
-                  Background="Transparent"
-                  FontSize="11"
-                  RowHeight="26"
-                  MouseDoubleClick="ProblemsGrid_MouseDoubleClick">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="" Binding="{Binding SeverityBadge}" Width="28"/>
-                <DataGridTextColumn Header="Code" Binding="{Binding Code}" Width="64"/>
-                <DataGridTextColumn Header="Description" Binding="{Binding Description}" Width="2*"/>
-                <DataGridTextColumn Header="Gợi ý" Binding="{Binding Resolution}" Width="3*"/>
-                <DataGridTextColumn Header="File" Binding="{Binding File}" Width="140"/>
-                <DataGridTextColumn Header="Line" Binding="{Binding Line}" Width="48"/>
-                <DataGridTextColumn Header="Col" Binding="{Binding Column}" Width="40"/>
-                <DataGridTextColumn Header="Type" Binding="{Binding Type}" Width="72"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <ListBox x:Name="ProblemsList"
+                 ItemsSource="{Binding Problems}"
+                 Background="Transparent"
+                 BorderThickness="0"
+                 FontSize="11"
+                 HorizontalContentAlignment="Stretch"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 VirtualizingPanel.ScrollUnit="Pixel"
+                 MouseDoubleClick="ProblemsList_MouseDoubleClick">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <Setter Property="Padding" Value="8,4"/>
+                    <Setter Property="Cursor" Value="Hand"/>
+                    <Setter Property="SnapsToDevicePixels" Value="True"/>
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="ListBoxItem">
+                                <Border x:Name="Bd" Background="Transparent"
+                                        Padding="{TemplateBinding Padding}">
+                                    <ContentPresenter/>
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="#F0F6FC"/>
+                                    </Trigger>
+                                    <Trigger Property="IsSelected" Value="True">
+                                        <Setter TargetName="Bd" Property="Background" Value="#CCE8FF"/>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate DataType="{x:Type bottom:ProblemItemVm}">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <md:PackIcon x:Name="SeverityIcon" Grid.Column="0"
+                                     Kind="LightbulbOutline" Width="14" Height="14"
+                                     Margin="0,1,8,0" VerticalAlignment="Top"
+                                     Foreground="#1565C0"/>
+
+                        <StackPanel Grid.Column="1">
+                            <TextBlock TextTrimming="CharacterEllipsis">
+                                <TextBlock.ToolTip>
+                                    <ToolTip MaxWidth="520">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Description}" TextWrapping="Wrap"
+                                                       FontWeight="SemiBold"/>
+                                            <TextBlock x:Name="TipResolution"
+                                                       Text="{Binding Resolution}" TextWrapping="Wrap"
+                                                       Margin="0,4,0,0"/>
+                                        </StackPanel>
+                                    </ToolTip>
+                                </TextBlock.ToolTip>
+                                <Run Text="{Binding Description, Mode=OneWay}"/>
+                                <Run Text="{Binding Code, Mode=OneWay}"
+                                     Foreground="{StaticResource FgMutedBrush}"/>
+                            </TextBlock>
+                            <TextBlock x:Name="ResolutionText"
+                                       Text="{Binding Resolution}"
+                                       TextTrimming="CharacterEllipsis"
+                                       FontSize="10" Margin="0,1,0,0"
+                                       Foreground="{StaticResource FgMutedBrush}"
+                                       ToolTip="{Binding Resolution}"/>
+                        </StackPanel>
+
+                        <TextBlock Grid.Column="2" Margin="12,0,0,0" VerticalAlignment="Top"
+                                   FontSize="10" Foreground="{StaticResource FgMutedBrush}"
+                                   ToolTip="{Binding File}">
+                            <Run Text="{Binding File, Mode=OneWay}"/>
+                            <Run Text="{Binding LocationText, Mode=OneWay}"/>
+                        </TextBlock>
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding SeverityBadge}" Value="E">
+                            <Setter TargetName="SeverityIcon" Property="Kind" Value="CloseCircle"/>
+                            <Setter TargetName="SeverityIcon" Property="Foreground" Value="#C62828"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding SeverityBadge}" Value="W">
+                            <Setter TargetName="SeverityIcon" Property="Kind" Value="Alert"/>
+                            <Setter TargetName="SeverityIcon" Property="Foreground" Value="#F57F17"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Resolution}" Value="">
+                            <Setter TargetName="ResolutionText" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="TipResolution" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </DockPanel>
 </UserControl>

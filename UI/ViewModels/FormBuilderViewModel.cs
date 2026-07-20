@@ -210,6 +210,19 @@ public class FormBuilderViewModel : ViewModelBase
         set => SetProperty(ref _editor_language, string.IsNullOrWhiteSpace(value) ? "xml" : value);
     }
 
+    private bool _has_blocking_syntax_errors;
+
+    /// <summary>
+    /// Document đang có lỗi cấu trúc XML (ERP1002 — tag lệch/thiếu đóng). Khi true: Designer bị
+    /// khóa (Design = null) và editor bị giữ ở Source mode cho tới khi sửa xong — Insight/Designer
+    /// dựng trên cây syntax không đáng tin sẽ gây hiểu nhầm và serialize sai.
+    /// </summary>
+    public bool HasBlockingSyntaxErrors
+    {
+        get => _has_blocking_syntax_errors;
+        private set => SetProperty(ref _has_blocking_syntax_errors, value);
+    }
+
     /// <summary>
     /// Marker chẩn đoán (squiggle) cho editor — chỉ Source mode (offset trên XmlSource khớp
     /// buffer). Insight mode buffer là ClearText nên xoá marker (sửa lỗi làm ở Source).
@@ -479,8 +492,10 @@ public class FormBuilderViewModel : ViewModelBase
         OnPropertyChanged(nameof(ExpandedXml));
         OnPropertyChanged(nameof(EditorText));
 
-        ActiveEditorMode = ErpEditorMode.Insight;
-
+        // File mở ra đã lỗi cấu trúc → vào thẳng Source để sửa (Insight bị gate trong ParseXml).
+        ActiveEditorMode = HasBlockingSyntaxErrors
+            ? ErpEditorMode.Source
+            : ErpEditorMode.Insight;
     }
 
     /// <summary>XML đã giải mã toàn bộ &amp;Entity; (DTD + ExpandDeep).</summary>
@@ -520,6 +535,13 @@ public class FormBuilderViewModel : ViewModelBase
         if (string.IsNullOrWhiteSpace(_xml_source))
         {
             StatusMessage = "Chưa có XML.";
+            return;
+        }
+
+        // XML đang lỗi cấu trúc → ClearText không đáng tin, giữ ở Source cho tới khi sửa xong.
+        if (HasBlockingSyntaxErrors && ActiveEditorMode == ErpEditorMode.Source)
+        {
+            StatusMessage = "✘ Sửa lỗi XML trước — Insight khóa khi tag lệch/thiếu đóng.";
             return;
         }
 
@@ -615,6 +637,32 @@ public class FormBuilderViewModel : ViewModelBase
             ErpDocument = erp_doc;
             SemanticModel = erp_doc.SemanticModel;
             ExpandedXml = erp_doc.GetProjection(ErpProjectionKind.ClearText).Text;
+
+            // ── Gate theo lỗi cấu trúc XML (ERP1002) ──────────────────────────
+            // "Ưu tiên validate": tag lệch/thiếu đóng làm cây syntax không đáng tin →
+            // không refresh Designer từ cấu trúc sai (tránh vẽ form méo rồi serialize đè).
+            // Diagnostics/markers/Problems VẪN cập nhật để người dùng thấy và focus lỗi;
+            // Insight (ClearText) cũng không tin được → ép về Source để sửa.
+            HasBlockingSyntaxErrors = erp_doc.Diagnostics.Any(d => d.Id == "ERP1002");
+            if (HasBlockingSyntaxErrors)
+            {
+                Document = null;
+                Design = null;
+                RefreshEntitiesFromSemantic();
+                RefreshEditorMarkers();
+
+                var first = erp_doc.Diagnostics.First(d => d.Id == "ERP1002");
+                StatusMessage = first.Location.Line > 0
+                    ? $"✘ XML lỗi cấu trúc (Ln {first.Location.Line}): {first.Message}"
+                    : $"✘ XML lỗi cấu trúc: {first.Message}";
+
+                if (ActiveEditorMode != ErpEditorMode.Source)
+                    ActiveEditorMode = ErpEditorMode.Source;
+
+                ToggleLanguageCommand.RaiseCanExecuteChanged();
+                return;
+            }
+
             var legacy = (erp_doc.SemanticModel as ErpSemanticModel)?.LegacyDocument;
             if (legacy is null)
             {
@@ -1145,6 +1193,12 @@ public class FormBuilderViewModel : ViewModelBase
     {
         if (mode == ErpEditorMode.Designer && !ShowDesignSurface)
             return;
+        // XML lỗi cấu trúc → chỉ Source được phép (Insight/Designer dựng trên cây sai).
+        if (HasBlockingSyntaxErrors && mode != ErpEditorMode.Source)
+        {
+            StatusMessage = "✘ Sửa lỗi XML trước — Insight/Designer khóa khi tag lệch/thiếu đóng.";
+            return;
+        }
         ActiveEditorMode = mode;
         StatusMessage = EditorModeText;
     }

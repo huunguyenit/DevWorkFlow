@@ -539,7 +539,6 @@ if (f._udfPaymentControl && f._checked) {
 /* </flatten> */]]>
         &ListChecking;
         &PostChecking;
-        &zzzz;
       </text>
     </command>
   </commands>

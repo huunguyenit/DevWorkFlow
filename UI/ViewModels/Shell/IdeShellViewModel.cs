@@ -102,14 +102,12 @@ public sealed class IdeShellViewModel : ViewModelBase
     public bool IsXmlBottomSelected => SelectedBottomPane?.Kind == ToolPaneKind.Xml;
     public bool IsOutputSelected => SelectedBottomPane?.Kind == ToolPaneKind.Output;
     public bool IsProblemsSelected => SelectedBottomPane?.Kind == ToolPaneKind.Problems;
-    public bool IsErrorListSelected => SelectedBottomPane?.Kind == ToolPaneKind.ErrorList;
-    public bool IsReferencesSelected => SelectedBottomPane?.Kind == ToolPaneKind.References;
     public bool IsLogSelected => SelectedBottomPane?.Kind == ToolPaneKind.Log;
     public bool IsBottomPlaceholderSelected =>
         SelectedBottomPane is not null
         && SelectedBottomPane.Kind is not (
             ToolPaneKind.Xml or ToolPaneKind.Output or ToolPaneKind.Problems
-            or ToolPaneKind.ErrorList or ToolPaneKind.References or ToolPaneKind.Log);
+            or ToolPaneKind.Log);
 
     public ToolPaneVm? SelectedRightPane
     {
@@ -138,8 +136,6 @@ public sealed class IdeShellViewModel : ViewModelBase
             OnPropertyChanged(nameof(IsXmlBottomSelected));
             OnPropertyChanged(nameof(IsOutputSelected));
             OnPropertyChanged(nameof(IsProblemsSelected));
-            OnPropertyChanged(nameof(IsErrorListSelected));
-            OnPropertyChanged(nameof(IsReferencesSelected));
             OnPropertyChanged(nameof(IsLogSelected));
             OnPropertyChanged(nameof(IsBottomPlaceholderSelected));
         }
@@ -248,12 +244,9 @@ public sealed class IdeShellViewModel : ViewModelBase
 
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Problems", ToolPaneKind.Problems, 4));
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Output", ToolPaneKind.Output, 4));
-        BottomPanes.Add(ToolPaneVm.CreatePlaceholder("References", ToolPaneKind.References, 4));
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Log", ToolPaneKind.Log, 4));
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("XML", ToolPaneKind.Xml, 4));
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Search", ToolPaneKind.SearchResult, 4));
-        BottomPanes.Add(ToolPaneVm.CreatePlaceholder("AI", ToolPaneKind.Ai, 4));
-        BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Git", ToolPaneKind.Git, 4));
         foreach (var p in BottomPanes.Take(4))
             p.PlaceholderMessage = string.Empty;
         SelectedBottomPane = BottomPanes[0];

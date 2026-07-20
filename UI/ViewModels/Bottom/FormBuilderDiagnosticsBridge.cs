@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using DevWorkFlow.Application.Language;
 using DevWorkFlow.Domain.Language;
 using UI.ViewModels.Base;
 
@@ -12,15 +11,12 @@ public sealed class FormBuilderDiagnosticsBridge
 {
     private FormBuilderViewModel? _form_builder_vm;
     private readonly IdeDiagnosticsViewModel _diagnostics;
-    private readonly IErpLanguageService? _language_service;
 
     public FormBuilderDiagnosticsBridge(
         IdeDiagnosticsViewModel diagnostics,
-        IErpLanguageService? language_service = null,
         FormBuilderViewModel? form_builder_vm = null)
     {
         _diagnostics = diagnostics;
-        _language_service = language_service;
         BindTo(form_builder_vm);
     }
 
@@ -61,29 +57,6 @@ public sealed class FormBuilderDiagnosticsBridge
                           ?? _form_builder_vm.SemanticModel?.Diagnostics
                           ?? [];
         _diagnostics.SyncProblems(diagnostics, _form_builder_vm.LoadedFilePath);
-
-        var symbol_id = _form_builder_vm.SelectedInsightLine?.SymbolId;
-        if (string.IsNullOrWhiteSpace(symbol_id))
-            symbol_id = ResolveSymbolAtCaret();
-
-        if (!string.IsNullOrWhiteSpace(symbol_id) && _language_service is not null)
-            _diagnostics.SyncReferences(_language_service.FindSymbolReferences(symbol_id));
-        else
-            _diagnostics.References.Clear();
-    }
-
-    private string? ResolveSymbolAtCaret()
-    {
-        var semantic = _form_builder_vm?.SemanticModel;
-        if (semantic is null || _form_builder_vm!.CaretLine <= 0)
-            return null;
-
-        var line = _form_builder_vm.CaretLine;
-        var field = semantic.GetFields().FirstOrDefault(item => item.Definition.Line == line);
-        if (field is not null) return field.Id;
-
-        var entity = semantic.GetEntities().FirstOrDefault(item => item.Definition.Line == line);
-        return entity?.Id;
     }
 
     private void ForwardStatusMessage(string msg)
