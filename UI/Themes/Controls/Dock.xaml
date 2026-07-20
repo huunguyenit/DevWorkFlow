@@ -98,4 +98,63 @@
         <Setter Property="IsHitTestVisible" Value="False"/>
     </Style>
 
+    <!-- Auto-hide tab (unpinned panel) — cạnh trái/phải, chữ dọc -->
+    <Style x:Key="IdeAutoHideTabSideStyle" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource IdeDockHeaderBgBrush}"/>
+        <Setter Property="Foreground" Value="{StaticResource FgMutedBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource IdeBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Padding" Value="4,8"/>
+        <Setter Property="Margin" Value="0,0,0,2"/>
+        <Setter Property="MinWidth" Value="24"/>
+        <Setter Property="MinHeight" Value="72"/>
+        <Setter Property="Cursor" Value="Hand"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="bd"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            Padding="{TemplateBinding Padding}"
+                            SnapsToDevicePixels="True">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="{StaticResource IdeHoverBrush}"/>
+                            <Setter Property="Foreground" Value="{StaticResource FgBrush}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="bd" Property="Background" Value="{StaticResource IdePressBrush}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="IdeAutoHideTabSideTextStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="11"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Foreground" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}"/>
+        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
+        <Setter Property="LayoutTransform">
+            <Setter.Value>
+                <RotateTransform Angle="-90"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- Auto-hide tab — cạnh dưới -->
+    <Style x:Key="IdeAutoHideTabBottomStyle" TargetType="Button" BasedOn="{StaticResource IdeDockTabButtonStyle}">
+        <Setter Property="Margin" Value="2,0"/>
+        <Setter Property="Padding" Value="12,4"/>
+        <Setter Property="Background" Value="{StaticResource IdeDockHeaderBgBrush}"/>
+        <Setter Property="BorderBrush" Value="{StaticResource IdeBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
 </ResourceDictionary>

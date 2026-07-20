@@ -5,7 +5,9 @@ using UI.ViewModels.Explorer;
 using DevWorkFlow.Application.Language;
 using DevWorkFlow.Domain.Models;
 using DevWorkFlow.Infrastructure.Services;
+using DevWorkFlow.Infrastructure.Skin;
 using UI.Docking;
+using UI.ViewModels.Skin;
 using UI.ViewModels.Bottom;
 using UI.ViewModels.Insight;
 using UI.ViewModels.Properties;
@@ -47,7 +49,7 @@ public partial class App : Application
 
         // ── Manual DI composition root ──────────────────────────────
         var nav_service       = new NavigationService();
-        var dock_service      = new DockService();
+        var dock_manager      = new DockManager(new JsonDockLayoutStore());
         var template_svc      = new TemplateService();
         var web_config_reader = new WebConfigReader();
         var wcommand_repo     = new WcommandRepository();
@@ -62,6 +64,9 @@ public partial class App : Application
         var sql_navigator     = new SqlStudioNavigator();
         var form_navigator    = new FormDocumentNavigator();
         var db_scripter       = new DatabaseObjectScripter(sql_runner, app_config);
+        var skin_service      = new ProjectSkinService(
+            new LocalSkinStore(), new FboHostNormalizer(), new ProgramAssetResolver());
+        var project_skin_vm   = new ProjectSkinViewModel(skin_service, program_session);
 
         FormBuilderViewModel CreateForm() =>
             new(program_session, sql_navigator, language_service, form_navigator);
@@ -91,13 +96,13 @@ public partial class App : Application
         var stored_vm       = new TemplateManagerViewModel(template_svc, nav_service, TemplateType.Stored);
 
         var main_vm = new MainViewModel(
-            nav_service, program_session, dock_service, sql_runner, sql_navigator,
+            nav_service, program_session, dock_manager, sql_runner, sql_navigator,
             form_navigator, language_service, CreateForm,
             navigation_vm, seed_form,
             explorer_vm, database_explorer_vm, outline_vm, property_grid_vm, toolbox_vm,
             insight_panel_vm, symbol_info_vm,
             xml_bottom_vm, diagnostics_vm, diagnostics_bridge,
-            catalog_vm, document_vm, report_vm, stored_vm);
+            catalog_vm, document_vm, report_vm, stored_vm, project_skin_vm);
 
         var main_window = new MainWindow { DataContext = main_vm };
         main_window.Loaded += async (_, _) =>
@@ -110,6 +115,11 @@ public partial class App : Application
             {
                 IdeMessage.ShowException(ex, "Không khôi phục được Program lần trước.");
             }
+        };
+        main_window.Closing += (_, _) =>
+        {
+            try { main_vm.Shell.SaveDockLayout(); }
+            catch { /* ignore persist errors on exit */ }
         };
         main_window.Show();
     }

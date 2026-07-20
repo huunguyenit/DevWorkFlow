@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using UI.Commands;
+using UI.Docking;
 using UI.Services;
 using UI.ViewModels;
 using UI.ViewModels.Shell;
@@ -82,8 +83,7 @@ public partial class MainWindow
         CommandBindings.Add(new CommandBinding(IdeCommands.Open, (_, _) =>
         {
             if (DataContext is not MainViewModel vm) return;
-            if (!vm.Shell.IsLeftDockOpen)
-                vm.Shell.ToggleLeftDockCommand.Execute(null);
+            vm.Shell.ShowPanel(DockPanelId.LeftTop);
             vm.ExplorerVm.SelectProgramCommand.Execute(null);
         }));
 
@@ -91,6 +91,11 @@ public partial class MainWindow
         CommandBindings.Add(new CommandBinding(IdeCommands.Replace, OnReplace, CanSearchEditor));
         CommandBindings.Add(new CommandBinding(IdeCommands.GoToDefinition, OnGoToDefinition, CanWhenFormBuilder));
         CommandBindings.Add(new CommandBinding(IdeCommands.FindReferences, OnFindReferences, CanWhenFormBuilder));
+
+        // Project Web Skin — capture/refresh/xem skin trống (nền Designer Platform).
+        CommandBindings.Add(new CommandBinding(IdeCommands.CaptureSkin, OnCaptureSkin, CanWhenProgram));
+        CommandBindings.Add(new CommandBinding(IdeCommands.RefreshSkinAssets, OnRefreshSkinAssets, CanWhenProgram));
+        CommandBindings.Add(new CommandBinding(IdeCommands.ViewSkin, OnViewSkin, CanWhenProgram));
 
         // Stubs an toàn — không crash. CHÚ Ý: Undo/Redo/Cut/Copy/Paste/Delete KHÔNG được đặt
         // ở đây dù chưa có implementation IDE-wide thật — RoutedUICommand của chúng có
@@ -119,30 +124,17 @@ public partial class MainWindow
 
     private void CanSearchEditor(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = FindInsightEditorSurface() is not null
-                       || FindXmlBottomPanel() is not null;
+        e.CanExecute = FindInsightEditorSurface() is not null;
     }
 
     private void OnSearch(object sender, ExecutedRoutedEventArgs e)
     {
-        if (FindInsightEditorSurface() is not null)
-        {
-            FindInsightEditorSurface()?.OpenSearch();
-            return;
-        }
-        EnsureXmlBottomVisible();
-        FindXmlBottomPanel()?.OpenSearch();
+        FindInsightEditorSurface()?.OpenSearch();
     }
 
     private void OnReplace(object sender, ExecutedRoutedEventArgs e)
     {
-        if (FindInsightEditorSurface() is not null)
-        {
-            FindInsightEditorSurface()?.OpenReplace();
-            return;
-        }
-        EnsureXmlBottomVisible();
-        FindXmlBottomPanel()?.OpenReplace();
+        FindInsightEditorSurface()?.OpenReplace();
     }
 
     private void OnGoToDefinition(object sender, ExecutedRoutedEventArgs e)
@@ -167,8 +159,7 @@ public partial class MainWindow
     private void OnFindReferences(object sender, ExecutedRoutedEventArgs e)
     {
         if (DataContext is not MainViewModel vm) return;
-        if (!vm.Shell.IsRightDockOpen)
-            vm.Shell.ToggleRightDockCommand.Execute(null);
+        vm.Shell.ShowPanel(DockPanelId.RightTop);
         var symbol_info_pane = vm.Shell.RightPanes
             .FirstOrDefault(p => p.Kind == ToolPaneKind.SymbolInfo);
         if (symbol_info_pane is not null)
@@ -176,21 +167,31 @@ public partial class MainWindow
         vm.SymbolInfoVm.Refresh();
     }
 
-    private void EnsureXmlBottomVisible()
+    private void CanWhenProgram(object sender, CanExecuteRoutedEventArgs e)
     {
-        if (DataContext is not MainViewModel vm) return;
-        if (!vm.Shell.IsBottomDockOpen)
-            vm.Shell.ToggleBottomDockCommand.Execute(null);
-        var xml_pane = vm.Shell.BottomPanes.FirstOrDefault(p => p.Kind == ToolPaneKind.Xml);
-        if (xml_pane is not null)
-            vm.Shell.SelectBottomPaneCommand.Execute(xml_pane);
+        e.CanExecute = DataContext is MainViewModel { ProjectSkinVm.HasProgram: true };
+    }
+
+    private async void OnCaptureSkin(object sender, ExecutedRoutedEventArgs e)
+    {
+        if (DataContext is MainViewModel vm)
+            await vm.ProjectSkinVm.CaptureSkinAsync();
+    }
+
+    private async void OnRefreshSkinAssets(object sender, ExecutedRoutedEventArgs e)
+    {
+        if (DataContext is MainViewModel vm)
+            await vm.ProjectSkinVm.RefreshAssetsAsync();
+    }
+
+    private void OnViewSkin(object sender, ExecutedRoutedEventArgs e)
+    {
+        if (DataContext is MainViewModel vm)
+            vm.ProjectSkinVm.ViewSkin();
     }
 
     private InsightEditorSurface? FindInsightEditorSurface() =>
         FindVisualChild<InsightEditorSurface>(this);
-
-    private UI.Views.Bottom.XmlBottomPanel? FindXmlBottomPanel() =>
-        FindVisualChild<UI.Views.Bottom.XmlBottomPanel>(this);
 
     private static T? FindVisualChild<T>(DependencyObject parent) where T : DependencyObject
     {

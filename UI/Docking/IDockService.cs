@@ -1,14 +1,14 @@
 namespace UI.Docking;
 
 /// <summary>
-/// Dịch vụ dock tối giản (Grid + splitter). Bước sau có thể thay bằng AvalonDock
-/// mà không đổi ViewModel gọi Show/Hide.
+/// [Obsolete] Replaced by <see cref="IDockManager"/>. Kept for reference during migration.
 /// </summary>
+[Obsolete("Use IDockManager instead.")]
 public interface IDockService
 {
-    bool IsVisible(DockRegion region);
-    void Show(DockRegion region);
-    void Hide(DockRegion region);
-    void Toggle(DockRegion region);
+    bool IsPanelVisible(DockPanelId panel);
+    void ShowPanel(DockPanelId panel);
+    void HidePanel(DockPanelId panel);
+    void TogglePanel(DockPanelId panel);
     event EventHandler? LayoutChanged;
 }

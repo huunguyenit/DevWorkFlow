@@ -3,37 +3,36 @@ namespace UI.Docking;
 /// <summary>In-memory dock visibility — không undock/float ở Bước 1.</summary>
 public sealed class DockService : IDockService
 {
-    private readonly Dictionary<DockRegion, bool> _visible = new()
+    private readonly Dictionary<DockPanelId, bool> _visible = new()
     {
-        [DockRegion.Left] = true,
-        [DockRegion.Right] = true,
-        [DockRegion.Bottom] = true,
-        [DockRegion.Center] = true
+        [DockPanelId.LeftTop] = true,
+        [DockPanelId.LeftBottom] = true,
+        [DockPanelId.CenterBottom] = true,
+        [DockPanelId.RightTop] = true,
+        [DockPanelId.RightBottom] = true
     };
 
     public event EventHandler? LayoutChanged;
 
-    public bool IsVisible(DockRegion region) =>
-        _visible.TryGetValue(region, out var v) && v;
+    public bool IsPanelVisible(DockPanelId panel) => _visible[panel];
 
-    public void Show(DockRegion region)
+    public void ShowPanel(DockPanelId panel)
     {
-        if (_visible[region]) return;
-        _visible[region] = true;
+        if (_visible[panel]) return;
+        _visible[panel] = true;
         LayoutChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public void Hide(DockRegion region)
+    public void HidePanel(DockPanelId panel)
     {
-        if (region == DockRegion.Center) return;
-        if (!_visible[region]) return;
-        _visible[region] = false;
+        if (!_visible[panel]) return;
+        _visible[panel] = false;
         LayoutChanged?.Invoke(this, EventArgs.Empty);
     }
 
-    public void Toggle(DockRegion region)
+    public void TogglePanel(DockPanelId panel)
     {
-        if (IsVisible(region)) Hide(region);
-        else Show(region);
+        if (IsPanelVisible(panel)) HidePanel(panel);
+        else ShowPanel(panel);
     }
 }

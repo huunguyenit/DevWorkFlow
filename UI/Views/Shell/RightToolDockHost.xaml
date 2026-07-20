@@ -1,0 +1,54 @@
+<UserControl x:Class="UI.Views.Shell.RightToolDockHost"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:insight="clr-namespace:UI.Views.Insight"
+             xmlns:tb="clr-namespace:UI.Views.Toolbox"
+             xmlns:dock="clr-namespace:UI.Docking">
+
+    <DockPanel Background="{StaticResource SidebarBgBrush}">
+        <Border DockPanel.Dock="Top"
+                Background="{StaticResource IdeDockHeaderBgBrush}"
+                BorderBrush="{StaticResource IdeBorderBrush}"
+                BorderThickness="0,0,0,1"
+                Padding="4,2">
+            <ItemsControl ItemsSource="{Binding Shell.RightPanes}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Content="{Binding Title}"
+                                    Command="{Binding DataContext.Shell.SelectRightPaneCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                    CommandParameter="{Binding}">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource IdeDockTabButtonStyle}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                                <Setter Property="Foreground" Value="{StaticResource FgBrightBrush}"/>
+                                                <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}"/>
+                                                <Setter Property="FontWeight" Value="SemiBold"/>
+                                                <Setter Property="Background" Value="White"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+        <Grid DataContext="{Binding}">
+            <Grid Visibility="{Binding Shell.IsInsightSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <insight:InsightPanel DataContext="{Binding InsightPanelVm}"/>
+            </Grid>
+            <Grid Visibility="{Binding Shell.IsSymbolInfoSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <insight:SymbolInfoPanel DataContext="{Binding SymbolInfoVm}"/>
+            </Grid>
+            <Grid Visibility="{Binding Shell.IsToolboxSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <tb:ToolboxPanel DataContext="{Binding ToolboxVm}"/>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</UserControl>

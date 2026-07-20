@@ -58,7 +58,7 @@ public class MainViewModel : ViewModelBase
     public MainViewModel(
         INavigationService nav,
         IProgramSession program_session,
-        IDockService dock,
+        IDockManager dock_manager,
         ISqlScriptRunner sql_runner,
         SqlStudioNavigator sql_navigator,
         FormDocumentNavigator form_navigator,
@@ -79,7 +79,8 @@ public class MainViewModel : ViewModelBase
         TemplateManagerViewModel catalogVm,
         TemplateManagerViewModel documentVm,
         TemplateManagerViewModel reportVm,
-        TemplateManagerViewModel storedVm)
+        TemplateManagerViewModel storedVm,
+        UI.ViewModels.Skin.ProjectSkinViewModel projectSkinVm)
     {
         _nav = nav;
         _program_session = program_session;
@@ -105,7 +106,9 @@ public class MainViewModel : ViewModelBase
         DocumentVm = documentVm;
         ReportVm = reportVm;
         StoredVm = storedVm;
+        ProjectSkinVm = projectSkinVm;
 
+        DiagnosticsVm.SetItemActivator(ActivateBottomListItem);
         DiagnosticsVm.PropertyChanged += (_, e) =>
         {
             if (e.PropertyName is nameof(IdeDiagnosticsViewModel.ErrorCount)
@@ -114,7 +117,7 @@ public class MainViewModel : ViewModelBase
                 SyncStatusFromForm(_active_form);
         };
 
-        Shell = new IdeShellViewModel(dock);
+        Shell = new IdeShellViewModel(dock_manager);
         CurrentWorkspace = seedFormBuilderVm;
 
         _form_navigator.Attach(OpenFormDocument);
@@ -189,6 +192,7 @@ public class MainViewModel : ViewModelBase
     public TemplateManagerViewModel DocumentVm { get; }
     public TemplateManagerViewModel ReportVm { get; }
     public TemplateManagerViewModel StoredVm { get; }
+    public UI.ViewModels.Skin.ProjectSkinViewModel ProjectSkinVm { get; }
 
     public ViewModelBase? CurrentWorkspace
     {
@@ -527,6 +531,27 @@ public class MainViewModel : ViewModelBase
         StatusErrorCount = DiagnosticsVm.ErrorCount;
         StatusWarningCount = DiagnosticsVm.WarningCount;
         StatusHintCount = DiagnosticsVm.HintCount;
+    }
+
+    private void ActivateBottomListItem(IBottomListItem item)
+    {
+        var target = item.NavigateTarget;
+        if (target is null) return;
+
+        var form = FormBuilderVm;
+
+        if (!string.IsNullOrWhiteSpace(target.Path) && File.Exists(target.Path))
+        {
+            form.OpenEntityFile(target.Path);
+            if (target.Line > 0)
+                form.NavigateToLine(target.Line);
+            return;
+        }
+
+        if (target.Offset > 0)
+            form.NavigateToOffset(target.Offset, target.Line);
+        else if (target.Line > 0)
+            form.NavigateToLine(target.Line);
     }
 
     private static void HideWindow()

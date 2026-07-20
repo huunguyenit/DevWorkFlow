@@ -1,0 +1,83 @@
+<UserControl x:Class="UI.Views.Shell.IdeDockWorkspace"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ad="clr-namespace:AvalonDock;assembly=AvalonDock"
+             xmlns:adLayout="clr-namespace:AvalonDock.Layout;assembly=AvalonDock"
+             xmlns:ctrl="clr-namespace:UI.Views.Controls"
+             xmlns:shellViews="clr-namespace:UI.Views.Shell">
+
+    <ad:DockingManager x:Name="AvalonDockManager"
+                       AllowMixedOrientation="True"
+                       AutoWindowSizeWhenOpened="True">
+
+        <!-- Panel đang show: không hiện tên trên title bar (content đã có header). Pin vẫn hiện. Auto-hide tab vẫn dùng Title. -->
+        <ad:DockingManager.AnchorableTitleTemplate>
+            <DataTemplate>
+                <Grid/>
+            </DataTemplate>
+        </ad:DockingManager.AnchorableTitleTemplate>
+
+        <adLayout:LayoutRoot>
+            <!-- Left | (Editor + Bottom) | Right — bottom cùng bề ngang workspace -->
+            <adLayout:LayoutPanel Orientation="Horizontal">
+                <adLayout:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="280">
+                    <adLayout:LayoutAnchorablePane>
+                        <adLayout:LayoutAnchorable ContentId="dock.left.top"
+                                                   Title="Explorer"
+                                                   CanAutoHide="True"
+                                                   CanFloat="True"
+                                                   CanClose="False"/>
+                    </adLayout:LayoutAnchorablePane>
+                    <adLayout:LayoutAnchorablePane DockHeight="180">
+                        <adLayout:LayoutAnchorable ContentId="dock.left.bottom"
+                                                   Title="Outline"
+                                                   CanAutoHide="True"
+                                                   CanFloat="True"
+                                                   CanClose="False"/>
+                    </adLayout:LayoutAnchorablePane>
+                </adLayout:LayoutAnchorablePaneGroup>
+
+                <adLayout:LayoutPanel Orientation="Vertical">
+                    <adLayout:LayoutDocumentPaneGroup>
+                        <adLayout:LayoutDocumentPane>
+                            <adLayout:LayoutDocument ContentId="editor.workspace"
+                                                     Title="Editor"
+                                                     CanClose="False">
+                                <DockPanel>
+                                    <shellViews:DocumentTabBar DockPanel.Dock="Top"
+                                                               DataContext="{Binding Shell}"/>
+                                    <ctrl:WorkspaceHost DataContext="{Binding Shell.ActiveContent}"/>
+                                </DockPanel>
+                            </adLayout:LayoutDocument>
+                        </adLayout:LayoutDocumentPane>
+                    </adLayout:LayoutDocumentPaneGroup>
+
+                    <adLayout:LayoutAnchorablePane DockHeight="180">
+                        <adLayout:LayoutAnchorable ContentId="dock.center.bottom"
+                                                   Title="Output"
+                                                   CanAutoHide="True"
+                                                   CanFloat="True"
+                                                   CanClose="False"/>
+                    </adLayout:LayoutAnchorablePane>
+                </adLayout:LayoutPanel>
+
+                <adLayout:LayoutAnchorablePaneGroup Orientation="Vertical" DockWidth="280">
+                    <adLayout:LayoutAnchorablePane>
+                        <adLayout:LayoutAnchorable ContentId="dock.right.top"
+                                                   Title="Insight"
+                                                   CanAutoHide="True"
+                                                   CanFloat="True"
+                                                   CanClose="False"/>
+                    </adLayout:LayoutAnchorablePane>
+                    <adLayout:LayoutAnchorablePane DockHeight="180">
+                        <adLayout:LayoutAnchorable ContentId="dock.right.bottom"
+                                                   Title="Properties"
+                                                   CanAutoHide="True"
+                                                   CanFloat="True"
+                                                   CanClose="False"/>
+                    </adLayout:LayoutAnchorablePane>
+                </adLayout:LayoutAnchorablePaneGroup>
+            </adLayout:LayoutPanel>
+        </adLayout:LayoutRoot>
+    </ad:DockingManager>
+</UserControl>

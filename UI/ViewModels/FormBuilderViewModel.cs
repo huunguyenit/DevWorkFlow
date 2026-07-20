@@ -74,11 +74,7 @@ public class FormBuilderViewModel : ViewModelBase
         ClearCommand = new RelayCommand(Clear);
         LoadTemplateCommand = new RelayCommand<string>(_ => { });
         ToggleLanguageCommand = new RelayCommand(ToggleLanguage, () => Design is not null);
-        AddColumnCommand = new RelayCommand(AddColumn, () => Design?.IsForm == true);
-        IncreaseSpanCommand = new RelayCommand(() => ChangeSelectedCellSpan(+1), () => SelectedCell is { IsEmpty: false });
-        DecreaseSpanCommand = new RelayCommand(() => ChangeSelectedCellSpan(-1), () => SelectedCell is { IsEmpty: false });
         SelectCellCommand = new RelayCommand<DesignCellVm>(c => SelectCell(c));
-        SelectCategoryCommand = new RelayCommand<DesignCategoryTabVm>(SelectCategory);
         UpdateEntityValueCommand = new RelayCommand<EntityValueEdit>(
             UpdateEntityInline,
             edit => edit is not null
@@ -91,7 +87,6 @@ public class FormBuilderViewModel : ViewModelBase
 
         SyncDpi();
         FboDesignMapper.SetOptions(_options);
-        Viewport = new DesignViewportVm();
         if (_program_session is not null)
             _program_session.ProgramChanged += (_, _) => ReloadOptions();
 
@@ -107,9 +102,6 @@ public class FormBuilderViewModel : ViewModelBase
             if (!_in_reparse) ParseXml();
         };
     }
-
-    /// <summary>Canvas Design Surface: zoom / grid / scroll sync thước px.</summary>
-    public DesignViewportVm Viewport { get; }
 
     public ObservableCollection<string> RelatedFiles { get; }
     public ObservableCollection<DesignFieldPropertyVm> FieldProperties { get; }
@@ -444,11 +436,7 @@ public class FormBuilderViewModel : ViewModelBase
     public RelayCommand ClearCommand { get; }
     public RelayCommand<string> LoadTemplateCommand { get; }
     public RelayCommand ToggleLanguageCommand { get; }
-    public RelayCommand AddColumnCommand { get; }
-    public RelayCommand IncreaseSpanCommand { get; }
-    public RelayCommand DecreaseSpanCommand { get; }
     public RelayCommand<DesignCellVm> SelectCellCommand { get; }
-    public RelayCommand<DesignCategoryTabVm> SelectCategoryCommand { get; }
 
     // ── Insight actions ───────────────────────────────────────────────
     public RelayCommand<EntityValueEdit> UpdateEntityValueCommand { get; }
@@ -684,9 +672,6 @@ public class FormBuilderViewModel : ViewModelBase
             SelectedCell = null;
             FieldProperties.Clear();
             OnPropertyChanged(nameof(HasSelectedCell));
-            OnPropertyChanged(nameof(SelectionCountText));
-            Viewport.ClearActiveGuides();
-            UpdateSelectionMarkers();
             LoadedTitle = Design.Title;
             ToggleLanguageCommand.RaiseCanExecuteChanged();
 
@@ -777,37 +762,8 @@ public class FormBuilderViewModel : ViewModelBase
     private void FinishSelectionChange()
     {
         OnPropertyChanged(nameof(HasSelectedCell));
-        OnPropertyChanged(nameof(SelectionCountText));
-        IncreaseSpanCommand.RaiseCanExecuteChanged();
-        DecreaseSpanCommand.RaiseCanExecuteChanged();
         BuildFieldProperties();
         JumpCodeToField(SelectedCell?.FieldName);
-        UpdateSelectionMarkers();
-    }
-
-    public string SelectionCountText => SelectedCells.Count <= 1
-        ? string.Empty
-        : $"{SelectedCells.Count} selected";
-
-    private void UpdateSelectionMarkers()
-    {
-        if (SelectedCell is null || Design is null)
-        {
-            Viewport.SelectionMarkerX = null;
-            Viewport.SelectionMarkerY = null;
-            return;
-        }
-
-        var (row, widths) = FindRowOf(SelectedCell);
-        double x_px = 0;
-        if (widths is not null)
-        {
-            for (var i = 0; i < SelectedCell.ColumnIndex && i < widths.Count; i++)
-                x_px += Math.Max(widths[i], 1);
-        }
-
-        Viewport.SelectionMarkerX = x_px;
-        Viewport.SelectionMarkerY = Math.Max(0, SelectedCell.RowIndex) * DesignSurfaceVm.RowHeightPx;
     }
 
     /// <summary>Outline / external: chọn field theo name → Navigation Service → editor.</summary>
@@ -1045,9 +1001,7 @@ public class FormBuilderViewModel : ViewModelBase
         cell.IsSelected = true;
         SelectedCell = cell;
         OnPropertyChanged(nameof(HasSelectedCell));
-        OnPropertyChanged(nameof(SelectionCountText));
         BuildFieldProperties();
-        UpdateSelectionMarkers();
     }
 
     /// <summary>Nhảy tới offset trong document (ưu tiên offset). Prefer NavigateToTarget.</summary>
@@ -1296,12 +1250,6 @@ public class FormBuilderViewModel : ViewModelBase
         return false;
     }
 
-    public void SelectCategory(DesignCategoryTabVm? tab)
-    {
-        if (Design is null || tab is null) return;
-        Design.SelectedCategory = tab;
-    }
-
     public void UpdateFieldProperty(DesignFieldPropertyVm prop)
     {
         if (SelectedCell is null || Document?.Form is null || prop.IsReadOnly)
@@ -1357,196 +1305,6 @@ public class FormBuilderViewModel : ViewModelBase
             foreach (var cell in row.Cells) yield return cell;
     }
 
-
-    // ── Span / merge cell (kéo hoặc nút) ─────────────────────────────
-
-    /// <summary>
-    /// Đổi span của cell theo bề rộng đích (dip) — chỉ snap theo cột định nghĩa sẵn.
-    /// Preview (commit=false): chỉ cập nhật WidthDip theo biên cột, không rebuild.
-    /// </summary>
-    public void ResizeCellSpanToWidth(DesignCellVm cell, double target_width_dip, bool commit)
-    {
-        var (row, widths) = FindRowOf(cell);
-        if (row is null || widths is null || cell.IsEmpty) return;
-
-        var max_span = MaxSpanFor(cell, row, widths.Count);
-
-        var best_span = 1;
-        var best_diff = double.MaxValue;
-        double cum = 0;
-        for (var s = 1; s <= max_span; s++)
-        {
-            var col = cell.ColumnIndex + s - 1;
-            cum += FboLayoutUnits.PxToDip(col < widths.Count ? Math.Max(widths[col], 1) : 1);
-            var diff = Math.Abs(cum - target_width_dip);
-            if (diff < best_diff) { best_diff = diff; best_span = s; }
-        }
-
-        // Preview: snap bề rộng theo tổng cột, không đụng pattern
-        if (!commit)
-        {
-            var px = 0;
-            for (var c = cell.ColumnIndex; c < cell.ColumnIndex + best_span && c < widths.Count; c++)
-                px += Math.Max(widths[c], 1);
-            cell.WidthPx = Math.Max(1, px);
-            cell.WidthDip = FboLayoutUnits.PxToDip(cell.WidthPx);
-
-            double left_px = 0;
-            for (var i = 0; i < cell.ColumnIndex && i < widths.Count; i++)
-                left_px += Math.Max(widths[i], 1);
-            var align = new List<double>();
-            double edge = 0;
-            foreach (var w in widths)
-            {
-                edge += Math.Max(w, 1);
-                align.Add(edge);
-            }
-            Viewport.SetResizeFeedback(
-                left_px + px,
-                cell.WidthPx,
-                DesignSurfaceVm.RowHeightPx,
-                align);
-            return;
-        }
-
-        Viewport.ClearActiveGuides();
-        ApplyCellSpan(cell, row, widths, best_span, commit: true);
-    }
-
-    public void ChangeSelectedCellSpan(int delta)
-    {
-        if (SelectedCell is null || SelectedCell.IsEmpty) return;
-        var (row, widths) = FindRowOf(SelectedCell);
-        if (row is null || widths is null) return;
-        var max_span = MaxSpanFor(SelectedCell, row, widths.Count);
-        var new_span = Math.Clamp(SelectedCell.ColumnSpan + delta, 1, max_span);
-        ApplyCellSpan(SelectedCell, row, widths, new_span, commit: true);
-    }
-
-    private static int MaxSpanFor(DesignCellVm cell, DesignFormRowVm row, int col_count)
-    {
-        // giới hạn tới cột bắt đầu của control kế tiếp (không đè lên control khác)
-        var next_start = col_count;
-        foreach (var other in row.Cells)
-        {
-            if (other == cell || other.IsEmpty) continue;
-            if (other.ColumnIndex > cell.ColumnIndex && other.ColumnIndex < next_start)
-                next_start = other.ColumnIndex;
-        }
-        return Math.Max(1, next_start - cell.ColumnIndex);
-    }
-
-    private void ApplyCellSpan(
-        DesignCellVm cell, DesignFormRowVm row, IList<int> widths, int new_span, bool commit)
-    {
-        if (new_span == cell.ColumnSpan)
-        {
-            if (commit) SyncSpanToDocument();
-            return;
-        }
-
-        cell.ColumnSpan = new_span;
-
-        // Rebuild cells: giữ control cells, sinh lại empty theo cột trống
-        var controls = row.Cells.Where(c => !c.IsEmpty)
-            .OrderBy(c => c.ColumnIndex)
-            .ToDictionary(c => c.ColumnIndex);
-
-        var new_cells = new List<DesignCellVm>();
-        var col = 0;
-        while (col < widths.Count)
-        {
-            if (controls.TryGetValue(col, out var ctl))
-            {
-                var px = 0;
-                for (var c = col; c < col + ctl.ColumnSpan && c < widths.Count; c++)
-                    px += Math.Max(widths[c], 1);
-                ctl.WidthPx = Math.Max(1, px);
-                ctl.WidthDip = FboLayoutUnits.PxToDip(ctl.WidthPx);
-                new_cells.Add(ctl);
-                col += Math.Max(1, ctl.ColumnSpan);
-            }
-            else
-            {
-                var px = Math.Max(widths[col], 1);
-                new_cells.Add(new DesignCellVm
-                {
-                    Kind = FormViewCellKind.Empty,
-                    ColumnIndex = col,
-                    ColumnSpan = 1,
-                    WidthPx = px,
-                    WidthDip = FboLayoutUnits.PxToDip(px),
-                    Pattern = row.Pattern
-                });
-                col++;
-            }
-        }
-
-        row.Cells.Clear();
-        foreach (var c in new_cells) row.Cells.Add(c);
-
-        // Pattern mới
-        var pattern = BuildRowPattern(new_cells);
-        row.Pattern = pattern;
-        if (row.Source is not null)
-            row.Source.Pattern = pattern;
-
-        if (commit) SyncSpanToDocument();
-    }
-
-    private static string BuildRowPattern(IEnumerable<DesignCellVm> cells)
-    {
-        var sb = new System.Text.StringBuilder();
-        foreach (var c in cells)
-        {
-            if (c.IsEmpty)
-                sb.Append('-', c.ColumnSpan);
-            else
-            {
-                sb.Append('1');
-                if (c.ColumnSpan > 1) sb.Append('0', c.ColumnSpan - 1);
-            }
-        }
-        return sb.ToString();
-    }
-
-    private (DesignFormRowVm? row, IList<int>? widths) FindRowOf(DesignCellVm cell)
-    {
-        if (Design is null) return (null, null);
-        foreach (var row in Design.FormRows)
-            if (row.Cells.Contains(cell)) return (row, row.ColumnWidthsPx ?? Design.ColumnWidthsPx);
-        foreach (var tab in Design.CategoryTabs)
-            foreach (var row in tab.Rows)
-                if (row.Cells.Contains(cell)) return (row, row.ColumnWidthsPx ?? tab.ColumnWidthsPx);
-        foreach (var row in Design.BottomRows)
-            if (row.Cells.Contains(cell)) return (row, row.ColumnWidthsPx ?? Design.ColumnWidthsPx);
-        return (null, null);
-    }
-
-    private void SyncSpanToDocument()
-    {
-        if (Document?.Form?.Layout is null) return;
-        XmlSource = _xml_writer.ApplyLayout(XmlSource, Document.Form);
-    }
-
-    private void AddColumn()
-    {
-        if (Design is null) return;
-        Design.ColumnWidthsPx.Add(80);
-        var idx = Design.RulerTicks.Count;
-        var offset = Design.RulerTicks.LastOrDefault()?.OffsetDip
-                     + Design.RulerTicks.LastOrDefault()?.WidthDip ?? 0;
-        Design.RulerTicks.Add(new RulerTickVm
-        {
-            Index = idx,
-            WidthPx = 80,
-            WidthDip = FboLayoutUnits.PxToDip(80),
-            OffsetDip = offset
-        });
-        Design.FormTableWidthPx = Design.ColumnWidthsPx.Sum();
-        Design.FormTableWidthDip += FboLayoutUnits.PxToDip(80);
-        SyncLayoutToDocument();
-    }
 
     private void SyncLayoutToDocument()
     {
@@ -1613,9 +1371,6 @@ public class FormBuilderViewModel : ViewModelBase
         SelectedCell = null;
         FieldProperties.Clear();
         OnPropertyChanged(nameof(HasSelectedCell));
-        OnPropertyChanged(nameof(SelectionCountText));
-        Viewport.ClearActiveGuides();
-        UpdateSelectionMarkers();
         RelatedFiles.Clear();
         LoadedFilePath = string.Empty;
         LoadedTitle = "Design";

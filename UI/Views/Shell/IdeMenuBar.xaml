@@ -39,6 +39,18 @@
             <MenuItem Header="Validate XML" Command="{x:Static cmd:IdeCommands.ValidateXml}"/>
             <Separator/>
             <MenuItem Header="Open SQL from Form" Command="{x:Static cmd:IdeCommands.OpenSqlFromForm}"/>
+            <Separator/>
+            <MenuItem Header="_Web Skin">
+                <MenuItem Header="_Lấy skin / Cập nhật skin..."
+                          Command="{x:Static cmd:IdeCommands.CaptureSkin}"
+                          CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                <MenuItem Header="_Refresh assets"
+                          Command="{x:Static cmd:IdeCommands.RefreshSkinAssets}"
+                          CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+                <MenuItem Header="_Xem skin"
+                          Command="{x:Static cmd:IdeCommands.ViewSkin}"
+                          CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
+            </MenuItem>
         </MenuItem>
         <MenuItem Header="_SQL">
             <MenuItem Header="_Execute" Command="{x:Static cmd:IdeCommands.ExecuteSql}" InputGestureText="F5"/>

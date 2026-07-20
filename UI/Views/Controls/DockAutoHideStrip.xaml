@@ -1,0 +1,111 @@
+<UserControl x:Class="UI.Views.Controls.DockAutoHideStrip"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:shell="clr-namespace:UI.ViewModels.Shell"
+             Background="{x:Null}">
+
+    <Grid Background="{x:Null}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Góc trên-trái: Left Top unpinned -->
+        <StackPanel Grid.Column="0" Grid.Row="0"
+                    VerticalAlignment="Top"
+                    Margin="0,4,0,0">
+            <ItemsControl ItemsSource="{Binding LeftTopAutoHideTabs}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type shell:DockAutoHideTabVm}">
+                        <Button Style="{StaticResource IdeAutoHideTabSideStyle}"
+                                Command="{Binding ShowCommand}"
+                                ToolTip="{Binding Title, StringFormat=Mở {0}}">
+                            <TextBlock Text="{Binding Title}"
+                                       Style="{StaticResource IdeAutoHideTabSideTextStyle}"/>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <!-- Góc trên-phải: Right Top unpinned -->
+        <StackPanel Grid.Column="2" Grid.Row="0"
+                    VerticalAlignment="Top"
+                    Margin="0,4,0,0">
+            <ItemsControl ItemsSource="{Binding RightTopAutoHideTabs}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type shell:DockAutoHideTabVm}">
+                        <Button Style="{StaticResource IdeAutoHideTabSideStyle}"
+                                Command="{Binding ShowCommand}"
+                                ToolTip="{Binding Title, StringFormat=Mở {0}}">
+                            <TextBlock Text="{Binding Title}"
+                                       Style="{StaticResource IdeAutoHideTabSideTextStyle}"/>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <!-- Góc dưới-trái: Left Bottom + Center Bottom unpinned -->
+        <StackPanel Grid.Column="0" Grid.Row="1"
+                    Orientation="Horizontal"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Left"
+                    Margin="0,0,0,2">
+            <ItemsControl ItemsSource="{Binding LeftBottomAutoHideTabs}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type shell:DockAutoHideTabVm}">
+                        <Button Style="{StaticResource IdeAutoHideTabBottomStyle}"
+                                Command="{Binding ShowCommand}"
+                                Content="{Binding Title}"
+                                ToolTip="{Binding Title, StringFormat=Mở {0}}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding CenterBottomAutoHideTabs}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type shell:DockAutoHideTabVm}">
+                        <Button Style="{StaticResource IdeAutoHideTabBottomStyle}"
+                                Command="{Binding ShowCommand}"
+                                Content="{Binding Title}"
+                                ToolTip="{Binding Title, StringFormat=Mở {0}}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+
+        <!-- Góc dưới-phải: Right Bottom unpinned -->
+        <StackPanel Grid.Column="2" Grid.Row="1"
+                    VerticalAlignment="Bottom"
+                    HorizontalAlignment="Right"
+                    Margin="0,0,0,2">
+            <ItemsControl ItemsSource="{Binding RightBottomAutoHideTabs}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="{x:Type shell:DockAutoHideTabVm}">
+                        <Button Style="{StaticResource IdeAutoHideTabSideStyle}"
+                                Command="{Binding ShowCommand}"
+                                ToolTip="{Binding Title, StringFormat=Mở {0}}">
+                            <TextBlock Text="{Binding Title}"
+                                       Style="{StaticResource IdeAutoHideTabSideTextStyle}"/>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </StackPanel>
+    </Grid>
+</UserControl>

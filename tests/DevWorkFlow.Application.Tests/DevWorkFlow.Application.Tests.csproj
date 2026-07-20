@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\DevWorkFlow.Application\DevWorkFlow.Application.csproj" />
+    <ProjectReference Include="..\..\DevWorkFlow.Infrastructure\DevWorkFlow.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

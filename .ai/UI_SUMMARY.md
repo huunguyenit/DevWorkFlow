@@ -10,11 +10,16 @@ Information First (inline) · Workspace First (coordinated panels) · Minimal Di
 
 ```text
 Ribbon
-L: Explorer/Menu/Database + Outline | C: Editor/Designer | R: Props/Insight/AI
-B: Problems/Output/References/Log… | Status Bar
+3 cols: Left | Center | Right — each Top|Bottom
+L-top: Explorer/Menu/DB | C-top: Editor | R-top: Insight/Toolbox
+L-bot: Outline | C-bot: Problems/Output/Log | R-bot: Properties  ← same band height
+5× pin/unpin: L-top, L-bot, C-bot, R-top, R-bot
+Status Bar
 ```
 
-Dock: AvalonDock-style (resize, collapse, auto-hide, float).  
+Spec v1.2: `docs/specs/ui/shell-layout.md` — `BottomBandHeight` shared; splitter any column syncs 3 bottoms.
+
+Dock: **DockManager** + AvalonDock (VS-like pin/auto-hide). Spec: `docs/specs/ui/dock-manager.md`.  
 Nav priority: Ribbon → Toolbar(minimal) → Command Palette `Ctrl+Shift+P` → Context Menu.  
 Search: `Ctrl+P` Quick Open · `Ctrl+Shift+F` Global.
 
@@ -28,8 +33,8 @@ Inline Insight · Status/Toast/IdeMessage (not MessageBox for routine) · ≤7 c
 
 ## Left Panel policy (product)
 
-Explorer/Menu/Database/Outline visuals & layout **done/frozen**. Allowed w/o ask: logic/load bugs that don’t change layout/visual. Forbidden w/o ask: restyle, restructure docks, new chrome, icon pack swap.
+Explorer/Menu/Database/Outline — layout **v1.2** (3 cols, 5 panel pin, shared bottom band). User-approved 2026-07-20. Allowed: logic/load bugs, pin/splitter/`BottomBandHeight`. Forbidden w/o ask: restyle ngoài spec, icon pack swap.
 
 ## Status / Gaps
 
-Guidelines live; Left polished+frozen; bottom height aligned with Outline; status maximize fix exists. TODO: persist dock sessions · Command Palette completeness · replace remaining MessageBox · empty-state secondary panes.
+Guidelines live; shell layout spec v1.2. TODO: implement 3 column hosts + `BottomBandHeight` + 5 pin commands · persist layout · Command Palette · replace MessageBox.

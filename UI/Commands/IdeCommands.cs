@@ -36,6 +36,11 @@ public static class IdeCommands
     public static readonly RoutedUICommand FindReferences = Create(nameof(FindReferences), Key.F12, ModifierKeys.Shift);
     public static readonly RoutedUICommand Settings = Create(nameof(Settings));
 
+    // Project Web Skin (nền Designer Platform) — capture shell + mirror assets + xem skin trống.
+    public static readonly RoutedUICommand CaptureSkin = Create(nameof(CaptureSkin));
+    public static readonly RoutedUICommand RefreshSkinAssets = Create(nameof(RefreshSkinAssets));
+    public static readonly RoutedUICommand ViewSkin = Create(nameof(ViewSkin));
+
     public static readonly RoutedUICommand ToggleLeftDock = Create(nameof(ToggleLeftDock));
     public static readonly RoutedUICommand ToggleRightDock = Create(nameof(ToggleRightDock));
     public static readonly RoutedUICommand ToggleBottomDock = Create(nameof(ToggleBottomDock));

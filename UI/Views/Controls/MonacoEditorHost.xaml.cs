@@ -226,8 +226,8 @@ public partial class MonacoEditorHost : UserControl
 
 #if DEBUG
     core.Settings.AreDevToolsEnabled = true;
-    // Tuỳ chọn: mở sẵn cửa sổ DevTools
-    core.OpenDevToolsWindow();
+    //Tuỳ chọn: mở sẵn cửa sổ DevTools
+    //core.OpenDevToolsWindow();
 #endif
         }
         catch (Exception ex)

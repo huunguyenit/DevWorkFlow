@@ -97,29 +97,38 @@ Không có ngoại lệ.
 # Layout
 
 ```text
-+----------------------------------------------------------+
-| Ribbon / Toolbar                                         |
-+----------------------------------------------------------+
++------------------------------------------------------------------+
+| Ribbon / Toolbar                                                 |
++------------------------------------------------------------------+
 
-+---------+--------------------------+---------------------+
-|         |                          |                     |
-|Explorer |        Editor            |     Properties      |
-|Outline  |                          |     AI              |
-|Workflow |                          |                     |
-|         |                          |                     |
-+---------+--------------------------+---------------------+
++---------------+---------------------------+----------------------+
+| LEFT TOP      | CENTER TOP                | RIGHT TOP            |
+| Explorer      | Editor                    | Insight | Toolbox    |
+| Menu / DB     |                           |                      |
++---------------+---------------------------+----------------------+
+| LEFT BOTTOM   | CENTER BOTTOM             | RIGHT BOTTOM         |
+| Outline       | Problems / Output / Log     | Properties           |
++---------------+---------------------------+----------------------+
 
-| Status Bar                                              |
-+----------------------------------------------------------+
+| Status Bar                                                       |
++------------------------------------------------------------------+
 ```
 
-Docking sử dụng AvalonDock.
+**3 cột:** Left | Center | Right — mỗi cột chia Top / Bottom (splitter riêng trong cột).
+
+**Band Bottom đồng bộ:** Outline, Center Bottom và Properties cùng chiều cao (`BottomBandHeight`). Kéo splitter ở **bất kỳ cột nào** đều cập nhật band — ba panel dưới cùng đổi cao.
+
+**Pin / Unpin (5 panel):** Left Top, Left Bottom, Center Bottom, Right Top, Right Bottom — độc lập; unpinned = thu gọn (height 0). Editor (Center Top) không pin riêng.
+
+Spec chi tiết + XAML/VM checklist: `docs/specs/ui/shell-layout.md` (v1.2).
+
+Docking sử dụng AvalonDock (mục tiêu).
 
 Mọi cửa sổ đều có thể:
 
 - Dock
 - Float
-- Auto Hide
+- Auto Hide (pin)
 - Tab
 - Split
 

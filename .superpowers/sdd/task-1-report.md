@@ -1,63 +1,88 @@
-# Task 1 Report: Domain — InsightErrorKind on InsightItem
+# Task 1 Report — Contracts: IBottomListItem, navigate target, badge, list item VM
 
-## Status
+**Date:** 2026-07-20  
+**Status:** DONE  
+**Scope:** Shared ViewModel contracts under `UI/ViewModels/Bottom/` for unified BottomToolPanel (Problems/Output/Log/Search).
 
-**DONE**
+---
 
 ## Summary
 
-Added `InsightErrorKind` enum and error surface properties on `InsightItem` in Domain only. No Application, UI, AvalonEdit, or bridge changes. `AnnotatedValue` retained for AvalonEdit; XML doc notes Monaco Approach A ignores pipe layout.
+Created four contract/type files exactly as specified in the task brief. No wiring to `IdeDiagnosticsViewModel` or XAML. Build passes with 0 errors.
 
-## Changes
+---
 
-### File: `DevWorkFlow.Domain/Language/Insights.cs`
+## Files Created
 
-1. **`InsightErrorKind` enum** (after `InsightLayer`):
-   - `None = 0`
-   - `Unresolved = 1`
-   - `Circular = 2`
-   - XML summary: `Lỗi Entity Insight (ADR-0004 / entity-insight-rendering).`
+| File | Purpose |
+|------|---------|
+| `UI/ViewModels/Bottom/BottomNavigateTarget.cs` | Immutable navigation target: `Path`, `Line`, `Offset` |
+| `UI/ViewModels/Bottom/IBottomListItem.cs` | Interface for bottom panel list rows (text, icon, navigate) |
+| `UI/ViewModels/Bottom/BottomBadgeVm.cs` | Badge chip VM: icon kind, count, background/foreground colors |
+| `UI/ViewModels/Bottom/BottomListItemVm.cs` | Default `ViewModelBase` implementation of `IBottomListItem` |
 
-2. **`InsightItem` properties** (after `CanEditResolvedValue`):
-   - `public InsightErrorKind ErrorKind { get; init; }`
-   - `public string? ErrorMessage { get; init; }`
+---
 
-3. **`AnnotatedValue` XML doc** updated:
-   - Clarifies AvalonEdit still uses `|` + annotated text.
-   - Notes Monaco Approach A ignores pipe layout (children-driven ViewZone).
+## Implementation Details
 
-## Build
+### BottomNavigateTarget
+
+- Sealed class with init-only properties.
+- `Path` nullable; `Line` and `Offset` default to 0 when not set.
+
+### IBottomListItem
+
+- Read-only contract for list row binding.
+- `IconKind` / `IconBrush` documented as MaterialDesign PackIcon kind and hex color string.
+- `CanNavigate` + optional `NavigateTarget` for double-click / navigate flows (later tasks).
+
+### BottomBadgeVm
+
+- All four properties `required` — callers must supply icon, count text, and colors.
+
+### BottomListItemVm
+
+- Extends `UI.ViewModels.Base.ViewModelBase`.
+- `PrimaryText` required; sensible defaults for secondary/trailing text and icon.
+- Implements `IBottomListItem` via init-only properties (immutable row model).
+
+---
+
+## Build Verification
 
 ```text
-dotnet build DevWorkFlow.Domain/DevWorkFlow.Domain.csproj
+dotnet build "UI/UI.csproj" -v q
 ```
 
-Result: **PASS** — 0 Warning(s), 0 Error(s)
+**Result:** Build succeeded — **0 Error(s)**, 10 Warning(s) (pre-existing: NU1902 AngleSharp, CS0618 IDockService obsolete, MSB3026 file lock retry).
 
-## Commit
+---
 
-- **SHA:** `b9b225fc`
-- **Subject:** `feat(language): add InsightErrorKind for entity insight errors`
-- **Scope:** only `DevWorkFlow.Domain/Language/Insights.cs` (1 file, +19 lines)
-
-## Self-review
+## Self-Review
 
 | Check | Result |
-| --- | --- |
-| Enum values match brief verbatim | Yes |
-| Properties on `InsightItem` after `CanEditResolvedValue` | Yes |
-| `AnnotatedValue` kept (not removed) | Yes |
-| Doc notes Monaco Approach A / children-driven ViewZone | Yes |
-| No Application / UI / AvalonEdit / bridge.js touches | Yes |
-| Domain build succeeds | Yes |
-| Commit message matches brief | Yes |
+|-------|--------|
+| Only four files created | ✓ |
+| Code matches brief verbatim | ✓ |
+| Namespace `UI.ViewModels.Bottom` | ✓ |
+| `BottomListItemVm` uses `ViewModelBase` | ✓ |
+| No IdeDiagnostics / XAML changes | ✓ |
+| No git commit | ✓ |
+
+### Notes for downstream tasks
+
+- `BottomListItemVm` is immutable (`init` only); pane VMs may need factory/helpers or a mutable variant if live updates are required without replace-in-collection.
+- Icon/color strings are convention-based; XAML converters or PackIcon binding helpers will be needed in later UI tasks.
+- `BottomBadgeVm` is standalone; tab header badge binding comes in later tasks.
+
+---
 
 ## Concerns
 
-None for Task 1 scope. Default `ErrorKind` is `None` (0); producers in Task 2+ must set `Unresolved` / `Circular` and `ErrorMessage` when applicable.
+None blocking Task 1. Pre-existing solution warnings unrelated to these files.
 
-## Out of scope (deferred)
+---
 
-- Provider population of `ErrorKind` / `ErrorMessage` (Task 2+)
-- Tests in `InsightProviderPipelineTests.cs` (Task 2)
-- Monaco decorations / InjectedText / ViewZone rendering
+## Commits
+
+None (per instructions).

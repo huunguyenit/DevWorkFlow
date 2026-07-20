@@ -1,50 +1,87 @@
-﻿### Task 1: Domain â€” InsightErrorKind on InsightItem
+﻿### Task 1: Contracts â€” `IBottomListItem`, navigate target, badge, list item VM
 
 **Files:**
-- Modify: `DevWorkFlow.Domain/Language/Insights.cs`
-- Test: `tests/DevWorkFlow.Application.Tests/InsightProviderPipelineTests.cs` (extended in Task 2; Task 1 is type + compile)
+- Create: `UI/ViewModels/Bottom/BottomNavigateTarget.cs`
+- Create: `UI/ViewModels/Bottom/IBottomListItem.cs`
+- Create: `UI/ViewModels/Bottom/BottomBadgeVm.cs`
+- Create: `UI/ViewModels/Bottom/BottomListItemVm.cs`
 
 **Interfaces:**
-- Produces: `enum InsightErrorKind { None = 0, Unresolved = 1, Circular = 2 }` and properties on `InsightItem`:
-  - `InsightErrorKind ErrorKind { get; init; }`
-  - `string? ErrorMessage { get; init; }`
-- Keep `AnnotatedValue` for now (AvalonEdit may still read it); Monaco renderer must not depend on pipe format.
+- Produces:
+  - `BottomNavigateTarget { string? Path; int Line; int Offset; }`
+  - `IBottomListItem` with `PrimaryText`, `SecondaryText`, `TrailingText`, `IconKind`, `IconBrush`, `CanNavigate`, `NavigateTarget`
+  - `BottomBadgeVm { string IconKind; string CountText; string Background; string Foreground; }`
+  - `BottomListItemVm : ViewModelBase, IBottomListItem`
 
-- [ ] **Step 1: Add enum + properties**
-
-In `Insights.cs`, after `InsightLayer` enum, add:
+- [ ] **Step 1: Add `BottomNavigateTarget.cs`**
 
 ```csharp
-/// <summary>Lá»—i Entity Insight (ADR-0004 / entity-insight-rendering).</summary>
-public enum InsightErrorKind
+namespace UI.ViewModels.Bottom;
+
+public sealed class BottomNavigateTarget
 {
-    None = 0,
-    Unresolved = 1,
-    Circular = 2
+    public string? Path { get; init; }
+    public int Line { get; init; }
+    public int Offset { get; init; }
 }
 ```
 
-On `InsightItem`, after `CanEditResolvedValue`, add:
+- [ ] **Step 2: Add `IBottomListItem.cs`**
 
 ```csharp
-public InsightErrorKind ErrorKind { get; init; }
+namespace UI.ViewModels.Bottom;
 
-public string? ErrorMessage { get; init; }
+public interface IBottomListItem
+{
+    string PrimaryText { get; }
+    string SecondaryText { get; }
+    string TrailingText { get; }
+    /// <summary>MaterialDesign PackIcon kind name, e.g. CloseCircle.</summary>
+    string IconKind { get; }
+    /// <summary>Brush hex or resource-like color string for icon, e.g. #C62828.</summary>
+    string IconBrush { get; }
+    bool CanNavigate { get; }
+    BottomNavigateTarget? NavigateTarget { get; }
+}
 ```
 
-Update `AnnotatedValue` XML doc to note Monaco Approach A ignores pipe layout (children-driven ViewZone).
+- [ ] **Step 3: Add `BottomBadgeVm.cs`**
 
-- [ ] **Step 2: Build Domain project**
+```csharp
+namespace UI.ViewModels.Bottom;
 
-Run: `dotnet build DevWorkFlow.Domain/DevWorkFlow.Domain.csproj`
-Expected: PASS
-
-- [ ] **Step 3: Commit**
-
-```bash
-git add DevWorkFlow.Domain/Language/Insights.cs
-git commit -m "feat(language): add InsightErrorKind for entity insight errors"
+public sealed class BottomBadgeVm
+{
+    public required string IconKind { get; init; }
+    public required string CountText { get; init; }
+    public required string Background { get; init; }
+    public required string Foreground { get; init; }
+}
 ```
+
+- [ ] **Step 4: Add `BottomListItemVm.cs`**
+
+```csharp
+using UI.ViewModels.Base;
+
+namespace UI.ViewModels.Bottom;
+
+public sealed class BottomListItemVm : ViewModelBase, IBottomListItem
+{
+    public required string PrimaryText { get; init; }
+    public string SecondaryText { get; init; } = string.Empty;
+    public string TrailingText { get; init; } = string.Empty;
+    public string IconKind { get; init; } = "InformationOutline";
+    public string IconBrush { get; init; } = "#555555";
+    public bool CanNavigate { get; init; }
+    public BottomNavigateTarget? NavigateTarget { get; init; }
+}
+```
+
+- [ ] **Step 5: Build**
+
+Run: `dotnet build "UI/UI.csproj" -v q`  
+Expected: Build succeeded, 0 Error(s)
 
 ---
 

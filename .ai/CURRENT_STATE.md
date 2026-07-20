@@ -21,7 +21,7 @@ For long-form background, open the one `docs/` file the task needs — never the
 |------|--------|
 | Solution (Domain/App/Infra/Tree/Editor/UI/tests) | Yes |
 | IDE Shell WPF (dock L/C/R/B, ribbon, status) | Yes |
-| **Left Panel UX** (Explorer/Menu/DB/Outline) | **Frozen** — no visual/layout change w/o explicit user ask |
+| **Left Panel UX** (Explorer/Menu/DB + Outline bottom) | Layout v1.1 approved 2026-07-20 — see `docs/specs/ui/shell-layout.md` |
 | Program/Web.config, Menu←wcommand→controllers, FS/DB explorers | Yes |
 | Form Builder / Insight surface / ERP LS (parse, semantic, entity, diag, limited nav) | Partial |
 | Outline | Dual — prefer `OutlineViewModel` + LS |
@@ -68,6 +68,21 @@ XML=storage · Semantic First via LS/Commands · Nav Symbol/NodeId · Insight in
 tên entity, Ctrl+Click = mở entity (SYSTEM → tab mới, giữ nguyên caret tab cũ). Nguồn:
 `GetProjection(ClearText).ClearTextSegments`. Sửa nội dung chỉ ở Source mode.
 Spec: `docs/specs/editor/insight-editor-surface.md` §2026-07-20.
+
+**Designer WPF cũ đã gỡ (2026-07-20):** tab "Designer" + `DesignViewport` (render form/grid/lookup bằng
+WPF) + rulers/guides/viewport/span-column commands + controls (`PixelRuler`/`DotGridBackground`/
+`GuidelineLayer`/`ColumnGuides`/`SelectionChrome`) + `DesignViewportVm`/`GuidelineVm` **removed**. Chỉ còn
+`Source | Insight`. **GIỮ** data model `DesignSurfaceVm`/`DesignCellVm`/`DesignFieldPropertyVm` +
+`FboDesignMapper` vì **Property Grid + navigation (chọn field theo symbol) + LoadedTitle + Save layout** vẫn
+dựa vào. `ErpEditorMode.Designer` (Domain) giữ dormant (không UI trigger) để không phá lớp language. Full
+removal khỏi data model = ADR-0006, task riêng. Bản dựng lại đúng runtime → Designer Platform (WebView2).
+
+**Project Web Skin MVP (2026-07-20, landed):** `IProjectSkinService` độc lập (Application/Skin) —
+capture shell ERP (WebView2 riêng, tách Monaco) → `FboHostNormalizer` chèn host trống `#dwf-designer-host`
+(heuristic `#mpMainBody`/`#bodyWrapper` từ FBO master pages) → `ProgramAssetResolver` mirror Css/ClientScript/
+Images từ program_root vào `%AppData%/DevWorkFlow/skins/<project_id>/assets` → xem skin trống. Chưa parse
+XML, chưa nhúng form. **HTML Generator / Designer Overlay chưa nối** — đây chỉ là nền runtime.
+Menu: Design ▸ Web Skin. Infra: HtmlAgilityPack.
 
 ## Next milestone: Language Sync Foundation
 

@@ -5,7 +5,7 @@ using UI.ViewModels.Base;
 namespace UI.ViewModels.Bottom;
 
 /// <summary>Một dòng trong Problems grid.</summary>
-public sealed class ProblemItemVm : ViewModelBase
+public sealed class ProblemItemVm : ViewModelBase, IBottomListItem
 {
     public string Code { get; init; } = string.Empty;
     public required string Description { get; init; }
@@ -29,6 +29,54 @@ public sealed class ProblemItemVm : ViewModelBase
     public string LocationText => Line > 0
         ? Column > 0 ? $"Ln {Line}, Col {Column}" : $"Ln {Line}"
         : string.Empty;
+
+    public string PrimaryText => string.IsNullOrEmpty(Code)
+        ? Description
+        : $"{Description}  {Code}";
+
+    public string SecondaryText => Resolution;
+
+    public string TrailingText
+    {
+        get
+        {
+            if (string.IsNullOrEmpty(File) && string.IsNullOrEmpty(LocationText))
+                return string.Empty;
+            if (string.IsNullOrEmpty(LocationText))
+                return File;
+            if (string.IsNullOrEmpty(File))
+                return LocationText;
+            return $"{File}  {LocationText}";
+        }
+    }
+
+    public string IconKind => SeverityBadge switch
+    {
+        "E" => "CloseCircle",
+        "W" => "Alert",
+        _ => "LightbulbOutline"
+    };
+
+    public string IconBrush => SeverityBadge switch
+    {
+        "E" => "#C62828",
+        "W" => "#F57F17",
+        _ => "#1565C0"
+    };
+
+    public bool CanNavigate =>
+        !string.IsNullOrWhiteSpace(RelatedPath)
+        || StartOffset > 0
+        || Line > 0;
+
+    public BottomNavigateTarget? NavigateTarget => CanNavigate
+        ? new BottomNavigateTarget
+        {
+            Path = RelatedPath,
+            Line = Line,
+            Offset = StartOffset
+        }
+        : null;
 
     public static ProblemItemVm FromGridRow(
         DiagnosticGridRow row,

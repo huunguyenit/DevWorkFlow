@@ -192,6 +192,54 @@
 
             <Rectangle Style="{StaticResource IdeRibbonSeparatorStyle}"/>
 
+            <!-- Web Skin (nền Designer Platform) -->
+            <StackPanel Margin="0,0,2,0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.CaptureSkin}"
+                            CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            ToolTip="Lấy / cập nhật Web Skin (login ERP → lưu shell local)">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWellPrimary}">
+                                <md:PackIcon Kind="Web" Width="18" Height="18"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="{StaticResource PrimaryDarkBrush}"/>
+                            </Border>
+                            <TextBlock Text="Skin" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.RefreshSkinAssets}"
+                            CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            ToolTip="Refresh CSS/JS/image từ Program (không login lại)">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWell}">
+                                <md:PackIcon Kind="FolderSync" Width="18" Height="18"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="#455A64"/>
+                            </Border>
+                            <TextBlock Text="Assets" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
+                    <Button Style="{StaticResource IdeRibbonButtonStyle}"
+                            Command="{x:Static cmd:IdeCommands.ViewSkin}"
+                            CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}"
+                            ToolTip="Xem skin trống (shell đã chuẩn hóa)">
+                        <StackPanel>
+                            <Border Style="{StaticResource RibbonIconWell}">
+                                <md:PackIcon Kind="MonitorScreenshot" Width="18" Height="18"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             Foreground="#0277BD"/>
+                            </Border>
+                            <TextBlock Text="Preview" Style="{StaticResource RibbonLabel}"/>
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+                <TextBlock Text="Web Skin" Style="{StaticResource IdeRibbonGroupLabelStyle}"/>
+            </StackPanel>
+
+            <Rectangle Style="{StaticResource IdeRibbonSeparatorStyle}"/>
+
             <!-- Navigate -->
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
