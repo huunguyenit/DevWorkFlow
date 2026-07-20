@@ -107,9 +107,9 @@ public sealed class CommandDataSource : ITreeDataSource, ITreeSearchProvider, IT
 
         var needle = keyword.Trim();
         var hits = _nodes.Values
-            .Where(n => !string.Equals(n.Kind.ToString(), "Separator", StringComparison.Ordinal)
-                        && (n.SearchKey?.Contains(needle, StringComparison.OrdinalIgnoreCase) == true
-                            || n.DisplayName.Contains(needle, StringComparison.OrdinalIgnoreCase)))
+            .Where(n => n.Kind != TreeNodeKind.Separator
+                        && n.Kind != TreeNodeKind.File
+                        && n.SearchKey?.Contains(needle, StringComparison.OrdinalIgnoreCase) == true)
             .Take(500)
             .ToList();
         return Task.FromResult<IReadOnlyList<TreeNode>>(hits);

@@ -553,6 +553,37 @@ public sealed class EditorClearTextEntityPalette
     public string HoverBorder { get; set; } = "#7E57C2";
 }
 
+/// <summary>
+/// sql.* trong editor-theme.json — màu cho SQL nhúng trong &lt;command&gt;/&lt;query&gt;/&lt;response&gt;
+/// (không event). Vùng này dùng tokenizer SQL built-in của Monaco (nextEmbedded: 'sql' —
+/// xem erp-xml-language.js), token có hậu tố ".sql" (keyword.sql, string.sql, ...). Không có
+/// section này thì màu SQL rơi về mặc định VS Light thay vì đọc từ theme.
+/// </summary>
+public sealed class EditorSqlPalette
+{
+    public EditorTokenStyle Keyword { get; set; } = new() { Color = "#0000FF" };
+    public EditorTokenStyle String { get; set; } = new() { Color = "#A31515" };
+    public EditorTokenStyle Comment { get; set; } = new() { Color = "#008000", FontStyle = "italic" };
+    public EditorTokenStyle Number { get; set; } = new() { Color = "#098658" };
+    public EditorTokenStyle Operator { get; set; } = new() { Color = "#800000" };
+}
+
+/// <summary>
+/// js.* trong editor-theme.json — màu cho JavaScript nhúng trong &lt;script&gt; và
+/// &lt;command event="..."&gt;, cũng như file .js mở trực tiếp. Vùng nhúng dùng tokenizer
+/// JS/TS built-in của Monaco (nextEmbedded: 'text/javascript' — xem erp-xml-language.js),
+/// token có hậu tố ".js" (keyword.js, string.js, ...).
+/// </summary>
+public sealed class EditorJsPalette
+{
+    public EditorTokenStyle Keyword { get; set; } = new() { Color = "#0000FF" };
+    public EditorTokenStyle String { get; set; } = new() { Color = "#A31515" };
+    public EditorTokenStyle Comment { get; set; } = new() { Color = "#008000", FontStyle = "italic" };
+    public EditorTokenStyle Number { get; set; } = new() { Color = "#098658" };
+    public EditorTokenStyle Regexp { get; set; } = new() { Color = "#811F3F" };
+    public EditorTokenStyle Type { get; set; } = new() { Color = "#267F99" };
+}
+
 /// <summary>Toàn bộ editor-theme.json — nguồn cấu hình màu/font cho Monaco (không hardcode trong bridge.js).</summary>
 public sealed class EditorThemeOptions
 {
@@ -563,6 +594,8 @@ public sealed class EditorThemeOptions
     public EditorTokenPalette Tokens { get; set; } = new();
     public EditorInsightBlockPalette InsightBlock { get; set; } = new();
     public EditorClearTextEntityPalette ClearTextEntity { get; set; } = new();
+    public EditorSqlPalette Sql { get; set; } = new();
+    public EditorJsPalette Js { get; set; } = new();
 }
 
 /// <summary>Một mã Diagnostic trong diagnostics.catalog.xml (message/severity/resolution).</summary>

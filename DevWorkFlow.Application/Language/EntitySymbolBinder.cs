@@ -169,6 +169,10 @@ public sealed class EntitySymbolBinder
             });
         }
 
+        // XML lỗi TRONG nội dung entity (inline value hoặc file SYSTEM) trước đây im lặng —
+        // NavigationMapBuilder.BuildFragmentChildren catch rồi bỏ. Validate ở Language Service (R1).
+        ValidateEntityContent(symbols, diagnostics);
+
         var segments = BuildProjectionSegments(
             path,
             source_text,
@@ -319,7 +323,9 @@ public sealed class EntitySymbolBinder
                 "ERP3001",
                 ErpDiagnosticSeverity.Error,
                 $"Thiếu file entity {parameter.Name}: {parameter.SystemId}",
-                parameter.Definition));
+                parameter.Definition,
+                entity_name: parameter.Name,
+                related_path: resolved_path ?? parameter.SystemId));
             return parameter;
         }
 
@@ -344,7 +350,9 @@ public sealed class EntitySymbolBinder
                 "ERP3001",
                 ErpDiagnosticSeverity.Error,
                 $"Không đọc được entity {parameter.Name}: {ex.Message}",
-                parameter.Definition));
+                parameter.Definition,
+                entity_name: parameter.Name,
+                related_path: resolved_path));
             return parameter;
         }
     }
@@ -398,7 +406,9 @@ public sealed class EntitySymbolBinder
                     "ERP3001",
                     ErpDiagnosticSeverity.Error,
                     $"Không đọc được entity {picked.Name}: {ex.Message}",
-                    picked.Definition));
+                    picked.Definition,
+                    entity_name: picked.Name,
+                    related_path: resolved_path));
             }
         }
         else if (string.Equals(picked.SystemId, active.SystemId, StringComparison.OrdinalIgnoreCase)
@@ -414,7 +424,9 @@ public sealed class EntitySymbolBinder
                 "ERP3001",
                 ErpDiagnosticSeverity.Error,
                 $"Thiếu file entity {picked.Name}: {active.SystemId}",
-                picked.Definition));
+                picked.Definition,
+                entity_name: picked.Name,
+                related_path: resolved_path ?? active.SystemId));
         }
 
         return new EntityDeclaration
@@ -629,7 +641,9 @@ public sealed class EntitySymbolBinder
                             "ERP3001",
                             ErpDiagnosticSeverity.Error,
                             $"Không đọc được entity {name}: {ex.Message}",
-                            definition));
+                            definition,
+                            entity_name: name,
+                            related_path: resolved_path));
                     }
                 }
                 else if (!is_parameter)
@@ -638,7 +652,9 @@ public sealed class EntitySymbolBinder
                         "ERP3001",
                         ErpDiagnosticSeverity.Error,
                         $"Thiếu file entity {name}: {system_id}",
-                        definition));
+                        definition,
+                        entity_name: name,
+                        related_path: resolved_path ?? system_id));
                 }
             }
 
@@ -1213,14 +1229,82 @@ public sealed class EntitySymbolBinder
         string id,
         ErpDiagnosticSeverity severity,
         string message,
-        SourceLocation location) =>
+        SourceLocation location,
+        string? entity_name = null,
+        string? related_path = null,
+        int? related_line = null) =>
         new()
         {
             Id = id,
             Severity = severity,
             Message = message,
-            Location = location
+            Location = location,
+            EntityName = entity_name,
+            RelatedPath = related_path,
+            RelatedLine = related_line
         };
+
+    /// <summary>
+    /// Kiểm XML trong nội dung entity đã dùng: parse RawValue như fragment, nếu có lỗi cấu trúc
+    /// (ERP1002) thì phát ERP3005. SYSTEM → Location = khai báo trong file đang mở, RelatedPath =
+    /// file .ent + RelatedLine = dòng lỗi trong file đó (Problems mở được file entity). Inline →
+    /// Location = span giá trị trong DOCTYPE. Bỏ qua nội dung không phải XML body (SQL/text) và
+    /// nội dung DTD (bắt đầu bằng "&lt;!").
+    /// </summary>
+    private static void ValidateEntityContent(
+        IReadOnlyList<EntitySymbol> symbols,
+        List<ErpDiagnostic> diagnostics)
+    {
+        foreach (var symbol in symbols)
+        {
+            if (symbol.DeclarationKind == EntityDeclarationKind.Parameter || !symbol.IsResolved)
+                continue;
+
+            var raw = symbol.RawValue;
+            if (string.IsNullOrWhiteSpace(raw)) continue;
+            var trimmed = raw.TrimStart();
+            if (trimmed.Length == 0 || trimmed[0] != '<') continue;
+            if (trimmed.StartsWith("<!", StringComparison.Ordinal)) continue; // DTD / khai báo
+
+            var is_system = symbol.DeclarationKind == EntityDeclarationKind.ExternalSystem;
+            var content_path = is_system
+                ? symbol.ResolvedPath ?? symbol.Definition.Path
+                : symbol.Definition.Path;
+
+            ISyntaxTree tree;
+            try
+            {
+                tree = Syntax.FboSyntaxParser.Parse(raw, content_path);
+            }
+            catch
+            {
+                continue;
+            }
+
+            var structural = tree.Diagnostics.FirstOrDefault(d => d.Id == "ERP1002");
+            if (structural is null) continue;
+
+            // SYSTEM: điều hướng tới khai báo <!ENTITY> trong file đang mở; file lỗi ở RelatedPath.
+            // Inline: value nằm trong DOCTYPE file đang mở.
+            var primary = is_system
+                ? symbol.Definition
+                : symbol.ValueLocation.Path.Length > 0 ? symbol.ValueLocation : symbol.Definition;
+
+            diagnostics.Add(new ErpDiagnostic
+            {
+                Id = "ERP3005",
+                Severity = ErpDiagnosticSeverity.Error,
+                Message = is_system
+                    ? $"Nội dung entity {symbol.Name} (file {Path.GetFileName(content_path)}) có lỗi XML: {structural.Message}"
+                    : $"Nội dung entity {symbol.Name} có lỗi XML: {structural.Message}",
+                Location = primary,
+                EntityName = symbol.Name,
+                SymbolId = symbol.Id,
+                RelatedPath = is_system ? content_path : null,
+                RelatedLine = is_system ? structural.Location.Line : null
+            });
+        }
+    }
 
     private static string EntityId(string name) => $"entity:{name}";
 

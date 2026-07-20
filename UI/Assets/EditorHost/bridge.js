@@ -13,6 +13,15 @@
         // — xem erp-xml-language.js. SQL dùng tokenizer built-in của Monaco.
         if (window.registerErpXmlLanguage)
             window.registerErpXmlLanguage(monaco);
+
+        // erp-xml nhúng SQL/JS qua nextEmbedded. Monaco chỉ tokenize vùng nhúng khi tokenizer
+        // của ngôn ngữ đó ĐÃ nạp — với bản offline (lazy loader theo id) thì tạo tạm một model
+        // theo ngôn ngữ sẽ kích hoạt nạp; không có bước này thì SQL/JS trong thẻ không được tô
+        // (rơi về text thuần) cho tới khi tình cờ có model ngôn ngữ đó. Model tạm dispose ngay.
+        ['sql', 'javascript'].forEach(function (id) {
+            try { monaco.editor.createModel('', id).dispose(); } catch (e) { /* ngôn ngữ không có */ }
+        });
+
         var monacoLanguage = language === 'xml' ? 'erp-xml' : language;
 
         var editor = monaco.editor.create(document.getElementById('container'), {
@@ -78,6 +87,34 @@
                 rule('metatag', tokens.metatag),
                 rule('metatag.content', tokens.metatag)
             ].filter(function (r) { return r !== null; });
+
+            // SQL nhúng (<command>/<query>/<response> không event) do tokenizer SQL built-in
+            // của Monaco tô — token có hậu tố ".sql" (keyword.sql, string.sql, ...). Rule dài
+            // hơn thắng rule XML cùng gốc (keyword.sql > keyword), nên màu SQL độc lập với XML
+            // thay vì kế thừa mặc định VS Light. Token không map (identifier.sql, predefined.sql,
+            // delimiter.sql) rơi về foreground/delimiter — chấp nhận được.
+            var sql = theme.sql || {};
+            [
+                rule('keyword.sql', sql.keyword),
+                rule('string.sql', sql.string),
+                rule('comment.sql', sql.comment),
+                rule('number.sql', sql.number),
+                rule('operator.sql', sql.operator)
+            ].forEach(function (r) { if (r) rules.push(r); });
+
+            // JS nhúng (<script>, <command event=...>) + file .js — tokenizer JS/TS built-in,
+            // token có hậu tố ".js" (keyword.js, string.js, ...). Cùng cơ chế prefix như SQL:
+            // rule .js thắng rule cùng gốc của XML. Biến thể phụ (string.escape.js, number.float.js,
+            // comment.doc.js) không map → dùng mặc định base 'vs', chấp nhận được.
+            var js = theme.js || {};
+            [
+                rule('keyword.js', js.keyword),
+                rule('string.js', js.string),
+                rule('comment.js', js.comment),
+                rule('number.js', js.number),
+                rule('regexp.js', js.regexp),
+                rule('type.identifier.js', js.type)
+            ].forEach(function (r) { if (r) rules.push(r); });
 
             monaco.editor.defineTheme('dwf-theme', {
                 base: 'vs',
@@ -376,6 +413,42 @@
                         applyTheme(msg.payload);
                         respond(msg.id, true);
                         break;
+                    case 'setMarkers': {
+                        // Squiggle chẩn đoán (Source mode). Nhận offset trên buffer hiện tại →
+                        // model.getPositionAt cho vị trí chính xác (không lệch do line/column).
+                        var mm = editor.getModel();
+                        var items = (msg.payload && msg.payload.markers) || [];
+                        if (mm) {
+                            var sevMap = { error: 8, warning: 4, info: 2, hint: 1 };
+                            var markers = items.map(function (m) {
+                                var len = m.length > 0 ? m.length : 1;
+                                var s = mm.getPositionAt(m.startOffset);
+                                var e = mm.getPositionAt(m.startOffset + len);
+                                return {
+                                    startLineNumber: s.lineNumber, startColumn: s.column,
+                                    endLineNumber: e.lineNumber, endColumn: e.column,
+                                    message: m.message || '',
+                                    code: m.code || undefined,
+                                    severity: sevMap[(m.severity || 'warning').toLowerCase()] || 4
+                                };
+                            });
+                            monaco.editor.setModelMarkers(mm, 'erp', markers);
+                        }
+                        respond(msg.id, true);
+                        break;
+                    }
+                    case 'setLanguage': {
+                        // Đổi ngôn ngữ tô màu của model hiện tại (StatusBar: XML ↔ JavaScript ↔ SQL).
+                        // "xml" ánh xạ về tokenizer FBO "erp-xml" (nhúng SQL/JS), còn lại dùng id
+                        // Monaco built-in ('sql', 'javascript'). Model tồn tại nên đổi tại chỗ,
+                        // giữ nguyên nội dung/caret/scroll.
+                        var langId = (msg.payload && msg.payload.language) || 'xml';
+                        var target = langId === 'xml' ? 'erp-xml' : langId;
+                        var lm = editor.getModel();
+                        if (lm) monaco.editor.setModelLanguage(lm, target);
+                        respond(msg.id, true);
+                        break;
+                    }
                     case 'openFind':
                         editor.getAction('actions.find').run();
                         respond(msg.id, true);

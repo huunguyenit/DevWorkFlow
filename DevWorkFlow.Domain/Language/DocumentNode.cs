@@ -35,6 +35,13 @@ public sealed class DocumentNode
     /// </summary>
     public bool PreferCaretOnly { get; init; }
 
+    /// <summary>
+    /// true = <see cref="StartOffset"/>/<see cref="EndOffset"/> tính trên buffer ClearText
+    /// (Insight map), KHÔNG phải source XML. Editor không map lại qua ClearTextOffsetMap khi
+    /// điều hướng — offset đã khớp buffer Insight đang hiển thị. false (mặc định) = offset source.
+    /// </summary>
+    public bool UsesClearTextOffsets { get; init; }
+
     public IReadOnlyList<DocumentNode> Children { get; init; } = [];
 
     public TextRange TextRange => new(StartOffset, EndOffset);

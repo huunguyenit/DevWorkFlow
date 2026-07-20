@@ -25,4 +25,10 @@ public sealed class NavigationTarget
 
     /// <summary>true = Editor chỉ caret/scroll, không Select highlight.</summary>
     public bool PreferCaretOnly { get; init; }
+
+    /// <summary>
+    /// true = <see cref="TextRange"/> tính trên buffer ClearText (Insight map). Editor áp
+    /// offset trực tiếp, không đi qua ClearTextOffsetMap. Xem <see cref="DocumentNode.UsesClearTextOffsets"/>.
+    /// </summary>
+    public bool UsesClearTextOffsets { get; init; }
 }

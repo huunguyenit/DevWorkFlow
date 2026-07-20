@@ -24,6 +24,10 @@
               message="XML/FBO có lỗi cú pháp đã được tự phục hồi (tag không đóng hoặc không khớp)."
               resolution="Mở file tại vị trí Line/Column được báo, kiểm tra tag mở/đóng. Parser đã tự phục hồi nên Document vẫn dùng được, nhưng nên sửa để tránh sai lệch cấu trúc khi Serialize lại." />
 
+  <diagnostic code="ERP1002" severity="Error"
+              message="Cấu trúc tag XML sai: tag đóng không khớp, thiếu tag đóng, hoặc tag đóng thừa."
+              resolution="Mở vị trí Line/Column được báo và sửa cặp tag mở/đóng cho khớp. Đây là lỗi cấu trúc nặng — Source mode nên sửa hết ERP1002 trước khi tin cấu trúc Outline/Designer và trước khi Serialize lại." />
+
   <diagnostic code="ERP2001" severity="Warning"
               message="Trùng tên Field trong cùng Document."
               resolution="Đổi tên một trong các Field trùng, hoặc xác nhận đây là chủ đích (override) — nếu chủ đích, cân nhắc dùng cơ chế kế thừa/override rõ ràng hơn thay vì trùng tên." />
@@ -43,6 +47,10 @@
   <diagnostic code="ERP3004" severity="Warning"
               message="Trùng tên khai báo Entity (fallback khi DTD pre-resolve thất bại)."
               resolution="Xoá hoặc đổi tên khai báo ENTITY trùng lặp; hệ thống hiện chọn khai báo theo thứ tự xuất hiện nên kết quả có thể không như mong đợi." />
+
+  <diagnostic code="ERP3005" severity="Error"
+              message="Nội dung XML bên trong Entity (giá trị inline hoặc file SYSTEM) có lỗi cấu trúc tag."
+              resolution="Mở khai báo Entity (hoặc file .ent qua đường dẫn liên quan) và sửa cấu trúc tag trong nội dung Entity; lỗi này trước đây bị ẩn nên Outline/ClearText có thể thiếu node." />
 
   <diagnostic code="ERP3010" severity="Info"
               message="Không pre-resolve được DTD bằng XmlDocument/XmlReader; đã fallback về kết quả regex."

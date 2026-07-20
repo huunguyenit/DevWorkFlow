@@ -1,4 +1,4 @@
-using DevWorkFlow.Domain.Language;
+﻿using DevWorkFlow.Domain.Language;
 using DevWorkFlow.Domain.Models;
 using DevWorkFlow.Infrastructure.Tree;
 using DevWorkFlow.Tree;
@@ -54,9 +54,9 @@ public static class TreeNodeAdapters
                         : TreeNodeKind.Leaf,
             State = TreeNodeState.Loaded,
             HasChildren = kid_list.Count > 0 || (menu.IsMenuNode && menu.HasLink && !menu.ResourcesLoaded),
-            SearchKey = string.Join('\u001F', menu.Title, menu.SysId ?? "", menu.WmenuId ?? "",
-                menu.FileItem?.ControllerName ?? "", menu.FileItem?.RelativePath ?? "",
-                menu.FolderKind?.ToString() ?? ""),
+            SearchKey = menu.IsMenuNode
+                ? string.Join('\u001F', menu.Title, menu.Node?.TitleEn ?? "", menu.SysId ?? "", menu.WmenuId ?? "")
+                : null,
             Metadata = new CommandNodeMeta
             {
                 SysId = menu.SysId,

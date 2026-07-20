@@ -225,8 +225,57 @@ public class MainViewModel : ViewModelBase
     public string StatusLanguage
     {
         get => _status_language;
-        private set => SetProperty(ref _status_language, value);
+        private set
+        {
+            if (!SetProperty(ref _status_language, value)) return;
+            // StatusBar dropdown phản chiếu ngôn ngữ hiện tại — đồng bộ khi ngữ cảnh đổi
+            // (mở tài liệu, chuyển tab) mà không kích hoạt lại ApplyEditorLanguage.
+            OnPropertyChanged(nameof(SelectedEditorLanguage));
+        }
     }
+
+    /// <summary>Các định dạng cho phép đổi ở StatusBar (nhãn hiển thị).</summary>
+    public IReadOnlyList<string> EditorLanguages { get; } = ["XML", "JavaScript", "SQL"];
+
+    /// <summary>
+    /// Ngôn ngữ editor đang chọn ở StatusBar. Get phản chiếu <see cref="StatusLanguage"/>; set do
+    /// người dùng chọn → đổi ngôn ngữ tô màu của editor tài liệu đang active (form/controller).
+    /// Với tab SQL Studio, editor là surface riêng nên chỉ cập nhật nhãn.
+    /// </summary>
+    public string SelectedEditorLanguage
+    {
+        get => _status_language;
+        set
+        {
+            if (string.IsNullOrWhiteSpace(value)
+                || string.Equals(_status_language, value, StringComparison.OrdinalIgnoreCase))
+                return;
+
+            // Chỉ editor form/controller (erp-xml) mới đổi được tô màu tại chỗ. Tab SQL Studio là
+            // surface riêng — bỏ qua và hoàn tác lựa chọn để nhãn không lệch với editor thật.
+            if (Shell.ActiveContent is not FormBuilderViewModel fb)
+            {
+                OnPropertyChanged(nameof(SelectedEditorLanguage));
+                return;
+            }
+
+            StatusLanguage = value;
+            fb.EditorLanguage = value switch
+            {
+                "JavaScript" => "javascript",
+                "SQL" => "sql",
+                _ => "xml"
+            };
+        }
+    }
+
+    /// <summary>id ngôn ngữ Monaco → nhãn StatusBar (khớp <see cref="EditorLanguages"/>).</summary>
+    private static string LanguageDisplay(string? monaco_id) => monaco_id switch
+    {
+        "javascript" => "JavaScript",
+        "sql" => "SQL",
+        _ => "XML"
+    };
 
     public string StatusCaret
     {
@@ -289,7 +338,7 @@ public class MainViewModel : ViewModelBase
             SetActiveForm(existing_vm);
             CurrentWorkspace = existing_vm;
             CurrentPageTitle = existing.Title;
-            StatusLanguage = "XML";
+            StatusLanguage = LanguageDisplay(existing_vm.EditorLanguage);
             AppStatus = existing_vm.LoadedFilePath;
             return;
         }
@@ -321,7 +370,7 @@ public class MainViewModel : ViewModelBase
         SetActiveForm(form_vm);
         CurrentWorkspace = form_vm;
         CurrentPageTitle = doc.Title;
-        StatusLanguage = "XML";
+        StatusLanguage = LanguageDisplay(form_vm.EditorLanguage);
         AppStatus = form_vm.LoadedFilePath;
         Shell.StatusReady = "Ready";
         _nav.NavigateTo(Pages.FormBuilder);
@@ -518,7 +567,7 @@ public class MainViewModel : ViewModelBase
         {
             CurrentWorkspace = fb;
             CurrentPageTitle = fb.LoadedTitle;
-            StatusLanguage = "XML";
+            StatusLanguage = LanguageDisplay(fb.EditorLanguage);
             if (!string.IsNullOrWhiteSpace(fb.LoadedFilePath))
                 AppStatus = fb.LoadedFilePath;
             SetActiveForm(fb);

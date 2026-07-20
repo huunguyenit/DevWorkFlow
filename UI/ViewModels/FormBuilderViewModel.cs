@@ -46,7 +46,9 @@ public class FormBuilderViewModel : ViewModelBase
     private DesignCellVm? _selected_cell;
     private ErpEditorMode _active_editor_mode = ErpEditorMode.Insight;
     private bool _is_code_only_view;
+    private string _editor_language = "xml";
     private IReadOnlyList<InsightItem> _insights = [];
+    private IReadOnlyList<DevWorkFlow.Editor.Bridge.EditorMarker> _editor_markers = [];
     private IReadOnlyList<ClearTextSegment> _clear_text_segments = [];
     private ClearTextOffsetMap _clear_text_offsets = ClearTextOffsetMap.Identity;
     private InsightEditorLineVm? _selected_insight_line;
@@ -197,6 +199,82 @@ public class FormBuilderViewModel : ViewModelBase
         }
     }
 
+    /// <summary>
+    /// Ngôn ngữ tô màu Monaco cho editor ("xml" → tokenizer FBO erp-xml có nhúng SQL/JS,
+    /// "javascript" cho file .js, "sql" khi người dùng đổi ở StatusBar). Mặc định suy ra từ
+    /// đuôi file lúc load; StatusBar có thể ghi đè runtime — xem <see cref="DetectEditorLanguage"/>.
+    /// </summary>
+    public string EditorLanguage
+    {
+        get => _editor_language;
+        set => SetProperty(ref _editor_language, string.IsNullOrWhiteSpace(value) ? "xml" : value);
+    }
+
+    /// <summary>
+    /// Marker chẩn đoán (squiggle) cho editor — chỉ Source mode (offset trên XmlSource khớp
+    /// buffer). Insight mode buffer là ClearText nên xoá marker (sửa lỗi làm ở Source).
+    /// </summary>
+    public IReadOnlyList<DevWorkFlow.Editor.Bridge.EditorMarker> EditorMarkers
+    {
+        get => _editor_markers;
+        private set => SetProperty(ref _editor_markers, value);
+    }
+
+    /// <summary>Tính lại marker từ Diagnostics của document — lọc theo buffer đang hiển thị.</summary>
+    private void RefreshEditorMarkers()
+    {
+        var doc = ErpDocument;
+        if (doc is null || !IsSourceMode)
+        {
+            EditorMarkers = [];
+            return;
+        }
+
+        var source_len = XmlSource?.Length ?? 0;
+        var list = new List<DevWorkFlow.Editor.Bridge.EditorMarker>();
+        foreach (var d in doc.Diagnostics)
+        {
+            if (d.Severity == ErpDiagnosticSeverity.Hidden) continue;
+
+            // Chỉ marker cho lỗi nằm TRONG buffer đang mở (offset trên XmlSource). Lỗi nằm ở file
+            // entity ngoài (Location.Path khác) hiện tại chỉ hiện ở Problems, không squiggle ở đây.
+            var path = d.Location.Path;
+            var same_buffer = string.IsNullOrEmpty(path)
+                              || path.StartsWith("buffer:", StringComparison.OrdinalIgnoreCase)
+                              || (!string.IsNullOrEmpty(LoadedFilePath) && PathsEqual(path, LoadedFilePath));
+            if (!same_buffer) continue;
+
+            var start = d.Location.Span.StartOffset;
+            if (start < 0 || start > source_len) continue;
+            var len = d.Location.Span.Length <= 0 ? 1 : d.Location.Span.Length;
+            if (start + len > source_len) len = Math.Max(1, source_len - start);
+
+            list.Add(new DevWorkFlow.Editor.Bridge.EditorMarker
+            {
+                StartOffset = start,
+                Length = len,
+                Message = $"[{d.Id}] {d.Message}",
+                Severity = d.Severity switch
+                {
+                    ErpDiagnosticSeverity.Error => "error",
+                    ErpDiagnosticSeverity.Warning => "warning",
+                    ErpDiagnosticSeverity.Info => "info",
+                    _ => "hint"
+                },
+                Code = d.Id
+            });
+        }
+
+        EditorMarkers = list;
+    }
+
+    /// <summary>Ngôn ngữ mặc định theo đuôi file: .js → javascript, còn lại → xml (form/controller).</summary>
+    public static string DetectEditorLanguage(string? file_path)
+    {
+        var ext = Path.GetExtension(file_path ?? string.Empty);
+        return ext.Equals(".js", StringComparison.OrdinalIgnoreCase) ? "javascript" : "xml";
+    }
+
     public ObservableCollection<InsightEditorLineVm> InsightEditorLines { get; }
 
     public InsightEditorLineVm? SelectedInsightLine
@@ -229,6 +307,9 @@ public class FormBuilderViewModel : ViewModelBase
             OnPropertyChanged(nameof(ShowEditorSurface));
             OnPropertyChanged(nameof(ShowDesignerModeSurface));
             OnPropertyChanged(nameof(ShowDesignerTab));
+
+            // Source ↔ Insight đổi buffer → marker chỉ hợp lệ ở Source (offset theo XmlSource).
+            RefreshEditorMarkers();
         }
     }
 
@@ -378,6 +459,7 @@ public class FormBuilderViewModel : ViewModelBase
             : title;
         XmlSource = xml ?? string.Empty;
         IsCodeOnlyView = code_only || IsCodeOnlyPath(file_path);
+        EditorLanguage = DetectEditorLanguage(file_path);
 
         RelatedFiles.Clear();
         if (related_files is not null)
@@ -539,6 +621,7 @@ public class FormBuilderViewModel : ViewModelBase
                 Document = null;
                 Design = null;
                 RefreshEntitiesFromSemantic();
+                RefreshEditorMarkers();
                 StatusMessage = SemanticModel.Diagnostics.FirstOrDefault()?.Message
                                 ?? "✘ Không bind được Semantic Model.";
                 ToggleLanguageCommand.RaiseCanExecuteChanged();
@@ -567,6 +650,7 @@ public class FormBuilderViewModel : ViewModelBase
                 $" | table={Design.FormTableWidthPx}px→{Design.FormTableWidthDip:0}dip" +
                 $" | {Design.LayoutBadge}";
             RefreshEntitiesFromSemantic();
+            RefreshEditorMarkers();
         }
         catch (Exception ex)
         {
@@ -574,6 +658,7 @@ public class FormBuilderViewModel : ViewModelBase
             ErpDocument = null;
             SemanticModel = null;
             Design = null;
+            EditorMarkers = [];
             StatusMessage = $"✘ Parse lỗi: {ex.Message}";
             ToggleLanguageCommand.RaiseCanExecuteChanged();
         }
@@ -759,11 +844,18 @@ public class FormBuilderViewModel : ViewModelBase
     {
         if (target is null) return;
 
-        // Khi đang ở Designer mode, chuyển sang Insight trước khi scroll.
+        // Node từ Insight map mang offset trên ClearText — chỉ có nghĩa trong buffer Insight.
+        var need_clear_text = target.UsesClearTextOffsets;
+
+        // Khi đang ở Designer mode, chuyển sang Insight trước khi scroll. Tương tự, target offset
+        // ClearText mà editor đang Source thì cũng phải sang Insight thì offset mới khớp buffer.
         // ShowEditorSurface thay đổi → WPF queue layout pass → editor chưa sẵn sàng ngay.
         // Phải defer việc set CaretOffset đến sau khi layout hoàn tất.
-        var mode_switched = ActiveEditorMode == ErpEditorMode.Designer;
-        if (mode_switched)
+        var mode_switched = ActiveEditorMode == ErpEditorMode.Designer
+            || (need_clear_text && !IsInsightMode);
+        if (ActiveEditorMode == ErpEditorMode.Designer)
+            ActiveEditorMode = ErpEditorMode.Insight;
+        else if (need_clear_text && !IsInsightMode)
             ActiveEditorMode = ErpEditorMode.Insight;
 
         // Designer sync: chọn field theo Symbol nếu có.
@@ -771,12 +863,18 @@ public class FormBuilderViewModel : ViewModelBase
             SelectFieldByNameQuiet(field.Name);
 
         var offset = target.TextRange.StartOffset;
-        var source_len = XmlSource?.Length ?? 0;
-        if (source_len > 0 && offset > source_len)
-            offset = source_len;
+        if (!need_clear_text)
+        {
+            // Offset source: kẹp theo độ dài source (offset ClearText kẹp trong ApplyCaretOffset).
+            var source_len = XmlSource?.Length ?? 0;
+            if (source_len > 0 && offset > source_len)
+                offset = source_len;
+        }
 
         // Fragment thuộc file entity ngoài: không áp offset file đó vào XmlSource hiện tại.
-        if (!string.IsNullOrWhiteSpace(target.DocumentUri)
+        // Insight target luôn cùng document (offset ClearText) nên bỏ qua nhánh này.
+        if (!need_clear_text
+            && !string.IsNullOrWhiteSpace(target.DocumentUri)
             && !string.IsNullOrWhiteSpace(LoadedFilePath)
             && !PathsEqual(target.DocumentUri, LoadedFilePath))
         {
@@ -802,7 +900,7 @@ public class FormBuilderViewModel : ViewModelBase
 
         if (offset >= 0)
         {
-            ApplyCaretOffset(offset, mode_switched);
+            ApplyCaretOffset(offset, mode_switched, need_clear_text);
             return;
         }
 
@@ -817,9 +915,19 @@ public class FormBuilderViewModel : ViewModelBase
     /// <paramref name="offset"/> luôn tính trên source XML — hàm này chịu trách nhiệm đổi
     /// sang offset của buffer đang hiển thị.
     /// </summary>
-    private void ApplyCaretOffset(int offset, bool defer)
+    private void ApplyCaretOffset(int offset, bool defer, bool already_clear_text = false)
     {
-        offset = ToEditorOffset(offset);
+        // already_clear_text: offset đã tính trên buffer ClearText (Insight map) → chỉ kẹp theo
+        // độ dài buffer, KHÔNG map lại qua ToEditorOffset (map đó dành cho offset source).
+        if (already_clear_text)
+        {
+            var buffer_len = ExpandedXml?.Length ?? 0;
+            if (offset > buffer_len) offset = buffer_len;
+        }
+        else
+        {
+            offset = ToEditorOffset(offset);
+        }
 
         if (defer)
         {

@@ -149,7 +149,10 @@ public sealed class OutlineViewModel : ViewModelBase, IDisposable
             or nameof(FormBuilderViewModel.LoadedFilePath)
             or nameof(FormBuilderViewModel.HasDocument)
             or nameof(FormBuilderViewModel.XmlSource)
-            or nameof(FormBuilderViewModel.ExpandedXml))
+            or nameof(FormBuilderViewModel.ExpandedXml)
+            // Đổi Source ↔ Insight phải dựng lại Outline theo map tương ứng (source vs ClearText).
+            or nameof(FormBuilderViewModel.ActiveEditorMode)
+            or nameof(FormBuilderViewModel.ShowInsights))
         {
             _rebuild_timer.Stop();
             _rebuild_timer.Start();
@@ -173,8 +176,12 @@ public sealed class OutlineViewModel : ViewModelBase, IDisposable
                 return;
             }
 
-            var map = erp_doc.NavigationMap
-                      ?? _language_service.Navigation.GetMap(erp_doc.Id);
+            // Insight mode: Outline dựng trên ClearText (entity đã expand) — cây khớp buffer đang
+            // hiển thị và điều hướng vào đúng field/command bên trong entity. Source mode: cây XML gốc.
+            var is_insight = _form_builder_vm?.ShowInsights == true;
+            var map = is_insight
+                ? _language_service.Navigation.GetInsightMap(erp_doc.Id)
+                : erp_doc.NavigationMap ?? _language_service.Navigation.GetMap(erp_doc.Id);
             if (map is null)
             {
                 Header = "Outline";

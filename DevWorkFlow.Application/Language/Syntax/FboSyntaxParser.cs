@@ -129,6 +129,34 @@ public static class FboSyntaxParser
                 {
                     var name = ExtractTagName(token.Text, is_end: true);
                     AttachToken(stack.Peek(), token);
+
+                    // Có tag mở nào cùng tên đang chờ đóng không? (root là Document, không tính)
+                    var has_open_match = stack.Any(n =>
+                        n.Kind == SyntaxKind.Element
+                        && string.Equals(n.Name, name, StringComparison.OrdinalIgnoreCase));
+
+                    if (!has_open_match)
+                    {
+                        // </name> lạc — không có tag mở tương ứng. Không pop (tránh phá cây), bỏ qua.
+                        diagnostics.Add(TagStructureDiagnostic(
+                            path,
+                            $"Tag đóng </{name}> không có tag mở tương ứng.",
+                            token.Span, token.Line, token.Column));
+                        i++;
+                        break;
+                    }
+
+                    // Tag mở trong cùng (innermost) khác tên → các tag lồng bên trong chưa đóng.
+                    var innermost = stack.Count > 1 ? stack.Peek() : null;
+                    if (innermost is { Kind: SyntaxKind.Element } inner
+                        && !string.Equals(inner.Name, name, StringComparison.OrdinalIgnoreCase))
+                    {
+                        diagnostics.Add(TagStructureDiagnostic(
+                            path,
+                            $"Tag đóng </{name}> không khớp <{inner.Name}> đang mở.",
+                            token.Span, token.Line, token.Column));
+                    }
+
                     // Pop đến khi khớp (error recovery)
                     while (stack.Count > 1)
                     {
@@ -151,6 +179,19 @@ public static class FboSyntaxParser
         while (stack.Count > 0)
         {
             var top = stack.Pop();
+
+            // Element còn trên stack tại EOF = tag mở chưa được đóng. Báo tại StartTag của nó.
+            if (top.Kind == SyntaxKind.Element)
+            {
+                var start_tag = top.DirectTokens.Count > 0 ? top.DirectTokens[0] : null;
+                diagnostics.Add(TagStructureDiagnostic(
+                    path,
+                    $"Tag <{top.Name}> chưa được đóng.",
+                    start_tag?.Span ?? top.Span,
+                    start_tag?.Line ?? top.StartLine,
+                    start_tag?.Column ?? 1));
+            }
+
             if (tokens.Count > 0)
             {
                 var last = tokens[^1];
@@ -309,6 +350,26 @@ public static class FboSyntaxParser
             i++;
         return start < i ? tag_text[start..i] : string.Empty;
     }
+
+    /// <summary>
+    /// ERP1002 — lỗi cấu trúc tag (đóng không khớp / thiếu đóng / đóng thừa). Severity Error để
+    /// Source mode ưu tiên sửa trước khi tin cấu trúc semantic/Design (khác ERP1001 recover nhẹ).
+    /// </summary>
+    private static ErpDiagnostic TagStructureDiagnostic(
+        string? path, string message, SourceSpan span, int line, int column) =>
+        new()
+        {
+            Id = "ERP1002",
+            Severity = ErpDiagnosticSeverity.Error,
+            Message = message,
+            Location = new SourceLocation
+            {
+                Path = path ?? string.Empty,
+                Span = span,
+                Line = line,
+                Column = column
+            }
+        };
 
     private static string? PickQualifier(string tag_text)
     {

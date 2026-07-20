@@ -9,8 +9,14 @@ namespace DevWorkFlow.Domain.Language;
 /// </remarks>
 public interface IErpNavigationService
 {
-    /// <summary>Lấy Navigation Map của document đang mở.</summary>
+    /// <summary>Lấy Navigation Map của document đang mở (dựng trên source XML).</summary>
     INavigationMap? GetMap(ErpDocumentId document_id);
+
+    /// <summary>
+    /// Navigation Map dựng trên projection ClearText (Insight mode) — cây phản ánh nội dung đã
+    /// expand entity, offset khớp buffer Insight. Cache riêng, dựng lại khi document reparse.
+    /// </summary>
+    INavigationMap? GetInsightMap(ErpDocumentId document_id);
 
     NavigationTarget? GoToNode(ErpDocumentId document_id, NodeId node_id);
 

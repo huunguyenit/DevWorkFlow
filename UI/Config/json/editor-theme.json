@@ -1,42 +1,104 @@
 {
-  "fontFamily": "Cascadia Code, Consolas, Courier New",
-  "baseFontSize": 13,
-  "background": "#FFFFFF",
-  "foreground": "#1E1E1E",
-  "tokens": {
-    "tag": { "color": "#800000", "fontStyle": "" },
-    "attributeName": { "color": "#B8860B", "fontStyle": "" },
-    "attributeValue": { "color": "#0451A5", "fontStyle": "" },
-    "entityReference": { "color": "#AB47BC", "fontStyle": "italic" },
-    "entityName": { "color": "#267F99", "fontStyle": "" },
-    "keyword": { "color": "#0000FF", "fontStyle": "" },
-    "comment": { "color": "#008000", "fontStyle": "italic" },
-    "cdata": { "color": "#1E1E1E", "fontStyle": "" },
-    "delimiter": { "color": "#767676", "fontStyle": "" },
-    "metatag": { "color": "#808080", "fontStyle": "" }
-  },
-  "insightBlock": {
-    "referenceText": { "color": "#757575", "fontStyle": "italic", "fontSize": 12 },
-    "separator": { "color": "#AB47BC", "fontStyle": "" },
-    "resolvedValue": { "color": "#2D2D2D", "fontStyle": "", "fontSize": 12 },
-    "border": "#CE93D8",
-    "backgroundDepth0": "#F8F0FA",
-    "backgroundNested": "#FCF8FD"
-  },
-  "clearTextEntity": {
-    "levels": [
-      "rgba(240, 180, 0, 0.20)",
-      "rgba(38, 166, 91, 0.18)",
-      "rgba(231, 76, 60, 0.16)",
-      "rgba(41, 128, 185, 0.16)",
-      "rgba(155, 89, 182, 0.16)",
-      "rgba(230, 126, 34, 0.16)",
-      "rgba(26, 188, 156, 0.18)",
-      "rgba(233, 30, 99, 0.14)",
-      "rgba(121, 85, 72, 0.16)"
-    ],
-    "error": "#FBE0E0",
-    "systemMarker": "#0B6E99",
-    "hoverBorder": "#7E57C2"
-  }
+	"fontFamily": "Cascadia Code, Consolas, Courier New",
+	"baseFontSize": 13,
+	"background": "#FFFFFF",
+	"foreground": "#1E1E1E",
+	"tokens": {
+		"tag": {
+			"color": "#800000",
+			"fontStyle": ""
+		},
+		"attributeName": {
+			"color": "#f37c7c",
+			"fontStyle": ""
+		},
+		"attributeValue": {
+			"color": "#0000FF",
+			"fontStyle": ""
+		},
+		"entityReference": {
+			"color": "#AB47BC",
+			"fontStyle": "italic"
+		},
+		"entityName": {
+			"color": "#267F99",
+			"fontStyle": ""
+		},
+		"keyword": {
+			"color": "#0000FF",
+			"fontStyle": ""
+		},
+		"comment": {
+			"color": "#008000",
+			"fontStyle": "italic"
+		},
+		"cdata": {
+			"color": "#373333",
+			"fontStyle": "italic"
+		},
+		"delimiter": {
+			"color": "#767676",
+			"fontStyle": ""
+		},
+		"metatag": {
+			"color": "#e10f0f",
+			"fontStyle": ""
+		}
+	},
+	"insightBlock": {
+		"referenceText": {
+			"color": "#757575",
+			"fontStyle": "italic",
+			"fontSize": 12
+		},
+		"separator": {
+			"color": "#AB47BC",
+			"fontStyle": ""
+		},
+		"resolvedValue": {
+			"color": "#2D2D2D",
+			"fontStyle": "",
+			"fontSize": 12
+		},
+		"border": "#CE93D8",
+		"backgroundDepth0": "#F8F0FA",
+		"backgroundNested": "#FCF8FD"
+	},
+	"clearTextEntity": {
+		"levels": [
+			"#4285F42E",
+			"#4285F426",
+			"#4285F41F",
+			"#4285F41A",
+			"#4285F414",
+			"#4285F40F",
+			"#4285F40D",
+			"#4285F40A",
+			"#4285F408"
+		],
+		"error": "#FBE0E0",
+		"systemMarker": "#0B6E99",
+		"hoverBorder": "#7E57C2"
+	},
+	"sql": {
+		"keyword": { "color": "#0000FF" },
+		"string": { "color": "#A31515" },
+		"comment": {
+			"color": "#008000",
+			"fontStyle": "italic"
+		},
+		"number": { "color": "#098658" },
+		"operator": { "color": "#800000" }
+	},
+	"js": {
+		"keyword": { "color": "#0000FF" },
+		"string": { "color": "#A31515" },
+		"comment": {
+			"color": "#008000",
+			"fontStyle": "italic"
+		},
+		"number": { "color": "#098658" },
+		"regexp": { "color": "#811F3F" },
+		"type": { "color": "#267F99" }
+	}
 }

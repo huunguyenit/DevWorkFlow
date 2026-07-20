@@ -117,16 +117,28 @@ public partial class MonacoEditorHost : UserControl
                 FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
     /// <summary>
-    /// Ngôn ngữ Monaco cho instance này ("xml" mặc định, "sql" cho SQL Studio) — cố định lúc
-    /// tạo, không đổi runtime. Đặt tên EditorLanguage (không phải "Language") để không đụng
-    /// FrameworkElement.Language (XmlLanguage/culture) đã có sẵn trên mọi WPF control.
+    /// Ngôn ngữ Monaco cho instance này ("xml" mặc định → tokenizer FBO erp-xml, "sql" cho SQL
+    /// Studio, "javascript" cho file .js). Giá trị ban đầu quyết định model lúc tạo (qua ?lang=);
+    /// đổi runtime (StatusBar) sẽ gửi lệnh setLanguage đổi tô màu tại chỗ. Đặt tên EditorLanguage
+    /// (không phải "Language") để không đụng FrameworkElement.Language (XmlLanguage/culture).
     /// </summary>
     public static readonly DependencyProperty EditorLanguageProperty =
         DependencyProperty.Register(
             nameof(EditorLanguage),
             typeof(string),
             typeof(MonacoEditorHost),
-            new PropertyMetadata("xml"));
+            new PropertyMetadata("xml", OnEditorLanguageChanged));
+
+    /// <summary>
+    /// Marker chẩn đoán (squiggle) trên buffer đang hiển thị — offset theo buffer hiện tại. VM
+    /// gửi danh sách rỗng để xoá (vd khi sang Insight mode). Editor chỉ render, không hiểu ERP.
+    /// </summary>
+    public static readonly DependencyProperty EditorMarkersProperty =
+        DependencyProperty.Register(
+            nameof(EditorMarkers),
+            typeof(IReadOnlyList<EditorMarker>),
+            typeof(MonacoEditorHost),
+            new PropertyMetadata(null, OnEditorMarkersChanged));
 
     public string BoundText
     {
@@ -176,6 +188,12 @@ public partial class MonacoEditorHost : UserControl
         set => SetValue(EditorLanguageProperty, value);
     }
 
+    public IReadOnlyList<EditorMarker>? EditorMarkers
+    {
+        get => (IReadOnlyList<EditorMarker>?)GetValue(EditorMarkersProperty);
+        set => SetValue(EditorMarkersProperty, value);
+    }
+
     public MonacoEditorHost()
     {
         InitializeComponent();
@@ -205,6 +223,12 @@ public partial class MonacoEditorHost : UserControl
 
             core.Navigate(
                 $"https://devworkflow.editor/EditorHost/index.html?lang={Uri.EscapeDataString(EditorLanguage)}");
+
+#if DEBUG
+    core.Settings.AreDevToolsEnabled = true;
+    // Tuỳ chọn: mở sẵn cửa sổ DevTools
+    core.OpenDevToolsWindow();
+#endif
         }
         catch (Exception ex)
         {
@@ -388,6 +412,25 @@ public partial class MonacoEditorHost : UserControl
         if (d is not MonacoEditorHost host) return;
         var value = (bool)e.NewValue;
         host.RunOrQueue(() => host.SendCommandFireAndForget(EditorHostCommands.SetReadOnly, new { value }));
+    }
+
+    private static void OnEditorMarkersChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not MonacoEditorHost host) return;
+        var markers = e.NewValue as IReadOnlyList<EditorMarker> ?? [];
+        host.RunOrQueue(() => host.SendCommandFireAndForget(
+            EditorHostCommands.SetMarkers, new { markers }));
+    }
+
+    private static void OnEditorLanguageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is not MonacoEditorHost host) return;
+        var language = e.NewValue as string;
+        if (string.IsNullOrWhiteSpace(language)) return;
+        // Model đã tồn tại → đổi ngôn ngữ tô màu tại chỗ (giữ nội dung/caret). Nếu editor chưa
+        // ready, RunOrQueue giữ lệnh; model được tạo ban đầu theo ?lang= của giá trị lúc đó.
+        host.RunOrQueue(() => host.SendCommandFireAndForget(
+            EditorHostCommands.SetLanguage, new { language }));
     }
 
     private static void OnScrollToLineChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

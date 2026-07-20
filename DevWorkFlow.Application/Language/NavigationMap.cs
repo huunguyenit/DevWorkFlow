@@ -57,7 +57,8 @@ public sealed class NavigationMap : INavigationMap
             Symbol = symbol,
             StartLine = node.StartLine,
             EndLine = node.EndLine,
-            PreferCaretOnly = node.PreferCaretOnly
+            PreferCaretOnly = node.PreferCaretOnly,
+            UsesClearTextOffsets = node.UsesClearTextOffsets
         };
     }
 

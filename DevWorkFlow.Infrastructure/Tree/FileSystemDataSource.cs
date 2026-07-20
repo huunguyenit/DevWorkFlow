@@ -75,24 +75,29 @@ public sealed class FileSystemDataSource : ITreeDataSource, ITreeSearchProvider
     public Task<TreeNode?> FindNodeAsync(Guid id, CancellationToken cancellation_token = default) =>
         Task.FromResult(_nodes.TryGetValue(id, out var n) ? n : null);
 
-    public async Task<IReadOnlyList<TreeNode>> SearchAsync(
+    public Task<IReadOnlyList<TreeNode>> SearchAsync(
         string keyword,
         CancellationToken cancellation_token = default)
     {
         if (string.IsNullOrWhiteSpace(keyword) || string.IsNullOrWhiteSpace(_root_path))
-            return Array.Empty<TreeNode>();
+            return Task.FromResult<IReadOnlyList<TreeNode>>(Array.Empty<TreeNode>());
 
         var options = _options_factory();
         var max_hits = Math.Max(50, options.SearchMaxHits);
         var needle = keyword.Trim();
 
-        return await Task.Run(
+        // Không truyền cancellation_token vào Task.Run — khi user gõ tiếp, CTS hủy task
+        // scheduled → TaskCanceledException/OperationCanceledException dù vòng lặp chưa
+        // chạy. Chỉ kiểm tra hợp tác trong vòng quét; kết quả cũ bị VM bỏ qua theo keyword.
+        return Task.Run(
             () =>
             {
                 var hits = new List<TreeNode>();
                 foreach (var file in EnumerateFilesSafe(_root_path!, options, cancellation_token))
                 {
-                    cancellation_token.ThrowIfCancellationRequested();
+                    if (cancellation_token.IsCancellationRequested)
+                        break;
+
                     var name = Path.GetFileName(file);
                     if (name.Contains(needle, StringComparison.OrdinalIgnoreCase)
                         || file.Contains(needle, StringComparison.OrdinalIgnoreCase))
@@ -103,8 +108,7 @@ public sealed class FileSystemDataSource : ITreeDataSource, ITreeSearchProvider
                 }
 
                 return (IReadOnlyList<TreeNode>)hits;
-            },
-            cancellation_token).ConfigureAwait(false);
+            });
     }
 
     private IReadOnlyList<TreeNode> LoadRoots(
@@ -332,7 +336,9 @@ public sealed class FileSystemDataSource : ITreeDataSource, ITreeSearchProvider
         stack.Push(root);
         while (stack.Count > 0)
         {
-            cancellation_token.ThrowIfCancellationRequested();
+            if (cancellation_token.IsCancellationRequested)
+                yield break;
+
             var dir = stack.Pop();
             IEnumerable<string> dirs;
             IEnumerable<string> files;

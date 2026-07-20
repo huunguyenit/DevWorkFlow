@@ -21,6 +21,8 @@
             IsReadOnly="{Binding IsEditorReadOnly}"
             ShowInsights="{Binding ShowInsights}"
             ClearTextSegments="{Binding ClearTextSegments}"
+            EditorLanguage="{Binding EditorLanguage, Mode=OneWay}"
+            EditorMarkers="{Binding EditorMarkers, Mode=OneWay}"
             ScrollToLine="{Binding CaretLine, Mode=OneWay}"
             ScrollToOffset="{Binding CaretOffset, Mode=OneWay}"/>
     </DockPanel>

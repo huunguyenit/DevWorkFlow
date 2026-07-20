@@ -122,6 +122,38 @@ public static class EditorHostCommands
 
     /// <summary>Áp dụng theme (màu/font theo token) — payload khớp UI.Services.EditorThemeOptions serialize camelCase.</summary>
     public const string ApplyTheme = "applyTheme";
+
+    /// <summary>
+    /// Đổi ngôn ngữ tô màu của model hiện tại (StatusBar: XML ↔ JavaScript ↔ SQL) — payload
+    /// { language }: "xml" (→ tokenizer FBO erp-xml), "javascript", "sql".
+    /// </summary>
+    public const string SetLanguage = "setLanguage";
+
+    /// <summary>
+    /// Đặt marker chẩn đoán (squiggle) trên buffer hiện tại — payload { markers: EditorMarker[] }
+    /// (offset trên buffer đang hiển thị). Dùng ở Source mode; Insight gửi danh sách rỗng để xoá.
+    /// </summary>
+    public const string SetMarkers = "setMarkers";
+}
+
+/// <summary>
+/// Marker chẩn đoán gửi cho editor (squiggle) — editor-agnostic, offset trên buffer đang hiển
+/// thị. Serialize camelCase khớp bridge.js setMarkers. Không chứa khái niệm ERP (Editor chỉ render).
+/// </summary>
+public sealed record EditorMarker
+{
+    public int StartOffset { get; init; }
+
+    /// <summary>Độ dài vùng gạch chân; ≤ 0 → editor tô tối thiểu 1 ký tự.</summary>
+    public int Length { get; init; }
+
+    public string Message { get; init; } = string.Empty;
+
+    /// <summary>"error" | "warning" | "info" | "hint".</summary>
+    public string Severity { get; init; } = "warning";
+
+    /// <summary>Mã hiển thị (vd ERP3003).</summary>
+    public string Code { get; init; } = string.Empty;
 }
 
 /// <summary>Tên Event dùng chung giữa bridge.js và MonacoEditorHost (C#).</summary>

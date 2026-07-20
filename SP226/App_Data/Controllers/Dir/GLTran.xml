@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 
 <!DOCTYPE dir [
   <!ENTITY XMLWhenVoucherInit SYSTEM "..\Include\XML\WhenVoucherInit.xml">
@@ -159,20 +159,20 @@ delete p00$000000 where stt_rec = @stt_rec
 
     <field name="d11" allowNulls="false" external="true" clientDefault="0" defaultValue="0" rows="218" filterSource="Tidy" categoryIndex="1">
       <header v="" e=""></header>
-      <label v="Chi tiết" e="Detail"></label >
+      <label v="Chi tiết" e="Detail"></label>
       <items style="Grid" controller="GLDetail" row="1">
         <item value="ForeignKey">
-          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+          <text v="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
         </item>
       </items>
     </field>
 
     <field name="r30" allowNulls="true" external="true" clientDefault="0" defaultValue="0" rows="218" filterSource="Tidy" categoryIndex="9">
       <header v="" e=""></header>
-      <label v="Thuế GTGT đầu vào" e="Input VAT"></label >
+      <label v="Thuế GTGT đầu vào" e="Input VAT"></label>
       <items style="Grid" controller="GLTax" row="1">
         <item value="ForeignKey">
-          <text v ="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
+          <text v="String: stt_rec, stt_rec" e="String: stt_rec, stt_rec"></text>
         </item>
       </items>
     </field>
@@ -219,8 +219,8 @@ delete p00$000000 where stt_rec = @stt_rec
       <item value="111----------: [ty_gia].Label, [ma_nt], [ty_gia]"/>
       <item value="10100000-----: [dien_giai].Label, [dien_giai]"/>
 
-      <item value="1: [d11]" />
-      <item value="1: [r30]" />
+      <item value="1: [d11]"/>
+      <item value="1: [r30]"/>
 
       &ListView;
       &PostView;
@@ -539,6 +539,7 @@ if (f._udfPaymentControl && f._checked) {
 /* </flatten> */]]>
         &ListChecking;
         &PostChecking;
+        &zzzz;
       </text>
     </command>
   </commands>

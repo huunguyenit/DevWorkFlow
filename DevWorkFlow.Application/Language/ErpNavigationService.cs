@@ -9,6 +9,7 @@ public sealed class ErpNavigationService : IErpNavigationService
 {
     private readonly Func<ErpDocumentId, IErpDocument?> _get_document;
     private readonly Dictionary<ErpDocumentId, INavigationMap> _maps = new();
+    private readonly Dictionary<ErpDocumentId, INavigationMap> _insight_maps = new();
 
     public ErpNavigationService(Func<ErpDocumentId, IErpDocument?> get_document)
     {
@@ -19,11 +20,17 @@ public sealed class ErpNavigationService : IErpNavigationService
     {
         var map = NavigationMapBuilder.Build(document);
         _maps[document.Id] = map;
+        // ClearText đổi cùng lúc reparse → bỏ cache Insight, dựng lại lazy khi Outline cần.
+        _insight_maps.Remove(document.Id);
         if (document is ErpDocument mutable)
             mutable.SetNavigationMap(map);
     }
 
-    public void Remove(ErpDocumentId document_id) => _maps.Remove(document_id);
+    public void Remove(ErpDocumentId document_id)
+    {
+        _maps.Remove(document_id);
+        _insight_maps.Remove(document_id);
+    }
 
     public INavigationMap? GetMap(ErpDocumentId document_id)
     {
@@ -36,8 +43,24 @@ public sealed class ErpNavigationService : IErpNavigationService
         return _maps.GetValueOrDefault(document_id);
     }
 
+    public INavigationMap? GetInsightMap(ErpDocumentId document_id)
+    {
+        if (_insight_maps.TryGetValue(document_id, out var map))
+            return map;
+
+        var doc = _get_document(document_id);
+        if (doc is null) return null;
+
+        var built = NavigationMapBuilder.BuildInsight(doc);
+        _insight_maps[document_id] = built;
+        return built;
+    }
+
+    // Node của Outline có thể thuộc source map hoặc insight map (NodeId prefix khác nhau, không
+    // trùng). Thử source trước; miss → thử insight (Outline Insight mode).
     public NavigationTarget? GoToNode(ErpDocumentId document_id, NodeId node_id) =>
-        GetMap(document_id)?.ToTarget(node_id);
+        GetMap(document_id)?.ToTarget(node_id)
+        ?? GetInsightMap(document_id)?.ToTarget(node_id);
 
     public NavigationTarget? GoToDefinition(ErpDocumentId document_id, string symbol_id) =>
         GetMap(document_id)?.ToTargetBySymbolId(symbol_id);

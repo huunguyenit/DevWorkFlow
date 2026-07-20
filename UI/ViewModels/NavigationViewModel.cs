@@ -538,7 +538,8 @@ public class NavigationViewModel : ViewModelBase
         }
 
         var hits = await _command_source.SearchAsync(keyword, ct).ConfigureAwait(true);
-        await engine.ApplySearchMatchesAsync(hits, ct).ConfigureAwait(true);
+        await engine.ApplySearchMatchesAsync(hits, ct, empty_hides_all: true, keep_descendants: true)
+            .ConfigureAwait(true);
         StatusText = $"Lọc \"{keyword}\" · {hits.Count} mục";
     }
 

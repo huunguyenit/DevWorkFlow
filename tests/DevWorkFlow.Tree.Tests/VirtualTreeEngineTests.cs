@@ -106,6 +106,98 @@ public sealed class VirtualTreeEngineTests
         Assert.Equal(100_001, engine.VisibleRows.Count);
     }
 
+    /// <summary>
+    /// Panel Explorer: SearchAsync trả file sâu (Account.xml) nhưng ancestor chưa có trong
+    /// engine — ApplySearchMatchesAsync phải hiện file qua AppendVisible_NoLock.
+    /// </summary>
+    [Fact]
+    public async Task PanelExplorer_search_shows_matched_file_with_expanded_ancestors()
+    {
+        var ds = new FakeDataSource();
+        var app_data = ds.AddRoot("App_Data", has_children: true);
+        var dir = ds.AddChild(app_data.Id, "Dir", has_children: true);
+        var account = ds.AddChild(dir.Id, "Account.xml", has_children: false);
+        account = account with { Kind = TreeNodeKind.File, SearchKey = "Account.xml" };
+        ds.UpdateNode(account);
+
+        await using var engine = new VirtualTreeEngine(ds);
+        await engine.InitializeAsync();
+
+        Assert.Single(engine.VisibleRows);
+        Assert.Equal("App_Data", engine.VisibleRows[0].Node.DisplayName);
+
+        var hits = await ds.SearchAsync("Account.xml", CancellationToken.None);
+        Assert.Single(hits);
+
+        await engine.ApplySearchMatchesAsync(hits, CancellationToken.None);
+
+        var names = engine.VisibleRows.Select(r => r.Node.DisplayName).ToList();
+        Assert.Contains("App_Data", names);
+        Assert.Contains("Dir", names);
+        Assert.Contains("Account.xml", names);
+        Assert.Equal(3, engine.VisibleRows.Count);
+    }
+
+    /// <summary>
+    /// Menu panel: search khớp menu qua SearchKey (bar/bar2/sysid/wmenu_id). File controller đã load
+    /// dưới menu KHÔNG khớp keyword nhưng vẫn phải hiện & expand khi keep_descendants = true.
+    /// </summary>
+    [Fact]
+    public async Task Menu_search_keeps_loaded_child_files_expanded_even_when_unmatched()
+    {
+        var ds = new FakeDataSource();
+        var menu = ds.AddRoot("Kế toán tổng hợp", has_children: true);
+        menu = menu with { SearchKey = "gltran" };
+        ds.UpdateNode(menu);
+        var dir = ds.AddChild(menu.Id, "Dir", has_children: true);
+        var file = ds.AddChild(dir.Id, "unrelated_grid.xml", has_children: false);
+        file = file with { Kind = TreeNodeKind.File, SearchKey = null };
+        ds.UpdateNode(file);
+
+        await using var engine = new VirtualTreeEngine(ds);
+        await engine.InitializeAsync();
+        // Người dùng đã expand menu → file controller được load vào cache, rồi collapse lại.
+        await engine.ExpandAsync(menu.Id);
+        await engine.ExpandAsync(dir.Id);
+        await engine.CollapseAsync(menu.Id);
+
+        var hits = await ds.SearchAsync("gltran", CancellationToken.None);
+        Assert.Single(hits);
+        Assert.Equal(menu.Id, hits[0].Id);
+
+        await engine.ApplySearchMatchesAsync(
+            hits, CancellationToken.None, empty_hides_all: true, keep_descendants: true);
+
+        var names = engine.VisibleRows.Select(r => r.Node.DisplayName).ToList();
+        Assert.Contains("Kế toán tổng hợp", names);
+        Assert.Contains("Dir", names);
+        Assert.Contains("unrelated_grid.xml", names);
+    }
+
+    /// <summary>Search không khớp menu nào → keep_descendants không cứu; empty_hides_all ẩn sạch cây.</summary>
+    [Fact]
+    public async Task Menu_search_with_no_match_hides_everything()
+    {
+        var ds = new FakeDataSource();
+        var menu = ds.AddRoot("Kế toán", has_children: true);
+        menu = menu with { SearchKey = "gltran" };
+        ds.UpdateNode(menu);
+        var dir = ds.AddChild(menu.Id, "Dir", has_children: true);
+        ds.AddChild(dir.Id, "gl_grid.xml", has_children: false);
+
+        await using var engine = new VirtualTreeEngine(ds);
+        await engine.InitializeAsync();
+        await engine.ExpandAsync(menu.Id);
+        await engine.ExpandAsync(dir.Id);
+
+        // "grid" chỉ khớp filename — không phải bar/bar2/sysid/wmenu_id → SearchAsync phải trả rỗng
+        // trong panel Menu thực; ở đây giả lập bằng danh sách match rỗng.
+        await engine.ApplySearchMatchesAsync(
+            [], CancellationToken.None, empty_hides_all: true, keep_descendants: true);
+
+        Assert.Empty(engine.VisibleRows);
+    }
+
     [Fact]
     public async Task Lru_does_not_dispose_expanded_branch()
     {
@@ -133,7 +225,7 @@ public sealed class VirtualTreeEngineTests
     }
 }
 
-internal sealed class FakeDataSource : ITreeDataSource
+internal sealed class FakeDataSource : ITreeDataSource, ITreeSearchProvider
 {
     private readonly Dictionary<Guid, List<TreeNode>> _children = new();
     private readonly List<TreeNode> _roots = [];
@@ -206,4 +298,22 @@ internal sealed class FakeDataSource : ITreeDataSource
 
     public Task<TreeNode?> FindNodeAsync(Guid id, CancellationToken cancellation_token = default) =>
         Task.FromResult(_all.TryGetValue(id, out var n) ? n : null);
+
+    public void UpdateNode(TreeNode node) => _all[node.Id] = node;
+
+    public Task<IReadOnlyList<TreeNode>> SearchAsync(
+        string keyword,
+        CancellationToken cancellation_token = default)
+    {
+        if (string.IsNullOrWhiteSpace(keyword))
+            return Task.FromResult<IReadOnlyList<TreeNode>>(Array.Empty<TreeNode>());
+
+        var needle = keyword.Trim();
+        var hits = _all.Values
+            .Where(n => n.DisplayName.Contains(needle, StringComparison.OrdinalIgnoreCase)
+                        || n.SearchKey?.Contains(needle, StringComparison.OrdinalIgnoreCase) == true)
+            .Take(500)
+            .ToList();
+        return Task.FromResult<IReadOnlyList<TreeNode>>(hits);
+    }
 }

@@ -117,6 +117,263 @@ public static class NavigationMapBuilder
         return new NavigationMap(model, ctx.ById, ctx.SymbolToNode, ctx.ParentOf, semantic);
     }
 
+    /// <summary>
+    /// Navigation Map cho Insight mode: dựng từ projection ClearText (entity đã expand) thay vì
+    /// source XML. Nội dung tham chiếu &amp;Entity; trong body &lt;command&gt;/&lt;query&gt;/
+    /// &lt;response&gt;/&lt;action&gt; nay là cây con thật nên hiện thành node Outline; offset lấy
+    /// trực tiếp từ syntax tree của ClearText → khớp buffer Insight đang hiển thị (không cần
+    /// ClearTextOffsetMap). Không map symbol theo offset (offset ClearText ≠ offset semantic
+    /// vốn tính trên source) — Outline Insight ưu tiên cấu trúc + điều hướng đúng vị trí.
+    /// </summary>
+    public static NavigationMap BuildInsight(IErpDocument document)
+    {
+        var semantic = document.SemanticModel;
+        var uri = document.Path;
+        var doc_key = document.Id.Value;
+        var text = document.GetProjection(ErpProjectionKind.ClearText).Text ?? string.Empty;
+
+        ISyntaxTree? tree;
+        try
+        {
+            tree = FboSyntaxParser.Parse(text, uri);
+        }
+        catch
+        {
+            tree = document.SyntaxTree;
+        }
+
+        var ctx = new InsightContext { DocKey = doc_key, Text = text };
+
+        var controller = semantic.Controller
+                         ?? semantic.Symbols.OfType<ControllerSymbol>().FirstOrDefault();
+
+        var root_id = NodeId.FromStableKey($"{doc_key}|insight|root");
+        var root_element = FindRootElement(tree);
+
+        var root_children = new List<DocumentNode>();
+        if (root_element is not null)
+        {
+            var index = 0;
+            foreach (var child in root_element.Children.Where(IsStructuralElement))
+                root_children.Add(BuildInsightNode(child, root_id, $"{child.Name}#{index++}", depth: 1, ctx));
+        }
+
+        var root_span = root_element?.Span ?? default;
+        var controller_name = controller?.DisplayName
+                              ?? controller?.Name
+                              ?? root_element?.Name
+                              ?? Path.GetFileName(uri)
+                              ?? "Document";
+
+        var root = new DocumentNode
+        {
+            Id = root_id,
+            ParentId = NodeId.Empty,
+            NodeType = root_element?.Name ?? "controller",
+            StartOffset = root_span.StartOffset,
+            EndOffset = root_span.IsEmpty ? root_span.StartOffset : root_span.EndOffset,
+            StartLine = root_element?.StartLine ?? 1,
+            EndLine = root_element?.EndLine ?? 1,
+            DisplayName = controller_name,
+            UsesClearTextOffsets = true,
+            Children = root_children
+        };
+        ctx.ById[root_id] = root;
+        ctx.ParentOf[root_id] = NodeId.Empty;
+
+        var model = new DocumentModel
+        {
+            DocumentId = document.Id,
+            DocumentUri = uri,
+            Root = root
+        };
+
+        return new NavigationMap(model, ctx.ById, ctx.SymbolToNode, ctx.ParentOf, semantic);
+    }
+
+    private static DocumentNode BuildInsightNode(
+        SyntaxNode element,
+        NodeId parent_id,
+        string key,
+        int depth,
+        InsightContext ctx)
+    {
+        var name = element.Name;
+        var node_id = NodeId.FromStableKey($"{ctx.DocKey}|insight|nav:{key}");
+        var is_script = name.Equals("script", StringComparison.OrdinalIgnoreCase);
+        var display = BuildDisplayName(element, name);
+
+        // Body của command/query/response/action/script là ISLAND (SQL/JS), không phải element con
+        // — nội dung entity đã expand nằm TRONG island. Để lên Outline phải parse text island như
+        // fragment (offset con = start island + offset trong fragment → khớp ClearText tuyệt đối).
+        var script_island = element.Children.FirstOrDefault(c => c.Kind == SyntaxKind.ScriptIsland);
+        var sql_island = element.Children.FirstOrDefault(c => c.Kind == SyntaxKind.SqlIsland);
+
+        List<DocumentNode> children = [];
+        if (script_island is not null)
+        {
+            children = BuildInsightScriptFunctions(element, node_id, key, ctx);
+        }
+        else if (depth < MaxDepth)
+        {
+            // KHÔNG chặn LeafElements như source builder: giá trị của Insight Outline là thấy
+            // cấu trúc đã expand bên trong command/action/... (HiddenElements vẫn bị lọc).
+            var ci = 0;
+            foreach (var child in element.Children.Where(IsStructuralElement))
+                children.Add(BuildInsightNode(child, node_id, $"{key}/{child.Name}#{ci++}", depth + 1, ctx));
+
+            // SQL island có nội dung XML (entity expand thành <field>/<action>/...) → parse fragment.
+            if (sql_island is not null)
+                children.AddRange(BuildInsightIslandChildren(
+                    sql_island.Span.StartOffset, sql_island.Span.Length, node_id, key, depth, ctx));
+        }
+
+        var prefer_caret = is_script;
+        var end_offset = prefer_caret || element.Span.IsEmpty
+            ? element.Span.StartOffset
+            : element.Span.EndOffset;
+
+        var node = new DocumentNode
+        {
+            Id = node_id,
+            ParentId = parent_id,
+            NodeType = name,
+            StartOffset = element.Span.StartOffset,
+            EndOffset = end_offset,
+            StartLine = element.StartLine,
+            EndLine = prefer_caret ? element.StartLine : element.EndLine,
+            DisplayName = display,
+            PreferCaretOnly = prefer_caret,
+            UsesClearTextOffsets = true,
+            Children = children
+        };
+        ctx.ById[node_id] = node;
+        ctx.ParentOf[node_id] = parent_id;
+        return node;
+    }
+
+    private static List<DocumentNode> BuildInsightScriptFunctions(
+        SyntaxNode script_element,
+        NodeId parent_id,
+        string key,
+        InsightContext ctx)
+    {
+        var island = script_element.Children
+            .FirstOrDefault(c => c.Kind == SyntaxKind.ScriptIsland);
+        var result = new List<DocumentNode>();
+        if (island is null) return result;
+
+        var index = 0;
+        foreach (var fn in island.Children.Where(c =>
+                     c.Kind == SyntaxKind.ScriptIsland && c.Qualifier == "function"))
+        {
+            var node_id = NodeId.FromStableKey($"{ctx.DocKey}|insight|nav:{key}/fn#{index++}");
+            var node = new DocumentNode
+            {
+                Id = node_id,
+                ParentId = parent_id,
+                NodeType = "function",
+                StartOffset = fn.Span.StartOffset,
+                EndOffset = fn.Span.StartOffset,
+                StartLine = fn.StartLine,
+                EndLine = fn.StartLine,
+                DisplayName = fn.Name,
+                PreferCaretOnly = true,
+                UsesClearTextOffsets = true,
+                Children = []
+            };
+            ctx.ById[node_id] = node;
+            ctx.ParentOf[node_id] = parent_id;
+            result.Add(node);
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Parse nội dung một SQL island (đã expand entity) như fragment XML. <paramref name="base_offset"/>
+    /// là offset TUYỆT ĐỐI của island trong ClearText → offset con = base + offset-trong-fragment.
+    /// Island không phải XML (SQL thuần) → không có node con.
+    /// </summary>
+    private static List<DocumentNode> BuildInsightIslandChildren(
+        int base_offset,
+        int length,
+        NodeId parent_id,
+        string key,
+        int depth,
+        InsightContext ctx)
+    {
+        if (base_offset < 0 || length <= 0 || base_offset + length > ctx.Text.Length)
+            return [];
+
+        var content = ctx.Text.Substring(base_offset, length);
+        if (content.TrimStart().FirstOrDefault() != '<') return [];
+
+        ISyntaxTree tree;
+        try
+        {
+            tree = FboSyntaxParser.Parse(content, "insight-island");
+        }
+        catch
+        {
+            return [];
+        }
+
+        var list = new List<DocumentNode>();
+        var index = 0;
+        foreach (var el in tree.Root.Children.Where(IsStructuralElement))
+            list.Add(BuildInsightFragmentNode(el, parent_id, $"{key}/isl#{index++}", base_offset, depth + 1, ctx));
+
+        return list;
+    }
+
+    private static DocumentNode BuildInsightFragmentNode(
+        SyntaxNode el,
+        NodeId parent_id,
+        string key,
+        int base_offset,
+        int depth,
+        InsightContext ctx)
+    {
+        var node_id = NodeId.FromStableKey($"{ctx.DocKey}|insight|nav:frag:{key}");
+        var display = BuildDisplayName(el, el.Name);
+        var abs_start = base_offset + el.Span.StartOffset;
+        var abs_end = el.Span.IsEmpty ? abs_start : base_offset + el.Span.EndOffset;
+
+        var children = new List<DocumentNode>();
+        if (depth < MaxDepth)
+        {
+            var ci = 0;
+            foreach (var child in el.Children.Where(IsStructuralElement))
+                children.Add(BuildInsightFragmentNode(child, node_id, $"{key}/{ci++}", base_offset, depth + 1, ctx));
+
+            // Fragment con cũng có thể là island (vd <action> chứa <text>… hay entity lồng) —
+            // island.Span tính TƯƠNG ĐỐI trong fragment nên offset tuyệt đối = base + island.Start.
+            var island = el.Children.FirstOrDefault(c => c.Kind == SyntaxKind.SqlIsland);
+            if (island is not null)
+                children.AddRange(BuildInsightIslandChildren(
+                    base_offset + island.Span.StartOffset, island.Span.Length, node_id, key, depth, ctx));
+        }
+
+        var node = new DocumentNode
+        {
+            Id = node_id,
+            ParentId = parent_id,
+            NodeType = el.Name,
+            StartOffset = abs_start,
+            EndOffset = abs_end,
+            StartLine = 0,
+            EndLine = 0,
+            DisplayName = display,
+            PreferCaretOnly = true,
+            UsesClearTextOffsets = true,
+            Children = children
+        };
+        ctx.ById[node_id] = node;
+        ctx.ParentOf[node_id] = parent_id;
+        return node;
+    }
+
     private static DocumentNode? BuildNode(
         SyntaxNode element,
         NodeId parent_id,
@@ -492,6 +749,20 @@ public static class NavigationMapBuilder
         public required string Source { get; init; }
         public required Dictionary<int, ErpSymbol> SymbolByOffset { get; init; }
         public required Dictionary<string, EntitySymbol> EntitiesByName { get; init; }
+
+        public Dictionary<NodeId, DocumentNode> ById { get; } = new();
+        public Dictionary<string, NodeId> SymbolToNode { get; } =
+            new(StringComparer.OrdinalIgnoreCase);
+        public Dictionary<NodeId, NodeId> ParentOf { get; } = new();
+    }
+
+    /// <summary>Context nhẹ cho Insight map — không index symbol/entity (offset ClearText riêng).</summary>
+    private sealed class InsightContext
+    {
+        public required string DocKey { get; init; }
+
+        /// <summary>Text ClearText đang build — dùng để substring nội dung island.</summary>
+        public required string Text { get; init; }
 
         public Dictionary<NodeId, DocumentNode> ById { get; } = new();
         public Dictionary<string, NodeId> SymbolToNode { get; } =

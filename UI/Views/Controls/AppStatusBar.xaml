@@ -36,7 +36,11 @@
             <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock Text="{Binding StatusEditorMode, FallbackValue='Insight Mode'}"
                            Foreground="#90CAF9" FontSize="11" Margin="0,0,12,0"/>
-                <TextBlock Text="{Binding StatusLanguage}" Foreground="White" FontSize="11" Margin="0,0,12,0"/>
+                <ComboBox ItemsSource="{Binding EditorLanguages}"
+                          SelectedItem="{Binding SelectedEditorLanguage, Mode=TwoWay}"
+                          FontSize="11" Height="18" MinWidth="82" Margin="0,0,12,0"
+                          Padding="6,0" VerticalContentAlignment="Center"
+                          ToolTip="Đổi định dạng tô màu editor (XML / JavaScript / SQL)"/>
                 <TextBlock Text="{Binding StatusEncoding}" Foreground="#E0E0E0" FontSize="11" Margin="0,0,12,0"/>
                 <Image Source="pack://application:,,,/DevWorkFlow.png"
                        Width="12" Height="12"

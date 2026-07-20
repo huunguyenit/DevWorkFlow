@@ -5,7 +5,7 @@
 // metatag, KHÔNG có):
 //   - Nội dung CDATA là text thuần (built-in vẫn hiểu <,>,&,% trong CDATA như XML)
 //   - Token riêng cho Entity reference (&Name; / %Name;) và Entity declaration name
-//   - Nhúng SQL trong <command>/<query>/<response>, nhúng JS trong <script> hoặc
+//   - Nhúng SQL trong <command>/<query>/<response>/<action>, nhúng JS trong <script> hoặc
 //     <command event="...">  (khớp FboSyntaxParser: SQL/Script Island —
 //     docs/specs/language/parsing-and-semantic-model.md)
 //
@@ -58,7 +58,7 @@
                     // tự — state đích parse lại tag từ đầu.
                     [/<command\b[^>]*\bevent\s*=/i, { token: '@rematch', next: '@tagOpenJs' }],
                     [/<script\b/i, { token: '@rematch', next: '@tagOpenJs' }],
-                    [/<(?:command|query|response)\b/i, { token: '@rematch', next: '@tagOpenSql' }],
+                    [/<(?:command|query|response|action)\b/i, { token: '@rematch', next: '@tagOpenSql' }],
                     [/<[\w.:-]+/, { token: '@rematch', next: '@tagOpen' }]
                 ],
 
@@ -134,7 +134,7 @@
                     [/<\/(?:script|command)\s*>/i, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }]
                 ],
                 embedSql: [
-                    [/<\/(?:command|query|response)\s*>/i, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }]
+                    [/<\/(?:command|query|response|action)\s*>/i, { token: '@rematch', next: '@pop', nextEmbedded: '@pop' }]
                 ],
 
                 // ── CDATA: text thuần, không hiểu <,>,&,% là ký tự đặc biệt ────
@@ -164,16 +164,32 @@
                     [/[^\]<%]+/, 'metatag.content'],
                     [/./, 'metatag.content']
                 ],
+                // <!ENTITY Name "value"> — Name = entity.name; trong value chỉ &X; / %X;
+                // mới là entity.reference. KHÔNG dùng /"[^"]*"/ một phát: chuỗi FBO thường
+                // nhiều dòng, regex đó không khớp xuống dòng → từng từ SQL rơi vào
+                // /[\w.-]+/ thành entity.name (sai: cả dòng "if exists..." bị tô như entity).
                 entityDecl: [
                     [/[ \t\r\n]+/, ''],
                     [/(?:SYSTEM|PUBLIC)\b/, 'keyword'],
-                    // Giá trị entity: tô như chuỗi, KHÔNG xám như phần còn lại của DOCTYPE —
-                    // đây là nội dung thật người đọc quan tâm.
-                    [/"[^"]*"/, 'attribute.value'],
-                    [/'[^']*'/, 'attribute.value'],
-                    [/%/, 'entity.name'],
+                    [/"/, { token: 'attribute.value', next: '@entityValueDq' }],
+                    [/'/, { token: 'attribute.value', next: '@entityValueSq' }],
+                    [/%/, ''],
                     [/[\w.-]+/, 'entity.name'],
                     [/>/, { token: 'delimiter', next: '@pop' }]
+                ],
+                entityValueDq: [
+                    [/&[A-Za-z_][\w.-]*;/, 'entity.reference'],
+                    [/%[A-Za-z_][\w.-]*;/, 'entity.reference'],
+                    [/[^"&%]+/, 'attribute.value'],
+                    [/[&%]/, 'attribute.value'],
+                    [/"/, { token: 'attribute.value', next: '@pop' }]
+                ],
+                entityValueSq: [
+                    [/&[A-Za-z_][\w.-]*;/, 'entity.reference'],
+                    [/%[A-Za-z_][\w.-]*;/, 'entity.reference'],
+                    [/[^'&%]+/, 'attribute.value'],
+                    [/[&%]/, 'attribute.value'],
+                    [/'/, { token: 'attribute.value', next: '@pop' }]
                 ],
 
                 pi: [

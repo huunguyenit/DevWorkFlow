@@ -282,10 +282,24 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IAsyncDisposable
         }
 
         StatusText = $"Đang quét file \"{keyword}\"…";
-        var hits = await _fs_source.SearchAsync(keyword, ct).ConfigureAwait(true);
-        ct.ThrowIfCancellationRequested();
-        await engine.ApplySearchMatchesAsync(hits, ct).ConfigureAwait(true);
-        StatusText = $"Lọc \"{keyword}\" · {hits.Count} file";
+        try
+        {
+            var hits = await _fs_source.SearchAsync(keyword, ct).ConfigureAwait(true);
+            if (ct.IsCancellationRequested
+                || !string.Equals(keyword, _filter_text.Trim(), StringComparison.Ordinal))
+                return;
+
+            await engine.ApplySearchMatchesAsync(hits, ct).ConfigureAwait(true);
+            if (ct.IsCancellationRequested
+                || !string.Equals(keyword, _filter_text.Trim(), StringComparison.Ordinal))
+                return;
+
+            StatusText = $"Lọc \"{keyword}\" · {hits.Count} file";
+        }
+        catch (OperationCanceledException)
+        {
+            // Gõ tiếp — search cũ bị hủy, bỏ qua.
+        }
     }
 
     private void OpenFilePath(string full_path, string display_name)

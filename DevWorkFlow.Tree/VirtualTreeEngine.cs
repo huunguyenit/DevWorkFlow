@@ -150,50 +150,124 @@ public sealed class VirtualTreeEngine : IAsyncDisposable
 
     /// <summary>
     /// Expand ancestors of matches and filter visible tree to matching branches.
-    /// Empty keyword / empty matches = restore full tree.
+    /// Empty matches → restore full tree, or hide everything when
+    /// <paramref name="empty_hides_all"/> (a real search that found nothing must not reveal the tree).
+    /// When <paramref name="keep_descendants"/>, a matched node also keeps its already-loaded
+    /// subtree visible and expanded — so matching a container reveals its contents even when the
+    /// descendants themselves don't match the keyword.
     /// </summary>
     public async Task ApplySearchMatchesAsync(
         IReadOnlyList<TreeNode> matches,
-        CancellationToken cancellation_token = default)
+        CancellationToken cancellation_token = default,
+        bool empty_hides_all = false,
+        bool keep_descendants = false)
     {
         if (matches.Count == 0)
         {
-            ClearSearchFilter();
+            if (empty_hides_all)
+            {
+                lock (_gate) _search_keep = new HashSet<Guid>();
+                RebuildVisibleRows();
+            }
+            else
+            {
+                ClearSearchFilter();
+            }
+
             return;
         }
 
         var match_ids = new HashSet<Guid>();
+        foreach (var match in matches)
+        {
+            cancellation_token.ThrowIfCancellationRequested();
+            await RegisterNodeChainAsync(match, cancellation_token).ConfigureAwait(false);
+            match_ids.Add(match.Id);
+        }
+
+        // Search hit thường đến từ DataSource (EnsurePathChain) — ancestor chưa có trong
+        // engine._nodes / _children_cache. ExpandAsync(parent) no-op nếu parent chưa
+        // register → AppendVisible_NoLock không descend được tới file match.
+        // Ghép cache theo đường dẫn + đánh dấu expanded thay vì lazy-load cả folder.
         lock (_gate)
         {
             foreach (var match in matches)
-            {
-                _nodes[match.Id] = match;
-                match_ids.Add(match.Id);
-            }
-        }
+                StitchSearchPath_NoLock(match);
 
-        // Ensure ancestors expanded so matches appear in the flat list.
-        foreach (var match in matches)
-        {
-            var parent_id = match.ParentId;
-            while (parent_id is Guid pid && pid != Guid.Empty)
-            {
-                cancellation_token.ThrowIfCancellationRequested();
-                if (!IsExpanded(pid))
-                    await ExpandAsync(pid, cancellation_token).ConfigureAwait(false);
-
-                TreeNode? parent;
-                lock (_gate) _nodes.TryGetValue(pid, out parent);
-                parent_id = parent?.ParentId;
-            }
-        }
-
-        lock (_gate)
-        {
-            _search_keep = BuildSearchKeepSet_NoLock(match_ids);
+            _search_keep = BuildSearchKeepSet_NoLock(match_ids, keep_descendants);
         }
 
         RebuildVisibleRows();
+    }
+
+    /// <summary>Đăng ký match và mọi ancestor (FindNodeAsync) vào engine._nodes.</summary>
+    private async Task RegisterNodeChainAsync(TreeNode node, CancellationToken cancellation_token)
+    {
+        lock (_gate) _nodes[node.Id] = node;
+
+        var parent_id = node.ParentId;
+        while (parent_id is Guid pid && pid != Guid.Empty)
+        {
+            cancellation_token.ThrowIfCancellationRequested();
+
+            lock (_gate)
+            {
+                if (_nodes.TryGetValue(pid, out var cached))
+                {
+                    parent_id = cached.ParentId;
+                    continue;
+                }
+            }
+
+            var found = await _data_source.FindNodeAsync(pid, cancellation_token).ConfigureAwait(false);
+            if (found is null) break;
+
+            lock (_gate) _nodes[found.Id] = found;
+            parent_id = found.ParentId;
+        }
+    }
+
+    /// <summary>
+    /// Ghép _children_cache + _expanded dọc đường từ match lên root để AppendVisible_NoLock
+    /// render được nhánh lọc mà không cần GetChildrenAsync load cả folder.
+    /// </summary>
+    private void StitchSearchPath_NoLock(TreeNode match)
+    {
+        var current = match;
+        while (true)
+        {
+            if (current.ParentId is Guid pid && pid != Guid.Empty)
+            {
+                if (!_nodes.TryGetValue(pid, out var parent))
+                    break;
+
+                EnsureChildInCache_NoLock(pid, current);
+                _expanded.Add(pid);
+                current = parent;
+                continue;
+            }
+
+            EnsureChildInCache_NoLock(Guid.Empty, current);
+            break;
+        }
+    }
+
+    private void EnsureChildInCache_NoLock(Guid parent_key, TreeNode child)
+    {
+        if (!_children_cache.TryGetValue(parent_key, out var existing))
+        {
+            _children_cache[parent_key] = [child];
+            return;
+        }
+
+        if (existing.Any(c => c.Id == child.Id)) return;
+
+        var merged = existing.ToList();
+        merged.Add(child);
+        _children_cache[parent_key] = merged
+            .OrderByDescending(n => n.Kind == TreeNodeKind.Folder)
+            .ThenBy(n => n.DisplayName, StringComparer.OrdinalIgnoreCase)
+            .ToList();
     }
 
     public void ClearSearchFilter()
@@ -204,7 +278,7 @@ public sealed class VirtualTreeEngine : IAsyncDisposable
 
     private HashSet<Guid>? _search_keep;
 
-    private HashSet<Guid> BuildSearchKeepSet_NoLock(HashSet<Guid> match_ids)
+    private HashSet<Guid> BuildSearchKeepSet_NoLock(HashSet<Guid> match_ids, bool keep_descendants)
     {
         var keep = new HashSet<Guid>(match_ids);
         foreach (var id in match_ids)
@@ -217,7 +291,33 @@ public sealed class VirtualTreeEngine : IAsyncDisposable
             }
         }
 
+        if (keep_descendants)
+            foreach (var id in match_ids)
+                KeepLoadedSubtree_NoLock(id, keep);
+
         return keep;
+    }
+
+    /// <summary>
+    /// Đưa toàn bộ subtree đã load (trong _children_cache) của một match vào keep-set và
+    /// đánh dấu các node chứa con là expanded — để nhánh con của match hiện dù không khớp keyword.
+    /// </summary>
+    private void KeepLoadedSubtree_NoLock(Guid parent_id, HashSet<Guid> keep)
+    {
+        if (!_children_cache.TryGetValue(parent_id, out var children))
+            return;
+
+        var has_real_child = false;
+        foreach (var child in children)
+        {
+            if (child.IsPlaceholder) continue;
+            has_real_child = true;
+            keep.Add(child.Id);
+            KeepLoadedSubtree_NoLock(child.Id, keep);
+        }
+
+        if (has_real_child)
+            _expanded.Add(parent_id);
     }
 
     private void InsertPlaceholder(Guid parent_id)
