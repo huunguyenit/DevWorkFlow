@@ -26,6 +26,7 @@ public class FormBuilderViewModel : ViewModelBase
     private readonly IErpLanguageService? _language_service;
     private readonly FormDocumentNavigator? _form_navigator;
     private readonly IDesignDocumentService? _design_document_service;
+    private readonly string? _design_config_root;
     private CancellationTokenSource? _design_render_cts;
     private DesignDocument? _generated_design_document;
     private bool _is_design_rendering;
@@ -68,13 +69,15 @@ public class FormBuilderViewModel : ViewModelBase
         SqlStudioNavigator? sql_navigator = null,
         IErpLanguageService? language_service = null,
         FormDocumentNavigator? form_navigator = null,
-        IDesignDocumentService? design_document_service = null)
+        IDesignDocumentService? design_document_service = null,
+        string? design_config_root = null)
     {
         _program_session = program_session;
         _form_navigator = form_navigator;
         _sql_navigator = sql_navigator;
         _language_service = language_service;
         _design_document_service = design_document_service;
+        _design_config_root = design_config_root;
         RelatedFiles = [];
         FieldProperties = [];
         InsightEditorLines = [];
@@ -181,6 +184,9 @@ public class FormBuilderViewModel : ViewModelBase
     /// <summary>Program root để DesignWebViewHost map virtual host <c>devworkflow.program</c> (nạp CSS/JS/
     /// image tĩnh mà URL trong HTML sinh đã trỏ tới). Null nếu chưa mở Program.</summary>
     public string? DesignProgramRoot => _program_session?.Current?.ProgramPath;
+
+    /// <summary>Config root để map virtual host <c>devworkflow.config</c> (ảnh toolbar/CSS pack).</summary>
+    public string? DesignConfigRoot => _design_config_root;
 
     /// <summary>Map field.Name → định danh DOM ổn định (SymbolId + NodeId) cho overlay. Dùng indexer (không
     /// ToDictionary) vì field có thể trùng tên (đã có diagnostic riêng), tránh ném khi build.</summary>

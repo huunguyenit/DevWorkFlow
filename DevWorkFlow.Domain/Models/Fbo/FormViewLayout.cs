@@ -82,10 +82,25 @@ public class FormViewLayout
     /// <summary>Vùng dưới: field categoryIndex = -1.</summary>
     public List<FormViewRow> BottomRows { get; set; } = [];
 
-    /// <summary>Các tab (categoryIndex = n &gt; 0).</summary>
+    /// <summary>Toàn bộ category khai báo (gồm index=-1 metadata footer), thứ tự XML.</summary>
     public List<FormCategory> Categories { get; set; } = [];
 
+    /// <summary>Có khai báo &lt;categories&gt; (kể cả chỉ index=-1).</summary>
     public bool HasCategories => Categories.Count > 0;
+
+    /// <summary>Tab hiển thị (index &gt; 0), giữ thứ tự khai báo — không sort theo index.</summary>
+    public IEnumerable<FormCategory> TabCategories => Categories.Where(c => c.Index > 0);
+
+    /// <summary>category index="-1" — columns footer; không render tab.</summary>
+    public FormCategory? FooterCategory => Categories.FirstOrDefault(c => c.Index == -1);
+
+    public bool HasTabCategories => Categories.Exists(c => c.Index > 0);
+
+    /// <summary>Độ rộng footer: category -1 nếu có columns, không thì cột mặc định view.</summary>
+    public IReadOnlyList<int> FooterColumnWidths =>
+        FooterCategory is { ColumnWidths.Count: > 0 } footer
+            ? footer.ColumnWidths
+            : ColumnWidths;
 
     public int ColumnCount => ColumnWidths.Count;
     public int TotalWidthPx => ColumnWidths.Sum();

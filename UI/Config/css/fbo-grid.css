@@ -45,3 +45,14 @@
 }
 .DwfDetailGrid { margin-top: 8px; }
 .DwfDetailGrid .GridTable { margin: 0; }
+
+/* Grid nhúng Form — cấu trúc ERP */
+.FormCellGrid { padding: 0 !important; }
+.GridTabPanel { width: 100%; }
+.HeaderStyle { background: #fff; }
+.GridStyle.divGrid { background: #fff; border-left: 1px solid #d2d6d9; border-right: 1px solid #d2d6d9; }
+.SplitStyle { background: #e8eaed; border-left: 1px solid #d2d6d9; border-right: 1px solid #d2d6d9; }
+.FooterStyle { background: #f7f9fb; border-bottom: 1px solid #d2d6d9; }
+.GridFooter td { border-top: 1px solid #d2d6d9; }
+.FooterCellDefault { border-left: 1px solid #d2d6d9; border-right: 1px solid #d2d6d9; }
+.HeaderCellDefault.Required { background-position: left top; }

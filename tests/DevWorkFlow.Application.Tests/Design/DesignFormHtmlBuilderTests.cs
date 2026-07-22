@@ -42,7 +42,7 @@ public sealed class DesignFormHtmlBuilderTests
             vietnamese: true,
             new FboOptionsCatalog(),
             new Dictionary<string, DesignElementIdentity>(),
-            new Dictionary<string, string>());
+            new Dictionary<string, FboControllerDocument>());
     }
 
     [Fact]
@@ -67,6 +67,62 @@ public sealed class DesignFormHtmlBuilderTests
         var html = BuildHtml(xml);
         Assert.Contains("<span class=\"LabelDescription\">(Fax)</span>", html);
         Assert.DoesNotContain("&lt;span", html);
+    }
+
+    [Fact]
+    public void Build_TabOrderFollowsCategoryDeclaration_NotIndexSort()
+    {
+        const string xml = """
+            <dir xmlns="urn:schemas-fast-com:data-dir">
+              <title v="T" e="T"/>
+              <fields>
+                <field name="k" categoryIndex="9"><header v="Khác" e="Other"/></field>
+                <field name="m" categoryIndex="1"><header v="Chính" e="Main"/></field>
+              </fields>
+              <views>
+                <view id="Dir">
+                  <item value="100"/>
+                  <item value="1: [k]"/>
+                  <item value="1: [m]"/>
+                  <categories>
+                    <category index="9" columns="90,10"><header v="Khác" e="Other"/></category>
+                    <category index="1" columns="120,30"><header v="Chính" e="Main"/></category>
+                  </categories>
+                </view>
+              </views>
+            </dir>
+            """;
+        var html = BuildHtml(xml);
+        var khac = html.IndexOf("Khác", StringComparison.Ordinal);
+        var chinh = html.IndexOf("Chính", StringComparison.Ordinal);
+        Assert.True(khac >= 0 && chinh > khac, "Tab Khác (index 9) phải trước Chính (index 1) theo thứ tự XML");
+    }
+
+    [Fact]
+    public void Build_FooterUsesMinusOneCategoryColumns()
+    {
+        const string xml = """
+            <dir xmlns="urn:schemas-fast-com:data-dir">
+              <title v="T" e="T"/>
+              <fields>
+                <field name="status" categoryIndex="-1"><header v="TT" e="S"/></field>
+              </fields>
+              <views>
+                <view id="Dir">
+                  <item value="120, 30"/>
+                  <item value="1: [status]"/>
+                  <categories>
+                    <category index="1" columns="90,10"><header v="Tab" e="Tab"/></category>
+                    <category index="-1" columns="120, 30, 70, 100, 230"><header v="" e=""/></category>
+                  </categories>
+                </view>
+              </views>
+            </dir>
+            """;
+        var html = BuildHtml(xml);
+        // 120+30+70+100+230 = 550
+        Assert.Contains("data-dwf-region=\"footer\"", html);
+        Assert.Contains("width:550px", html);
     }
 
     [Fact]
@@ -200,19 +256,39 @@ public sealed class DesignFormHtmlBuilderTests
         """;
 
     [Fact]
-    public void Build_GridTab_UsesFieldRowsOnDwfGridBody_NotViewHeightOnPanel()
+    public void Build_GridTab_UsesEmbeddedGridStructureWithFieldRowsHeight()
     {
         var document = new FboXmlParser().Parse(DirWithGridTab, "T.xml");
-        var detail_html = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+        var detail_grid = new FboGridModel
         {
-            ["DetailX"] = "<table class=\"GridTable DwfDetailGrid\"></table>"
+            ControllerName = "DetailX",
+            AppType = "Detail",
+            Toolbar = [new GridToolbarButton { Command = "Insert", Title = new LocalizedText { V = "Thêm" } }]
         };
+        detail_grid.Fields.Add(new FboField
+        {
+            Name = "ma",
+            Width = 100,
+            Header = new LocalizedText { V = "Mã", E = "Code" }
+        });
+        detail_grid.FieldsByName = detail_grid.Fields.ToDictionary(f => f.Name, StringComparer.OrdinalIgnoreCase);
+        detail_grid.VisibleFieldNames = ["ma"];
+
+        var detail_doc = FboControllerDocument.FromGrid(detail_grid, "Grid/DetailX.xml", "<grid/>");
+        var detail_documents = new Dictionary<string, FboControllerDocument>(StringComparer.OrdinalIgnoreCase)
+        {
+            ["DetailX"] = detail_doc
+        };
+
         var html = new DesignFormHtmlBuilder().Build(
             document.Form!, true, new FboOptionsCatalog(),
-            new Dictionary<string, DesignElementIdentity>(), detail_html);
+            new Dictionary<string, DesignElementIdentity>(), detail_documents);
 
-        Assert.Contains("class=\"DwfGridBody\"", html);
+        Assert.Contains("class=\"FormCellGrid\"", html);
+        Assert.Contains("class=\"GridTabPanel\"", html);
         Assert.Contains("height:120px", html);
+        Assert.Contains(" Insert ", html);
+        Assert.DoesNotContain("class=\"DwfGridBody\"", html);
         Assert.DoesNotContain("data-category-index=\"1\" style=\"height:274px\"", html);
         Assert.DoesNotMatch(@"data-category-index=""1""[^>]*height:274px", html);
     }

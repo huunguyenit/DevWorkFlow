@@ -9,6 +9,89 @@ public sealed class FboXmlDesignMetadataTests
     private readonly FboXmlParser _parser = new();
 
     [Fact]
+    public void ParseCategories_PreservesDeclarationOrder_NotSortedByIndex()
+    {
+        const string xml = """
+            <dir xmlns="urn:schemas-fast-com:data-dir">
+              <title v="T" e="T"/>
+              <fields>
+                <field name="a" categoryIndex="9"><header v="Tab9" e="T9"/></field>
+                <field name="b" categoryIndex="1"><header v="Tab1" e="T1"/></field>
+              </fields>
+              <views>
+                <view id="Dir">
+                  <item value="100"/>
+                  <item value="1: [a]"/>
+                  <item value="1: [b]"/>
+                  <categories>
+                    <category index="9" columns="90,10"><header v="Khác" e="Other"/></category>
+                    <category index="1" columns="120,30"><header v="Chính" e="Main"/></category>
+                  </categories>
+                </view>
+              </views>
+            </dir>
+            """;
+
+        var layout = _parser.Parse(xml, "T.xml").Form!.Layout!;
+
+        Assert.Equal([9, 1], layout.TabCategories.Select(c => c.Index).ToArray());
+    }
+
+    [Fact]
+    public void ParseFooterCategory_UsesMinusOneColumnsWhenDeclared()
+    {
+        const string xml = """
+            <dir xmlns="urn:schemas-fast-com:data-dir">
+              <title v="T" e="T"/>
+              <fields>
+                <field name="status" categoryIndex="-1"><header v="TT" e="S"/></field>
+              </fields>
+              <views>
+                <view id="Dir">
+                  <item value="120, 30, 45, 25"/>
+                  <item value="1: [status]"/>
+                  <categories>
+                    <category index="1" columns="90,10"><header v="Tab" e="Tab"/></category>
+                    <category index="-1" columns="120, 30, 70, 100, 230"><header v="" e=""/></category>
+                  </categories>
+                </view>
+              </views>
+            </dir>
+            """;
+
+        var layout = _parser.Parse(xml, "T.xml").Form!.Layout!;
+
+        Assert.Equal([120, 30, 70, 100, 230], layout.FooterColumnWidths);
+        Assert.Equal(220, layout.ColumnWidths.Sum());
+    }
+
+    [Fact]
+    public void ParseFooterCategory_WithoutMinusOneUsesDefaultColumns()
+    {
+        const string xml = """
+            <dir xmlns="urn:schemas-fast-com:data-dir">
+              <title v="T" e="T"/>
+              <fields>
+                <field name="status" categoryIndex="-1"><header v="TT" e="S"/></field>
+              </fields>
+              <views>
+                <view id="Dir">
+                  <item value="120, 30, 45, 25"/>
+                  <item value="1: [status]"/>
+                  <categories>
+                    <category index="1" columns="90,10"><header v="Tab" e="Tab"/></category>
+                  </categories>
+                </view>
+              </views>
+            </dir>
+            """;
+
+        var layout = _parser.Parse(xml, "T.xml").Form!.Layout!;
+
+        Assert.Equal(layout.ColumnWidths, layout.FooterColumnWidths);
+    }
+
+    [Fact]
     public void ParseDir_UsesDirViewAndReadsControllerCss()
     {
         const string xml = """

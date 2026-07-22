@@ -183,17 +183,17 @@ public class MenuService : IMenuService
                 name = parent_controller;
                 if (string.IsNullOrWhiteSpace(name)) return null;
                 kind = ControllerFileKind.TemplateUpload;
-                path = FindTemplateAsset(controllers_root, "Upload", name, [".xml", ".f"]);
+                path = FindTemplateAsset(controllers_root, "Upload", name, [".xml"]);
                 break;
 
             case ControllerRelatedFileResolver.RelatedKind.Upload:
                 kind = ControllerFileKind.TemplateUpload;
-                path = FindTemplateAsset(controllers_root, "Upload", name, [".xml", ".f"]);
+                path = FindTemplateAsset(controllers_root, "Upload", name, [".xml"]);
                 break;
 
             case ControllerRelatedFileResolver.RelatedKind.Excel:
                 kind = ControllerFileKind.TemplateExcel;
-                path = FindTemplateAsset(controllers_root, "Excel", name, [".xlsx", ".xls", ".xml"]);
+                path = FindTemplateAsset(controllers_root, "Excel", name, [".xlsx", ".xls"]);
                 break;
 
             case ControllerRelatedFileResolver.RelatedKind.Rpt:
@@ -267,9 +267,9 @@ public class MenuService : IMenuService
         if (string.IsNullOrWhiteSpace(controller_name)) return;
 
         TryAddTemplateKind(bundle, program_path, controllers_root, controller_name,
-            "Upload", ControllerFileKind.TemplateUpload, [".xml", ".f"]);
+            "Upload", ControllerFileKind.TemplateUpload, [".xml"]);
         TryAddTemplateKind(bundle, program_path, controllers_root, controller_name,
-            "Excel", ControllerFileKind.TemplateExcel, [".xlsx", ".xls", ".xml"]);
+            "Excel", ControllerFileKind.TemplateExcel, [".xlsx", ".xls"]);
         TryAddTemplateKind(bundle, program_path, controllers_root, controller_name,
             "Rpt", ControllerFileKind.TemplateRpt, [".rpt"]);
     }
@@ -297,39 +297,38 @@ public class MenuService : IMenuService
     {
         if (string.IsNullOrWhiteSpace(name)) return null;
 
-        foreach (var root_name in new[] { "Templates", "Template" })
+
+        var folder = ResolveNestedFolder(
+            controllers_root, Path.Combine("Templates", template_subfolder));
+
+
+        foreach (var ext in extensions)
         {
-            var folder = ResolveNestedFolder(
-                controllers_root, Path.Combine(root_name, template_subfolder));
-            if (folder is null) continue;
-
-            foreach (var ext in extensions)
-            {
-                var direct = Path.Combine(folder, name + ext);
-                if (File.Exists(direct)) return direct;
-            }
-
-            try
-            {
-                var match = Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly)
-                    .FirstOrDefault(f =>
-                    {
-                        var file_ext = Path.GetExtension(f);
-                        if (!extensions.Any(e =>
-                                string.Equals(file_ext, e, StringComparison.OrdinalIgnoreCase)))
-                            return false;
-                        return string.Equals(
-                            Path.GetFileNameWithoutExtension(f),
-                            name,
-                            StringComparison.OrdinalIgnoreCase);
-                    });
-                if (match is not null) return match;
-            }
-            catch
-            {
-                // ignore
-            }
+            var direct = Path.Combine(folder, name + ext);
+            if (File.Exists(direct)) return direct;
         }
+
+        try
+        {
+            var match = Directory.EnumerateFiles(folder, "*", SearchOption.TopDirectoryOnly)
+                .FirstOrDefault(f =>
+                {
+                    var file_ext = Path.GetExtension(f);
+                    if (!extensions.Any(e =>
+                            string.Equals(file_ext, e, StringComparison.OrdinalIgnoreCase)))
+                        return false;
+                    return string.Equals(
+                        Path.GetFileNameWithoutExtension(f),
+                        name,
+                        StringComparison.OrdinalIgnoreCase);
+                });
+            if (match is not null) return match;
+        }
+        catch
+        {
+            // ignore
+        }
+
 
         return null;
     }

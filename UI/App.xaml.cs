@@ -81,7 +81,8 @@ public partial class App : Application
             design_css_catalog);
 
         FormBuilderViewModel CreateForm() =>
-            new(program_session, sql_navigator, language_service, form_navigator, design_document_service);
+            new(program_session, sql_navigator, language_service, form_navigator, design_document_service,
+                app_config.ConfigRoot);
 
         var seed_form       = CreateForm();
         var navigation_vm   = new NavigationViewModel(

@@ -93,7 +93,7 @@ textarea.FormTextInput {
 
 /* Marker góc td — left top (Design); WebResource dùng -6px,-6px IE cũ. */
 .Required {
-  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFAgMAAADwAc52AAAACVBMVEX/////bw/3399504GbAAAAAXRSTlMAQObYZgAAABdJREFUeF5jYGBgEG1gEGNgkGBgUGAAAAdeAOSPOXu6AAAAAElFTkSuQmCC);
+  background-image: url(../image/fbo-required.png);
   background-repeat: no-repeat;
   background-position: left top;
 }

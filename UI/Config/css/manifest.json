@@ -35,7 +35,7 @@
       "path": "fbo-toolbar.css",
       "enabled": true,
       "order": 40,
-      "displayKinds": [ "Grid" ],
+      "displayKinds": [ "Form", "Grid" ],
       "requireToolbar": true,
       "controllers": [ "*" ],
       "excludeControllers": []

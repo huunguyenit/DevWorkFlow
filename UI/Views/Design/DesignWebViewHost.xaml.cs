@@ -18,7 +18,8 @@ namespace UI.Views.Design;
 /// </summary>
 public partial class DesignWebViewHost : UserControl
 {
-    private const string ProgramVirtualHost = "devworkflow.program";
+    private const string ProgramVirtualHost = DesignHtmlGenerator.ProgramVirtualHost;
+    private const string ConfigVirtualHost = DesignHtmlGenerator.ConfigVirtualHost;
 
     // Script tiêm: (1) đo gốc bảng main FormTable → post 'designViewport' cho WPF chỉnh Offset thước;
     // (2) vẽ crosshair + nhãn px (toạ độ so với gốc bảng) hoàn toàn trong document — không post mỗi mousemove.
@@ -100,6 +101,7 @@ public partial class DesignWebViewHost : UserControl
     private Task? _init_task;
     private string? _last_html;
     private string? _mapped_program_root;
+    private string? _mapped_config_root;
 
     public DesignWebViewHost()
     {
@@ -197,6 +199,20 @@ public partial class DesignWebViewHost : UserControl
             core.SetVirtualHostNameToFolderMapping(
                 ProgramVirtualHost, program_root, CoreWebView2HostResourceAccessKind.Allow);
             _mapped_program_root = program_root;
+        }
+
+        var config_root = _vm?.DesignConfigRoot;
+        if (!string.IsNullOrWhiteSpace(config_root) && Directory.Exists(config_root)
+            && !string.Equals(config_root, _mapped_config_root, StringComparison.OrdinalIgnoreCase))
+        {
+            if (_mapped_config_root is not null)
+            {
+                try { core.ClearVirtualHostNameToFolderMapping(ConfigVirtualHost); }
+                catch { /* chưa map thì bỏ qua */ }
+            }
+            core.SetVirtualHostNameToFolderMapping(
+                ConfigVirtualHost, config_root, CoreWebView2HostResourceAccessKind.Allow);
+            _mapped_config_root = config_root;
         }
 
         core.NavigateToString(document.Html);

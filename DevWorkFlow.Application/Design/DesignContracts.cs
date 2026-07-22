@@ -46,7 +46,14 @@ public sealed record DesignRenderRequest(
     IReadOnlyDictionary<string, DesignElementIdentity> FieldIdentities,
     IReadOnlyDictionary<string, FboControllerDocument> DetailDocuments,
     int GridPlaceholderRows = 5,
-    DesignCssBundle? CssBundle = null);
+    DesignCssBundle? CssBundle = null,
+    DesignImageBundle? ImageBundle = null);
+
+/// <summary>Catalog ảnh toolbar từ Config/image (implement ở Infra).</summary>
+public interface IDesignImageCatalog
+{
+    DesignImageBundle GetBundle();
+}
 
 /// <summary>Yêu cầu build đầy đủ (service tự resolve asset + detail qua Language Service).</summary>
 public sealed record DesignBuildRequest(

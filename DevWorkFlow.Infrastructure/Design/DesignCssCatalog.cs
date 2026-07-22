@@ -7,7 +7,7 @@ namespace DevWorkFlow.Infrastructure.Design;
 /// <summary>
 /// Đọc <c>Config/css/manifest.json</c> + file pack CSS → <see cref="DesignCssBundle"/>.
 /// Soft-fail: thiếu thư mục/manifest/file → Empty (không ném).
-/// <c>url(relative)</c> cạnh pack được rewrite thành data-URI để WebView <c>NavigateToString</c> vẫn hiện ảnh.
+/// <c>url(relative)</c> rewrite thành <c>https://devworkflow.config/...</c> (không base64).
 /// </summary>
 public sealed class DesignCssCatalog : IDesignCssCatalog
 {
@@ -23,11 +23,17 @@ public sealed class DesignCssCatalog : IDesignCssCatalog
         RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
     private readonly string _css_root;
+    private readonly string _config_virtual_host;
     private readonly object _gate = new();
     private DesignCssBundle? _cached;
 
-    public DesignCssCatalog(string css_root) =>
+    public DesignCssCatalog(string css_root, string? config_virtual_host = null)
+    {
         _css_root = css_root ?? string.Empty;
+        _config_virtual_host = string.IsNullOrWhiteSpace(config_virtual_host)
+            ? DesignHtmlGenerator.ConfigVirtualHost
+            : config_virtual_host.Trim();
+    }
 
     public DesignCssBundle GetBundle()
     {
@@ -60,6 +66,7 @@ public sealed class DesignCssCatalog : IDesignCssCatalog
 
             var packs = new List<DesignCssPack>();
             var css_root_full = Path.GetFullPath(_css_root);
+            var config_root_full = Path.GetDirectoryName(css_root_full) ?? css_root_full;
             foreach (var entry in manifest.Packs)
             {
                 if (entry is null || entry.Enabled == false) continue;
@@ -73,7 +80,8 @@ public sealed class DesignCssCatalog : IDesignCssCatalog
                     continue;
 
                 var css_dir = Path.GetDirectoryName(css_path) ?? css_root_full;
-                var css_text = RewriteRelativeUrls(File.ReadAllText(css_path), css_dir, css_root_full);
+                var css_text = RewriteRelativeUrls(
+                    File.ReadAllText(css_path), css_dir, css_root_full, config_root_full, _config_virtual_host);
                 packs.Add(new DesignCssPack(
                     entry.Id.Trim(),
                     css_text,
@@ -94,8 +102,16 @@ public sealed class DesignCssCatalog : IDesignCssCatalog
         }
     }
 
-    /// <summary>Đổi <c>url(file.gif)</c> thành data-URI nếu file nằm dưới css root.</summary>
-    internal static string RewriteRelativeUrls(string css_text, string css_dir, string css_root_full)
+    /// <summary>
+    /// Đổi <c>url(../image/x.png)</c> thành URL virtual host Config
+    /// (<c>https://devworkflow.config/image/x.png</c>) — không embed base64.
+    /// </summary>
+    internal static string RewriteRelativeUrls(
+        string css_text,
+        string css_dir,
+        string css_root_full,
+        string config_root_full,
+        string config_virtual_host)
     {
         return CssUrlRegex.Replace(css_text, match =>
         {
@@ -104,26 +120,19 @@ public sealed class DesignCssCatalog : IDesignCssCatalog
                 return match.Value;
 
             var asset_path = Path.GetFullPath(Path.Combine(css_dir, relative));
-            if (!asset_path.StartsWith(css_root_full, StringComparison.OrdinalIgnoreCase)
+            if (!IsAllowedAsset(asset_path, css_root_full, config_root_full)
                 || !File.Exists(asset_path))
                 return match.Value;
 
-            var mime = MimeFromExtension(Path.GetExtension(asset_path));
-            var b64 = Convert.ToBase64String(File.ReadAllBytes(asset_path));
-            return $"url(\"data:{mime};base64,{b64}\")";
+            var rel_from_config = Path.GetRelativePath(config_root_full, asset_path)
+                .Replace('\\', '/');
+            return $"url(\"https://{config_virtual_host}/{rel_from_config}\")";
         });
     }
 
-    private static string MimeFromExtension(string ext) =>
-        ext.ToLowerInvariant() switch
-        {
-            ".gif" => "image/gif",
-            ".png" => "image/png",
-            ".jpg" or ".jpeg" => "image/jpeg",
-            ".svg" => "image/svg+xml",
-            ".webp" => "image/webp",
-            _ => "application/octet-stream"
-        };
+    private static bool IsAllowedAsset(string asset_path, string css_root_full, string config_root_full) =>
+        asset_path.StartsWith(css_root_full, StringComparison.OrdinalIgnoreCase)
+        || asset_path.StartsWith(config_root_full, StringComparison.OrdinalIgnoreCase);
 
     private sealed class ManifestDto
     {

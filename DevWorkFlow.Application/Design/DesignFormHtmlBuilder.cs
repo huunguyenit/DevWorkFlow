@@ -26,19 +26,25 @@ internal sealed class DesignFormHtmlBuilder
         RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
     private readonly DesignControlHtmlBuilder _control = new();
+    private readonly DesignGridHtmlBuilder _grid = new();
 
     public string Build(
         FboFormModel form,
         bool vietnamese,
         FboOptionsCatalog options,
         IReadOnlyDictionary<string, DesignElementIdentity> identities,
-        IReadOnlyDictionary<string, string> detail_html_by_controller)
+        IReadOnlyDictionary<string, FboControllerDocument> detail_documents,
+        int grid_placeholder_rows = 5,
+        DesignImageBundle? images = null,
+        IReadOnlySet<string>? css_toolbar_classes = null)
     {
         var layout = form.Layout;
         if (layout is null) return string.Empty;
 
         var sb = new StringBuilder(4096);
-        var ctx = new RenderContext(form, vietnamese, options, identities, detail_html_by_controller);
+        var ctx = new RenderContext(
+            form, vietnamese, options, identities, detail_documents, grid_placeholder_rows, images,
+            css_toolbar_classes);
 
         // FormParent ≡ runtime updateDlgPanel / UpdateDlgPanel — bọc title + toàn bộ form/tab/footer.
         sb.Append("<div class=\"FormParent UpdateDlgPanel\" data-dwf-region=\"form-parent\">\n");
@@ -49,12 +55,12 @@ internal sealed class DesignFormHtmlBuilder
         sb.Append(RenderTable(layout.TopRows, layout.ColumnWidths, ctx));
         sb.Append("\n</div>\n");
 
-        // Tabs (categories)
-        if (layout.HasCategories)
+        // Tabs — chỉ index &gt; 0, thứ tự khai báo categories/category.
+        if (layout.HasTabCategories)
         {
             sb.Append("<div class=\"DwfTabs\">\n<div class=\"DwfTabList\" role=\"tablist\">\n");
             var first = true;
-            foreach (var cat in layout.Categories)
+            foreach (var cat in layout.TabCategories)
             {
                 sb.Append("<button type=\"button\" class=\"DwfTabButton\" role=\"tab\" aria-selected=\"")
                   .Append(first ? "true" : "false").Append("\" data-target=\"dwf-tab-").Append(cat.Index)
@@ -64,7 +70,7 @@ internal sealed class DesignFormHtmlBuilder
             sb.Append("</div>\n");
 
             first = true;
-            foreach (var cat in layout.Categories)
+            foreach (var cat in layout.TabCategories)
             {
                 var widths = cat.ColumnWidths.Count > 0 ? cat.ColumnWidths : layout.ColumnWidths;
                 // view@height chỉ áp cho tab KHÔNG chứa Grid; tab có Grid dùng field@rows trên DwfGridBody.
@@ -85,7 +91,7 @@ internal sealed class DesignFormHtmlBuilder
         {
             sb.Append("<div class=\"FormRegion\" data-dwf-region=\"footer\">\n");
             sb.Append("<div class=\"UpdateDlgContent\">\n");
-            sb.Append(RenderTable(layout.BottomRows, layout.ColumnWidths, ctx, table_padding: false));
+            sb.Append(RenderTable(layout.BottomRows, layout.FooterColumnWidths, ctx, table_padding: false));
             sb.Append("\n</div>\n</div>\n");
         }
 
@@ -187,19 +193,44 @@ internal sealed class DesignFormHtmlBuilder
         var cell_open = $"<td class=\"FormCell{required}\" colspan=\"{span}\" nowrap"
                         + " style=\"overflow:hidden;width:100%;padding:4px!important;\">";
 
-        // Field kiểu Grid → nhúng detail đã render (hoặc cảnh báo nếu thiếu), bọc DwfGridBody có chiều cao
-        // theo field@rows (runtime FBO: lưới detail cao cố định + cuộn), KHÔNG dùng view@height cho tab này.
+        // Field kiểu Grid → nhúng Grid Detail (cấu trúc ERP GridTabPanel), chiều cao theo field@rows.
         if (string.Equals(field.ItemsStyle, "Grid", StringComparison.OrdinalIgnoreCase))
         {
             var controller = field.ItemsController ?? string.Empty;
-            var detail = ctx.DetailHtml.TryGetValue(controller, out var html)
-                ? html
-                : $"<div class=\"DwfDesignWarning\">Không tìm thấy Grid Detail: {DesignHtmlEncoder.Text(controller)}</div>";
-            var body_style = field.Rows is > 0
-                ? $" style=\"height:{field.Rows.Value}px;overflow:auto\""
-                : " style=\"overflow:auto\"";
-            detail = $"<div class=\"DwfGridBody\"{body_style}>{detail}</div>";
-            return $"{cell_open}{detail}</td>";
+            var cell_open_grid = $"<td class=\"FormCellGrid\" colspan=\"{span}\" nowrap"
+                                 + " style=\"overflow:hidden;width:100%;padding:0px!important;\">"
+                                 + "<div tabindex=\"-1\" tabstop=\"false\" style=\"outline:none;\">";
+
+            if (!ctx.DetailDocuments.TryGetValue(controller, out var detail_doc)
+                || detail_doc.Grid is null)
+            {
+                var warning = $"<div class=\"DwfDesignWarning\">Không tìm thấy Grid Detail: {DesignHtmlEncoder.Text(controller)}</div>";
+                return $"{cell_open_grid}{warning}</div></td>";
+            }
+
+            // CSS toolbar của detail (div.Download…) merge vào css_toolbar_classes ở generator.
+            var detail_css_classes = DesignControllerCssRewriter.ClassesWithBackgroundImage(detail_doc.CssText);
+            IReadOnlySet<string>? toolbar_classes = ctx.CssToolbarClasses;
+            if (detail_css_classes.Count > 0)
+            {
+                var merged = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                if (ctx.CssToolbarClasses is not null)
+                    foreach (var c in ctx.CssToolbarClasses) merged.Add(c);
+                foreach (var c in detail_css_classes) merged.Add(c);
+                toolbar_classes = merged;
+            }
+
+            var grid_html = _grid.Build(
+                detail_doc.Grid,
+                ctx.Vietnamese,
+                ctx.GridPlaceholderRows,
+                detail_mode: true,
+                embedded_in_form: true,
+                body_height_px: field.Rows,
+                images: ctx.Images,
+                css_toolbar_classes: toolbar_classes);
+
+            return $"{cell_open_grid}{grid_html}</div></td>";
         }
 
         ctx.Identities.TryGetValue(field.Name, out var identity);
@@ -262,5 +293,8 @@ internal sealed class DesignFormHtmlBuilder
         bool Vietnamese,
         FboOptionsCatalog Options,
         IReadOnlyDictionary<string, DesignElementIdentity> Identities,
-        IReadOnlyDictionary<string, string> DetailHtml);
+        IReadOnlyDictionary<string, FboControllerDocument> DetailDocuments,
+        int GridPlaceholderRows,
+        DesignImageBundle? Images,
+        IReadOnlySet<string>? CssToolbarClasses);
 }

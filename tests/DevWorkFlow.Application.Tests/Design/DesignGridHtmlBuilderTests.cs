@@ -35,9 +35,27 @@ public sealed class DesignGridHtmlBuilderTests
             <field name="ma_kh" width="100"><header v="Mã khách" e="Code"/></field>
           </fields>
           <toolbar>
-            <button command="New"><title v="Mới" e="New"/></button>
+            <button command="Insert"><title v="Thêm" e="Insert"/></button>
           </toolbar>
           <views><view id="Grid"><field name="ma_kh"/></view></views>
+        </grid>
+        """;
+
+    private const string DetailGridWithHidden = """
+        <grid type="Detail" xmlns="urn:schemas-fast-com:data-grid">
+          <fields>
+            <field name="ma_kh" width="100"><header v="Mã" e="Code"/></field>
+            <field name="line_nbr" width="0" hidden="true"><header v="Ẩn" e="Hidden"/></field>
+          </fields>
+          <toolbar>
+            <button command="Insert"><title v="Thêm" e="Insert"/></button>
+          </toolbar>
+          <views>
+            <view id="Grid">
+              <field name="ma_kh"/>
+              <field name="line_nbr"/>
+            </view>
+          </views>
         </grid>
         """;
 
@@ -55,7 +73,7 @@ public sealed class DesignGridHtmlBuilderTests
         Assert.Contains("class=\"GridTable\"", html);
         Assert.Contains("Mã khách", html);
         Assert.Contains("Tên khách hàng", html);
-        Assert.Contains("style=\"width:100px\"", html);
+        Assert.Contains("width:100px", html);
         Assert.Equal(5, CountDataRows(html));
         Assert.Contains("data-field-name=\"ma_kh\"", html);
     }
@@ -65,9 +83,39 @@ public sealed class DesignGridHtmlBuilderTests
     {
         var html = new DesignGridHtmlBuilder().Build(Grid(CustomerGrid), vietnamese: true, placeholder_rows: 5);
 
-        Assert.DoesNotContain("Ẩn", html); // hidden field not visible
+        Assert.DoesNotContain("Ẩn", html);
+        Assert.DoesNotContain("data-field-name=\"secret\"", html);
         Assert.True(html.IndexOf("Mã khách", StringComparison.Ordinal)
                     < html.IndexOf("Tên khách hàng", StringComparison.Ordinal));
+    }
+
+    [Fact]
+    public void Build_HiddenFieldInView_IsExcluded()
+    {
+        var html = new DesignGridHtmlBuilder().Build(
+            Grid(DetailGridWithHidden), vietnamese: true, placeholder_rows: 3, embedded_in_form: true);
+
+        Assert.Contains("Mã", html);
+        Assert.DoesNotContain("line_nbr", html);
+        Assert.DoesNotContain("Ẩn", html);
+    }
+
+    [Fact]
+    public void Build_EmbeddedFormGrid_UsesErpStructureAndToolbarClass()
+    {
+        var html = new DesignGridHtmlBuilder().Build(
+            Grid(DetailGrid), vietnamese: true, placeholder_rows: 3,
+            embedded_in_form: true, body_height_px: 120);
+
+        Assert.Contains("class=\"GridTabPanel\"", html);
+        Assert.Contains("class=\"ToolbarStyle Green\"", html);
+        Assert.Contains(" Insert ", html); // class = command
+        Assert.DoesNotContain("data:image", html);
+        Assert.Contains("class=\"divGrid GridStyle\"", html);
+        Assert.Contains("height:120px", html);
+        Assert.Contains("class=\"SplitStyle\"", html);
+        Assert.Contains("class=\"GridFooter\"", html);
+        Assert.DoesNotContain("DwfGridBody", html);
     }
 
     [Fact]
@@ -84,6 +132,8 @@ public sealed class DesignGridHtmlBuilderTests
     {
         var html = new DesignGridHtmlBuilder().Build(Grid(CustomerGrid), vietnamese: true, placeholder_rows: 5);
 
-        Assert.Contains("DwfGridToolbar", html);
+        Assert.Contains("ToolbarStyle Green", html);
+        Assert.Contains(" New ", html);
+        Assert.DoesNotContain("data:image", html);
     }
 }

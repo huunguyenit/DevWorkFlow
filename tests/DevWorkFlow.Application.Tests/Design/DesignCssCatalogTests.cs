@@ -49,7 +49,7 @@ public sealed class DesignCssCatalogTests
     }
 
     [Fact]
-    public void GetBundle_RewritesRelativeUrlToDataUri()
+    public void GetBundle_RewritesRelativeUrlToConfigVirtualHost()
     {
         var root = CreateTempCssRoot();
         try
@@ -75,7 +75,9 @@ public sealed class DesignCssCatalogTests
 
             var css = new DesignCssCatalog(root).GetBundle().Packs[0].CssText;
 
-            Assert.Contains("data:image/gif;base64,", css);
+            Assert.Contains("https://devworkflow.config/", css);
+            Assert.Contains("icon.gif", css);
+            Assert.DoesNotContain("data:image", css);
             Assert.DoesNotContain("url(icon.gif)", css);
             Assert.Contains("background-position:-16px 0", css);
         }

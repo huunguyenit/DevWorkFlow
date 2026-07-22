@@ -45,21 +45,26 @@ public class FboGridModel
     public Dictionary<string, FboField> FieldsByName { get; set; } =
         new(StringComparer.OrdinalIgnoreCase);
 
-    /// <summary>Các cột thực sự hiển thị (theo VisibleFieldNames).</summary>
+    /// <summary>Các cột thực sự hiển thị (theo VisibleFieldNames, bỏ field@hidden).</summary>
     public IReadOnlyList<FboField> VisibleColumns
     {
         get
         {
+            IEnumerable<FboField> source;
             if (VisibleFieldNames.Count == 0)
-                return Fields;
-
-            var columns = new List<FboField>();
-            foreach (var name in VisibleFieldNames)
+                source = Fields;
+            else
             {
-                if (FieldsByName.TryGetValue(name, out var fbo_field))
-                    columns.Add(fbo_field);
+                var columns = new List<FboField>();
+                foreach (var name in VisibleFieldNames)
+                {
+                    if (FieldsByName.TryGetValue(name, out var fbo_field))
+                        columns.Add(fbo_field);
+                }
+                source = columns;
             }
-            return columns;
+
+            return source.Where(f => !f.Hidden).ToList();
         }
     }
 

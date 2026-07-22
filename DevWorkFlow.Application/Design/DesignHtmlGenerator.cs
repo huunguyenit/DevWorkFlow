@@ -14,6 +14,9 @@ public sealed class DesignHtmlGenerator : IDesignHtmlGenerator
     /// <summary>Virtual host WebView2 map tới Program root (UI DesignWebViewHost map tương ứng).</summary>
     public const string ProgramVirtualHost = "devworkflow.program";
 
+    /// <summary>Virtual host WebView2 map tới Config root (ảnh CSS pack: image/fbo-*.png, Toolbar.gif…).</summary>
+    public const string ConfigVirtualHost = "devworkflow.config";
+
     private static readonly string IdeCss = LoadEmbeddedCss();
 
     public DesignDocument Generate(DesignRenderRequest request)
@@ -35,34 +38,38 @@ public sealed class DesignHtmlGenerator : IDesignHtmlGenerator
     {
         var document = request.Document;
 
+        var css_toolbar_classes = DesignControllerCssRewriter.ClassesWithBackgroundImage(
+            request.Document.CssText);
+
+        // Detail Grid nhúng Form: CSS toolbar có thể nằm trên file Grid Detail.
+        foreach (var detail in request.DetailDocuments.Values)
+            css_toolbar_classes.UnionWith(
+                DesignControllerCssRewriter.ClassesWithBackgroundImage(detail.CssText));
+
         if (document.DisplayKind == ControllerDisplayKind.Grid && document.Grid is not null)
-            return GridBuilder.Build(document.Grid, request.Vietnamese, request.GridPlaceholderRows,
-                detail_mode: document.Grid.IsDetail);
+            return GridBuilder.Build(
+                document.Grid,
+                request.Vietnamese,
+                request.GridPlaceholderRows,
+                detail_mode: document.Grid.IsDetail,
+                images: request.ImageBundle,
+                css_toolbar_classes: css_toolbar_classes);
 
         if (document.Form is not null)
         {
             var options = new FboOptionsCatalog();
-            var detail_html = BuildDetailHtml(request);
             return FormBuilder.Build(
-                document.Form, request.Vietnamese, options, request.FieldIdentities, detail_html);
+                document.Form,
+                request.Vietnamese,
+                options,
+                request.FieldIdentities,
+                request.DetailDocuments,
+                request.GridPlaceholderRows,
+                request.ImageBundle,
+                css_toolbar_classes);
         }
 
         return string.Empty;
-    }
-
-    /// <summary>Render trước HTML detail (Grid mode) cho mỗi controller trong DetailDocuments → map theo tên
-    /// controller để Form builder chèn vào ô field Grid-style.</summary>
-    private static IReadOnlyDictionary<string, string> BuildDetailHtml(DesignRenderRequest request)
-    {
-        if (request.DetailDocuments.Count == 0)
-            return new Dictionary<string, string>();
-
-        var map = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        foreach (var (controller, detail_doc) in request.DetailDocuments)
-            if (detail_doc.Grid is not null)
-                map[controller] = GridBuilder.Build(
-                    detail_doc.Grid, request.Vietnamese, request.GridPlaceholderRows, detail_mode: true);
-        return map;
     }
 
     private static string BuildShell(DesignRenderRequest request, string body)
@@ -92,9 +99,22 @@ public sealed class DesignHtmlGenerator : IDesignHtmlGenerator
         }
 
         if (!string.IsNullOrWhiteSpace(request.Document.CssText))
+        {
             sb.Append("<style data-dwf-source=\"controller\">\n")
-              .Append(request.Document.CssText)
+              .Append(DesignControllerCssRewriter.Rewrite(request.Document.CssText))
               .Append("\n</style>\n");
+        }
+
+        // CSS của Grid Detail nhúng Form (vd. div.Download → Program/Images).
+        foreach (var (name, detail) in request.DetailDocuments)
+        {
+            if (string.IsNullOrWhiteSpace(detail.CssText)) continue;
+            sb.Append("<style data-dwf-source=\"controller-detail\" data-dwf-controller=\"")
+              .Append(DesignHtmlEncoder.Attribute(name))
+              .Append("\">\n")
+              .Append(DesignControllerCssRewriter.Rewrite(detail.CssText))
+              .Append("\n</style>\n");
+        }
 
         sb.Append("</head>\n<body>\n<div class=\"DwfDesignRoot\" data-dwf-controller=\"")
           .Append(controller).Append("\">\n");
@@ -113,16 +133,18 @@ public sealed class DesignHtmlGenerator : IDesignHtmlGenerator
 
         var kind = request.Document.DisplayKind == ControllerDisplayKind.Grid ? "Grid" : "Form";
         var controller = request.Document.ControllerName ?? string.Empty;
-        var has_categories = request.Document.Form?.Layout?.HasCategories == true;
+        var has_categories = request.Document.Form?.Layout?.HasTabCategories == true;
         var has_detail = request.DetailDocuments.Count > 0;
         var has_toolbar = request.Document.Grid?.Toolbar.Count > 0;
+        var has_detail_toolbar = request.DetailDocuments.Values
+            .Any(d => d.Grid?.Toolbar.Count > 0);
 
         foreach (var pack in bundle.Packs.OrderBy(p => p.Order).ThenBy(p => p.Id, StringComparer.OrdinalIgnoreCase))
         {
             if (!MatchesDisplayKind(pack, kind)) continue;
             if (pack.RequireCategories && !has_categories) continue;
             if (pack.RequireDetailGrid && !has_detail) continue;
-            if (pack.RequireToolbar && !has_toolbar) continue;
+            if (pack.RequireToolbar && !has_toolbar && !has_detail_toolbar) continue;
             if (!MatchesController(pack, controller)) continue;
             yield return pack;
         }

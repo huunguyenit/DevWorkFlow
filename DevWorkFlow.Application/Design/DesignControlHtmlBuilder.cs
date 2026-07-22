@@ -10,10 +10,6 @@ namespace DevWorkFlow.Application.Design;
 /// </summary>
 internal sealed class DesignControlHtmlBuilder
 {
-    /// <summary>1×1 transparent GIF — glyph Lookup/Calendar lấy từ CSS background sprite.</summary>
-    private const string TransparentGifSrc =
-        "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-
     /// <summary>Placeholder ngày trống runtime FBO (dd/MM/yyyy mask).</summary>
     private const string EmptyDateValue = "  /  /    ";
 
@@ -233,7 +229,7 @@ internal sealed class DesignControlHtmlBuilder
     private static string AdornmentAnchor(string img_class) =>
         "<a class=\"CellDivContainer\" tabindex=\"-1\">"
         + $"<img class=\"CellImage {img_class}\" tabindex=\"-1\" alt=\"\""
-        + $" src=\"{TransparentGifSrc}\""
+        
         + " style=\"border:0;padding:0\">"
         + "</a>";
 

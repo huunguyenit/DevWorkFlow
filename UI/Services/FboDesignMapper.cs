@@ -83,9 +83,9 @@ public static class FboDesignMapper
                 surface.FormRows.Add(d_row);
             }
 
-            if (form.Layout.HasCategories)
+            if (form.Layout.HasTabCategories)
             {
-                foreach (var category in form.Layout.Categories)
+                foreach (var category in form.Layout.TabCategories)
                 {
                     var tab = new DesignCategoryTabVm
                     {
@@ -115,10 +115,15 @@ public static class FboDesignMapper
 
                 surface.SelectedCategory = surface.CategoryTabs.FirstOrDefault();
 
+                var footer_widths = form.Layout.FooterColumnWidths.ToList();
+                var footer_cols = new ObservableCollection<int>();
+                BuildRuler(new ObservableCollection<RulerTickVm>(), footer_cols, footer_widths,
+                    out _, out _);
+
                 foreach (var row in form.Layout.BottomRows)
                 {
                     var d_row = MapFormRow(row, form, vietnamese, controllers_path, row_idx++);
-                    d_row.ColumnWidthsPx = surface.ColumnWidthsPx;
+                    d_row.ColumnWidthsPx = footer_cols;
                     surface.BottomRows.Add(d_row);
                 }
             }

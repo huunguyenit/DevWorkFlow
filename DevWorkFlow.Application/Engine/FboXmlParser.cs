@@ -88,9 +88,8 @@ public class FboXmlParser
             ?? views.FirstOrDefault();
         if (view is null) return null;
 
-        // XSD: height; thực tế FBO đôi khi viết "heigth"
-        var height_expr = NullIfEmpty(Attr(view, "height"))
-                          ?? NullIfEmpty(Attr(view, "heigth"));
+        // XSD: height
+        var height_expr = NullIfEmpty(Attr(view, "height"));
 
         var layout = new FormViewLayout
         {
@@ -173,7 +172,8 @@ public class FboXmlParser
             });
         }
 
-        return list.OrderBy(c => c.Index).ToList();
+        // Giữ thứ tự khai báo XML — không sort theo index.
+        return list;
     }
 
     private static List<int> ParseColumnWidths(string? raw)
@@ -214,6 +214,9 @@ public class FboXmlParser
             if (category is { ColumnWidths.Count: > 0 })
                 return category.ColumnWidths;
         }
+
+        if (category_index < 0)
+            return layout.FooterColumnWidths;
 
         return layout.ColumnWidths;
     }
