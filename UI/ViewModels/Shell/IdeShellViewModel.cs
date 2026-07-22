@@ -1,7 +1,11 @@
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
+using DevWorkFlow.Application.Shell;
 using UI.Docking;
+using UI.Services;
 using UI.ViewModels.Base;
 
 namespace UI.ViewModels.Shell;
@@ -41,6 +45,13 @@ public sealed class IdeShellViewModel : ViewModelBase
 
         ActivateDocumentCommand = new RelayCommand<DocumentItemVm>(ActivateDocument);
         CloseDocumentCommand = new RelayCommand<DocumentItemVm>(CloseDocument);
+        TogglePinDocumentCommand = new RelayCommand<DocumentItemVm>(TogglePinDocument);
+        CopyDocumentPathCommand = new RelayCommand<DocumentItemVm>(
+            CopyDocumentPath,
+            doc => doc is not null && DocumentTabPathHelper.CanCopyFullPath(doc.FilePath));
+        RevealDocumentInExplorerCommand = new RelayCommand<DocumentItemVm>(
+            RevealDocumentInExplorer,
+            doc => doc is not null && DocumentTabPathHelper.CanRevealInExplorer(doc.FilePath));
         SelectLeftPaneCommand = new RelayCommand<ToolPaneVm>(p => SelectedLeftPane = p);
         SelectRightPaneCommand = new RelayCommand<ToolPaneVm>(p => SelectedRightPane = p);
         SelectBottomPaneCommand = new RelayCommand<ToolPaneVm>(p => SelectedBottomPane = p);
@@ -198,6 +209,9 @@ public sealed class IdeShellViewModel : ViewModelBase
 
     public RelayCommand<DocumentItemVm> ActivateDocumentCommand { get; }
     public RelayCommand<DocumentItemVm> CloseDocumentCommand { get; }
+    public RelayCommand<DocumentItemVm> TogglePinDocumentCommand { get; }
+    public RelayCommand<DocumentItemVm> CopyDocumentPathCommand { get; }
+    public RelayCommand<DocumentItemVm> RevealDocumentInExplorerCommand { get; }
     public RelayCommand<ToolPaneVm> SelectLeftPaneCommand { get; }
     public RelayCommand<ToolPaneVm> SelectRightPaneCommand { get; }
     public RelayCommand<ToolPaneVm> SelectBottomPaneCommand { get; }
@@ -256,6 +270,49 @@ public sealed class IdeShellViewModel : ViewModelBase
                 : Documents[Math.Clamp(idx, 0, Documents.Count - 1)];
             if (ActiveDocument is not null)
                 ActivateDocument(ActiveDocument);
+        }
+    }
+
+    private static void TogglePinDocument(DocumentItemVm? doc)
+    {
+        if (doc is null) return;
+        doc.IsPinned = !doc.IsPinned;
+    }
+
+    private static void CopyDocumentPath(DocumentItemVm? doc)
+    {
+        if (doc is null || !DocumentTabPathHelper.CanCopyFullPath(doc.FilePath)) return;
+        Clipboard.SetText(doc.FilePath!);
+    }
+
+    private static void RevealDocumentInExplorer(DocumentItemVm? doc)
+    {
+        if (doc is null || !DocumentTabPathHelper.CanRevealInExplorer(doc.FilePath)) return;
+        var path = doc.FilePath!;
+        try
+        {
+            if (File.Exists(path))
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = DocumentTabPathHelper.BuildExplorerSelectArguments(path),
+                    UseShellExecute = true
+                });
+            }
+            else if (Directory.Exists(path))
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "explorer.exe",
+                    Arguments = path,
+                    UseShellExecute = true
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            IdeMessage.ShowException(ex, "Không mở được File Explorer.");
         }
     }
 

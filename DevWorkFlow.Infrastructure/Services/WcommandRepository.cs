@@ -17,7 +17,9 @@ public class WcommandRepository : IWcommandRepository
         ORDER BY wmenu_id
         """;
 
-    public async Task<IReadOnlyList<WCommandItem>> GetAllAsync(string sys_connection_string)
+    public async Task<IReadOnlyList<WCommandItem>> GetAllAsync(
+        string sys_connection_string,
+        CancellationToken cancellation_token = default)
     {
         if (string.IsNullOrWhiteSpace(sys_connection_string))
             throw new ArgumentException("sys_connection_string trống.", nameof(sys_connection_string));
@@ -25,15 +27,15 @@ public class WcommandRepository : IWcommandRepository
         var items = new List<WCommandItem>();
 
         await using var conn = new SqlConnection(sys_connection_string);
-        await conn.OpenAsync();
+        await conn.OpenAsync(cancellation_token);
 
         await using var cmd = new SqlCommand(Sql, conn)
         {
             CommandTimeout = WebConfigReader.GetTimeoutSeconds(sys_connection_string)
         };
-        await using var reader = await cmd.ExecuteReaderAsync();
+        await using var reader = await cmd.ExecuteReaderAsync(cancellation_token);
 
-        while (await reader.ReadAsync())
+        while (await reader.ReadAsync(cancellation_token))
         {
             items.Add(new WCommandItem
             {

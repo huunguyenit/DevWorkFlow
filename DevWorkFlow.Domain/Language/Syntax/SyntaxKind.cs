@@ -13,6 +13,8 @@ public enum SyntaxKind
     ProcessingInstruction,
     Comment,
     CData,
+    /// <summary>DTD marked/conditional section: <c>&lt;![%Name;[...]]&gt;</c> hoặc <c>&lt;![INCLUDE[...]]&gt;</c>.</summary>
+    ConditionalSection,
     DocType,
     EntityDeclaration,
     StartTag,

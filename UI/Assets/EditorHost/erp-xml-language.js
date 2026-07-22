@@ -5,6 +5,7 @@
 // metatag, KHÔNG có):
 //   - Nội dung CDATA là text thuần (built-in vẫn hiểu <,>,&,% trong CDATA như XML)
 //   - Token riêng cho Entity reference (&Name; / %Name;) và Entity declaration name
+//   - File .ent đứng độc lập: <!ENTITY> ở root + trong <![%Name;[...]]> (không cần DOCTYPE)
 //   - Nhúng SQL trong <command>/<query>/<response>/<action>, nhúng JS trong <script> hoặc
 //     <command event="...">  (khớp FboSyntaxParser: SQL/Script Island —
 //     docs/specs/language/parsing-and-semantic-model.md)
@@ -23,6 +24,8 @@
 //      đây cả hai map về cùng 'entityReference' nên khai báo cũng bị in nghiêng như tham
 //      chiếu, gây cảm giác cả khối DOCTYPE đang "nháy".
 //   4. Từ khoá DTD (SYSTEM/PUBLIC) có token riêng thay vì lẫn vào 'metatag' xám.
+//   5. File Include/*.ent: <!ENTITY> ở root và trong conditional section phải vào @entityDecl
+//      — nếu chỉ bắt trong DOCTYPE subset thì Name/"value" không được tô (lỗi Unit.ent).
 //
 // GHI CHÚ RỦI RO: Monarch tokenizer không kiểm chứng trực quan được trong môi trường
 // viết code này — cần xác nhận bằng mắt sau khi chạy thật.
@@ -49,6 +52,10 @@
                     [/<!\[CDATA\[/, { token: 'delimiter.cdata', next: '@cdata' }],
                     [/<!--/, { token: 'comment', next: '@comment' }],
                     [/<!DOCTYPE/, { token: 'metatag', next: '@doctype' }],
+                    // File .ent / DTD fragment: ENTITY đứng ngoài DOCTYPE.
+                    [/<!ENTITY/, { token: 'metatag', next: '@entityDecl' }],
+                    // <![%Name;[ ... ]]> hoặc <![INCLUDE[ ... ]]> (sau CDATA ở trên).
+                    [/<!\[/, { token: 'metatag', next: '@conditionalSection' }],
                     [/<\?/, { token: 'metatag', next: '@pi' }],
                     [/(<\/)([ \t]*)([\w.:-]+)/,
                         ['delimiter', '', { token: 'tag', next: '@tagClose' }]],
@@ -158,12 +165,28 @@
                 ],
                 doctypeSubset: [
                     [/<!ENTITY/, { token: 'metatag', next: '@entityDecl' }],
+                    [/<!\[/, { token: 'metatag', next: '@conditionalSection' }],
                     [/%[A-Za-z_][\w.-]*;/, 'entity.reference'],
                     [/<!--/, { token: 'comment', next: '@comment' }],
                     [/\]/, { token: 'metatag', next: '@pop' }],
                     [/[^\]<%]+/, 'metatag.content'],
                     [/./, 'metatag.content']
                 ],
+
+                // ── DTD conditional section (Unit.ent, Include/*.ent) ───────────
+                // Sau token <![ còn lại %Name;[ hoặc INCLUDE[ / IGNORE[ rồi nội dung tới ]]>.
+                conditionalSection: [
+                    [/<!ENTITY/, { token: 'metatag', next: '@entityDecl' }],
+                    [/<!\[/, { token: 'metatag', next: '@conditionalSection' }],
+                    [/%[A-Za-z_][\w.-]*;/, 'entity.reference'],
+                    [/<!--/, { token: 'comment', next: '@comment' }],
+                    [/(?:INCLUDE|IGNORE)\b/, 'keyword'],
+                    [/\[/, 'delimiter'],
+                    [/\]\]>/, { token: 'delimiter', next: '@pop' }],
+                    [/[^\]<%\[]+/, ''],
+                    [/./, '']
+                ],
+
                 // <!ENTITY Name "value"> — Name = entity.name; trong value chỉ &X; / %X;
                 // mới là entity.reference. KHÔNG dùng /"[^"]*"/ một phát: chuỗi FBO thường
                 // nhiều dòng, regex đó không khớp xuống dòng → từng từ SQL rơi vào
@@ -173,7 +196,7 @@
                     [/(?:SYSTEM|PUBLIC)\b/, 'keyword'],
                     [/"/, { token: 'attribute.value', next: '@entityValueDq' }],
                     [/'/, { token: 'attribute.value', next: '@entityValueSq' }],
-                    [/%/, ''],
+                    [/%/, 'delimiter'],
                     [/[\w.-]+/, 'entity.name'],
                     [/>/, { token: 'delimiter', next: '@pop' }]
                 ],

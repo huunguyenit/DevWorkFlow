@@ -30,13 +30,17 @@ public interface IWebConfigReader
 /// <summary>Đọc bảng wcommand từ database sys.</summary>
 public interface IWcommandRepository
 {
-    Task<IReadOnlyList<WCommandItem>> GetAllAsync(string sys_connection_string);
+    Task<IReadOnlyList<WCommandItem>> GetAllAsync(
+        string sys_connection_string,
+        CancellationToken cancellation_token = default);
 }
 
 /// <summary>Dựng cây menu; resolve resource từ file main (aspx) → Controller → XML tồn tại.</summary>
 public interface IMenuService
 {
-    Task<IReadOnlyList<MenuTreeNode>> LoadMenuTreeAsync(ProgramContext program);
+    Task<IReadOnlyList<MenuTreeNode>> LoadMenuTreeAsync(
+        ProgramContext program,
+        CancellationToken cancellation_token = default);
 
     /// <summary>
     /// Đọc link (.aspx) của menu, parse Controller, liệt kê các file XML/aspx thật sự có trên disk.
@@ -47,7 +51,9 @@ public interface IMenuService
 /// <summary>Đọc bảng entity (sys) — danh sách database app (cột cdata).</summary>
 public interface IEntityRepository
 {
-    Task<IReadOnlyList<AppDatabaseInfo>> GetAppDatabasesAsync(string sys_connection_string);
+    Task<IReadOnlyList<AppDatabaseInfo>> GetAppDatabasesAsync(
+        string sys_connection_string,
+        CancellationToken cancellation_token = default);
 }
 
 /// <summary>Session Program đang mở trong tool.</summary>

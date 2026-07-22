@@ -51,6 +51,12 @@ public interface IErpLanguageService
         string entity_name);
 
     /// <summary>
+    /// Hit-test entity tại offset source (Ctrl+Click / hover ở Source mode) — trả
+    /// <see cref="EntityHit"/> nếu offset nằm trong một tham chiếu / khai báo entity, null nếu không.
+    /// </summary>
+    EntityHit? ResolveEntityAtOffset(ErpDocumentId document_id, int offset);
+
+    /// <summary>
     /// Semantic inline edit. Inline declaration cập nhật snapshot; external entity
     /// cập nhật đúng resolved file. Entity reference trong source không bị thay.
     /// </summary>

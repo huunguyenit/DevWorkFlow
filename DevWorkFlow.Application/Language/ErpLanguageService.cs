@@ -101,6 +101,14 @@ public sealed class ErpLanguageService : IErpLanguageService
         string entity_name) =>
         GetRequiredDocument(document_id).SemanticModel.FindEntity(entity_name)?.References ?? [];
 
+    public EntityHit? ResolveEntityAtOffset(ErpDocumentId document_id, int offset)
+    {
+        var document = GetDocument(document_id);
+        return document is null
+            ? null
+            : EntityAtOffsetResolver.TryResolve(document.SemanticModel, offset, document.Path);
+    }
+
     public IReadOnlyList<WorkspaceSymbolEntry> SearchSymbols(
         string query,
         ErpSymbolKind? kind = null,

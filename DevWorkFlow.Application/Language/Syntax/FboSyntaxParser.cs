@@ -74,6 +74,7 @@ public static class FboSyntaxParser
                 case SyntaxKind.Whitespace:
                 case SyntaxKind.Text:
                 case SyntaxKind.CData:
+                case SyntaxKind.ConditionalSection:
                 case SyntaxKind.BadToken:
                     AttachToken(stack.Peek(), token);
                     i++;

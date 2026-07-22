@@ -35,9 +35,11 @@ public class MenuService : IMenuService
         _language_service = language_service;
     }
 
-    public async Task<IReadOnlyList<MenuTreeNode>> LoadMenuTreeAsync(ProgramContext program)
+    public async Task<IReadOnlyList<MenuTreeNode>> LoadMenuTreeAsync(
+        ProgramContext program,
+        CancellationToken cancellation_token = default)
     {
-        var items = await _wcommand_repo.GetAllAsync(program.SysConnectionString);
+        var items = await _wcommand_repo.GetAllAsync(program.SysConnectionString, cancellation_token);
         return BuildTree(items);
     }
 

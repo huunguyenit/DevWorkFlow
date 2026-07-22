@@ -50,6 +50,17 @@ public partial class MonacoEditorHost : UserControl
     public event Action<EntityNavigationRequest>? OpenEntityRequested;
 
     /// <summary>
+    /// Ctrl+Click ở Source mode — chỉ mang offset nguồn; host tra Language Service để điều hướng.
+    /// </summary>
+    public event Action<int>? EntityOffsetActivated;
+
+    /// <summary>
+    /// Hover entity (debounced): offset nguồn, mode Insight?, tên entity (Insight). Host tra giá
+    /// trị rồi gọi <see cref="ShowEntityHover"/> / <see cref="HideEntityHover"/>.
+    /// </summary>
+    public event Action<int, bool, string?>? EntityHoverRequested;
+
+    /// <summary>
     /// Theme dùng chung cho mọi instance (màu token XML, font, Insight Block) — đọc từ
     /// UI/Config/json/editor-theme.json qua AppConfigStore, gán một lần tại App startup.
     /// Static vì control được tạo từ XAML không qua DI; null → JS dùng mặc định built-in
@@ -198,6 +209,14 @@ public partial class MonacoEditorHost : UserControl
     {
         InitializeComponent();
         Loaded += OnLoaded;
+
+        // Bắt phím điều hướng ở cấp control (không phải cấp WebView2 lá): WebView2 là airspace
+        // island nên phím Home/End do browser bắn ra bubble lên và AvalonDock document pane
+        // (TabControl/Selector) xử lý Home/End = focus tab đầu/cuối → cướp focus khỏi editor.
+        // Handler ở lá WebView2 bắn quá muộn/không nằm trên đường route; gắn ở chính UserControl
+        // (tunnel tới đây trước khi tới WebView2) + handledEventsToo để vẫn nhận kể cả khi tổ
+        // tiên đã đánh dấu Handled. Xem OnHostPreviewKeyDown.
+        AddHandler(PreviewKeyDownEvent, new KeyEventHandler(OnHostPreviewKeyDown), handledEventsToo: true);
     }
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -235,6 +254,37 @@ public partial class MonacoEditorHost : UserControl
             // WebView2 Runtime chưa cài / lỗi khởi tạo — không crash IDE, để trống Editor.
             System.Diagnostics.Debug.WriteLine($"MonacoEditorHost init lỗi: {ex}");
         }
+    }
+
+    /// <summary>
+    /// Chặn phím điều hướng ở cấp UserControl rồi CHỦ ĐỘNG gọi lệnh con trỏ Monaco qua bridge —
+    /// không lệ thuộc native forwarding của airspace. Chỉ xử lý khi focus thật sự nằm trong
+    /// WebView2 (đang gõ Monaco), để không cướp Home/End khi người dùng đang ở control WPF khác.
+    /// </summary>
+    private void OnHostPreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        // Bỏ qua khi có Ctrl/Alt (Ctrl+Home/End… để routing khác xử lý); chỉ nhận thuần hoặc +Shift.
+        if ((Keyboard.Modifiers & (ModifierKeys.Control | ModifierKeys.Alt)) != 0)
+            return;
+
+        // Handler gắn ở chính UserControl nên chỉ nhận PreviewKeyDown khi route đi qua subtree
+        // này — tức focus đang nằm trong editor. Không cần kiểm tra IsKeyboardFocusWithin (cờ này
+        // có thể sai với airspace WebView2 và sẽ khiến handler no-op).
+        var has_shift = (Keyboard.Modifiers & ModifierKeys.Shift) != 0;
+        var action_id = e.Key switch
+        {
+            Key.Home => has_shift ? "cursorHomeSelect" : "cursorHome",
+            Key.End => has_shift ? "cursorEndSelect" : "cursorEnd",
+            Key.PageUp => has_shift ? "cursorPageUpSelect" : "cursorPageUp",
+            Key.PageDown => has_shift ? "cursorPageDownSelect" : "cursorPageDown",
+            _ => null
+        };
+
+        if (action_id is null) return;
+
+        e.Handled = true;
+        RunOrQueue(() => SendCommandFireAndForget(
+            EditorHostCommands.RunAction, new { actionId = action_id }));
     }
 
     private void OnWebMessageReceived(object? sender, CoreWebView2WebMessageReceivedEventArgs e)
@@ -318,8 +368,43 @@ public partial class MonacoEditorHost : UserControl
                         OpenPath = ReadString(entity_payload, "openPath")
                     });
                 break;
+
+            case EditorHostEvents.EntityOffsetActivated:
+                if (evt.Payload is { } offset_payload
+                    && offset_payload.TryGetProperty("offset", out var offset_prop2)
+                    && offset_prop2.ValueKind == JsonValueKind.Number)
+                    EntityOffsetActivated?.Invoke(offset_prop2.GetInt32());
+                break;
+
+            case EditorHostEvents.EntityHoverRequested:
+                if (evt.Payload is { } hover_payload
+                    && hover_payload.TryGetProperty("offset", out var hover_offset_prop)
+                    && hover_offset_prop.ValueKind == JsonValueKind.Number)
+                {
+                    var insight = hover_payload.TryGetProperty("insight", out var insight_prop)
+                                  && insight_prop.ValueKind is JsonValueKind.True;
+                    var entity_name = hover_payload.TryGetProperty("entityName", out var name_prop)
+                                      && name_prop.ValueKind == JsonValueKind.String
+                        ? name_prop.GetString()
+                        : null;
+                    EntityHoverRequested?.Invoke(hover_offset_prop.GetInt32(), insight, entity_name);
+                }
+                break;
         }
     }
+
+    /// <summary>
+    /// Hiện hover virtual view của entity (value + Copy + scroll). <paramref name="offset"/> là
+    /// offset đã hit-test — JS echo lại để bỏ qua response trễ không khớp hover mới nhất.
+    /// </summary>
+    public void ShowEntityHover(int offset, string name, string value, bool is_error) =>
+        RunOrQueue(() => SendCommandFireAndForget(
+            EditorHostCommands.ShowEntityHover, new { offset, name, value, isError = is_error }));
+
+    /// <summary>Ẩn hover virtual view của entity (kèm offset để JS lọc response trễ).</summary>
+    public void HideEntityHover(int offset) =>
+        RunOrQueue(() => SendCommandFireAndForget(
+            EditorHostCommands.HideEntityHover, new { offset }));
 
     private static string ReadString(JsonElement payload, string name) =>
         payload.TryGetProperty(name, out var prop) && prop.ValueKind == JsonValueKind.String

@@ -3,6 +3,38 @@
 (function () {
     'use strict';
 
+    // Home/End tường minh bằng editor API (không phụ thuộc id lệnh nội bộ Monaco). Smart-home:
+    // nhảy về ký tự không-trắng đầu tiên, nếu đã ở đó thì về cột 1. Trả true nếu đã xử lý,
+    // false để caller fallback sang editor.trigger (dùng cho PageUp/PageDown…).
+    function runCursorLineAction(editor, actionId) {
+        var isHome = actionId === 'cursorHome' || actionId === 'cursorHomeSelect';
+        var isEnd = actionId === 'cursorEnd' || actionId === 'cursorEndSelect';
+        if (!isHome && !isEnd) return false;
+
+        var model = editor.getModel();
+        var pos = editor.getPosition();
+        if (!model || !pos) return false;
+
+        var line = pos.lineNumber;
+        var targetCol;
+        if (isEnd) {
+            targetCol = model.getLineMaxColumn(line);
+        } else {
+            var fnw = model.getLineFirstNonWhitespaceColumn(line); // 1-based, 0 nếu dòng trống/toàn ws
+            targetCol = (fnw !== 0 && pos.column !== fnw) ? fnw : 1;
+        }
+
+        if (/Select$/.test(actionId)) {
+            var sel = editor.getSelection();
+            editor.setSelection(new monaco.Selection(
+                sel.selectionStartLineNumber, sel.selectionStartColumn, line, targetCol));
+        } else {
+            editor.setPosition({ lineNumber: line, column: targetCol });
+        }
+        editor.revealPosition({ lineNumber: line, column: targetCol });
+        return true;
+    }
+
     var params = new URLSearchParams(window.location.search);
     var language = params.get('lang') || 'xml';
 
@@ -270,7 +302,8 @@
                             start.lineNumber, start.column, end.lineNumber, end.column),
                         options: {
                             className: segmentClass(segment),
-                            hoverMessage: segmentHover(segment),
+                            // Không set hoverMessage: hover value do Content Widget (entity hover)
+                            // đảm nhiệm — tránh hai popup chồng nhau (spec Phase 1 §5.3).
                             stickiness: monaco.editor.TrackedRangeStickiness
                                 .NeverGrowsWhenTypingAtEdges
                         }
@@ -300,23 +333,158 @@
         // mở entity ra tab mới, quay lại tab này vẫn thấy đúng vị trí đã click.
         editor.onMouseDown(function (e) {
             if (!e.event || !(e.event.ctrlKey || e.event.metaKey)) return;
-            if (!e.target || !e.target.position || !lastShowInsights) return;
+            if (!e.target || !e.target.position) return;
             var model = editor.getModel();
             if (!model) return;
+            var offset = model.getOffsetAt(e.target.position);
 
-            var segment = segmentAt(model.getOffsetAt(e.target.position));
-            if (!segment || segment.isError) return;
+            if (lastShowInsights) {
+                var segment = segmentAt(offset);
+                if (!segment || segment.isError) return;
+                post({
+                    event: 'openEntityRequested',
+                    payload: {
+                        entityName: segment.entityName,
+                        symbolId: segment.symbolId,
+                        definitionPath: segment.definitionPath,
+                        definitionOffset: segment.definitionOffset,
+                        openPath: segment.openPath
+                    }
+                });
+                return;
+            }
 
-            post({
-                event: 'openEntityRequested',
-                payload: {
-                    entityName: segment.entityName,
-                    symbolId: segment.symbolId,
-                    definitionPath: segment.definitionPath,
-                    definitionOffset: segment.definitionOffset,
-                    openPath: segment.openPath
-                }
+            // Source mode (XML thô): chỉ gửi offset nguồn; host tra LS ResolveEntityAtOffset.
+            post({ event: 'entityOffsetActivated', payload: { offset: offset } });
+        });
+
+        // ── Entity hover virtual view (Content Widget) — CHỈ Source mode ────
+        // Hiện GIÁ TRỊ entity khi hover &X;; scroll nếu dài; nút Copy. Nhận biết "đang trên
+        // widget" bằng hit-test CONTENT_WIDGET của Monaco (không dùng mouseenter/leave DOM —
+        // dễ kẹt pin khi widget bị gỡ lúc con trỏ còn trên nó → tính năng chết). Chống race:
+        // mỗi response mang offset; JS bỏ qua response có offset khác offset hover mới nhất
+        // (tránh hiện value của entity vừa rời khi reply về trễ).
+        var HOVER_WIDGET_ID = 'dwf.entity.hover';
+        var hoverDom = null, hoverNameEl = null, hoverBodyEl = null;
+        var hoverVisible = false, hoverPosition = null, lastHoverOffset = -1;
+        var hoverMoveTimer = null, hoverHideTimer = null;
+
+        function ensureHoverStyle() {
+            if (document.getElementById('dwf-entity-hover-style')) return;
+            var style = document.createElement('style');
+            style.id = 'dwf-entity-hover-style';
+            style.textContent =
+                '.dwf-entity-hover{min-width:220px;max-width:480px;background:#fff;border:1px solid #c8c8c8;' +
+                'border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.18);font-family:Consolas,"Courier New",monospace;' +
+                'font-size:12px;color:#1e1e1e;overflow:hidden;}' +
+                '.dwf-entity-hover .hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;' +
+                'padding:4px 8px;background:#f3f3f3;border-bottom:1px solid #e0e0e0;}' +
+                '.dwf-entity-hover .name{font-weight:600;color:#0b5cad;white-space:nowrap;}' +
+                '.dwf-entity-hover.err .name{color:#c62828;}' +
+                '.dwf-entity-hover .copy{font:inherit;font-size:11px;border:1px solid #c8c8c8;background:#fff;' +
+                'border-radius:3px;padding:1px 8px;cursor:pointer;}' +
+                '.dwf-entity-hover .copy:hover{background:#eaf2fb;border-color:#0b5cad;}' +
+                '.dwf-entity-hover .body{margin:0;padding:8px;max-height:280px;overflow:auto;white-space:pre-wrap;' +
+                'word-break:break-word;}';
+            document.head.appendChild(style);
+        }
+
+        function ensureHoverWidget() {
+            if (hoverDom) return;
+            ensureHoverStyle();
+            hoverDom = document.createElement('div');
+            hoverDom.className = 'dwf-entity-hover';
+            var hdr = document.createElement('div');
+            hdr.className = 'hdr';
+            hoverNameEl = document.createElement('span');
+            hoverNameEl.className = 'name';
+            var copyBtn = document.createElement('button');
+            copyBtn.type = 'button';
+            copyBtn.className = 'copy';
+            copyBtn.textContent = 'Copy';
+            copyBtn.addEventListener('click', function () {
+                var text = hoverBodyEl ? (hoverBodyEl.textContent || '') : '';
+                if (navigator.clipboard && navigator.clipboard.writeText)
+                    navigator.clipboard.writeText(text);
             });
+            hdr.appendChild(hoverNameEl);
+            hdr.appendChild(copyBtn);
+            hoverBodyEl = document.createElement('pre');
+            hoverBodyEl.className = 'body';
+            // Cuộn nội bộ widget, không để editor cuộn theo.
+            hoverBodyEl.addEventListener('wheel', function (ev) { ev.stopPropagation(); }, { passive: true });
+            hoverDom.appendChild(hdr);
+            hoverDom.appendChild(hoverBodyEl);
+        }
+
+        var hoverWidget = {
+            getId: function () { return HOVER_WIDGET_ID; },
+            getDomNode: function () { ensureHoverWidget(); return hoverDom; },
+            getPosition: function () {
+                return hoverPosition
+                    ? {
+                        position: hoverPosition,
+                        preference: [
+                            monaco.editor.ContentWidgetPositionPreference.BELOW,
+                            monaco.editor.ContentWidgetPositionPreference.ABOVE
+                        ]
+                    }
+                    : null;
+            }
+        };
+
+        function showEntityHover(name, value, isError) {
+            ensureHoverWidget();
+            hoverNameEl.textContent = name || '';
+            hoverBodyEl.textContent = value || '';
+            hoverDom.classList.toggle('err', !!isError);
+            if (!hoverVisible) { editor.addContentWidget(hoverWidget); hoverVisible = true; }
+            else { editor.layoutContentWidget(hoverWidget); }
+        }
+
+        function hideEntityHover() {
+            if (!hoverVisible) return;
+            editor.removeContentWidget(hoverWidget);
+            hoverVisible = false;
+        }
+
+        function scheduleHideHover() {
+            if (hoverHideTimer) clearTimeout(hoverHideTimer);
+            hoverHideTimer = setTimeout(hideEntityHover, 80);
+        }
+
+        function isOnHoverWidget(target) {
+            return target
+                && target.type === monaco.editor.MouseTargetType.CONTENT_WIDGET
+                && target.detail === HOVER_WIDGET_ID;
+        }
+
+        editor.onMouseMove(function (e) {
+            // Hover chỉ ở Source mode. Insight: không hover, ẩn nếu đang hiện.
+            if (lastShowInsights) { hideEntityHover(); return; }
+
+            // Con trỏ đang trên chính widget → GIỮ (rule dismiss: chỉ ẩn khi rời widget).
+            if (isOnHoverWidget(e.target)) {
+                if (hoverHideTimer) { clearTimeout(hoverHideTimer); hoverHideTimer = null; }
+                return;
+            }
+
+            if (!e.target || !e.target.position) { scheduleHideHover(); return; }
+            var model = editor.getModel();
+            if (!model) return;
+            var position = e.target.position;
+            var offset = model.getOffsetAt(position);
+            if (hoverMoveTimer) clearTimeout(hoverMoveTimer);
+            hoverMoveTimer = setTimeout(function () {
+                hoverPosition = position;
+                lastHoverOffset = offset;
+                post({ event: 'entityHoverRequested', payload: { offset: offset, insight: false } });
+            }, 120);
+        });
+
+        editor.onMouseLeave(function () {
+            if (hoverMoveTimer) { clearTimeout(hoverMoveTimer); hoverMoveTimer = null; }
+            scheduleHideHover();
         });
 
         // ── Command handling (C# → JS) ──────────────────────────────────────
@@ -457,6 +625,37 @@
                         editor.getAction('editor.action.startFindReplaceAction').run();
                         respond(msg.id, true);
                         break;
+                    case 'showEntityHover': {
+                        // Chỉ hiện nếu response khớp offset hover mới nhất (bỏ reply trễ của
+                        // entity vừa rời → tránh hiện sai value).
+                        var hp = msg.payload || {};
+                        if (hp.offset === lastHoverOffset)
+                            showEntityHover(hp.name, hp.value, hp.isError);
+                        respond(msg.id, true);
+                        break;
+                    }
+                    case 'hideEntityHover': {
+                        var hh = msg.payload || {};
+                        if (hh.offset === undefined || hh.offset === lastHoverOffset)
+                            hideEntityHover();
+                        respond(msg.id, true);
+                        break;
+                    }
+                    case 'runAction': {
+                        // Host chặn phím điều hướng ở WPF để AvalonDock không nuốt
+                        // (Home/End/PageUp/PageDown ±Shift) rồi gọi lệnh tương ứng ở đây.
+                        // Home/End làm tường minh bằng editor API (không phụ thuộc id lệnh nội
+                        // bộ Monaco); PageUp/PageDown dùng editor.trigger (đã chạy đúng).
+                        var actionId = msg.payload && msg.payload.actionId;
+                        try { console.log('[host] runAction', actionId); } catch (ignore) {}
+                        if (actionId) {
+                            editor.focus();
+                            if (!runCursorLineAction(editor, actionId))
+                                editor.trigger('host', actionId, null);
+                        }
+                        respond(msg.id, true);
+                        break;
+                    }
                     default:
                         respond(msg.id, null, 'unknown command: ' + msg.command);
                 }

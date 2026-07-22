@@ -24,6 +24,20 @@ public partial class InsightEditorSurface : UserControl
             if (DataContext is FormBuilderViewModel vm)
                 vm.NavigateToEntity(request);
         };
+        SourceEditor.EntityOffsetActivated += offset =>
+        {
+            if (DataContext is FormBuilderViewModel vm)
+                vm.OnEntityOffsetActivated(offset);
+        };
+        SourceEditor.EntityHoverRequested += (offset, insight, entity_name) =>
+        {
+            if (DataContext is not FormBuilderViewModel vm) return;
+            var view = vm.ResolveEntityHover(offset, insight, entity_name);
+            if (view is null)
+                SourceEditor.HideEntityHover(offset);
+            else
+                SourceEditor.ShowEntityHover(offset, view.Name, view.Value, view.IsError);
+        };
     }
 
     public void OpenSearch() => SourceEditor.OpenSearch();

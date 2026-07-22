@@ -38,7 +38,7 @@ public class LookupReferenceResolver
         if (_cache.TryGetValue(cache_key, out var cached))
             return cached;
 
-        var file_path = FindLookupFile(controllers_path, controller_name);
+        var file_path = LookupPathResolver.FindLookupFile(controllers_path, controller_name);
         if (file_path is null)
         {
             _cache[cache_key] = null;
@@ -58,17 +58,4 @@ public class LookupReferenceResolver
         }
     }
 
-    private static string? FindLookupFile(string controllers_path, string controller_name)
-    {
-        var dir = Path.Combine(controllers_path, "Lookup");
-        if (!Directory.Exists(dir)) return null;
-
-        foreach (var ext in new[] { ".xml", ".f" })
-        {
-            var direct = Path.Combine(dir, controller_name + ext);
-            if (File.Exists(direct)) return direct;
-        }
-
-        return null;
-    }
 }

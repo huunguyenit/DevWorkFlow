@@ -8,6 +8,7 @@ public sealed class DocumentItemVm : ViewModelBase
     private string _title = string.Empty;
     private bool _is_dirty;
     private bool _is_active;
+    private bool _is_pinned;
 
     public required string Id { get; init; }
 
@@ -31,6 +32,12 @@ public sealed class DocumentItemVm : ViewModelBase
     {
         get => _is_active;
         set => SetProperty(ref _is_active, value);
+    }
+
+    public bool IsPinned
+    {
+        get => _is_pinned;
+        set => SetProperty(ref _is_pinned, value);
     }
 
     /// <summary>ViewModel nội dung (FormBuilder, …).</summary>

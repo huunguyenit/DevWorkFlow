@@ -120,6 +120,22 @@ public static class EditorHostCommands
     public const string OpenFind = "openFind";
     public const string OpenReplace = "openReplace";
 
+    /// <summary>
+    /// Chạy một built-in editor action/handler của Monaco qua editor.trigger — payload { actionId }.
+    /// Dùng cho phím điều hướng (cursorHome/End/PageUp/PageDown ±Select) mà host phải chặn ở lớp
+    /// WPF để AvalonDock không nuốt (xem MonacoEditorHost.OnWebViewPreviewKeyDown).
+    /// </summary>
+    public const string RunAction = "runAction";
+
+    /// <summary>
+    /// Hiện hover virtual view của entity (Content Widget) — payload { name, value, isError }.
+    /// Widget tự quản mouseenter/leave; chỉ ẩn khi con trỏ rời khỏi widget.
+    /// </summary>
+    public const string ShowEntityHover = "showEntityHover";
+
+    /// <summary>Ẩn hover virtual view của entity.</summary>
+    public const string HideEntityHover = "hideEntityHover";
+
     /// <summary>Áp dụng theme (màu/font theo token) — payload khớp UI.Services.EditorThemeOptions serialize camelCase.</summary>
     public const string ApplyTheme = "applyTheme";
 
@@ -169,4 +185,18 @@ public static class EditorHostEvents
     /// entity inline khai báo trong chính document → nhảy tới khai báo trong tab đang mở.
     /// </summary>
     public const string OpenEntityRequested = "openEntityRequested";
+
+    /// <summary>
+    /// Ctrl+Click ở Source mode (buffer = XML thô): bridge chỉ gửi <c>offset</c> nguồn; host tra
+    /// Language Service (<c>ResolveEntityAtOffset</c>) để quyết định điều hướng — Editor không parse.
+    /// Payload: <c>{ offset: number }</c>.
+    /// </summary>
+    public const string EntityOffsetActivated = "entityOffsetActivated";
+
+    /// <summary>
+    /// Hover trên entity (debounced). Payload: <c>{ offset: number, insight: bool, entityName?: string }</c>.
+    /// Host tra giá trị (Source: offset→LS; Insight: entityName→SemanticModel) rồi gửi
+    /// <c>showEntityHover</c> / <c>hideEntityHover</c>.
+    /// </summary>
+    public const string EntityHoverRequested = "entityHoverRequested";
 }

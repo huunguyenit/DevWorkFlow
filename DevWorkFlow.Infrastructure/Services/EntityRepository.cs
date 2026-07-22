@@ -17,20 +17,22 @@ public sealed class EntityRepository : IEntityRepository
         ORDER BY code
         """;
 
-    public async Task<IReadOnlyList<AppDatabaseInfo>> GetAppDatabasesAsync(string sys_connection_string)
+    public async Task<IReadOnlyList<AppDatabaseInfo>> GetAppDatabasesAsync(
+        string sys_connection_string,
+        CancellationToken cancellation_token = default)
     {
         if (string.IsNullOrWhiteSpace(sys_connection_string))
             return [];
 
         var items = new List<AppDatabaseInfo>();
         await using var conn = new SqlConnection(sys_connection_string);
-        await conn.OpenAsync();
+        await conn.OpenAsync(cancellation_token);
         await using var cmd = new SqlCommand(Sql, conn)
         {
             CommandTimeout = WebConfigReader.GetTimeoutSeconds(sys_connection_string)
         };
-        await using var reader = await cmd.ExecuteReaderAsync();
-        while (await reader.ReadAsync())
+        await using var reader = await cmd.ExecuteReaderAsync(cancellation_token);
+        while (await reader.ReadAsync(cancellation_token))
         {
             var cdata = reader["cdata"]?.ToString()?.Trim() ?? string.Empty;
             if (string.IsNullOrWhiteSpace(cdata)) continue;

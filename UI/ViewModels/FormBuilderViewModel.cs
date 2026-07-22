@@ -1145,7 +1145,7 @@ public class FormBuilderViewModel : ViewModelBase
     /// .sql → SQL Studio; còn lại (.ent/.txt/.xml/...) → Form document tab, code-only
     /// trừ khi là form source thật (.xml/.f).
     /// </summary>
-    public void OpenEntityFile(string path)
+    public void OpenEntityFile(string path, int target_offset = -1)
     {
         if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
         {
@@ -1177,7 +1177,8 @@ public class FormBuilderViewModel : ViewModelBase
                 $"Entity: {Path.GetFileName(path)}",
                 raw_xml: null,
                 related_files: null,
-                code_only);
+                code_only,
+                target_offset);
             StatusMessage = path;
         }
         catch (Exception ex)
@@ -1194,13 +1195,68 @@ public class FormBuilderViewModel : ViewModelBase
     /// điểm khác so với Go-To-Definition cũ: quay lại tab này vẫn thấy đúng chỗ vừa click,
     /// không phải cuộn tìm lại đoạn text đang đọc.
     /// </summary>
+    /// <summary>
+    /// Hover entity (đồng bộ, in-process): trả value cho Content Widget. Source dùng offset→LS;
+    /// Insight dùng tên entity từ segment → SemanticModel. Null nghĩa là không có entity để hover.
+    /// </summary>
+    public EntityHoverView? ResolveEntityHover(int offset, bool insight, string? entity_name)
+    {
+        if (ErpDocument is null) return null;
+
+        if (insight)
+        {
+            if (string.IsNullOrEmpty(entity_name)) return null;
+            var entity = ErpDocument.SemanticModel.FindEntity(entity_name);
+            if (entity is null) return null;
+            var value = !string.IsNullOrEmpty(entity.DisplayText)
+                ? entity.DisplayText
+                : entity.RawValue ?? string.Empty;
+            var is_error = !entity.IsResolved
+                           && entity.DeclarationKind == EntityDeclarationKind.ExternalSystem;
+            return new EntityHoverView($"&{entity.Name};", value, is_error);
+        }
+
+        if (_language_service is null) return null;
+        var hit = _language_service.ResolveEntityAtOffset(ErpDocument.Id, offset);
+        return hit is null
+            ? null
+            : new EntityHoverView($"&{hit.EntityName};", hit.DisplayText, hit.IsError);
+    }
+
+    /// <summary>
+    /// Ctrl+Click ở Source mode: bridge gửi offset nguồn → tra Language Service
+    /// (<c>ResolveEntityAtOffset</c>) → tái dùng <see cref="NavigateToEntity"/>. Editor không parse.
+    /// </summary>
+    public void OnEntityOffsetActivated(int offset)
+    {
+        if (ErpDocument is null || _language_service is null) return;
+
+        var hit = _language_service.ResolveEntityAtOffset(ErpDocument.Id, offset);
+        if (hit is null)
+        {
+            StatusMessage = "Không có entity tại vị trí này.";
+            return;
+        }
+
+        NavigateToEntity(new EntityNavigationRequest
+        {
+            EntityName = hit.EntityName,
+            SymbolId = hit.SymbolId,
+            DefinitionPath = hit.DefinitionPath,
+            DefinitionOffset = hit.DefinitionOffset,
+            OpenPath = hit.OpenPath
+        });
+    }
+
     public void NavigateToEntity(EntityNavigationRequest request)
     {
         // Entity SYSTEM — nội dung nằm ở file khác. Đuôi file là bất kỳ (.ent/.xml/.txt/...),
-        // OpenEntityFile tự phân loại; không được giả định .ent.
+        // OpenEntityFile tự phân loại; không được giả định .ent. File nội dung KHÔNG chứa khai
+        // báo <!ENTITY> (nó chính là value) → focus đầu file (offset 0), không dùng DefinitionOffset
+        // (offset đó thuộc document đang xem, không phải file nội dung).
         if (!string.IsNullOrWhiteSpace(request.OpenPath))
         {
-            OpenEntityFile(request.OpenPath);
+            OpenEntityFile(request.OpenPath, target_offset: 0);
             return;
         }
 
@@ -1210,11 +1266,13 @@ public class FormBuilderViewModel : ViewModelBase
             return;
         }
 
-        // Khai báo nằm ở file include khác (ví dụ Unit.ent) → cũng mở tab mới.
+        // Khai báo nằm ở file include khác (ví dụ Unit.ent) → mở tab mới và focus tới <!ENTITY…>.
+        // DefinitionOffset là offset TRONG file khai báo (binder gán theo file đó), đúng để điều
+        // hướng sau khi mở include.
         if (string.IsNullOrWhiteSpace(LoadedFilePath)
             || !PathsEqual(request.DefinitionPath, LoadedFilePath))
         {
-            OpenEntityFile(request.DefinitionPath);
+            OpenEntityFile(request.DefinitionPath, target_offset: request.DefinitionOffset);
             return;
         }
 

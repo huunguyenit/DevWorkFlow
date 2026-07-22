@@ -48,6 +48,22 @@ public static class FboLexer
                     continue;
                 }
 
+                // DTD conditional / marked section: <![%Name;[...]]> hoặc <![INCLUDE[...]]>
+                // (không phải CDATA — đã xử lý ở trên). Tránh nhầm thành StartTag → ERP1002 Tag <>.
+                if (StartsWith(text, i, "<!["))
+                {
+                    var end = FindConditionalSectionEnd(text, i);
+                    if (end < 0)
+                    {
+                        Add(tokens, line_map, text, SyntaxKind.BadToken, i, len - i);
+                        i = len;
+                        break;
+                    }
+                    Add(tokens, line_map, text, SyntaxKind.ConditionalSection, i, end + 3 - i);
+                    i = end + 3;
+                    continue;
+                }
+
                 if (StartsWith(text, i, "<!DOCTYPE"))
                 {
                     var end = FindDoctypeEnd(text, i);
@@ -185,6 +201,87 @@ public static class FboLexer
             if (c == '>') return i;
         }
         return -1;
+    }
+
+    /// <summary>
+    /// Tìm offset bắt đầu của <c>]]&gt;</c> đóng section tại <paramref name="from"/> (<c>&lt;![</c>).
+    /// Hỗ trợ lồng nhau; bỏ qua <c>]]&gt;</c> nằm trong cặp quote của ENTITY bên trong.
+    /// </summary>
+    private static int FindConditionalSectionEnd(string text, int from)
+    {
+        var content_start = FindConditionalContentStart(text, from);
+        if (content_start < 0)
+            return -1;
+
+        var depth = 0;
+        var in_quote = '\0';
+        for (var i = content_start + 1; i < text.Length; i++)
+        {
+            var c = text[i];
+            if (in_quote != '\0')
+            {
+                if (c == in_quote) in_quote = '\0';
+                continue;
+            }
+
+            if (c is '"' or '\'')
+            {
+                in_quote = c;
+                continue;
+            }
+
+            if (StartsWith(text, i, "<!["))
+            {
+                var nested_content = FindConditionalContentStart(text, i);
+                if (nested_content < 0)
+                    continue;
+                depth++;
+                i = nested_content;
+                continue;
+            }
+
+            if (StartsWith(text, i, "]]>"))
+            {
+                if (depth == 0)
+                    return i;
+                depth--;
+                i += 2; // loop +1 → skip full ]]>
+            }
+        }
+
+        return -1;
+    }
+
+    /// <summary>
+    /// Offset của <c>[</c> mở nội dung section: sau <c>%Name;</c> hoặc sau keyword (<c>INCLUDE</c>/<c>IGNORE</c>/<c>CDATA</c>).
+    /// </summary>
+    private static int FindConditionalContentStart(string text, int from)
+    {
+        if (!StartsWith(text, from, "<!["))
+            return -1;
+
+        var i = from + 3;
+        if (i >= text.Length)
+            return -1;
+
+        if (text[i] == '%')
+        {
+            i++;
+            while (i < text.Length && text[i] != ';' && text[i] != '[' && text[i] != '>')
+                i++;
+            if (i >= text.Length || text[i] != ';')
+                return -1;
+            i++;
+            while (i < text.Length && char.IsWhiteSpace(text[i]))
+                i++;
+            return i < text.Length && text[i] == '[' ? i : -1;
+        }
+
+        while (i < text.Length && (char.IsLetter(text[i]) || text[i] == '_'))
+            i++;
+        while (i < text.Length && char.IsWhiteSpace(text[i]))
+            i++;
+        return i < text.Length && text[i] == '[' ? i : -1;
     }
 
     private static bool StartsWith(string text, int i, string prefix)

@@ -38,6 +38,8 @@ public class NavigationViewModel : ViewModelBase
     private readonly CommandDataSource _command_source = new();
     private readonly TreeFrameworkHost _tree_host;
     private readonly HashSet<MenuNodeViewModel> _loading_menu_nodes = new();
+    private CancellationTokenSource? _program_load_cts;
+    private int _program_load_version;
 
     private MenuNodeViewModel? _selected_node;
     private bool _is_expanded = true;
@@ -226,6 +228,13 @@ public class NavigationViewModel : ViewModelBase
             return;
         }
 
+        // Hủy load Program trước (restore LastProgram / đổi folder nhanh) — tránh SQL cũ ghi đè session.
+        _program_load_cts?.Cancel();
+        _program_load_cts?.Dispose();
+        _program_load_cts = new CancellationTokenSource();
+        var ct = _program_load_cts.Token;
+        var load_version = ++_program_load_version;
+
         IsBusy = true;
         StatusText = "Đang đọc Program...";
         try
@@ -252,6 +261,9 @@ public class NavigationViewModel : ViewModelBase
                     "Web.config");
             }
 
+            if (load_version != _program_load_version)
+                return;
+
             // SetProgram → Explorer RebuildTree ngay (không chờ SQL menu).
             _program_session.SetProgram(program);
             _settings_store.AddRecentProgram(program.ProgramPath);
@@ -276,7 +288,10 @@ public class NavigationViewModel : ViewModelBase
             var sys_ok = false;
             try
             {
-                var apps = await _entity_repo.GetAppDatabasesAsync(program.SysConnectionString);
+                var apps = await _entity_repo.GetAppDatabasesAsync(program.SysConnectionString, ct);
+                if (!IsCurrentProgramLoad(load_version, program_path))
+                    return;
+
                 AppConnectionResolver.ApplyAppDatabase(
                     program,
                     apps,
@@ -286,8 +301,15 @@ public class NavigationViewModel : ViewModelBase
                 if (!string.IsNullOrWhiteSpace(program.AppDatabaseName))
                     StatusText = $"Program: {ProgramName} | App DB: {program.AppDatabaseName}";
             }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
             catch (Exception ent_ex)
             {
+                if (!IsCurrentProgramLoad(load_version, program_path))
+                    return;
+
                 StatusText = $"Program: {ProgramName} | entity.cdata: {ent_ex.Message}";
                 IdeMessage.ShowException(
                     ent_ex,
@@ -296,10 +318,15 @@ public class NavigationViewModel : ViewModelBase
                     IdeMessageKind.Warning);
             }
 
+            if (!IsCurrentProgramLoad(load_version, program_path))
+                return;
+
             StatusText = "Đang load menu wcommand...";
             try
             {
-                var roots = await _menu_service.LoadMenuTreeAsync(program);
+                var roots = await _menu_service.LoadMenuTreeAsync(program, ct);
+                if (!IsCurrentProgramLoad(load_version, program_path))
+                    return;
 
                 _filter_text = string.Empty;
                 OnPropertyChanged(nameof(FilterText));
@@ -308,6 +335,8 @@ public class NavigationViewModel : ViewModelBase
                 foreach (var root in roots)
                     MenuRoots.Add(new MenuNodeViewModel(root));
                 await SyncCommandTreeAsync().ConfigureAwait(true);
+                if (!IsCurrentProgramLoad(load_version, program_path))
+                    return;
 
                 // Kết nối Sys OK → mới gắn commandTimeout đầy đủ vào CS
                 WebConfigReader.ApplyFullCommandTimeout(program);
@@ -318,8 +347,15 @@ public class NavigationViewModel : ViewModelBase
                     : $" | App: {program.AppDatabaseName}";
                 StatusText = $"Program: {ProgramName}{app_info} | Menu: {CountNodes(MenuRoots)} mục";
             }
+            catch (OperationCanceledException)
+            {
+                return;
+            }
             catch (Exception menu_ex)
             {
+                if (!IsCurrentProgramLoad(load_version, program_path))
+                    return;
+
                 MenuRoots.Clear();
                 await _tree_host.DetachAsync().ConfigureAwait(true);
                 OnPropertyChanged(nameof(TreeRendering));
@@ -347,8 +383,15 @@ public class NavigationViewModel : ViewModelBase
                 }
             }
         }
+        catch (OperationCanceledException)
+        {
+            // Đổi Program giữa chừng — bỏ kết quả cũ.
+        }
         catch (Exception ex)
         {
+            if (!IsCurrentProgramLoad(load_version, program_path))
+                return;
+
             StatusText = $"Lỗi: {ex.Message}";
             try
             {
@@ -361,8 +404,28 @@ public class NavigationViewModel : ViewModelBase
         }
         finally
         {
-            IsBusy = false;
+            if (load_version == _program_load_version)
+                IsBusy = false;
         }
+    }
+
+    /// <summary>
+    /// Load còn là lần mới nhất và session vẫn đúng path
+    /// (tránh restore LastProgram / SQL cũ ghi đè sau khi đã đổi folder).
+    /// </summary>
+    private bool IsCurrentProgramLoad(int load_version, string program_path)
+    {
+        if (load_version != _program_load_version)
+            return false;
+
+        var current = _program_session.Current;
+        if (current is null)
+            return false;
+
+        return string.Equals(
+            Path.GetFullPath(current.ProgramPath),
+            Path.GetFullPath(program_path),
+            StringComparison.OrdinalIgnoreCase);
     }
 
     private async Task RefreshMenuAsync()

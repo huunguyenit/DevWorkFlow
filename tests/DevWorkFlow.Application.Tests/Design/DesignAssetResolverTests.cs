@@ -102,7 +102,9 @@ public sealed class DesignAssetResolverTests
 
     private sealed class FakeMenuService(params MenuTreeNode[] nodes) : IMenuService
     {
-        public Task<IReadOnlyList<MenuTreeNode>> LoadMenuTreeAsync(ProgramContext program) =>
+        public Task<IReadOnlyList<MenuTreeNode>> LoadMenuTreeAsync(
+            ProgramContext program,
+            CancellationToken cancellation_token = default) =>
             Task.FromResult<IReadOnlyList<MenuTreeNode>>(nodes);
 
         public MenuResourceBundle ResolveFromMenu(ProgramContext program, MenuTreeNode menu_node) =>

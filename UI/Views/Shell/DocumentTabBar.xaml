@@ -3,11 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:shell="clr-namespace:UI.ViewModels.Shell"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
-    <Border Background="{StaticResource IdeTabInactiveBgBrush}"
+    <Border Background="{StaticResource IdeDockHeaderBgBrush}"
             BorderBrush="{StaticResource IdeBorderBrush}"
             BorderThickness="0,0,0,1"
-            MinHeight="28">
-        <ItemsControl ItemsSource="{Binding Documents}">
+            MinHeight="30">
+        <ItemsControl ItemsSource="{Binding Documents}"
+                      Margin="4,3,4,0"
+                      KeyboardNavigation.DirectionalNavigation="None"
+                      KeyboardNavigation.TabNavigation="Once">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
@@ -20,18 +23,50 @@
                                  IsChecked="{Binding IsActive, Mode=OneWay}"
                                  Command="{Binding DataContext.ActivateDocumentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                  CommandParameter="{Binding}"
-                                 ToolTip="{Binding FilePath}">
+                                 ToolTip="{Binding FilePath}"
+                                 ContextMenuOpening="Tab_ContextMenuOpening">
+                        <RadioButton.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Pin" Click="PinMenuItem_Click">
+                                    <MenuItem.Icon>
+                                        <md:PackIcon Kind="Pin" Width="14" Height="14"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <Separator/>
+                                <MenuItem Header="Copy Full Path" Click="CopyPathMenuItem_Click">
+                                    <MenuItem.Icon>
+                                        <md:PackIcon Kind="ContentCopy" Width="14" Height="14"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                                <MenuItem Header="Open in File Explorer" Click="RevealMenuItem_Click">
+                                    <MenuItem.Icon>
+                                        <md:PackIcon Kind="FolderOpenOutline" Width="14" Height="14"/>
+                                    </MenuItem.Icon>
+                                </MenuItem>
+                            </ContextMenu>
+                        </RadioButton.ContextMenu>
                         <StackPanel Orientation="Horizontal">
-                            <md:PackIcon Kind="FileCodeOutline" Width="12" Height="12"
+                            <md:PackIcon Kind="Pin" Width="12" Height="12"
+                                         VerticalAlignment="Center" Margin="0,0,5,0"
+                                         RenderTransformOrigin="0.5,0.5"
+                                         Foreground="{StaticResource FgMutedBrush}"
+                                         Visibility="{Binding IsPinned, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <md:PackIcon.RenderTransform>
+                                    <RotateTransform Angle="45"/>
+                                </md:PackIcon.RenderTransform>
+                            </md:PackIcon>
+                            <md:PackIcon Kind="FileCodeOutline" Width="13" Height="13"
                                          VerticalAlignment="Center" Margin="0,0,6,0"
-                                         Foreground="{StaticResource PrimaryBrush}"/>
+                                         Foreground="{StaticResource PrimaryBrush}"
+                                         Visibility="{Binding IsPinned, Converter={StaticResource InverseBoolToVisibilityConverter}}"/>
                             <TextBlock Text="{Binding DisplayTitle}" VerticalAlignment="Center"/>
                             <Button Style="{StaticResource IdeTabCloseButtonStyle}"
                                     ToolTip="Close"
-                                    Content="✕"
                                     Command="{Binding DataContext.CloseDocumentCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                     CommandParameter="{Binding}"
-                                    PreviewMouseLeftButtonDown="CloseButton_PreviewMouseLeftButtonDown"/>
+                                    PreviewMouseLeftButtonDown="CloseButton_PreviewMouseLeftButtonDown">
+                                <md:PackIcon Kind="Close" Width="12" Height="12" VerticalAlignment="Center"/>
+                            </Button>
                         </StackPanel>
                     </RadioButton>
                 </DataTemplate>

@@ -443,6 +443,36 @@ public sealed class EntitySymbolSystemTests : IDisposable
         Assert.Contains("&A;", result.ClearText);
     }
 
+    [Fact]
+    public void ClearText_system_segment_resolves_relative_parent_path()
+    {
+        // FBO thật: <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt"> —
+        // base resolve = thư mục file khai báo; Ctrl+Click Insight cần OpenPath tuyệt đối tồn tại.
+        var sub_dir = Path.Combine(_temp_directory, "Dir");
+        Directory.CreateDirectory(sub_dir);
+        var include_dir = Path.Combine(_temp_directory, "Include", "Javascript");
+        Directory.CreateDirectory(include_dir);
+        var script_path = Path.Combine(include_dir, "Irregular.txt");
+        File.WriteAllText(script_path, "irregular-script");
+
+        var controller_path = Path.Combine(sub_dir, "Controller.xml");
+        const string xml = """
+            <!DOCTYPE dir [
+              <!ENTITY ScriptIrregular SYSTEM "..\Include\Javascript\Irregular.txt">
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">&ScriptIrregular;</dir>
+            """;
+        var syntax = FboSyntaxParser.Parse(xml, controller_path);
+        var result = new EntitySymbolBinder().Bind(controller_path, xml, syntax);
+
+        var segment = Assert.Single(
+            result.ClearTextSegments, s => s.EntityName == "ScriptIrregular");
+        Assert.Equal(ClearTextSegmentKind.System, segment.Kind);
+        Assert.False(string.IsNullOrEmpty(segment.OpenPath));
+        Assert.Equal(Path.GetFullPath(script_path), Path.GetFullPath(segment.OpenPath));
+        Assert.True(File.Exists(segment.OpenPath));
+    }
+
     private static string Text(string clear_text, ClearTextSegment segment) =>
         clear_text.Substring(segment.Span.StartOffset, segment.Span.Length);
 

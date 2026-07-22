@@ -75,7 +75,7 @@ public static class NavigationMapBuilder
         }
 
         // Entity (DTD) — không nằm trong cây element; thêm section tổng hợp từ Semantic.
-        var entities_section = BuildEntitiesSection(semantic, doc_key, root_id, ctx);
+        var entities_section = BuildEntitiesSection(semantic, doc_key, uri, root_id, ctx);
         if (entities_section is not null)
             root_children.Add(entities_section);
 
@@ -616,10 +616,15 @@ public static class NavigationMapBuilder
     private static DocumentNode? BuildEntitiesSection(
         IErpSemanticModel semantic,
         string doc_key,
+        string document_path,
         NodeId root_id,
         BuildContext ctx)
     {
-        var entities = semantic.GetEntities();
+        // Chỉ hiện entity KHAI BÁO hoặc THAM CHIẾU trong chính document đang mở. Entity chỉ
+        // khai báo/tham chiếu trong file include (Path khác) là "thừa" với Outline của file này.
+        var entities = semantic.GetEntities()
+            .Where(e => BelongsToDocument(e, document_path))
+            .ToList();
         if (entities.Count == 0) return null;
 
         var section_id = NodeId.FromStableKey($"{doc_key}|nav:entities");
@@ -665,6 +670,27 @@ public static class NavigationMapBuilder
         ctx.ById[section_id] = section;
         ctx.ParentOf[section_id] = root_id;
         return section;
+    }
+
+    /// <summary>Entity thuộc document nếu khai báo trong nó, hoặc có ít nhất một reference trong nó.</summary>
+    private static bool BelongsToDocument(EntitySymbol entity, string document_path)
+        => PathsEqual(entity.Definition.Path, document_path)
+           || entity.References.Any(r => PathsEqual(r.Location.Path, document_path));
+
+    private static bool PathsEqual(string? left, string? right)
+    {
+        var l = left ?? string.Empty;
+        var r = right ?? string.Empty;
+        if (l.Length == 0 && r.Length == 0) return true;
+        if (l.Length == 0 || r.Length == 0) return false;
+        try
+        {
+            return Path.GetFullPath(l).Equals(Path.GetFullPath(r), StringComparison.OrdinalIgnoreCase);
+        }
+        catch
+        {
+            return l.Equals(r, StringComparison.OrdinalIgnoreCase);
+        }
     }
 
     private static (ErpSymbol? Symbol, string? SymbolId) ResolveSymbol(

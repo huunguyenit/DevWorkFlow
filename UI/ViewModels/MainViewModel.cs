@@ -328,7 +328,8 @@ public class MainViewModel : ViewModelBase
         string title,
         string raw_xml,
         IEnumerable<string>? related_files,
-        bool code_only)
+        bool code_only,
+        int target_offset = -1)
     {
         if (string.IsNullOrWhiteSpace(file_path))
             file_path = $"form://{Guid.NewGuid():N}";
@@ -344,6 +345,7 @@ public class MainViewModel : ViewModelBase
             CurrentPageTitle = existing.Title;
             StatusLanguage = LanguageDisplay(existing_vm.EditorLanguage);
             AppStatus = existing_vm.LoadedFilePath;
+            NavigateAfterOpen(existing_vm, target_offset);
             return;
         }
 
@@ -378,6 +380,20 @@ public class MainViewModel : ViewModelBase
         AppStatus = form_vm.LoadedFilePath;
         Shell.StatusReady = "Ready";
         _nav.NavigateTo(Pages.FormBuilder);
+        NavigateAfterOpen(form_vm, target_offset);
+    }
+
+    /// <summary>
+    /// Điều hướng tới offset sau khi tab đã mở. Defer đến DispatcherPriority.Loaded để editor
+    /// (WebView2) của tab mới kịp tạo + bind ScrollToOffset trước khi đặt caret — nếu gọi ngay,
+    /// tab mới rơi về caret mặc định (cuối file).
+    /// </summary>
+    private static void NavigateAfterOpen(FormBuilderViewModel form, int target_offset)
+    {
+        if (target_offset < 0) return;
+        System.Windows.Application.Current?.Dispatcher.BeginInvoke(
+            System.Windows.Threading.DispatcherPriority.Loaded,
+            () => form.NavigateToOffset(target_offset));
     }
 
     private IErpDocument OpenViaLanguageService(string file_path, string raw_xml)

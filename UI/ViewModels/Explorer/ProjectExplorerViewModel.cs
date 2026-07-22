@@ -131,7 +131,8 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IAsyncDisposable
 
         if (meta.IsDirectory)
         {
-            if (_config.Explorer.ExpandOnFolderClick)
+            // Double-click: TreeControl đã ToggleExpand. Single-click: chỉ expand (không collapse).
+            if (!is_double_click && _config.Explorer.ExpandOnFolderClick)
                 _ = _tree_host.Engine?.ExpandAsync(node.Id);
             return;
         }

@@ -217,7 +217,7 @@ public partial class TreeControl : UserControl
         {
             _activation_timer?.Stop();
             _pending_row = null;
-            Engine.RaiseActivated(row, is_double_click: true);
+            _ = HandleDoubleClickAsync(row);
         }
         else
         {
@@ -226,6 +226,42 @@ public partial class TreeControl : UserControl
 
         RowList.Focus();
         e.Handled = true;
+    }
+
+    /// <summary>
+    /// Double-click node có con → toggle expand/collapse (giống chevron / Left-Right).
+    /// Sau đó vẫn RaiseActivated để host mở file/object khi là leaf.
+    /// </summary>
+    private async Task HandleDoubleClickAsync(TreeRowVm row)
+    {
+        if (Engine is null) return;
+
+        if (row.IsExpandable && !row.Node.IsPlaceholder && !_expand_busy)
+        {
+            _expand_busy = true;
+            var generation = ++_expand_generation;
+            var engine = Engine;
+            try
+            {
+                if (!row.IsExpanded)
+                    RaiseEvent(new TreeControlNodeActivatedEventArgs(
+                        NodeExpandingEvent, row.Node, is_double_click: false));
+
+                await engine.ToggleExpandAsync(row);
+                if (generation == _expand_generation)
+                    ClampScrollAfterLayout();
+            }
+            catch
+            {
+                // DataSource / dispose race — tránh crash UI.
+            }
+            finally
+            {
+                _expand_busy = false;
+            }
+        }
+
+        Engine.RaiseActivated(row, is_double_click: true);
     }
 
     private static T? FindAncestor<T>(DependencyObject? current) where T : DependencyObject
