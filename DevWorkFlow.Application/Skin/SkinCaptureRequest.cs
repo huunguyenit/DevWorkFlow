@@ -1,3 +1,5 @@
+using DevWorkFlow.Domain.Models.Fbo;
+
 namespace DevWorkFlow.Application.Skin;
 
 /// <summary>
@@ -18,4 +20,7 @@ public sealed class SkinCaptureRequest
 
     /// <summary>Program root để mirror CSS/JS/image (ProgramContext.ProgramPath).</summary>
     public string ProgramRoot { get; set; } = string.Empty;
+
+    /// <summary>Loại controller (Form/Grid/Lookup) của document đang mở lúc capture, nếu có.</summary>
+    public ControllerDisplayKind? DocKind { get; set; }
 }

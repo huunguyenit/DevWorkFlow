@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:ctrl="clr-namespace:UI.Views.Controls"
+             xmlns:design="clr-namespace:UI.Views.Design"
              xmlns:lang="clr-namespace:DevWorkFlow.Domain.Language;assembly=DevWorkFlow.Domain">
 
     <!--
-        Designer WPF cũ (tab "Designer" + DesignViewport render form/grid/lookup bằng WPF) đã được gỡ.
-        Chỉ còn Source | Insight. Data model DesignSurfaceVm/DesignCellVm vẫn giữ để phục vụ Property Grid
-        + navigation (chọn field theo symbol). Bản dựng lại runtime "What You Design Is What Runtime
-        Executes" sẽ do Designer Platform (WebView2) đảm nhận sau — xem docs/04-DESIGNER_PLATFORM.md.
+        Source | Insight | Design. Design (ErpEditorMode.Designer) render HTML sinh từ XML→Semantic→Layout
+        (DesignHtmlGenerator) trong WebView2 kèm 2 thước px — KHÔNG phụ thuộc skin capture. Data model
+        DesignSurfaceVm/DesignCellVm vẫn giữ để phục vụ Property Grid + navigation (chọn field theo symbol)
+        — xem docs/04-DESIGNER_PLATFORM.md.
     -->
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
@@ -32,88 +33,115 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <!-- Toolbar -->
+        <!-- Toolbar: trái = tiêu đề/path (co giãn + ellipsis); phải = Source|Insight|Design.
+             Lưu qua IdeCommands.Save (Ctrl+S) ở MainWindow — không nút Lưu/Xoá trên toolbar. -->
         <Border Grid.Row="0"
                 Background="{StaticResource CodePaneHeaderBrush}"
                 BorderBrush="{StaticResource IdeBorderBrush}"
                 BorderThickness="0,0,0,1"
                 Padding="12,6">
-            <DockPanel>
-                <StackPanel DockPanel.Dock="Left" Orientation="Horizontal">
-                    <md:PackIcon Kind="FileCodeOutline" Width="16" Height="16"
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" MinWidth="80"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid Grid.Column="0" VerticalAlignment="Center">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*" MinWidth="40"/>
+                    </Grid.ColumnDefinitions>
+                    <md:PackIcon Grid.Column="0" Kind="FileCodeOutline" Width="16" Height="16"
                                  Foreground="{StaticResource PrimaryBrush}"
                                  VerticalAlignment="Center"/>
-                    <TextBlock Text="{Binding LoadedTitle, FallbackValue='Document'}"
+                    <TextBlock Grid.Column="1"
+                               Text="{Binding LoadedTitle, FallbackValue='Document'}"
                                FontSize="13" FontWeight="SemiBold"
                                Foreground="{StaticResource FgBrightBrush}"
-                               VerticalAlignment="Center" Margin="8,0,12,0"/>
-                    <TextBlock Text="{Binding LoadedFilePath}"
+                               VerticalAlignment="Center" Margin="8,0,8,0"
+                               TextTrimming="CharacterEllipsis" MaxWidth="200"/>
+                    <TextBlock Grid.Column="2"
+                               Text="{Binding LoadedFilePath}"
                                FontSize="11" Foreground="{StaticResource FgMutedBrush}"
                                VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
-                               MaxWidth="420"
                                Visibility="{Binding LoadedFilePath, Converter={StaticResource NullOrEmptyToVisibilityConverter}}"/>
-                </StackPanel>
+                </Grid>
 
-                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
-                    <!-- Segmented: Source | Insight -->
-                    <Border Background="White" BorderBrush="{StaticResource IdeBorderBrush}"
-                            BorderThickness="1" CornerRadius="4" Padding="2" Margin="0,0,10,0">
-                        <StackPanel Orientation="Horizontal">
-                            <Button Command="{Binding SetEditorModeCommand}"
-                                    CommandParameter="{x:Static lang:ErpEditorMode.Source}"
-                                    ToolTip="Source — XML raw">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource EditorModeTabStyle}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsSourceMode}" Value="True">
-                                                <Setter Property="Background" Value="#ECEFF1"/>
-                                                <Setter Property="Foreground" Value="#37474F"/>
-                                                <Setter Property="FontWeight" Value="SemiBold"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Kind="CodeTags" Width="13" Height="13" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Source" Margin="5,0,0,0"/>
-                                </StackPanel>
-                            </Button>
-                            <Button Command="{Binding SetEditorModeCommand}"
-                                    CommandParameter="{x:Static lang:ErpEditorMode.Insight}"
-                                    ToolTip="Insight — Semantic + Entity">
-                                <Button.Style>
-                                    <Style TargetType="Button" BasedOn="{StaticResource EditorModeTabStyle}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsInsightMode}" Value="True">
-                                                <Setter Property="Background" Value="{StaticResource IdeAccentSoftBrush}"/>
-                                                <Setter Property="Foreground" Value="#1565C0"/>
-                                                <Setter Property="FontWeight" Value="SemiBold"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Kind="LightbulbOnOutline" Width="13" Height="13" VerticalAlignment="Center"/>
-                                    <TextBlock Text="Insight" Margin="5,0,0,0"/>
-                                </StackPanel>
-                            </Button>
-                        </StackPanel>
-                    </Border>
-
-                    <Button Style="{StaticResource IdePrimaryToolButtonStyle}"
-                            Content="Lưu" Command="{Binding SaveCommand}"
-                            ToolTip="Save (Ctrl+S)" Margin="0,0,4,0"/>
-                    <Button Style="{StaticResource IdeToolButtonStyle}"
-                            Content="Xoá" Command="{Binding ClearCommand}"
-                            ToolTip="Clear document"/>
-                </StackPanel>
-            </DockPanel>
+                <Border Grid.Column="1" Background="White"
+                        BorderBrush="{StaticResource IdeBorderBrush}"
+                        BorderThickness="1" CornerRadius="4" Padding="2" Margin="12,0,0,0"
+                        VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Command="{Binding SetEditorModeCommand}"
+                                CommandParameter="{x:Static lang:ErpEditorMode.Source}"
+                                ToolTip="Source — XML raw">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource EditorModeTabStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsSourceMode}" Value="True">
+                                            <Setter Property="Background" Value="#ECEFF1"/>
+                                            <Setter Property="Foreground" Value="#37474F"/>
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="CodeTags" Width="13" Height="13" VerticalAlignment="Center"/>
+                                <TextBlock Text="Source" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding SetEditorModeCommand}"
+                                CommandParameter="{x:Static lang:ErpEditorMode.Insight}"
+                                ToolTip="Insight — Semantic + Entity">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource EditorModeTabStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsInsightMode}" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource IdeAccentSoftBrush}"/>
+                                            <Setter Property="Foreground" Value="#1565C0"/>
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="LightbulbOnOutline" Width="13" Height="13" VerticalAlignment="Center"/>
+                                <TextBlock Text="Insight" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding SetEditorModeCommand}"
+                                CommandParameter="{x:Static lang:ErpEditorMode.Designer}"
+                                ToolTip="Design — XML → HTML WebView"
+                                Visibility="{Binding ShowDesignerTab, Converter={StaticResource BoolToVis}}">
+                            <Button.Style>
+                                <Style TargetType="Button" BasedOn="{StaticResource EditorModeTabStyle}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsDesignerMode}" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource IdeAccentSoftBrush}"/>
+                                            <Setter Property="Foreground" Value="#1565C0"/>
+                                            <Setter Property="FontWeight" Value="SemiBold"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="MonitorScreenshot" Width="13" Height="13" VerticalAlignment="Center"/>
+                                <TextBlock Text="Design" Margin="5,0,0,0"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </Grid>
         </Border>
 
-        <!-- Document center: Source / Insight -->
+        <!-- Document center: Source / Insight / Design -->
         <Grid Grid.Row="1">
             <ctrl:InsightEditorSurface
                 Visibility="{Binding ShowEditorSurface, Converter={StaticResource BoolToVis}}"/>
+            <design:DesignWebViewHost
+                Visibility="{Binding ShowDesignerModeSurface, Converter={StaticResource BoolToVis}}"/>
         </Grid>
 
         <Border Grid.Row="2" Background="{StaticResource CodePaneHeaderBrush}"

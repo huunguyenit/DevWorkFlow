@@ -1,7 +1,7 @@
 # CURRENT_STATE
 
 Where the project stands today. Entry point + rules: `CLAUDE.md`.
-For long-form background, open the one `docs/` file the task needs — never the set. Update: 2026-07-19.
+For long-form background, open the one `docs/` file the task needs — never the set. Update: 2026-07-22.
 
 ## Maturity
 
@@ -70,19 +70,48 @@ tên entity, Ctrl+Click = mở entity (SYSTEM → tab mới, giữ nguyên caret
 Spec: `docs/specs/editor/insight-editor-surface.md` §2026-07-20.
 
 **Designer WPF cũ đã gỡ (2026-07-20):** tab "Designer" + `DesignViewport` (render form/grid/lookup bằng
-WPF) + rulers/guides/viewport/span-column commands + controls (`PixelRuler`/`DotGridBackground`/
-`GuidelineLayer`/`ColumnGuides`/`SelectionChrome`) + `DesignViewportVm`/`GuidelineVm` **removed**. Chỉ còn
-`Source | Insight`. **GIỮ** data model `DesignSurfaceVm`/`DesignCellVm`/`DesignFieldPropertyVm` +
-`FboDesignMapper` vì **Property Grid + navigation (chọn field theo symbol) + LoadedTitle + Save layout** vẫn
-dựa vào. `ErpEditorMode.Designer` (Domain) giữ dormant (không UI trigger) để không phá lớp language. Full
-removal khỏi data model = ADR-0006, task riêng. Bản dựng lại đúng runtime → Designer Platform (WebView2).
+WPF) + rulers/guides/viewport/span-column commands + controls cũ (`DotGridBackground`/`GuidelineLayer`/
+`ColumnGuides`/`SelectionChrome`) + `DesignViewportVm`/`GuidelineVm` **removed**. **GIỮ** data model
+`DesignSurfaceVm`/`DesignCellVm`/`DesignFieldPropertyVm` + `FboDesignMapper` vì **Property Grid +
+navigation (chọn field theo symbol) + LoadedTitle + Save layout** vẫn dựa vào. Full removal khỏi data
+model = ADR-0006, task riêng.
 
-**Project Web Skin MVP (2026-07-20, landed):** `IProjectSkinService` độc lập (Application/Skin) —
-capture shell ERP (WebView2 riêng, tách Monaco) → `FboHostNormalizer` chèn host trống `#dwf-designer-host`
-(heuristic `#mpMainBody`/`#bodyWrapper` từ FBO master pages) → `ProgramAssetResolver` mirror Css/ClientScript/
-Images từ program_root vào `%AppData%/DevWorkFlow/skins/<project_id>/assets` → xem skin trống. Chưa parse
-XML, chưa nhúng form. **HTML Generator / Designer Overlay chưa nối** — đây chỉ là nền runtime.
-Menu: Design ▸ Web Skin. Infra: HtmlAgilityPack.
+**Design tab = HTML Generator (2026-07-22, landed):** `ErpEditorMode.Designer` render HTML sinh từ
+**XML→Semantic→Layout** (KHÔNG còn phụ thuộc skin capture). Module `Design`:
+- **Application/Design**: `DesignHtmlGenerator` (shell UTF-8 + CSS IDE nhúng `fbo-design-minimal.css` +
+  CSS controller + link asset tĩnh) · `DesignFormHtmlBuilder` (Dir: vùng main/tab category/footer, cell
+  ủy quyền) · `DesignGridHtmlBuilder` (Grid list/Detail, 5 placeholder rows) · `DesignControlHtmlBuilder`
+  (field→control: mask/numeric/dropdown/boolean/lookup…) · `DesignDocumentService` (orchestrate: resolve
+  asset + Grid Detail qua Language Service). Mỗi element mang `data-symbol-id`/`data-node-id` cho overlay
+  sau này. Chỉ nhúng 1 script chuyển tab (IDE-owned), **không** script controller, **không** `.axd`.
+- **Infrastructure/Design**: `DesignAssetResolver` (menu→main.aspx→MasterPage→Css/ClientScript/Images,
+  bỏ .axd/ngoại vi) · `AspxMasterPageParser` · `DesignRelatedDocumentLocator`.
+- **UI**: `DesignWebViewHost` (thay `SkinDesignerView`, đã gỡ) `NavigateToString(GeneratedDesignDocument.Html)`
+  + 2 `PixelRuler` (zoom/scroll như cũ); map virtual host `devworkflow.program`→Program root nạp asset tĩnh.
+  `FormBuilderViewModel` giữ `GeneratedDesignDocument`/`IsDesignRendering`/`DesignRenderError`, refresh
+  cancellation-safe khi parse/đổi ngôn ngữ/đổi Program/vào Designer.
+- **Layout + thước (2026-07-22):** `FormTable` = `width:{tổng cột}px;table-layout:fixed;padding:8px`; `view@height`
+  chuyển từ vùng main sang **tab category không chứa Grid** (`CategoryHasGrid`); tab có field Grid-style bọc
+  detail trong `.DwfGridBody` cao theo `field@rows`. `DesignWebViewHost` tiêm script đo gốc bảng main → post
+  `designViewport{scroll,origin}` → thước `Offset=(scroll−origin)×zoom` (tick 0 = mép FormTable); crosshair +
+  nhãn px (toạ độ theo gốc bảng) vẽ trong document, ẩn khi rời trang.
+- **Config/css packs (2026-07-22):** `UI/Config/css/manifest.json` + `fbo-form|grid|tabs|toolbar|lookup.css`
+  (adapt từ `.temp` WebResource form/grid, map `.DwfTab*`/toolbar). Cascade: Program → IDE baseline →
+  Config packs → controller `<css>`. `IDesignCssCatalog`/`DesignCssCatalog` load từ `ConfigRoot/css`;
+  Application chỉ nhận `DesignCssBundle` (không đọc FS). Sửa CSS trong Config không cần rebuild Application
+  (copy-to-output).
+- `FboXmlParser` giờ chọn đúng view `id="Dir"`/`id="Grid"`, parse `css/text` + `grid/@type`;
+  `ErpSemanticBinder.LegacyDocument` parse trên ClearText đã expand entity (thấy field/CSS từ Include).
+- **Overlay drag/drop + DOM→Command là pha sau.**
+
+`SkinUrlHelper` gợi ý base_url = `https://dev.fast.com.vn/<tên dự án>`; `SkinManifest`/`SkinCaptureRequest`
+có `DocKind` (`ControllerDisplayKind`). Menu "Xem skin" đã gỡ.
+
+**Project Web Skin (chỉ còn cho AI/tham khảo, 2026-07-22):** `IProjectSkinService` (Application/Skin) vẫn
+capture shell ERP → `FboHostNormalizer` (ép `<meta charset=utf-8>`, host trống `#dwf-designer-host`, rewrite
+asset → `devworkflow.program`) → lưu `shell.html` (UTF-8 **có BOM**) vào `%AppData%/DevWorkFlow/skins/`.
+**KHÔNG còn tham gia runtime của tab Design** (Design đã chuyển sang HTML Generator). Giữ menu Design ▸ Web
+Skin (Lấy skin / Refresh assets) + `ProjectSkinViewModel` cho tooling/AI. Infra: HtmlAgilityPack.
 
 ## Next milestone: Language Sync Foundation
 

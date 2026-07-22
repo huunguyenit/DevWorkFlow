@@ -22,6 +22,12 @@ public class FboGridModel
     public string CodeField { get; set; } = string.Empty;
     public string? OrderBy { get; set; }
 
+    /// <summary>Grid.xsd grid/@type, ví dụ Detail.</summary>
+    public string? AppType { get; set; }
+
+    public bool IsDetail =>
+        string.Equals(AppType, "Detail", StringComparison.OrdinalIgnoreCase);
+
     public LocalizedText Title { get; set; } = new();
     public LocalizedText SubTitle { get; set; } = new();
 

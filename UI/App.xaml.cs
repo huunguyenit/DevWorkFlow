@@ -2,8 +2,10 @@
 using UI.Services;
 using UI.ViewModels;
 using UI.ViewModels.Explorer;
+using DevWorkFlow.Application.Design;
 using DevWorkFlow.Application.Language;
 using DevWorkFlow.Domain.Models;
+using DevWorkFlow.Infrastructure.Design;
 using DevWorkFlow.Infrastructure.Services;
 using DevWorkFlow.Infrastructure.Skin;
 using UI.Docking;
@@ -12,6 +14,7 @@ using UI.ViewModels.Bottom;
 using UI.ViewModels.Insight;
 using UI.ViewModels.Properties;
 using UI.ViewModels.Toolbox;
+using System.IO;
 
 namespace UI;
 
@@ -65,11 +68,20 @@ public partial class App : Application
         var form_navigator    = new FormDocumentNavigator();
         var db_scripter       = new DatabaseObjectScripter(sql_runner, app_config);
         var skin_service      = new ProjectSkinService(
-            new LocalSkinStore(), new FboHostNormalizer(), new ProgramAssetResolver());
+            new LocalSkinStore(), new FboHostNormalizer());
         var project_skin_vm   = new ProjectSkinViewModel(skin_service, program_session);
 
+        // Design module: XML→Semantic→HTML (không phụ thuộc skin capture).
+        var design_css_catalog = new DesignCssCatalog(Path.Combine(app_config.ConfigRoot, "css"));
+        var design_document_service = new DesignDocumentService(
+            language_service,
+            new DesignAssetResolver(menu_service),
+            new DesignRelatedDocumentLocator(),
+            new DesignHtmlGenerator(),
+            design_css_catalog);
+
         FormBuilderViewModel CreateForm() =>
-            new(program_session, sql_navigator, language_service, form_navigator);
+            new(program_session, sql_navigator, language_service, form_navigator, design_document_service);
 
         var seed_form       = CreateForm();
         var navigation_vm   = new NavigationViewModel(

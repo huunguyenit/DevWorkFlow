@@ -39,16 +39,17 @@ public class FboHostNormalizerTests
     }
 
     [Fact]
-    public void Normalize_RewritesLocalAssets_ToAssetsFolder()
+    public void Normalize_RewritesLocalAssets_ToProgramVirtualHost()
     {
         var result = new FboHostNormalizer().Normalize(FboShell);
 
         var css = result.Assets.Single(a => a.OriginalUrl == "Css/Menu.css?v=1");
         Assert.Equal("Css/Menu.css", css.RelativePath);
-        Assert.Equal("assets/Css/Menu.css", css.RewrittenUrl);
+        Assert.Equal($"https://{LocalSkinStore.ProgramVirtualHost}/Css/Menu.css", css.RewrittenUrl);
         Assert.Equal(SkinAssetKind.Css, css.Kind);
-        Assert.Equal(AssetResolveStatus.Pending, css.Status);
-        Assert.Contains("assets/Css/Menu.css", result.Html);
+        // Không mirror: local asset được coi là "sẽ nạp thẳng từ Program" (Resolved).
+        Assert.Equal(AssetResolveStatus.Resolved, css.Status);
+        Assert.Contains($"https://{LocalSkinStore.ProgramVirtualHost}/Css/Menu.css", result.Html);
 
         var js = result.Assets.Single(a => a.OriginalUrl == "ClientScript/MD5.js");
         Assert.Equal("ClientScript/MD5.js", js.RelativePath);
@@ -90,5 +91,34 @@ public class FboHostNormalizerTests
         Assert.Null(result.HostSelector);
         Assert.DoesNotContain("dwf-designer-host", result.Html);
         Assert.Contains("KEEP ME", result.Html);
+    }
+
+    // LocalSkinStore.WriteShellAsync luôn ghi shell.html bằng UTF-8 — nếu trang gốc khai báo charset khác
+    // (hoặc HTTP header gốc mà bản capture DOM không giữ lại), WebView2 đọc lại file cục bộ sẽ diễn giải
+    // sai byte → chữ có dấu vỡ ("lỗi font"). Normalize phải luôn ép về <meta charset="utf-8">.
+    [Fact]
+    public void Normalize_StaleNonUtf8Charset_ReplacedWithUtf8()
+    {
+        const string html = """
+            <html><head>
+            <meta http-equiv="Content-Type" content="text/html; charset=windows-1258">
+            <title>Đăng nhập</title>
+            </head><body><div id="mpMainBody"></div></body></html>
+            """;
+
+        var result = new FboHostNormalizer().Normalize(html);
+
+        Assert.Contains("<meta charset=\"utf-8\">", result.Html);
+        Assert.DoesNotContain("windows-1258", result.Html);
+    }
+
+    [Fact]
+    public void Normalize_NoCharsetDeclared_InsertsUtf8AsFirstHeadChild()
+    {
+        const string html = "<html><head><title>T</title></head><body><div id='mpMainBody'></div></body></html>";
+
+        var result = new FboHostNormalizer().Normalize(html);
+
+        Assert.Contains("<head><meta charset=\"utf-8\"><title>T</title>", result.Html);
     }
 }

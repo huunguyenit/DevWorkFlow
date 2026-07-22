@@ -1,0 +1,53 @@
+{
+  "schemaVersion": "1.0",
+  "description": "Design CSS packs — bổ sung visual FBO khi không có WebResource.axd",
+  "packs": [
+    {
+      "id": "fbo-form",
+      "path": "fbo-form.css",
+      "enabled": true,
+      "order": 10,
+      "displayKinds": [ "Form" ],
+      "controllers": [ "*" ],
+      "excludeControllers": []
+    },
+    {
+      "id": "fbo-grid",
+      "path": "fbo-grid.css",
+      "enabled": true,
+      "order": 20,
+      "displayKinds": [ "Form", "Grid" ],
+      "controllers": [ "*" ],
+      "excludeControllers": []
+    },
+    {
+      "id": "fbo-tabs",
+      "path": "fbo-tabs.css",
+      "enabled": true,
+      "order": 30,
+      "displayKinds": [ "Form" ],
+      "requireCategories": true,
+      "controllers": [ "*" ],
+      "excludeControllers": []
+    },
+    {
+      "id": "fbo-toolbar",
+      "path": "fbo-toolbar.css",
+      "enabled": true,
+      "order": 40,
+      "displayKinds": [ "Grid" ],
+      "requireToolbar": true,
+      "controllers": [ "*" ],
+      "excludeControllers": []
+    },
+    {
+      "id": "fbo-lookup",
+      "path": "fbo-lookup.css",
+      "enabled": true,
+      "order": 50,
+      "displayKinds": [ "Form" ],
+      "controllers": [ "*" ],
+      "excludeControllers": []
+    }
+  ]
+}

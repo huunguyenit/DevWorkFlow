@@ -42,6 +42,17 @@ public class InverseBoolConverter : IValueConverter
         => value is bool flag && !flag;
 }
 
+/// <summary>true → Collapsed, false → Visible — dùng cho empty-state ngược với nội dung chính.</summary>
+[ValueConversion(typeof(bool), typeof(Visibility))]
+public class InverseBoolToVisibilityConverter : IValueConverter
+{
+    public object Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => value is bool flag && flag ? Visibility.Collapsed : Visibility.Visible;
+
+    public object ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
+        => Binding.DoNothing;
+}
+
 /// <summary>
 /// Chiều cao form: double &gt; 0 → DIP; null/NaN/≤0 → Auto (Double.NaN).
 /// </summary>

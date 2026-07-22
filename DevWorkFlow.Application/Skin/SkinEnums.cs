@@ -11,7 +11,7 @@ public enum HostStatus
     Found = 1
 }
 
-/// <summary>Phân loại asset để mirror/thống kê (suy ra từ tag + phần mở rộng).</summary>
+/// <summary>Phân loại asset để thống kê (suy ra từ tag + phần mở rộng).</summary>
 public enum SkinAssetKind
 {
     Other = 0,

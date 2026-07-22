@@ -1,4 +1,5 @@
 using System.IO;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using DevWorkFlow.Application.Skin;
@@ -6,8 +7,9 @@ using DevWorkFlow.Application.Skin;
 namespace DevWorkFlow.Infrastructure.Skin;
 
 /// <summary>
-/// Đọc/ghi skin cache dưới %AppData%/DevWorkFlow/skins/&lt;project_id&gt;/ (shell.html + manifest.json +
-/// assets/). Local máy, KHÔNG commit vào repo Program (quyết định "Nơi lưu C").
+/// Đọc/ghi skin cache dưới %AppData%/DevWorkFlow/skins/&lt;project_id&gt;/ (shell.html + manifest.json).
+/// Local máy, KHÔNG commit vào repo Program (quyết định "Nơi lưu C"). CSS/JS/image KHÔNG mirror vào đây —
+/// preview nạp trực tiếp từ Program qua virtual host (xem <see cref="ProgramVirtualHost"/>).
 /// </summary>
 public sealed class LocalSkinStore
 {
@@ -17,9 +19,20 @@ public sealed class LocalSkinStore
         Converters = { new JsonStringEnumConverter() }
     };
 
+    /// <summary>UTF-8 CÓ BOM: WebView2 phục vụ shell.html qua virtual host không kèm charset trong
+    /// Content-Type → Chromium phải tự đoán mã hoá; BOM là tín hiệu ưu tiên cao nhất, ép UTF-8 (đè cả
+    /// &lt;meta charset&gt; lẫn charset HTTP) nên chữ có dấu không bị vỡ ("lỗi font").</summary>
+    private static readonly UTF8Encoding Utf8WithBom = new(encoderShouldEmitUTF8Identifier: true);
+
     public const string ShellFileName = "shell.html";
     public const string ManifestFileName = "manifest.json";
-    public const string AssetsFolderName = "assets";
+
+    /// <summary>Virtual host WebView2 trỏ tới thư mục skin (shell.html).</summary>
+    public const string SkinVirtualHost = "devworkflow.skin";
+
+    /// <summary>Virtual host WebView2 trỏ tới Program root — CSS/JS/image nạp trực tiếp từ đây (không mirror).
+    /// URL asset trong shell.html được rewrite thành https://{ProgramVirtualHost}/{relative}.</summary>
+    public const string ProgramVirtualHost = "devworkflow.program";
 
     /// <summary>Gốc chứa mọi skin (…/DevWorkFlow/skins).</summary>
     public string RootDirectory { get; }
@@ -34,9 +47,6 @@ public sealed class LocalSkinStore
     public string GetSkinDirectory(string project_id) =>
         Path.Combine(RootDirectory, SanitizeSegment(project_id));
 
-    public string GetAssetsDirectory(string project_id) =>
-        Path.Combine(GetSkinDirectory(project_id), AssetsFolderName);
-
     public string GetShellPath(string project_id) =>
         Path.Combine(GetSkinDirectory(project_id), ShellFileName);
 
@@ -46,19 +56,19 @@ public sealed class LocalSkinStore
     public bool HasSkin(string project_id) =>
         File.Exists(GetShellPath(project_id)) && File.Exists(GetManifestPath(project_id));
 
-    /// <summary>Tạo thư mục skin (+ assets/) nếu chưa có, trả về đường dẫn thư mục skin.</summary>
+    /// <summary>Tạo thư mục skin nếu chưa có, trả về đường dẫn thư mục skin.</summary>
     public string EnsureSkinDirectory(string project_id)
     {
         var dir = GetSkinDirectory(project_id);
         Directory.CreateDirectory(dir);
-        Directory.CreateDirectory(Path.Combine(dir, AssetsFolderName));
         return dir;
     }
 
     public async Task WriteShellAsync(string project_id, string html, CancellationToken ct = default)
     {
         EnsureSkinDirectory(project_id);
-        await File.WriteAllTextAsync(GetShellPath(project_id), html, ct).ConfigureAwait(false);
+        // Utf8WithBom: ép WebView2 đọc lại đúng UTF-8 (tránh mojibake chữ có dấu).
+        await File.WriteAllTextAsync(GetShellPath(project_id), html, Utf8WithBom, ct).ConfigureAwait(false);
     }
 
     public async Task<string?> ReadShellAsync(string project_id, CancellationToken ct = default)
@@ -89,15 +99,6 @@ public sealed class LocalSkinStore
         {
             return null;
         }
-    }
-
-    /// <summary>Xoá sạch nội dung assets/ trước khi mirror lại (Refresh) — tránh rác từ lần trước.</summary>
-    public void ClearAssets(string project_id)
-    {
-        var dir = GetAssetsDirectory(project_id);
-        if (Directory.Exists(dir))
-            Directory.Delete(dir, recursive: true);
-        Directory.CreateDirectory(dir);
     }
 
     private static string SanitizeSegment(string segment)

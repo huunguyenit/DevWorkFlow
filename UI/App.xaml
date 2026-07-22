@@ -28,6 +28,7 @@
             <conv:NullOrEmptyToVisibilityConverter x:Key="NullOrEmptyToVisibilityConverter"/>
             <conv:FormHeightConverter x:Key="FormHeightConverter"/>
             <conv:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <conv:InverseBoolToVisibilityConverter x:Key="InverseBoolToVisibilityConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

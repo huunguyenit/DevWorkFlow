@@ -1,0 +1,54 @@
+/* Lookup / Calendar — sprite fbo-cell-icons.gif (từ WebResource.axd)
+ * background-position: 0 0 = Calendar; -16px 0 = Lookup
+ * DOM runtime: <a class="CellDivContainer"><img class="CellImage CellImgLookup"></a>
+ */
+.CellDivContainer {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 2px;
+  border: 0;
+  color: #0066a7;
+  text-decoration: none;
+  cursor: default;
+}
+
+.CellImage {
+  border: 0;
+  padding: 0;
+  vertical-align: middle;
+}
+
+img.CellImgLookup,
+.CellImgLookup {
+  display: inline-block;
+  text-decoration: none;
+  background-image: url(fbo-cell-icons.gif);
+  background-repeat: no-repeat;
+  background-position: -16px 0;
+  height: 11px;
+  width: 15px;
+  border: 0;
+  padding: 0;
+  /* 1×1 transparent src — glyph lấy từ background sprite */
+  opacity: 1;
+}
+
+img.CellImgCalendar,
+.CellImgCalendar {
+  display: inline-block;
+  text-decoration: none;
+  background-image: url(fbo-cell-icons.gif);
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  height: 11px;
+  width: 15px;
+  border: 0;
+  padding: 0;
+}
+
+/* Chừa chỗ icon — width cụ thể (px/calc) gắn inline trên input; class đánh dấu loại adornment */
+.FormTextInputLookup,
+.FormTextInputCalendar {
+  box-sizing: border-box;
+  vertical-align: middle;
+}

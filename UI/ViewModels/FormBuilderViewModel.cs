@@ -1,7 +1,9 @@
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using DevWorkFlow.Application.Abstractions;
+using DevWorkFlow.Application.Design;
 using DevWorkFlow.Application.Engine;
 using DevWorkFlow.Application.Language;
 using DevWorkFlow.Domain.Language;
@@ -23,6 +25,11 @@ public class FormBuilderViewModel : ViewModelBase
     private readonly SqlStudioNavigator? _sql_navigator;
     private readonly IErpLanguageService? _language_service;
     private readonly FormDocumentNavigator? _form_navigator;
+    private readonly IDesignDocumentService? _design_document_service;
+    private CancellationTokenSource? _design_render_cts;
+    private DesignDocument? _generated_design_document;
+    private bool _is_design_rendering;
+    private string? _design_render_error;
     private DevWorkFlow.Editor.IEditorPlatform? _platform;
 
     /// <summary>
@@ -60,12 +67,14 @@ public class FormBuilderViewModel : ViewModelBase
         IProgramSession? program_session = null,
         SqlStudioNavigator? sql_navigator = null,
         IErpLanguageService? language_service = null,
-        FormDocumentNavigator? form_navigator = null)
+        FormDocumentNavigator? form_navigator = null,
+        IDesignDocumentService? design_document_service = null)
     {
         _program_session = program_session;
         _form_navigator = form_navigator;
         _sql_navigator = sql_navigator;
         _language_service = language_service;
+        _design_document_service = design_document_service;
         RelatedFiles = [];
         FieldProperties = [];
         InsightEditorLines = [];
@@ -88,7 +97,11 @@ public class FormBuilderViewModel : ViewModelBase
         SyncDpi();
         FboDesignMapper.SetOptions(_options);
         if (_program_session is not null)
-            _program_session.ProgramChanged += (_, _) => ReloadOptions();
+            _program_session.ProgramChanged += (_, _) =>
+            {
+                ReloadOptions();
+                _ = RefreshGeneratedDesignAsync();
+            };
 
         // Timer debounce reparse khi user gõ XML — 800ms sau lần cuối thay đổi.
         _reparse_timer = new System.Windows.Threading.DispatcherTimer(
@@ -142,6 +155,89 @@ public class FormBuilderViewModel : ViewModelBase
     {
         get => _semantic_model;
         private set => SetProperty(ref _semantic_model, value);
+    }
+
+    /// <summary>HTML Design đã sinh từ XML→Semantic (tab Design bind vào). Null khi chưa có document/service.</summary>
+    public DesignDocument? GeneratedDesignDocument
+    {
+        get => _generated_design_document;
+        private set => SetProperty(ref _generated_design_document, value);
+    }
+
+    /// <summary>Đang dựng HTML Design (async) — hiện overlay "đang dựng…".</summary>
+    public bool IsDesignRendering
+    {
+        get => _is_design_rendering;
+        private set => SetProperty(ref _is_design_rendering, value);
+    }
+
+    /// <summary>Lỗi khi dựng Design (null nếu không lỗi).</summary>
+    public string? DesignRenderError
+    {
+        get => _design_render_error;
+        private set => SetProperty(ref _design_render_error, value);
+    }
+
+    /// <summary>Program root để DesignWebViewHost map virtual host <c>devworkflow.program</c> (nạp CSS/JS/
+    /// image tĩnh mà URL trong HTML sinh đã trỏ tới). Null nếu chưa mở Program.</summary>
+    public string? DesignProgramRoot => _program_session?.Current?.ProgramPath;
+
+    /// <summary>Map field.Name → định danh DOM ổn định (SymbolId + NodeId) cho overlay. Dùng indexer (không
+    /// ToDictionary) vì field có thể trùng tên (đã có diagnostic riêng), tránh ném khi build.</summary>
+    private IReadOnlyDictionary<string, DesignElementIdentity> BuildFieldIdentities()
+    {
+        var result = new Dictionary<string, DesignElementIdentity>(StringComparer.OrdinalIgnoreCase);
+        if (ErpDocument is null || SemanticModel is null) return result;
+
+        var map = ErpDocument.NavigationMap;
+        foreach (var field in SemanticModel.GetFields())
+        {
+            var node_id = map?.GetNodeBySymbolId(field.Id)?.Id.ToString();
+            result[field.Name] = new DesignElementIdentity(field.Id, node_id);
+        }
+        return result;
+    }
+
+    /// <summary>Dựng lại HTML Design (hủy lần trước). Fire-and-observe — KHÔNG chặn parse/UI thread.</summary>
+    private async Task RefreshGeneratedDesignAsync()
+    {
+        _design_render_cts?.Cancel();
+        _design_render_cts?.Dispose();
+        _design_render_cts = new CancellationTokenSource();
+        var ct = _design_render_cts.Token;
+
+        if (_design_document_service is null || Document is null)
+        {
+            GeneratedDesignDocument = null;
+            return;
+        }
+
+        IsDesignRendering = true;
+        DesignRenderError = null;
+        try
+        {
+            var build_request = new DesignBuildRequest(
+                Document,
+                IsVietnamese,
+                _program_session?.Current,
+                BuildFieldIdentities());
+            var generated = await _design_document_service.BuildAsync(build_request, ct);
+            if (!ct.IsCancellationRequested)
+                GeneratedDesignDocument = generated;
+        }
+        catch (OperationCanceledException) when (ct.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            if (!ct.IsCancellationRequested)
+                DesignRenderError = ex.Message;
+        }
+        finally
+        {
+            if (!ct.IsCancellationRequested)
+                IsDesignRendering = false;
+        }
     }
 
     public DesignSurfaceVm? Design
@@ -423,6 +519,7 @@ public class FormBuilderViewModel : ViewModelBase
             Design?.ApplyLanguage(value);
             if (Design is not null)
                 LoadedTitle = Design.Title;
+            _ = RefreshGeneratedDesignAsync();
         }
     }
 
@@ -636,6 +733,7 @@ public class FormBuilderViewModel : ViewModelBase
             {
                 Document = null;
                 Design = null;
+                GeneratedDesignDocument = null;
                 RefreshEntitiesFromSemantic();
                 RefreshEditorMarkers();
 
@@ -656,6 +754,7 @@ public class FormBuilderViewModel : ViewModelBase
             {
                 Document = null;
                 Design = null;
+                GeneratedDesignDocument = null;
                 RefreshEntitiesFromSemantic();
                 RefreshEditorMarkers();
                 StatusMessage = SemanticModel.Diagnostics.FirstOrDefault()?.Message
@@ -684,6 +783,7 @@ public class FormBuilderViewModel : ViewModelBase
                 $" | {Design.LayoutBadge}";
             RefreshEntitiesFromSemantic();
             RefreshEditorMarkers();
+            _ = RefreshGeneratedDesignAsync();
         }
         catch (Exception ex)
         {
@@ -692,6 +792,7 @@ public class FormBuilderViewModel : ViewModelBase
             SemanticModel = null;
             Design = null;
             EditorMarkers = [];
+            GeneratedDesignDocument = null;
             StatusMessage = $"✘ Parse lỗi: {ex.Message}";
             ToggleLanguageCommand.RaiseCanExecuteChanged();
         }
@@ -718,6 +819,7 @@ public class FormBuilderViewModel : ViewModelBase
         RefreshEntitiesFromSemantic();
         OnPropertyChanged(nameof(ExpandedXml));
         OnPropertyChanged(nameof(EditorText));
+        _ = RefreshGeneratedDesignAsync();
     }
 
     private void ToggleLanguage() => IsVietnamese = !IsVietnamese;
@@ -1155,6 +1257,10 @@ public class FormBuilderViewModel : ViewModelBase
         }
         ActiveEditorMode = mode;
         StatusMessage = EditorModeText;
+
+        // Vào Designer mà chưa có HTML sinh → dựng ngay (các trigger khác lo cập nhật khi doc đổi).
+        if (mode == ErpEditorMode.Designer && GeneratedDesignDocument is null)
+            _ = RefreshGeneratedDesignAsync();
     }
 
     private void RefreshInsightEditorLines()

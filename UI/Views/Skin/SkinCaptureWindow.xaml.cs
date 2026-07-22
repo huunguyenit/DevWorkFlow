@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Input;
+using DevWorkFlow.Application.Skin;
 using UI.Services;
 
 namespace UI.Views.Skin;
@@ -7,6 +8,8 @@ namespace UI.Views.Skin;
 /// <summary>
 /// Cửa sổ capture skin: user nhập base_url → login thủ công trong WebView2 riêng → bấm "Dùng trang này"
 /// để lấy outerHTML. Chỉ điều phối UI; toàn bộ normalize/lưu do ProjectSkinService (Infrastructure) làm.
+/// Lần mở đầu tự điều hướng thẳng tới trang đăng nhập ({base_url}/Main/Login.aspx) cho tiện — ô base_url
+/// vẫn hiển thị root để CapturedBaseUrl lưu vào manifest không dính đuôi Main/Login.aspx.
 /// </summary>
 public partial class SkinCaptureWindow : Window
 {
@@ -26,8 +29,18 @@ public partial class SkinCaptureWindow : Window
         CaptureHost.NavigationCompleted += _ => Dispatcher.Invoke(() => UsePageButton.IsEnabled = true);
         Loaded += async (_, _) =>
         {
-            if (!string.IsNullOrWhiteSpace(UrlBox.Text))
-                await NavigateAsync();
+            var root = NormalizeUrl(UrlBox.Text);
+            if (string.IsNullOrWhiteSpace(root))
+                return;
+
+            try
+            {
+                await CaptureHost.NavigateAsync(SkinUrlHelper.BuildLoginUrl(root));
+            }
+            catch (Exception ex)
+            {
+                IdeMessage.ShowException(ex, "Không mở được WebView2 (kiểm tra WebView2 Runtime đã cài).");
+            }
         };
     }
 

@@ -1,0 +1,51 @@
+<UserControl x:Class="UI.Views.Design.DesignWebViewHost"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
+             xmlns:ctrl="clr-namespace:UI.Views.Controls"
+             SnapsToDevicePixels="True" UseLayoutRounding="True">
+
+    <!--
+        Tab Design — HTML sinh từ XML→Semantic→Layout (DesignHtmlGenerator), render trong WebView2 kèm 2 thước
+        px. KHÔNG dùng skin capture: DataContext kế thừa FormBuilderViewModel; bind GeneratedDesignDocument /
+        IsDesignRendering / DesignRenderError. CSS/JS/image tĩnh nạp trực tiếp từ Program qua virtual host
+        devworkflow.program (URL đã rewrite trong HTML).
+    -->
+    <Grid x:Name="Root" Background="{StaticResource WorkspaceBgBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Corner (giao 2 thước) -->
+        <Border Grid.Row="0" Grid.Column="0" Background="#F3F3F3" BorderBrush="#D0D0D0" BorderThickness="0,0,1,1"/>
+
+        <!-- Thước ngang (X, px) -->
+        <ctrl:PixelRuler x:Name="RulerX" Grid.Row="0" Grid.Column="1" Orientation="Horizontal"/>
+
+        <!-- Thước dọc (Y, px) -->
+        <ctrl:PixelRuler x:Name="RulerY" Grid.Row="1" Grid.Column="0" Orientation="Vertical"/>
+
+        <Grid Grid.Row="1" Grid.Column="1">
+            <wv2:WebView2 x:Name="DesignWebView"/>
+
+            <Border Background="#66FFFFFF"
+                    Visibility="{Binding IsDesignRendering, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Text="Đang dựng Design…" FontSize="12"
+                           Foreground="{StaticResource FgMutedBrush}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+
+            <Border VerticalAlignment="Top" Background="#FDECEA" BorderBrush="#F5C6CB" BorderThickness="0,0,0,1"
+                    Padding="10,6"
+                    Visibility="{Binding DesignRenderError, Converter={StaticResource NullOrEmptyToVisibilityConverter}}">
+                <TextBlock Text="{Binding DesignRenderError}" Foreground="#B00020"
+                           FontSize="11" TextWrapping="Wrap"/>
+            </Border>
+        </Grid>
+    </Grid>
+</UserControl>

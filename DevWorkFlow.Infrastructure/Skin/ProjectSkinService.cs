@@ -1,25 +1,22 @@
+using System.Linq;
 using DevWorkFlow.Application.Skin;
 
 namespace DevWorkFlow.Infrastructure.Skin;
 
 /// <summary>
-/// Điều phối Project Web Skin: chuẩn hoá (FboHostNormalizer) + lưu (LocalSkinStore) + mirror assets
-/// (ProgramAssetResolver) + ghi manifest. Hiện thực <see cref="IProjectSkinService"/>.
+/// Điều phối Project Web Skin: chuẩn hoá (FboHostNormalizer) + lưu shell.html (LocalSkinStore) + ghi
+/// manifest. Hiện thực <see cref="IProjectSkinService"/>. CSS/JS/image KHÔNG mirror — chúng nằm sẵn trong
+/// Program và được preview nạp trực tiếp qua virtual host (URL đã rewrite trong shell.html).
 /// </summary>
 public sealed class ProjectSkinService : IProjectSkinService
 {
     private readonly LocalSkinStore _store;
     private readonly FboHostNormalizer _normalizer;
-    private readonly ProgramAssetResolver _resolver;
 
-    public ProjectSkinService(
-        LocalSkinStore store,
-        FboHostNormalizer normalizer,
-        ProgramAssetResolver resolver)
+    public ProjectSkinService(LocalSkinStore store, FboHostNormalizer normalizer)
     {
         _store = store;
         _normalizer = normalizer;
-        _resolver = resolver;
     }
 
     public bool HasSkin(string project_id) => _store.HasSkin(project_id);
@@ -39,24 +36,20 @@ public sealed class ProjectSkinService : IProjectSkinService
             throw new ArgumentException("ProjectId rỗng.", nameof(request));
 
         _store.EnsureSkinDirectory(request.ProjectId);
-        _store.ClearAssets(request.ProjectId);
 
-        // 1) Chuẩn hoá shell: chèn host trống + rewrite URL asset → assets/…
+        // 1) Chuẩn hoá shell: ép UTF-8 charset + chèn host trống + rewrite URL asset → program virtual host.
         var normalized = _normalizer.Normalize(request.RawHtml, request.CapturedFromUrl);
 
-        // 2) Ghi shell.html
+        // 2) Ghi shell.html (UTF-8 BOM). KHÔNG mirror asset — CSS/JS/image nạp thẳng từ Program khi preview.
         await _store.WriteShellAsync(request.ProjectId, normalized.Html, ct).ConfigureAwait(false);
 
-        // 3) Mirror assets từ Program (không mạng)
-        var assets_dir = _store.GetAssetsDirectory(request.ProjectId);
-        var sync = _resolver.ResolveAndMirror(normalized.Assets, request.ProgramRoot, assets_dir, ct);
-
-        // 4) Ghi manifest
+        // 3) Ghi manifest
         var now = DateTimeOffset.Now;
         var manifest = new SkinManifest
         {
             ProjectId = request.ProjectId,
             BaseUrl = request.BaseUrl,
+            DocKind = request.DocKind,
             CapturedFromUrl = request.CapturedFromUrl,
             ProgramRoot = request.ProgramRoot,
             CapturedAt = now,
@@ -75,39 +68,32 @@ public sealed class ProjectSkinService : IProjectSkinService
             ShellPath = _store.GetShellPath(request.ProjectId),
             HostStatus = normalized.HostStatus,
             Manifest = manifest,
-            AssetSync = sync
+            AssetSync = SummarizeAssets(normalized.Assets)
         };
     }
 
-    public async Task<AssetSyncResult> RefreshAssetsAsync(
+    public Task<AssetSyncResult> RefreshAssetsAsync(
         string project_id,
         string program_root,
         CancellationToken ct = default)
     {
+        // Không còn mirror: asset nạp trực tiếp từ Program mỗi lần preview. "Refresh" chỉ đọc lại manifest
+        // để báo số asset tham chiếu (local vs ngoại vi) — giữ chữ ký để UI hiện có không phải đổi.
         var manifest = _store.ReadManifest(project_id)
-            ?? throw new InvalidOperationException(
-                "Chưa có skin để refresh. Hãy 'Lấy skin' trước.");
+            ?? throw new InvalidOperationException("Chưa có skin để refresh. Hãy 'Lấy skin' trước.");
 
-        // Refresh KHÔNG login: chỉ mirror lại assets theo danh sách trong manifest, giữ nguyên shell.html/host.
-        var root = string.IsNullOrWhiteSpace(program_root) ? manifest.ProgramRoot : program_root;
-        _store.ClearAssets(project_id);
-        var assets_dir = _store.GetAssetsDirectory(project_id);
+        return Task.FromResult(SummarizeAssets(manifest.Assets));
+    }
 
-        // Reset trạng thái entry trước khi resolve lại (giữ mapping đã rewrite trong shell.html).
-        foreach (var entry in manifest.Assets)
+    /// <summary>Đếm asset local (nạp được từ Program qua virtual host) vs ngoại vi/động (không nạp được).</summary>
+    private static AssetSyncResult SummarizeAssets(IReadOnlyList<SkinAssetEntry> assets)
+    {
+        var served = assets.Count(a => a.Status == AssetResolveStatus.Resolved);
+        return new AssetSyncResult
         {
-            if (!string.IsNullOrEmpty(entry.RelativePath))
-            {
-                entry.Status = AssetResolveStatus.Pending;
-                entry.Note = null;
-            }
-        }
-
-        var sync = _resolver.ResolveAndMirror(manifest.Assets, root, assets_dir, ct);
-
-        manifest.ProgramRoot = root;
-        manifest.AssetsSyncedAt = DateTimeOffset.Now;
-        await _store.WriteManifestAsync(manifest, ct).ConfigureAwait(false);
-        return sync;
+            ResolvedCount = served,
+            UnresolvedCount = assets.Count - served,
+            Assets = assets
+        };
     }
 }

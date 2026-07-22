@@ -1,3 +1,5 @@
+using DevWorkFlow.Domain.Models.Fbo;
+
 namespace DevWorkFlow.Application.Skin;
 
 /// <summary>
@@ -12,6 +14,13 @@ public sealed class SkinManifest
 
     /// <summary>Base URL site ERP mà user nhập ở lần capture.</summary>
     public string BaseUrl { get; set; } = string.Empty;
+
+    /// <summary>
+    /// Loại controller (Form≈Dir/Filter, Grid≈Grid, Lookup) của document đang mở lúc capture —
+    /// dùng cho HTML Generator sau này để biết skin này ứng với kiểu màn hình nào. Null nếu capture
+    /// khi không có document mở (hoặc document code-only, không có Design Surface).
+    /// </summary>
+    public ControllerDisplayKind? DocKind { get; set; }
 
     /// <summary>URL thực tế của trang lúc user bấm "Dùng trang này" (sau khi login/điều hướng).</summary>
     public string CapturedFromUrl { get; set; } = string.Empty;

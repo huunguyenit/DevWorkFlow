@@ -1,0 +1,23 @@
+/* Baseline IDE — chỉ shell/layout Design; KHÔNG set height/border FormInput (để Config/css FBO thắng). */
+:root { color-scheme: light; font-family: "Microsoft Sans Serif", sans-serif; font-size: 11px; }
+html, body { margin: 0; min-height: 100%; background: #ededE2; color: #202020; }
+.DwfDesignRoot { box-sizing: border-box; padding: 12px; min-width: max-content; }
+.FormTable, .GridTable { border-collapse: collapse; table-layout: fixed; }
+.FormRow { }
+.FormCell { box-sizing: border-box; vertical-align: middle; }
+.FormContainer { box-sizing: border-box; width: 100%; }
+.FormContainerInput { position: relative; }
+.FormCheckInput { width: auto; height: auto; }
+.DwfTabs { margin-top: 8px; }
+.DwfTabList { display: flex; gap: 2px; border-bottom: 1px solid #9ba7b4; }
+.DwfTabButton { border: 1px solid #9ba7b4; border-bottom: 0; padding: 5px 10px; background: #e8edf2; }
+.DwfTabButton[aria-selected="true"] { background: #fff; font-weight: 600; }
+.DwfTabPanel { display: none; padding-top: 8px; }
+.DwfTabPanel.DwfActive { display: block; }
+.GridTable { width: 100%; border: 1px solid #9ba7b4; }
+.GridHeader { background: #dbe5ef; }
+.GridTable th, .GridTable td { box-sizing: border-box; border: 1px solid #b8c2cc; height: 24px; padding: 4px; overflow: hidden; white-space: nowrap; }
+.GridTable tbody tr:nth-child(even) { background: #f5f7f9; }
+.DwfDetailGrid { margin-top: 8px; }
+.DwfGridBody { box-sizing: border-box; width: 100%; }
+.DwfDesignWarning { margin: 8px 0; color: #8a5700; }

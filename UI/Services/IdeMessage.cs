@@ -108,6 +108,9 @@ public static class IdeMessage
             var body = string.IsNullOrWhiteSpace(context)
                 ? detail
                 : $"{context}\n\n{detail}";
+#if DEBUG
+            body += $"\n\n--- Stack trace (DEBUG) ---\n{ex}";
+#endif
             Show(kind, body, title);
         }
         catch

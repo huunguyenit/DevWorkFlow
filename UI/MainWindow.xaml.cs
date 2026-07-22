@@ -92,10 +92,9 @@ public partial class MainWindow
         CommandBindings.Add(new CommandBinding(IdeCommands.GoToDefinition, OnGoToDefinition, CanWhenFormBuilder));
         CommandBindings.Add(new CommandBinding(IdeCommands.FindReferences, OnFindReferences, CanWhenFormBuilder));
 
-        // Project Web Skin — capture/refresh/xem skin trống (nền Designer Platform).
+        // Project Web Skin — capture/refresh skin (chỉ cho AI/tham khảo; tab Design dùng HTML Generator).
         CommandBindings.Add(new CommandBinding(IdeCommands.CaptureSkin, OnCaptureSkin, CanWhenProgram));
         CommandBindings.Add(new CommandBinding(IdeCommands.RefreshSkinAssets, OnRefreshSkinAssets, CanWhenProgram));
-        CommandBindings.Add(new CommandBinding(IdeCommands.ViewSkin, OnViewSkin, CanWhenProgram));
 
         // Stubs an toàn — không crash. CHÚ Ý: Undo/Redo/Cut/Copy/Paste/Delete KHÔNG được đặt
         // ở đây dù chưa có implementation IDE-wide thật — RoutedUICommand của chúng có
@@ -175,19 +174,13 @@ public partial class MainWindow
     private async void OnCaptureSkin(object sender, ExecutedRoutedEventArgs e)
     {
         if (DataContext is MainViewModel vm)
-            await vm.ProjectSkinVm.CaptureSkinAsync();
+            await vm.ProjectSkinVm.CaptureSkinAsync(vm.FormBuilderVm.Design?.DisplayKind);
     }
 
     private async void OnRefreshSkinAssets(object sender, ExecutedRoutedEventArgs e)
     {
         if (DataContext is MainViewModel vm)
             await vm.ProjectSkinVm.RefreshAssetsAsync();
-    }
-
-    private void OnViewSkin(object sender, ExecutedRoutedEventArgs e)
-    {
-        if (DataContext is MainViewModel vm)
-            vm.ProjectSkinVm.ViewSkin();
     }
 
     private InsightEditorSurface? FindInsightEditorSurface() =>

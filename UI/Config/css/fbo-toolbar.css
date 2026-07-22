@@ -1,0 +1,32 @@
+/* Alias toolbar Design ↔ ToolbarStyle ERP */
+.DwfGridToolbar,
+.ToolbarStyle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  background-color: #f3f3f8;
+  border-bottom: 1px solid #bebed1;
+  border-top: 1px solid #fff;
+  color: #000;
+  padding: 3px 6px;
+  margin-bottom: 4px;
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 11px;
+}
+.DwfToolbarButton,
+.ToolbarTextButton {
+  border: 1px solid transparent;
+  background: transparent;
+  padding: 2px 8px;
+  cursor: default;
+  color: #000;
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 11px;
+}
+.DwfToolbarSep {
+  width: 1px;
+  height: 16px;
+  background: #bebed1;
+  margin: 0 4px;
+}

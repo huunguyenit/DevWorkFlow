@@ -1,8 +1,9 @@
 # Design View — Layout Height/Width, Padding, Ruler Origin & Crosshair
 
 **Date:** 2026-07-22  
-**Status:** Approved (conversation) → pending user review of this file  
-**Parent:** `2026-07-22-design-webview-html-generator-design.md`
+**Status:** Implemented (2026-07-22)  
+**Parent:** `2026-07-22-design-webview-html-generator-design.md`  
+**Amend (2026-07-22):** Form shell — `div.FormParent.UpdateDlgPanel` (≡ `updateDlgPanel`) wraps title + main + tabs + footer; title = `UpdateDlgTitle` / `UpdateDlgTitleText` từ `<title v/e>`.
 
 ## 1. Goal
 

@@ -1,0 +1,102 @@
+/* Adapt từ .temp WebResource(2).axd — CHỈ rule class; thuộc tính runtime (max-height, width…) gắn inline khi render. */
+.FormTable { border-collapse: collapse; background: transparent; }
+.FormRow { background-color: transparent; vertical-align: top; }
+.FormCell { border: 0; vertical-align: middle; }
+
+/* Class-only: không max-height / width / overflow (đó là inline theo loại ô). */
+.FormContainer { color: #000; padding: 1px; }
+.FormContainerInput { border-bottom: 1px solid #c0cfdc; }
+.FormContainerInputDisabled { border-bottom: 1px solid #c0cfdc; }
+.FormContainerTextArea {
+  border-top: 1px solid #e6ebf0;
+  border-bottom: 1px solid #c0cfdc;
+}
+
+.FormInput,
+.FormTextInput,
+.FormInputDisabled,
+.FormTextInputDisabled {
+  border: 0;
+  background-color: #edf5ff;
+  color: #000;
+  font-family: Verdana, Tahoma, sans-serif;
+  font-size: 11px;
+  width: 100%;
+  height: 13px;
+  padding-top: 0;
+  padding-left: 0;
+  padding-bottom: 0;
+  outline: 0;
+}
+.FormTextInput { outline: 0; }
+.FormInputDisabled,
+.FormTextInputDisabled { background-color: #edf5ff; color: #666; }
+.FormCheckInput { width: auto; height: auto; background: transparent; border: 0; }
+.FormLabel { font-family: Tahoma, Verdana, sans-serif; font-size: 11px; color: #202020; white-space: nowrap; }
+.FormDescription { font-family: Tahoma, Verdana, sans-serif; font-size: 11px; color: #202020; }
+.FormRegion { }
+
+textarea.FormInput,
+textarea.FormTextInput {
+  height: auto;
+  min-height: 26px;
+  resize: none;
+}
+
+/* FormParent ≡ updateDlgPanel; title ≡ updateDlgTitle */
+.FormParent.UpdateDlgPanel,
+.UpdateDlgPanel {
+  background-color: #edf5ff;
+  padding: 0;
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 11px;
+  border-top: solid 1px #a2c0e7;
+  border-left: solid 1px #a2c0e7;
+  border-bottom: solid 1px #9dbde6;
+  border-right: solid 1px #9dbde6;
+  overflow: hidden;
+  box-sizing: border-box;
+  display: inline-block;
+  min-width: min-content;
+}
+.UpdateDlgTitle {
+  height: 13px;
+  padding: 4px;
+  background-color: #eef6fc;
+  background-image: linear-gradient(to bottom, #f7fbfe, #e4eef8);
+  white-space: nowrap;
+  box-sizing: content-box;
+}
+.UpdateDlgTitleText {
+  color: #000;
+  font-family: Verdana, Tahoma, sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  vertical-align: middle;
+  white-space: nowrap;
+  padding-left: 20px;
+  line-height: 13px;
+}
+
+/* Footer (và vùng content dialog) — padding 8px; table footer không nhân padding */
+.UpdateDlgContent {
+  background-color: #edf5ff !important;
+  color: #000;
+  text-decoration: none;
+  border-top: solid 1px #adc9ee;
+  border-left: solid 1px #dfecf7;
+  border-bottom: solid 1px #a8c5ec;
+  border-right: 0;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+/* Marker góc td — left top (Design); WebResource dùng -6px,-6px IE cũ. */
+.Required {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFAgMAAADwAc52AAAACVBMVEX/////bw/3399504GbAAAAAXRSTlMAQObYZgAAABdJREFUeF5jYGBgEG1gEGNgkGBgUGAAAAdeAOSPOXu6AAAAAElFTkSuQmCC);
+  background-repeat: no-repeat;
+  background-position: left top;
+}
+
+.Break { margin: 1px 0 1px 8px; padding: 0; height: 1px; overflow: hidden; display: block; background-color: white; border-top: 1px solid #CED3DE; }
+.LabelDescription { color: #73A6DE; }

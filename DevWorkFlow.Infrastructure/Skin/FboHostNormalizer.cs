@@ -1,3 +1,4 @@
+using System.Linq;
 using HtmlAgilityPack;
 using DevWorkFlow.Application.Skin;
 
@@ -49,10 +50,39 @@ public sealed class FboHostNormalizer
         var doc = new HtmlDocument();
         doc.LoadHtml(raw_html ?? string.Empty);
 
+        EnsureUtf8Charset(doc);
         var (host_status, host_selector) = InsertHostPlaceholder(doc);
         var assets = RewriteAssets(doc, captured_from_url);
 
         return new HostNormalizeResult(doc.DocumentNode.OuterHtml, host_status, host_selector, assets);
+    }
+
+    /// <summary>
+    /// Ép khai báo charset của shell về UTF-8: xoá mọi &lt;meta charset&gt; / &lt;meta http-equiv="Content-Type"&gt;
+    /// cũ (trang gốc có thể khai báo charset khác, hoặc không khai báo gì — dựa vào HTTP header của response
+    /// gốc mà bản capture DOM không giữ lại), rồi chèn &lt;meta charset="utf-8"&gt; làm con đầu tiên của
+    /// &lt;head&gt;. <see cref="LocalSkinStore.WriteShellAsync"/> luôn ghi shell.html bằng UTF-8 — khai báo
+    /// charset sai/thiếu khiến WebView2 đọc lại file cục bộ diễn giải sai byte → chữ có dấu vỡ ("lỗi font").
+    /// </summary>
+    private static void EnsureUtf8Charset(HtmlDocument doc)
+    {
+        var head = doc.DocumentNode.SelectSingleNode("//head");
+        if (head is null) return;
+
+        var stale_meta = head.SelectNodes(".//meta")?
+            .Where(node => node.Attributes.Contains("charset")
+                || string.Equals(node.GetAttributeValue("http-equiv", string.Empty), "Content-Type",
+                    StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        if (stale_meta is not null)
+            foreach (var node in stale_meta)
+                node.Remove();
+
+        var charset_meta = HtmlNode.CreateNode("<meta charset=\"utf-8\">");
+        if (head.FirstChild is not null)
+            head.InsertBefore(charset_meta, head.FirstChild);
+        else
+            head.AppendChild(charset_meta);
     }
 
     private (HostStatus, string?) InsertHostPlaceholder(HtmlDocument doc)
@@ -115,8 +145,10 @@ public sealed class FboHostNormalizer
                     OriginalUrl = original,
                     Kind = kind,
                     RelativePath = mappable ? rel_path : string.Empty,
-                    RewrittenUrl = mappable ? $"{LocalSkinStore.AssetsFolderName}/{rel_path}" : original,
-                    Status = mappable ? AssetResolveStatus.Pending : AssetResolveStatus.Unresolved,
+                    // Nạp thẳng từ Program qua virtual host (KHÔNG mirror vào skin). URL ngoại vi/động
+                    // (external host, *.axd) giữ nguyên và đánh Unresolved — preview sẽ không nạp được.
+                    RewrittenUrl = mappable ? $"https://{LocalSkinStore.ProgramVirtualHost}/{rel_path}" : original,
+                    Status = mappable ? AssetResolveStatus.Resolved : AssetResolveStatus.Unresolved,
                     Note = mappable ? null : note
                 };
                 entries[original] = entry;

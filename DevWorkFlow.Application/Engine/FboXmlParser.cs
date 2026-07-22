@@ -33,7 +33,7 @@ public class FboXmlParser
         var local = root.Name.LocalName;
         var controller_name = ResolveControllerName(file_path, root);
 
-        return local.ToLowerInvariant() switch
+        var document = local.ToLowerInvariant() switch
         {
             "dir" => FboControllerDocument.FromForm(ParseForm(root, ControllerFolderKind.Dir, controller_name), file_path ?? "", xml),
             "filter" => FboControllerDocument.FromForm(ParseForm(root, ControllerFolderKind.Filter, controller_name), file_path ?? "", xml),
@@ -41,6 +41,8 @@ public class FboXmlParser
             "lookup" => FboControllerDocument.FromLookup(ParseLookup(root, controller_name), file_path ?? "", xml),
             _ => throw new InvalidOperationException($"Root XML không hỗ trợ: <{local}>.")
         };
+        document.CssText = FindChild(FindChild(root, "css"), "text")?.Value ?? string.Empty;
+        return document;
     }
 
     public FboControllerDocument ParseFile(string file_path)
@@ -78,8 +80,12 @@ public class FboXmlParser
     {
         if (views_el is null) return null;
 
-        var view = views_el.Elements().FirstOrDefault(e =>
-            e.Name.LocalName.Equals("view", StringComparison.OrdinalIgnoreCase));
+        var views = views_el.Elements()
+            .Where(e => e.Name.LocalName.Equals("view", StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        var view = views.FirstOrDefault(e =>
+                Attr(e, "id").Equals("Dir", StringComparison.OrdinalIgnoreCase))
+            ?? views.FirstOrDefault();
         if (view is null) return null;
 
         // XSD: height; thực tế FBO đôi khi viết "heigth"
@@ -348,6 +354,7 @@ public class FboXmlParser
             Table = Attr(root, "table"),
             CodeField = Attr(root, "code"),
             OrderBy = NullIfEmpty(Attr(root, "order")),
+            AppType = NullIfEmpty(Attr(root, "type")),
             Title = ReadLocalized(FindChild(root, "title")),
             SubTitle = ReadLocalized(FindChild(root, "subTitle"))
         };
@@ -356,8 +363,12 @@ public class FboXmlParser
         model.FieldsByName = model.Fields.ToDictionary(f => f.Name, StringComparer.OrdinalIgnoreCase);
 
         var views = FindChild(root, "views");
-        var view = views?.Elements().FirstOrDefault(e =>
-            e.Name.LocalName.Equals("view", StringComparison.OrdinalIgnoreCase));
+        var view_candidates = views?.Elements()
+            .Where(e => e.Name.LocalName.Equals("view", StringComparison.OrdinalIgnoreCase))
+            .ToList();
+        var view = view_candidates?.FirstOrDefault(e =>
+                Attr(e, "id").Equals("Grid", StringComparison.OrdinalIgnoreCase))
+            ?? view_candidates?.FirstOrDefault();
         if (view is not null)
         {
             model.VisibleFieldNames = view.Elements()
@@ -535,8 +546,8 @@ public class FboXmlParser
         return XDocument.Load(reader);
     }
 
-    private static XElement? FindChild(XElement parent, string local_name) =>
-        parent.Elements().FirstOrDefault(e =>
+    private static XElement? FindChild(XElement? parent, string local_name) =>
+        parent?.Elements().FirstOrDefault(e =>
             e.Name.LocalName.Equals(local_name, StringComparison.OrdinalIgnoreCase));
 
     private static LocalizedText ReadLocalized(XElement? el)

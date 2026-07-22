@@ -47,9 +47,6 @@
                 <MenuItem Header="_Refresh assets"
                           Command="{x:Static cmd:IdeCommands.RefreshSkinAssets}"
                           CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
-                <MenuItem Header="_Xem skin"
-                          Command="{x:Static cmd:IdeCommands.ViewSkin}"
-                          CommandTarget="{Binding RelativeSource={RelativeSource AncestorType=Window}}"/>
             </MenuItem>
         </MenuItem>
         <MenuItem Header="_SQL">

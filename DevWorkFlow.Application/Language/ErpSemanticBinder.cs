@@ -37,7 +37,12 @@ public sealed class ErpSemanticBinder
 
         try
         {
-            legacy = _parser.Parse(raw_text, path);
+            // LegacyDocument phải thấy field/layout/CSS đến từ external entity (Include) → parse trên
+            // ClearText đã expand entity nếu có; syntax tree/location vẫn dựa trên văn bản gốc.
+            var parse_text = string.IsNullOrWhiteSpace(entity_result?.ClearText)
+                ? raw_text
+                : entity_result.ClearText;
+            legacy = _parser.Parse(parse_text, path);
             MapFromLegacy(legacy, symbols, path);
         }
         catch (Exception ex)
