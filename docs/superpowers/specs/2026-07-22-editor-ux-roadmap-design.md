@@ -287,7 +287,7 @@ Insight chỉ hover) — không verify headless được.
 
 **Done when:** execute selection, information→SQL, alter object, snippet `options` hoạt động trên editor SQL/Monaco tương ứng.
 
-**Artifacts:** mini-spec [`2026-07-23-editor-phase5-sql-tooling-design.md`](./2026-07-23-editor-phase5-sql-tooling-design.md) (Ready for planning).
+**Artifacts:** mini-spec [`2026-07-23-editor-phase5-sql-tooling-design.md`](./2026-07-23-editor-phase5-sql-tooling-design.md) · plan [`../plans/2026-07-23-editor-phase5-sql-tooling.md`](../plans/2026-07-23-editor-phase5-sql-tooling.md).
 
 ---
 

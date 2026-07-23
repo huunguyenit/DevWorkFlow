@@ -1,7 +1,7 @@
 # Phase 5 — SQL tooling (Execute selection / information→SQL / ALTER object / options snippet)
 
 Date: 2026-07-23  
-Status: Ready for planning  
+Status: Ready for implementation  
 Parent: [`2026-07-22-editor-ux-roadmap-design.md`](./2026-07-22-editor-ux-roadmap-design.md) (Phase 5, #5 #9 #16 #17)  
 Depends on: SQL Studio (`SqlDocumentViewModel`, `ISqlScriptRunner`), Program connections (App/Sys),  
 `DatabaseObjectScripter` / `object_definition.sql`, Form Source Monaco selection  
@@ -189,6 +189,5 @@ Monaco: snippet hoặc completion item khi pattern match; register trên SQL lan
 
 ## 9. Handoff
 
-Sau approve spec → `writing-plans` →  
-`docs/superpowers/plans/2026-07-23-editor-phase5-sql-tooling.md`.  
-Cập nhật roadmap parent trỏ artifact này; đóng open question `%l` theo quyết định B.
+Plan: [`../plans/2026-07-23-editor-phase5-sql-tooling.md`](../plans/2026-07-23-editor-phase5-sql-tooling.md).  
+Roadmap parent đã trỏ artifact Phase 5.
