@@ -251,6 +251,29 @@ fail: 2 items thay vì 1). Application 236 passed / 18 skipped, Domain 7, Editor
 
 **Artifacts:** mini-spec [`2026-07-23-editor-phase4-js-catalog-completion-design.md`](./2026-07-23-editor-phase4-js-catalog-completion-design.md) · plan [`../plans/2026-07-23-editor-phase4-js-catalog-completion.md`](../plans/2026-07-23-editor-phase4-js-catalog-completion.md).
 
+**Progress (2026-07-23):** Implemented đủ 7 task —
+`UI/Config/xml/fbo-js.catalog.xml` (seed lõi: `form(f,parentForm)`, `grid(g,grid)`,
+`sender(o,sender)`, `func($func)`); `FboJsCatalogParser` (fail closed: thiếu file / XML hỏng →
+catalog rỗng, không throw) + `FboJsCatalog` (index alias→type, tra member **exact**, alias phân
+biệt hoa/thường như JS); `ScriptIslandLocator` (chỉ `<script>` và `command event="Checking"`,
+**fail closed** — script chưa đóng cũng trả false); `FboJsAssistResolver`
+(Complete/Hover/Signature, Insight ⇒ Complete+Signature rỗng còn Hover vẫn chạy, active-param bỏ
+qua dấu phẩy trong chuỗi/ngoặc lồng); LS `LoadFboJsCatalog` + `CompleteFboJs`/`HoverFboJs`/
+`SignatureFboJs` (chọn buffer Source vs ClearText theo cờ `offset_is_clear_text`); App nạp catalog
+lúc startup qua `AppConfigStore.GetXmlPath`; bridge RPC có id + timeout 2s
+(`fboJsCompleteRequested`/`fboJsSignatureRequested` → `*Result`) đăng ký cho `erp-xml` **và**
+`javascript`; hover chain giữ đúng ưu tiên spec §6.6: entity → `$a` value (Phase 3) → catalog
+(Phase 4) → null.
+
+`FboJsCatalogGapScanner` chỉ **báo cáo**, không auto-merge; chạy trên `Grid/SVDetail.xml` cho 34
+gap, nhiều nhất: `g.setItemGridBehavior` (16), `g.validExpression` (13), `g._getItem` (8),
+`o.row` (5), `g.get_element` (4), `g.validRowExpression` (4) — **cố ý chưa thêm vào seed**:
+`summary`/`effect` là tài liệu người soát, không đoán hộ.
+
++38 unit test FboJs (Application 282 passed / 18 skipped), Domain 7, Editor 14, Tree 9; build slnx
+xanh. **Chưa human runtime pass** Task 6 §Step 3 (gõ `f.` → Ctrl+Space; `f.request(` → signature;
+Insight chỉ hover) — không verify headless được.
+
 ---
 
 ### Phase 5 — SQL tooling
@@ -258,11 +281,13 @@ fail: 2 items thay vì 1). Application 236 passed / 18 skipped, Domain 7, Editor
 | # | Hạng mục |
 |---|----------|
 | 5 | Trong editor: bôi đen dòng/vùng → Execute SQL (connection/target theo context DB/SQL Studio) |
-| 9 | Ctrl+Click `item@information`: parse `key` / `check` / `information` → mở tab SQL. Ví dụ `information="tk$dmtk.ten_tk%l"` + `key="status = '1'"` → `SELECT tk, ten_tk, ten_tk2 FROM dmtk WHERE status = '1'`. **`%l`:** giao diện Việt → bỏ cột locale (rỗng / không lấy `ten_tk2` tương ứng quy ước FBO); Anh → cột thứ 2 (`ten_tk2`). Chi tiết mapping `%l` chốt trong mini-spec Phase 5 theo đúng runtime FBO. |
+| 9 | Ctrl+Click `item@information`: parse `key` / `check` / `information` → mở tab SQL. Ví dụ `information="tk$dmtk.ten_tk%l"` + `key="status = '1'"` → `SELECT tk, ten_tk, ten_tk2 FROM dmtk WHERE status = '1'`. **`%l`:** luôn sinh đủ cột locale (base + `…2`); comment ghi `%l` — không cắt theo Việt/Anh UI (chốt mini-spec). |
 | 16 | Trong thẻ khai báo SQL: Ctrl+Click function/proc → tab SQL nội dung `ALTER FUNCTION` / `ALTER PROCEDURE` |
 | 17 | Snippet: gõ `options.name='m_instock_split' and val = '1'` + Tab → `SELECT * FROM options WHERE name = 'm_instock_split' and val = '1'` |
 
 **Done when:** execute selection, information→SQL, alter object, snippet `options` hoạt động trên editor SQL/Monaco tương ứng.
+
+**Artifacts:** mini-spec [`2026-07-23-editor-phase5-sql-tooling-design.md`](./2026-07-23-editor-phase5-sql-tooling-design.md) (Ready for planning).
 
 ---
 
@@ -380,8 +405,8 @@ Config Phase 4: `UI/Config/xml/fbo-js.catalog.xml` — xem mini-spec Phase 4.
 
 ## 10. Open points (chốt trong mini-spec phase, không chặn roadmap)
 
-1. `%l` mapping Exact runtime FBO (Phase 5 / mục 9) — Việt/Anh cột nào.
-2. Execute SQL (5): dùng connection Database Explorer target hay SQL Studio active?
+1. ~~`%l` mapping (Phase 5 / #9)~~ — **chốt:** luôn đủ cột locale + comment; xem [`2026-07-23-editor-phase5-sql-tooling-design.md`](./2026-07-23-editor-phase5-sql-tooling-design.md).
+2. ~~Execute SQL (#5) connection~~ — **chốt:** App mặc định; Sys khi root `@database="Sys"`; F5 Form → tab SQL + auto-run.
 3. Hover widget host: Monaco Content Widget vs WPF popup ngoài WebView2.
 4. Pin tab (1): hành vi đóng “Close All” có tôn trọng pin không (mặc định: có).
 5. FindRefs (12): phạm vi một document vs toàn Program workspace (bắt đầu: document + related controller files).
