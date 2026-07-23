@@ -23,11 +23,23 @@
             <Separator/>
             <MenuItem Header="_Find..." Command="{x:Static cmd:IdeCommands.Search}" InputGestureText="Ctrl+F"/>
             <MenuItem Header="R_eplace..." Command="{x:Static cmd:IdeCommands.Replace}" InputGestureText="Ctrl+H"/>
+            <Separator/>
+            <MenuItem Header="Go _Back" Command="{x:Static cmd:IdeCommands.NavigateBack}"
+                      InputGestureText="Alt+← (Ctrl+- ngoài editor)"/>
+            <MenuItem Header="Go For_ward" Command="{x:Static cmd:IdeCommands.NavigateForward}"
+                      InputGestureText="Ctrl+Shift+- / Alt+→"/>
         </MenuItem>
         <MenuItem Header="_View">
             <MenuItem Header="_Explorer" Command="{x:Static cmd:IdeCommands.ToggleLeftDock}"/>
             <MenuItem Header="_Properties" Command="{x:Static cmd:IdeCommands.ToggleRightDock}"/>
             <MenuItem Header="_Bottom Panel" Command="{x:Static cmd:IdeCommands.ToggleBottomDock}"/>
+            <Separator/>
+            <MenuItem Header="Zoom _In" InputGestureText="Ctrl+= / Ctrl++" IsEnabled="False"
+                      ToolTip="Phóng font editor (Monaco) — dùng khi focus trong Source/SQL"/>
+            <MenuItem Header="Zoom _Out" InputGestureText="Ctrl+-" IsEnabled="False"
+                      ToolTip="Thu nhỏ font editor — trong editor; ngoài editor Ctrl+- = Go Back"/>
+            <MenuItem Header="Zoom _Reset" InputGestureText="Ctrl+0" IsEnabled="False"
+                      ToolTip="Reset font editor về cỡ mặc định"/>
         </MenuItem>
         <MenuItem Header="_Project">
             <MenuItem Header="Open Program..." Command="{x:Static cmd:IdeCommands.Open}"/>

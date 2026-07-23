@@ -363,3 +363,6 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+# Design WebView preview (runtime)
+**/.dwf-design-preview.html
+

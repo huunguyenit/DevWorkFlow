@@ -16,19 +16,22 @@ public sealed class DesignDocumentService : IDesignDocumentService
     private readonly IDesignRelatedDocumentLocator _related_document_locator;
     private readonly IDesignHtmlGenerator _html_generator;
     private readonly IDesignCssCatalog? _css_catalog;
+    private readonly IDesignToolbarCatalog? _toolbar_catalog;
 
     public DesignDocumentService(
         IErpLanguageService language_service,
         IDesignAssetResolver asset_resolver,
         IDesignRelatedDocumentLocator related_document_locator,
         IDesignHtmlGenerator html_generator,
-        IDesignCssCatalog? css_catalog = null)
+        IDesignCssCatalog? css_catalog = null,
+        IDesignToolbarCatalog? toolbar_catalog = null)
     {
         _language_service = language_service;
         _asset_resolver = asset_resolver;
         _related_document_locator = related_document_locator;
         _html_generator = html_generator;
         _css_catalog = css_catalog;
+        _toolbar_catalog = toolbar_catalog;
     }
 
     public async Task<DesignDocument> BuildAsync(DesignBuildRequest request, CancellationToken ct = default)
@@ -69,6 +72,16 @@ public sealed class DesignDocumentService : IDesignDocumentService
             warnings.Add($"Không load được Config/css: {ex.Message}");
         }
 
+        var toolbar_bundle = DesignToolbarBundle.Empty;
+        try
+        {
+            toolbar_bundle = _toolbar_catalog?.GetBundle() ?? DesignToolbarBundle.Empty;
+        }
+        catch (Exception ex)
+        {
+            warnings.Add($"Không load được Config/json/toolbar.json: {ex.Message}");
+        }
+
         var rendered = _html_generator.Generate(new DesignRenderRequest(
             request.Document,
             request.Vietnamese,
@@ -76,7 +89,9 @@ public sealed class DesignDocumentService : IDesignDocumentService
             request.FieldIdentities,
             detail_documents,
             GridPlaceholderRows: 5,
-            CssBundle: css_bundle));
+            CssBundle: css_bundle,
+            ToolbarBundle: toolbar_bundle,
+            EnableBlueprint: request.EnableBlueprint));
 
         return rendered with { Warnings = warnings };
     }

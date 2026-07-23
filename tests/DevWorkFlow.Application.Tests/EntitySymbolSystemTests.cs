@@ -473,6 +473,72 @@ public sealed class EntitySymbolSystemTests : IDisposable
         Assert.True(File.Exists(segment.OpenPath));
     }
 
+    [Fact]
+    public void Binder_does_not_expand_entity_reference_inside_xml_comment()
+    {
+        // FBO: <!-- &Include; --> = tắt include. ClearText phải giữ nguyên ref trong comment,
+        // không nhét value vào (value thường chứa "--" → vỡ XML / Design blank).
+        var controller_path = Path.Combine(_temp_directory, "Customer.xml");
+        File.WriteAllText(
+            Path.Combine(_temp_directory, "view.ent"),
+            """
+            <!-- marker-FROM-ENTITY-FILE -->
+            <item value="FROM_ENTITY_WIDTHS"/>
+            """);
+
+        const string xml = """
+            <!DOCTYPE dir [
+              <!ENTITY BI.Form.View.Customer SYSTEM "view.ent">
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">
+              <!-- &BI.Form.View.Customer; -->
+              <fields><field name="ma_kh"><header v="Mã" e="Code"/></field></fields>
+              <views><view id="Dir"><item value="100"/><item value="1: [ma_kh]"/></view></views>
+            </dir>
+            """;
+        var syntax = FboSyntaxParser.Parse(xml, controller_path);
+        var result = new EntitySymbolBinder().Bind(controller_path, xml, syntax);
+
+        Assert.Contains("<!-- &BI.Form.View.Customer; -->", result.ClearText);
+        Assert.DoesNotContain("FROM_ENTITY_WIDTHS", result.ClearText);
+        Assert.DoesNotContain("marker-FROM-ENTITY-FILE", result.ClearText);
+        Assert.DoesNotContain(result.Symbols, s => s.Name == "BI.Form.View.Customer");
+        Assert.DoesNotContain(result.Diagnostics, d => d.Id is "ERP3001" or "ERP3002" or "ERP3003");
+    }
+
+    [Fact]
+    public void SemanticBinder_parses_legacy_when_entity_only_referenced_in_comment()
+    {
+        var controller_path = Path.Combine(_temp_directory, "Customer.xml");
+        File.WriteAllText(
+            Path.Combine(_temp_directory, "view.ent"),
+            "<!-- note with -- double dash -->\n<item value=\"50,50\"/>");
+
+        const string xml = """
+            <!DOCTYPE dir [
+              <!ENTITY BI.Form.View.Customer SYSTEM "view.ent">
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">
+              <!-- &BI.Form.View.Customer; -->
+              <title v="KH" e="Cust"/>
+              <fields><field name="ma_kh"><header v="Mã" e="Code"/></field></fields>
+              <views>
+                <view id="Dir">
+                  <item value="100, 100"/>
+                  <item value="11: [ma_kh].Label, [ma_kh]"/>
+                </view>
+              </views>
+            </dir>
+            """;
+        var syntax = FboSyntaxParser.Parse(xml, controller_path);
+        var model = new ErpSemanticBinder().Bind(
+            ErpDocumentId.FromPath(controller_path), controller_path, xml, syntax);
+
+        Assert.NotNull(model.LegacyDocument);
+        Assert.NotNull(model.LegacyDocument!.Form);
+        Assert.DoesNotContain(model.Diagnostics, d => d.Id == "ERP0002");
+    }
+
     private static string Text(string clear_text, ClearTextSegment segment) =>
         clear_text.Substring(segment.Span.StartOffset, segment.Span.Length);
 

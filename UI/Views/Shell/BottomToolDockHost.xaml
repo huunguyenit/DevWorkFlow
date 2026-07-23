@@ -2,14 +2,10 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:bottom="clr-namespace:UI.Views.Bottom"
-             xmlns:dock="clr-namespace:UI.Docking">
+             xmlns:dock="clr-namespace:UI.Docking"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <UserControl.Resources>
-        <!--
-            Header dùng chung cho 2 pane SQL (Result / Message): nguồn chạy + CSDL + trạng thái.
-            Cần thiết vì kết quả không còn nằm trong tab SQL — F5 ở Form Source chạy không mở tab,
-            người dùng phải thấy được script nào vừa chạy trên DB nào.
-        -->
         <DataTemplate x:Key="SqlRunHeaderTemplate">
             <Border Background="{StaticResource IdeDockHeaderBgBrush}"
                     BorderBrush="{StaticResource IdeBorderBrush}"
@@ -79,31 +75,55 @@
             </ItemsControl>
         </Border>
         <Grid DataContext="{Binding}">
+            <!-- PROBLEMS: đủ nội dung + badge lọc Error/Warning/Hint -->
             <Grid Visibility="{Binding Shell.IsProblemsSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                 <bottom:BottomToolPanel DataContext="{Binding DiagnosticsVm.ProblemsPane}"/>
             </Grid>
-            <Grid Visibility="{Binding Shell.IsOutputSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                <bottom:BottomToolPanel DataContext="{Binding DiagnosticsVm.OutputPane}"/>
-            </Grid>
-            <Grid Visibility="{Binding Shell.IsLogSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                <bottom:BottomToolPanel DataContext="{Binding DiagnosticsVm.LogPane}"/>
-            </Grid>
+
+            <!-- SEARCH: Ln + content dòng -->
             <Grid Visibility="{Binding Shell.IsSearchResultSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                 <bottom:BottomToolPanel DataContext="{Binding DiagnosticsVm.SearchPane}"/>
             </Grid>
 
-            <!--
-                Output SQL DÙNG CHUNG: mọi lần chạy (tab SQL hoặc F5 ở Form Source, không mở tab)
-                đều đổ vào ActiveSqlDocument và hiện ở 2 pane này.
-            -->
+            <!-- MESSAGE: gộp Log/Output/SQL messages; error đỏ; click navigate (line) sau -->
+            <Grid Visibility="{Binding Shell.IsSqlMessageSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <bottom:BottomToolPanel DataContext="{Binding DiagnosticsVm.MessagePane}"/>
+            </Grid>
+
+            <!-- RESULT: table + filter + sort header + status row/col -->
             <Grid Visibility="{Binding Shell.IsSqlResultSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                 <TextBlock Style="{StaticResource SqlEmptyHintStyle}"
-                           Text="Chưa chạy SQL. F5 trong tab SQL, hoặc bôi đen SQL ở Form Source rồi F5 (không cần mở tab)."
+                           Text="Chưa chạy SQL. F5 trong tab SQL, hoặc bôi đen SQL ở Form Source rồi F5."
                            Visibility="{Binding ActiveSqlDocument, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"/>
                 <DockPanel DataContext="{Binding ActiveSqlDocument}"
                            Visibility="{Binding DataContext.ActiveSqlDocument, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource NullToVisibilityConverter}}">
                     <ContentPresenter DockPanel.Dock="Top" Content="{Binding}"
                                       ContentTemplate="{StaticResource SqlRunHeaderTemplate}"/>
+
+                    <Border DockPanel.Dock="Top" Padding="8,4"
+                            Background="{StaticResource CodePaneHeaderBrush}"
+                            BorderBrush="{StaticResource IdeBorderBrush}"
+                            BorderThickness="0,0,0,1">
+                        <DockPanel>
+                            <md:PackIcon Kind="FilterOutline" Width="14" Height="14"
+                                         Foreground="{StaticResource FgMutedBrush}"
+                                         VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <TextBox Text="{Binding ResultFilter, UpdateSourceTrigger=PropertyChanged}"
+                                     FontSize="11" Padding="4,2"
+                                     VerticalContentAlignment="Center"
+                                     ToolTip="Lọc mọi cột (substring)"/>
+                        </DockPanel>
+                    </Border>
+
+                    <Border DockPanel.Dock="Bottom" Padding="8,3"
+                            Background="{StaticResource IdeDockHeaderBgBrush}"
+                            BorderBrush="{StaticResource IdeBorderBrush}"
+                            BorderThickness="0,1,0,0">
+                        <TextBlock FontSize="11" Foreground="{StaticResource FgMutedBrush}"
+                                   Text="{Binding ResultFocusStatus}"
+                                   TextTrimming="CharacterEllipsis"/>
+                    </Border>
+
                     <ListBox DockPanel.Dock="Left" Width="140"
                              ItemsSource="{Binding ResultSets}"
                              SelectedItem="{Binding SelectedResultSet}"
@@ -111,34 +131,25 @@
                              BorderThickness="0,0,1,0"
                              BorderBrush="{StaticResource IdeBorderBrush}"
                              Background="Transparent"/>
-                    <DataGrid ItemsSource="{Binding SelectedResultView}"
+
+                    <DataGrid x:Name="SqlResultGrid"
+                              ItemsSource="{Binding SelectedResultView}"
                               AutoGenerateColumns="True"
                               IsReadOnly="True"
                               CanUserAddRows="False"
                               CanUserDeleteRows="False"
+                              CanUserSortColumns="True"
+                              CanUserResizeColumns="True"
                               HeadersVisibility="Column"
                               GridLinesVisibility="Horizontal"
                               AlternatingRowBackground="#F7F9FC"
+                              SelectionUnit="Cell"
+                              SelectionMode="Single"
                               BorderThickness="0"
-                              FontSize="12"/>
-                </DockPanel>
-            </Grid>
-
-            <Grid Visibility="{Binding Shell.IsSqlMessageSelected, Converter={StaticResource BoolToVisibilityConverter}}">
-                <TextBlock Style="{StaticResource SqlEmptyHintStyle}"
-                           Text="Chưa chạy SQL."
-                           Visibility="{Binding ActiveSqlDocument, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"/>
-                <DockPanel DataContext="{Binding ActiveSqlDocument}"
-                           Visibility="{Binding DataContext.ActiveSqlDocument, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource NullToVisibilityConverter}}">
-                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding}"
-                                      ContentTemplate="{StaticResource SqlRunHeaderTemplate}"/>
-                    <TextBox Text="{Binding MessagesText, Mode=OneWay}"
-                             IsReadOnly="True" TextWrapping="Wrap"
-                             VerticalScrollBarVisibility="Auto"
-                             FontFamily="Cascadia Code, Consolas"
-                             FontSize="12" BorderThickness="0"
-                             Padding="8" Background="Transparent"
-                             Foreground="{StaticResource FgBrush}"/>
+                              FontSize="12"
+                              EnableRowVirtualization="True"
+                              EnableColumnVirtualization="True"
+                              CurrentCellChanged="SqlResultGrid_CurrentCellChanged"/>
                 </DockPanel>
             </Grid>
         </Grid>

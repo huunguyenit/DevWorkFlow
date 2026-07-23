@@ -44,6 +44,12 @@ public partial class MonacoEditorHost : UserControl
     public event Action<int, int>? CaretPositionChanged;
 
     /// <summary>
+    /// Caret đổi, mang OFFSET trên buffer đang hiển thị (Insight = ClearText). Tách khỏi
+    /// <see cref="CaretPositionChanged"/> vì line/column không đủ để ghi lịch sử Back/Forward.
+    /// </summary>
+    public event Action<int>? CaretOffsetChanged;
+
+    /// <summary>
     /// Ctrl+Click một vùng entity trong Insight mode (ClearText). Host quyết định điều hướng
     /// — xem <see cref="EntityNavigationRequest"/>.
     /// </summary>
@@ -71,6 +77,13 @@ public partial class MonacoEditorHost : UserControl
     public event Func<int, bool, object?>? FboJsSignatureRequested;
 
     /// <summary>
+    /// Monaco (model ngôn ngữ <c>sql</c>) xin Completion — offset trên buffer SQL; trả danh sách
+    /// item hoặc null/rỗng. Dùng cho tab SQL; vùng SQL trong XML đi qua
+    /// <see cref="FboJsCompleteRequested"/>.
+    /// </summary>
+    public event Func<int, object?>? SqlCompleteRequested;
+
+    /// <summary>
     /// Tab trong vùng SQL: host quyết định dòng có expand được không (offset, lineText) → chuỗi
     /// thay thế, hoặc null để Tab giữ hành vi mặc định.
     /// </summary>
@@ -90,6 +103,18 @@ public partial class MonacoEditorHost : UserControl
     /// giữ danh sách mẫu). Cùng kiểu chia sẻ với <see cref="SharedTheme"/>.
     /// </summary>
     public static Func<string, string?>? SharedSnippetExpander { get; set; }
+
+    /// <summary>
+    /// Hover mô tả hàm SQL cho editor KHÔNG có Form VM phía sau (tab SQL): (buffer, offset) → nội
+    /// dung hover. App gán trỏ tới Language Service (SoT = <c>Config/xml/sql-functions.xml</c>).
+    /// </summary>
+    public static Func<string, int, DevWorkFlow.Domain.Language.SqlHoverInfo?>? SharedSqlHover { get; set; }
+
+    /// <summary>
+    /// Completion SQL cho editor KHÔNG có Form VM phía sau (tab SQL): (buffer, offset) → danh sách
+    /// gợi ý. App gán trỏ tới Language Service (SoT = <c>Config/xml/sql-functions.xml</c>).
+    /// </summary>
+    public static Func<string, int, DevWorkFlow.Domain.Language.SqlCompletionList?>? SharedSqlCompletion { get; set; }
 
     public static readonly DependencyProperty BoundTextProperty =
         DependencyProperty.Register(
@@ -263,6 +288,12 @@ public partial class MonacoEditorHost : UserControl
 
             core.WebMessageReceived += OnWebMessageReceived;
 
+            // Tắt zoom trang WebView2 (Ctrl+/Ctrl+bánh xe) — zoom editor dùng fontSize Monaco
+            // (Ctrl+= / Ctrl+- / Ctrl+0 / Ctrl+wheel), tránh phóng to cả chrome + không thu nhỏ được
+            // vì Ctrl+- bị IdeCommands.NavigateBack chiếm ở WPF.
+            core.Settings.IsZoomControlEnabled = false;
+            MonacoWebView.ZoomFactor = 1.0;
+
             core.Navigate(
                 $"https://devworkflow.editor/EditorHost/index.html?lang={Uri.EscapeDataString(EditorLanguage)}");
 
@@ -286,14 +317,43 @@ public partial class MonacoEditorHost : UserControl
     /// </summary>
     private void OnHostPreviewKeyDown(object sender, KeyEventArgs e)
     {
-        // Bỏ qua khi có Ctrl/Alt (Ctrl+Home/End… để routing khác xử lý); chỉ nhận thuần hoặc +Shift.
-        if ((Keyboard.Modifiers & (ModifierKeys.Control | ModifierKeys.Alt)) != 0)
+        // Alt = access key của menu bar → để nguyên cho WPF.
+        if ((Keyboard.Modifiers & ModifierKeys.Alt) != 0)
             return;
 
         // Handler gắn ở chính UserControl nên chỉ nhận PreviewKeyDown khi route đi qua subtree
         // này — tức focus đang nằm trong editor. Không cần kiểm tra IsKeyboardFocusWithin (cờ này
         // có thể sai với airspace WebView2 và sẽ khiến handler no-op).
         var has_shift = (Keyboard.Modifiers & ModifierKeys.Shift) != 0;
+
+        // Ctrl+Home/End = đầu/cuối FILE. Trước đây nhánh Ctrl bị return sớm "để routing khác xử
+        // lý" nhưng không có ai xử lý: AvalonDock nuốt Home/End thành chọn tab đầu/cuối, y hệt lý
+        // do phải bắt Home/End thuần ở đây. Ctrl+PageUp/PageDown thì KHÔNG bắt — đó là chuyển tab.
+        var has_control = (Keyboard.Modifiers & ModifierKeys.Control) != 0;
+        if (has_control)
+        {
+            // Font zoom Monaco (không phải ZoomFactor WebView). Ctrl+- không kèm Shift — nếu
+            // không bắt ở đây thì IdeCommands.NavigateBack (cùng gesture) nuốt phím → không thu nhỏ.
+            // Ctrl+Shift+- vẫn để NavigateForward. Ctrl++ (= Shift+OemPlus) cũng phóng to.
+            // Ctrl+0 reset.
+            string? control_action = e.Key switch
+            {
+                Key.Home => has_shift ? "cursorTopSelect" : "cursorTop",
+                Key.End => has_shift ? "cursorBottomSelect" : "cursorBottom",
+                Key.OemPlus or Key.Add => "editor.action.fontZoomIn",
+                Key.OemMinus or Key.Subtract when !has_shift => "editor.action.fontZoomOut",
+                Key.D0 or Key.NumPad0 when !has_shift => "editor.action.fontZoomReset",
+                _ => null
+            };
+
+            if (control_action is null) return;
+
+            e.Handled = true;
+            RunOrQueue(() => SendCommandFireAndForget(
+                EditorHostCommands.RunAction, new { actionId = control_action }));
+            return;
+        }
+
         var action_id = e.Key switch
         {
             Key.Home => has_shift ? "cursorHomeSelect" : "cursorHome",
@@ -361,7 +421,10 @@ public partial class MonacoEditorHost : UserControl
                 if (evt.Payload is { } selection_payload)
                 {
                     if (selection_payload.TryGetProperty("offset", out var offset_prop))
+                    {
                         _last_caret_offset = offset_prop.GetInt32();
+                        CaretOffsetChanged?.Invoke(_last_caret_offset);
+                    }
                     _last_selected_text = selection_payload.TryGetProperty("selectedText", out var sel_prop)
                         && sel_prop.ValueKind == JsonValueKind.String
                         ? sel_prop.GetString()
@@ -431,6 +494,17 @@ public partial class MonacoEditorHost : UserControl
                 }
                 break;
 
+            case EditorHostEvents.SqlCompleteRequested:
+                if (TryReadAssistRequest(evt.Payload, out var sql_complete_id, out var sql_complete_offset, out _))
+                {
+                    var sql_items = SqlCompleteRequested?.Invoke(sql_complete_offset)
+                                    ?? Array.Empty<object>();
+                    SendCommandFireAndForget(
+                        EditorHostCommands.FboJsCompleteResult,
+                        new { id = sql_complete_id, items = sql_items });
+                }
+                break;
+
             case EditorHostEvents.OptionsSnippetRequested:
                 if (evt.Payload is { } snippet_payload
                     && snippet_payload.TryGetProperty("id", out var snippet_id_prop)
@@ -484,12 +558,14 @@ public partial class MonacoEditorHost : UserControl
     }
 
     /// <summary>
-    /// Hiện hover virtual view của entity (value + Copy + scroll). <paramref name="offset"/> là
-    /// offset đã hit-test — JS echo lại để bỏ qua response trễ không khớp hover mới nhất.
+    /// Hiện hover Content Widget (title + kind + body + Copy).
+    /// <paramref name="offset"/> để JS bỏ qua response trễ không khớp hover mới nhất.
     /// </summary>
-    public void ShowEntityHover(int offset, string name, string value, bool is_error) =>
+    public void ShowEntityHover(
+        int offset, string name, string value, bool is_error, string? kind = null) =>
         RunOrQueue(() => SendCommandFireAndForget(
-            EditorHostCommands.ShowEntityHover, new { offset, name, value, isError = is_error }));
+            EditorHostCommands.ShowEntityHover,
+            new { offset, name, value, isError = is_error, kind = kind ?? string.Empty }));
 
     /// <summary>Ẩn hover virtual view của entity (kèm offset để JS lọc response trễ).</summary>
     public void HideEntityHover(int offset) =>

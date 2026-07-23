@@ -1,0 +1,60 @@
+/* fbo-design-blueprint.css — lớp Blueprint (IDE-owned), CHỈ có hiệu lực khi <body class="dwf-blueprint">.
+   Không đụng CSS controller/Program: mọi rule đều nằm dưới body.dwf-blueprint. */
+
+body.dwf-blueprint [data-dwf-region="main"] {
+  outline: 1px dashed rgba(33, 150, 243, 0.55);
+  outline-offset: -1px;
+  background-color: rgba(33, 150, 243, 0.06);
+}
+
+body.dwf-blueprint [data-dwf-region="footer"] {
+  outline: 1px dashed rgba(255, 152, 0, 0.55);
+  outline-offset: -1px;
+  background-color: rgba(255, 152, 0, 0.06);
+}
+
+body.dwf-blueprint .DwfTabPanel.DwfActive {
+  outline: 1px dashed rgba(156, 39, 176, 0.55);
+  outline-offset: -1px;
+  background-color: rgba(156, 39, 176, 0.06);
+}
+
+/* Ô Slot: viền mảnh để thấy ranh giới hit-test; position:relative cho chrome selection. */
+body.dwf-blueprint td[data-dwf-slot] {
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+
+body.dwf-blueprint td[data-dwf-slot].DwfEmptyCell {
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.035) 0,
+    rgba(0, 0, 0, 0.035) 2px,
+    transparent 2px,
+    transparent 6px
+  );
+}
+
+/* P2 selection chrome */
+body.dwf-blueprint .dwf-blueprint-selected {
+  outline: 2px solid #1565c0 !important;
+  outline-offset: 1px;
+}
+body.dwf-blueprint td.dwf-blueprint-selected-slot {
+  box-shadow: inset 0 0 0 2px #1565c0 !important;
+  background-color: rgba(21, 101, 192, 0.12) !important;
+}
+body.dwf-blueprint .dwf-blueprint-selected-region {
+  outline: 2px solid #6a1b9a !important;
+  outline-offset: 2px;
+}
+
+/* P3 drop target: ô trống đang được nhắm khi kéo control (Insert Before/After dùng marker của script). */
+body.dwf-blueprint td.dwf-blueprint-drop-target {
+  box-shadow: inset 0 0 0 2px #2e7d32 !important;
+  background-color: rgba(46, 125, 50, 0.14) !important;
+}
+
+/* Lớp #dwf-blueprint-layer (đường cột + nhãn px + splitter) do script tiêm của IDE tạo trên
+   documentElement — ngoài <body> nên không style ở đây; script tự set inline. */

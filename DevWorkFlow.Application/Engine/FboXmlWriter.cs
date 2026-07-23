@@ -37,6 +37,12 @@ public class FboXmlWriter
         if (view is null) return xml;
 
         var layout = form.Layout;
+
+        // anchor/split/height là metadata view — clear khi model không còn giá trị.
+        SetOrRemoveAttr(view, "anchor", layout.Anchor?.ToString());
+        SetOrRemoveAttr(view, "split", layout.Split?.ToString());
+        SetOrRemoveAttr(view, "height", layout.HeightExpression);
+
         var width_line = string.Join(", ", layout.ColumnWidths);
         var row_items = layout.Rows
             .Select(r => $"{r.Pattern}: {BuildControlsPart(r)}")
@@ -66,21 +72,41 @@ public class FboXmlWriter
         return Serialize(preamble, doc);
     }
 
+    /// <summary>
+    /// Đồng bộ <c>&lt;categories&gt;</c> theo model: cập nhật columns/header của category đã có và
+    /// **tạo mới** category chưa khai báo (EnsureFooter / AddCategory). Không xóa category lạ trong XML.
+    /// </summary>
     private static void UpdateCategoryColumns(XElement view, FormViewLayout layout)
     {
         if (layout.Categories.Count == 0) return;
 
+        var ns = view.Name.Namespace;
         var categories_el = view.Elements()
             .FirstOrDefault(e => e.Name.LocalName.Equals("categories", StringComparison.OrdinalIgnoreCase));
-        if (categories_el is null) return;
-
-        foreach (var cat_el in categories_el.Elements()
-                     .Where(e => e.Name.LocalName.Equals("category", StringComparison.OrdinalIgnoreCase)))
+        if (categories_el is null)
         {
-            if (!int.TryParse((string?)cat_el.Attribute("index"), out var index))
-                continue;
-            var model = layout.Categories.FirstOrDefault(c => c.Index == index);
-            if (model is { ColumnWidths.Count: > 0 })
+            categories_el = new XElement(ns + "categories");
+            view.Add(categories_el);
+        }
+
+        foreach (var model in layout.Categories)
+        {
+            var cat_el = categories_el.Elements()
+                .FirstOrDefault(e =>
+                    e.Name.LocalName.Equals("category", StringComparison.OrdinalIgnoreCase)
+                    && int.TryParse((string?)e.Attribute("index"), out var i)
+                    && i == model.Index);
+
+            if (cat_el is null)
+            {
+                cat_el = new XElement(ns + "category", new XAttribute("index", model.Index));
+                cat_el.Add(new XElement(ns + "header",
+                    new XAttribute("v", model.HeaderV),
+                    new XAttribute("e", model.HeaderE)));
+                categories_el.Add(cat_el);
+            }
+
+            if (model.ColumnWidths.Count > 0)
                 cat_el.SetAttributeValue("columns", string.Join(", ", model.ColumnWidths));
         }
     }
@@ -115,6 +141,92 @@ public class FboXmlWriter
     {
         if (form.Layout is null) return;
         form.Layout.ColumnWidths = widths_px.ToList();
+    }
+
+    /// <summary>
+    /// Chèn <c>&lt;field&gt;</c> mới vào <c>&lt;fields&gt;</c> nếu chưa có cùng name.
+    /// Ghi <c>type</c>, <c>categoryIndex</c>, <c>rows</c>, <c>items@style</c>, <c>header v/e</c>.
+    /// </summary>
+    public string ApplyNewField(string xml, FboField field)
+    {
+        if (string.IsNullOrWhiteSpace(xml) || string.IsNullOrWhiteSpace(field.Name))
+            return xml;
+
+        var (preamble, body) = SplitPreamble(xml);
+        var doc = ParseBody(body);
+        var root = doc.Root;
+        if (root is null) return xml;
+
+        var ns = root.Name.Namespace;
+        var fields = root.Elements()
+            .FirstOrDefault(e => e.Name.LocalName.Equals("fields", StringComparison.OrdinalIgnoreCase));
+        if (fields is null)
+        {
+            fields = new XElement(ns + "fields");
+            root.Add(fields);
+        }
+
+        var existing = fields.Elements()
+            .FirstOrDefault(e =>
+                e.Name.LocalName.Equals("field", StringComparison.OrdinalIgnoreCase)
+                && string.Equals((string?)e.Attribute("name"), field.Name, StringComparison.OrdinalIgnoreCase));
+        if (existing is not null)
+            return Serialize(preamble, doc);
+
+        var field_el = new XElement(ns + "field", new XAttribute("name", field.Name));
+        if (!string.IsNullOrWhiteSpace(field.DataType))
+            field_el.SetAttributeValue("type", field.DataType);
+        // dataFormatString="" (attr rỗng) là hợp lệ với FBO (vd. Numeric) → ghi cả khi rỗng, chỉ bỏ khi null.
+        if (field.DataFormatString is not null)
+            field_el.SetAttributeValue("dataFormatString", field.DataFormatString);
+        if (field.CategoryIndex is { } cat)
+            field_el.SetAttributeValue("categoryIndex", cat.ToString());
+        if (field.Rows is { } rows and > 0)
+            field_el.SetAttributeValue("rows", rows.ToString());
+        if (field.ReadOnly)
+            field_el.SetAttributeValue("readOnly", "true");
+
+        var header = new XElement(ns + "header",
+            new XAttribute("v", field.Header.V ?? string.Empty),
+            new XAttribute("e", field.Header.E ?? string.Empty));
+        field_el.Add(header);
+
+        if (!string.IsNullOrWhiteSpace(field.ItemsStyle))
+        {
+            var items = new XElement(ns + "items", new XAttribute("style", field.ItemsStyle));
+            if (!string.IsNullOrWhiteSpace(field.ItemsController))
+                items.SetAttributeValue("controller", field.ItemsController);
+            if (!string.IsNullOrWhiteSpace(field.ItemsReference))
+                items.SetAttributeValue("reference", field.ItemsReference);
+            field_el.Add(items);
+        }
+
+        fields.Add(field_el);
+        return Serialize(preamble, doc);
+    }
+
+    /// <summary>Xóa <c>&lt;field name="…"&gt;</c> khỏi <c>&lt;fields&gt;</c> (no-op nếu không có).</summary>
+    public string ApplyRemoveField(string xml, string field_name)
+    {
+        if (string.IsNullOrWhiteSpace(xml) || string.IsNullOrWhiteSpace(field_name))
+            return xml;
+
+        var (preamble, body) = SplitPreamble(xml);
+        var doc = ParseBody(body);
+        var root = doc.Root;
+        if (root is null) return xml;
+
+        var fields = root.Elements()
+            .FirstOrDefault(e => e.Name.LocalName.Equals("fields", StringComparison.OrdinalIgnoreCase));
+        if (fields is null) return xml;
+
+        var field_el = fields.Elements()
+            .FirstOrDefault(e =>
+                e.Name.LocalName.Equals("field", StringComparison.OrdinalIgnoreCase)
+                && string.Equals((string?)e.Attribute("name"), field_name, StringComparison.OrdinalIgnoreCase));
+        field_el?.Remove();
+
+        return Serialize(preamble, doc);
     }
 
     /// <summary>Ghi thuộc tính field (attribute / items) vào XML theo name.</summary>

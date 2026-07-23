@@ -34,6 +34,19 @@ public static class IdeCommands
     public static readonly RoutedUICommand Replace = Create(nameof(Replace), Key.H, ModifierKeys.Control);
     public static readonly RoutedUICommand GoToDefinition = Create(nameof(GoToDefinition), Key.F12, ModifierKeys.None);
     public static readonly RoutedUICommand FindReferences = Create(nameof(FindReferences), Key.F12, ModifierKeys.Shift);
+
+    // P6-01 — Back/Forward caret. Alt+←/→ luôn dùng được.
+    // Ctrl+- vẫn đăng ký cho Back KHI KHÔNG focus editor; trong MonacoEditorHost PreviewKeyDown
+    // bắt Ctrl+- → fontZoomOut (Handled) nên không xung đột với zoom thu nhỏ.
+    public static readonly RoutedUICommand NavigateBack = Create(
+        nameof(NavigateBack),
+        (Key.OemMinus, ModifierKeys.Control),
+        (Key.Left, ModifierKeys.Alt));
+
+    public static readonly RoutedUICommand NavigateForward = Create(
+        nameof(NavigateForward),
+        (Key.OemMinus, ModifierKeys.Control | ModifierKeys.Shift),
+        (Key.Right, ModifierKeys.Alt));
     public static readonly RoutedUICommand Settings = Create(nameof(Settings));
 
     // Project Web Skin (nền Designer Platform) — capture shell + mirror assets. "Xem" là tab Design
@@ -49,6 +62,15 @@ public static class IdeCommands
     {
         var gestures = new InputGestureCollection();
         if (key != Key.None)
+            gestures.Add(new KeyGesture(key, modifiers));
+        return new RoutedUICommand(name, name, typeof(IdeCommands), gestures);
+    }
+
+    /// <summary>Lệnh có nhiều tổ hợp phím tương đương.</summary>
+    private static RoutedUICommand Create(string name, params (Key Key, ModifierKeys Modifiers)[] shortcuts)
+    {
+        var gestures = new InputGestureCollection();
+        foreach (var (key, modifiers) in shortcuts)
             gestures.Add(new KeyGesture(key, modifiers));
         return new RoutedUICommand(name, name, typeof(IdeCommands), gestures);
     }

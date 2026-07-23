@@ -4,6 +4,7 @@ using System.Threading;
 using System.Windows;
 using DevWorkFlow.Application.Abstractions;
 using DevWorkFlow.Application.Design;
+using DevWorkFlow.Application.Design.Layout;
 using DevWorkFlow.Application.Engine;
 using DevWorkFlow.Application.Language;
 using DevWorkFlow.Domain.Language;
@@ -22,6 +23,8 @@ namespace UI.ViewModels;
 public class FormBuilderViewModel : ViewModelBase
 {
     private readonly FboXmlWriter _xml_writer = new();
+    private readonly IDesignLayoutCommands _layout_commands = new DesignLayoutCommands(new LayoutEngine());
+    private readonly IDesignLayoutWriterAdapter _layout_writer = new FboDesignLayoutWriterAdapter();
     private readonly FboOptionsCatalog _options = new();
     private readonly IProgramSession? _program_session;
     private readonly SqlStudioNavigator? _sql_navigator;
@@ -57,6 +60,9 @@ public class FormBuilderViewModel : ViewModelBase
     private string _loaded_title = "Design";
     private bool _is_vietnamese = true;
     private DesignCellVm? _selected_cell;
+    private int _blueprint_selection_level;
+    private string? _blueprint_selected_slot_id;
+    private string? _blueprint_selected_region_id;
     private ErpEditorMode _active_editor_mode = ErpEditorMode.Insight;
     private bool _is_code_only_view;
     private string _editor_language = "xml";
@@ -67,6 +73,15 @@ public class FormBuilderViewModel : ViewModelBase
     private InsightEditorLineVm? _selected_insight_line;
     private int _caret_column = 1;
     private bool _in_reparse;
+
+    /// <summary>Lịch sử Back/Forward dùng CHUNG toàn IDE (P6-01); null khi tạo VM ngoài DI.</summary>
+    private readonly NavigationHistory? _navigation_history;
+
+    /// <summary>Offset caret THẬT (đã quy về source XML) do editor báo lên — gốc để ghi lịch sử.</summary>
+    private int _live_caret_source_offset = -1;
+
+    /// <summary>Đang khôi phục vị trí từ lịch sử → không ghi tiếp vào lịch sử (vòng lặp).</summary>
+    private bool _restoring_history;
     private System.Windows.Threading.DispatcherTimer? _reparse_timer;
 
     public FormBuilderViewModel(
@@ -76,8 +91,10 @@ public class FormBuilderViewModel : ViewModelBase
         FormDocumentNavigator? form_navigator = null,
         IDesignDocumentService? design_document_service = null,
         string? design_config_root = null,
-        DatabaseObjectScripter? database_object_scripter = null)
+        DatabaseObjectScripter? database_object_scripter = null,
+        NavigationHistory? navigation_history = null)
     {
+        _navigation_history = navigation_history;
         _program_session = program_session;
         _form_navigator = form_navigator;
         _sql_navigator = sql_navigator;
@@ -137,6 +154,25 @@ public class FormBuilderViewModel : ViewModelBase
     }
 
     public bool HasSelectedCell => SelectedCell is not null;
+
+    /// <summary>1 = Control, 2 = Slot, 3 = Region (Blueprint multi-click).</summary>
+    public int BlueprintSelectionLevel
+    {
+        get => _blueprint_selection_level;
+        private set => SetProperty(ref _blueprint_selection_level, value);
+    }
+
+    public string? BlueprintSelectedSlotId
+    {
+        get => _blueprint_selected_slot_id;
+        private set => SetProperty(ref _blueprint_selected_slot_id, value);
+    }
+
+    public string? BlueprintSelectedRegionId
+    {
+        get => _blueprint_selected_region_id;
+        private set => SetProperty(ref _blueprint_selected_region_id, value);
+    }
 
     private int _caret_line;
 
@@ -229,11 +265,14 @@ public class FormBuilderViewModel : ViewModelBase
         DesignRenderError = null;
         try
         {
+            // HTML sinh ra chỉ được render trong tab Design (DesignWebViewHost) → luôn bật lớp Blueprint;
+            // các consumer khác của generator giữ mặc định false (runtime-only, không overlay).
             var build_request = new DesignBuildRequest(
                 Document,
                 IsVietnamese,
                 _program_session?.Current,
-                BuildFieldIdentities());
+                BuildFieldIdentities(),
+                EnableBlueprint: true);
             var generated = await _design_document_service.BuildAsync(build_request, ct);
             if (!ct.IsCancellationRequested)
                 GeneratedDesignDocument = generated;
@@ -978,6 +1017,370 @@ public class FormBuilderViewModel : ViewModelBase
             JumpCodeToField(field_name);
     }
 
+    /// <summary>
+    /// Blueprint P2: commit kéo splitter — <see cref="IDesignLayoutCommands.ResizeColumns"/> rồi
+    /// Adapter ghi XML và reparse ngay (không chờ debounce 800ms).
+    /// </summary>
+    public bool ApplyBlueprintColumnResize(string? region_id, int splitter_index, int delta_px)
+    {
+        if (Document?.Form is null || delta_px == 0)
+            return false;
+        if (!LayoutRegionId.TryParse(region_id, out var region))
+        {
+            StatusMessage = $"✘ Region không hợp lệ: {region_id}";
+            return false;
+        }
+
+        return CommitLayoutMutation(
+            _layout_commands.ResizeColumns(Document.Form, region, splitter_index, delta_px),
+            $"✔ Resize {region} splitter {splitter_index} Δ{delta_px}px");
+    }
+
+    /// <summary>
+    /// Blueprint P3: thả control từ slot này sang slot khác. <c>replace</c> = ô trống / hoán đổi;
+    /// <c>before</c>/<c>after</c> = chèn cạnh slot đích (mượn cột trống, giữ nguyên số cột).
+    /// </summary>
+    public bool ApplyBlueprintSlotDrop(string? from_slot, string? to_slot, string? mode)
+    {
+        if (Document?.Form is null) return false;
+        if (!TryParseSlot(from_slot, out var from) || !TryParseSlot(to_slot, out var to))
+        {
+            StatusMessage = "✘ Slot không hợp lệ.";
+            return false;
+        }
+
+        var insert_mode = mode switch
+        {
+            "before" => SlotInsertMode.Before,
+            "after" => SlotInsertMode.After,
+            _ => SlotInsertMode.Replace
+        };
+
+        return CommitLayoutMutation(
+            _layout_commands.MoveField(Document.Form, from, to, insert_mode),
+            $"✔ Chuyển control → {to_slot} ({mode ?? "replace"})");
+    }
+
+    /// <summary>
+    /// Kéo một field từ Toolbox vào Slot. <c>replace</c> = ô trống; <c>before</c>/<c>after</c> = chèn cạnh
+    /// control đang có (mượn cột trống trong hàng). Region đích phải khớp <c>field@categoryIndex</c> —
+    /// Engine từ chối nếu không, và XmlSource không đổi.
+    /// </summary>
+    public bool ApplyBlueprintToolboxDrop(
+        string field_name, FormViewCellKind kind, string? slot_id, string? mode)
+    {
+        if (Document?.Form is null) return false;
+        if (!TryParseSlot(slot_id, out var slot))
+        {
+            StatusMessage = "✘ Slot không hợp lệ.";
+            return false;
+        }
+
+        var insert_mode = ParseInsertMode(mode);
+        return CommitLayoutMutation(
+            _layout_commands.InsertFieldAtSlot(Document.Form, slot, field_name, kind, insert_mode),
+            $"✔ Đặt [{field_name}] vào {slot_id} ({mode ?? "replace"})");
+    }
+
+    /// <summary>
+    /// P5: kéo control sẵn (TextBox…) → tạo <c>&lt;field&gt;</c> mới + chèn ô view tại Slot.
+    /// </summary>
+    public bool ApplyBlueprintNewControlDrop(
+        ToolboxControlKind control_kind, string? slot_id, string? mode)
+    {
+        if (Document?.Form is null) return false;
+        if (!TryParseSlot(slot_id, out var slot))
+        {
+            StatusMessage = "✘ Slot không hợp lệ.";
+            return false;
+        }
+
+        var insert_mode = ParseInsertMode(mode);
+        var before_names = Document.Form.Fields.Select(f => f.Name).ToHashSet(StringComparer.OrdinalIgnoreCase);
+        var result = _layout_commands.CreateFieldAndInsert(Document.Form, control_kind, slot, insert_mode);
+        // AutoComplete tạo 2 field (main + reference) → ghi tất cả field mới.
+        var new_fields = result.Ok
+            ? Document.Form.Fields.Where(f => !before_names.Contains(f.Name)).ToList()
+            : [];
+        var primary = new_fields.FirstOrDefault(f => !f.Name.StartsWith("ten_", StringComparison.OrdinalIgnoreCase));
+        return CommitLayoutMutation(
+            result,
+            $"✔ Tạo [{primary?.Name}] ({control_kind}) → {slot_id}",
+            new_fields: new_fields);
+    }
+
+    /// <summary>P6: kéo Tab* từ Toolbox / nút + trên tab bar → thêm category (dialog đã thu thập input).</summary>
+    public bool ApplyBlueprintAddTab(string tab_kind, string header_v, string header_e, string? controller)
+    {
+        if (Document?.Form is null) return false;
+
+        var result = _layout_commands.AddTabCategory(
+            Document.Form, tab_kind, header_v, header_e, controller, out var seed);
+        var seeds = seed is null ? new List<FboField>() : [seed];
+        return CommitLayoutMutation(
+            result, $"✔ Thêm tab {tab_kind}: {header_v}", new_fields: seeds);
+    }
+
+    /// <summary>P6: gỡ hẳn một field (view + <c>&lt;field&gt;</c> XML; AutoComplete xóa cả reference).</summary>
+    public bool ApplyBlueprintRemoveField(string? field_name)
+    {
+        if (Document?.Form is null || string.IsNullOrWhiteSpace(field_name)) return false;
+
+        var result = _layout_commands.RemoveField(Document.Form, field_name, out var removed);
+        return CommitLayoutMutation(
+            result, $"✔ Xóa field {field_name}", removed_names: removed);
+    }
+
+    private static SlotInsertMode ParseInsertMode(string? mode) => mode switch
+    {
+        "before" => SlotInsertMode.Before,
+        "after" => SlotInsertMode.After,
+        _ => SlotInsertMode.Replace
+    };
+
+    /// <summary>P6 5f: kéo dãn ngang toàn form → phân bổ lại ColumnWidths theo tỉ lệ (tổng = newTotalPx).</summary>
+    public bool ApplyBlueprintFormWidth(string? region_id, int new_total_px)
+    {
+        if (Document?.Form is null || new_total_px <= 0) return false;
+        if (!LayoutRegionId.TryParse(region_id, out var region))
+        {
+            StatusMessage = $"✘ Region không hợp lệ: {region_id}";
+            return false;
+        }
+
+        return CommitLayoutMutation(
+            _layout_commands.ResizeFormWidth(Document.Form, region, new_total_px),
+            $"✔ Form width {region} → {new_total_px}px");
+    }
+
+    /// <summary>P6 5f: kéo dãn dọc vùng (Main → view@height).</summary>
+    public bool ApplyBlueprintRegionHeight(string? region_id, int height_px)
+    {
+        if (Document?.Form is null || height_px <= 0) return false;
+        if (!LayoutRegionId.TryParse(region_id, out var region))
+        {
+            StatusMessage = $"✘ Region không hợp lệ: {region_id}";
+            return false;
+        }
+
+        return CommitLayoutMutation(
+            _layout_commands.SetRegionHeight(Document.Form, region, height_px),
+            $"✔ Height {region} → {height_px}px");
+    }
+
+    /// <summary>Blueprint P4: gộp slot đang chọn với slot liền kề bên phải.</summary>
+    public bool ApplyBlueprintMerge(string? left_slot, string? right_slot)
+    {
+        if (Document?.Form is null) return false;
+        if (!TryParseSlot(left_slot, out var left) || !TryParseSlot(right_slot, out var right))
+        {
+            StatusMessage = "✘ Slot không hợp lệ.";
+            return false;
+        }
+
+        return CommitLayoutMutation(
+            _layout_commands.MergeSlots(Document.Form, left, right),
+            $"✔ Merge {left_slot} + {right_slot}");
+    }
+
+    /// <summary>Blueprint P4: tách slot span &gt; 1 thành các cột đơn.</summary>
+    public bool ApplyBlueprintSplit(string? slot_id)
+    {
+        if (Document?.Form is null) return false;
+        if (!TryParseSlot(slot_id, out var slot))
+        {
+            StatusMessage = "✘ Slot không hợp lệ.";
+            return false;
+        }
+
+        return CommitLayoutMutation(
+            _layout_commands.SplitSlot(Document.Form, slot),
+            $"✔ Split {slot_id}");
+    }
+
+    /// <summary>Blueprint P4: khai báo category index -1 (vùng Footer) nếu chưa có.</summary>
+    public bool ApplyBlueprintEnsureFooter()
+    {
+        if (Document?.Form is null) return false;
+        return CommitLayoutMutation(
+            _layout_commands.EnsureFooter(Document.Form),
+            "✔ Đã tạo vùng Footer (category -1)");
+    }
+
+    /// <summary>
+    /// Blueprint P4: thêm tab category mới với index trống kế tiếp; header mặc định đổi được ở Source /
+    /// Property Grid (Designer chưa có ô nhập tên tab).
+    /// </summary>
+    public bool ApplyBlueprintAddCategory()
+    {
+        if (Document?.Form?.Layout is not { } layout) return false;
+
+        var next_index = 1;
+        while (layout.Categories.Exists(c => c.Index == next_index)) next_index++;
+
+        return CommitLayoutMutation(
+            _layout_commands.AddCategory(Document.Form, next_index, $"Tab {next_index}", $"Tab {next_index}"),
+            $"✔ Đã thêm category {next_index}");
+    }
+
+    private static bool TryParseSlot(string? slot_attr, out LayoutSlotId slot)
+    {
+        slot = default;
+        if (!LayoutRegionId.TryParseSlotAttr(slot_attr, out var region, out var row, out var col, out _))
+            return false;
+        slot = new LayoutSlotId(region, row, col);
+        return true;
+    }
+
+    /// <summary>
+    /// Kết quả Command → Adapter ghi XML → reparse ngay (không chờ debounce 800ms) → Design refresh.
+    /// Thất bại chỉ báo StatusMessage, KHÔNG đụng XmlSource.
+    /// </summary>
+    private bool CommitLayoutMutation(
+        LayoutMutationResult result,
+        string success_message,
+        IReadOnlyList<FboField>? new_fields = null,
+        IReadOnlyList<string>? removed_names = null)
+    {
+        if (Document?.Form is null) return false;
+        if (!result.Ok)
+        {
+            StatusMessage = $"✘ {result.Error ?? "Thao tác layout bị từ chối."}";
+            return false;
+        }
+
+        var new_xml = removed_names is { Count: > 0 }
+            ? _layout_writer.WriteRemoveFieldsAndLayout(XmlSource, Document.Form, removed_names)
+            : new_fields is { Count: > 0 }
+                ? _layout_writer.WriteFieldsAndLayout(XmlSource, Document.Form, new_fields)
+                : _layout_writer.WriteLayout(XmlSource, Document.Form);
+        _in_reparse = true;
+        try
+        {
+            _xml_source = new_xml;
+            OnPropertyChanged(nameof(XmlSource));
+            OnPropertyChanged(nameof(EditorText));
+            OnPropertyChanged(nameof(HasDocument));
+        }
+        finally
+        {
+            _in_reparse = false;
+        }
+
+        ParseXml();
+        StatusMessage = success_message;
+        return true;
+    }
+
+    /// <summary>
+    /// Blueprint P2 multi-click: level 1 Control → 2 Slot → 3 Region.
+    /// </summary>
+    public void ApplyBlueprintSelection(
+        int level,
+        string? symbol_id,
+        string? slot_id,
+        string? region_id)
+    {
+        BlueprintSelectionLevel = Math.Clamp(level, 1, 3);
+        BlueprintSelectedSlotId = slot_id;
+        BlueprintSelectedRegionId = region_id;
+
+        if (BlueprintSelectionLevel >= 3)
+        {
+            ClearBlueprintCellSelection();
+            StatusMessage = $"Region: {region_id ?? "(?)"}";
+            return;
+        }
+
+        if (BlueprintSelectionLevel == 2
+            && LayoutRegionId.TryParseSlotAttr(slot_id, out var region, out var row, out var col, out _))
+        {
+            var cell = FindCellBySlot(region, row, col);
+            if (cell is not null)
+                SelectCellAny(cell);
+            else
+                ClearBlueprintCellSelection();
+            StatusMessage = $"Slot: {slot_id}";
+            return;
+        }
+
+        // Level 1 — Control: chỉ highlight + Property Grid, KHÔNG điều hướng (P5 bug: SelectFieldByName →
+        // GoToDefinition → NavigateToTarget đổi sang Insight → thoát Designer). Ctrl+Click đi qua gotoField.
+        if (LayoutRegionId.TryParseSlotAttr(slot_id, out var r1, out var row1, out var col1, out _))
+        {
+            var cell = FindCellBySlot(r1, row1, col1);
+            if (cell is not null)
+            {
+                SelectCellAny(cell);
+                StatusMessage = $"Control: {cell.FieldName ?? slot_id}";
+                return;
+            }
+        }
+
+        if (!string.IsNullOrWhiteSpace(symbol_id))
+            StatusMessage = $"Control: {StripFieldPrefix(symbol_id)}";
+    }
+
+    /// <summary>Ctrl+Click trên Blueprint: mở Source tại khai báo <c>&lt;field&gt;</c> (không thoát mode ngầm).</summary>
+    public void JumpToFieldSource(string? field_or_symbol)
+    {
+        var name = StripFieldPrefix(field_or_symbol);
+        if (string.IsNullOrWhiteSpace(name)) return;
+
+        if (ActiveEditorMode != ErpEditorMode.Source)
+            ActiveEditorMode = ErpEditorMode.Source;
+        JumpCodeToField(name);
+        StatusMessage = $"Source: <field name=\"{name}\">";
+    }
+
+    private static string StripFieldPrefix(string? symbol_id)
+    {
+        if (string.IsNullOrWhiteSpace(symbol_id)) return string.Empty;
+        return symbol_id.StartsWith("field:", StringComparison.OrdinalIgnoreCase)
+            ? symbol_id["field:".Length..]
+            : symbol_id;
+    }
+
+    private void ClearBlueprintCellSelection()
+    {
+        foreach (var s in SelectedCells)
+            s.IsSelected = false;
+        SelectedCells.Clear();
+        SelectedCell = null;
+        FieldProperties.Clear();
+        OnPropertyChanged(nameof(HasSelectedCell));
+    }
+
+    /// <summary>Chọn cell bất kỳ Kind (kể cả Empty) cho Slot selection.</summary>
+    private void SelectCellAny(DesignCellVm cell)
+    {
+        foreach (var s in SelectedCells)
+            s.IsSelected = false;
+        SelectedCells.Clear();
+        SelectedCells.Add(cell);
+        cell.IsSelected = true;
+        SelectedCell = cell;
+        FinishSelectionChange();
+    }
+
+    private DesignCellVm? FindCellBySlot(LayoutRegionId region, int row_index, int column_index)
+    {
+        if (Design is null) return null;
+
+        IEnumerable<DesignFormRowVm>? rows = region.Kind switch
+        {
+            LayoutRegionKind.Main => Design.FormRows,
+            LayoutRegionKind.Footer => Design.BottomRows,
+            LayoutRegionKind.Category => Design.CategoryTabs
+                .FirstOrDefault(t => t.Index == region.CategoryIndex)?.Rows,
+            _ => null
+        };
+        if (rows is null) return null;
+
+        var row = rows.ElementAtOrDefault(row_index);
+        return row?.Cells.FirstOrDefault(c => c.ColumnIndex == column_index);
+    }
+
     /// <summary>Cuộn editor XML tới dòng khai báo &lt;field name="..."&gt;.</summary>
     private void JumpCodeToField(string? field_name)
     {
@@ -991,6 +1394,10 @@ public class FormBuilderViewModel : ViewModelBase
     public void NavigateToLine(int line)
     {
         if (line <= 0) return;
+
+        // Push ở cả 3 cửa (Line/Offset/Target): đi qua đường nào cũng ghi lịch sử. Gọi chồng
+        // nhau vẫn an toàn vì NavigationHistory bỏ mục trùng đỉnh.
+        PushNavigationOrigin();
 
         // Insight mode: buffer là ClearText, số dòng đã lệch so với source vì entity expand
         // có thể chứa xuống dòng. Đổi sang offset để đi qua bảng ánh xạ.
@@ -1031,6 +1438,8 @@ public class FormBuilderViewModel : ViewModelBase
     public void NavigateToTarget(NavigationTarget? target)
     {
         if (target is null) return;
+
+        PushNavigationOrigin();
 
         // Node từ Insight map mang offset trên ClearText — chỉ có nghĩa trong buffer Insight.
         var need_clear_text = target.UsesClearTextOffsets;
@@ -1205,6 +1614,8 @@ public class FormBuilderViewModel : ViewModelBase
     /// <summary>Nhảy tới offset trong document (ưu tiên offset). Prefer NavigateToTarget.</summary>
     public void NavigateToOffset(int offset, int line_hint = 0)
     {
+        PushNavigationOrigin();
+
         // Outline/F12 cần thấy editor code — thoát Designer nếu đang mở.
         if (ActiveEditorMode == ErpEditorMode.Designer)
             ActiveEditorMode = ErpEditorMode.Insight;
@@ -1237,6 +1648,9 @@ public class FormBuilderViewModel : ViewModelBase
     /// </summary>
     public void OpenEntityFile(string path, int target_offset = -1)
     {
+        // Nhảy sang FILE khác: ghi vị trí ở file này trước khi tab đổi, nếu không Back mất dấu.
+        PushNavigationOrigin();
+
         if (string.IsNullOrWhiteSpace(path) || !File.Exists(path))
         {
             StatusMessage = $"Không tìm thấy file entity: {path}";
@@ -1304,7 +1718,7 @@ public class FormBuilderViewModel : ViewModelBase
                     : entity.RawValue ?? string.Empty;
                 var is_error = !entity.IsResolved
                                && entity.DeclarationKind == EntityDeclarationKind.ExternalSystem;
-                return new EntityHoverView($"&{entity.Name};", value, is_error);
+                return new EntityHoverView($"&{entity.Name};", value, is_error, "Entity");
             }
         }
 
@@ -1312,7 +1726,7 @@ public class FormBuilderViewModel : ViewModelBase
         {
             var hit = _language_service.ResolveEntityAtOffset(ErpDocument.Id, offset);
             if (hit is not null)
-                return new EntityHoverView($"&{hit.EntityName};", hit.DisplayText, hit.IsError);
+                return new EntityHoverView($"&{hit.EntityName};", hit.DisplayText, hit.IsError, "Entity");
         }
 
         // Entity miss — JS runtime hover (Phase 3 #14: g.$a.name → value). Chạy được ở CẢ hai
@@ -1324,7 +1738,7 @@ public class FormBuilderViewModel : ViewModelBase
             && !string.IsNullOrEmpty(js_hit.HoverValue))
         {
             // Ưu tiên GIÁ TRỊ biểu thức $a (Phase 3) hơn mô tả catalog (Phase 4) — spec §6.6.
-            return new EntityHoverView(js_hit.DisplayLabel, js_hit.HoverValue, false);
+            return new EntityHoverView(js_hit.DisplayLabel, js_hit.HoverValue, false, "g.$a");
         }
 
         // Phase 4: mô tả API từ catalog.
@@ -1333,9 +1747,16 @@ public class FormBuilderViewModel : ViewModelBase
             offset,
             insight ? EditorAssistMode.Insight : EditorAssistMode.Source,
             offset_is_clear_text: insight);
-        return catalog_hover is null
+        if (catalog_hover is not null)
+            return new EntityHoverView(catalog_hover.Title, catalog_hover.Body, false, "FBO JS");
+
+        // Island SQL: mô tả hàm từ sql-functions.xml (JS đã có hướng dẫn thì SQL cũng có).
+        // Đặt SAU catalog JS vì hai island không chồng nhau — cái nào trúng thì cái kia trả null.
+        var sql_hover = _language_service.HoverSqlFunction(
+            ErpDocument.Id, offset, offset_is_clear_text: insight);
+        return sql_hover is null
             ? null
-            : new EntityHoverView(catalog_hover.Title, catalog_hover.Body, false);
+            : new EntityHoverView(sql_hover.Title, sql_hover.Body, false, "SQL");
     }
 
     /// <summary>
@@ -1347,6 +1768,21 @@ public class FormBuilderViewModel : ViewModelBase
         if (ErpDocument is null || _language_service is null) return FboJsCompletionList.Empty;
 
         return _language_service.CompleteFboJs(
+            ErpDocument.Id,
+            offset,
+            insight ? EditorAssistMode.Insight : EditorAssistMode.Source,
+            offset_is_clear_text: insight);
+    }
+
+    /// <summary>
+    /// Completion trong island SQL (command/query/response action) — hàm + từ khoá từ
+    /// <c>sql-functions.xml</c>. Ngoài island (hoặc Insight) trả rỗng.
+    /// </summary>
+    public SqlCompletionList CompleteSqlAssist(int offset, bool insight)
+    {
+        if (ErpDocument is null || _language_service is null) return SqlCompletionList.Empty;
+
+        return _language_service.CompleteSql(
             ErpDocument.Id,
             offset,
             insight ? EditorAssistMode.Insight : EditorAssistMode.Source,
@@ -1705,6 +2141,43 @@ public class FormBuilderViewModel : ViewModelBase
         }
 
         StatusMessage = $"Không có vị trí khai báo cho entity {request.EntityName}.";
+    }
+
+    /// <summary>
+    /// Editor báo offset caret trên buffer ĐANG hiển thị. Quy về offset source ngay để lịch sử
+    /// Back/Forward không lệch khi người dùng đổi Source ↔ Insight (hai buffer khác toạ độ).
+    /// </summary>
+    public void UpdateCaretOffset(int editor_offset) =>
+        _live_caret_source_offset = editor_offset < 0 ? -1 : ToSourceOffset(editor_offset);
+
+    /// <summary>Vị trí caret hiện tại cho lịch sử điều hướng; DocumentUri rỗng nếu chưa gắn file.</summary>
+    public NavigationHistoryEntry CurrentNavigationLocation =>
+        new(LoadedFilePath ?? string.Empty, _live_caret_source_offset);
+
+    /// <summary>
+    /// Ghi vị trí đang đứng trước khi nhảy đi (F12, Outline, Ctrl+Click entity, Problems…).
+    /// Gọi TRƯỚC khi đổi caret, nếu không sẽ ghi luôn điểm đến.
+    /// </summary>
+    private void PushNavigationOrigin()
+    {
+        if (_navigation_history is null || _restoring_history) return;
+        _navigation_history.Push(LoadedFilePath ?? string.Empty, _live_caret_source_offset);
+    }
+
+    /// <summary>
+    /// Đưa caret về một vị trí LẤY TỪ lịch sử — không ghi lịch sử mới (Back/Forward tự quản).
+    /// </summary>
+    public void RestoreNavigationLocation(int source_offset)
+    {
+        _restoring_history = true;
+        try
+        {
+            NavigateToOffset(source_offset);
+        }
+        finally
+        {
+            _restoring_history = false;
+        }
     }
 
     public void UpdateCaretPosition(int line, int column)

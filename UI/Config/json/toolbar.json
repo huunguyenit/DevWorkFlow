@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1.0",
+  "description": "Toolbar system FBO — title@v/e = Toolbar.<Command>. hasText=true → render Text{Command} + full nhãn v/e.",
+  "items": {
+    "Toolbar.New": { "v": "Mới", "e": "New", "hasText": true },
+    "Toolbar.Edit": { "v": "Sửa", "e": "Edit", "hasText": true },
+    "Toolbar.Delete": { "v": "Xóa", "e": "Delete", "hasText": true },
+    "Toolbar.View": { "v": "Xem", "e": "View", "hasText": true },
+    "Toolbar.Export": { "v": "Xuất", "e": "Export", "hasText": false },
+    "Toolbar.Insert": { "v": "Thêm dòng", "e": "Insert", "hasText": false },
+    "Toolbar.Grow": { "v": "Chuyển lên", "e": "Grow", "hasText": false },
+    "Toolbar.Down": { "v": "Xuống", "e": "Down", "hasText": false },
+    "Toolbar.Clone": { "v": "Nhân dòng", "e": "Clone", "hasText": false },
+    "Toolbar.Remove": { "v": "Xóa", "e": "Remove", "hasText": true },
+    "Toolbar.Freeze": { "v": "Khóa cột", "e": "Freeze", "hasText": false },
+    "Toolbar.Separate": { "v": "-", "e": "-", "hasText": false },
+    "Toolbar.Download": { "v": "Tải về", "e": "Download", "hasText": false },
+    "Toolbar.ImportData": { "v": "Nhập dữ liệu", "e": "Import", "hasText": false },
+    "Toolbar.Upload": { "v": "Tải lên", "e": "Upload", "hasText": false },
+    "Toolbar.Lookup": { "v": "Tra cứu", "e": "Lookup", "hasText": false },
+    "Toolbar.Extra": { "v": "Khác...", "e": "More...", "hasText": false },
+    "Toolbar.Retrive": { "v": "Lấy dữ liệu", "e": "Extract Data from", "hasText": true }
+  }
+}

@@ -231,6 +231,15 @@ public static class EditorHostEvents
     public const string FboJsSignatureRequested = "fboJsSignatureRequested";
 
     /// <summary>
+    /// Monaco xin Completion trên model ngôn ngữ <c>sql</c> (tab SQL Studio). Payload
+    /// <c>{ id, offset }</c>; host trả <c>fboJsCompleteResult</c> theo <c>id</c> (dùng chung kênh
+    /// kết quả với Completion JS — bridge phân biệt bằng <c>id</c>, không phải bằng tên lệnh).
+    /// Trong XML, vùng SQL vẫn đi qua <see cref="FboJsCompleteRequested"/>: một request, host tự
+    /// chọn island JS hay island SQL.
+    /// </summary>
+    public const string SqlCompleteRequested = "sqlCompleteRequested";
+
+    /// <summary>
     /// Tab trong vùng SQL: hỏi host xem dòng hiện tại có phải mẫu snippet <c>options.name=…</c>
     /// không. Payload <c>{ id, offset, lineText }</c>; host trả <c>optionsSnippetResult</c>.
     /// JS KHÔNG tự dựng câu SQL — mẫu và kết quả đều do Application quyết định.

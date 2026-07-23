@@ -294,6 +294,50 @@ public sealed class DesignFormHtmlBuilderTests
     }
 
     [Fact]
+    public void Build_EmitsDataDwfSlotOnCells()
+    {
+        var html = BuildHtml(CustomerDir);
+
+        // main row0: "1100: [ma_kh].Label, [ma_kh]" → label@0 span1, input@1 span3
+        Assert.Contains("data-dwf-slot=\"main:0:0:1\"", html);
+        Assert.Contains("data-dwf-slot=\"main:0:1:3\"", html);
+        Assert.Contains("data-dwf-region=\"main\"", html);
+        Assert.Contains("data-dwf-slot=\"cat:1:0:", html);
+        Assert.Contains("data-dwf-slot=\"footer:0:", html);
+    }
+
+    [Fact]
+    public void Build_EmitsColWidthsAndRegionOnFormTable()
+    {
+        var html = BuildHtml(CustomerDir);
+
+        Assert.Contains("data-dwf-region-table=\"main\" data-dwf-col-widths=\"120,30,45,25\"", html);
+        Assert.Contains("data-dwf-region-table=\"cat:1\"", html);
+        Assert.Contains("data-dwf-region-table=\"footer\"", html);
+    }
+
+    [Fact]
+    public void Build_EmitsSplitAndAnchorOnMainTable()
+    {
+        const string xml = """
+            <dir xmlns="urn:schemas-fast-com:data-dir">
+              <title v="T" e="T"/>
+              <fields><field name="a"><header v="A" e="A"/></field></fields>
+              <views>
+                <view id="Dir" anchor="2" split="3">
+                  <item value="50,50,50,50"/>
+                  <item value="1---: [a].Label"/>
+                </view>
+              </views>
+            </dir>
+            """;
+        var html = BuildHtml(xml);
+        Assert.Contains("data-dwf-region-table=\"main\"", html);
+        Assert.Contains("data-dwf-split=\"3\"", html);
+        Assert.Contains("data-dwf-anchor=\"2\"", html);
+    }
+
+    [Fact]
     public void SanitizeFragment_EncodesDisallowedTags()
     {
         var sanitized = DesignFormHtmlBuilder.SanitizeFragment(

@@ -715,6 +715,9 @@ public sealed class EntitySymbolBinder
                 && match.Index >= excluded.StartOffset
                 && match.Index < excluded.EndOffset)
                 continue;
+            // FBO: <!-- &Include; --> = tắt include — không tính là "used".
+            if (IsInsideXmlComment(source_text, match.Index))
+                continue;
 
             var name = match.Groups["name"].Value;
             if (BuiltInNames.Contains(name) || !definitions.ContainsKey(name))
@@ -835,6 +838,9 @@ public sealed class EntitySymbolBinder
                 if (excluded_span is { } excluded
                     && absolute_offset >= excluded.StartOffset
                     && absolute_offset < excluded.EndOffset)
+                    continue;
+                // Comment-out entity (&X; trong <!-- -->) không tạo reference / ERP3003.
+                if (IsInsideXmlComment(text, match.Index))
                     continue;
 
                 var name = match.Groups["name"].Value;
@@ -994,6 +1000,8 @@ public sealed class EntitySymbolBinder
                 && match.Index >= excluded.StartOffset
                 && match.Index < excluded.EndOffset)
                 continue;
+            if (IsInsideXmlComment(source_text, match.Index))
+                continue;
 
             var name = match.Groups["name"].Value;
             if (!by_name.TryGetValue(name, out var symbol))
@@ -1046,6 +1054,10 @@ public sealed class EntitySymbolBinder
                 continue;
             // Match lồng trong vùng đã ghi (không xảy ra với regex này, nhưng giữ an toàn).
             if (match.Index < cursor)
+                continue;
+            // FBO: <!-- &Include; --> tắt include — giữ nguyên "&X;" trong comment, không expand
+            // (value thường chứa "--" → XmlException / Design blank / ERP0002).
+            if (IsInsideXmlComment(source_text, match.Index))
                 continue;
 
             AppendLiteral(source_text, cursor, match.Index - cursor, builder, regions);
@@ -1304,6 +1316,36 @@ public sealed class EntitySymbolBinder
                 RelatedLine = is_system ? structural.Location.Line : null
             });
         }
+    }
+
+    /// <summary>
+    /// True nếu <paramref name="offset"/> nằm trong <c>&lt;!-- … --&gt;</c> (kể cả chưa đóng).
+    /// Dùng để tôn trọng FBO comment-out include: <c>&lt;!-- &amp;Entity; --&gt;</c>.
+    /// </summary>
+    internal static bool IsInsideXmlComment(string text, int offset)
+    {
+        if (offset < 0 || offset >= text.Length)
+            return false;
+
+        var search = 0;
+        while (search <= offset)
+        {
+            var start = text.IndexOf("<!--", search, StringComparison.Ordinal);
+            if (start < 0 || start > offset)
+                return false;
+
+            var end = text.IndexOf("-->", start + 4, StringComparison.Ordinal);
+            if (end < 0)
+                return offset >= start;
+
+            // Nội dung comment: [start, end+3)
+            if (offset >= start && offset < end + 3)
+                return true;
+
+            search = end + 3;
+        }
+
+        return false;
     }
 
     private static string EntityId(string name) => $"entity:{name}";

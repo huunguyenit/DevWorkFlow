@@ -1,4 +1,5 @@
-/* Toolbar ERP — icon từ class CSS (Config/image hoặc Program/Images qua virtual host; không base64) */
+/* Toolbar ERP — class = command (Insert) hoặc Text{command} khi hasText/$$width.
+   Icon: Config/image/fbo-toolbar.gif hoặc Program/Images qua controller <css>. */
 .ToolbarStyle.Green {
     overflow: hidden;
     display: inline-block;
@@ -19,105 +20,192 @@
     cursor: default;
 }
 
+/* Nút có text: icon trái (22px) + chữ */
 .ToolbarTextButton {
     border-width: 0;
     font-family: Tahoma, Verdana, sans-serif;
     font-size: 11px;
     color: #000;
+    line-height: 22px;
+    text-indent: 22px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
-.New {
-    background-image: url(../image/Toolbar.gif);
+.New,
+.TextNew {
+    background-image: url(../image/fbo-toolbar.gif);
     background-position: 0 0;
 }
 
-.NewOverGreen {
+.NewOverGreen,
+.TextNewOverGreen {
     background-position: 0 -22px;
 }
 
-.Edit {
-    background-image: url(../image/Toolbar.png);
+.Edit,
+.TextEdit {
+    background-image: url(../image/fbo-toolbar.gif);
     background-position: -22px 0;
 }
 
-.EditOverGreen {
+.EditOverGreen,
+.TextEditOverGreen {
     background-position: -22px -22px;
 }
 
-.Insert {
-    background-image: url(../image/Toolbar.gif);
+.Insert,
+.TextInsert {
+    background-image: url(../image/fbo-toolbar.gif);
     background-position: -396px -44px;
 }
 
-.InsertOverGreen {
+.InsertOverGreen,
+.TextInsertOverGreen {
     background-position: -396px -66px;
 }
 
-.Grow {
-    background-image: url(../image/Toolbar.gif);
+.Grow,
+.TextGrow {
+    background-image: url(../image/fbo-toolbar.gif);
     background-position: -566px 0;
 }
 
-.GrowOverGreen {
+.GrowOverGreen,
+.TextGrowOverGreen {
     background-position: 0 -22px;
 }
 
-.Down {
-    background-image: url(../image/Toolbar.gif);
+.Down,
+.TextDown {
+    background-image: url(../image/fbo-toolbar.gif);
     background-position: -352px 0;
 }
 
-.DownOverGreen {
+.DownOverGreen,
+.TextDownOverGreen {
     background-position: -352px -22px;
 }
 
-.Clone {
-    background-image: url(../image/Toolbar.gif);
+.Clone,
+.TextClone {
+    background-image: url(../image/fbo-toolbar.gif);
     background-position-x: -374px;
 }
 
-.CloneOverGreen {
+.CloneOverGreen,
+.TextCloneOverGreen {
     background-position: 0 -22px;
 }
 
-.Remove {
-    background-image: url(../image/Toolbar.gif);
+.Remove,
+.TextRemove {
+    background-image: url(../image/fbo-toolbar.gif);
+    background-position: -66px 0;
 }
 
-.RemoveOverGreen {
-    background-position: 0 -22px;
+.RemoveOverGreen,
+.TextRemoveOverGreen {
+    background-position: -66px -22px;
 }
 
-.Freeze {
-    background-image: url(../image/Toolbar.gif);
+.Freeze,
+.TextFreeze {
+    background-image: url(../image/fbo-toolbar.gif);
     background-position: -308px 0;
 }
 
-.FreezeOverGreen {
+.FreezeOverGreen,
+.TextFreezeOverGreen {
     background-position: 0 -22px;
 }
 
-.Delete {
-    background-image: url(../image/Toolbar.gif);
+.Delete,
+.TextDelete {
+    background-image: url(../image/fbo-toolbar.gif);
     background-position: -44px 0;
 }
 
-.DeleteOverGreen {
+.DeleteOverGreen,
+.TextDeleteOverGreen {
     background-position: -44px -22px;
 }
 
-.View {
-    background-image: url(../image/Toolbar.gif);
+.View,
+.TextView {
+    background-image: url(../image/fbo-toolbar.gif);
 }
 
-.ViewOverGreen {
+.ViewOverGreen,
+.TextViewOverGreen {
     background-position: 0 -22px;
 }
 
-.Export {
-    background-image: url(../image/Toolbar.gif);
+.Export,
+.TextExport {
+    background-image: url(../image/fbo-toolbar.gif);
 }
 
-.ExportOverGreen {
+.ExportOverGreen,
+.TextExportOverGreen {
     background-position: 0 -22px;
+}
+
+.Retrieve,
+.TextRetrieve,
+.GroupRetrieve,
+.TextGroupRetrieve,
+.Retrive,
+.TextRetrive,
+.GroupRetrive,
+.TextGroupRetrive {
+    background-image: url(../image/fbo-toolbar.gif);
+    background-position: -22px 0;
+}
+
+.RetrieveOverGreen,
+.TextRetrieveOverGreen,
+.GroupRetrieveOverGreen,
+.TextGroupRetrieveOverGreen,
+.RetriveOverGreen,
+.TextRetriveOverGreen {
+    background-position: -22px -22px;
+}
+
+/* Mũi tên dropdown — <span class="ToolbarGroupSpan"> khi group + text */
+.ToolbarGroupSpan {
+    background-image: url(../image/fbo-group.png);
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    padding-right: 14px;
+}
+
+/* Menu Design (hover) — sibling của nút group */
+.ToolbarGroupMenu {
+    display: none;
+    position: absolute;
+    z-index: 20;
+    margin: 0;
+    padding: 2px 0;
+    list-style: none;
+    min-width: 160px;
+    background: #fff;
+    border: 1px solid #bebed1;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+    font-family: Tahoma, Verdana, sans-serif;
+    font-size: 11px;
+    color: #000;
+}
+td:hover > .ToolbarGroupMenu {
+    display: block;
+}
+.ToolbarGroupMenuItem {
+    padding: 3px 12px;
+    white-space: nowrap;
+    cursor: default;
+}
+.ToolbarGroupMenuSep {
+    height: 1px;
+    margin: 3px 0;
+    background: #bebed1;
 }

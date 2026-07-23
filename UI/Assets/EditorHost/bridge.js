@@ -35,6 +35,32 @@
         return true;
     }
 
+    // Ctrl+Home/End (đầu/cuối FILE) — cũng làm tường minh vì WPF phải chặn phím trước khi
+    // AvalonDock nuốt, rồi mới gọi xuống đây.
+    function runCursorDocumentAction(editor, actionId) {
+        var isTop = actionId === 'cursorTop' || actionId === 'cursorTopSelect';
+        var isBottom = actionId === 'cursorBottom' || actionId === 'cursorBottomSelect';
+        if (!isTop && !isBottom) return false;
+
+        var model = editor.getModel();
+        if (!model) return false;
+
+        var target = isTop
+            ? { lineNumber: 1, column: 1 }
+            : { lineNumber: model.getLineCount(), column: model.getLineMaxColumn(model.getLineCount()) };
+
+        if (/Select$/.test(actionId)) {
+            var sel = editor.getSelection();
+            editor.setSelection(new monaco.Selection(
+                sel.selectionStartLineNumber, sel.selectionStartColumn,
+                target.lineNumber, target.column));
+        } else {
+            editor.setPosition(target);
+        }
+        editor.revealPosition(target);
+        return true;
+    }
+
     var params = new URLSearchParams(window.location.search);
     var language = params.get('lang') || 'xml';
 
@@ -66,7 +92,59 @@
             fontSize: 13,
             scrollBeyondLastLine: false,
             wordWrap: 'off',
-            renderWhitespace: 'none'
+            renderWhitespace: 'none',
+
+            // P6-06 multi-cursor: Alt+Click thêm con trỏ, Ctrl+D chọn occurrence kế, Ctrl+Shift+L
+            // chọn tất cả, Ctrl+Alt+↑/↓ thêm con trỏ trên/dưới (mặc định Monaco — khai báo tường
+            // minh để không phụ thuộc default của bản nhúng).
+            multiCursorModifier: 'alt',
+            multiCursorMergeOverlapping: true,
+            multiCursorPaste: 'spread',
+            selectionHighlight: true,
+            occurrencesHighlight: 'singleFile',
+            // Ctrl+bánh xe phóng/thu font editor (WebView zoom đã tắt ở host).
+            mouseWheelZoom: true
+        });
+
+        // Ctrl+D / Ctrl+Shift+L / Ctrl+Alt+↑↓ đăng ký lại tường minh: WebView2 nhận phím trước
+        // WPF nên không bị AvalonDock cướp, nhưng bản Monaco nhúng có thể thiếu keybinding mặc
+        // định nếu build rút gọn — đăng ký ở đây thì hành vi giống nhau ở mọi bản.
+        (function registerMultiCursorKeys() {
+            var K = monaco.KeyMod, C = monaco.KeyCode;
+            if (!K || !C || C.KeyD === undefined) return;   // bản Monaco đặt tên KeyCode khác
+
+            var bindings = [
+                [K.CtrlCmd | C.KeyD, 'editor.action.addSelectionToNextFindMatch'],
+                [K.CtrlCmd | K.Shift | C.KeyL, 'editor.action.selectHighlights'],
+                [K.CtrlCmd | K.Alt | C.UpArrow, 'editor.action.insertCursorAbove'],
+                [K.CtrlCmd | K.Alt | C.DownArrow, 'editor.action.insertCursorBelow'],
+                // Font zoom — host cũng bắt Ctrl+=/−/0 vì WPF NavigateBack chiếm Ctrl+-.
+                [K.CtrlCmd | C.Equal, 'editor.action.fontZoomIn'],
+                [K.CtrlCmd | C.NumpadAdd, 'editor.action.fontZoomIn'],
+                [K.CtrlCmd | C.Minus, 'editor.action.fontZoomOut'],
+                [K.CtrlCmd | C.NumpadSubtract, 'editor.action.fontZoomOut'],
+                [K.CtrlCmd | C.Digit0, 'editor.action.fontZoomReset'],
+                [K.CtrlCmd | C.Numpad0, 'editor.action.fontZoomReset']
+            ];
+            bindings.forEach(function (pair) {
+                try {
+                    editor.addCommand(pair[0], function () {
+                        editor.trigger('keyboard', pair[1], null);
+                    });
+                } catch (ignore) { /* thiếu action trong bản nhúng → bỏ qua, không chặn boot */ }
+            });
+        })();
+
+        // Sau fontZoom* đồng bộ CSS var (view zone / hover) với fontSize mới.
+        editor.onDidChangeConfiguration(function (e) {
+            try {
+                if (e && e.hasChanged && e.hasChanged(monaco.editor.EditorOption.fontSize)) {
+                    var opts = editor.getOptions();
+                    syncEditorFontVars(
+                        opts.get(monaco.editor.EditorOption.fontFamily),
+                        opts.get(monaco.editor.EditorOption.fontSize));
+                }
+            } catch (ignore) { /* EditorOption API khác bản */ }
         });
 
         // Đồng bộ font/line-height của editor vào CSS variables — view zone phân cấp
@@ -365,35 +443,108 @@
             post({ event: 'entityOffsetActivated', payload: { offset: offset, insight: false } });
         });
 
-        // ── Entity hover virtual view (Content Widget) — CHỈ Source mode ────
-        // Hiện GIÁ TRỊ entity khi hover &X;; scroll nếu dài; nút Copy. Nhận biết "đang trên
-        // widget" bằng hit-test CONTENT_WIDGET của Monaco (không dùng mouseenter/leave DOM —
-        // dễ kẹt pin khi widget bị gỡ lúc con trỏ còn trên nó → tính năng chết). Chống race:
-        // mỗi response mang offset; JS bỏ qua response có offset khác offset hover mới nhất
-        // (tránh hiện value của entity vừa rời khi reply về trễ).
+        // ── Code hover Content Widget (Entity / g.$a / FBO JS / SQL) ─────────
+        // Rộng cố định + wrap/scroll; body colorize bằng Monaco (sql / erp-xml / javascript).
+        // Ghim anchor lúc hiện — không theo caret khi chuột đi tới widget (tránh nhảy).
         var HOVER_WIDGET_ID = 'dwf.entity.hover';
-        var hoverDom = null, hoverNameEl = null, hoverBodyEl = null;
+        var HOVER_FIXED_WIDTH = 420;
+        var hoverDom = null, hoverNameEl = null, hoverKindEl = null, hoverBodyEl = null;
         var hoverVisible = false, hoverPosition = null, lastHoverOffset = -1;
+        var hoverAnchorRange = null; // { start, end } token đang neo
+        var hoverPointerInside = false;
         var hoverMoveTimer = null, hoverHideTimer = null;
+        var hoverColorizeSeq = 0;
 
         function ensureHoverStyle() {
-            if (document.getElementById('dwf-entity-hover-style')) return;
-            var style = document.createElement('style');
-            style.id = 'dwf-entity-hover-style';
+            var style = document.getElementById('dwf-entity-hover-style');
+            if (!style) {
+                style = document.createElement('style');
+                style.id = 'dwf-entity-hover-style';
+                document.head.appendChild(style);
+            }
+            // Dense IDE light — Primary #0b5cad; width cố định; cầu hit-area phía trên widget.
             style.textContent =
-                '.dwf-entity-hover{min-width:220px;max-width:480px;background:#fff;border:1px solid #c8c8c8;' +
-                'border-radius:4px;box-shadow:0 2px 10px rgba(0,0,0,.18);font-family:Consolas,"Courier New",monospace;' +
-                'font-size:12px;color:#1e1e1e;overflow:hidden;}' +
-                '.dwf-entity-hover .hdr{display:flex;align-items:center;justify-content:space-between;gap:8px;' +
-                'padding:4px 8px;background:#f3f3f3;border-bottom:1px solid #e0e0e0;}' +
-                '.dwf-entity-hover .name{font-weight:600;color:#0b5cad;white-space:nowrap;}' +
+                '.dwf-entity-hover{position:relative;box-sizing:border-box;' +
+                'width:' + HOVER_FIXED_WIDTH + 'px;max-width:' + HOVER_FIXED_WIDTH + 'px;' +
+                'background:#ffffff;border:1px solid #c8d0d8;border-radius:6px;' +
+                'box-shadow:0 4px 16px rgba(15,23,42,.14);' +
+                'font-family:Segoe UI,system-ui,sans-serif;font-size:12px;color:#1e293b;overflow:hidden;}' +
+                /* Cầu vô hình giữa token và card — chuột đi tới không “rơi” xuống editor. */
+                '.dwf-entity-hover::before{content:"";position:absolute;left:0;right:0;top:-10px;' +
+                'height:10px;}' +
+                '.dwf-entity-hover .hdr{display:flex;align-items:center;gap:8px;' +
+                'padding:6px 10px;background:#f1f5f9;border-bottom:1px solid #e2e8f0;}' +
+                '.dwf-entity-hover .hdr-main{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px;}' +
+                '.dwf-entity-hover .name{font-weight:600;font-size:12px;color:#0b5cad;' +
+                'white-space:nowrap;overflow:hidden;text-overflow:ellipsis;' +
+                'font-family:Consolas,"Cascadia Code",monospace;}' +
                 '.dwf-entity-hover.err .name{color:#c62828;}' +
-                '.dwf-entity-hover .copy{font:inherit;font-size:11px;border:1px solid #c8c8c8;background:#fff;' +
-                'border-radius:3px;padding:1px 8px;cursor:pointer;}' +
-                '.dwf-entity-hover .copy:hover{background:#eaf2fb;border-color:#0b5cad;}' +
-                '.dwf-entity-hover .body{margin:0;padding:8px;max-height:280px;overflow:auto;white-space:pre-wrap;' +
-                'word-break:break-word;}';
-            document.head.appendChild(style);
+                '.dwf-entity-hover .kind{align-self:flex-start;font-size:10px;font-weight:600;' +
+                'letter-spacing:.02em;text-transform:uppercase;color:#475569;' +
+                'background:#e2e8f0;border-radius:4px;padding:1px 6px;line-height:1.4;}' +
+                '.dwf-entity-hover.err .kind{background:#ffcdd2;color:#b71c1c;}' +
+                '.dwf-entity-hover.kind-entity .kind{background:#e3f2fd;color:#1565c0;}' +
+                '.dwf-entity-hover.kind-ga .kind{background:#f3e5f5;color:#7b1fa2;}' +
+                '.dwf-entity-hover.kind-fbo .kind{background:#e8f5e9;color:#2e7d32;}' +
+                '.dwf-entity-hover.kind-sql .kind{background:#fff3e0;color:#e65100;}' +
+                '.dwf-entity-hover .copy{flex-shrink:0;font:inherit;font-size:11px;font-weight:500;' +
+                'border:1px solid #c8d0d8;background:#fff;border-radius:4px;padding:3px 10px;cursor:pointer;' +
+                'color:#334155;transition:background .15s,border-color .15s;}' +
+                '.dwf-entity-hover .copy:hover{background:#eaf2fb;border-color:#0b5cad;color:#0b5cad;}' +
+                '.dwf-entity-hover .copy:focus-visible{outline:2px solid #0b5cad;outline-offset:1px;}' +
+                '.dwf-entity-hover .body{margin:0;padding:8px 10px;max-height:260px;overflow:auto;' +
+                'box-sizing:border-box;width:100%;' +
+                'white-space:pre-wrap;overflow-wrap:anywhere;word-break:break-word;line-height:1.45;' +
+                'font-family:Consolas,"Cascadia Code",monospace;font-size:11.5px;color:#1e293b;' +
+                'background:#fafbfc;}' +
+                /* colorize() trả span.mtk* — giữ wrap trong khung cố định. */
+                '.dwf-entity-hover .body span{white-space:inherit;}' +
+                '.dwf-entity-hover .body .view-line{display:inline;white-space:inherit;}' +
+                '@media (prefers-reduced-motion:reduce){.dwf-entity-hover .copy{transition:none;}}';
+        }
+
+        function kindClass(kind) {
+            var k = (kind || '').toLowerCase();
+            if (k.indexOf('entity') >= 0) return 'kind-entity';
+            if (k.indexOf('$a') >= 0 || k === 'g.$a') return 'kind-ga';
+            if (k.indexOf('fbo') >= 0 || k.indexOf('js') >= 0) return 'kind-fbo';
+            if (k.indexOf('sql') >= 0) return 'kind-sql';
+            return '';
+        }
+
+        /** Chọn language id Monaco khớp theme dwf (sql / erp-xml / javascript). */
+        function hoverLanguageId(kind, value) {
+            var k = (kind || '').toLowerCase();
+            if (k.indexOf('sql') >= 0) return 'sql';
+            if (k.indexOf('fbo') >= 0 || k.indexOf('js') >= 0) return 'javascript';
+            if (k.indexOf('$a') >= 0 || k === 'g.$a') {
+                var ga = value || '';
+                if (/^\s*(function|var |let |const |return |if\s*\()/m.test(ga)) return 'javascript';
+                return null;
+            }
+            if (k.indexOf('entity') >= 0) {
+                var t = (value || '').trim();
+                if (/^(select|insert|update|delete|with|declare|exec|execute|create|alter|merge)\b/i.test(t))
+                    return 'sql';
+                return 'erp-xml';
+            }
+            return null;
+        }
+
+        function wordOffsetRange(model, position) {
+            var word = model.getWordAtPosition(position);
+            if (!word) {
+                var o = model.getOffsetAt(position);
+                return { start: o, end: o };
+            }
+            return {
+                start: model.getOffsetAt({ lineNumber: position.lineNumber, column: word.startColumn }),
+                end: model.getOffsetAt({ lineNumber: position.lineNumber, column: word.endColumn })
+            };
+        }
+
+        function cancelHideHover() {
+            if (hoverHideTimer) { clearTimeout(hoverHideTimer); hoverHideTimer = null; }
         }
 
         function ensureHoverWidget() {
@@ -401,25 +552,45 @@
             ensureHoverStyle();
             hoverDom = document.createElement('div');
             hoverDom.className = 'dwf-entity-hover';
+            hoverDom.addEventListener('mouseenter', function () {
+                hoverPointerInside = true;
+                cancelHideHover();
+            });
+            hoverDom.addEventListener('mouseleave', function () {
+                hoverPointerInside = false;
+                scheduleHideHover();
+            });
+
             var hdr = document.createElement('div');
             hdr.className = 'hdr';
-            hoverNameEl = document.createElement('span');
+
+            var hdrMain = document.createElement('div');
+            hdrMain.className = 'hdr-main';
+            hoverNameEl = document.createElement('div');
             hoverNameEl.className = 'name';
+            hoverKindEl = document.createElement('span');
+            hoverKindEl.className = 'kind';
+            hdrMain.appendChild(hoverNameEl);
+            hdrMain.appendChild(hoverKindEl);
+
             var copyBtn = document.createElement('button');
             copyBtn.type = 'button';
             copyBtn.className = 'copy';
             copyBtn.textContent = 'Copy';
+            copyBtn.title = 'Copy body';
             copyBtn.addEventListener('click', function () {
                 var text = hoverBodyEl ? (hoverBodyEl.textContent || '') : '';
                 if (navigator.clipboard && navigator.clipboard.writeText)
                     navigator.clipboard.writeText(text);
             });
-            hdr.appendChild(hoverNameEl);
+
+            hdr.appendChild(hdrMain);
             hdr.appendChild(copyBtn);
+
             hoverBodyEl = document.createElement('pre');
             hoverBodyEl.className = 'body';
-            // Cuộn nội bộ widget, không để editor cuộn theo.
             hoverBodyEl.addEventListener('wheel', function (ev) { ev.stopPropagation(); }, { passive: true });
+
             hoverDom.appendChild(hdr);
             hoverDom.appendChild(hoverBodyEl);
         }
@@ -430,6 +601,7 @@
             getPosition: function () {
                 return hoverPosition
                     ? {
+                        // Vị trí đã ghim lúc request — không theo caret khi chuột đi tới card.
                         position: hoverPosition,
                         preference: [
                             monaco.editor.ContentWidgetPositionPreference.BELOW,
@@ -440,24 +612,53 @@
             }
         };
 
-        function showEntityHover(name, value, isError) {
+        function renderHoverBody(value, kind) {
+            var text = value || '';
+            var lang = hoverLanguageId(kind, text);
+            hoverBodyEl.textContent = text;
+            if (!lang || !text) return;
+            var seq = ++hoverColorizeSeq;
+            monaco.editor.colorize(text, lang, {}).then(function (html) {
+                if (seq !== hoverColorizeSeq || !hoverVisible) return;
+                hoverBodyEl.innerHTML = html;
+                // Chỉ layout lại kích thước — vị trí vẫn ghim (EXACT + hoverPosition cũ).
+                editor.layoutContentWidget(hoverWidget);
+            });
+        }
+
+        function showEntityHover(name, value, isError, kind) {
             ensureHoverWidget();
             hoverNameEl.textContent = name || '';
-            hoverBodyEl.textContent = value || '';
-            hoverDom.classList.toggle('err', !!isError);
-            if (!hoverVisible) { editor.addContentWidget(hoverWidget); hoverVisible = true; }
-            else { editor.layoutContentWidget(hoverWidget); }
+            hoverKindEl.textContent = kind || 'Info';
+            hoverKindEl.style.display = kind ? '' : 'none';
+            hoverDom.classList.remove('err', 'kind-entity', 'kind-ga', 'kind-fbo', 'kind-sql');
+            if (isError) hoverDom.classList.add('err');
+            var kc = kindClass(kind);
+            if (kc) hoverDom.classList.add(kc);
+            renderHoverBody(value, kind);
+            if (!hoverVisible) {
+                editor.addContentWidget(hoverWidget);
+                hoverVisible = true;
+            } else {
+                editor.layoutContentWidget(hoverWidget);
+            }
         }
 
         function hideEntityHover() {
+            if (hoverPointerInside) return;
             if (!hoverVisible) return;
             editor.removeContentWidget(hoverWidget);
             hoverVisible = false;
+            hoverAnchorRange = null;
+            hoverPointerInside = false;
+            hoverColorizeSeq++;
         }
 
         function scheduleHideHover() {
+            if (hoverPointerInside) return;
             if (hoverHideTimer) clearTimeout(hoverHideTimer);
-            hoverHideTimer = setTimeout(hideEntityHover, 80);
+            // Delay đủ để chuột đi từ token → cầu ::before → card mà không tắt sớm.
+            hoverHideTimer = setTimeout(hideEntityHover, 220);
         }
 
         function isOnHoverWidget(target) {
@@ -467,9 +668,10 @@
         }
 
         editor.onMouseMove(function (e) {
-            // Con trỏ đang trên chính widget → GIỮ (rule dismiss: chỉ ẩn khi rời widget).
-            if (isOnHoverWidget(e.target)) {
-                if (hoverHideTimer) { clearTimeout(hoverHideTimer); hoverHideTimer = null; }
+            // Trên widget (Monaco target hoặc DOM mouseenter) → giữ nguyên neo.
+            if (hoverPointerInside || isOnHoverWidget(e.target)) {
+                cancelHideHover();
+                if (hoverMoveTimer) { clearTimeout(hoverMoveTimer); hoverMoveTimer = null; }
                 return;
             }
 
@@ -478,13 +680,33 @@
             if (!model) return;
             var position = e.target.position;
             var offset = model.getOffsetAt(position);
+            var range = wordOffsetRange(model, position);
+
+            // Vẫn trên cùng token đang neo → không request lại, không đổi vị trí.
+            if (hoverVisible && hoverAnchorRange
+                && offset >= hoverAnchorRange.start && offset <= hoverAnchorRange.end) {
+                cancelHideHover();
+                if (hoverMoveTimer) { clearTimeout(hoverMoveTimer); hoverMoveTimer = null; }
+                return;
+            }
+
+            // Đã hiện nhưng rời token (đường đi tới card / chỗ khác):
+            // soft-hide + KHÔNG re-pin / request — tránh card nhảy theo caret.
+            if (hoverVisible) {
+                scheduleHideHover();
+                if (hoverMoveTimer) { clearTimeout(hoverMoveTimer); hoverMoveTimer = null; }
+                return;
+            }
+
             if (hoverMoveTimer) clearTimeout(hoverMoveTimer);
             hoverMoveTimer = setTimeout(function () {
-                hoverPosition = position;
+                if (hoverPointerInside || hoverVisible) return;
+                hoverPosition = {
+                    lineNumber: position.lineNumber,
+                    column: position.column
+                };
+                hoverAnchorRange = range;
                 lastHoverOffset = offset;
-                // Insight mode cũng hover được: nếu trúng segment thì gửi kèm entityName (host
-                // hiện value entity), không trúng thì host thử JS runtime (vd g.$a.name) trên
-                // offset ClearText. Trước đây Insight bị chặn cứng nên không bao giờ hover được.
                 var payload = { offset: offset, insight: !!lastShowInsights };
                 if (lastShowInsights) {
                     var seg = segmentAt(offset);
@@ -495,6 +717,7 @@
         });
 
         editor.onMouseLeave(function () {
+            if (hoverPointerInside) return;
             if (hoverMoveTimer) { clearTimeout(hoverMoveTimer); hoverMoveTimer = null; }
             scheduleHideHover();
         });
@@ -534,8 +757,48 @@
             if (kind === 'property') return K.Property;
             if (kind === 'function') return K.Function;
             if (kind === 'variable') return K.Variable;
+            if (kind === 'keyword') return K.Keyword;
+            if (kind === 'procedure') return K.Function;
             return K.Method;
         }
+
+        function toSuggestions(items, range) {
+            if (!items || !items.length) return { suggestions: [] };
+            return {
+                suggestions: items.map(function (i) {
+                    return {
+                        label: i.label,
+                        kind: completionKind(i.kind),
+                        insertText: i.insertText,
+                        detail: i.detail || undefined,
+                        documentation: i.documentation || undefined,
+                        range: range
+                    };
+                })
+            };
+        }
+
+        function wordRange(position, word) {
+            return {
+                startLineNumber: position.lineNumber,
+                endLineNumber: position.lineNumber,
+                startColumn: word.startColumn,
+                endColumn: word.endColumn
+            };
+        }
+
+        // Model 'sql' = tab SQL Studio (buffer toàn SQL, không có island). Monaco chỉ có tokenizer
+        // cho sql, KHÔNG có completion provider → Ctrl+Space trước đây luôn rỗng.
+        monaco.languages.registerCompletionItemProvider('sql', {
+            triggerCharacters: ['.'],
+            provideCompletionItems: function (model, position) {
+                var offset = model.getOffsetAt(position);
+                var range = wordRange(position, model.getWordUntilPosition(position));
+                return requestAssist('sqlCompleteRequested', offset).then(function (items) {
+                    return toSuggestions(items, range);
+                });
+            }
+        });
 
         // Model có thể là erp-xml (island JS bên trong XML) hoặc javascript khi đổi ở StatusBar.
         var assistLanguages = ['erp-xml', 'javascript'];
@@ -548,28 +811,12 @@
                     if (lastShowInsights) return { suggestions: [] };
 
                     var offset = model.getOffsetAt(position);
-                    var word = model.getWordUntilPosition(position);
-                    var range = {
-                        startLineNumber: position.lineNumber,
-                        endLineNumber: position.lineNumber,
-                        startColumn: word.startColumn,
-                        endColumn: word.endColumn
-                    };
+                    var range = wordRange(position, model.getWordUntilPosition(position));
 
+                    // Một request cho cả hai island: host trả item JS nếu caret trong <script>/
+                    // Checking, trả item SQL nếu caret trong command/query/response action.
                     return requestAssist('fboJsCompleteRequested', offset).then(function (items) {
-                        if (!items || !items.length) return { suggestions: [] };
-                        return {
-                            suggestions: items.map(function (i) {
-                                return {
-                                    label: i.label,
-                                    kind: completionKind(i.kind),
-                                    insertText: i.insertText,
-                                    detail: i.detail || undefined,
-                                    documentation: i.documentation || undefined,
-                                    range: range
-                                };
-                            })
-                        };
+                        return toSuggestions(items, range);
                     });
                 }
             });
@@ -811,7 +1058,7 @@
                         // entity vừa rời → tránh hiện sai value).
                         var hp = msg.payload || {};
                         if (hp.offset === lastHoverOffset)
-                            showEntityHover(hp.name, hp.value, hp.isError);
+                            showEntityHover(hp.name, hp.value, hp.isError, hp.kind);
                         respond(msg.id, true);
                         break;
                     }
@@ -831,7 +1078,8 @@
                         try { console.log('[host] runAction', actionId); } catch (ignore) {}
                         if (actionId) {
                             editor.focus();
-                            if (!runCursorLineAction(editor, actionId))
+                            if (!runCursorLineAction(editor, actionId)
+                                && !runCursorDocumentAction(editor, actionId))
                                 editor.trigger('host', actionId, null);
                         }
                         respond(msg.id, true);

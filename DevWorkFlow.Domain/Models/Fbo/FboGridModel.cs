@@ -1,10 +1,26 @@
 namespace DevWorkFlow.Domain.Models.Fbo;
 
+/// <summary>Mục dropdown trên nút toolbar có &lt;menuItems&gt;.</summary>
+public class GridToolbarMenuItem
+{
+    public string CommandArgument { get; set; } = string.Empty;
+    public LocalizedText Header { get; set; } = new();
+
+    public bool IsSeparator =>
+        CommandArgument is "-" or "Separate"
+        || Header.V == "-" || Header.E == "-";
+}
+
 /// <summary>Nút trên toolbar Grid (New, Edit, Delete, View, ...).</summary>
 public class GridToolbarButton
 {
     public string Command { get; set; } = string.Empty;
     public LocalizedText Title { get; set; } = new();
+
+    /// <summary>Dropdown &lt;menuItems&gt;/&lt;menuItem&gt; — nếu có → class Group{Command} / TextGroup{Command}.</summary>
+    public List<GridToolbarMenuItem> MenuItems { get; set; } = [];
+
+    public bool HasMenuItems => MenuItems.Count > 0;
 
     public bool IsSeparator =>
         Command is "-" or "Separate" || Title.V == "-" || Title.E == "-";

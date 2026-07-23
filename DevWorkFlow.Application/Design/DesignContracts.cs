@@ -47,7 +47,10 @@ public sealed record DesignRenderRequest(
     IReadOnlyDictionary<string, FboControllerDocument> DetailDocuments,
     int GridPlaceholderRows = 5,
     DesignCssBundle? CssBundle = null,
-    DesignImageBundle? ImageBundle = null);
+    DesignImageBundle? ImageBundle = null,
+    DesignToolbarBundle? ToolbarBundle = null,
+    // EnableBlueprint: bật lớp Blueprint read-only (tint region + đường cột + nhãn px) — chỉ Design mode.
+    bool EnableBlueprint = false);
 
 /// <summary>Catalog ảnh toolbar từ Config/image (implement ở Infra).</summary>
 public interface IDesignImageCatalog
@@ -60,7 +63,8 @@ public sealed record DesignBuildRequest(
     FboControllerDocument Document,
     bool Vietnamese,
     ProgramContext? Program,
-    IReadOnlyDictionary<string, DesignElementIdentity> FieldIdentities);
+    IReadOnlyDictionary<string, DesignElementIdentity> FieldIdentities,
+    bool EnableBlueprint = false);
 
 /// <summary>Kết quả: HTML tự chứa + tên controller + asset đã dùng + cảnh báo (missing detail/asset…).</summary>
 public sealed record DesignDocument(

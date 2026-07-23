@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using DevWorkFlow.Application.Design;
 using DevWorkFlow.Application.Engine;
 using DevWorkFlow.Domain.Models.Fbo;
 using UI.ViewModels.Design;
@@ -9,10 +10,14 @@ namespace UI.Services;
 public static class FboDesignMapper
 {
     private static FboOptionsCatalog _options = new();
+    private static DesignToolbarBundle _toolbar_bundle = DesignToolbarBundle.Empty;
     private static readonly LookupReferenceResolver LookupResolver = new();
 
     public static void SetOptions(FboOptionsCatalog options) =>
         _options = options ?? new FboOptionsCatalog();
+
+    public static void SetToolbarBundle(DesignToolbarBundle? bundle) =>
+        _toolbar_bundle = bundle ?? DesignToolbarBundle.Empty;
 
     public static DesignSurfaceVm Map(
         FboControllerDocument doc,
@@ -496,22 +501,6 @@ public static class FboDesignMapper
         return "Add " + title;
     }
 
-    private static string ResolveToolbarTitle(GridToolbarButton btn, bool vietnamese)
-    {
-        var raw = btn.Title.Get(vietnamese);
-        if (raw.StartsWith("Toolbar.", StringComparison.OrdinalIgnoreCase))
-        {
-            return btn.Command switch
-            {
-                "New" => vietnamese ? "Mới" : "New",
-                "Edit" => vietnamese ? "Sửa" : "Edit",
-                "Delete" => vietnamese ? "Xóa" : "Delete",
-                "View" => vietnamese ? "Xem" : "View",
-                "Export" => "Export",
-                "Freeze" => "Freeze",
-                _ => btn.Command
-            };
-        }
-        return string.IsNullOrWhiteSpace(raw) ? btn.Command : raw;
-    }
+    private static string ResolveToolbarTitle(GridToolbarButton btn, bool vietnamese) =>
+        DesignToolbarTitleResolver.ResolveDisplayTitle(btn, vietnamese, _toolbar_bundle);
 }

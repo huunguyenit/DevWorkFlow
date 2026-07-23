@@ -122,8 +122,8 @@ public sealed class IdeShellViewModel : ViewModelBase
     public bool IsBottomPlaceholderSelected =>
         SelectedBottomPane is not null
         && SelectedBottomPane.Kind is not (
-            ToolPaneKind.Output or ToolPaneKind.Problems
-            or ToolPaneKind.Log or ToolPaneKind.SearchResult
+            ToolPaneKind.Problems
+            or ToolPaneKind.SearchResult
             or ToolPaneKind.SqlResult or ToolPaneKind.SqlMessage);
 
     public ToolPaneVm? SelectedRightPane
@@ -342,8 +342,6 @@ public sealed class IdeShellViewModel : ViewModelBase
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Problems", ToolPaneKind.Problems, 4));
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Result", ToolPaneKind.SqlResult, 4));
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Message", ToolPaneKind.SqlMessage, 4));
-        BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Output", ToolPaneKind.Output, 4));
-        BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Log", ToolPaneKind.Log, 4));
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Search", ToolPaneKind.SearchResult, 4));
         foreach (var p in BottomPanes)
             p.PlaceholderMessage = string.Empty;

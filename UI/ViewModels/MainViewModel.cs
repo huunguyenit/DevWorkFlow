@@ -35,6 +35,7 @@ public class MainViewModel : ViewModelBase
     private readonly SqlStudioNavigator _sql_navigator;
     private readonly FormDocumentNavigator _form_navigator;
     private readonly IErpLanguageService _language_service;
+    private readonly NavigationHistory _navigation_history;
     private readonly Func<FormBuilderViewModel> _create_form;
     // Giữ reference để bridge không bị GC.
     private readonly FormBuilderDiagnosticsBridge _diagnostics_bridge;
@@ -63,6 +64,7 @@ public class MainViewModel : ViewModelBase
         SqlStudioNavigator sql_navigator,
         FormDocumentNavigator form_navigator,
         IErpLanguageService language_service,
+        NavigationHistory navigation_history,
         Func<FormBuilderViewModel> create_form,
         NavigationViewModel navigationVm,
         FormBuilderViewModel seedFormBuilderVm,
@@ -88,6 +90,7 @@ public class MainViewModel : ViewModelBase
         _sql_navigator = sql_navigator;
         _form_navigator = form_navigator;
         _language_service = language_service;
+        _navigation_history = navigation_history;
         _create_form = create_form;
         _diagnostics_bridge = diagnosticsBridge;
         _active_form = seedFormBuilderVm;
@@ -624,9 +627,16 @@ public class MainViewModel : ViewModelBase
         sql_vm.ExecutionCompleted += OnSqlExecutionCompleted;
     }
 
-    /// <summary>Chạy xong: mở dock dưới và focus Result (thành công) hoặc Message (lỗi).</summary>
+    /// <summary>Chạy xong: đổ Message (đỏ nếu lỗi), mở dock dưới, focus Result hoặc Message.</summary>
     private void OnSqlExecutionCompleted(object? sender, bool succeeded)
     {
+        if (sender is SqlDocumentViewModel sql)
+        {
+            var lines = (sql.MessagesText ?? string.Empty)
+                .Split(['\r', '\n'], StringSplitOptions.RemoveEmptyEntries);
+            DiagnosticsVm.AppendSqlMessages(lines, run_failed: !succeeded, source: sql.Title);
+        }
+
         Shell.ShowPanel(DockPanelId.CenterBottom);
         SelectBottomPane(succeeded ? ToolPaneKind.SqlResult : ToolPaneKind.SqlMessage);
     }
@@ -636,6 +646,63 @@ public class MainViewModel : ViewModelBase
         var pane = Shell.BottomPanes.FirstOrDefault(p => p.Kind == kind);
         if (pane is not null)
             Shell.SelectBottomPaneCommand.Execute(pane);
+    }
+
+    // ── P6-01: Back / Forward caret ─────────────────────────────────────────
+
+    public bool CanNavigateBack => _navigation_history.CanGoBack;
+
+    public bool CanNavigateForward => _navigation_history.CanGoForward;
+
+    public bool NavigateBack()
+    {
+        if (!_navigation_history.TryBack(CurrentNavigationLocation(), out var target)) return false;
+        GoToHistoryEntry(target);
+        return true;
+    }
+
+    public bool NavigateForward()
+    {
+        if (!_navigation_history.TryForward(CurrentNavigationLocation(), out var target)) return false;
+        GoToHistoryEntry(target);
+        return true;
+    }
+
+    private NavigationHistoryEntry CurrentNavigationLocation() =>
+        Shell.ActiveContent is FormBuilderViewModel form
+            ? form.CurrentNavigationLocation
+            : default;
+
+    /// <summary>
+    /// Về đúng (file, offset) đã ghi: tab còn mở thì activate, đóng rồi thì mở lại từ đĩa.
+    /// File đã bị xoá/đổi tên → báo status chứ không nuốt im lặng.
+    /// </summary>
+    private void GoToHistoryEntry(NavigationHistoryEntry entry)
+    {
+        var open = Shell.Documents.FirstOrDefault(d =>
+            string.Equals(d.Id, entry.DocumentUri, StringComparison.OrdinalIgnoreCase));
+
+        if (open?.ContentVm is FormBuilderViewModel form)
+        {
+            Shell.ActivateDocument(open);
+            form.RestoreNavigationLocation(entry.Offset);
+            return;
+        }
+
+        if (!File.Exists(entry.DocumentUri))
+        {
+            AppStatus = $"Không mở lại được vị trí cũ: {entry.DocumentUri}";
+            return;
+        }
+
+        // Tab đã đóng: mở lại rồi mới đặt caret (OpenFormDocument defer tới khi editor sẵn sàng).
+        OpenFormDocument(
+            entry.DocumentUri,
+            Path.GetFileName(entry.DocumentUri),
+            File.ReadAllText(entry.DocumentUri),
+            related_files: null,
+            code_only: false,
+            target_offset: entry.Offset);
     }
 
     private void OnReferencesRequested(JsRuntimeNavHit hit)

@@ -1,0 +1,17 @@
+{
+  "columnGuide": "rgba(255, 111, 0, 0.85)",
+  "columnLabel": "#E65100",
+  "splitter": "rgba(255, 111, 0, 0.35)",
+  "regionMain": "rgba(33, 150, 243, 0.75)",
+  "regionFooter": "rgba(255, 152, 0, 0.75)",
+  "regionTab": "rgba(156, 39, 176, 0.75)",
+  "selectedControl": "#0D47A1",
+  "selectedSlot": "#1565C0",
+  "selectedRegion": "#6A1B9A",
+  "dropTarget": "#2E7D32",
+  "topResizeHitPx": 12,
+  "splitDivider": "#C62828",
+  "anchorIcon": "#1565C0",
+  "spareRowHighlight": "rgba(46, 125, 50, 0.12)",
+  "ghostLabelInput": "rgba(21, 101, 192, 0.25)"
+}

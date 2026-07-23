@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 using DevWorkFlow.Application.Language;
 using DevWorkFlow.Domain.Language;
 using UI.Services;
@@ -20,9 +21,10 @@ public sealed class LogEntryVm : IBottomListItem
     public string Message { get; init; } = string.Empty;
     public string Source { get; init; } = "IDE";
 
+    /// <summary>Line trong editor (SQL/script) — navigate bổ sung sau; &gt;0 thì cho phép activate.</summary>
+    public int Line { get; init; }
+
     public string TimeText => Time.ToString("HH:mm:ss");
-    public string LevelText => Level.ToString().ToUpperInvariant();
-    public string Display => $"[{TimeText}] {LevelText}: {Message}";
 
     public string PrimaryText => Message;
     public string SecondaryText => Source;
@@ -39,14 +41,19 @@ public sealed class LogEntryVm : IBottomListItem
     {
         LogLevel.Error => "#C62828",
         LogLevel.Warning => "#F57F17",
-        _ => "#555555"
+        _ => "#455A64"
     };
 
-    public bool CanNavigate => false;
-    public BottomNavigateTarget? NavigateTarget => null;
+    /// <summary>Error tô đỏ cả dòng chữ (panel Message).</summary>
+    public bool IsError => Level == LogLevel.Error;
+
+    public bool CanNavigate => Line > 0;
+    public BottomNavigateTarget? NavigateTarget => CanNavigate
+        ? new BottomNavigateTarget { Line = Line }
+        : null;
 }
 
-/// <summary>Hub log/output/problems/search dùng chung Bottom dock.</summary>
+/// <summary>Hub Problems / Message (gộp Log+Output) / Search.</summary>
 public sealed class IdeDiagnosticsViewModel : ViewModelBase
 {
     private const int MaxEntries = 500;
@@ -56,15 +63,17 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
     private int _warning_count;
     private int _hint_count;
 
-    public ObservableCollection<LogEntryVm> LogEntries { get; } = [];
-    public ObservableCollection<LogEntryVm> OutputEntries { get; } = [];
+    public ObservableCollection<LogEntryVm> MessageEntries { get; } = [];
     public ObservableCollection<ProblemItemVm> Problems { get; } = [];
     public ObservableCollection<BottomListItemVm> SearchResults { get; } = [];
 
     public BottomPaneVm ProblemsPane { get; }
-    public BottomPaneVm OutputPane { get; }
-    public BottomPaneVm LogPane { get; }
+    public BottomPaneVm MessagePane { get; }
     public BottomPaneVm SearchPane { get; }
+
+    /// <summary>API cũ — redirect Message.</summary>
+    public ObservableCollection<LogEntryVm> LogEntries => MessageEntries;
+    public ObservableCollection<LogEntryVm> OutputEntries => MessageEntries;
 
     public int ErrorCount
     {
@@ -84,8 +93,7 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
         private set => SetProperty(ref _hint_count, value);
     }
 
-    public RelayCommand ClearLogCommand { get; }
-    public RelayCommand ClearOutputCommand { get; }
+    public RelayCommand ClearMessageCommand { get; }
     public RelayCommand ClearProblemsCommand { get; }
 
     public IdeDiagnosticsViewModel(AppConfigStore? app_config = null)
@@ -93,23 +101,25 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
         _diagnostics_catalog = app_config?.DiagnosticsCatalog
             ?? new Dictionary<string, DiagnosticCatalogEntry>();
 
-        ClearLogCommand = new RelayCommand(() =>
-        {
-            LogEntries.Clear();
-            RefreshCountBadge(LogPane, 0);
-        });
-        ClearOutputCommand = new RelayCommand(() =>
-        {
-            OutputEntries.Clear();
-            RefreshCountBadge(OutputPane, 0);
-        });
         ClearProblemsCommand = new RelayCommand(ClearProblems);
-
         var activate = new RelayCommand<IBottomListItem>(OnActivateItem);
 
-        ProblemsPane = new BottomPaneVm("PROBLEMS", Problems, ClearProblemsCommand, activate);
-        OutputPane = new BottomPaneVm("OUTPUT", OutputEntries, ClearOutputCommand, activate);
-        LogPane = new BottomPaneVm("LOG", LogEntries, ClearLogCommand, activate);
+        ProblemsPane = new BottomPaneVm(
+            "PROBLEMS", Problems, ClearProblemsCommand, activate, use_severity_filter: true);
+
+        BottomPaneVm message_pane = null!;
+        message_pane = new BottomPaneVm(
+            "MESSAGE",
+            MessageEntries,
+            new RelayCommand(() =>
+            {
+                MessageEntries.Clear();
+                RefreshCountBadge(message_pane, 0);
+            }),
+            activate);
+        MessagePane = message_pane;
+        ClearMessageCommand = (RelayCommand)message_pane.ClearCommand;
+
         SearchPane = new BottomPaneVm(
             "SEARCH",
             SearchResults,
@@ -117,8 +127,7 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
             activate);
 
         RefreshProblemBadges();
-        RefreshCountBadge(OutputPane, OutputEntries.Count);
-        RefreshCountBadge(LogPane, LogEntries.Count);
+        RefreshCountBadge(message_pane, 0);
         RefreshCountBadge(SearchPane, 0);
 
         Info("DevWorkFlow ready.", "Shell");
@@ -128,13 +137,26 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
         _item_activator = activator;
 
     public void Info(string message, string source = "IDE") =>
-        Add(LogLevel.Info, message, source, to_output: true);
+        Add(LogLevel.Info, message, source);
 
     public void Warn(string message, string source = "IDE") =>
-        Add(LogLevel.Warning, message, source, to_output: true);
+        Add(LogLevel.Warning, message, source);
 
     public void Error(string message, string source = "IDE", string? file = null, int line = 0) =>
-        Add(LogLevel.Error, message, source, to_output: true);
+        Add(LogLevel.Error, message, source, line);
+
+    /// <summary>Đổ dòng Message từ SQL run (error → đỏ).</summary>
+    public void AppendSqlMessages(IEnumerable<string> lines, bool run_failed, string source = "SQL")
+    {
+        foreach (var line in lines)
+        {
+            if (string.IsNullOrWhiteSpace(line)) continue;
+            var is_error = run_failed
+                || line.Contains("error", StringComparison.OrdinalIgnoreCase)
+                || line.Contains("exception", StringComparison.OrdinalIgnoreCase);
+            Add(is_error ? LogLevel.Error : LogLevel.Info, line.Trim(), source);
+        }
+    }
 
     public void SyncProblems(IEnumerable<ErpDiagnostic> diagnostics, string? default_file = null)
     {
@@ -170,6 +192,33 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
         RefreshCountBadge(SearchPane, SearchResults.Count);
     }
 
+    /// <summary>
+    /// Kết quả Find trong editor: mỗi hit = line number + nội dung dòng.
+    /// </summary>
+    public void SetEditorSearchHits(IEnumerable<(int line, string line_text, string? path)> hits)
+    {
+        SearchResults.Clear();
+        foreach (var (line, line_text, path) in hits)
+        {
+            SearchResults.Add(new BottomListItemVm
+            {
+                PrimaryText = line_text.TrimEnd(),
+                SecondaryText = string.IsNullOrWhiteSpace(path) ? string.Empty : path,
+                TrailingText = line > 0 ? $"Ln {line}" : string.Empty,
+                IconKind = "Magnify",
+                IconBrush = "#1565C0",
+                CanNavigate = line > 0,
+                NavigateTarget = new BottomNavigateTarget
+                {
+                    Path = path,
+                    Line = line
+                }
+            });
+        }
+
+        RefreshCountBadge(SearchPane, SearchResults.Count);
+    }
+
     public void ClearSearch()
     {
         SearchResults.Clear();
@@ -184,30 +233,36 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
 
     private void RefreshProblemBadges()
     {
-        ProblemsPane.ReplaceBadges(
-        [
-            new BottomBadgeVm
-            {
-                IconKind = "CloseCircle",
-                CountText = ErrorCount.ToString(),
-                Background = "#FFEBEE",
-                Foreground = "#C62828"
-            },
-            new BottomBadgeVm
-            {
-                IconKind = "Alert",
-                CountText = WarningCount.ToString(),
-                Background = "#FFF8E1",
-                Foreground = "#F57F17"
-            },
-            new BottomBadgeVm
-            {
-                IconKind = "LightbulbOutline",
-                CountText = HintCount.ToString(),
-                Background = "#E3F2FD",
-                Foreground = "#1565C0"
-            }
-        ]);
+        ICommand toggle = new RelayCommand<string>(key => ProblemsPane.ToggleSeverityFilter(key));
+        var badges = new[]
+        {
+            CreateSeverityBadge("CloseCircle", ErrorCount, "E", "#FFEBEE", "#C62828", toggle),
+            CreateSeverityBadge("Alert", WarningCount, "W", "#FFF8E1", "#F57F17", toggle),
+            CreateSeverityBadge("LightbulbOutline", HintCount, "H", "#E3F2FD", "#1565C0", toggle)
+        };
+        ProblemsPane.ReplaceBadges(badges);
+    }
+
+    private static BottomBadgeVm CreateSeverityBadge(
+        string icon,
+        int count,
+        string severity_key,
+        string active_bg,
+        string active_fg,
+        ICommand toggle)
+    {
+        var badge = new BottomBadgeVm
+        {
+            IconKind = icon,
+            CountText = count.ToString(),
+            SeverityKey = severity_key,
+            ActiveBackground = active_bg,
+            ActiveForeground = active_fg,
+            ToggleCommand = toggle,
+            IsFilterActive = true
+        };
+        badge.ApplyChrome();
+        return badge;
     }
 
     private static void RefreshCountBadge(BottomPaneVm pane, int count)
@@ -218,36 +273,31 @@ public sealed class IdeDiagnosticsViewModel : ViewModelBase
             return;
         }
 
-        pane.ReplaceBadges(
-        [
-            new BottomBadgeVm
-            {
-                IconKind = "FormatListBulleted",
-                CountText = count.ToString(),
-                Background = "#ECEFF1",
-                Foreground = "#455A64"
-            }
-        ]);
+        var badge = new BottomBadgeVm
+        {
+            IconKind = "FormatListBulleted",
+            CountText = count.ToString(),
+            ActiveBackground = "#ECEFF1",
+            ActiveForeground = "#455A64",
+            IsFilterActive = true
+        };
+        badge.ApplyChrome();
+        pane.ReplaceBadges([badge]);
     }
 
-    private void Add(LogLevel level, string message, string source, bool to_output)
+    private void Add(LogLevel level, string message, string source, int line = 0)
     {
         var entry = new LogEntryVm
         {
             Time = DateTime.Now,
             Level = level,
             Message = message,
-            Source = source
+            Source = source,
+            Line = line
         };
-        LogEntries.Insert(0, entry);
-        Trim(LogEntries);
-        RefreshCountBadge(LogPane, LogEntries.Count);
-        if (to_output)
-        {
-            OutputEntries.Insert(0, entry);
-            Trim(OutputEntries);
-            RefreshCountBadge(OutputPane, OutputEntries.Count);
-        }
+        MessageEntries.Insert(0, entry);
+        Trim(MessageEntries);
+        RefreshCountBadge(MessagePane, MessageEntries.Count);
     }
 
     private static void Trim<T>(ObservableCollection<T> list)

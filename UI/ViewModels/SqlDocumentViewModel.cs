@@ -30,6 +30,8 @@ public sealed class SqlDocumentViewModel : ViewModelBase
     private SqlResultSetVm? _selected_result_set;
     private string _status = "Ready";
     private CancellationTokenSource? _run_cts;
+    private string _result_filter = string.Empty;
+    private string _result_focus_status = string.Empty;
 
     public SqlDocumentViewModel(ISqlScriptRunner runner, IProgramSession program_session)
     {
@@ -144,6 +146,34 @@ public sealed class SqlDocumentViewModel : ViewModelBase
         private set => SetProperty(ref _selected_result_view, value);
     }
 
+    /// <summary>Lọc mọi cột (substring, case-insensitive) trên DataView.</summary>
+    public string ResultFilter
+    {
+        get => _result_filter;
+        set
+        {
+            if (!SetProperty(ref _result_filter, value ?? string.Empty)) return;
+            ApplyResultFilter();
+        }
+    }
+
+    /// <summary>Status bar Result: Row # / Col name (index).</summary>
+    public string ResultFocusStatus
+    {
+        get => _result_focus_status;
+        private set => SetProperty(ref _result_focus_status, value);
+    }
+
+    public string ResultSummary
+    {
+        get
+        {
+            var table = SelectedResultSet?.Table;
+            if (table is null) return string.Empty;
+            return $"{table.Rows.Count} dòng × {table.Columns.Count} cột";
+        }
+    }
+
     public SqlResultSetVm? SelectedResultSet
     {
         get => _selected_result_set;
@@ -151,6 +181,60 @@ public sealed class SqlDocumentViewModel : ViewModelBase
         {
             if (!SetProperty(ref _selected_result_set, value)) return;
             SelectedResultView = value?.Table.DefaultView;
+            ResultFilter = string.Empty;
+            OnPropertyChanged(nameof(ResultSummary));
+            ApplyResultFilter();
+            ResultFocusStatus = ResultSummary;
+        }
+    }
+
+    public void NotifyResultCellFocused(int row_index_1based, string? column_name, int column_index_1based)
+    {
+        if (row_index_1based <= 0)
+        {
+            ResultFocusStatus = ResultSummary;
+            return;
+        }
+
+        var col = string.IsNullOrEmpty(column_name)
+            ? $"Col #{column_index_1based}"
+            : $"{column_name} (#{column_index_1based})";
+        ResultFocusStatus = $"Row #{row_index_1based}  ·  {col}  ·  {ResultSummary}";
+    }
+
+    private void ApplyResultFilter()
+    {
+        var view = SelectedResultView;
+        if (view is null) return;
+
+        try
+        {
+            if (string.IsNullOrWhiteSpace(ResultFilter))
+            {
+                view.RowFilter = string.Empty;
+                return;
+            }
+
+            var table = view.Table;
+            if (table is null || table.Columns.Count == 0)
+            {
+                view.RowFilter = string.Empty;
+                return;
+            }
+
+            var escaped = ResultFilter.Replace("'", "''");
+            var parts = new List<string>();
+            foreach (DataColumn col in table.Columns)
+            {
+                // Convert tất cả sang string để lọc substring.
+                parts.Add($"Convert([{col.ColumnName}], 'System.String') LIKE '%{escaped}%'");
+            }
+
+            view.RowFilter = string.Join(" OR ", parts);
+        }
+        catch
+        {
+            view.RowFilter = string.Empty;
         }
     }
 

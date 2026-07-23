@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Design\Assets\fbo-design-minimal.css" />
+    <EmbeddedResource Include="Design\Assets\fbo-design-blueprint.css" />
   </ItemGroup>
 
   <ItemGroup>

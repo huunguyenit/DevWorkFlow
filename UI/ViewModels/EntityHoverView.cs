@@ -1,7 +1,12 @@
 namespace UI.ViewModels;
 
 /// <summary>
-/// Dữ liệu cho hover virtual view của entity (Content Widget trong Monaco).
-/// <paramref name="Name"/> = <c>&amp;Entity;</c>; <paramref name="Value"/> = giá trị hiển thị.
+/// Dữ liệu Content Widget hover Monaco.
+/// <paramref name="Name"/> = tiêu đề; <paramref name="Value"/> = body;
+/// <paramref name="Kind"/> = nhãn loại (Entity, g.$a, FBO JS, SQL…).
 /// </summary>
-public sealed record EntityHoverView(string Name, string Value, bool IsError);
+public sealed record EntityHoverView(
+    string Name,
+    string Value,
+    bool IsError,
+    string Kind = "Info");

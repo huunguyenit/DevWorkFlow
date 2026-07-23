@@ -36,15 +36,18 @@ internal sealed class DesignFormHtmlBuilder
         IReadOnlyDictionary<string, FboControllerDocument> detail_documents,
         int grid_placeholder_rows = 5,
         DesignImageBundle? images = null,
-        IReadOnlySet<string>? css_toolbar_classes = null)
+        IReadOnlySet<string>? css_toolbar_classes = null,
+        DesignToolbarBundle? toolbar_bundle = null)
     {
+        _ = images;
+        _ = css_toolbar_classes;
         var layout = form.Layout;
         if (layout is null) return string.Empty;
 
         var sb = new StringBuilder(4096);
         var ctx = new RenderContext(
-            form, vietnamese, options, identities, detail_documents, grid_placeholder_rows, images,
-            css_toolbar_classes);
+            form, vietnamese, options, identities, detail_documents, grid_placeholder_rows,
+            toolbar_bundle);
 
         // FormParent ≡ runtime updateDlgPanel / UpdateDlgPanel — bọc title + toàn bộ form/tab/footer.
         sb.Append("<div class=\"FormParent UpdateDlgPanel\" data-dwf-region=\"form-parent\">\n");
@@ -52,7 +55,9 @@ internal sealed class DesignFormHtmlBuilder
 
         // Vùng chính — KHÔNG đặt view@height (runtime FBO co theo nội dung; height thuộc tab non-grid).
         sb.Append("<div class=\"FormRegion\" data-dwf-region=\"main\">\n");
-        sb.Append(RenderTable(layout.TopRows, layout.ColumnWidths, ctx));
+        sb.Append(RenderTable(
+            layout.TopRows, layout.ColumnWidths, ctx, MainRegionId,
+            split: layout.Split, anchor: layout.Anchor));
         sb.Append("\n</div>\n");
 
         // Tabs — chỉ index &gt; 0, thứ tự khai báo categories/category.
@@ -80,7 +85,8 @@ internal sealed class DesignFormHtmlBuilder
                 sb.Append("<section id=\"dwf-tab-").Append(cat.Index).Append("\" class=\"DwfTabPanel")
                   .Append(first ? " DwfActive" : string.Empty).Append("\" role=\"tabpanel\" data-category-index=\"")
                   .Append(cat.Index).Append('"').Append(tab_height).Append(">\n")
-                  .Append(RenderTable(cat.Rows, widths, ctx)).Append("\n</section>\n");
+                  .Append(RenderTable(cat.Rows, widths, ctx, CategoryRegionId(cat.Index)))
+                  .Append("\n</section>\n");
                 first = false;
             }
             sb.Append("</div>\n");
@@ -91,7 +97,8 @@ internal sealed class DesignFormHtmlBuilder
         {
             sb.Append("<div class=\"FormRegion\" data-dwf-region=\"footer\">\n");
             sb.Append("<div class=\"UpdateDlgContent\">\n");
-            sb.Append(RenderTable(layout.BottomRows, layout.FooterColumnWidths, ctx, table_padding: false));
+            sb.Append(RenderTable(
+                layout.BottomRows, layout.FooterColumnWidths, ctx, FooterRegionId, table_padding: false));
             sb.Append("\n</div>\n</div>\n");
         }
 
@@ -113,17 +120,27 @@ internal sealed class DesignFormHtmlBuilder
         IReadOnlyList<FormViewRow> rows,
         IReadOnlyList<int> widths,
         RenderContext ctx,
-        bool table_padding = true)
+        string region_id,
+        bool table_padding = true,
+        int? split = null,
+        int? anchor = null)
     {
         if (rows.Count == 0) return string.Empty;
 
         var sb = new StringBuilder();
+        // split/anchor (1-based) chỉ gắn ở bảng main để Blueprint vẽ line chia + icon neo (đọc, không sửa DOM).
+        var meta = (split is { } s ? $" data-dwf-split=\"{s}\"" : string.Empty)
+                   + (anchor is { } a ? $" data-dwf-anchor=\"{a}\"" : string.Empty);
+        var table_attrs = (widths.Count > 0
+            ? $" data-dwf-region-table=\"{region_id}\" data-dwf-col-widths=\"{string.Join(",", widths)}\""
+            : $" data-dwf-region-table=\"{region_id}\"") + meta;
+
         if (widths.Count > 0)
         {
             // Footer: padding ở UpdateDlgContent; main/tab: padding 8px trên table (theo quyết định Design).
             var sum = widths.Sum();
             var pad = table_padding ? ";padding:8px" : string.Empty;
-            sb.Append($"<table class=\"FormTable\" style=\"width:{sum}px;table-layout:fixed{pad}\">\n");
+            sb.Append($"<table class=\"FormTable\" style=\"width:{sum}px;table-layout:fixed{pad}\"{table_attrs}>\n");
             sb.Append("<tr class=\"DwfColRow\" aria-hidden=\"true\">");
             foreach (var w in widths)
                 sb.Append($"<th style=\"width:{w}px\"></th>");
@@ -131,14 +148,14 @@ internal sealed class DesignFormHtmlBuilder
         }
         else
         {
-            sb.Append("<table class=\"FormTable\">\n");
+            sb.Append($"<table class=\"FormTable\"{table_attrs}>\n");
         }
 
-        foreach (var row in rows)
+        for (var row_index = 0; row_index < rows.Count; row_index++)
         {
             sb.Append("<tr class=\"FormRow\">");
-            foreach (var cell in row.Cells)
-                sb.Append(RenderCell(cell, ctx));
+            foreach (var cell in rows[row_index].Cells)
+                sb.Append(RenderCell(cell, ctx, region_id, row_index));
             sb.Append("</tr>\n");
         }
 
@@ -146,15 +163,28 @@ internal sealed class DesignFormHtmlBuilder
         return sb.ToString();
     }
 
-    private string RenderCell(FormViewCell cell, RenderContext ctx)
+    private const string MainRegionId = "main";
+    private const string FooterRegionId = "footer";
+
+    private static string CategoryRegionId(int index) => $"cat:{index}";
+
+    /// <summary>
+    /// Định danh Slot cho Blueprint hit-test: <c>{region}:{row}:{col}:{span}</c> — khớp
+    /// <c>LayoutRegionId</c>/<c>LayoutSlotId</c> phía Application (không dùng offset px).
+    /// </summary>
+    private static string SlotAttr(string region_id, int row_index, FormViewCell cell) =>
+        $" data-dwf-slot=\"{region_id}:{row_index}:{cell.ColumnIndex}:{Math.Max(cell.ColumnSpan, 1)}\"";
+
+    private string RenderCell(FormViewCell cell, RenderContext ctx, string region_id, int row_index)
     {
         var span = Math.Max(cell.ColumnSpan, 1);
+        var slot = SlotAttr(region_id, row_index, cell);
         var field = cell.FieldName is null ? null : ctx.Form.FindField(cell.FieldName);
 
         switch (cell.Kind)
         {
             case FormViewCellKind.Empty:
-                return $"<td class=\"FormCell DwfEmptyCell\" colspan=\"{span}\" nowrap"
+                return $"<td class=\"FormCell DwfEmptyCell\" colspan=\"{span}\"{slot} nowrap"
                        + " style=\"overflow:hidden;width:100%;padding:4px!important;\"></td>";
 
             case FormViewCellKind.Label:
@@ -164,40 +194,40 @@ internal sealed class DesignFormHtmlBuilder
                 var req = field?.IsRequired == true ? " FormRequiredLabel" : string.Empty;
                 // Runtime: max-height:13px chỉ inline trên FormContainer của header/label, không trong class CSS.
                 // Header có thể chứa HTML an toàn (vd. span.LabelDescription) — decode entity rồi sanitize.
-                return $"<td class=\"FormCell FormLabel{req}\" colspan=\"{span}\" nowrap"
+                return $"<td class=\"FormCell FormLabel{req}\" colspan=\"{span}\"{slot} nowrap"
                        + " style=\"overflow:hidden;width:100%;padding:4px!important;\">"
                        + "<div class=\"FormContainer\" style=\"width:100%;max-height:13px;overflow:hidden;vertical-align:middle;\">"
                        + label
                        + "</div></td>";
 
             case FormViewCellKind.Description:
-                return $"<td class=\"FormCell FormDescription\" colspan=\"{span}\" nowrap"
+                return $"<td class=\"FormCell FormDescription\" colspan=\"{span}\"{slot} nowrap"
                        + " style=\"overflow:hidden;width:100%;padding:4px!important;\">"
                        + RenderDescription(field, ctx.Vietnamese) + "</td>";
 
             case FormViewCellKind.Input:
-                return RenderInputCell(field, span, ctx);
+                return RenderInputCell(field, span, slot, ctx);
 
             default:
-                return $"<td class=\"FormCell\" colspan=\"{span}\"></td>";
+                return $"<td class=\"FormCell\" colspan=\"{span}\"{slot}></td>";
         }
     }
 
-    private string RenderInputCell(FboField? field, int span, RenderContext ctx)
+    private string RenderInputCell(FboField? field, int span, string slot, RenderContext ctx)
     {
         if (field is null)
-            return $"<td class=\"FormCell\" colspan=\"{span}\" nowrap"
+            return $"<td class=\"FormCell\" colspan=\"{span}\"{slot} nowrap"
                    + " style=\"overflow:hidden;width:100%;padding:4px!important;\"></td>";
 
         var required = field.IsRequired ? " Required" : string.Empty;
-        var cell_open = $"<td class=\"FormCell{required}\" colspan=\"{span}\" nowrap"
+        var cell_open = $"<td class=\"FormCell{required}\" colspan=\"{span}\"{slot} nowrap"
                         + " style=\"overflow:hidden;width:100%;padding:4px!important;\">";
 
         // Field kiểu Grid → nhúng Grid Detail (cấu trúc ERP GridTabPanel), chiều cao theo field@rows.
         if (string.Equals(field.ItemsStyle, "Grid", StringComparison.OrdinalIgnoreCase))
         {
             var controller = field.ItemsController ?? string.Empty;
-            var cell_open_grid = $"<td class=\"FormCellGrid\" colspan=\"{span}\" nowrap"
+            var cell_open_grid = $"<td class=\"FormCellGrid\" colspan=\"{span}\"{slot} nowrap"
                                  + " style=\"overflow:hidden;width:100%;padding:0px!important;\">"
                                  + "<div tabindex=\"-1\" tabstop=\"false\" style=\"outline:none;\">";
 
@@ -208,18 +238,6 @@ internal sealed class DesignFormHtmlBuilder
                 return $"{cell_open_grid}{warning}</div></td>";
             }
 
-            // CSS toolbar của detail (div.Download…) merge vào css_toolbar_classes ở generator.
-            var detail_css_classes = DesignControllerCssRewriter.ClassesWithBackgroundImage(detail_doc.CssText);
-            IReadOnlySet<string>? toolbar_classes = ctx.CssToolbarClasses;
-            if (detail_css_classes.Count > 0)
-            {
-                var merged = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
-                if (ctx.CssToolbarClasses is not null)
-                    foreach (var c in ctx.CssToolbarClasses) merged.Add(c);
-                foreach (var c in detail_css_classes) merged.Add(c);
-                toolbar_classes = merged;
-            }
-
             var grid_html = _grid.Build(
                 detail_doc.Grid,
                 ctx.Vietnamese,
@@ -227,8 +245,7 @@ internal sealed class DesignFormHtmlBuilder
                 detail_mode: true,
                 embedded_in_form: true,
                 body_height_px: field.Rows,
-                images: ctx.Images,
-                css_toolbar_classes: toolbar_classes);
+                toolbar_bundle: ctx.ToolbarBundle);
 
             return $"{cell_open_grid}{grid_html}</div></td>";
         }
@@ -295,6 +312,5 @@ internal sealed class DesignFormHtmlBuilder
         IReadOnlyDictionary<string, DesignElementIdentity> Identities,
         IReadOnlyDictionary<string, FboControllerDocument> DetailDocuments,
         int GridPlaceholderRows,
-        DesignImageBundle? Images,
-        IReadOnlySet<string>? CssToolbarClasses);
+        DesignToolbarBundle? ToolbarBundle);
 }

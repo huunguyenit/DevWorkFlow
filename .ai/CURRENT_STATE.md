@@ -102,7 +102,92 @@ model = ADR-0006, task riêng.
   (copy-to-output).
 - `FboXmlParser` giờ chọn đúng view `id="Dir"`/`id="Grid"`, parse `css/text` + `grid/@type`;
   `ErpSemanticBinder.LegacyDocument` parse trên ClearText đã expand entity (thấy field/CSS từ Include).
-- **Overlay drag/drop + DOM→Command là pha sau.**
+- **Layout Blueprint P0 (2026-07-23, landed):** `Application/Design/Layout` — `LayoutRegionId`
+  (`main`/`footer`/`cat:N`) + `LayoutSlotId` (region+row+col) · `ILayoutEngine`/`LayoutEngine`
+  (`ResizeColumns` giữ tổng width Region, clamp `MinColumnWidthPx`; `MergeSlots` chỉ khi ≤1 bên có control;
+  `SplitSlot` control giữ cột đầu; `SetAnchor`/`SetSplit` 1-based, main view) · `ViewRowPatternBuilder`
+  (Cells → pattern `1/0/-`) · `IDesignLayoutCommands`/`DesignLayoutCommands` (surface ổn định) ·
+  `IDesignLayoutWriterAdapter`/`FboDesignLayoutWriterAdapter` → `FboXmlWriter.ApplyLayout` (nay persist cả
+  `view@anchor`/`@split`). **Chưa wire UI** — Overlay là P1+.
+- **Layout Blueprint P1 — Blueprint read-only (2026-07-23, landed):** `DesignFormHtmlBuilder` emit
+  `data-dwf-slot="{region}:{row}:{col}:{span}"` trên mọi `<td>` + `data-dwf-region-table`/`data-dwf-col-widths`
+  trên `FormTable` (region = `main`/`cat:N`/`footer`, khớp `LayoutRegionId`). `DesignRenderRequest`/
+  `DesignBuildRequest` có cờ `EnableBlueprint` (mặc định false) → `<body class="dwf-blueprint">` +
+  `<style data-dwf-source="blueprint">` (`fbo-design-blueprint.css`, embedded, inert nếu thiếu class).
+  `DesignWebViewHost` tiêm `DesignBlueprintScript` vẽ `#dwf-blueprint-layer`: đường cột nét đứt + nhãn
+  **`Npx` only** (không hiện %), đo theo hàng `tr.DwfColRow` thật (fallback cộng dồn px), bỏ qua tab ẩn, repaint khi
+  scroll/resize/đổi tab; post `blueprint{phase:'ready'}` (host bỏ qua). `FormBuilderViewModel` bật
+  `EnableBlueprint: true` cho render tab Design.
+- **Layout Blueprint P2 (2026-07-23, landed):** Splitter drag trên Blueprint → preview DOM → commit
+  `resize{regionId,splitterIndex,deltaPx,commit}` → `FormBuilderViewModel.ApplyBlueprintColumnResize` →
+  `IDesignLayoutCommands.ResizeColumns` + Writer Adapter → reparse/`RefreshGeneratedDesignAsync`.
+  Multi-click (450ms): Control → Slot → Region (`select{level,symbolId,slotId,regionId}`) + chrome CSS
+  `.dwf-blueprint-selected*`. `LayoutRegionId.TryParse` / `TryParseSlotAttr`.
+- **Layout Blueprint P3 — Slot drag/drop (2026-07-24, landed):** Engine thêm `InsertFieldAtSlot`
+  (`SlotInsertMode` Replace/Before/After — Before/After **mượn một ô trống span 1** trong hàng nên tổng số
+  cột Region không đổi; Replace chỉ vào ô trống, replace-on-drop control khác vẫn là backlog), `MoveField`
+  (Replace = hoán đổi nội dung; Before/After = dọn nguồn trước rồi chèn cạnh đích, rollback nếu hàng đích
+  đầy), `ClearSlot`. Region đích phải khớp `field@categoryIndex` — đổi vùng của field là thao tác field,
+  không phải layout. Blueprint: kéo ô có control → ghost 50% + drop chrome (ô trống = `drop-target` xanh lá;
+  ô có control = vạch Insert Before/After theo nửa trái/phải) → `drop{fromSlot,toSlot,mode}` →
+  `ApplyBlueprintSlotDrop`. Esc hủy kéo.
+- **Layout Blueprint P4 — Merge/Split UI + Ensure region (2026-07-24, landed):** Chrome trên
+  `#dwf-blueprint-layer`: chọn Slot (2 click) → nút `Merge ▸` (slot liền phải) / `◂ Split` (span > 1);
+  chọn Region (3 click) → `+ Footer` (chỉ khi chưa có footer, host hỏi Yes/No) / `+ Tab`. Messages
+  `merge`/`split`/`ensureFooter`/`addCategory` → `ApplyBlueprintMerge`/`Split`/`EnsureFooter`/`AddCategory`.
+  Engine `EnsureFooter` (idempotent, category -1 + columns từ view) và `AddCategory` (index > 0, trùng →
+  Fail); `FboXmlWriter` nay **tạo mới** `<categories>`/`<category>` + `<header v e>` khi model có mà XML chưa.
+  Mọi mutation đi chung `CommitLayoutMutation`: Command → Adapter ghi XML → reparse ngay → Design refresh;
+  thất bại chỉ báo StatusMessage, không đụng `XmlSource`.
+- **Layout Blueprint — Toolbox → Slot (2026-07-24, landed):** `ToolboxViewModel.BindTo(form)` (nối trong
+  `MainViewModel.BindToolsToActiveForm` như Outline/PropertyGrid) sinh **danh sách field của controller**
+  kèm vùng hợp lệ (`main`/`footer`/`cat:N`) và cờ `IsPlaced`; mỗi field có 3 chip kéo **L / I / D**
+  (`.Label` / input / `.Description`). Catalog control chung giữ nguyên, chỉ để tham khảo.
+  Transport: **không dùng OLE `DragDrop.DoDragDrop`** (WebView2 là HWND riêng, WPF không nhận DragOver) —
+  `ToolboxPanel` capture chuột và bơm toạ độ màn hình qua `DesignToolboxDragBroker` (static, `UI/Services`);
+  `DesignWebViewHost.TryToPagePoint` đổi sang CSS px (`PointFromScreen / ZoomFactor`) rồi gọi
+  `window.__dwfToolbox.over(x,y,label)` → ghost + drop chrome vẽ **trong trang**; khi thả gọi `drop()` trả
+  `{slot,mode}` (ExecuteScriptAsync trả JSON, không cần message mới) → `ApplyBlueprintToolboxDrop` →
+  `IDesignLayoutCommands.InsertFieldAtSlot`.
+- **Layout Blueprint P5 — Fix Drop + Control Palette (2026-07-24, landed):** Drop không còn silent —
+  `slotUnder` dùng `elementsFromPoint` (bỏ qua splitter/ghost/chrome), broker **re-subscribe trên Loaded**,
+  miss/fail → `StatusMessage` `✘ …`. Palette MVP kéo được: TextBox / TextArea / CheckBox / DatePicker /
+  ComboBox / Lookup / Label → `DesignToolboxDragPayload.IsNewControl` + `ToolboxControlKind` →
+  `ApplyBlueprintNewControlDrop` → `CreateFieldAndInsert` (tên `text_N`/`memo_N`/… + `categoryIndex` theo
+  region đích) → `FboXmlWriter.ApplyNewField` rồi `ApplyLayout` qua `WriteFieldAndLayout`. Layout/Advanced
+  (GroupBox, Grid, Workflow…) vẫn stub. Field mới hiện lại trong FIELDS sau reparse.
+- **Layout Blueprint P6 — Toolbox FBO + Layout UX (2026-07-24, landed):**
+  - **Config palette:** `UI/Config/xml/toolbox-controls.xml` (7 basic: TextBox/DateTime/Numeric/CheckBox/
+    ComboBox/AutoComplete/Lookup + 4 Tab: Normal/Grid/Post/List) + `UI/Config/json/blueprint-theme.json`
+    (màu Blueprint). Parse fail-closed: `Domain/Design/ToolboxControlCatalogModels` +
+    `Application/Design/Toolbox/{ToolboxControlCatalogParser,ToolboxControlCatalog,BlueprintTheme,BlueprintThemeCatalog}`.
+    `ToolboxControlKind` = {TextBox,DateTime,Numeric,CheckBox,ComboBox,AutoComplete,Lookup,Tab*} (bỏ
+    TextArea/DatePicker/Label). App: `new ToolboxViewModel(toolbox_catalog.GetData())`.
+  - **Toolbox = chỉ palette config, bỏ FIELDS.** `ToolboxViewModel.BindTo` gỡ; kéo cả dòng control.
+  - **Engine:** `PlaceFieldParts` (Input→Label→Description theo ô trống từ điểm thả, ≥1 ô cho Input);
+    `CreateFieldAndInsert` viết lại (Replace→Place; Before/After→Input; AutoComplete tạo `ac_N`+`ten_ac_N`
+    `readOnly`, `items@reference=ten_ac_N%l`); `DescribeControl` khớp FBO (CheckBox `items@style=Checkbox`,
+    DateTime `dataFormatString=@dateTimeFormat`, Numeric `Decimal`+`dataFormatString=""`);
+    `RemoveField(out removed)` xóa mọi ô + `<field>` (AutoComplete xóa cả cặp); `EnsureSpareTrailingRow`
+    (**chỉ Main** — hàng trống không mang field nên category/footer sẽ trôi về main khi reparse);
+    `AddTabCategory` (Normal = category rỗng; Grid/Post/List seed field `items@style` chiếm trọn hàng →
+    reparse-ổn định); `ResizeFormWidth` (phân bổ lại widths theo tỉ lệ) + `SetRegionHeight` (Main→`view@height`).
+    `ResolveOrCreateRow` tạo backing row khi thả vào category/footer chưa có hàng.
+  - **Writer:** `ApplyNewField` thêm `dataFormatString`/`readOnly`/`items@reference`; `ApplyRemoveField`;
+    `ApplyLayout` nay ghi cả `view@height`. Adapter: `WriteFieldsAndLayout` (nhiều field) +
+    `WriteRemoveFieldsAndLayout`.
+  - **Tab dialog:** `UI/Views/Design/AddTabCategoryDialog` (kind + Header V/E + Controller cho Grid/Post/List).
+    Kéo Tab* từ Toolbox / nút `+` cuối tab bar / chrome `+ Tab` → dialog → `ApplyBlueprintAddTab`.
+  - **Blueprint UX:** màu từ theme JSON (inject `window.__dwfTheme` mỗi `NavigationCompleted`); resize cột
+    **chỉ dải mép trên** (Word-like); merge/split **kéo mép phải ô** (phải=merge, trái=split) thay nút chrome;
+    kéo **mép phải form** → `formWidth`; kéo **mép dưới main** → `regionHeight`; **Ctrl+Click** control →
+    `gotoField` → mở Source tại `<field>` (không thoát Designer — fix bug P5 click level-1 điều hướng);
+    **Delete/Backspace** trên slot có control → `remove` (host hỏi Yes/No); `data-dwf-split`/`data-dwf-anchor`
+    trên bảng main → vẽ **line chia** (theme `splitDivider`) + **icon ⚓** trên cột anchor. Selection click
+    chỉ highlight + Property Grid (`SelectCellAny`), không điều hướng.
+- **Chưa làm (P6+):** Undo/Redo Design Command (non-goal) · Replace-on-drop đè control · category/footer spare
+  row reparse-stable (chỉ Main) · Normal tab rỗng chưa droppable đến khi có builder render spare row · rename
+  field từ Property Grid (backlog) · DOM patch incremental (vẫn full refresh) · ADR-0006 Serializer.
 
 `SkinUrlHelper` gợi ý base_url = `https://dev.fast.com.vn/<tên dự án>`; `SkinManifest`/`SkinCaptureRequest`
 có `DocKind` (`ControllerDisplayKind`). Menu "Xem skin" đã gỡ.

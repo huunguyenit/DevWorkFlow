@@ -21,6 +21,9 @@ public sealed class ErpLanguageService : IErpLanguageService
     /// <summary>Catalog snippet SQL (Phase 5 #17) đọc từ config.</summary>
     private SqlSnippetCatalog _sql_snippets = SqlSnippetCatalog.Empty;
 
+    /// <summary>Catalog hàm SQL cho Hover; rỗng cho tới khi <see cref="LoadSqlFunctions"/> chạy.</summary>
+    private SqlFunctionCatalog _sql_functions = SqlFunctionCatalog.Empty;
+
     public ErpLanguageService()
     {
         _navigation = new ErpNavigationService(id => _workspace.GetDocument(id));
@@ -257,6 +260,39 @@ public sealed class ErpLanguageService : IErpLanguageService
 
     public string? TryExpandSqlSnippet(string? text) =>
         OptionsSnippetExpander.TryExpand(text, _sql_snippets);
+
+    public void LoadSqlFunctions(string absolute_path) =>
+        _sql_functions = SqlFunctionCatalog.FromData(SqlFunctionCatalogParser.ParseFile(absolute_path));
+
+    public SqlHoverInfo? HoverSqlFunction(
+        ErpDocumentId document_id, int offset, bool offset_is_clear_text = false)
+    {
+        // Như mọi SQL tooling khác: hit-test trên ClearText vì SQL FBO hay nằm trong entity.
+        return TryGetClearText(document_id, offset, offset_is_clear_text, out var text, out var clear_offset)
+            ? SqlHoverResolver.HoverInSqlIsland(text, clear_offset, _sql_functions)
+            : null;
+    }
+
+    public SqlHoverInfo? HoverSqlFunctionInText(string? sql_text, int offset) =>
+        string.IsNullOrEmpty(sql_text)
+            ? null
+            : SqlHoverResolver.Hover(sql_text, offset, _sql_functions);
+
+    public SqlCompletionList CompleteSql(
+        ErpDocumentId document_id, int offset, EditorAssistMode mode, bool offset_is_clear_text)
+    {
+        // Insight = buffer read-only → không gợi ý (giống CompleteFboJs).
+        if (mode == EditorAssistMode.Insight) return SqlCompletionList.Empty;
+
+        return TryGetClearText(document_id, offset, offset_is_clear_text, out var text, out var clear_offset)
+            ? SqlCompletionResolver.CompleteInSqlIsland(text, clear_offset, _sql_functions)
+            : SqlCompletionList.Empty;
+    }
+
+    public SqlCompletionList CompleteSqlInText(string? sql_text, int offset) =>
+        string.IsNullOrEmpty(sql_text)
+            ? SqlCompletionList.Empty
+            : SqlCompletionResolver.Complete(sql_text, offset, _sql_functions);
 
     public ControllerDatabaseKind ResolveDatabaseKind(ErpDocumentId document_id)
     {

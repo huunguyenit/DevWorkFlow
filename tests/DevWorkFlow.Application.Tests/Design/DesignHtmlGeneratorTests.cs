@@ -41,6 +41,29 @@ public sealed class DesignHtmlGeneratorTests
     }
 
     [Fact]
+    public void Generate_WhenBlueprintEnabled_AddsBodyClassAndCss()
+    {
+        var html = new DesignHtmlGenerator()
+            .Generate(DesignTestData.CreateDirRequest(enable_blueprint: true)).Html;
+
+        Assert.Contains("<body class=\"dwf-blueprint\">", html);
+        Assert.Contains("<style data-dwf-source=\"blueprint\">", html);
+        Assert.Contains("fbo-design-blueprint.css", html); // comment đầu file CSS
+        Assert.Contains("body.dwf-blueprint td[data-dwf-slot]", html);
+        Assert.Contains("dwf-blueprint-selected-slot", html);
+    }
+
+    [Fact]
+    public void Generate_WhenBlueprintDisabled_HasNoBlueprintLayer()
+    {
+        var html = new DesignHtmlGenerator().Generate(DesignTestData.CreateDirRequest()).Html;
+
+        Assert.Contains("<body>", html);
+        Assert.DoesNotContain("dwf-blueprint", html);
+        Assert.DoesNotContain("data-dwf-source=\"blueprint\"", html);
+    }
+
+    [Fact]
     public void Generator_EmitsGridTableForGridController()
     {
         var html = new DesignHtmlGenerator().Generate(
@@ -78,7 +101,7 @@ internal static class DesignTestData
             DetailDocuments: new Dictionary<string, FboControllerDocument>());
     }
 
-    public static DesignRenderRequest CreateDirRequest()
+    public static DesignRenderRequest CreateDirRequest(bool enable_blueprint = false)
     {
         const string xml = """
             <dir xmlns="urn:schemas-fast-com:data-dir">
@@ -101,6 +124,7 @@ internal static class DesignTestData
             Vietnamese: true,
             Assets: DesignAssetSet.Empty,
             FieldIdentities: new Dictionary<string, DesignElementIdentity>(),
-            DetailDocuments: new Dictionary<string, FboControllerDocument>());
+            DetailDocuments: new Dictionary<string, FboControllerDocument>(),
+            EnableBlueprint: enable_blueprint);
     }
 }

@@ -91,6 +91,8 @@ public partial class MainWindow
         CommandBindings.Add(new CommandBinding(IdeCommands.Replace, OnReplace, CanSearchEditor));
         CommandBindings.Add(new CommandBinding(IdeCommands.GoToDefinition, OnGoToDefinition, CanWhenFormBuilder));
         CommandBindings.Add(new CommandBinding(IdeCommands.FindReferences, OnFindReferences, CanWhenFormBuilder));
+        CommandBindings.Add(new CommandBinding(IdeCommands.NavigateBack, OnNavigateBack, CanNavigateBack));
+        CommandBindings.Add(new CommandBinding(IdeCommands.NavigateForward, OnNavigateForward, CanNavigateForward));
 
         // Project Web Skin — capture/refresh skin (chỉ cho AI/tham khảo; tab Design dùng HTML Generator).
         CommandBindings.Add(new CommandBinding(IdeCommands.CaptureSkin, OnCaptureSkin, CanWhenProgram));
@@ -278,6 +280,24 @@ public partial class MainWindow
     {
         if (DataContext is MainViewModel { Shell.ActiveContent: FormBuilderViewModel fb })
             fb.OpenSqlFromFormCommand.Execute(null);
+    }
+
+    // P6-01 — Ctrl+- / Ctrl+Shift+- (hoặc Alt+←/→). Lịch sử là của IDE (nhiều tab) nên handler
+    // ở MainWindow chứ không ở từng editor.
+    private void CanNavigateBack(object sender, CanExecuteRoutedEventArgs e) =>
+        e.CanExecute = DataContext is MainViewModel { CanNavigateBack: true };
+
+    private void CanNavigateForward(object sender, CanExecuteRoutedEventArgs e) =>
+        e.CanExecute = DataContext is MainViewModel { CanNavigateForward: true };
+
+    private void OnNavigateBack(object sender, ExecutedRoutedEventArgs e)
+    {
+        if (DataContext is MainViewModel vm) vm.NavigateBack();
+    }
+
+    private void OnNavigateForward(object sender, ExecutedRoutedEventArgs e)
+    {
+        if (DataContext is MainViewModel vm) vm.NavigateForward();
     }
 
     private void OnOpenSqlFile(object sender, ExecutedRoutedEventArgs e)

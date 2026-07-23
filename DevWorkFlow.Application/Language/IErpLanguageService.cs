@@ -170,4 +170,32 @@ public interface IErpLanguageService
     /// Mẫu đến từ config — UI không giữ danh sách.
     /// </summary>
     string? TryExpandSqlSnippet(string? text);
+
+    /// <summary>
+    /// Nạp catalog hàm SQL từ <c>sql-functions.xml</c> (mô tả cho Hover). Thiếu file / XML hỏng →
+    /// catalog rỗng (hover im lặng), không throw — cùng luật fail-closed với catalog JS.
+    /// </summary>
+    void LoadSqlFunctions(string absolute_path);
+
+    /// <summary>
+    /// Hover mô tả hàm SQL trong Form Source/Insight — chỉ trả kết quả khi offset nằm trong
+    /// island SQL (<c>&lt;command&gt;</c>/<c>&lt;query&gt;</c>); null nếu không.
+    /// </summary>
+    SqlHoverInfo? HoverSqlFunction(
+        ErpDocumentId document_id, int offset, bool offset_is_clear_text = false);
+
+    /// <summary>
+    /// Hover mô tả hàm SQL trên một buffer SQL thuần (tab SQL) — không cần document đã mở trong LS.
+    /// </summary>
+    SqlHoverInfo? HoverSqlFunctionInText(string? sql_text, int offset);
+
+    /// <summary>
+    /// Completion SQL trong Form Source: chỉ trong island SQL, Insight luôn rỗng (buffer
+    /// read-only) — cùng luật với Completion JS.
+    /// </summary>
+    SqlCompletionList CompleteSql(
+        ErpDocumentId document_id, int offset, EditorAssistMode mode, bool offset_is_clear_text);
+
+    /// <summary>Completion SQL trên buffer SQL thuần (tab SQL).</summary>
+    SqlCompletionList CompleteSqlInText(string? sql_text, int offset);
 }

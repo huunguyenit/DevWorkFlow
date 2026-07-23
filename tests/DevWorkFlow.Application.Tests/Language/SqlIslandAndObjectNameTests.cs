@@ -61,6 +61,45 @@ public sealed class SqlIslandAndObjectNameTests
     }
 
     [Fact]
+    public void Response_action_body_is_a_sql_island()
+    {
+        // Thân <response><action> là T-SQL chạy ở server (đo trên FBISP24: 100% action là SQL,
+        // không có JS) — trước đây không nhận nên hover/Ctrl+Click ở đó im lặng.
+        const string xml = """
+            <dir>
+              <script><text><![CDATA[ var x = f.getItemValue('a'); ]]></text></script>
+              <response>
+                <action id="Item">
+                  <text><![CDATA[ exec FastBusiness$Current$Stock 0, @ma_vt ]]></text>
+                </action>
+              </response>
+            </dir>
+            """;
+
+        Assert.True(SqlIslandLocator.IsInside(
+            xml, xml.IndexOf("FastBusiness", StringComparison.Ordinal)));
+        // <script> vẫn là JS, không được nhận nhầm thành SQL.
+        Assert.False(SqlIslandLocator.IsInside(
+            xml, xml.IndexOf("getItemValue", StringComparison.Ordinal)));
+    }
+
+    [Fact]
+    public void Self_closing_action_does_not_open_an_island()
+    {
+        const string xml = """
+            <dir>
+              <response>
+                <action id="Empty" />
+              </response>
+              <toolbar><button caption="ff_InList"/></toolbar>
+            </dir>
+            """;
+
+        Assert.False(SqlIslandLocator.IsInside(
+            xml, xml.IndexOf("ff_InList", StringComparison.Ordinal)));
+    }
+
+    [Fact]
     public void Unclosed_command_fails_closed()
     {
         const string broken = "<dir><command><![CDATA[ EXEC dbo.x ";

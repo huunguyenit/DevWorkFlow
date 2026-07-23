@@ -11,4 +11,7 @@ public interface IBottomListItem
     string IconBrush { get; }
     bool CanNavigate { get; }
     BottomNavigateTarget? NavigateTarget { get; }
+
+    /// <summary>True → chữ primary màu đỏ (Message error / Problem Error).</summary>
+    bool IsError { get; }
 }

@@ -17,7 +17,10 @@ public sealed class DesignHtmlGenerator : IDesignHtmlGenerator
     /// <summary>Virtual host WebView2 map tới Config root (ảnh CSS pack: image/fbo-*.png, Toolbar.gif…).</summary>
     public const string ConfigVirtualHost = "devworkflow.config";
 
-    private static readonly string IdeCss = LoadEmbeddedCss();
+    private static readonly string IdeCss = LoadEmbeddedCss("fbo-design-minimal.css");
+
+    /// <summary>CSS lớp Blueprint — inert khi &lt;body&gt; không có class <c>dwf-blueprint</c>.</summary>
+    private static readonly string BlueprintCss = LoadEmbeddedCss("fbo-design-blueprint.css");
 
     public DesignDocument Generate(DesignRenderRequest request)
     {
@@ -38,22 +41,13 @@ public sealed class DesignHtmlGenerator : IDesignHtmlGenerator
     {
         var document = request.Document;
 
-        var css_toolbar_classes = DesignControllerCssRewriter.ClassesWithBackgroundImage(
-            request.Document.CssText);
-
-        // Detail Grid nhúng Form: CSS toolbar có thể nằm trên file Grid Detail.
-        foreach (var detail in request.DetailDocuments.Values)
-            css_toolbar_classes.UnionWith(
-                DesignControllerCssRewriter.ClassesWithBackgroundImage(detail.CssText));
-
         if (document.DisplayKind == ControllerDisplayKind.Grid && document.Grid is not null)
             return GridBuilder.Build(
                 document.Grid,
                 request.Vietnamese,
                 request.GridPlaceholderRows,
                 detail_mode: document.Grid.IsDetail,
-                images: request.ImageBundle,
-                css_toolbar_classes: css_toolbar_classes);
+                toolbar_bundle: request.ToolbarBundle);
 
         if (document.Form is not null)
         {
@@ -65,8 +59,7 @@ public sealed class DesignHtmlGenerator : IDesignHtmlGenerator
                 request.FieldIdentities,
                 request.DetailDocuments,
                 request.GridPlaceholderRows,
-                request.ImageBundle,
-                css_toolbar_classes);
+                toolbar_bundle: request.ToolbarBundle);
         }
 
         return string.Empty;
@@ -87,6 +80,10 @@ public sealed class DesignHtmlGenerator : IDesignHtmlGenerator
             sb.Append("<script src=\"").Append(AssetUrl(script)).Append("\"></script>\n");
 
         sb.Append("<style data-dwf-source=\"ide\">\n").Append(IdeCss).Append("\n</style>\n");
+
+        // Blueprint sau IDE baseline, TRƯỚC Config/controller: chỉ tint + guide, không override layout.
+        if (request.EnableBlueprint && !string.IsNullOrWhiteSpace(BlueprintCss))
+            sb.Append("<style data-dwf-source=\"blueprint\">\n").Append(BlueprintCss).Append("\n</style>\n");
 
         foreach (var pack in SelectConfigPacks(request))
         {
@@ -116,7 +113,9 @@ public sealed class DesignHtmlGenerator : IDesignHtmlGenerator
               .Append("\n</style>\n");
         }
 
-        sb.Append("</head>\n<body>\n<div class=\"DwfDesignRoot\" data-dwf-controller=\"")
+        var body_class = request.EnableBlueprint ? " class=\"dwf-blueprint\"" : string.Empty;
+        sb.Append("</head>\n<body").Append(body_class)
+          .Append(">\n<div class=\"DwfDesignRoot\" data-dwf-controller=\"")
           .Append(controller).Append("\">\n");
         sb.Append(body);
         sb.Append("\n</div>\n").Append(TabScript).Append("\n</body>\n</html>");
@@ -190,12 +189,12 @@ public sealed class DesignHtmlGenerator : IDesignHtmlGenerator
         </script>
         """;
 
-    private static string LoadEmbeddedCss()
+    private static string LoadEmbeddedCss(string file_name)
     {
         var assembly = typeof(DesignHtmlGenerator).Assembly;
         var name = Array.Find(
             assembly.GetManifestResourceNames(),
-            n => n.EndsWith("fbo-design-minimal.css", StringComparison.OrdinalIgnoreCase));
+            n => n.EndsWith(file_name, StringComparison.OrdinalIgnoreCase));
         if (name is null) return string.Empty;
 
         using var stream = assembly.GetManifestResourceStream(name);

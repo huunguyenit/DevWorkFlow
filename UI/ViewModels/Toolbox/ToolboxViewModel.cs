@@ -1,28 +1,50 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
+using DevWorkFlow.Application.Design.Layout;
+using DevWorkFlow.Domain.Design;
 using UI.ViewModels.Base;
 
 namespace UI.ViewModels.Toolbox;
 
+/// <summary>
+/// Một mục palette Toolbox (config <c>toolbox-controls.xml</c>). Kéo được khi <see cref="IsEnabled"/>:
+/// TextBox-family → tạo field mới; Tab* → mở dialog thêm category.
+/// </summary>
 public sealed class ToolboxItemVm
 {
     public required string Name { get; init; }
     public required string Group { get; init; }
     public required string IconKind { get; init; }
     public string Description { get; init; } = string.Empty;
-    public bool IsEnabled { get; init; } = false; // Step 3: stub — drag-drop sau
+    public bool IsEnabled { get; init; }
+
+    /// <summary>Kind FBO nếu id khớp <see cref="ToolboxControlKind"/>; null = stub không kéo.</summary>
+    public ToolboxControlKind? ControlKind { get; init; }
+
+    public bool IsTab { get; init; }
+    public string? TabKind { get; init; }
+
+    public double Opacity => IsEnabled ? 1.0 : 0.5;
+    public string Cursor => IsEnabled ? "Hand" : "Arrow";
 }
 
-/// <summary>Toolbox stub — danh sách control theo nhóm; chưa kéo thả.</summary>
+/// <summary>
+/// Toolbox palette (P6) — CHỈ control từ config, không còn danh sách FIELDS. Kéo control vào Slot Blueprint
+/// hoặc Tab* để thêm category. Nguồn dữ liệu: <see cref="ToolboxControlCatalogData"/> (fail-closed).
+/// </summary>
 public sealed class ToolboxViewModel : ViewModelBase
 {
     private string _search_text = string.Empty;
     private ICollectionView? _filtered_view;
 
-    public ToolboxViewModel()
+    public ToolboxViewModel() : this(ToolboxControlCatalogData.Empty)
     {
-        Items = new ObservableCollection<ToolboxItemVm>(BuildCatalog());
+    }
+
+    public ToolboxViewModel(ToolboxControlCatalogData catalog)
+    {
+        Items = new ObservableCollection<ToolboxItemVm>(BuildItems(catalog));
         RefreshView();
     }
 
@@ -44,7 +66,28 @@ public sealed class ToolboxViewModel : ViewModelBase
         }
     }
 
-    public string Hint => "Kéo thả control sẽ có ở bước Design Surface. Hiện chỉ danh mục.";
+    public string Hint =>
+        "Kéo control (TextBox, DateTime, CheckBox…) vào Slot trống để tạo field. Kéo Tab* để thêm category.";
+
+    private static IEnumerable<ToolboxItemVm> BuildItems(ToolboxControlCatalogData catalog)
+    {
+        foreach (var group in catalog.Groups)
+        foreach (var control in group.Controls)
+        {
+            var kind = Enum.TryParse<ToolboxControlKind>(control.Id, out var parsed) ? parsed : (ToolboxControlKind?)null;
+            yield return new ToolboxItemVm
+            {
+                Name = control.Name,
+                Group = string.IsNullOrWhiteSpace(control.GroupTitle) ? control.GroupId : control.GroupTitle,
+                IconKind = string.IsNullOrWhiteSpace(control.Icon) ? "SquareOutline" : control.Icon,
+                Description = control.Id,
+                IsEnabled = control.Enabled && kind is not null,
+                ControlKind = kind,
+                IsTab = control.IsTab,
+                TabKind = control.TabKind
+            };
+        }
+    }
 
     private void RefreshView()
     {
@@ -63,50 +106,6 @@ public sealed class ToolboxViewModel : ViewModelBase
         if (string.IsNullOrWhiteSpace(_search_text)) return true;
         var q = _search_text.Trim();
         return item.Name.Contains(q, StringComparison.OrdinalIgnoreCase)
-               || item.Group.Contains(q, StringComparison.OrdinalIgnoreCase)
-               || item.Description.Contains(q, StringComparison.OrdinalIgnoreCase);
+               || item.Group.Contains(q, StringComparison.OrdinalIgnoreCase);
     }
-
-    private static IEnumerable<ToolboxItemVm> BuildCatalog()
-    {
-        // Basic Controls
-        yield return Item("TextBox", "Basic Controls", "FormTextbox", "Ô nhập text");
-        yield return Item("TextArea", "Basic Controls", "TextBox", "Nhập nhiều dòng");
-        yield return Item("ComboBox", "Basic Controls", "FormDropdown", "DropDownList");
-        yield return Item("DatePicker", "Basic Controls", "Calendar", "DateTime");
-        yield return Item("CheckBox", "Basic Controls", "CheckboxMarkedOutline", "Boolean");
-        yield return Item("RadioButton", "Basic Controls", "RadioboxMarked", "RadioButtonList");
-        yield return Item("Button", "Basic Controls", "ButtonCursor", "Nút lệnh");
-        yield return Item("Label", "Basic Controls", "FormatTitle", "Nhãn header");
-        yield return Item("Image", "Basic Controls", "ImageOutline", "Hình ảnh");
-        yield return Item("Link", "Basic Controls", "LinkVariant", "Hyperlink");
-
-        // Layout
-        yield return Item("GroupBox", "Layout", "Group", "Nhóm field");
-        yield return Item("Panel", "Layout", "ViewDashboardOutline", "Panel");
-        yield return Item("Tab Control", "Layout", "Tab", "Category tabs");
-        yield return Item("Split Container", "Layout", "ArrowSplitVertical", "Split");
-        yield return Item("Table Layout", "Layout", "Table", "View columns");
-
-        // Advanced
-        yield return Item("Data Grid", "Advanced", "TableLarge", "Grid controller");
-        yield return Item("Lookup", "Advanced", "Magnify", "AutoComplete / Lookup");
-        yield return Item("Tree View", "Advanced", "FileTree", "Cây dữ liệu");
-        yield return Item("List View", "Advanced", "ViewList", "Danh sách");
-        yield return Item("Repeater", "Advanced", "Repeat", "Lặp dòng");
-        yield return Item("Upload", "Advanced", "Upload", "Upload file");
-        yield return Item("Rich Text", "Advanced", "FormatText", "Rich text");
-        yield return Item("Report Viewer", "Advanced", "FileChartOutline", "Báo cáo");
-        yield return Item("Workflow", "Advanced", "Sitemap", "Workflow node");
-    }
-
-    private static ToolboxItemVm Item(string name, string group, string icon, string desc) =>
-        new()
-        {
-            Name = name,
-            Group = group,
-            IconKind = icon,
-            Description = desc,
-            IsEnabled = false
-        };
 }

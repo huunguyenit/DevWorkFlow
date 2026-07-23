@@ -3,6 +3,7 @@ using UI.Services;
 using UI.ViewModels;
 using UI.ViewModels.Explorer;
 using DevWorkFlow.Application.Design;
+using DevWorkFlow.Application.Design.Toolbox;
 using DevWorkFlow.Application.Language;
 using DevWorkFlow.Domain.Models;
 using DevWorkFlow.Infrastructure.Design;
@@ -66,7 +67,11 @@ public partial class App : Application
         // thiếu file thì LS giữ catalog rỗng (mất gợi ý, không sập).
         language_service.LoadFboJsCatalog(app_config.GetXmlPath("fbo-js.catalog.xml"));
         language_service.LoadSqlSnippets(app_config.GetXmlPath("sql-snippets.xml"));
+        // Mô tả hàm SQL cho hover — song song với fbo-js.catalog.xml bên JS.
+        language_service.LoadSqlFunctions(app_config.GetXmlPath("sql-functions.xml"));
         Views.Controls.MonacoEditorHost.SharedSnippetExpander = language_service.TryExpandSqlSnippet;
+        Views.Controls.MonacoEditorHost.SharedSqlHover = language_service.HoverSqlFunctionInText;
+        Views.Controls.MonacoEditorHost.SharedSqlCompletion = language_service.CompleteSqlInText;
         Views.Controls.MonacoEditorHost.SharedTheme = app_config.EditorTheme;
         var sql_runner        = new SqlScriptRunner();
         var sql_navigator     = new SqlStudioNavigator();
@@ -78,16 +83,23 @@ public partial class App : Application
 
         // Design module: XML→Semantic→HTML (không phụ thuộc skin capture).
         var design_css_catalog = new DesignCssCatalog(Path.Combine(app_config.ConfigRoot, "css"));
+        var design_toolbar_catalog = new DesignToolbarCatalog(Path.Combine(app_config.ConfigRoot, "json", "toolbar.json"));
         var design_document_service = new DesignDocumentService(
             language_service,
             new DesignAssetResolver(menu_service),
             new DesignRelatedDocumentLocator(),
             new DesignHtmlGenerator(),
-            design_css_catalog);
+            design_css_catalog,
+            design_toolbar_catalog);
+
+        FboDesignMapper.SetToolbarBundle(design_toolbar_catalog.GetBundle());
+
+        // Lịch sử Back/Forward dùng CHUNG mọi tab (P6-01) — một instance cho cả IDE.
+        var navigation_history = new DevWorkFlow.Application.Language.NavigationHistory();
 
         FormBuilderViewModel CreateForm() =>
             new(program_session, sql_navigator, language_service, form_navigator, design_document_service,
-                app_config.ConfigRoot, db_scripter);
+                app_config.ConfigRoot, db_scripter, navigation_history);
 
         var seed_form       = CreateForm();
         var navigation_vm   = new NavigationViewModel(
@@ -101,7 +113,8 @@ public partial class App : Application
 
         var outline_vm      = new OutlineViewModel(seed_form, language_service);
         var property_grid_vm = new PropertyGridViewModel(seed_form);
-        var toolbox_vm      = new ToolboxViewModel();
+        var toolbox_catalog = new ToolboxControlCatalog(app_config.GetXmlPath("toolbox-controls.xml"));
+        var toolbox_vm      = new ToolboxViewModel(toolbox_catalog.GetData());
         var insight_panel_vm = new InsightPanelViewModel(seed_form);
         var symbol_info_vm  = new SymbolInfoViewModel(language_service, seed_form);
         var diagnostics_vm  = new IdeDiagnosticsViewModel(app_config);
@@ -115,7 +128,7 @@ public partial class App : Application
 
         var main_vm = new MainViewModel(
             nav_service, program_session, dock_manager, sql_runner, sql_navigator,
-            form_navigator, language_service, CreateForm,
+            form_navigator, language_service, navigation_history, CreateForm,
             navigation_vm, seed_form,
             explorer_vm, database_explorer_vm, outline_vm, property_grid_vm, toolbox_vm,
             insight_panel_vm, symbol_info_vm,

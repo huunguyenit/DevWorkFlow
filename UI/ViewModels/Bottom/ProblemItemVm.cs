@@ -30,11 +30,22 @@ public sealed class ProblemItemVm : ViewModelBase, IBottomListItem
         ? Column > 0 ? $"Ln {Line}, Col {Column}" : $"Ln {Line}"
         : string.Empty;
 
-    public string PrimaryText => string.IsNullOrEmpty(Code)
-        ? Description
-        : $"{Description}  {Code}";
+    public string PrimaryText => Description;
 
-    public string SecondaryText => Resolution;
+    public string SecondaryText
+    {
+        get
+        {
+            var parts = new List<string>();
+            if (!string.IsNullOrWhiteSpace(Code))
+                parts.Add(Code);
+            if (!string.IsNullOrWhiteSpace(Resolution))
+                parts.Add(Resolution);
+            return string.Join(" — ", parts);
+        }
+    }
+
+    public bool IsError => SeverityBadge == "E";
 
     public string TrailingText
     {

@@ -11,4 +11,5 @@ public sealed class BottomListItemVm : ViewModelBase, IBottomListItem
     public string IconBrush { get; init; } = "#555555";
     public bool CanNavigate { get; init; }
     public BottomNavigateTarget? NavigateTarget { get; init; }
+    public bool IsError { get; init; }
 }

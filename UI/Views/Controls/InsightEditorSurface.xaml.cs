@@ -19,6 +19,12 @@ public partial class InsightEditorSurface : UserControl
             if (DataContext is not FormBuilderViewModel vm) return;
             vm.UpdateCaretPosition(line, column);
         };
+        // Offset caret nuôi lịch sử Back/Forward (P6-01) — line/column không đủ.
+        SourceEditor.CaretOffsetChanged += offset =>
+        {
+            if (DataContext is FormBuilderViewModel vm)
+                vm.UpdateCaretOffset(offset);
+        };
         SourceEditor.OpenEntityRequested += request =>
         {
             if (DataContext is FormBuilderViewModel vm)
@@ -36,23 +42,31 @@ public partial class InsightEditorSurface : UserControl
             if (view is null)
                 SourceEditor.HideEntityHover(offset);
             else
-                SourceEditor.ShowEntityHover(offset, view.Name, view.Value, view.IsError);
+                SourceEditor.ShowEntityHover(
+                    offset, view.Name, view.Value, view.IsError, view.Kind);
         };
 
         // Phase 4 — Completion / Signature Help lấy từ catalog qua Language Service.
+        // Một request phục vụ cả hai island: JS trước, trượt thì thử SQL (command/query/response
+        // action). Hai island không chồng nhau nên không có chuyện trộn nhầm danh sách.
         SourceEditor.FboJsCompleteRequested += (offset, insight) =>
         {
             if (DataContext is not FormBuilderViewModel vm) return null;
-            return vm.CompleteFboJsAssist(offset, insight).Items
-                .Select(i => new
-                {
-                    label = i.Label,
-                    insertText = i.InsertText,
-                    kind = i.Kind,
-                    detail = i.Detail,
-                    documentation = i.Documentation
-                })
-                .ToArray();
+
+            var js_items = vm.CompleteFboJsAssist(offset, insight).Items;
+            if (js_items.Count > 0)
+                return js_items
+                    .Select(i => new
+                    {
+                        label = i.Label,
+                        insertText = i.InsertText,
+                        kind = i.Kind,
+                        detail = i.Detail,
+                        documentation = i.Documentation
+                    })
+                    .ToArray();
+
+            return SqlCompletionMapper.ToBridgeItems(vm.CompleteSqlAssist(offset, insight));
         };
 
         SourceEditor.OptionsSnippetRequested += (offset, line_text) =>

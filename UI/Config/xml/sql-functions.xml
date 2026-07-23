@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Catalog HÀM SQL của FBO + T-SQL — nguồn duy nhất (SoT) cho Hover trong vùng SQL
+  (<command> / <query> của Form Source, và tab SQL). Song song với fbo-js.catalog.xml bên JS.
+
+  Sửa file này KHÔNG cần rebuild C#: Language Service đọc qua AppConfigStore lúc khởi động
+  (UI tuyệt đối không hard-code danh sách hàm).
+
+  group/@id          = nhóm hàm (fbo | tsql | …), chỉ để gom nhóm cho người đọc
+  function/@name     = tên hàm KHÔNG kèm schema (tra không phân biệt hoa/thường)
+  function/@schema   = schema khai báo (dbo…); bỏ trống với hàm dựng sẵn T-SQL
+  function/@signature= tiêu đề hover, nên viết đủ dạng gọi thật
+  summary/returns/remarks/example = viết ở attribute (ngắn) hoặc element con (dài)
+  param              = tên + mô tả từng tham số, hiện thành gạch đầu dòng trong hover
+
+  Hover chỉ bật khi tên đứng ở vị trí LỜI GỌI (có dấu "(" theo sau), hoặc hàm không tham số —
+  nhờ vậy một cột trùng tên hàm sẽ không hover nhầm.
+
+  ⚠ Nhóm "fbo": FBO không public tài liệu hàm nội bộ, mô tả dưới đây SUY TỪ CALL-SITE trong
+  controller XML của dự án (SP226/FBISP24). Chỗ nào lệch với thực tế thì sửa thẳng ở đây —
+  đó là lý do catalog nằm trong Config chứ không nằm trong code.
+-->
+<sqlFunctions version="1">
+
+  <group id="fbo">
+    <summary>Hàm dùng chung của FBO trong CSDL ứng dụng (prefix ff_ / fs_ / fsd_).</summary>
+
+    <function name="ff_InList" schema="dbo"
+              signature="dbo.ff_InList(value, list)"
+              summary="Kiểm tra một giá trị có nằm trong danh sách phân cách hay không (so khớp theo tiền tố tài khoản/mã)."
+              returns="Giá trị khác 0 khi trùng khớp — thường dùng trong WHERE: dbo.ff_InList(tk, @m_tk_list) = 1."
+              remarks="Gọi trên từng dòng nên không sargable: cột trong tham số 1 sẽ không dùng được index. Lọc bớt bằng điều kiện khác trước khi dùng.">
+      <param name="value" summary="Giá trị cần kiểm tra, ví dụ cột tk / ma_kh." />
+      <param name="list" summary="Danh sách mã ngăn cách bằng dấu phẩy, có thể chứa ký tự đại diện (%)." />
+      <example>where dbo.ff_InList(tk, @m_tk_cn_list) = 1</example>
+    </function>
+
+    <function name="ff_ExactInlist" schema="dbo"
+              signature="dbo.ff_ExactInlist(value, list)"
+              summary="Như ff_InList nhưng so khớp CHÍNH XÁC từng phần tử, không nhận tiền tố / ký tự đại diện."
+              returns="Khác 0 khi value trùng đúng một phần tử trong list."
+              remarks="Dùng khi danh sách là mã đầy đủ (vd danh sách mã khách) để tránh khớp nhầm mã có cùng tiền tố.">
+      <param name="value" summary="Giá trị cần kiểm tra (nên rtrim trước khi truyền)." />
+      <param name="list" summary="Danh sách phần tử ngăn cách bằng dấu phẩy." />
+      <example>where dbo.ff_ExactInlist(rtrim(b.name), @m_list) = 1</example>
+    </function>
+
+    <function name="ff_PadL" schema="dbo"
+              signature="dbo.ff_PadL(value, length, pad_char)"
+              summary="Đệm ký tự vào BÊN TRÁI cho đủ độ dài — dùng để chuẩn hoá mã / số thứ tự khi sắp xếp."
+              returns="Chuỗi có độ dài đúng bằng length.">
+      <param name="value" summary="Giá trị gốc (chuỗi hoặc số)." />
+      <param name="length" summary="Độ dài cần đạt." />
+      <param name="pad_char" summary="Ký tự đệm, thường là '0' hoặc khoảng trắng." />
+      <example>dbo.ff_PadL(stt, 3, '0')</example>
+    </function>
+
+    <function name="ff_Dec2Seq" schema="dbo"
+              signature="dbo.ff_Dec2Seq(number)"
+              summary="Đổi số thành chuỗi thứ tự sắp xếp được (số nhỏ vẫn đứng trước số lớn khi sort theo chuỗi)."
+              returns="Chuỗi đại diện thứ tự của number."
+              remarks="Hay gặp trong cột stt/sắp xếp cây khi ghép nhiều cấp thành một chuỗi." />
+
+    <function name="ff_BgDate" schema="dbo"
+              signature="dbo.ff_BgDate(date)"
+              summary="Chuẩn hoá về thời điểm ĐẦU ngày (00:00) — so sánh khoảng ngày không bị lệch vì phần giờ."
+              returns="datetime đã cắt phần giờ.">
+      <param name="date" summary="Ngày cần chuẩn hoá, thường là tham số @ngay_tu / @ngay_den." />
+    </function>
+
+    <function name="ff_GetStartDateOfCycle" schema="dbo"
+              signature="dbo.ff_GetStartDateOfCycle(ky, nam)"
+              summary="Ngày ĐẦU của kỳ kế toán (tháng) trong năm."
+              returns="datetime — ngày đầu kỳ.">
+      <param name="ky" summary="Số kỳ (1–12)." />
+      <param name="nam" summary="Năm tài chính." />
+      <example>where ngay_ct >= dbo.ff_GetStartDateOfCycle(@ky, @nam)</example>
+    </function>
+
+    <function name="ff_GetEndDateOfCycle" schema="dbo"
+              signature="dbo.ff_GetEndDateOfCycle(ky, nam)"
+              summary="Ngày CUỐI của kỳ kế toán (tháng) trong năm."
+              returns="datetime — ngày cuối kỳ.">
+      <param name="ky" summary="Số kỳ (1–12)." />
+      <param name="nam" summary="Năm tài chính." />
+    </function>
+
+    <function name="ff_GetStartDateOfYear" schema="dbo"
+              signature="dbo.ff_GetStartDateOfYear(nam)"
+              summary="Ngày đầu năm tài chính."
+              returns="datetime — ngày đầu năm.">
+      <param name="nam" summary="Năm tài chính." />
+    </function>
+
+    <function name="ff_GetTaxCodeExt" schema="dbo"
+              signature="dbo.ff_GetTaxCodeExt(nhom_thue, thue_suat)"
+              summary="Suy ra mã thuế từ nhóm thuế + thuế suất (dùng khi chứng từ chỉ khai báo hai giá trị này)."
+              returns="Mã thuế tương ứng, rỗng nếu không xác định được.">
+      <param name="nhom_thue" summary="Nhóm thuế của dòng chứng từ." />
+      <param name="thue_suat" summary="Thuế suất (%)." />
+    </function>
+
+    <function name="ff_GetTaxCode2TaxRate" schema="dbo"
+              signature="dbo.ff_GetTaxCode2TaxRate(ma_thue)"
+              summary="Lấy thuế suất tương ứng của một mã thuế."
+              returns="Thuế suất (%) của mã thuế.">
+      <param name="ma_thue" summary="Mã thuế cần tra." />
+    </function>
+
+    <function name="ff_NumberFormat" schema="dbo"
+              signature="dbo.ff_NumberFormat(value, format)"
+              summary="Định dạng số theo quy ước hiển thị của hệ thống (phân cách nghìn, số lẻ)."
+              returns="Chuỗi đã định dạng."
+              remarks="Chỉ dùng cho cột HIỂN THỊ; đừng lọc/nhóm trên kết quả vì đã là chuỗi.">
+      <param name="value" summary="Giá trị số cần định dạng." />
+      <param name="format" summary="Mẫu định dạng / số chữ số thập phân." />
+    </function>
+
+    <function name="ff_NumberFormatConfig" schema="dbo"
+              signature="dbo.ff_NumberFormatConfig(value, config_name)"
+              summary="Như ff_NumberFormat nhưng lấy quy ước từ khai báo cấu hình thay vì truyền tay."
+              returns="Chuỗi đã định dạng theo cấu hình.">
+      <param name="value" summary="Giá trị số cần định dạng." />
+      <param name="config_name" summary="Tên cấu hình định dạng trong options." />
+    </function>
+
+    <function name="fsd_StringToTable" schema="dbo"
+              signature="dbo.fsd_StringToTable(text, separator)"
+              summary="Tách chuỗi phân cách thành BẢNG để JOIN — thay cho IN (…) khi danh sách truyền qua tham số."
+              returns="Table-valued: mỗi phần tử là một dòng."
+              remarks="Dùng trong FROM/JOIN: join dbo.fsd_StringToTable(@list, ',') t on t.value = a.ma_kh.">
+      <param name="text" summary="Chuỗi cần tách." />
+      <param name="separator" summary="Ký tự phân cách, thường là ','." />
+    </function>
+    <function name="FastBusiness$Current$Stock" schema="dbo"
+              signature="exec FastBusiness$Current$Stock type, @ma_vt, @ma_kho, @ma_vi_tri, @ma_lo, @stt_rec, he_so, voucherCode, @unitCode, @action, DataType, @stock output"
+              summary="Lấy tồn tức thời theo -- 0 - Item, 1 - UOM, 2 - Site, 3 - Location, 4 - Lot"
+              returns="Tồn @stock">
+      <param name="type" summary="0 - Item, 1 - UOM, 2 - Site, 3 - Location, 4 - Lot" />
+      <param name="he_so" summary="Hệ số theo đvt" />
+      <param name="voucherCode" summary="Mã chứng từ" />
+      <param name="action" summary="0 - New, 1 - Edit" />
+      <param name="DataType" summary="1 - Physics, 2 - Book" />
+    </function>
+  </group>
+
+  <group id="tsql">
+    <summary>Hàm T-SQL hay gặp trong command/query của FBO.</summary>
+
+    <function name="isnull"
+              signature="isnull(check_expression, replacement_value)"
+              summary="Thay NULL bằng giá trị khác."
+              returns="check_expression nếu khác NULL, ngược lại replacement_value (ép về kiểu của tham số 1)."
+              remarks="Kiểu kết quả lấy theo tham số 1 — isnull(cot_char_10, 'không xác định') sẽ bị cắt còn 10 ký tự.">
+      <param name="check_expression" summary="Biểu thức cần kiểm tra NULL." />
+      <param name="replacement_value" summary="Giá trị dùng khi tham số 1 là NULL." />
+    </function>
+
+    <function name="coalesce"
+              signature="coalesce(expr1, expr2, …)"
+              summary="Trả về giá trị KHÁC NULL đầu tiên trong danh sách."
+              returns="Giá trị đầu tiên khác NULL; NULL nếu tất cả đều NULL."
+              remarks="Khác isnull: nhận nhiều tham số và kiểu kết quả theo độ ưu tiên kiểu, không bị cắt theo tham số đầu." />
+
+    <function name="nullif"
+              signature="nullif(expr1, expr2)"
+              summary="Trả NULL khi hai biểu thức bằng nhau."
+              returns="NULL nếu expr1 = expr2, ngược lại expr1."
+              remarks="Hay dùng để tránh chia cho 0: tien / nullif(so_luong, 0)." />
+
+    <function name="cast"
+              signature="cast(expression as data_type)"
+              summary="Ép kiểu theo cú pháp chuẩn SQL."
+              returns="Giá trị đã ép sang data_type."
+              remarks="Lỗi dữ liệu sẽ làm câu lệnh thất bại — dùng try_convert nếu dữ liệu có thể bẩn." />
+
+    <function name="convert"
+              signature="convert(data_type, expression, style)"
+              summary="Ép kiểu kèm style (đặc biệt cho ngày và số)."
+              returns="Giá trị đã ép sang data_type.">
+      <param name="data_type" summary="Kiểu đích, ví dụ varchar(10), datetime." />
+      <param name="expression" summary="Giá trị cần ép." />
+      <param name="style" summary="Mã style; với ngày hay dùng 103 (dd/mm/yyyy), 112 (yyyymmdd)." />
+    </function>
+
+    <function name="try_convert"
+              signature="try_convert(data_type, expression, style)"
+              summary="Như convert nhưng trả NULL thay vì lỗi khi không ép được."
+              returns="Giá trị đã ép, hoặc NULL nếu ép thất bại." />
+
+    <function name="getdate"
+              signature="getdate()"
+              summary="Ngày giờ hiện tại của SERVER SQL (không phải máy chạy IDE)."
+              returns="datetime hiện tại." />
+
+    <function name="dateadd"
+              signature="dateadd(datepart, number, date)"
+              summary="Cộng/trừ một khoảng thời gian vào ngày."
+              returns="datetime sau khi cộng number đơn vị datepart.">
+      <param name="datepart" summary="day, month, year, hour…" />
+      <param name="number" summary="Số đơn vị cần cộng (âm để trừ)." />
+      <param name="date" summary="Ngày gốc." />
+    </function>
+
+    <function name="datediff"
+              signature="datediff(datepart, start_date, end_date)"
+              summary="Số đơn vị thời gian giữa hai ngày."
+              returns="int — số datepart từ start_date đến end_date."
+              remarks="Đếm số RANH GIỚI đơn vị: datediff(day, '2026-01-01 23:00', '2026-01-02 01:00') = 1." />
+
+    <function name="substring"
+              signature="substring(expression, start, length)"
+              summary="Cắt chuỗi con."
+              returns="Chuỗi con bắt đầu tại start (đếm từ 1), dài length ký tự." />
+
+    <function name="charindex"
+              signature="charindex(substring, expression, start)"
+              summary="Vị trí xuất hiện đầu tiên của chuỗi con."
+              returns="int — vị trí (đếm từ 1); 0 nếu không tìm thấy." />
+
+    <function name="replace"
+              signature="replace(expression, pattern, replacement)"
+              summary="Thay mọi lần xuất hiện của chuỗi con."
+              returns="Chuỗi đã thay thế." />
+
+    <function name="rtrim"
+              signature="rtrim(expression)"
+              summary="Bỏ khoảng trắng cuối chuỗi — hay dùng trước khi so khớp mã trong FBO (cột char)."
+              returns="Chuỗi đã cắt khoảng trắng bên phải." />
+
+    <function name="ltrim"
+              signature="ltrim(expression)"
+              summary="Bỏ khoảng trắng đầu chuỗi."
+              returns="Chuỗi đã cắt khoảng trắng bên trái." />
+
+    <function name="len"
+              signature="len(expression)"
+              summary="Độ dài chuỗi, KHÔNG tính khoảng trắng cuối."
+              returns="int — số ký tự."
+              remarks="Cần tính cả khoảng trắng cuối thì dùng datalength." />
+
+    <function name="round"
+              signature="round(numeric_expression, length)"
+              summary="Làm tròn số."
+              returns="Số đã làm tròn tới length chữ số thập phân." />
+
+    <function name="row_number"
+              signature="row_number() over (partition by … order by …)"
+              summary="Đánh số thứ tự dòng trong từng phân nhóm."
+              returns="bigint — số thứ tự bắt đầu từ 1 trong mỗi partition."
+              remarks="Bắt buộc có mệnh đề over(); dùng để lấy dòng mới nhất mỗi nhóm." />
+
+    <function name="iif"
+              signature="iif(boolean_expression, true_value, false_value)"
+              summary="Rẽ nhánh ngắn gọn thay cho CASE WHEN."
+              returns="true_value nếu điều kiện đúng, ngược lại false_value." />
+  </group>
+
+  <!--
+    Từ khoá cho Completion (Ctrl+Space). Hai cách khai báo, dùng chung được:
+      <keywords names="a, b, c"/>          → nhanh, không mô tả
+      <keywords><keyword name="…" insert="…" summary="…"/></keywords>
+    insert = chuỗi chèn khi chọn (bỏ trống thì chèn đúng name).
+    Hàm trong <group> ở trên TỰ ĐỘNG vào danh sách gợi ý, không cần khai báo lại ở đây.
+  -->
+  <keywords names="select, from, where, group by, having, order by, inner join, left join,
+                   right join, full join, cross apply, outer apply, union, union all, insert into,
+                   update, delete, values, set, declare, exec, begin, end, if, else, while, case,
+                   when, then, and, or, not, in, exists, between, like, is null, is not null,
+                   distinct, top, as, on, with, over, partition by, asc, desc, into, output,
+                   truncate table, create table, alter table, drop table, primary key, index,
+                   rollback, commit, transaction, print, raiserror, return, cast, convert" />
+
+  <keywords>
+    <keyword name="select top" insert="select top 100 "
+             summary="Xem thử dữ liệu — luôn giới hạn dòng khi query bảng chứng từ lớn." />
+    <keyword name="#temp"
+             summary="Bảng tạm phiên làm việc; FBO hay dùng để gom dữ liệu trước khi join." />
+    <keyword name="@@unit"
+             summary="Đơn vị cơ sở hiện hành (biến hệ thống FBO trong command/query)." />
+    <keyword name="@@userID"
+             summary="User đang đăng nhập (biến hệ thống FBO)." />
+    <keyword name="@@admin"
+             summary="Cờ quyền admin của user hiện hành (biến hệ thống FBO)." />
+  </keywords>
+
+</sqlFunctions>

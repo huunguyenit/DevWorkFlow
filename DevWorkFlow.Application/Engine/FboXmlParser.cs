@@ -386,15 +386,35 @@ public class FboXmlParser
         {
             foreach (var btn in toolbar.Elements().Where(e => e.Name.LocalName.Equals("button", StringComparison.OrdinalIgnoreCase)))
             {
-                model.Toolbar.Add(new GridToolbarButton
+                var toolbar_button = new GridToolbarButton
                 {
                     Command = Attr(btn, "command"),
                     Title = ReadLocalized(FindChild(btn, "title"))
-                });
+                };
+                toolbar_button.MenuItems = ParseToolbarMenuItems(FindChild(btn, "menuItems"));
+                model.Toolbar.Add(toolbar_button);
             }
         }
 
         return model;
+    }
+
+    private static List<GridToolbarMenuItem> ParseToolbarMenuItems(XElement? menu_items)
+    {
+        var list = new List<GridToolbarMenuItem>();
+        if (menu_items is null) return list;
+
+        foreach (var item in menu_items.Elements()
+                     .Where(e => e.Name.LocalName.Equals("menuItem", StringComparison.OrdinalIgnoreCase)))
+        {
+            list.Add(new GridToolbarMenuItem
+            {
+                CommandArgument = Attr(item, "commandArgument"),
+                Header = ReadLocalized(FindChild(item, "header"))
+            });
+        }
+
+        return list;
     }
 
     // ── Lookup ───────────────────────────────────────────────────────
@@ -527,6 +547,9 @@ public class FboXmlParser
         var result = xml;
         result = Regex.Replace(result, @"<!DOCTYPE[\s\S]*?\[[\s\S]*?\]\s*>", string.Empty, RegexOptions.IgnoreCase);
         result = Regex.Replace(result, @"<!DOCTYPE[^>]*>", string.Empty, RegexOptions.IgnoreCase);
+        // Comment không cần cho Fbo* model; bỏ trước khi LoadXml (phòng ClearText cũ từng
+        // expand entity vào comment tạo "--" bất hợp lệ — IgnoreComments không cứu được).
+        result = Regex.Replace(result, @"<!--[\s\S]*?-->", string.Empty);
         // Entity tùy biến (&ScriptIrregular; ...) → bỏ; giữ &amp; &lt; ...
         result = Regex.Replace(
             result,
