@@ -116,6 +116,14 @@ verify, rồi mới phase sau.
 
 **Artifacts:** mini-spec [`2026-07-22-editor-phase2-xml-structure-nav-design.md`](./2026-07-22-editor-phase2-xml-structure-nav-design.md) · plan [`../plans/2026-07-22-editor-phase2-xml-structure-nav.md`](../plans/2026-07-22-editor-phase2-xml-structure-nav.md)
 
+**Progress (2026-07-23):** `StructuralAtOffsetResolver` (Task 1–3 của plan) đã tồn tại sẵn trên cây
+nhưng LS API + UI wiring (Task 4) chưa từng chạy — hoàn thiện khi làm Phase 3 vì chuỗi Ctrl+Click
+Phase 3 phụ thuộc nó. Thêm `IErpLanguageService.ResolveStructuralAtOffset` + impl; nối vào
+`FormBuilderViewModel.OnEntityOffsetActivated` (chuỗi Entity → Structural → JS Runtime → Status
+miss, tách `HandleStructuralHit`/`HandleJsRuntimeHit`). +3 unit test (`StructuralAtOffsetResolverTests`).
+Build slnx xanh. **Needs human runtime pass** (field→view, items@controller→Lookup, clientScript→fn
+qua UI thật) — chưa verify headless được.
+
 ---
 
 ### Phase 3 — Nav slice #2 (JS runtime FBO)
@@ -134,6 +142,101 @@ verify, rồi mới phase sau.
 
 **Artifacts:** mini-spec [`2026-07-23-editor-phase3-js-runtime-nav-design.md`](./2026-07-23-editor-phase3-js-runtime-nav-design.md) · plan [`../plans/2026-07-23-editor-phase3-js-runtime-nav.md`](../plans/2026-07-23-editor-phase3-js-runtime-nav.md)
 
+**Progress (2026-07-23):** Implemented toàn bộ 7 task của plan — `DollarAIndex` (parse `g.$a={…}`,
+GoTo+hover); `FboRequestCallParser` + `ResponseCompleteCaseFinder` (request/grid.request → action/
+case, exact string, không fuzzy-fix); `ScriptFunctionReferenceFinder` + `ErpNavigationService.
+FindReferences` mở rộng cho `ScriptFunctionSymbol` (definition + call sites, document hiện tại);
+`ShowFormRelatedPathResolver` (stem strip + multi-file Filter/Lookup/Grid, cap 12); `JsRuntimeNavHit`
+DTO + `JsRuntimeAtOffsetResolver` (ưu tiên request → showForm → `$a` → function def) + LS
+`ResolveJsRuntimeAtOffset`; UI wiring — `FormBuilderViewModel.OnEntityOffsetActivated` chuỗi đầy đủ
+Entity → Structural → JS Runtime → Status miss, hover `$a` qua `ResolveEntityHover` fallback,
+`SymbolInfoViewModel.ShowReferences` + `ActivateReferenceCommand` (double-click reference →
+NavigateToOffset, event `ReferencesRequested` từ VM, không polling), showForm multi-open cap 12.
++41 unit test mới (Application 233/233 xanh). Build slnx xanh. **Needs human runtime pass:**
+Ctrl+Click/hover matrix thật trên script FBO (request, function refs, `$a`, showForm) — chưa
+verify headless được.
+
+**Fix pass (2026-07-23, sau human runtime pass đầu tiên — user báo 4/5 gesture fail):**
+Chẩn đoán trên corpus THẬT `SP226/Grid/SVDetail.xml` (fixture tổng hợp không lộ được các lỗi này):
+
+| Triệu chứng | Nguyên nhân gốc | Fix |
+|---|---|---|
+| request arg1 luôn "Không tìm thấy action" | FBO đặt tên action bằng **`id`** (`<action id="Item">`), và `ErpSemanticBinder` **chưa từng bind element `<action>`** (chỉ bind `<response>`). File thật có 0 `<action name=>`. | Bind `<action>` → `ResponseActionSymbol` (`action:{id}`) |
+| function FindRefs "không thấy gì" | LS resolve đúng (3/2/2/2/1 refs) nhưng UI: (a) không hiện panel Symbol Info, (b) Ctrl+Click dời caret → `Refresh()` xoá sạch list vừa dựng | Surface panel từ `MainViewModel`; `_pinned` giữ list qua caret change |
+| `$a` + nội dung trong entity không thấy | Index chạy trên **source** — đo được: ClearText có 22 function / 8 request vs source 17 / 6. 5 function + 2 lời gọi **chỉ tồn tại sau khi expand entity** | Index chạy trên **ClearText**; `ClearTextLocationMapper` map ngược về **(file, offset)** thật |
+| Mọi gesture chết ở Insight mode | `bridge.js`: Ctrl+Click `return` sớm nếu không trúng entity segment; hover bị **tắt cứng** ở Insight | Fall through gửi offset + cờ `insight`; bật hover Insight |
+
+**Yêu cầu chốt từ user:** *"Nếu index reference trong entity thì phải navigation tới đúng file + vị trí.
+Phải navigation tới đúng nơi, cho dù nằm ở bất kỳ đâu."* → `JsRuntimeNavHit.TargetPath` +
+`ClearTextLocationMapper` (literal → `OffsetMap.ToSource`; trong expansion → entity SYSTEM = file
+đó, entity inline = `ValueLocation` + delta). Target khác file → mở tab file đó rồi focus offset
+trong file đó (KHÔNG áp offset của hệ toạ độ khác).
+
+Tests: +6 `JsRuntimeRealCorpusTests` chạy trên SP226 (tự Skip nếu thiếu corpus) — trong đó có test
+khẳng định offset từ buffer Insight và từ Source cho **cùng một target**. Application 243/243 xanh.
+
+**Fix pass 2 (2026-07-23):** user xác nhận request / `$a` click / `$a` hover **OK**; còn 2 việc:
+
+- **Function FindRefs vẫn fail (source mode).** Đo lại trên corpus: LS **đúng** (`onChange$GridVoucherDetail$Promotion`
+  → 3 refs: definition + 2 call site, map đúng offset source). Lỗi nằm ở chỗ *hiện* panel: đường
+  surface panel tự chế không khớp đường đã chạy được của Shift+F12. Sửa: dùng đúng trình tự
+  `MainWindow.OnFindReferences` (`ShowPanel(RightTop)` → `SelectRightPaneCommand.Execute(pane)`),
+  và **không** gọi `SymbolInfoVm.Refresh()` (Refresh dựng theo symbol tại caret → xoá list vừa ghim).
+- **Bổ sung chiều ngược (yêu cầu mới).** `JsRuntimeNavKind.ActionRequestSites` +
+  `CaseRequestSites`: từ `<action id="X">` / `<response name="X">` → liệt kê các chỗ gọi
+  `request('X', …)`; từ `case 'X':` → các chỗ gọi `request(…, 'X', …)`. Dùng
+  `FboRequestCallParser.EnumerateAll` + map (file, offset) như FindRefs. Nhiều nơi gọi → luôn hiện
+  danh sách Symbol Info, không tự nhảy. `case` không khớp request nào → trả null để không nuốt
+  Ctrl+Click trên `switch` thường.
+
+**Corpus rename (SP226 → FBISP24):** golden test bám bản SP226 nên giữ `Sp226Paths` nguyên trạng;
+test Phase 3 chuyển sang `FboProgramCorpus` (dò Program bất kỳ + `FboCorpusFact("Grid","SVDetail.xml")`
+tự Skip khi thiếu file). `FboLexerConditionalSectionTests.Unit_ent_…` trước đây hardcode `SP226` →
+đỏ khi đổi corpus, nay dùng resolver chung.
+
+Application 228 passed / 18 skipped (skip = golden test cần đúng bản SP226), Domain 7, Editor 14, Tree 9.
+
+**Fix pass 3 (2026-07-23):** user xác nhận function FindRefs đã đúng (3 refs). Hai bổ sung:
+
+- **Ctrl+Click trên IDENTIFIER, không cần từ khoá `function`.** `TryResolveFunctionDefinition` chỉ
+  bắt khi con trỏ nằm trên tên trong dòng định nghĩa → đứng ở *nơi gọi* không ăn. Thay bằng
+  `TryResolveFunctionIdentifier`: lấy identifier tại offset (`XmlStructureParser.ExtractIdentifierAt`),
+  xác nhận có `function <ident>` trong ClearText rồi trả cùng bộ references. Đứng ở đâu cũng ra
+  cùng kết quả (test khẳng định definition-site và call-site cho số refs bằng nhau).
+- **Symbol Info hai chiều.** `JsRuntimeRelation` (+ `Relations` trên hit) dựng chuỗi
+  request → action → case bằng `BuildRequestChain`, dùng CHUNG cho cả 4 điểm vào
+  (`RequestAction`, `RequestResponseCase`, `ActionRequestSites`, `CaseRequestSites`) — vào từ mắt
+  xích nào cũng thấy đủ sơ đồ. Hit thêm `SymbolName` / `SymbolKindText`.
+
+**References có file:line:code.** `NavigationTarget.Preview` + `ReferencePreviewEnricher`
+(Application, cache theo lần enrich, ưu tiên buffer đang mở rồi mới đọc đĩa) — panel hiển thị
+được "📄 File Line N / đoạn code" mà UI KHÔNG tự đọc file (giữ R1).
+
+**Panel** (`SymbolInfoPanel.xaml` + `SymbolInfoViewModel`): header tên+loại+số reference, section
+RELATIONSHIP (click từng mắt xích để nhảy, mở đúng file nếu khác), REFERENCES kèm preview.
+`ReferencesRequested` giờ mang cả `JsRuntimeNavHit` thay vì `(title, refs)`.
+
+Application 231 passed / 18 skipped, Domain 7, Editor 14, Tree 9; build slnx xanh.
+**Chưa human runtime pass** cho panel mới.
+
+**Fix pass 4 (2026-07-23) — exact match tên hàm.** User báo matching đang hành xử như "contains".
+Nguyên nhân: dùng `\b` để chặn đuôi tên hàm, nhưng tên hàm FBO **kết thúc bằng `$`**
+(`load$GridVoucherDetail$`, `onChange$GridVoucherDetail$`) và có nhiều hàm **cùng tiền tố**
+(`…$GoodsType`, `…$Item`, `…$UOM`, `…$Site`, `…$Quantity`, `…$Promotion`). Sau `$`, `\b` chỉ tồn
+tại khi ký tự kế là word-char → vừa **trượt chính định nghĩa của nó** (ký tự kế là `(`), vừa
+**khớp nhầm hàm dài hơn**. Hệ quả thấy được: định nghĩa không bị loại khỏi danh sách call site,
+và relation "định nghĩa" trỏ sang hàm khác.
+
+Sửa: thay `\b` bằng lookaround "hết ký tự identifier" `(?![\w$])` / `(?<![\w$])`
+(`JsRuntimeAtOffsetResolver.IdentifierEnd|IdentifierStart`) tại:
+`TryResolveFunctionIdentifier`, `ScriptFunctionReferenceFinder` (call-site + `ResolveDefinitionSpan`),
+và `XmlStructureParser.FindFunctionDefinition` (Phase 2 dính cùng lỗi).
+
+Regression test đã **kiểm chứng là bắt được lỗi** (tạm khôi phục `\b` → `Prefix_name_does_not_match_longer_sibling_functions`
+fail: 2 items thay vì 1). Application 236 passed / 18 skipped, Domain 7, Editor 14, Tree 9.
+
+**Handoff Phase 4:** Completion / Hover từ Config (Checking JS catalog) — xem mục kế tiếp.
+
 ---
 
 ### Phase 4 — Completion / Hover từ Config
@@ -142,9 +245,11 @@ verify, rồi mới phase sau.
 |---|----------|
 | 6 | Trong `script` / `command@Checking`: gợi ý cú pháp JS nội bộ; danh sách định nghĩa tại **`Config/xml`** (file catalog mới); hover = mô tả + tác dụng hàm |
 
-**Done when:** catalog XML có schema rõ; Completion + Hover Provider đọc catalog; không hard-code danh sách trong UI.
+**Done when:** catalog XML có schema rõ; Completion + Hover + SignatureHelp đọc catalog; không hard-code danh sách trong UI.
 
 **Depends:** tạo catalog (chưa có trong Config hiện tại — `UI/Config/xml/` chưa có JS syntax file).
+
+**Artifacts:** mini-spec [`2026-07-23-editor-phase4-js-catalog-completion-design.md`](./2026-07-23-editor-phase4-js-catalog-completion-design.md) (Ready for planning).
 
 ---
 
@@ -261,8 +366,7 @@ User gesture (Ctrl+Click / Hover / Tab menu / Execute)
     → UI shell (document tabs, SQL Studio, hover widget host)
 ```
 
-Config mới dự kiến (Phase 4+): `UI/Config/xml/` — catalog JS nội bộ Checking/script
-(tên file chốt trong mini-spec Phase 4).
+Config Phase 4: `UI/Config/xml/fbo-js.catalog.xml` — xem mini-spec Phase 4.
 
 ---
 
