@@ -249,7 +249,7 @@ fail: 2 items thay vì 1). Application 236 passed / 18 skipped, Domain 7, Editor
 
 **Depends:** tạo catalog (chưa có trong Config hiện tại — `UI/Config/xml/` chưa có JS syntax file).
 
-**Artifacts:** mini-spec [`2026-07-23-editor-phase4-js-catalog-completion-design.md`](./2026-07-23-editor-phase4-js-catalog-completion-design.md) (Ready for planning).
+**Artifacts:** mini-spec [`2026-07-23-editor-phase4-js-catalog-completion-design.md`](./2026-07-23-editor-phase4-js-catalog-completion-design.md) · plan [`../plans/2026-07-23-editor-phase4-js-catalog-completion.md`](../plans/2026-07-23-editor-phase4-js-catalog-completion.md).
 
 ---
 

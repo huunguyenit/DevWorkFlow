@@ -1,7 +1,7 @@
 # Phase 4 — Completion / Hover / Signature từ Config (FBO JS catalog)
 
 Date: 2026-07-23  
-Status: Ready for planning  
+Status: Ready for implementation  
 Parent: [`2026-07-22-editor-ux-roadmap-design.md`](./2026-07-22-editor-ux-roadmap-design.md) (Phase 4, hạng mục #6)  
 Depends on: Phase 1–3 offset/hover bridge; island JS đã có trong nav pipeline  
 Related: ADR-0001/R1/R7, `UI/Config/xml/` (pattern `diagnostics.catalog.xml`),  
@@ -233,6 +233,5 @@ SignatureHelp? SignatureAt(ErpDocumentId id, int offset, EditorAssistMode mode)
 
 ## 10. Handoff
 
-Sau khi spec được approve → `writing-plans` →  
-`docs/superpowers/plans/2026-07-23-editor-phase4-js-catalog-completion.md`.  
-Cập nhật roadmap parent: artifact Phase 4 trỏ về file spec này.
+Plan: [`../plans/2026-07-23-editor-phase4-js-catalog-completion.md`](../plans/2026-07-23-editor-phase4-js-catalog-completion.md).  
+Roadmap parent đã trỏ artifact Phase 4.
