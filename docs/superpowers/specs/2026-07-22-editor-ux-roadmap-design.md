@@ -289,11 +289,65 @@ Insight chỉ hover) — không verify headless được.
 
 **Artifacts:** mini-spec [`2026-07-23-editor-phase5-sql-tooling-design.md`](./2026-07-23-editor-phase5-sql-tooling-design.md) · plan [`../plans/2026-07-23-editor-phase5-sql-tooling.md`](../plans/2026-07-23-editor-phase5-sql-tooling.md).
 
+**Progress (2026-07-23):** Implemented đủ 10 task.
+
+Application (SoT, có test): `ControllerDatabaseKindResolver` (`@database` trên root, corpus có cả
+`"Sys"` lẫn `"sys"` → so sánh case-insensitive); `InformationSqlBuilder`; `OptionsSnippetExpander`
+(neo đầu/cuối, giữ kiểu nháy); `SqlIslandLocator` + `SqlObjectNameAtOffset` (hỗ trợ
+`[dbo].[name]`, mặc định schema `dbo`); `InformationAttributeAtOffset`; LS thêm
+`BuildInformationSqlAtOffset` / `ResolveSqlObjectAtOffset` / `ResolveDatabaseKind`.
+
+UI: `SqlOpenRequest` record thay danh sách tham số vị trí (đã 5, Phase 5 cần thêm 2);
+`SqlDocumentViewModel.TrySelectTargetKind` (theo cờ `IsSys` sẵn có) + `ExecuteAfterOpen`;
+`SelectedScript` bind `OneWayToSource` từ Monaco; F5 mở rộng sang Form Source **giữ nguyên** nhánh
+SQL Studio; `OpenSqlFromForm` chỉ đổi hành vi KHI có selection; Ctrl+Click chain thêm
+information → SQL object (trước js-runtime); Tab expand snippet ở AvalonEdit (SQL Studio) và
+Monaco (gate `SqlIslandLocator`).
+
+**Hai điểm lệch spec phát hiện từ corpus thật:**
+
+1. `information="ma_dvcs$dmdvcs.ten_dvcs%l$client_code=@@unit"` — có đuôi `$điều-kiện` **sau**
+   `%l`. Thuật toán spec §5.4 ("displayRaw kết thúc bằng %l") sẽ lấy sai cột hiển thị. Builder
+   tách đuôi này ra trước khi xét `%l`, và chỉ ghi comment (giá trị chứa biến runtime `@@unit`,
+   không đẩy vào WHERE) — cùng nguyên tắc với `check`.
+2. `command event="Checking"` chứa **JavaScript** (island Phase 4) chứ không phải SQL →
+   `SqlIslandLocator` loại trừ, nếu không Ctrl+Click trong Checking sẽ đi tra ALTER PROCEDURE.
+
+Cũng sửa một lỗi regex attribute: `key="kh_yn = 1 and status = '1'"` có nháy đơn **bên trong**
+nháy kép; mẫu `[^'"]*` cắt sớm và **mất mệnh đề WHERE** — nay chặn theo đúng loại nháy bao ngoài.
+
++63 unit test Phase 5 (Application 345 passed / 18 skipped), Domain 7, Editor 14, Tree 9; build
+slnx xanh. **Chưa human runtime pass:** F5/nút SQL trên Form, Ctrl+Click information, ALTER (cần
+Program + kết nối DB thật), snippet Tab ở cả hai editor.
+
+**Fix pass (2026-07-23) — sau human runtime pass đầu tiên:**
+
+1. **Ctrl+Click proc/function fail — nguyên nhân gốc lặp lại bài học Phase 3.** SQL của FBO nằm
+   trong **khai báo `<!ENTITY>`**, không nằm trong `<command>` của source (đo `Dir/AITran.xml`:
+   `exec FastBusiness$App$Voucher$UpdateInquiryTable` ở entity, `island=False` cho *mọi* proc).
+   Gate chỉ theo island nên luôn trượt. Sửa: chấp nhận identifier đứng ngay sau `EXEC`/`EXECUTE`
+   (tín hiệu mạnh, đúng thao tác người dùng) **hoặc** trong island. Tên proc FBO chứa `$` —
+   `IsIdentChar` đã gồm `$` nên bắt đủ tên. Hit-test cũng chuyển sang chạy trên ClearText.
+2. **Snippet khai báo động ở `Config/xml`** (yêu cầu mới): thêm `UI/Config/xml/sql-snippets.xml`
+   + `SqlSnippetCatalog` (regex + `${nhóm}` thay thế, regex hỏng thì bỏ qua snippet đó chứ không
+   chết cả tính năng). LS `LoadSqlSnippets` / `TryExpandSqlSnippet`; SQL Studio dùng
+   `BindableSqlEditor.SharedSnippetExpander`, Form Source qua VM — **không** editor nào giữ mẫu.
+   Thêm mẫu mới chỉ cần sửa XML (có test chứng minh).
+3. **Result / Message vào panel dưới** + focus: hai pane mới `SqlResult` / `SqlMessage`;
+   `SqlDocumentViewModel.ExecutionCompleted` bắn sau mỗi lần chạy → shell mở dock dưới và chọn
+   **Result khi thành công, Message khi lỗi**. `ErrorMessage` được gộp vào `MessagesText` (trước
+   đây chỉ hiện ở Status bar nên panel Message trống khi lỗi).
+
+Application 356 passed / 18 skipped; build slnx xanh. **Vẫn chưa human runtime pass** cho 3 mục
+trên (đặc biệt ALTER cần kết nối DB thật).
+
 ---
 
 ### Phase 6 — Editor productivity backlog
 
-Không nằm critical path Phase 0–5. Owner chọn **2–4 ID**/đợt → mini-spec → plan → implement.
+Không nằm critical path Phase 0–5. **Mega-spec + mega-plan** cover **P6-01…P6-27** (owner chọn cách 3); triển khai nhiều commit/task — không một PR.
+
+**Artifacts:** mini-spec [`2026-07-23-editor-phase6-productivity-backlog-design.md`](./2026-07-23-editor-phase6-productivity-backlog-design.md) · plan [`../plans/2026-07-23-editor-phase6-productivity-backlog.md`](../plans/2026-07-23-editor-phase6-productivity-backlog.md).
 
 #### 6.1 Navigation & orientation
 
@@ -352,7 +406,7 @@ Không nằm critical path Phase 0–5. Owner chọn **2–4 ID**/đợt → min
 | P6-26 | Bookmark / mark dòng (non-debug) |
 | P6-27 | Compare Source ↔ Insight (diff caret-aligned) |
 
-**Suggested first pick after Phase 0–5:** P6-01, P6-02, P6-03, P6-11, P6-06, P6-07.
+**Suggested first pick after Phase 0–5:** P6-01, P6-02, P6-03, P6-11, P6-06, P6-07 — vẫn hữu ích nếu làm tuần tự theo mega-plan Task 1+.
 
 ---
 
