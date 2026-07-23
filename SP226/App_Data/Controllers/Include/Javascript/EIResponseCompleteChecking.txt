@@ -1,8 +1,0 @@
-﻿<![CDATA[
-	case 'Checking':
-      if (f._checked && f._usedEI && f._action == 'Edit' && f._eiStatus != '0') {
-	      f._checked = false;
-        f.getItem(']]>&EICheckDetailFieldName;<![CDATA[')._controlBehavior.showForm('EISavingPassword');  
-      }
-	    break;
-]]>

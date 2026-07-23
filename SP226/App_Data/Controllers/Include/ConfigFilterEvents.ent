@@ -1,6 +1,0 @@
-﻿<!ENTITY % Conditional.ConfigFilterEvents SYSTEM "..\Include\ConfigFilterEvents.txt">
-
-<![%Conditional.ConfigFilterEvents;[
-  <!ENTITY ConfigFilterEventsReference "*">
-]]>
-<!ENTITY ConfigFilterEventsReference "">

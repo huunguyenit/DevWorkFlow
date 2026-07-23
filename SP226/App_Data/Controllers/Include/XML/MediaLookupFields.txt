@@ -1,3 +1,0 @@
-﻿<field name="&MediaKey;" hidden="true">
-  <header v="" e=""></header>
-</field>

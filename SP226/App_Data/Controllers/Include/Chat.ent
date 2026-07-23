@@ -1,7 +1,0 @@
-﻿<!ENTITY % Conditional.Chat SYSTEM "..\Include\Chat.txt">
-
-<![%Conditional.Chat;[
-  <!ENTITY ChatFlag "1">
-]]>
-
-<!ENTITY ChatFlag "0">

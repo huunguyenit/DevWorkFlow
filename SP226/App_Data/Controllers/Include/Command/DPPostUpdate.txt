@@ -1,3 +1,0 @@
-﻿<![CDATA[
-if $p]]>&Tag;<![CDATA[.NewValue <> $p]]>&Tag;<![CDATA[.OldValue insert into p]]>&Tag;<![CDATA[ select * from @p]]>&Tag;<![CDATA[
-]]>

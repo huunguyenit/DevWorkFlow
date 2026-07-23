@@ -1,2 +1,0 @@
-﻿<field name="stt_rec_yc"/>
-<field name="stt_rec0yc"/>

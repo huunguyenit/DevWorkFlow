@@ -340,22 +340,29 @@
 
             if (lastShowInsights) {
                 var segment = segmentAt(offset);
-                if (!segment || segment.isError) return;
-                post({
-                    event: 'openEntityRequested',
-                    payload: {
-                        entityName: segment.entityName,
-                        symbolId: segment.symbolId,
-                        definitionPath: segment.definitionPath,
-                        definitionOffset: segment.definitionOffset,
-                        openPath: segment.openPath
-                    }
-                });
+                // Trúng entity → mở entity (ưu tiên, giữ nguyên Phase 1).
+                if (segment && !segment.isError) {
+                    post({
+                        event: 'openEntityRequested',
+                        payload: {
+                            entityName: segment.entityName,
+                            symbolId: segment.symbolId,
+                            definitionPath: segment.definitionPath,
+                            definitionOffset: segment.definitionOffset,
+                            openPath: segment.openPath
+                        }
+                    });
+                    return;
+                }
+                // KHÔNG trúng entity: trước đây return luôn nên Ctrl+Click ở Insight mode chết
+                // hoàn toàn (không gesture nào tới được Language Service). Gửi offset ClearText
+                // kèm cờ insight để host chạy chuỗi nav như Source mode.
+                post({ event: 'entityOffsetActivated', payload: { offset: offset, insight: true } });
                 return;
             }
 
             // Source mode (XML thô): chỉ gửi offset nguồn; host tra LS ResolveEntityAtOffset.
-            post({ event: 'entityOffsetActivated', payload: { offset: offset } });
+            post({ event: 'entityOffsetActivated', payload: { offset: offset, insight: false } });
         });
 
         // ── Entity hover virtual view (Content Widget) — CHỈ Source mode ────
@@ -460,9 +467,6 @@
         }
 
         editor.onMouseMove(function (e) {
-            // Hover chỉ ở Source mode. Insight: không hover, ẩn nếu đang hiện.
-            if (lastShowInsights) { hideEntityHover(); return; }
-
             // Con trỏ đang trên chính widget → GIỮ (rule dismiss: chỉ ẩn khi rời widget).
             if (isOnHoverWidget(e.target)) {
                 if (hoverHideTimer) { clearTimeout(hoverHideTimer); hoverHideTimer = null; }
@@ -478,13 +482,169 @@
             hoverMoveTimer = setTimeout(function () {
                 hoverPosition = position;
                 lastHoverOffset = offset;
-                post({ event: 'entityHoverRequested', payload: { offset: offset, insight: false } });
+                // Insight mode cũng hover được: nếu trúng segment thì gửi kèm entityName (host
+                // hiện value entity), không trúng thì host thử JS runtime (vd g.$a.name) trên
+                // offset ClearText. Trước đây Insight bị chặn cứng nên không bao giờ hover được.
+                var payload = { offset: offset, insight: !!lastShowInsights };
+                if (lastShowInsights) {
+                    var seg = segmentAt(offset);
+                    if (seg && !seg.isError) payload.entityName = seg.entityName;
+                }
+                post({ event: 'entityHoverRequested', payload: payload });
             }, 120);
         });
 
         editor.onMouseLeave(function () {
             if (hoverMoveTimer) { clearTimeout(hoverMoveTimer); hoverMoveTimer = null; }
             scheduleHideHover();
+        });
+
+        // ── FBO JS assist: Completion + Signature Help (Phase 4) ────────────
+        // Nội dung do Language Service cấp từ fbo-js.catalog.xml — JS KHÔNG giữ danh sách API.
+        // Mỗi request mang id; host trả về fboJsCompleteResult/fboJsSignatureResult để resolve
+        // đúng Promise. Có timeout để Monaco không treo nếu host im lặng.
+        var pendingAssist = {};
+        var assistSeq = 0;
+
+        function requestAssist(eventName, offset) {
+            return new Promise(function (resolve) {
+                var id = 'a' + (++assistSeq);
+                var done = false;
+                pendingAssist[id] = function (payload) {
+                    if (done) return;
+                    done = true;
+                    delete pendingAssist[id];
+                    resolve(payload);
+                };
+                setTimeout(function () {
+                    if (done) return;
+                    done = true;
+                    delete pendingAssist[id];
+                    resolve(null);
+                }, 2000);
+                post({
+                    event: eventName,
+                    payload: { id: id, offset: offset, insight: !!lastShowInsights }
+                });
+            });
+        }
+
+        function completionKind(kind) {
+            var K = monaco.languages.CompletionItemKind;
+            if (kind === 'property') return K.Property;
+            if (kind === 'function') return K.Function;
+            if (kind === 'variable') return K.Variable;
+            return K.Method;
+        }
+
+        // Model có thể là erp-xml (island JS bên trong XML) hoặc javascript khi đổi ở StatusBar.
+        var assistLanguages = ['erp-xml', 'javascript'];
+
+        assistLanguages.forEach(function (languageId) {
+            monaco.languages.registerCompletionItemProvider(languageId, {
+                triggerCharacters: ['.'],
+                provideCompletionItems: function (model, position) {
+                    // Insight = buffer read-only → không gợi ý (host cũng chặn, đây là chặn sớm).
+                    if (lastShowInsights) return { suggestions: [] };
+
+                    var offset = model.getOffsetAt(position);
+                    var word = model.getWordUntilPosition(position);
+                    var range = {
+                        startLineNumber: position.lineNumber,
+                        endLineNumber: position.lineNumber,
+                        startColumn: word.startColumn,
+                        endColumn: word.endColumn
+                    };
+
+                    return requestAssist('fboJsCompleteRequested', offset).then(function (items) {
+                        if (!items || !items.length) return { suggestions: [] };
+                        return {
+                            suggestions: items.map(function (i) {
+                                return {
+                                    label: i.label,
+                                    kind: completionKind(i.kind),
+                                    insertText: i.insertText,
+                                    detail: i.detail || undefined,
+                                    documentation: i.documentation || undefined,
+                                    range: range
+                                };
+                            })
+                        };
+                    });
+                }
+            });
+
+            monaco.languages.registerSignatureHelpProvider(languageId, {
+                signatureHelpTriggerCharacters: ['(', ','],
+                provideSignatureHelp: function (model, position) {
+                    if (lastShowInsights) return null;
+
+                    var offset = model.getOffsetAt(position);
+                    return requestAssist('fboJsSignatureRequested', offset).then(function (help) {
+                        if (!help) return null;
+                        return {
+                            value: {
+                                signatures: [{
+                                    label: help.label,
+                                    documentation: help.documentation || undefined,
+                                    parameters: (help.parameters || []).map(function (p) {
+                                        return {
+                                            label: p.label,
+                                            documentation: p.documentation || undefined
+                                        };
+                                    })
+                                }],
+                                activeSignature: 0,
+                                activeParameter: help.activeParameter || 0
+                            },
+                            dispose: function () { }
+                        };
+                    });
+                }
+            });
+        });
+
+        // ── Options snippet: Tab trong vùng SQL (Phase 5 #17) ───────────────
+        // JS chỉ gửi dòng hiện tại và áp kết quả; MẪU và câu SELECT do Application quyết định.
+        editor.onKeyDown(function (e) {
+            if (e.keyCode !== monaco.KeyCode.Tab) return;
+            if (e.ctrlKey || e.shiftKey || e.altKey || e.metaKey) return;
+            if (lastShowInsights) return;                 // Insight read-only
+
+            var model = editor.getModel();
+            var position = editor.getPosition();
+            if (!model || !position) return;
+
+            var lineText = model.getLineContent(position.lineNumber);
+            var offset = model.getOffsetAt(position);
+
+            var id = 'a' + (++assistSeq);
+            var settled = false;
+            pendingAssist[id] = function (expanded) {
+                if (settled) return;
+                settled = true;
+                delete pendingAssist[id];
+                if (!expanded) return;                    // không khớp → Tab đã chạy như thường
+
+                var range = new monaco.Range(
+                    position.lineNumber, 1,
+                    position.lineNumber, model.getLineMaxColumn(position.lineNumber));
+                editor.executeEdits('options-snippet', [{ range: range, text: expanded }]);
+                editor.setPosition({
+                    lineNumber: position.lineNumber,
+                    column: expanded.length + 1
+                });
+            };
+            setTimeout(function () {
+                if (settled) return;
+                settled = true;
+                delete pendingAssist[id];
+            }, 2000);
+
+            post({
+                event: 'optionsSnippetRequested',
+                payload: { id: id, offset: offset, lineText: lineText }
+            });
         });
 
         // ── Command handling (C# → JS) ──────────────────────────────────────
@@ -581,6 +741,27 @@
                         applyTheme(msg.payload);
                         respond(msg.id, true);
                         break;
+                    case 'fboJsCompleteResult': {
+                        var cr = msg.payload || {};
+                        var completeWaiter = pendingAssist[cr.id];
+                        if (completeWaiter) completeWaiter(cr.items || []);
+                        respond(msg.id, true);
+                        break;
+                    }
+                    case 'fboJsSignatureResult': {
+                        var sr = msg.payload || {};
+                        var signatureWaiter = pendingAssist[sr.id];
+                        if (signatureWaiter) signatureWaiter(sr.help || null);
+                        respond(msg.id, true);
+                        break;
+                    }
+                    case 'optionsSnippetResult': {
+                        var os = msg.payload || {};
+                        var snippetWaiter = pendingAssist[os.id];
+                        if (snippetWaiter) snippetWaiter(os.expanded || null);
+                        respond(msg.id, true);
+                        break;
+                    }
                     case 'setMarkers': {
                         // Squiggle chẩn đoán (Source mode). Nhận offset trên buffer hiện tại →
                         // model.getPositionAt cho vị trí chính xác (không lệch do line/column).

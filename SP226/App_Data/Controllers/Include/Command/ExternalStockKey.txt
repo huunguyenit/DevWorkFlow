@@ -1,1 +1,0 @@
-﻿ where stt_rec_ir = ''

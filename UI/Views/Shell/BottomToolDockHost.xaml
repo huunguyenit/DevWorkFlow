@@ -51,6 +51,41 @@
             <Grid Visibility="{Binding Shell.IsSearchResultSelected, Converter={StaticResource BoolToVisibilityConverter}}">
                 <bottom:BottomToolPanel DataContext="{Binding DiagnosticsVm.SearchPane}"/>
             </Grid>
+
+            <!-- Phase 5: kết quả / message của lần chạy SQL gần nhất (ActiveSqlDocument). -->
+            <Grid Visibility="{Binding Shell.IsSqlResultSelected, Converter={StaticResource BoolToVisibilityConverter}}"
+                  DataContext="{Binding ActiveSqlDocument}">
+                <DockPanel>
+                    <ListBox DockPanel.Dock="Left" Width="140"
+                             ItemsSource="{Binding ResultSets}"
+                             SelectedItem="{Binding SelectedResultSet}"
+                             DisplayMemberPath="Header"
+                             BorderThickness="0,0,1,0"
+                             BorderBrush="{StaticResource IdeBorderBrush}"
+                             Background="Transparent"/>
+                    <DataGrid ItemsSource="{Binding SelectedResultView}"
+                              AutoGenerateColumns="True"
+                              IsReadOnly="True"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              HeadersVisibility="Column"
+                              GridLinesVisibility="Horizontal"
+                              AlternatingRowBackground="#F7F9FC"
+                              BorderThickness="0"
+                              FontSize="12"/>
+                </DockPanel>
+            </Grid>
+
+            <Grid Visibility="{Binding Shell.IsSqlMessageSelected, Converter={StaticResource BoolToVisibilityConverter}}"
+                  DataContext="{Binding ActiveSqlDocument}">
+                <TextBox Text="{Binding MessagesText, Mode=OneWay}"
+                         IsReadOnly="True" TextWrapping="Wrap"
+                         VerticalScrollBarVisibility="Auto"
+                         FontFamily="Cascadia Code, Consolas"
+                         FontSize="12" BorderThickness="0"
+                         Padding="8" Background="Transparent"
+                         Foreground="{StaticResource FgBrush}"/>
+            </Grid>
         </Grid>
     </DockPanel>
 </UserControl>

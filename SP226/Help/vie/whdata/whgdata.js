@@ -1,2 +1,0 @@
-﻿//	WebHelp 5.10.001
-function aGE(n,t){var i=gIEA.length;gIEA[i]=new gloEntry(n,t)}function gloEntry(n,t){this.sName=n,this.sDef=t,this.nNKOff=0}function window_OnLoad(){parent&&parent!=this&&parent.putData&&parent.putData(gIEA)}var gIEA=[];window.onload=window_OnLoad;

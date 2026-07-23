@@ -1,3 +1,0 @@
-﻿<item value="9">
-  <text v="9. Hủy hóa đơn" e="9. Cancelled"/>
-</item>

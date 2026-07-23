@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Catalog API JavaScript của FBO — nguồn duy nhất (SoT) cho Completion / Hover / Signature Help
+  trong island JS (<script>, CDATA script, command event="Checking").
+
+  Sửa file này KHÔNG cần rebuild C#: Language Service đọc qua AppConfigStore lúc khởi động
+  (UI tuyệt đối không hard-code danh sách API — xem Phase 4 spec §6.1).
+
+  type/@id       = id ổn định (form, grid, sender, func, ...)
+  type/@aliases  = CSV identifier người dùng gõ để trỏ tới type (phân biệt hoa/thường như JS)
+  member/@kind   = method | property | function
+  member/@signature = chuỗi hiển thị ở Signature Help
+  member/@summary   = mô tả ngắn (hover + completion detail)
+  member/@effect    = tác dụng / side-effect (hover; có thể bỏ trống)
+  param          = tên + mô tả từng tham số
+
+  Seed v1 cố tình NHỎ — chỉ nhóm lõi hay gặp. Bổ sung dần qua gap-scan
+  (FboJsCatalogGapScanner), KHÔNG auto-merge.
+-->
+<fboJsCatalog version="1">
+
+  <type id="form" aliases="f,parentForm">
+    <summary>Form chứng từ / filter (thường lấy từ sender.parentForm).</summary>
+
+    <member name="getItemValue" kind="method"
+            signature="getItemValue(field)"
+            summary="Đọc giá trị của một field trên form."
+            effect="Trả về giá trị hiện tại của field (thường là chuỗi).">
+      <param name="field" summary="Tên field trong XML, ví dụ ma_kh." />
+    </member>
+
+    <member name="setItemValue" kind="method"
+            signature="setItemValue(field, value)"
+            summary="Gán giá trị cho một field trên form."
+            effect="Cập nhật giá trị hiển thị; có thể kích hoạt onChange của field đó.">
+      <param name="field" summary="Tên field trong XML." />
+      <param name="value" summary="Giá trị mới cần gán." />
+    </member>
+
+    <member name="request" kind="method"
+            signature="request(action, context, fields)"
+            summary="Gửi yêu cầu lên server theo action đã khai báo trong response."
+            effect="Kết quả trả về được xử lý trong case tương ứng của on$...$ResponseComplete.">
+      <param name="action" summary="Khớp action id khai báo trong &lt;response&gt;." />
+      <param name="context" summary="Khớp nhánh case trong on$...$ResponseComplete." />
+      <param name="fields" summary="Mảng tên field / biểu thức gửi kèm." />
+    </member>
+
+    <member name="validFields" kind="method"
+            signature="validFields(fields)"
+            summary="Kiểm tra các field bắt buộc đã hợp lệ chưa."
+            effect="Trả về false và focus field lỗi nếu có field chưa hợp lệ.">
+      <param name="fields" summary="Danh sách tên field, ngăn cách bằng dấu phẩy." />
+    </member>
+
+    <member name="_action" kind="property"
+            summary="Trạng thái hiện tại của form."
+            effect="Nhận các giá trị như View, New, Edit." />
+  </type>
+
+  <type id="grid" aliases="g,grid">
+    <summary>Grid chi tiết chứng từ.</summary>
+
+    <member name="request" kind="method"
+            signature="request(sender, action, context, fields)"
+            summary="Gửi yêu cầu lên server từ grid."
+            effect="Kết quả xử lý trong case tương ứng của on$...$ResponseComplete.">
+      <param name="sender" summary="Thường chính là grid (o hoặc g)." />
+      <param name="action" summary="Khớp action id khai báo trong &lt;response&gt;." />
+      <param name="context" summary="Khớp nhánh case trong on$...$ResponseComplete." />
+      <param name="fields" summary="Mảng tên field / biểu thức gửi kèm." />
+    </member>
+
+    <member name="showForm" kind="method"
+            signature="showForm(name)"
+            summary="Mở một form khác theo tên controller."
+            effect="Mở Filter/Lookup/Grid tương ứng với tên được truyền.">
+      <param name="name" summary="Tên controller, ví dụ SVOrderFilter." />
+    </member>
+
+    <member name="executeExpression" kind="method"
+            signature="executeExpression(o, expressions)"
+            summary="Chạy các biểu thức tính toán đã khai báo trong g.$a."
+            effect="Cập nhật lại giá trị các field liên quan trên dòng hiện tại.">
+      <param name="o" summary="Đối tượng dòng/grid hiện tại." />
+      <param name="expressions" summary="Mảng biểu thức, thường lấy từ g.$a." />
+    </member>
+
+    <member name="executeAggregate" kind="method"
+            signature="executeAggregate(expressions)"
+            summary="Tính lại các dòng tổng hợp (t_*) của grid."
+            effect="Cập nhật các field tổng trên form cha.">
+      <param name="expressions" summary="Mảng biểu thức tổng, thường lấy từ g.$a." />
+    </member>
+
+    <member name="$a" kind="property"
+            summary="Bảng biểu thức tính toán của grid."
+            effect="Mỗi property là một biểu thức dạng [đích]:=[công thức]." />
+
+    <member name="_getItemValue" kind="method"
+            signature="_getItemValue(row, columnOrder)"
+            summary="Đọc giá trị một ô theo thứ tự cột.">
+      <param name="row" summary="Dòng dữ liệu." />
+      <param name="columnOrder" summary="Thứ tự cột, thường lấy từ _getColumnOrder." />
+    </member>
+
+    <member name="_setItemValue" kind="method"
+            signature="_setItemValue(row, columnOrder, value)"
+            summary="Gán giá trị cho một ô theo thứ tự cột.">
+      <param name="row" summary="Dòng dữ liệu." />
+      <param name="columnOrder" summary="Thứ tự cột." />
+      <param name="value" summary="Giá trị mới." />
+    </member>
+
+    <member name="_getColumnOrder" kind="method"
+            signature="_getColumnOrder(field)"
+            summary="Lấy thứ tự cột theo tên field.">
+      <param name="field" summary="Tên field trong grid." />
+    </member>
+  </type>
+
+  <type id="sender" aliases="o,sender">
+    <summary>Đối tượng phát sinh sự kiện (control, dòng grid, ...).</summary>
+
+    <member name="parentForm" kind="property"
+            summary="Form chứa control phát sinh sự kiện." />
+
+    <member name="grid" kind="property"
+            summary="Grid chứa control (khi handler thuộc grid)." />
+  </type>
+
+  <type id="func" aliases="$func">
+    <summary>Hàm tiện ích dùng chung của FBO.</summary>
+
+    <member name="trim" kind="method"
+            signature="trim(value)"
+            summary="Cắt khoảng trắng hai đầu chuỗi.">
+      <param name="value" summary="Chuỗi cần xử lý." />
+    </member>
+  </type>
+
+  <globals>
+    <!-- Hàm global (không cần receiver). Bổ sung dần khi gap-scan phát hiện. -->
+  </globals>
+
+</fboJsCatalog>

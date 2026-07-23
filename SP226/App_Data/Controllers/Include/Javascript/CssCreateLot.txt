@@ -1,9 +1,0 @@
-﻿<css>
-<text>
-<![CDATA[
-div.Lot{background-image:url(../images/Highlight.png);background-repeat:no-repeat;background-position:0 0;}
-div.TextLot{background-image:url(../images/Highlight.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
-div.TextLotOverGreen, div.LotOverGreen{background-position:0 -22px;}
-]]>
-</text>
-</css>

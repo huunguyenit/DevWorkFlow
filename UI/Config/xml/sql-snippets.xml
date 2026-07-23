@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Snippet SQL mở rộng bằng phím Tab — dùng ở SQL Studio và vùng SQL của Form Source.
+
+  Sửa file này KHÔNG cần rebuild C#: Language Service đọc qua AppConfigStore lúc khởi động.
+  Thêm snippet mới = thêm một <snippet>, không đụng code.
+
+  match     = regex .NET khớp TOÀN BỘ dòng (hoặc vùng bôi đen). Nên neo ^…$ để không nuốt
+              nhầm text chỉ tình cờ chứa từ khoá. IgnoreCase luôn bật.
+  expand    = chuỗi thay thế; dùng ${tên} để chèn nhóm bắt được từ match.
+              ${q1}/${q2} giữ đúng kiểu nháy người dùng gõ.
+  id        = định danh để log/chẩn đoán.
+  summary   = mô tả ngắn cho người đọc file này.
+
+  LƯU Ý regex: viết trong XML nên < > & phải escape (&lt; &gt; &amp;).
+-->
+<sqlSnippets version="1">
+
+  <snippet id="options-name-val"
+           summary="options.name='…' and val='…'  →  SELECT * FROM options WHERE …"
+           match="^\s*options\s*\.\s*name\s*=\s*(?&lt;q1&gt;['&quot;])(?&lt;name&gt;.*?)\k&lt;q1&gt;\s+and\s+val\s*=\s*(?&lt;q2&gt;['&quot;])(?&lt;val&gt;.*?)\k&lt;q2&gt;\s*$"
+           expand="SELECT * FROM options WHERE name = ${q1}${name}${q1} and val = ${q2}${val}${q2}" />
+
+  <snippet id="options-name-only"
+           summary="options.name='…'  →  SELECT * FROM options WHERE name = '…'"
+           match="^\s*options\s*\.\s*name\s*=\s*(?&lt;q1&gt;['&quot;])(?&lt;name&gt;.*?)\k&lt;q1&gt;\s*$"
+           expand="SELECT * FROM options WHERE name = ${q1}${name}${q1}" />
+
+</sqlSnippets>

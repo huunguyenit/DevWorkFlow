@@ -1,5 +1,6 @@
 using System.Windows;
 using System.Windows.Media;
+using DevWorkFlow.Application.Language;
 using ICSharpCode.AvalonEdit;
 using ICSharpCode.AvalonEdit.Highlighting;
 
@@ -9,6 +10,13 @@ namespace UI.Views.Controls;
 public class BindableSqlEditor : TextEditor
 {
     private bool _is_internal_change;
+
+    /// <summary>
+    /// Expand snippet SQL (Tab) — gán từ App khi khởi động, trỏ tới Language Service để mẫu đến
+    /// từ <c>Config/xml/sql-snippets.xml</c>. Control KHÔNG giữ danh sách mẫu (R1).
+    /// Cùng kiểu chia sẻ với <c>MonacoEditorHost.SharedTheme</c>.
+    /// </summary>
+    public static Func<string, string?>? SharedSnippetExpander { get; set; }
 
     public static readonly DependencyProperty BoundTextProperty =
         DependencyProperty.Register(
@@ -78,6 +86,57 @@ public class BindableSqlEditor : TextEditor
         };
 
         TextArea.SelectionChanged += (_, _) => SyncSelectedScript();
+        PreviewKeyDown += OnPreviewKeyDownExpandSnippet;
+    }
+
+    /// <summary>
+    /// Phase 5 #17 — Tab trên dòng khớp <c>options.name='…' and val='…'</c> thì thay bằng câu
+    /// SELECT tương ứng. Mẫu do Application quyết định (<see cref="OptionsSnippetExpander"/>);
+    /// không khớp thì Tab giữ nguyên hành vi thụt lề.
+    /// </summary>
+    private void OnPreviewKeyDownExpandSnippet(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        if (e.Key != System.Windows.Input.Key.Tab) return;
+        if (System.Windows.Input.Keyboard.Modifiers != System.Windows.Input.ModifierKeys.None) return;
+
+        // Ưu tiên vùng bôi đen; không có thì lấy nguyên dòng chứa caret.
+        var has_selection = !TextArea.Selection.IsEmpty;
+        var source_text = has_selection ? TextArea.Selection.GetText() : CurrentLineText(out _, out _);
+
+        var expanded = SharedSnippetExpander is not null
+            ? SharedSnippetExpander(source_text)
+            : OptionsSnippetExpander.TryExpand(source_text);
+        if (expanded is null) return;
+
+        _is_internal_change = true;
+        try
+        {
+            if (has_selection)
+            {
+                TextArea.Selection.ReplaceSelectionWithText(expanded);
+            }
+            else
+            {
+                CurrentLineText(out var line_offset, out var line_length);
+                Document.Replace(line_offset, line_length, expanded);
+                CaretOffset = line_offset + expanded.Length;
+            }
+            BoundText = Document.Text;
+        }
+        finally
+        {
+            _is_internal_change = false;
+        }
+
+        e.Handled = true;
+    }
+
+    private string CurrentLineText(out int line_offset, out int line_length)
+    {
+        var line = Document.GetLineByOffset(CaretOffset);
+        line_offset = line.Offset;
+        line_length = line.Length;
+        return Document.GetText(line.Offset, line.Length);
     }
 
     private void SyncSelectedScript()

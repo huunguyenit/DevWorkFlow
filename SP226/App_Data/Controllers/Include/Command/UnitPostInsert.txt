@@ -1,3 +1,0 @@
-﻿      <![CDATA[
-update @]]>&Tag;<![CDATA[dv set ]]>&k;<![CDATA[ = @]]>&k;<![CDATA[
-insert into ]]>&Tag;<![CDATA[dv select * from @]]>&Tag;<![CDATA[dv]]>&UnitAfterUpdate;

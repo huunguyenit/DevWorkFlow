@@ -178,12 +178,12 @@ Monaco: snippet hoặc completion item khi pattern match; register trên SQL lan
 
 ## 8. Success criteria
 
-- [ ] Source + selection: F5 execute (tab SQL + auto-run), nút SQL mở tab; app/Sys đúng `@database`.
-- [ ] Ctrl+Click `information` → SELECT đúng builder (`%l` đủ cột + comment).
-- [ ] Ctrl+Click SQL object → ALTER definition từ DB.
-- [ ] Options snippet Tab ở SQL Studio và Form Source SQL island.
-- [ ] Application tests + `dotnet build DevWorkFlow.slnx` xanh.
-- [ ] UI không chứa SoT parse `information` / options.
+- [x] Source + selection: F5 execute (tab SQL + auto-run), nút SQL mở tab; app/Sys đúng `@database`.
+- [x] Ctrl+Click `information` → SELECT đúng builder (`%l` đủ cột + comment).
+- [x] Ctrl+Click SQL object → ALTER definition từ DB.
+- [x] Options snippet Tab ở SQL Studio và Form Source SQL island.
+- [x] Application tests + `dotnet build DevWorkFlow.slnx` xanh.
+- [x] UI không chứa SoT parse `information` / options.
 
 ---
 

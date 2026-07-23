@@ -150,6 +150,24 @@ public static class EditorHostCommands
     /// (offset trên buffer đang hiển thị). Dùng ở Source mode; Insight gửi danh sách rỗng để xoá.
     /// </summary>
     public const string SetMarkers = "setMarkers";
+
+    /// <summary>
+    /// Trả kết quả Completion cho một request đang chờ ở JS — payload
+    /// <c>{ id, items: [{ label, insertText, kind, detail, documentation }] }</c>.
+    /// </summary>
+    public const string FboJsCompleteResult = "fboJsCompleteResult";
+
+    /// <summary>
+    /// Trả kết quả Signature Help — payload
+    /// <c>{ id, help: null | { label, documentation, parameters, activeParameter } }</c>.
+    /// </summary>
+    public const string FboJsSignatureResult = "fboJsSignatureResult";
+
+    /// <summary>
+    /// Trả kết quả expand snippet options — payload <c>{ id, expanded: null | string }</c>.
+    /// <c>null</c> nghĩa là không khớp mẫu; JS để Tab chạy hành vi mặc định.
+    /// </summary>
+    public const string OptionsSnippetResult = "optionsSnippetResult";
 }
 
 /// <summary>
@@ -199,4 +217,23 @@ public static class EditorHostEvents
     /// <c>showEntityHover</c> / <c>hideEntityHover</c>.
     /// </summary>
     public const string EntityHoverRequested = "entityHoverRequested";
+
+    /// <summary>
+    /// Monaco xin Completion trong island JS. Payload: <c>{ id, offset, insight }</c> — host tra
+    /// catalog qua Language Service rồi trả <c>fboJsCompleteResult</c> theo <c>id</c>.
+    /// </summary>
+    public const string FboJsCompleteRequested = "fboJsCompleteRequested";
+
+    /// <summary>
+    /// Monaco xin Signature Help. Payload: <c>{ id, offset, insight }</c>; host trả
+    /// <c>fboJsSignatureResult</c> theo <c>id</c>.
+    /// </summary>
+    public const string FboJsSignatureRequested = "fboJsSignatureRequested";
+
+    /// <summary>
+    /// Tab trong vùng SQL: hỏi host xem dòng hiện tại có phải mẫu snippet <c>options.name=…</c>
+    /// không. Payload <c>{ id, offset, lineText }</c>; host trả <c>optionsSnippetResult</c>.
+    /// JS KHÔNG tự dựng câu SQL — mẫu và kết quả đều do Application quyết định.
+    /// </summary>
+    public const string OptionsSnippetRequested = "optionsSnippetRequested";
 }

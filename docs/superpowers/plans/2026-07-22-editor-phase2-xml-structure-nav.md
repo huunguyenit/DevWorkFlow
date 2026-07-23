@@ -76,9 +76,9 @@ public static class LookupPathResolver
 }
 ```
 
-- [ ] **Step 1: Failing test** — temp dir `Lookup/Account.xml` → FindLookupFile returns path; missing → null.
+- [x] **Step 1: Failing test** — temp dir `Lookup/Account.xml` → FindLookupFile returns path; missing → null.
 
-- [ ] **Step 2: Implement + PASS**
+- [x] **Step 2: Implement + PASS**
 
 - [ ] **Step 3: Commit** (khi user yêu cầu)
 
@@ -107,7 +107,7 @@ public static class ClientScriptFunctionName
 }
 ```
 
-- [ ] **Step 1: Tests**
+- [x] **Step 1: Tests**
 
 ```csharp
 [Fact]
@@ -139,9 +139,9 @@ public void Entity_split_joins_name()
 
 Chỉnh fixture cho khớp parser thật (CDATA/entity xen) — đọc 1 file mẫu hoặc synthesize lossless.
 
-- [ ] **Step 2: Implement** — locate enclosing `clientScript` element text range via regex or syntax tree; build logical string; map offsets; reuse `XmlStructureParser.ExtractIdentifierAt`.
+- [x] **Step 2: Implement** — locate enclosing `clientScript` element text range via regex or syntax tree; build logical string; map offsets; reuse `XmlStructureParser.ExtractIdentifierAt`.
 
-- [ ] **Step 3: PASS**
+- [x] **Step 3: PASS**
 
 ---
 
@@ -173,7 +173,7 @@ public static StructuralNavHit? TryResolve(
 
 Priority khi nhiều kind khớp: **ItemsController > ClientScriptFunction > FieldToView** (attribute cụ thể hơn element rộng), hoặc chọn span value hẹp nhất — document trong code.
 
-- [ ] **Step 1: Fixture XML**
+- [x] **Step 1: Fixture XML**
 
 ```xml
 <!DOCTYPE dir [<!ENTITY Account "Account">]>
@@ -195,9 +195,9 @@ Priority khi nhiều kind khớp: **ItemsController > ClientScriptFunction > Fie
 
 Open via `language_service.OpenDocumentFromText`.
 
-- [ ] **Step 2: Tests** — 3 asserts cho 3 kind; entity offset trên `&Account;` trong clientScript vẫn để Phase 1 thắng (test riêng chuỗi VM).
+- [x] **Step 2: Tests** — 3 asserts cho 3 kind; entity offset trên `&Account;` trong clientScript vẫn để Phase 1 thắng (test riêng chuỗi VM).
 
-- [ ] **Step 3: Implement resolver + `ResolveStructuralAtOffset` on LS** (cần ControllersPath param hoặc overload với path).
+- [x] **Step 3: Implement resolver + `ResolveStructuralAtOffset` on LS** (cần ControllersPath param hoặc overload với path).
 
 ```csharp
 // IErpLanguageService
@@ -207,7 +207,7 @@ StructuralNavHit? ResolveStructuralAtOffset(
     string? controllers_path);
 ```
 
-- [ ] **Step 4: PASS**
+- [x] **Step 4: PASS**
 
 ---
 
@@ -279,7 +279,7 @@ public void OnEntityOffsetActivated(int offset)
 
 Đảm bảo `_program_session` đã có trên VM (grep — nếu chưa, dùng cách ControllersPath hiện có từ Design mapper).
 
-- [ ] **Step 1: Implement + build UI**
+- [x] **Step 1: Implement + build UI**
 
 ```bash
 dotnet build UI/UI.csproj
@@ -298,17 +298,17 @@ dotnet build UI/UI.csproj
 
 ### Task 5: Verify + roadmap
 
-- [ ] `dotnet test tests/DevWorkFlow.Application.Tests --filter "FullyQualifiedName~Structural|ClientScript|LookupPath"`
-- [ ] `dotnet build DevWorkFlow.slnx`
-- [ ] Checklist spec §8
-- [ ] Roadmap Phase 2:
+- [x] `dotnet test tests/DevWorkFlow.Application.Tests --filter "FullyQualifiedName~Structural|ClientScript|LookupPath"`
+- [x] `dotnet build DevWorkFlow.slnx`
+- [x] Checklist spec §8
+- [x] Roadmap Phase 2:
 
 ```markdown
 **Artifacts:** mini-spec […] · plan […]
 **Progress:** Done — field→view, items@controller→Lookup, clientScript→fn (+ entity-split). Needs human runtime pass.
 ```
 
-- [ ] Handoff Phase 3 (request / FindRefs / `$a` / showForm)
+- [x] Handoff Phase 3 (request / FindRefs / `$a` / showForm)
 
 ---
 

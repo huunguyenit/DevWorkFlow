@@ -1,3 +1,0 @@
-﻿<button command="Retrieve">
-  <title v="&PaymentRequestRetrieveTitle.v;" e="&PaymentRequestRetrieveTitle.e;"></title>
-</button>

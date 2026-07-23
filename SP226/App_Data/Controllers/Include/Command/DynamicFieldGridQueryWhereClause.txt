@@ -1,3 +1,0 @@
-﻿<![CDATA[
-if @$filterKey <> '' select @queryWhereClause = @queryWhereClause + 'and ' + replace(replace(isnull(@$filterKey, ''), '%[a]%', 'a'), '%[dmvt]%', 'b')
-]]>

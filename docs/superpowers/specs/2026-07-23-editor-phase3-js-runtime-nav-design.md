@@ -198,9 +198,9 @@ Không eval JS; không parse XML trong UI.
 
 ## 8. Success criteria
 
-- [ ] request arg1/arg2 navigate đúng action / case (exact).
-- [ ] Ctrl+Click function def → list/navigate refs trong document.
-- [ ] `$a.prop` GoTo + hover value.
-- [ ] showForm mở multi file Filter/Lookup/Grid theo stem.
-- [ ] Entity/structural Phase 1–2 không regress.
-- [ ] Build + Application tests xanh.
+- [x] request arg1/arg2 navigate đúng action / case (exact).
+- [x] Ctrl+Click function def → list/navigate refs trong document.
+- [x] `$a.prop` GoTo + hover value.
+- [x] showForm mở multi file Filter/Lookup/Grid theo stem.
+- [x] Entity/structural Phase 1–2 không regress.
+- [x] Build + Application tests xanh.

@@ -1,9 +1,0 @@
-﻿<item value="0">
-  <text v="0. Lập chứng từ" e="0. No Action"/>
-</item>
-<item value="1">
-  <text v="1. Chuyển KTTH" e="1. Release Later"/>
-</item>
-<item value="2">
-  <text v="2. Chuyển sổ cái" e="2. Release"/>
-</item>

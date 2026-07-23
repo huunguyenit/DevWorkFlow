@@ -140,9 +140,9 @@ public sealed class FboJsSignatureHelp
 }
 ```
 
-- [ ] **Step 1: Add the three files** with types above (Domain only, no logic).
+- [x] **Step 1: Add the three files** with types above (Domain only, no logic).
 
-- [ ] **Step 2: Build Domain project**
+- [x] **Step 2: Build Domain project**
 
 Run: `dotnet build DevWorkFlow.Domain/DevWorkFlow.Domain.csproj`  
 Expected: PASS
@@ -196,7 +196,7 @@ public sealed class FboJsCatalog
 
 Mỗi method có `signature` + ít nhất 1 `param` khi có tham số; `summary` / `effect` tiếng Việt ngắn.
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 ```csharp
 [Fact]
@@ -222,11 +222,11 @@ public void ParseXml_invalid_returns_empty()
 }
 ```
 
-- [ ] **Step 2: Run — expect FAIL** (types missing)
+- [x] **Step 2: Run — expect FAIL** (types missing)
 
 Run: `dotnet test tests/DevWorkFlow.Application.Tests/DevWorkFlow.Application.Tests.csproj --filter FboJsCatalogParserTests`
 
-- [ ] **Step 3: Implement parser + `FboJsCatalog` + seed file**
+- [x] **Step 3: Implement parser + `FboJsCatalog` + seed file**
 
 Parse `version`, `type[@id|@aliases]`, `member[@name|@kind|@signature|@summary|@effect]`, `param`, `globals/member`.  
 `kind` attribute: `method|property|function` → enum (unknown → Method).  
@@ -263,7 +263,7 @@ public static class ScriptIslandLocator
 2. Thêm: `<command … event="Checking" …>…</command>` body (regex giống tinh thần `ControllerRelatedFileResolver.CheckingCommandRegex`) — offset trong body.
 3. Offset ngoài → false. Offset âm / > length → false.
 
-- [ ] **Step 1: Failing tests** — XML mẫu:
+- [x] **Step 1: Failing tests** — XML mẫu:
 
 ```xml
 <form>
@@ -297,7 +297,7 @@ Implement tối thiểu đáng tin: **regex trên buffer đang xét** cho `<scri
 public static bool IsInsideJsIsland(string buffer_text, int offset);
 ```
 
-- [ ] **Step 2: Implement + PASS**
+- [x] **Step 2: Implement + PASS**
 
 - [ ] **Step 3: Commit**
 
@@ -342,7 +342,7 @@ public static class FboJsAssistResolver
 
 InsertText Complete: tên member thôi (không snippet Phase 4 — Signature Help lo params). Kind map: Method→`method`, Property→`property`, Function→`function`, alias→`variable`.
 
-- [ ] **Step 1: Failing tests** (catalog FromData minimal inline)
+- [x] **Step 1: Failing tests** (catalog FromData minimal inline)
 
 ```csharp
 [Fact]
@@ -383,7 +383,7 @@ public void Signature_request_active_second_param()
 public void Outside_island_complete_empty() { ... }
 ```
 
-- [ ] **Step 2: Implement + PASS**
+- [x] **Step 2: Implement + PASS**
 
 - [ ] **Step 3: Commit**
 
@@ -430,9 +430,9 @@ language_service.LoadFboJsCatalog(app_config.GetXmlPath("fbo-js.catalog.xml"));
 
 (đặt sau `app_config` tạo xong — reorder nếu cần).
 
-- [ ] **Step 1: Test OpenDocumentFromText + CompleteFboJs với catalog load từ seed path hoặc ParseXml inject** — nếu Load chỉ từ file, test copy seed vào temp hoặc load từ `UI/Config/xml/fbo-js.catalog.xml` relative to repo (giống corpus skip pattern).
+- [x] **Step 1: Test OpenDocumentFromText + CompleteFboJs với catalog load từ seed path hoặc ParseXml inject** — nếu Load chỉ từ file, test copy seed vào temp hoặc load từ `UI/Config/xml/fbo-js.catalog.xml` relative to repo (giống corpus skip pattern).
 
-- [ ] **Step 2: Implement + PASS**
+- [x] **Step 2: Implement + PASS**
 
 - [ ] **Step 3: Commit**
 
@@ -489,9 +489,9 @@ fboJsSignatureResult { id, help: null | { label, documentation, parameters, acti
 3. **Mới:** `HoverFboJs` → catalog
 4. null
 
-- [ ] **Step 1: Constants + VM methods + host relay** (có thể tạm stub empty list)
+- [x] **Step 1: Constants + VM methods + host relay** (có thể tạm stub empty list)
 
-- [ ] **Step 2: bridge.js providers + pending map**
+- [x] **Step 2: bridge.js providers + pending map**
 
 - [ ] **Step 3: Manual smoke** (human): Source — gõ `f.` Ctrl+Space thấy `getItemValue`; hover; `f.request(` thấy signature. Insight — Complete không; Hover catalog OK trên member.
 
@@ -523,9 +523,9 @@ public static IReadOnlyList<string> FindMissingMembers(string buffer_text, FboJs
 
 Có thể đặt helper trong Application `FboJsCatalogGapScanner.cs` để test gọi.
 
-- [ ] **Step 1: Implement scanner + test fixture**
+- [x] **Step 1: Implement scanner + test fixture**
 
-- [ ] **Step 2: `dotnet test` Application filter `FboJs` — all PASS; `dotnet build DevWorkFlow.slnx`**
+- [x] **Step 2: `dotnet test` Application filter `FboJs` — all PASS; `dotnet build DevWorkFlow.slnx`**
 
 - [ ] **Step 3: Commit**
 

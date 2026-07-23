@@ -1,3 +1,0 @@
-﻿<![CDATA[
-delete p]]>&Tag;<![CDATA[ where stt_rec = @stt_rec
-]]>

@@ -1,3 +1,0 @@
-﻿<![CDATA[
-if @$location = 0 select @message = @message + 'this._fields[this._getColumnOrder(''ma_vi_trin'') - 1].Visible = false;'
-]]>

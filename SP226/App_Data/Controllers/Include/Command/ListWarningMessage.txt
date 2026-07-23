@@ -1,3 +1,0 @@
-﻿<![CDATA[
-if @$warning <> '' select @script = 'objectBehavior$Voucher$Number.warning(this, ''' + replace(replace(@$warning, '\', '\\'), '''', '\''') + ''');'
-]]>

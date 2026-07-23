@@ -24,10 +24,10 @@ public partial class InsightEditorSurface : UserControl
             if (DataContext is FormBuilderViewModel vm)
                 vm.NavigateToEntity(request);
         };
-        SourceEditor.EntityOffsetActivated += offset =>
+        SourceEditor.EntityOffsetActivated += (offset, insight) =>
         {
             if (DataContext is FormBuilderViewModel vm)
-                vm.OnEntityOffsetActivated(offset);
+                vm.OnEntityOffsetActivated(offset, insight);
         };
         SourceEditor.EntityHoverRequested += (offset, insight, entity_name) =>
         {
@@ -37,6 +37,43 @@ public partial class InsightEditorSurface : UserControl
                 SourceEditor.HideEntityHover(offset);
             else
                 SourceEditor.ShowEntityHover(offset, view.Name, view.Value, view.IsError);
+        };
+
+        // Phase 4 — Completion / Signature Help lấy từ catalog qua Language Service.
+        SourceEditor.FboJsCompleteRequested += (offset, insight) =>
+        {
+            if (DataContext is not FormBuilderViewModel vm) return null;
+            return vm.CompleteFboJsAssist(offset, insight).Items
+                .Select(i => new
+                {
+                    label = i.Label,
+                    insertText = i.InsertText,
+                    kind = i.Kind,
+                    detail = i.Detail,
+                    documentation = i.Documentation
+                })
+                .ToArray();
+        };
+
+        SourceEditor.OptionsSnippetRequested += (offset, line_text) =>
+            DataContext is FormBuilderViewModel vm
+                ? vm.TryExpandOptionsSnippet(offset, line_text)
+                : null;
+
+        SourceEditor.FboJsSignatureRequested += (offset, insight) =>
+        {
+            if (DataContext is not FormBuilderViewModel vm) return null;
+            var help = vm.SignatureFboJsAssist(offset, insight);
+            if (help is null) return null;
+            return new
+            {
+                label = help.Label,
+                documentation = help.Documentation,
+                parameters = help.Parameters
+                    .Select(p => new { label = p.Label, documentation = p.Documentation })
+                    .ToArray(),
+                activeParameter = help.ActiveParameter
+            };
         };
     }
 

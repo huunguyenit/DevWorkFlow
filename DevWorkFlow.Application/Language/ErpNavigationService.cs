@@ -103,6 +103,45 @@ public sealed class ErpNavigationService : IErpNavigationService
             return list;
         }
 
+        if (symbol is ScriptFunctionSymbol function)
+        {
+            var list = new List<NavigationTarget>();
+            var def = map.ToTargetBySymbolId(symbol_id);
+            if (def is not null)
+                list.Add(def);
+
+            // Quét trên ClearText: nhiều lời gọi nằm trong entity include dùng chung, không có
+            // trong source của document. Mỗi call site sau đó ánh xạ về file/offset thật.
+            var clear_text = doc.GetProjection(ErpProjectionKind.ClearText);
+            var definition_clear_offset =
+                clear_text.OffsetMap.ToClearText(function.Definition.Span.StartOffset);
+
+            var call_sites = ScriptFunctionReferenceFinder.FindCallSites(
+                clear_text.Text, function.Name, definition_clear_offset);
+
+            foreach (var span in call_sites)
+            {
+                var location = ClearTextLocationMapper.Resolve(
+                    span.StartOffset, clear_text, doc.SemanticModel, doc.Path);
+                if (!location.IsFound) continue;
+
+                list.Add(new NavigationTarget
+                {
+                    NodeId = NodeId.FromStableKey(
+                        $"{document_id.Value}|ref:{symbol_id}:{span.StartOffset}"),
+                    DocumentUri = string.IsNullOrWhiteSpace(location.Path)
+                        ? map.Document.DocumentUri
+                        : location.Path,
+                    TextRange = new TextRange(location.Offset, location.Offset + span.Length),
+                    NodeType = "Reference",
+                    SymbolId = symbol_id,
+                    Symbol = function
+                });
+            }
+
+            return list;
+        }
+
         // Non-entity: definition only (Phase 5 index mở rộng sau)
         var target = map.ToTargetBySymbolId(symbol_id);
         return target is null ? [] : [target];

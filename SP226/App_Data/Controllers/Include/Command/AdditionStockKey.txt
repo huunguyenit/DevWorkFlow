@@ -1,1 +1,0 @@
-﻿ and stt_rec_ir = ''

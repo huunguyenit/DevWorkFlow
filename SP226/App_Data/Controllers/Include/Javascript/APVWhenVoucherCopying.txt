@@ -1,3 +1,0 @@
-﻿<![CDATA[
-APV$when$Voucher$Copying(f);
-]]>

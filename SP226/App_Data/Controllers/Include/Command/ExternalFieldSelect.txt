@@ -1,1 +1,0 @@
-﻿<![CDATA[select @voucherBook = rtrim(ma_nk), @defaultCurrency = ma_nt, @defaultExchangeRate = ty_gia, @cookie = convert(varchar(19), datetime2, 121)]]>

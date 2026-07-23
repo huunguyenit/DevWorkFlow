@@ -18,6 +18,12 @@ public enum ToolPaneKind
     Problems,
     Log,
     SearchResult,
+
+    /// <summary>Bảng kết quả SQL (Phase 5) — focus khi chạy thành công.</summary>
+    SqlResult,
+
+    /// <summary>Message/lỗi SQL (Phase 5) — focus khi chạy lỗi.</summary>
+    SqlMessage,
     Ai,
     Git
 }

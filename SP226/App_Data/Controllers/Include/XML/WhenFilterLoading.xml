@@ -1,8 +1,0 @@
-﻿<command event="Loading">
-  <text>
-    <![CDATA[
-select 'active$VoucherFilter$(this);' as message
-return
-]]>
-  </text>
-</command>

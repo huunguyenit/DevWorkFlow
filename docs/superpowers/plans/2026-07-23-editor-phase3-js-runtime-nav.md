@@ -66,7 +66,7 @@ public sealed class DollarAIndex
 }
 ```
 
-- [ ] **Step 1: Failing tests** — sample:
+- [x] **Step 1: Failing tests** — sample:
 
 ```js
 g.$a = {
@@ -78,9 +78,9 @@ g.executeExpression(o, [g.$a.gia2, g.$a.gia_sl]);
 
 Assert `FindByName("gia2").ValueText` contains `ty_gia`; offset on `g.$a.gia2` maps to property.
 
-- [ ] **Step 2: Implement** — find `g.$a\s*=\s*\{`, scan props until balancing `}`; support `name:` and `'name':`.
+- [x] **Step 2: Implement** — find `g.$a\s*=\s*\{`, scan props until balancing `}`; support `name:` and `'name':`.
 
-- [ ] **Step 3: PASS**
+- [x] **Step 3: PASS**
 
 ---
 
@@ -118,9 +118,9 @@ public static class ResponseCompleteCaseFinder
 }
 ```
 
-- [ ] **Step 1: Tests** — form request; grid request; typo context → FindCaseOffset null; exact case offset ≥ 0.
+- [x] **Step 1: Tests** — form request; grid request; typo context → FindCaseOffset null; exact case offset ≥ 0.
 
-- [ ] **Step 2: Implement + PASS**
+- [x] **Step 2: Implement + PASS**
 
 ---
 
@@ -137,11 +137,11 @@ public static IReadOnlyList<SourceSpan> FindCallSites(string script_or_doc, stri
 
 Rules: `\b{name}\s*\(`; exclude match overlapping definition line/`function name`.
 
-- [ ] **Step 1: Tests** — 1 def + 2 calls → 2 spans.
+- [x] **Step 1: Tests** — 1 def + 2 calls → 2 spans.
 
-- [ ] **Step 2: In `FindReferences`**, when symbol is `ScriptFunctionSymbol`, return definition target + call-site targets (NodeType=`Reference`).
+- [x] **Step 2: In `FindReferences`**, when symbol is `ScriptFunctionSymbol`, return definition target + call-site targets (NodeType=`Reference`).
 
-- [ ] **Step 3: PASS** + regression Entity FindReferences vẫn đủ.
+- [x] **Step 3: PASS** + regression Entity FindReferences vẫn đủ.
 
 ---
 
@@ -166,9 +166,9 @@ public static class ShowFormRelatedPathResolver
 }
 ```
 
-- [ ] **Step 1: Temp dirs** with `Filter/SVOrderFilter.xml`, `Filter/SVOrderMultiForm.xml`, `Grid/SVOrderMultiGrid.xml`, `Lookup/SVOrderFilter.xml` → FindRelated returns all 4 for `SVOrderFilter`.
+- [x] **Step 1: Temp dirs** with `Filter/SVOrderFilter.xml`, `Filter/SVOrderMultiForm.xml`, `Grid/SVOrderMultiGrid.xml`, `Lookup/SVOrderFilter.xml` → FindRelated returns all 4 for `SVOrderFilter`.
 
-- [ ] **Step 2: Implement + PASS**
+- [x] **Step 2: Implement + PASS**
 
 ---
 
@@ -207,11 +207,11 @@ public sealed class JsRuntimeNavHit
 2. Prefer narrowest hit: string literal in request → ShowForm literal → `g.$a.prop` → `function Name` definition identifier.
 3. Fill hit accordingly (action GoTo via ResponseActionSymbol name match / action element; case via FindCaseOffset; refs via FindReferences; dollarA; showForm paths).
 
-- [ ] **Step 1: Integration-style unit tests** on one XML fixture covering request + $a + showForm + function.
+- [x] **Step 1: Integration-style unit tests** on one XML fixture covering request + $a + showForm + function.
 
-- [ ] **Step 2: Implement + `ResolveJsRuntimeAtOffset` on LS**
+- [x] **Step 2: Implement + `ResolveJsRuntimeAtOffset` on LS**
 
-- [ ] **Step 3: PASS**
+- [x] **Step 3: PASS**
 
 ---
 
@@ -252,7 +252,7 @@ switch (js.Kind)
 
 **Hover:** trong `ResolveEntityHover` / parallel `ResolveHoverAtOffset`: nếu `$a` hit → `EntityHoverView`/`CodeHoverView` với value.
 
-- [ ] **Step 1: Implement SymbolInfo list bind** — click item → `NavigateToOffset` / open doc.
+- [x] **Step 1: Implement SymbolInfo list bind** — click item → `NavigateToOffset` / open doc.
 
 - [ ] **Step 2: Build UI + manual matrix** (request, case miss typo, function refs, $a click/hover, showForm multi).
 
@@ -262,11 +262,11 @@ switch (js.Kind)
 
 ### Task 7: Verify + roadmap
 
-- [ ] `dotnet test tests/DevWorkFlow.Application.Tests --filter "FullyQualifiedName~DollarA|FboRequest|ScriptFunction|ShowForm|JsRuntime"`
-- [ ] `dotnet build DevWorkFlow.slnx`
-- [ ] Spec §8 checklist
-- [ ] Roadmap Phase 3 artifacts + Progress note
-- [ ] Handoff Phase 4 (Checking JS catalog)
+- [x] `dotnet test tests/DevWorkFlow.Application.Tests --filter "FullyQualifiedName~DollarA|FboRequest|ScriptFunction|ShowForm|JsRuntime"`
+- [x] `dotnet build DevWorkFlow.slnx`
+- [x] Spec §8 checklist
+- [x] Roadmap Phase 3 artifacts + Progress note
+- [x] Handoff Phase 4 (Checking JS catalog)
 
 ---
 

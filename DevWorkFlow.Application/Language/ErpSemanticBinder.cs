@@ -247,6 +247,24 @@ public sealed class ErpSemanticBinder
                     Definition = Loc(path, node)
                 });
             }
+            else if (node.Kind == SyntaxKind.Element
+                     && node.Name.Equals("action", StringComparison.OrdinalIgnoreCase)
+                     && !string.IsNullOrWhiteSpace(node.Qualifier))
+            {
+                // FBO đặt tên action bằng attribute `id` (<action id="Item">), KHÔNG phải `name`
+                // — PickQualifier đã lo thứ tự name → event → id. Đây là mục tiêu của arg1 trong
+                // request('Item', …); thiếu binding này thì Ctrl+Click luôn báo "không tìm thấy".
+                var id = $"action:{node.Qualifier}";
+                if (symbols.Any(s => s.Id.Equals(id, StringComparison.OrdinalIgnoreCase))) continue;
+                symbols.Add(new ResponseActionSymbol
+                {
+                    Id = id,
+                    Name = node.Qualifier!,
+                    DisplayName = node.Qualifier!,
+                    ParentSymbolId = parent_id,
+                    Definition = Loc(path, node)
+                });
+            }
             else if (node.Kind == SyntaxKind.ScriptIsland && node.Qualifier == "function")
             {
                 var id = $"script:{node.Name}";

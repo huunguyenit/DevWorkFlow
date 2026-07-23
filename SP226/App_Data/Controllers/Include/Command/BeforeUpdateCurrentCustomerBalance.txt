@@ -1,1 +1,0 @@
-﻿exec FastBusiness$Voucher$BeforeUpdate$CurrentCustomerBalance 'r00$$partition$previous', @stt_rec, @@id, @@action

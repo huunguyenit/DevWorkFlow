@@ -221,6 +221,25 @@ public sealed class SqlDocumentViewModel : ViewModelBase
             SelectedTarget = match;
     }
 
+    /// <summary>
+    /// Chọn connection theo CSDL của controller (Phase 5): <c>@database="Sys"</c> → target Sys,
+    /// còn lại → target App đầu tiên. Không có target phù hợp thì giữ nguyên lựa chọn hiện tại.
+    /// </summary>
+    public void TrySelectTargetKind(DevWorkFlow.Domain.Language.ControllerDatabaseKind kind)
+    {
+        var want_sys = kind == DevWorkFlow.Domain.Language.ControllerDatabaseKind.Sys;
+        var match = ConnectionTargets.FirstOrDefault(t => t.IsSys == want_sys);
+        if (match is not null)
+            SelectedTarget = match;
+    }
+
+    /// <summary>Chạy script ngay sau khi mở tab (F5 từ Form Source).</summary>
+    public void ExecuteAfterOpen()
+    {
+        if (ExecuteCommand.CanExecute(null))
+            ExecuteCommand.Execute(null);
+    }
+
     public void Save()
     {
         if (!HasDiskFile || string.IsNullOrWhiteSpace(FilePath))
@@ -392,6 +411,16 @@ public sealed class SqlDocumentViewModel : ViewModelBase
             Status = result.Succeeded
                 ? $"OK · {scope} · {SelectedTarget.Display} · {result.Elapsed.TotalSeconds:0.###}s · {ResultSets.Count} set(s)"
                 : $"Error · {result.ErrorMessage}";
+
+            // Lỗi thì gộp vào Message để panel dưới hiện được nguyên nhân, không chỉ Status bar.
+            if (!result.Succeeded && !string.IsNullOrWhiteSpace(result.ErrorMessage))
+            {
+                MessagesText = string.IsNullOrWhiteSpace(MessagesText)
+                    ? result.ErrorMessage!
+                    : $"{result.ErrorMessage}{Environment.NewLine}{MessagesText}";
+            }
+
+            ExecutionCompleted?.Invoke(this, result.Succeeded);
         }
         finally
         {
@@ -399,6 +428,12 @@ public sealed class SqlDocumentViewModel : ViewModelBase
             _run_cts = null;
         }
     }
+
+    /// <summary>
+    /// Bắn sau mỗi lần chạy xong (true = thành công). Shell dùng để đưa panel dưới về đúng tab:
+    /// thành công → Result, lỗi → Message.
+    /// </summary>
+    public event EventHandler<bool>? ExecutionCompleted;
 
     private void CancelExecute()
     {

@@ -1,5 +1,0 @@
-﻿<field name="gia_nt2"/>
-<field name="tien_nt2"/>
-
-<field name="gia2"/>
-<field name="tien2"/>

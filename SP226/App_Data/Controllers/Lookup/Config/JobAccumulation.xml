@@ -1,7 +1,0 @@
-﻿<controller name="JobAccumulation">
-  <groups>
-    <group id="Accumulation" cache="true">
-      <text>&g8;&g2;&g3;&g9;</text>
-    </group>
-  </groups>
-</controller>

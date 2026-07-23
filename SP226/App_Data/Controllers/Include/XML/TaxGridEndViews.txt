@@ -1,3 +1,0 @@
-﻿<field name="thue"/>
-<field name="tt"/>
-<field name="ghi_chu"/>

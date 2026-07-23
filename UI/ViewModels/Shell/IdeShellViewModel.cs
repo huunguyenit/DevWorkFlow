@@ -117,11 +117,14 @@ public sealed class IdeShellViewModel : ViewModelBase
     public bool IsProblemsSelected => SelectedBottomPane?.Kind == ToolPaneKind.Problems;
     public bool IsLogSelected => SelectedBottomPane?.Kind == ToolPaneKind.Log;
     public bool IsSearchResultSelected => SelectedBottomPane?.Kind == ToolPaneKind.SearchResult;
+    public bool IsSqlResultSelected => SelectedBottomPane?.Kind == ToolPaneKind.SqlResult;
+    public bool IsSqlMessageSelected => SelectedBottomPane?.Kind == ToolPaneKind.SqlMessage;
     public bool IsBottomPlaceholderSelected =>
         SelectedBottomPane is not null
         && SelectedBottomPane.Kind is not (
             ToolPaneKind.Output or ToolPaneKind.Problems
-            or ToolPaneKind.Log or ToolPaneKind.SearchResult);
+            or ToolPaneKind.Log or ToolPaneKind.SearchResult
+            or ToolPaneKind.SqlResult or ToolPaneKind.SqlMessage);
 
     public ToolPaneVm? SelectedRightPane
     {
@@ -150,6 +153,8 @@ public sealed class IdeShellViewModel : ViewModelBase
             OnPropertyChanged(nameof(IsProblemsSelected));
             OnPropertyChanged(nameof(IsLogSelected));
             OnPropertyChanged(nameof(IsSearchResultSelected));
+            OnPropertyChanged(nameof(IsSqlResultSelected));
+            OnPropertyChanged(nameof(IsSqlMessageSelected));
             OnPropertyChanged(nameof(IsBottomPlaceholderSelected));
         }
     }
@@ -335,6 +340,8 @@ public sealed class IdeShellViewModel : ViewModelBase
             pane.PlaceholderMessage = string.Empty;
 
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Problems", ToolPaneKind.Problems, 4));
+        BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Result", ToolPaneKind.SqlResult, 4));
+        BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Message", ToolPaneKind.SqlMessage, 4));
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Output", ToolPaneKind.Output, 4));
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Log", ToolPaneKind.Log, 4));
         BottomPanes.Add(ToolPaneVm.CreatePlaceholder("Search", ToolPaneKind.SearchResult, 4));

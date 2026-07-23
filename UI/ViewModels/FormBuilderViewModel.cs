@@ -10,9 +10,11 @@ using DevWorkFlow.Domain.Language;
 using DevWorkFlow.Domain.Models.Fbo;
 using DevWorkFlow.Domain.Models.Sql;
 using DevWorkFlow.Editor;
+using DevWorkFlow.Infrastructure.Services;
 using UI.Services;
 using UI.ViewModels.Base;
 using UI.ViewModels.Design;
+using UI.ViewModels.Explorer;
 
 namespace UI.ViewModels;
 
@@ -27,6 +29,9 @@ public class FormBuilderViewModel : ViewModelBase
     private readonly FormDocumentNavigator? _form_navigator;
     private readonly IDesignDocumentService? _design_document_service;
     private readonly string? _design_config_root;
+
+    /// <summary>Lấy definition proc/function từ DB cho Ctrl+Click ALTER (Phase 5 #16).</summary>
+    private readonly DatabaseObjectScripter? _database_object_scripter;
     private CancellationTokenSource? _design_render_cts;
     private DesignDocument? _generated_design_document;
     private bool _is_design_rendering;
@@ -70,7 +75,8 @@ public class FormBuilderViewModel : ViewModelBase
         IErpLanguageService? language_service = null,
         FormDocumentNavigator? form_navigator = null,
         IDesignDocumentService? design_document_service = null,
-        string? design_config_root = null)
+        string? design_config_root = null,
+        DatabaseObjectScripter? database_object_scripter = null)
     {
         _program_session = program_session;
         _form_navigator = form_navigator;
@@ -78,6 +84,7 @@ public class FormBuilderViewModel : ViewModelBase
         _language_service = language_service;
         _design_document_service = design_document_service;
         _design_config_root = design_config_root;
+        _database_object_scripter = database_object_scripter;
         RelatedFiles = [];
         FieldProperties = [];
         InsightEditorLines = [];
@@ -643,10 +650,79 @@ public class FormBuilderViewModel : ViewModelBase
         StatusMessage = EditorModeText;
     }
 
+    private string _selected_script = string.Empty;
+
+    /// <summary>
+    /// Vùng text đang bôi đen trong editor Source (Monaco đẩy lên). Phase 5 #5 dùng để
+    /// Execute/mở SQL đúng phần chọn.
+    /// </summary>
+    public string SelectedScript
+    {
+        get => _selected_script;
+        set
+        {
+            if (!SetProperty(ref _selected_script, value ?? string.Empty)) return;
+            OnPropertyChanged(nameof(CanExecuteSelectedSql));
+            System.Windows.Input.CommandManager.InvalidateRequerySuggested();
+        }
+    }
+
+    /// <summary>Chỉ Source mode + có selection mới chạy được SQL theo vùng chọn.</summary>
+    public bool CanExecuteSelectedSql =>
+        IsSourceMode && !string.IsNullOrWhiteSpace(SelectedScript);
+
+    /// <summary>
+    /// F5 — chạy NGAY vùng chọn, KHÔNG mở tab SQL. Người dùng ở lại tab XML đang sửa; kết quả ra
+    /// panel Result/Message dùng chung ở dock dưới.
+    /// </summary>
+    public void ExecuteSelectedSql()
+    {
+        if (_sql_navigator is null || !CanExecuteSelectedSql) return;
+
+        var (kind, source_name) = ResolveSelectionRunContext();
+        _sql_navigator.ExecuteInline(
+            "sql://selection/inline",
+            $"SQL: {source_name} (selection)",
+            SelectedScript.Trim(),
+            preferred_kind: kind);
+
+        StatusMessage = $"Chạy SQL vùng chọn trên CSDL {kind} — kết quả ở panel dưới.";
+    }
+
+    /// <summary>Nút SQL khi đang có selection — mở tab để sửa tiếp, KHÔNG chạy.</summary>
+    public void OpenSelectedSql()
+    {
+        if (_sql_navigator is null || !CanExecuteSelectedSql) return;
+
+        var (kind, source_name) = ResolveSelectionRunContext();
+        _sql_navigator.OpenBuffer(
+            $"sql://selection/{Guid.NewGuid():N}",
+            $"SQL: {source_name} (selection)",
+            SelectedScript.Trim(),
+            preferred_target_id: null,
+            execute_after_open: false,
+            preferred_kind: kind);
+
+        StatusMessage = $"Mở SQL vùng chọn ({kind}).";
+    }
+
+    /// <summary>Controller Sys phải chạy trên connection Sys, không phải DB ứng dụng.</summary>
+    private (ControllerDatabaseKind Kind, string SourceName) ResolveSelectionRunContext() =>
+        (ControllerDatabaseKindResolver.ResolveFromXml(XmlSource ?? string.Empty),
+         string.IsNullOrWhiteSpace(LoadedFilePath) ? LoadedTitle : Path.GetFileName(LoadedFilePath));
+
     /// <summary>Trích command/query từ XML → mở SQL Studio (buffer, không ghi đè XML).</summary>
     private void OpenSqlFromForm()
     {
         if (_sql_navigator is null) return;
+
+        // Có selection → mở đúng vùng chọn; không có thì giữ nguyên hành vi extract-all cũ.
+        if (CanExecuteSelectedSql)
+        {
+            OpenSelectedSql();
+            return;
+        }
+
         if (string.IsNullOrWhiteSpace(XmlSource))
         {
             StatusMessage = "Chưa có XML để trích SQL.";
@@ -1074,6 +1150,20 @@ public class FormBuilderViewModel : ViewModelBase
         return mapped > buffer_len ? buffer_len : mapped;
     }
 
+    /// <summary>
+    /// Offset trên buffer editor đang hiển thị → offset trên source XML (nghịch đảo của
+    /// <see cref="ToEditorOffset"/>). Insight mode: buffer là ClearText nên phải map ngược,
+    /// nếu không entity/structural resolver (làm việc trên source) nhận offset lệch.
+    /// </summary>
+    private int ToSourceOffset(int editor_offset)
+    {
+        if (!IsInsightMode || editor_offset < 0) return editor_offset;
+
+        var mapped = _clear_text_offsets.ToSource(editor_offset);
+        var source_len = XmlSource?.Length ?? 0;
+        return mapped > source_len ? source_len : mapped;
+    }
+
     private static bool PathsEqual(string a, string b)
     {
         try
@@ -1201,51 +1291,379 @@ public class FormBuilderViewModel : ViewModelBase
     /// </summary>
     public EntityHoverView? ResolveEntityHover(int offset, bool insight, string? entity_name)
     {
-        if (ErpDocument is null) return null;
+        if (ErpDocument is null || _language_service is null) return null;
 
-        if (insight)
+        // Insight: con trỏ trên một segment entity → hover giá trị entity (ưu tiên, như Phase 1).
+        if (insight && !string.IsNullOrEmpty(entity_name))
         {
-            if (string.IsNullOrEmpty(entity_name)) return null;
             var entity = ErpDocument.SemanticModel.FindEntity(entity_name);
-            if (entity is null) return null;
-            var value = !string.IsNullOrEmpty(entity.DisplayText)
-                ? entity.DisplayText
-                : entity.RawValue ?? string.Empty;
-            var is_error = !entity.IsResolved
-                           && entity.DeclarationKind == EntityDeclarationKind.ExternalSystem;
-            return new EntityHoverView($"&{entity.Name};", value, is_error);
+            if (entity is not null)
+            {
+                var value = !string.IsNullOrEmpty(entity.DisplayText)
+                    ? entity.DisplayText
+                    : entity.RawValue ?? string.Empty;
+                var is_error = !entity.IsResolved
+                               && entity.DeclarationKind == EntityDeclarationKind.ExternalSystem;
+                return new EntityHoverView($"&{entity.Name};", value, is_error);
+            }
         }
 
-        if (_language_service is null) return null;
-        var hit = _language_service.ResolveEntityAtOffset(ErpDocument.Id, offset);
-        return hit is null
+        if (!insight)
+        {
+            var hit = _language_service.ResolveEntityAtOffset(ErpDocument.Id, offset);
+            if (hit is not null)
+                return new EntityHoverView($"&{hit.EntityName};", hit.DisplayText, hit.IsError);
+        }
+
+        // Entity miss — JS runtime hover (Phase 3 #14: g.$a.name → value). Chạy được ở CẢ hai
+        // mode: offset Insight tính trên ClearText, LS tự đổi hệ theo cờ này.
+        var controllers_path = _program_session?.Current?.ControllersPath;
+        var js_hit = _language_service.ResolveJsRuntimeAtOffset(
+            ErpDocument.Id, offset, controllers_path, offset_is_clear_text: insight);
+        if (js_hit is { Kind: JsRuntimeNavKind.DollarAProperty }
+            && !string.IsNullOrEmpty(js_hit.HoverValue))
+        {
+            // Ưu tiên GIÁ TRỊ biểu thức $a (Phase 3) hơn mô tả catalog (Phase 4) — spec §6.6.
+            return new EntityHoverView(js_hit.DisplayLabel, js_hit.HoverValue, false);
+        }
+
+        // Phase 4: mô tả API từ catalog.
+        var catalog_hover = _language_service.HoverFboJs(
+            ErpDocument.Id,
+            offset,
+            insight ? EditorAssistMode.Insight : EditorAssistMode.Source,
+            offset_is_clear_text: insight);
+        return catalog_hover is null
             ? null
-            : new EntityHoverView($"&{hit.EntityName};", hit.DisplayText, hit.IsError);
+            : new EntityHoverView(catalog_hover.Title, catalog_hover.Body, false);
     }
 
     /// <summary>
-    /// Ctrl+Click ở Source mode: bridge gửi offset nguồn → tra Language Service
-    /// (<c>ResolveEntityAtOffset</c>) → tái dùng <see cref="NavigateToEntity"/>. Editor không parse.
+    /// Completion trong island JS (Phase 4) — Monaco hỏi qua bridge, VM chỉ chuyển tiếp cho
+    /// Language Service; UI không giữ danh sách API.
     /// </summary>
-    public void OnEntityOffsetActivated(int offset)
+    public FboJsCompletionList CompleteFboJsAssist(int offset, bool insight)
+    {
+        if (ErpDocument is null || _language_service is null) return FboJsCompletionList.Empty;
+
+        return _language_service.CompleteFboJs(
+            ErpDocument.Id,
+            offset,
+            insight ? EditorAssistMode.Insight : EditorAssistMode.Source,
+            offset_is_clear_text: insight);
+    }
+
+    /// <summary>Signature Help trong island JS (Phase 4).</summary>
+    public FboJsSignatureHelp? SignatureFboJsAssist(int offset, bool insight)
+    {
+        if (ErpDocument is null || _language_service is null) return null;
+
+        return _language_service.SignatureFboJs(
+            ErpDocument.Id,
+            offset,
+            insight ? EditorAssistMode.Insight : EditorAssistMode.Source,
+            offset_is_clear_text: insight);
+    }
+
+    /// <summary>
+    /// Raised khi Ctrl+Click trúng một symbol JS runtime cần hiển thị Symbol Info (references +
+    /// sơ đồ quan hệ hai chiều). Right dock Symbol Info lắng nghe.
+    /// </summary>
+    public event Action<JsRuntimeNavHit>? ReferencesRequested;
+
+    /// <summary>
+    /// Ctrl+Click ở Source mode: bridge gửi offset nguồn → chuỗi Entity (Phase 1) → Structural
+    /// (Phase 2) → JS Runtime (Phase 3) → Status miss. Editor không parse XML/JS.
+    /// </summary>
+    public void OnEntityOffsetActivated(int offset) => OnEntityOffsetActivated(offset, insight: false);
+
+    /// <param name="insight">
+    /// true = <paramref name="offset"/> tính trên buffer ClearText (Insight mode).
+    /// </param>
+    public void OnEntityOffsetActivated(int offset, bool insight)
     {
         if (ErpDocument is null || _language_service is null) return;
 
-        var hit = _language_service.ResolveEntityAtOffset(ErpDocument.Id, offset);
-        if (hit is null)
+        // Insight: offset thuộc hệ ClearText — entity/structural resolver làm việc trên source
+        // nên phải đổi hệ trước khi hỏi chúng (JS runtime nhận cờ riêng, tự xử lý).
+        var source_offset = insight ? ToSourceOffset(offset) : offset;
+
+        var entity_hit = _language_service.ResolveEntityAtOffset(ErpDocument.Id, source_offset);
+        if (entity_hit is not null)
         {
-            StatusMessage = "Không có entity tại vị trí này.";
+            NavigateToEntity(new EntityNavigationRequest
+            {
+                EntityName = entity_hit.EntityName,
+                SymbolId = entity_hit.SymbolId,
+                DefinitionPath = entity_hit.DefinitionPath,
+                DefinitionOffset = entity_hit.DefinitionOffset,
+                OpenPath = entity_hit.OpenPath
+            });
             return;
         }
 
-        NavigateToEntity(new EntityNavigationRequest
+        var controllers_path = _program_session?.Current?.ControllersPath;
+
+        var structural_hit = _language_service.ResolveStructuralAtOffset(
+            ErpDocument.Id, source_offset, controllers_path);
+        if (structural_hit is not null)
         {
-            EntityName = hit.EntityName,
-            SymbolId = hit.SymbolId,
-            DefinitionPath = hit.DefinitionPath,
-            DefinitionOffset = hit.DefinitionOffset,
-            OpenPath = hit.OpenPath
-        });
+            HandleStructuralHit(structural_hit);
+            return;
+        }
+
+        // Phase 5 #9: information="…" → SELECT tra cứu. Chỉ hit khi con trỏ nằm trong giá trị
+        // attribute đó nên không tranh chấp với structural (controller=…) ở trên.
+        var information_sql = _language_service.BuildInformationSqlAtOffset(
+            ErpDocument.Id, offset, offset_is_clear_text: insight);
+        if (information_sql is not null)
+        {
+            OpenSqlBuffer($"SQL: information", information_sql);
+            return;
+        }
+
+        // Phase 5 #16: tên proc/function trong island SQL → ALTER từ DB.
+        var sql_object = _language_service.ResolveSqlObjectAtOffset(
+            ErpDocument.Id, offset, offset_is_clear_text: insight);
+        if (sql_object is not null)
+        {
+            _ = OpenAlterForSqlObjectAsync(sql_object);
+            return;
+        }
+
+        var js_runtime_hit = _language_service.ResolveJsRuntimeAtOffset(
+            ErpDocument.Id, offset, controllers_path, offset_is_clear_text: insight);
+        if (js_runtime_hit is not null)
+        {
+            HandleJsRuntimeHit(js_runtime_hit);
+            return;
+        }
+
+        StatusMessage = "Không có mục tiêu điều hướng tại vị trí này.";
+    }
+
+    /// <summary>
+    /// Phase 5 #17 — Tab trong vùng SQL của Form Source. Chỉ expand khi caret nằm trong island
+    /// SQL (<c>command</c>/<c>query</c>, KHÔNG tính <c>event="Checking"</c> vốn là JS), để Tab ở
+    /// chỗ khác vẫn thụt lề như thường. Trả null = không expand.
+    /// </summary>
+    public string? TryExpandOptionsSnippet(int offset, string line_text)
+    {
+        if (!IsSourceMode || _language_service is null) return null;
+        if (string.IsNullOrEmpty(XmlSource)) return null;
+        if (!SqlIslandLocator.IsInside(XmlSource, offset)) return null;
+
+        // Mẫu snippet do config quyết định (sql-snippets.xml), không hard-code ở UI.
+        return _language_service.TryExpandSqlSnippet(line_text);
+    }
+
+    /// <summary>Mở một buffer SQL (không chạy) với connection theo CSDL của controller.</summary>
+    private void OpenSqlBuffer(string title, string script)
+    {
+        if (_sql_navigator is null)
+        {
+            StatusMessage = "Chưa gắn SQL Studio navigator.";
+            return;
+        }
+
+        var kind = ControllerDatabaseKindResolver.ResolveFromXml(XmlSource ?? string.Empty);
+        _sql_navigator.OpenBuffer(
+            $"sql://form-nav/{Guid.NewGuid():N}",
+            title,
+            script,
+            preferred_target_id: null,
+            execute_after_open: false,
+            preferred_kind: kind);
+        StatusMessage = title;
+    }
+
+    /// <summary>
+    /// Phase 5 #16 — lấy định nghĩa thật từ DB rồi mở dạng ALTER. FBO không khai báo object là
+    /// procedure hay function, nên thử Procedure trước rồi Function (spec §5.5).
+    /// </summary>
+    private async Task OpenAlterForSqlObjectAsync(SqlObjectName target)
+    {
+        if (_database_object_scripter is null)
+        {
+            StatusMessage = $"Chưa gắn scripter — không lấy được định nghĩa {target.Qualified}.";
+            return;
+        }
+
+        var kind = ControllerDatabaseKindResolver.ResolveFromXml(XmlSource ?? string.Empty);
+        var connection_string = ResolveConnectionString(kind);
+        if (string.IsNullOrWhiteSpace(connection_string))
+        {
+            StatusMessage = $"Chưa có kết nối CSDL {kind} để lấy định nghĩa {target.Qualified}.";
+            return;
+        }
+
+        StatusMessage = $"Đang lấy định nghĩa {target.Qualified}…";
+        try
+        {
+            var built = await TryScriptAsync(connection_string!, target, DatabaseObjectKind.Procedure)
+                        ?? await TryScriptAsync(connection_string!, target, DatabaseObjectKind.Function);
+
+            if (built is null)
+            {
+                StatusMessage = $"Không tìm thấy procedure/function {target.Qualified} trên CSDL {kind}.";
+                return;
+            }
+
+            _sql_navigator?.OpenBuffer(
+                $"sql://object/{target.Qualified}",
+                built.Value.title,
+                built.Value.script,
+                preferred_target_id: null,
+                execute_after_open: false,
+                preferred_kind: kind);
+            StatusMessage = built.Value.title;
+        }
+        catch (Exception ex)
+        {
+            StatusMessage = $"Lỗi lấy định nghĩa {target.Qualified}: {ex.Message}";
+        }
+    }
+
+    private async Task<(string title, string script)?> TryScriptAsync(
+        string connection_string, SqlObjectName target, DatabaseObjectKind kind)
+    {
+        try
+        {
+            var built = await _database_object_scripter!.BuildAsync(
+                connection_string, target.Schema, target.Name, kind, click: 1);
+            return string.IsNullOrWhiteSpace(built?.script) ? null : built;
+        }
+        catch
+        {
+            // Sai loại object (proc vs function) → thử loại còn lại, không nuốt lỗi cuối cùng.
+            return null;
+        }
+    }
+
+    /// <summary>Connection theo CSDL controller — cùng nguồn dữ liệu với SQL Studio targets.</summary>
+    private string? ResolveConnectionString(ControllerDatabaseKind kind)
+    {
+        var program = _program_session?.Current;
+        if (program is null) return null;
+
+        if (kind == ControllerDatabaseKind.Sys)
+            return program.SysConnectionString;
+
+        if (program.AppDatabases.Count > 0)
+        {
+            var database_name = !string.IsNullOrWhiteSpace(program.AppDatabaseName)
+                ? program.AppDatabaseName
+                : program.AppDatabases[0].DatabaseName;
+            return AppConnectionResolver.ResolveAppConnection(program, database_name);
+        }
+
+        return program.AppConnectionString;
+    }
+
+    /// <summary>Phase 2 — field→view, items@controller→Lookup, clientScript→function.</summary>
+    private void HandleStructuralHit(StructuralNavHit structural)
+    {
+        switch (structural.Kind)
+        {
+            case StructuralNavKind.ItemsController:
+                if (string.IsNullOrWhiteSpace(structural.TargetPath) || !File.Exists(structural.TargetPath))
+                {
+                    StatusMessage = $"Không tìm thấy Lookup: {structural.DisplayLabel}";
+                    return;
+                }
+                OpenEntityFile(structural.TargetPath);
+                StatusMessage = structural.TargetPath;
+                return;
+
+            case StructuralNavKind.FieldToView:
+            case StructuralNavKind.ClientScriptFunction:
+                if (!string.IsNullOrWhiteSpace(structural.SymbolId) && ErpDocument is not null)
+                {
+                    var target = _language_service!.Navigation.GoToDefinition(ErpDocument.Id, structural.SymbolId);
+                    if (target?.TextRange is { IsEmpty: false } range)
+                    {
+                        NavigateToOffset(range.StartOffset, line_hint: target.StartLine);
+                        StatusMessage = structural.DisplayLabel;
+                        return;
+                    }
+                }
+                if (structural.TargetOffset >= 0)
+                {
+                    NavigateToOffset(structural.TargetOffset, line_hint: 0);
+                    StatusMessage = structural.DisplayLabel;
+                    return;
+                }
+                StatusMessage = $"Không resolve được: {structural.DisplayLabel}";
+                return;
+        }
+    }
+
+    /// <summary>Phase 3 — request/case, function FindRefs, g.$a, showForm multi-open.</summary>
+    private void HandleJsRuntimeHit(JsRuntimeNavHit hit)
+    {
+        switch (hit.Kind)
+        {
+            case JsRuntimeNavKind.RequestAction:
+            case JsRuntimeNavKind.RequestResponseCase:
+            case JsRuntimeNavKind.DollarAProperty:
+                NavigateToResolvedLocation(hit.TargetPath, hit.TargetOffset, hit.DisplayLabel);
+                return;
+
+            case JsRuntimeNavKind.ScriptFunctionRefs:
+            case JsRuntimeNavKind.ActionRequestSites:
+            case JsRuntimeNavKind.CaseRequestSites:
+                // Nhiều nơi gọi → luôn hiện danh sách (Symbol Info), không tự nhảy tới cái đầu.
+                ReferencesRequested?.Invoke(hit);
+                StatusMessage = hit.References.Count > 0
+                    ? $"{hit.DisplayLabel} — xem Symbol Info"
+                    : hit.DisplayLabel;
+                return;
+
+            case JsRuntimeNavKind.ShowFormRelated:
+                var opened = 0;
+                foreach (var path in hit.RelatedPaths.Take(12))
+                {
+                    OpenEntityFile(path);
+                    opened++;
+                }
+                StatusMessage = opened == 0
+                    ? hit.DisplayLabel
+                    : $"Đã mở {opened} file liên quan {hit.DisplayLabel}";
+                return;
+        }
+    }
+
+    /// <summary>
+    /// Điều hướng tới một vị trí đã resolve: nội dung script FBO thường đến từ entity include
+    /// dùng chung nên target có thể nằm ở file khác — khi đó mở tab file đó và focus đúng offset
+    /// TRONG file đó (offset không thuộc hệ toạ độ document hiện tại, không được áp thẳng).
+    /// </summary>
+    private void NavigateToResolvedLocation(string target_path, int target_offset, string label)
+    {
+        if (target_offset < 0)
+        {
+            StatusMessage = label;
+            return;
+        }
+
+        var is_other_file = !string.IsNullOrWhiteSpace(target_path)
+                            && !string.IsNullOrWhiteSpace(LoadedFilePath)
+                            && !PathsEqual(target_path, LoadedFilePath);
+
+        if (is_other_file)
+        {
+            if (!File.Exists(target_path))
+            {
+                StatusMessage = $"{label} — không mở được file: {target_path}";
+                return;
+            }
+            OpenEntityFile(target_path, target_offset);
+            StatusMessage = $"{label} → {Path.GetFileName(target_path)}";
+            return;
+        }
+
+        NavigateToOffset(target_offset, line_hint: 0);
+        StatusMessage = label;
     }
 
     public void NavigateToEntity(EntityNavigationRequest request)

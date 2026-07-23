@@ -1,1 +1,0 @@
-﻿<item value="1110000: [type].Label, [type], [type].Description"/>

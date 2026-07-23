@@ -15,6 +15,12 @@ public sealed class ErpLanguageService : IErpLanguageService
     private readonly IInsightProviderPipeline _insight_pipeline = new InsightProviderPipeline();
     private readonly ErpNavigationService _navigation;
 
+    /// <summary>Catalog API JS FBO (Phase 4); rỗng cho tới khi <see cref="LoadFboJsCatalog"/> chạy.</summary>
+    private FboJsCatalog _fbo_js_catalog = FboJsCatalog.Empty;
+
+    /// <summary>Catalog snippet SQL (Phase 5 #17) đọc từ config.</summary>
+    private SqlSnippetCatalog _sql_snippets = SqlSnippetCatalog.Empty;
+
     public ErpLanguageService()
     {
         _navigation = new ErpNavigationService(id => _workspace.GetDocument(id));
@@ -107,6 +113,168 @@ public sealed class ErpLanguageService : IErpLanguageService
         return document is null
             ? null
             : EntityAtOffsetResolver.TryResolve(document.SemanticModel, offset, document.Path);
+    }
+
+    public StructuralNavHit? ResolveStructuralAtOffset(
+        ErpDocumentId document_id,
+        int offset,
+        string? controllers_path)
+    {
+        var document = GetDocument(document_id);
+        if (document is null) return null;
+
+        return StructuralAtOffsetResolver.TryResolve(
+            document.SemanticModel,
+            document.SyntaxTree,
+            document.Snapshot.RawText ?? string.Empty,
+            offset,
+            controllers_path);
+    }
+
+    public JsRuntimeNavHit? ResolveJsRuntimeAtOffset(
+        ErpDocumentId document_id,
+        int offset,
+        string? controllers_path,
+        bool offset_is_clear_text = false)
+    {
+        var document = GetDocument(document_id);
+        if (document is null) return null;
+
+        var clear_text = document.GetProjection(ErpProjectionKind.ClearText);
+        // Resolver chạy trên ClearText — offset source phải đổi hệ trước, nếu không mọi vị trí
+        // sau tham chiếu entity đầu tiên đều lệch.
+        var clear_offset = offset_is_clear_text
+            ? offset
+            : clear_text.OffsetMap.ToClearText(offset);
+
+        var hit = JsRuntimeAtOffsetResolver.TryResolve(
+            document.SemanticModel, clear_text, document.Path, clear_offset, controllers_path);
+        if (hit is null) return null;
+
+        // Function: references do Navigation dựng (definition + call sites, đã map file/offset).
+        var references = hit.Kind == JsRuntimeNavKind.ScriptFunctionRefs
+                         && !string.IsNullOrEmpty(hit.SymbolId)
+            ? _navigation.FindReferences(document_id, hit.SymbolId)
+            : hit.References;
+
+        var enricher = new ReferencePreviewEnricher(
+            path => GetDocument(ErpDocumentId.FromPath(path))?.Snapshot.RawText);
+
+        return new JsRuntimeNavHit
+        {
+            Kind = hit.Kind,
+            SymbolId = hit.SymbolId,
+            SymbolName = hit.SymbolName,
+            SymbolKindText = hit.SymbolKindText,
+            DisplayLabel = hit.DisplayLabel,
+            TargetPath = hit.TargetPath,
+            TargetOffset = hit.TargetOffset,
+            HoverValue = hit.HoverValue,
+            RelatedPaths = hit.RelatedPaths,
+            References = [.. references.Select(enricher.Enrich)],
+            Relations = [.. hit.Relations.Select(enricher.Enrich)]
+        };
+    }
+
+    // ── Phase 4: FBO JS catalog assist ──────────────────────────────────────
+
+    public void LoadFboJsCatalog(string absolute_path) =>
+        _fbo_js_catalog = FboJsCatalog.FromData(FboJsCatalogParser.ParseFile(absolute_path));
+
+    public FboJsCompletionList CompleteFboJs(
+        ErpDocumentId document_id, int offset, EditorAssistMode mode, bool offset_is_clear_text)
+    {
+        var buffer = GetAssistBuffer(document_id, offset_is_clear_text);
+        return buffer is null
+            ? FboJsCompletionList.Empty
+            : FboJsAssistResolver.Complete(buffer, offset, mode, _fbo_js_catalog);
+    }
+
+    public FboJsHoverInfo? HoverFboJs(
+        ErpDocumentId document_id, int offset, EditorAssistMode mode, bool offset_is_clear_text)
+    {
+        var buffer = GetAssistBuffer(document_id, offset_is_clear_text);
+        return buffer is null
+            ? null
+            : FboJsAssistResolver.Hover(buffer, offset, mode, _fbo_js_catalog);
+    }
+
+    public FboJsSignatureHelp? SignatureFboJs(
+        ErpDocumentId document_id, int offset, EditorAssistMode mode, bool offset_is_clear_text)
+    {
+        var buffer = GetAssistBuffer(document_id, offset_is_clear_text);
+        return buffer is null
+            ? null
+            : FboJsAssistResolver.Signature(buffer, offset, mode, _fbo_js_catalog);
+    }
+
+    // ── Phase 5: SQL tooling ────────────────────────────────────────────────
+
+    public string? BuildInformationSqlAtOffset(
+        ErpDocumentId document_id, int offset, bool offset_is_clear_text = false)
+    {
+        if (!TryGetClearText(document_id, offset, offset_is_clear_text, out var text, out var clear_offset))
+            return null;
+
+        var request = InformationAttributeAtOffset.TryResolve(text, clear_offset);
+        return request is null ? null : InformationSqlBuilder.Build(request);
+    }
+
+    public SqlObjectName? ResolveSqlObjectAtOffset(
+        ErpDocumentId document_id, int offset, bool offset_is_clear_text = false)
+    {
+        return TryGetClearText(document_id, offset, offset_is_clear_text, out var text, out var clear_offset)
+            ? SqlObjectNameAtOffset.TryResolve(text, clear_offset)
+            : null;
+    }
+
+    /// <summary>
+    /// SQL/attribute của FBO thường nằm TRONG khai báo <c>&lt;!ENTITY&gt;</c> chứ không nằm trực
+    /// tiếp trong <c>&lt;command&gt;</c> của source (đo trên Dir/AITran.xml: mọi lời gọi proc đều
+    /// ở entity). Vì vậy hit-test phải chạy trên ClearText đã expand, còn offset người dùng click
+    /// thì đổi hệ toạ độ về đó.
+    /// </summary>
+    private bool TryGetClearText(
+        ErpDocumentId document_id, int offset, bool offset_is_clear_text,
+        out string text, out int clear_offset)
+    {
+        text = string.Empty;
+        clear_offset = -1;
+
+        var document = GetDocument(document_id);
+        if (document is null) return false;
+
+        var projection = document.GetProjection(ErpProjectionKind.ClearText);
+        if (string.IsNullOrEmpty(projection.Text)) return false;
+
+        text = projection.Text;
+        clear_offset = offset_is_clear_text ? offset : projection.OffsetMap.ToClearText(offset);
+        return true;
+    }
+
+    public void LoadSqlSnippets(string absolute_path) =>
+        _sql_snippets = SqlSnippetCatalog.FromFile(absolute_path);
+
+    public string? TryExpandSqlSnippet(string? text) =>
+        OptionsSnippetExpander.TryExpand(text, _sql_snippets);
+
+    public ControllerDatabaseKind ResolveDatabaseKind(ErpDocumentId document_id)
+    {
+        var source = GetDocument(document_id)?.Snapshot.RawText;
+        return string.IsNullOrEmpty(source)
+            ? ControllerDatabaseKind.App
+            : ControllerDatabaseKindResolver.ResolveFromXml(source);
+    }
+
+    /// <summary>Buffer mà offset đang tính trên đó — Insight là ClearText, còn lại là source.</summary>
+    private string? GetAssistBuffer(ErpDocumentId document_id, bool offset_is_clear_text)
+    {
+        var document = GetDocument(document_id);
+        if (document is null) return null;
+
+        return offset_is_clear_text
+            ? document.GetProjection(ErpProjectionKind.ClearText).Text
+            : document.Snapshot.RawText ?? string.Empty;
     }
 
     public IReadOnlyList<WorkspaceSymbolEntry> SearchSymbols(

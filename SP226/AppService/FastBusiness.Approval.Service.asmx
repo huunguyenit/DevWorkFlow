@@ -1,1 +1,0 @@
-﻿<%@ WebService Class="Message.Service" %>

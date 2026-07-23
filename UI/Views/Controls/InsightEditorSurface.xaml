@@ -24,6 +24,7 @@
             EditorLanguage="{Binding EditorLanguage, Mode=OneWay}"
             EditorMarkers="{Binding EditorMarkers, Mode=OneWay}"
             ScrollToLine="{Binding CaretLine, Mode=OneWay}"
-            ScrollToOffset="{Binding CaretOffset, Mode=OneWay}"/>
+            ScrollToOffset="{Binding CaretOffset, Mode=OneWay}"
+            SelectedScript="{Binding SelectedScript, Mode=OneWayToSource}"/>
     </DockPanel>
 </UserControl>

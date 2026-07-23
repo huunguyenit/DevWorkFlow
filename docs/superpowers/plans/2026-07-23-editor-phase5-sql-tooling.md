@@ -78,7 +78,7 @@ public static class ControllerDatabaseKindResolver
 `ResolveFromDatabaseAttribute`: null/empty/other → `App`; `Sys` OrdinalIgnoreCase → `Sys`.  
 `ResolveFromXml`: tìm root element `dir|grid|lookup` (regex hoặc XDocument sanitize nhẹ giống extractor) lấy attribute `database`.
 
-- [ ] **Step 1: Failing tests**
+- [x] **Step 1: Failing tests**
 
 ```csharp
 [Theory]
@@ -98,11 +98,11 @@ public void Xml_grid_database_Sys()
 }
 ```
 
-- [ ] **Step 2: Run — expect FAIL**
+- [x] **Step 2: Run — expect FAIL**
 
 `dotnet test tests/DevWorkFlow.Application.Tests --filter ControllerDatabaseKindResolverTests`
 
-- [ ] **Step 3: Implement + PASS + commit**
+- [x] **Step 3: Implement + PASS** (commit: chưa)
 
 ```bash
 git add DevWorkFlow.Domain/Language/ControllerDatabaseKind.cs DevWorkFlow.Application/Language/ControllerDatabaseKindResolver.cs tests/DevWorkFlow.Application.Tests/Language/ControllerDatabaseKindResolverTests.cs
@@ -146,9 +146,9 @@ WHERE status = '1'
 
 (omit `-- check` line if Check null/whitespace; omit WHERE if Key empty)
 
-- [ ] **Step 1: Failing tests** — `%l` 3 columns; no `%l` 2 columns; `ten_tk2%l` không thành `ten_tk22`; bad format null; key/check present
+- [x] **Step 1: Failing tests** — `%l` 3 columns; no `%l` 2 columns; `ten_tk2%l` không thành `ten_tk22`; bad format null; key/check present
 
-- [ ] **Step 2: Implement + PASS + commit**
+- [x] **Step 2: Implement + PASS** (commit: chưa)
 
 ```bash
 git add DevWorkFlow.Application/Language/InformationSqlBuilder.cs tests/DevWorkFlow.Application.Tests/Language/InformationSqlBuilderTests.cs
@@ -191,7 +191,7 @@ SELECT * FROM options WHERE name = '{name}' and val = '{val}'
 
 Dùng đúng quote captured (`q1`/`q2`) khi emit.
 
-- [ ] **Step 1–3: TDD + commit**
+- [x] **Step 1–3: TDD** (commit: chưa)
 
 ```bash
 git commit -m "feat: expand options.name/val snippet to SELECT"
@@ -231,7 +231,7 @@ Identifier: `[A-Za-z_#][\w@#$]*` optionally `schema.object` (brackets `[dbo].[na
 
 Implement island: regex trên source cho `<command` / `<query` … `</command>` / `</query>` lấy inner text offsets (đủ Phase 5; không cần full XDocument line map nếu offset dựa trên raw source). **Test với fixture** có CDATA SQL chứa `EXEC dbo.my_proc`.
 
-- [ ] **Step 1–3: TDD + commit**
+- [x] **Step 1–3: TDD** (commit: chưa)
 
 ```bash
 git commit -m "feat: locate SQL islands and object names at offset"
@@ -266,7 +266,7 @@ public static class InformationAttributeAtOffset
 
 Scan: tìm `information\s*=\s*(['"])...\1` chứa offset; parse cùng start-tag cho `key=` / `check=`.
 
-- [ ] **Step 1–3: TDD với snippet Item.xml-like + commit**
+- [x] **Step 1–3: TDD với snippet Item.xml-like** (commit: chưa)
 
 ```bash
 git commit -m "feat: resolve information attribute at source offset"
@@ -306,7 +306,7 @@ public void TrySelectTargetKind(ControllerDatabaseKind kind);
 public async Task ExecuteAfterOpenAsync() // hoặc gọi ExecuteCommand
 ```
 
-- [ ] **Step 1: Implement + manual compile**
+- [x] **Step 1: Implement + manual compile**
 
 `dotnet build UI/UI.csproj` (or slnx)
 
@@ -365,9 +365,9 @@ private void OnExecuteSql(...) {
 }
 ```
 
-- [ ] **Step 1: Bind SelectedScript Form ← Monaco**
+- [x] **Step 1: Bind SelectedScript Form ← Monaco**
 
-- [ ] **Step 2: Commands + F5 routing**
+- [x] **Step 2: Commands + F5 routing**
 
 - [ ] **Step 3: Manual smoke Source selection F5 / SQL button**
 
@@ -397,9 +397,9 @@ FormBuilder needs access to `DatabaseObjectScripter` + connection string for kin
 
 Connection string: mirror `SqlDocumentViewModel` target pick for App/Sys.
 
-- [ ] **Step 1: Wire information click (no DB)**
+- [x] **Step 1: Wire information click (no DB)**
 
-- [ ] **Step 2: Wire ALTER object (needs Program+DB)**
+- [x] **Step 2: Wire ALTER object (needs Program+DB)**
 
 - [ ] **Step 3: Commit**
 
@@ -421,9 +421,9 @@ git commit -m "feat: Ctrl+Click information and SQL object to SQL Studio"
 
 Không hard-code SQL string trong JS — chỉ forward text.
 
-- [ ] **Step 1: SQL Studio Tab expand**
+- [x] **Step 1: SQL Studio Tab expand**
 
-- [ ] **Step 2: Form Source SQL island Tab expand** (gate: `SqlIslandLocator.IsInside`)
+- [x] **Step 2: Form Source SQL island Tab expand** (gate: `SqlIslandLocator.IsInside`)
 
 - [ ] **Step 3: Manual both contexts + commit**
 
@@ -439,9 +439,9 @@ git commit -m "feat: options.name snippet expand on Tab"
 - Modify: `docs/superpowers/specs/2026-07-23-editor-phase5-sql-tooling-design.md` — Status: Ready for implementation / Done when checkboxes
 - Modify: `docs/superpowers/specs/2026-07-22-editor-ux-roadmap-design.md` — link plan
 
-- [ ] **Step 1:** `dotnet test tests/DevWorkFlow.Application.Tests --filter "FullyQualifiedName~InformationSql|OptionsSnippet|ControllerDatabase|SqlIsland|InformationAttribute"`
+- [x] **Step 1:** `dotnet test tests/DevWorkFlow.Application.Tests --filter "FullyQualifiedName~InformationSql|OptionsSnippet|ControllerDatabase|SqlIsland|InformationAttribute"`
 
-- [ ] **Step 2:** `dotnet build DevWorkFlow.slnx`
+- [x] **Step 2:** `dotnet build DevWorkFlow.slnx`
 
 - [ ] **Step 3: Commit docs**
 

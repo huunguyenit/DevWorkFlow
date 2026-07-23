@@ -1,7 +1,0 @@
-﻿<!ENTITY % Conditional.EINote SYSTEM "..\Include\EINote.txt">
-
-<![%Conditional.EINote;[
-  <!ENTITY EINoteFlag "1">
-]]>
-
-<!ENTITY EINoteFlag "0">

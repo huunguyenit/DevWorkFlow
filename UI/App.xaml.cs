@@ -62,6 +62,11 @@ public partial class App : Application
         var program_session   = new ProgramSession();
         var settings_store    = new UserSettingsStore();
         var app_config        = new AppConfigStore();
+        // Catalog API JS FBO là SoT cho Completion/Hover/Signature — nạp một lần lúc khởi động;
+        // thiếu file thì LS giữ catalog rỗng (mất gợi ý, không sập).
+        language_service.LoadFboJsCatalog(app_config.GetXmlPath("fbo-js.catalog.xml"));
+        language_service.LoadSqlSnippets(app_config.GetXmlPath("sql-snippets.xml"));
+        Views.Controls.BindableSqlEditor.SharedSnippetExpander = language_service.TryExpandSqlSnippet;
         Views.Controls.MonacoEditorHost.SharedTheme = app_config.EditorTheme;
         var sql_runner        = new SqlScriptRunner();
         var sql_navigator     = new SqlStudioNavigator();
@@ -82,7 +87,7 @@ public partial class App : Application
 
         FormBuilderViewModel CreateForm() =>
             new(program_session, sql_navigator, language_service, form_navigator, design_document_service,
-                app_config.ConfigRoot);
+                app_config.ConfigRoot, db_scripter);
 
         var seed_form       = CreateForm();
         var navigation_vm   = new NavigationViewModel(

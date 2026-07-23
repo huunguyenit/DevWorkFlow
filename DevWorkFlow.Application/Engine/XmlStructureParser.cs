@@ -56,8 +56,10 @@ public static class XmlStructureParser
         if (string.IsNullOrWhiteSpace(xml) || string.IsNullOrWhiteSpace(function_name))
             return null;
 
+        // (?![\w$]) thay cho \b: tên hàm FBO hay kết thúc bằng '$' và có nhiều hàm cùng tiền tố
+        // (onChange$GridVoucherDetail$Item/UOM/…) → \b khớp nhầm hàm dài hơn.
         var pattern = new Regex(
-            $@"function\s+{Regex.Escape(function_name)}\b",
+            $@"function\s+{Regex.Escape(function_name)}(?![\w$])",
             RegexOptions.Compiled);
         var m = pattern.Match(xml);
         if (!m.Success) return null;

@@ -1,5 +1,0 @@
-﻿<command event="Checking">
-  <text>
-	<![CDATA[objectBehavior$Dir$Irregular.checkCode(this, 'ma_so');]]>
-  </text>
-</command>

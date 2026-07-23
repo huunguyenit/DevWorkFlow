@@ -1,9 +1,0 @@
-﻿<![%Conditional.Control.Unit.Item;[
-  %Control.Unit.Include;
-  <!ENTITY j1 "4">
-  <!ENTITY j2 "8">
-  <!ENTITY j3 "5">
-]]>
-<!ENTITY j1 "0">
-<!ENTITY j2 "0">
-<!ENTITY j3 "0">

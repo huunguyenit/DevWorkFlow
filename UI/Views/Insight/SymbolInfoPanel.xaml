@@ -9,6 +9,61 @@
             <TextBlock Text="SYMBOL INFO" FontSize="11" FontWeight="SemiBold"
                        Foreground="{StaticResource FgMutedBrush}" Margin="0,0,0,8"/>
 
+            <!-- Header: tên symbol + loại + số reference -->
+            <Border Background="{StaticResource IdeDockHeaderBgBrush}"
+                    BorderBrush="{StaticResource IdeBorderBrush}" BorderThickness="1"
+                    CornerRadius="4" Padding="8" Margin="0,0,0,8">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <md:PackIcon Kind="FunctionVariant" Width="16" Height="16"
+                                     Foreground="#1565C0" Margin="0,1,6,0"/>
+                        <TextBlock Text="{Binding SymbolName}" FontSize="12" FontWeight="SemiBold"
+                                   TextWrapping="Wrap"/>
+                    </StackPanel>
+                    <TextBlock Text="{Binding SymbolType}" FontSize="10"
+                               Foreground="{StaticResource FgMutedBrush}" Margin="22,2,0,0"/>
+                    <TextBlock Text="{Binding ReferenceCountText}" FontSize="10" Margin="22,4,0,0"
+                               Foreground="#1565C0"
+                               Visibility="{Binding HasReferences, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                </StackPanel>
+            </Border>
+
+            <!-- RELATIONSHIP: chuỗi request → action → case (hai chiều) -->
+            <StackPanel Visibility="{Binding HasRelations, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Text="RELATIONSHIP" FontSize="10" FontWeight="SemiBold"
+                           Foreground="{StaticResource FgMutedBrush}" Margin="0,4,0,4"/>
+                <ItemsControl ItemsSource="{Binding Relations}" Margin="0,0,0,8">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="{x:Type insight:SymbolRelationRowVm}">
+                            <Border Background="Transparent" Padding="4,3" Margin="0,0,0,2"
+                                    Cursor="Hand" ToolTip="{Binding File}">
+                                <Border.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick"
+                                                  Command="{Binding DataContext.ActivateRelationCommand,
+                                                            RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                                                  CommandParameter="{Binding}"/>
+                                </Border.InputBindings>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Kind="ArrowRightBottom" Width="12" Height="12"
+                                                 Foreground="{StaticResource FgMutedBrush}" Margin="0,2,4,0"/>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Label}" FontSize="11"
+                                                   FontFamily="Consolas" TextWrapping="Wrap"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding RoleText}" FontSize="9"
+                                                       Foreground="#1565C0" Margin="0,0,6,0"/>
+                                            <TextBlock Text="{Binding LineText}" FontSize="9"
+                                                       Foreground="{StaticResource FgMutedBrush}"/>
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+
+            <!-- Thuộc tính field/entity (chế độ symbol tại caret) -->
             <Grid Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="72"/>
@@ -18,36 +73,38 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0" Text="Name" FontSize="10" Foreground="{StaticResource FgMutedBrush}"/>
-                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding SymbolName}" FontSize="11" FontWeight="SemiBold"/>
+                <TextBlock Grid.Row="0" Text="Category" FontSize="10" Foreground="{StaticResource FgMutedBrush}"/>
+                <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Category}" FontSize="11"/>
 
-                <TextBlock Grid.Row="1" Text="Type" FontSize="10" Foreground="{StaticResource FgMutedBrush}" Margin="0,4,0,0"/>
-                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding SymbolType}" FontSize="11" Margin="0,4,0,0"/>
+                <TextBlock Grid.Row="1" Text="DataType" FontSize="10" Foreground="{StaticResource FgMutedBrush}" Margin="0,4,0,0"/>
+                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding DataType}" FontSize="11" Margin="0,4,0,0"/>
 
-                <TextBlock Grid.Row="2" Text="Category" FontSize="10" Foreground="{StaticResource FgMutedBrush}" Margin="0,4,0,0"/>
-                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding Category}" FontSize="11" Margin="0,4,0,0"/>
-
-                <TextBlock Grid.Row="3" Text="DataType" FontSize="10" Foreground="{StaticResource FgMutedBrush}" Margin="0,4,0,0"/>
-                <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding DataType}" FontSize="11" Margin="0,4,0,0"/>
-
-                <TextBlock Grid.Row="4" Text="ReadOnly" FontSize="10" Foreground="{StaticResource FgMutedBrush}" Margin="0,4,0,0"/>
-                <TextBlock Grid.Row="4" Grid.Column="1" Text="{Binding ReadOnlyText}" FontSize="11" Margin="0,4,0,0"/>
+                <TextBlock Grid.Row="2" Text="ReadOnly" FontSize="10" Foreground="{StaticResource FgMutedBrush}" Margin="0,4,0,0"/>
+                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding ReadOnlyText}" FontSize="11" Margin="0,4,0,0"/>
             </Grid>
 
-            <TextBlock Text="References" FontSize="11" FontWeight="SemiBold"
-                       Foreground="{StaticResource FgBrush}" Margin="0,8,0,4"/>
-            <ListBox ItemsSource="{Binding References}" BorderThickness="0" Background="Transparent"
-                     FontSize="11">
+            <TextBlock Text="REFERENCES" FontSize="10" FontWeight="SemiBold"
+                       Foreground="{StaticResource FgMutedBrush}" Margin="0,4,0,4"/>
+            <ListBox x:Name="ReferencesList" ItemsSource="{Binding References}" BorderThickness="0"
+                     Background="Transparent" FontSize="11"
+                     HorizontalContentAlignment="Stretch"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     MouseDoubleClick="ReferencesList_MouseDoubleClick">
                 <ListBox.ItemTemplate>
                     <DataTemplate DataType="{x:Type insight:SymbolReferenceRowVm}">
-                        <StackPanel Orientation="Horizontal">
-                            <md:PackIcon Kind="LinkVariant" Width="12" Height="12"
-                                         Foreground="#1565C0" Margin="0,0,4,0"/>
-                            <TextBlock Text="{Binding Display}" TextWrapping="Wrap"/>
+                        <StackPanel Margin="0,2" ToolTip="{Binding File}">
+                            <StackPanel Orientation="Horizontal">
+                                <md:PackIcon Kind="FileDocumentOutline" Width="12" Height="12"
+                                             Foreground="#1565C0" Margin="0,1,4,0"/>
+                                <TextBlock Text="{Binding FileName}" FontWeight="SemiBold"/>
+                                <TextBlock Text="{Binding LineText}" Margin="6,0,0,0"
+                                           Foreground="{StaticResource FgMutedBrush}"/>
+                            </StackPanel>
+                            <TextBlock Text="{Binding Preview}" FontFamily="Consolas" FontSize="10"
+                                       Margin="16,1,0,0" TextTrimming="CharacterEllipsis"
+                                       Foreground="{StaticResource FgMutedBrush}"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>

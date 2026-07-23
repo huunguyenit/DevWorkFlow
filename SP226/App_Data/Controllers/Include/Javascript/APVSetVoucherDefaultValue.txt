@@ -1,3 +1,0 @@
-﻿<![CDATA[
-APV$set$Voucher$DefaultValue(f);
-]]>

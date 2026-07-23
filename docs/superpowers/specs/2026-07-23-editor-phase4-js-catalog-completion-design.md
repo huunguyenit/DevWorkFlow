@@ -222,12 +222,12 @@ SignatureHelp? SignatureAt(ErpDocumentId id, int offset, EditorAssistMode mode)
 
 ## 9. Success criteria
 
-- [ ] `fbo-js.catalog.xml` + `version`/schema rõ; seed lõi Checking/script thường gặp.
-- [ ] Complete + Hover + SignatureHelp đọc catalog qua LS; UI không hard-code danh sách API.
-- [ ] Island gate đúng; Insight chỉ Hover.
-- [ ] Ưu tiên hover `$a` value vs catalog member rõ ràng.
-- [ ] Application tests + build `DevWorkFlow.slnx` xanh.
-- [ ] Gap-scan corpus chạy được; không auto-merge.
+- [x] `fbo-js.catalog.xml` + `version`/schema rõ; seed lõi Checking/script thường gặp.
+- [x] Complete + Hover + SignatureHelp đọc catalog qua LS; UI không hard-code danh sách API.
+- [x] Island gate đúng; Insight chỉ Hover.
+- [x] Ưu tiên hover `$a` value vs catalog member rõ ràng.
+- [x] Application tests + build `DevWorkFlow.slnx` xanh.
+- [x] Gap-scan corpus chạy được; không auto-merge.
 
 ---
 

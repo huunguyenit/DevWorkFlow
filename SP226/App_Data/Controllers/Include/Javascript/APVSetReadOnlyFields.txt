@@ -1,3 +1,0 @@
-﻿<![CDATA[
-f.setReadOnlyFields('u_status, nguoi_duyet, kieu_duyet');
-]]>

@@ -23,6 +23,12 @@ public sealed class NavigationTarget
 
     public int EndLine { get; init; }
 
+    /// <summary>
+    /// Dòng source tại vị trí này (đã trim) để panel References hiển thị kèm — dữ liệu thuần,
+    /// consumer không phải tự đọc file. Rỗng nếu chưa/không dựng được.
+    /// </summary>
+    public string Preview { get; init; } = string.Empty;
+
     /// <summary>true = Editor chỉ caret/scroll, không Select highlight.</summary>
     public bool PreferCaretOnly { get; init; }
 

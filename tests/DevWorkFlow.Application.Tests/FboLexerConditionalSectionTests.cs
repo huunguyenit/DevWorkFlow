@@ -59,13 +59,12 @@ public class FboLexerConditionalSectionTests
         Assert.DoesNotContain(tokens, t => t.Kind == SyntaxKind.StartTag);
     }
 
-    [Fact]
+    // Tên thư mục Program đổi theo bản checkout (SP226 → FBISP24 → …) — hardcode "SP226" làm
+    // test đỏ mỗi lần đổi corpus. Dùng resolver chung + tự Skip khi bản hiện tại không có file.
+    [FboCorpusFact("Include", "Unit.ent")]
     public void Unit_ent_has_no_ERP1002_structure_errors()
     {
-        var path = Path.Combine(
-            FindRepoRoot(),
-            "SP226", "App_Data", "Controllers", "Include", "Unit.ent");
-        Assert.True(File.Exists(path), $"Missing fixture: {path}");
+        var path = FboProgramCorpus.TryFind("Include", "Unit.ent")!;
 
         var text = File.ReadAllText(path);
         var tree = FboSyntaxParser.Parse(text, path);

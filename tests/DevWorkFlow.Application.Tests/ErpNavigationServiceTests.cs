@@ -87,4 +87,53 @@ public class ErpNavigationServiceTests
         Assert.NotNull(parent);
         Assert.Equal(fields.Id, parent.Id);
     }
+
+    [Fact]
+    public void FindReferences_entity_returns_definition_and_reference_targets()
+    {
+        var ls = new ErpLanguageService();
+        var xml =
+            """
+            <!DOCTYPE dir [
+              <!ENTITY Hello "hi">
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">&Hello;&Hello;</dir>
+            """;
+        var doc = ls.OpenDocumentFromText("buffer:nav-entity-refs.xml", xml);
+
+        var targets = ls.Navigation.FindReferences(doc.Id, "entity:Hello");
+
+        Assert.True(targets.Count >= 2);
+        Assert.Contains(targets, t => t.NodeType != "Reference");
+        Assert.Contains(targets, t => t.NodeType == "Reference");
+    }
+
+    [Fact]
+    public void FindReferences_script_function_returns_definition_and_call_sites()
+    {
+        var ls = new ErpLanguageService();
+        var xml =
+            """
+            <dir table="t" code="a">
+              <script>
+              <![CDATA[
+              function onChange(sender) {
+                  doSomething();
+              }
+              function onInit() {
+                  onChange(this);
+                  onChange(null);
+              }
+              ]]>
+              </script>
+            </dir>
+            """;
+        var doc = ls.OpenDocumentFromText("buffer:nav-script-refs.xml", xml);
+
+        var targets = ls.Navigation.FindReferences(doc.Id, "script:onChange");
+
+        Assert.Equal(3, targets.Count); // 1 definition + 2 call sites
+        Assert.Single(targets, t => t.NodeType != "Reference");
+        Assert.Equal(2, targets.Count(t => t.NodeType == "Reference"));
+    }
 }

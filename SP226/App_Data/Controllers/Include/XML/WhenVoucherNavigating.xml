@@ -1,8 +1,0 @@
-﻿<command event="Navigating">
-  <text>
-    <![CDATA[
-select 'scatter$Voucher$(this);' as message
-return
-]]>
-  </text>
-</command>

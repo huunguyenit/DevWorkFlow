@@ -1,5 +1,0 @@
-﻿<![CDATA[
-if (f._$queryFilters != '') {
-  g._queryFilterString += String.fromCharCode(254) + ']]>&Controller;<![CDATA[' + String.fromCharCode(255) + f._$queryFilters + String.fromCharCode(255) + getQueryFilterString(f, f._$queryFilters);
-}
-]]>

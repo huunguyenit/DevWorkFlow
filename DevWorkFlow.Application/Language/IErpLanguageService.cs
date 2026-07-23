@@ -57,6 +57,35 @@ public interface IErpLanguageService
     EntityHit? ResolveEntityAtOffset(ErpDocumentId document_id, int offset);
 
     /// <summary>
+    /// Hit-test cấu trúc XML tại offset source (Phase 2 — field→view, items@controller→Lookup,
+    /// clientScript→function) — chạy sau Entity miss. <paramref name="controllers_path"/> dùng
+    /// cho Lookup path resolve; null nếu Program chưa gắn.
+    /// </summary>
+    StructuralNavHit? ResolveStructuralAtOffset(
+        ErpDocumentId document_id,
+        int offset,
+        string? controllers_path);
+
+    /// <summary>
+    /// Hit-test JS runtime FBO (Phase 3 — request/case, function FindRefs, <c>g.$a</c>, showForm)
+    /// — chạy sau Entity + Structural miss.
+    ///
+    /// Index chạy trên ClearText nên thấy được nội dung đến từ entity include; kết quả trả về
+    /// <see cref="JsRuntimeNavHit.TargetPath"/> + <see cref="JsRuntimeNavHit.TargetOffset"/> trỏ
+    /// đúng file nguồn thật, có thể khác document đang mở.
+    /// </summary>
+    /// <param name="offset">
+    /// Offset trên buffer đang hiển thị. <paramref name="offset_is_clear_text"/> = true khi editor
+    /// đang ở Insight mode (buffer là ClearText); false = offset trên source XML.
+    /// </param>
+    /// <param name="controllers_path">Cho showForm related files; null nếu Program chưa gắn.</param>
+    JsRuntimeNavHit? ResolveJsRuntimeAtOffset(
+        ErpDocumentId document_id,
+        int offset,
+        string? controllers_path,
+        bool offset_is_clear_text = false);
+
+    /// <summary>
     /// Semantic inline edit. Inline declaration cập nhật snapshot; external entity
     /// cập nhật đúng resolved file. Entity reference trong source không bị thay.
     /// </summary>
@@ -86,4 +115,59 @@ public interface IErpLanguageService
 
     /// <summary>ERP Navigation Service (NodeId / Symbol → NavigationTarget).</summary>
     IErpNavigationService Navigation { get; }
+
+    // ── Phase 4: FBO JS catalog (Completion / Hover / Signature) ─────────────
+
+    /// <summary>
+    /// Nạp catalog API JS FBO từ <c>fbo-js.catalog.xml</c>. Thiếu file / XML hỏng → catalog rỗng
+    /// (không throw): editor mất gợi ý chứ không sập.
+    /// </summary>
+    void LoadFboJsCatalog(string absolute_path);
+
+    /// <summary>
+    /// Completion trong island JS. Insight mode luôn rỗng (buffer read-only); ngoài island cũng
+    /// rỗng (fail closed).
+    /// </summary>
+    /// <param name="offset_is_clear_text">true = offset tính trên buffer ClearText (Insight).</param>
+    FboJsCompletionList CompleteFboJs(
+        ErpDocumentId document_id, int offset, EditorAssistMode mode, bool offset_is_clear_text);
+
+    /// <summary>Hover mô tả API từ catalog — chạy ở cả Source lẫn Insight khi trong island.</summary>
+    FboJsHoverInfo? HoverFboJs(
+        ErpDocumentId document_id, int offset, EditorAssistMode mode, bool offset_is_clear_text);
+
+    /// <summary>Signature Help; Insight luôn null.</summary>
+    FboJsSignatureHelp? SignatureFboJs(
+        ErpDocumentId document_id, int offset, EditorAssistMode mode, bool offset_is_clear_text);
+
+    // ── Phase 5: SQL tooling ────────────────────────────────────────────────
+
+    /// <summary>
+    /// Ctrl+Click trên <c>information="…"</c> → câu <c>SELECT</c> tra cứu; null nếu offset không
+    /// nằm trong giá trị attribute đó hoặc giá trị không parse được.
+    /// </summary>
+    string? BuildInformationSqlAtOffset(
+        ErpDocumentId document_id, int offset, bool offset_is_clear_text = false);
+
+    /// <summary>
+    /// Tên object SQL (schema.name) tại offset nếu đang trong island SQL; null nếu không.
+    /// Hit-test chạy trên ClearText vì SQL FBO thường nằm trong khai báo entity.
+    /// </summary>
+    SqlObjectName? ResolveSqlObjectAtOffset(
+        ErpDocumentId document_id, int offset, bool offset_is_clear_text = false);
+
+    /// <summary>Controller thuộc CSDL App hay Sys (theo <c>@database</c> trên root).</summary>
+    ControllerDatabaseKind ResolveDatabaseKind(ErpDocumentId document_id);
+
+    /// <summary>
+    /// Nạp catalog snippet SQL từ <c>sql-snippets.xml</c>. Thiếu file / XML hỏng → catalog rỗng
+    /// (Tab về hành vi mặc định), không throw.
+    /// </summary>
+    void LoadSqlSnippets(string absolute_path);
+
+    /// <summary>
+    /// Expand snippet SQL cho một dòng / vùng chọn; null nếu không mẫu nào khớp.
+    /// Mẫu đến từ config — UI không giữ danh sách.
+    /// </summary>
+    string? TryExpandSqlSnippet(string? text);
 }

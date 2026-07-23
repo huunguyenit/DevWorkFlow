@@ -1,4 +1,0 @@
-﻿      <field name="ma_thue"/>
-      <field name="thue_suat"/>
-      <field name="tk_thue"/>
-      <field name="tk_cn"/>

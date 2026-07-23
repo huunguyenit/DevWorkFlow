@@ -217,10 +217,17 @@ public partial class MainWindow
             : vm.Shell.ActiveContent is FormBuilderViewModel fb && fb.SaveCommand.CanExecute(null);
     }
 
+    /// <summary>
+    /// F5: tab SQL chạy như cũ; thêm nhánh Form Source có selection (Phase 5 #5) — tab Form
+    /// KHÔNG có kết quả riêng nên nó mở tab SQL rồi chạy ở đó.
+    /// </summary>
     private void CanWhenSqlDocument(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = DataContext is MainViewModel { Shell.ActiveContent: SqlDocumentViewModel sql }
-                       && sql.ExecuteCommand.CanExecute(null);
+        e.CanExecute = DataContext is MainViewModel vm
+                       && (vm.Shell.ActiveContent is SqlDocumentViewModel sql
+                               && sql.ExecuteCommand.CanExecute(null)
+                           || vm.Shell.ActiveContent is FormBuilderViewModel fb
+                               && fb.CanExecuteSelectedSql);
     }
 
     private void CanOpenSqlFromForm(object sender, CanExecuteRoutedEventArgs e)
@@ -259,8 +266,12 @@ public partial class MainWindow
 
     private void OnExecuteSql(object sender, ExecutedRoutedEventArgs e)
     {
-        if (DataContext is MainViewModel { Shell.ActiveContent: SqlDocumentViewModel sql })
+        if (DataContext is not MainViewModel vm) return;
+
+        if (vm.Shell.ActiveContent is SqlDocumentViewModel sql)
             sql.ExecuteCommand.Execute(null);
+        else if (vm.Shell.ActiveContent is FormBuilderViewModel { CanExecuteSelectedSql: true } fb)
+            fb.ExecuteSelectedSql();
     }
 
     private void OnOpenSqlFromForm(object sender, ExecutedRoutedEventArgs e)

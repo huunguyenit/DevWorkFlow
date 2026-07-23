@@ -1,3 +1,0 @@
-﻿<button command="Delete">
-  <title v="Toolbar.Delete" e="Toolbar.Delete"></title>
-</button>

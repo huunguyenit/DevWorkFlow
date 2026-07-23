@@ -1,4 +1,0 @@
-﻿<![CDATA[
-if @$primeJoin <> '' select @queryFormClause = @queryFormClause + ' ' + @$primeJoin
-if @$primeFilter <> '' select @queryWhereClause = @queryWhereClause + ' and ' + @$primeFilter
-]]>

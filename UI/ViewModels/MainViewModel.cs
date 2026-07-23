@@ -121,8 +121,8 @@ public class MainViewModel : ViewModelBase
         CurrentWorkspace = seedFormBuilderVm;
 
         _form_navigator.Attach(OpenFormDocument);
-        sql_navigator.Attach((id, title, text, path, target_id) =>
-            OpenSqlDocument(id, title, text, path, target_id));
+        sql_navigator.Attach(request => OpenSqlDocument(request));
+        sql_navigator.AttachInlineRunner(RunSqlInline);
 
         _nav.PageChanged += OnPageChanged;
         _program_session.ProgramChanged += OnProgramChanged;
@@ -435,20 +435,46 @@ public class MainViewModel : ViewModelBase
         string title,
         string text,
         string? file_path,
-        string? preferred_target_id = null)
+        string? preferred_target_id = null) =>
+        OpenSqlDocument(new SqlOpenRequest
+        {
+            Id = id,
+            Title = title,
+            Text = text,
+            FilePath = file_path,
+            PreferredTargetId = preferred_target_id
+        });
+
+    public SqlDocumentViewModel OpenSqlDocument(SqlOpenRequest request)
     {
+        var id = request.Id;
+        var title = request.Title;
+        var text = request.Text;
+        var file_path = request.FilePath;
+        var preferred_target_id = request.PreferredTargetId;
+
+        // Chọn connection: Id cụ thể thắng; không có thì theo loại CSDL của controller.
+        void ApplyTarget(SqlDocumentViewModel vm)
+        {
+            vm.TrySelectTarget(preferred_target_id);
+            if (string.IsNullOrWhiteSpace(preferred_target_id) && request.PreferredKind is { } kind)
+                vm.TrySelectTargetKind(kind);
+        }
+
         // Buffer (script từ Database): cập nhật tab SQL đang active — không mở nhiều tab.
         if (string.IsNullOrWhiteSpace(file_path)
             && Shell.ActiveDocument?.ContentVm is SqlDocumentViewModel active_sql)
         {
             active_sql.ReplaceScript(title, text);
-            active_sql.TrySelectTarget(preferred_target_id);
+            ApplyTarget(active_sql);
+            TrackSqlDocument(active_sql);
             Shell.ActiveDocument.Title = title;
             CurrentWorkspace = active_sql;
             CurrentPageTitle = title;
             StatusLanguage = "SQL";
             AppStatus = id;
             Shell.StatusReady = "Ready";
+            if (request.ExecuteAfterOpen) active_sql.ExecuteAfterOpen();
             return active_sql;
         }
 
@@ -457,7 +483,8 @@ public class MainViewModel : ViewModelBase
         if (existing?.ContentVm is SqlDocumentViewModel existing_vm)
         {
             existing_vm.ReplaceScript(title, text);
-            existing_vm.TrySelectTarget(preferred_target_id);
+            ApplyTarget(existing_vm);
+            TrackSqlDocument(existing_vm);
             existing.Title = title;
             if (!string.IsNullOrWhiteSpace(file_path))
                 existing.FilePath = file_path;
@@ -467,12 +494,14 @@ public class MainViewModel : ViewModelBase
             StatusLanguage = "SQL";
             AppStatus = file_path ?? id;
             Shell.StatusReady = "Ready";
+            if (request.ExecuteAfterOpen) existing_vm.ExecuteAfterOpen();
             return existing_vm;
         }
 
         var sql_vm = new SqlDocumentViewModel(_sql_runner, _program_session);
         sql_vm.Initialize(title, text, file_path);
-        sql_vm.TrySelectTarget(preferred_target_id);
+        ApplyTarget(sql_vm);
+        TrackSqlDocument(sql_vm);
         var doc = Shell.OpenOrActivate(id, title, sql_vm, file_path);
         sql_vm.PropertyChanged += OnSqlDocumentPropertyChanged;
 
@@ -489,6 +518,32 @@ public class MainViewModel : ViewModelBase
         StatusLanguage = "SQL";
         AppStatus = file_path ?? id;
         Shell.StatusReady = "Ready";
+        // Execute SAU khi tab đã activate để kết quả hiện đúng chỗ người dùng đang nhìn.
+        if (request.ExecuteAfterOpen) sql_vm.ExecuteAfterOpen();
+        return sql_vm;
+    }
+
+    /// <summary>
+    /// Chạy SQL mà KHÔNG mở tab (F5 ở Form Source): dùng một document SQL ẩn, kết quả đi ra panel
+    /// Result/Message dùng chung ở dock dưới. Người dùng ở lại đúng tab XML đang sửa.
+    /// </summary>
+    public SqlDocumentViewModel RunSqlInline(SqlOpenRequest request)
+    {
+        var sql_vm = _inline_sql_document ??= new SqlDocumentViewModel(_sql_runner, _program_session);
+        sql_vm.Initialize(request.Title, request.Text, null);
+
+        sql_vm.TrySelectTarget(request.PreferredTargetId);
+        if (string.IsNullOrWhiteSpace(request.PreferredTargetId) && request.PreferredKind is { } kind)
+            sql_vm.TrySelectTargetKind(kind);
+
+        TrackSqlDocument(sql_vm);
+
+        // Mở panel TRƯỚC khi chạy để thấy trạng thái "Running…"; chạy xong ExecutionCompleted sẽ
+        // chuyển sang Result hoặc Message tuỳ kết quả.
+        Shell.ShowPanel(DockPanelId.CenterBottom);
+        SelectBottomPane(ToolPaneKind.SqlResult);
+
+        sql_vm.ExecuteAfterOpen();
         return sql_vm;
     }
 
@@ -512,10 +567,16 @@ public class MainViewModel : ViewModelBase
             _active_form = active;
 
         if (_status_form is not null)
+        {
             _status_form.PropertyChanged -= OnActiveFormStatusChanged;
+            _status_form.ReferencesRequested -= OnReferencesRequested;
+        }
         _status_form = form;
         if (_status_form is not null)
+        {
             _status_form.PropertyChanged += OnActiveFormStatusChanged;
+            _status_form.ReferencesRequested += OnReferencesRequested;
+        }
 
         OutlineVm.BindTo(form);
         PropertyGridVm.BindTo(form);
@@ -525,6 +586,67 @@ public class MainViewModel : ViewModelBase
         _diagnostics_bridge.BindTo(form);
         SyncStatusFromForm(form);
         OnPropertyChanged(nameof(FormBuilderVm));
+    }
+
+    /// <summary>
+    /// Find References (Ctrl+Click định nghĩa function) chỉ hữu ích khi người dùng THẤY danh
+    /// sách — SymbolInfoVm tự nhận qua event của nó, ở đây lo phần hiện panel Symbol Info ra
+    /// trước (right dock có thể đang đóng hoặc đang chọn tab khác).
+    /// </summary>
+    private SqlDocumentViewModel? _active_sql_document;
+
+    /// <summary>
+    /// Document SQL ẩn cho các lần chạy inline (F5 ở Form Source) — không nằm trong Shell.Documents,
+    /// dùng lại giữa các lần chạy để không rò connection/handler.
+    /// </summary>
+    private SqlDocumentViewModel? _inline_sql_document;
+
+    /// <summary>
+    /// Nguồn SQL vừa chạy (tab SQL hoặc lần chạy inline) — panel Result/Message ở dock dưới bind
+    /// vào đây. Đây là NƠI DUY NHẤT hiển thị kết quả; tab SQL không còn output riêng.
+    /// </summary>
+    public SqlDocumentViewModel? ActiveSqlDocument
+    {
+        get => _active_sql_document;
+        private set => SetProperty(ref _active_sql_document, value);
+    }
+
+    /// <summary>
+    /// Theo dõi một tab SQL để cập nhật panel dưới; huỷ đăng ký tab cũ tránh nhiều tab cùng bắn.
+    /// </summary>
+    private void TrackSqlDocument(SqlDocumentViewModel sql_vm)
+    {
+        if (ReferenceEquals(ActiveSqlDocument, sql_vm)) return;
+
+        if (ActiveSqlDocument is not null)
+            ActiveSqlDocument.ExecutionCompleted -= OnSqlExecutionCompleted;
+        ActiveSqlDocument = sql_vm;
+        sql_vm.ExecutionCompleted += OnSqlExecutionCompleted;
+    }
+
+    /// <summary>Chạy xong: mở dock dưới và focus Result (thành công) hoặc Message (lỗi).</summary>
+    private void OnSqlExecutionCompleted(object? sender, bool succeeded)
+    {
+        Shell.ShowPanel(DockPanelId.CenterBottom);
+        SelectBottomPane(succeeded ? ToolPaneKind.SqlResult : ToolPaneKind.SqlMessage);
+    }
+
+    private void SelectBottomPane(ToolPaneKind kind)
+    {
+        var pane = Shell.BottomPanes.FirstOrDefault(p => p.Kind == kind);
+        if (pane is not null)
+            Shell.SelectBottomPaneCommand.Execute(pane);
+    }
+
+    private void OnReferencesRequested(JsRuntimeNavHit hit)
+    {
+        // Cùng trình tự với Shift+F12 (MainWindow.OnFindReferences) — đường đã chạy được:
+        // mở panel TRƯỚC rồi mới chọn tab. KHÔNG gọi SymbolInfoVm.Refresh() ở đây vì Refresh
+        // dựng lại theo symbol tại caret và sẽ xoá đúng danh sách vừa được ShowReferences ghim.
+        Shell.ShowPanel(DockPanelId.RightTop);
+        var pane = Shell.RightPanes.FirstOrDefault(p => p.Kind == ToolPaneKind.SymbolInfo);
+        if (pane is not null)
+            Shell.SelectRightPaneCommand.Execute(pane);
     }
 
     private void OnActiveFormStatusChanged(object? sender, PropertyChangedEventArgs e)
@@ -603,6 +725,8 @@ public class MainViewModel : ViewModelBase
             StatusLanguage = "SQL";
             if (!string.IsNullOrWhiteSpace(sql.FilePath))
                 AppStatus = sql.FilePath!;
+            // Panel dưới là output chung: chuyển tab SQL thì nó phải theo tab đang xem.
+            TrackSqlDocument(sql);
         }
         else if (Shell.ActiveContent is FormBuilderViewModel fb)
         {

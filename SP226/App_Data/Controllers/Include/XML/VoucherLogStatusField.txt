@@ -1,3 +1,0 @@
-﻿<item value="*">
-  <text v="Đã xóa" e="Deleted"/>
-</item>

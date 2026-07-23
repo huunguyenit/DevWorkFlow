@@ -1,8 +1,0 @@
-﻿<%@ Page AutoEventWireup="false" MasterPageFile="~/Main/MasterPage.master" Inherits="FastBusiness.ReportExtender.UI.Page" v="Danh sách nhân viên theo trình độ ngoại ngữ" e="Employee List by Foreign Language Level"%>
-<asp:Content ID="headContent" ContentPlaceHolderID="head" runat="server"></asp:Content>
-<asp:Content ID="mainContent" ContentPlaceHolderID="FastBusiness" runat="server">
-<div>
-<asp:Panel ID="panelReport" runat="server"/>
-</div>
-<FastBusiness:ReportExtender ID="MainReport" runat="server" TargetControlID="panelReport" Controller="hrptEmpForeignLanguage" FilterMode="true"/>
-</asp:Content>

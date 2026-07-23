@@ -50,15 +50,31 @@ public partial class MonacoEditorHost : UserControl
     public event Action<EntityNavigationRequest>? OpenEntityRequested;
 
     /// <summary>
-    /// Ctrl+Click ở Source mode — chỉ mang offset nguồn; host tra Language Service để điều hướng.
+    /// Ctrl+Click — mang offset của buffer đang hiển thị và cờ cho biết đó là buffer nào
+    /// (true = ClearText/Insight, false = source XML); host tra Language Service để điều hướng.
     /// </summary>
-    public event Action<int>? EntityOffsetActivated;
+    public event Action<int, bool>? EntityOffsetActivated;
 
     /// <summary>
     /// Hover entity (debounced): offset nguồn, mode Insight?, tên entity (Insight). Host tra giá
     /// trị rồi gọi <see cref="ShowEntityHover"/> / <see cref="HideEntityHover"/>.
     /// </summary>
     public event Action<int, bool, string?>? EntityHoverRequested;
+
+    /// <summary>
+    /// Monaco xin Completion trong island JS (Phase 4) — host trả danh sách để bridge resolve
+    /// Promise. Trả về null/rỗng nghĩa là không gợi ý.
+    /// </summary>
+    public event Func<int, bool, object?>? FboJsCompleteRequested;
+
+    /// <summary>Monaco xin Signature Help; trả null nếu không có.</summary>
+    public event Func<int, bool, object?>? FboJsSignatureRequested;
+
+    /// <summary>
+    /// Tab trong vùng SQL: host quyết định dòng có expand được không (offset, lineText) → chuỗi
+    /// thay thế, hoặc null để Tab giữ hành vi mặc định.
+    /// </summary>
+    public event Func<int, string, string?>? OptionsSnippetRequested;
 
     /// <summary>
     /// Theme dùng chung cho mọi instance (màu token XML, font, Insight Block) — đọc từ
@@ -373,7 +389,12 @@ public partial class MonacoEditorHost : UserControl
                 if (evt.Payload is { } offset_payload
                     && offset_payload.TryGetProperty("offset", out var offset_prop2)
                     && offset_prop2.ValueKind == JsonValueKind.Number)
-                    EntityOffsetActivated?.Invoke(offset_prop2.GetInt32());
+                {
+                    var activated_insight =
+                        offset_payload.TryGetProperty("insight", out var activated_insight_prop)
+                        && activated_insight_prop.ValueKind is JsonValueKind.True;
+                    EntityOffsetActivated?.Invoke(offset_prop2.GetInt32(), activated_insight);
+                }
                 break;
 
             case EditorHostEvents.EntityHoverRequested:
@@ -390,7 +411,69 @@ public partial class MonacoEditorHost : UserControl
                     EntityHoverRequested?.Invoke(hover_offset_prop.GetInt32(), insight, entity_name);
                 }
                 break;
+
+            case EditorHostEvents.FboJsCompleteRequested:
+                if (TryReadAssistRequest(evt.Payload, out var complete_id, out var complete_offset,
+                        out var complete_insight))
+                {
+                    var items = FboJsCompleteRequested?.Invoke(complete_offset, complete_insight)
+                                ?? Array.Empty<object>();
+                    SendCommandFireAndForget(
+                        EditorHostCommands.FboJsCompleteResult,
+                        new { id = complete_id, items });
+                }
+                break;
+
+            case EditorHostEvents.OptionsSnippetRequested:
+                if (evt.Payload is { } snippet_payload
+                    && snippet_payload.TryGetProperty("id", out var snippet_id_prop)
+                    && snippet_id_prop.ValueKind == JsonValueKind.String)
+                {
+                    var expanded = OptionsSnippetRequested?.Invoke(
+                        snippet_payload.TryGetProperty("offset", out var snippet_offset)
+                        && snippet_offset.ValueKind == JsonValueKind.Number
+                            ? snippet_offset.GetInt32()
+                            : -1,
+                        ReadString(snippet_payload, "lineText"));
+
+                    SendCommandFireAndForget(
+                        EditorHostCommands.OptionsSnippetResult,
+                        new { id = snippet_id_prop.GetString(), expanded });
+                }
+                break;
+
+            case EditorHostEvents.FboJsSignatureRequested:
+                if (TryReadAssistRequest(evt.Payload, out var signature_id, out var signature_offset,
+                        out var signature_insight))
+                {
+                    var help = FboJsSignatureRequested?.Invoke(signature_offset, signature_insight);
+                    SendCommandFireAndForget(
+                        EditorHostCommands.FboJsSignatureResult,
+                        new { id = signature_id, help });
+                }
+                break;
         }
+    }
+
+    /// <summary>Payload assist chung: <c>{ id, offset, insight }</c>.</summary>
+    private static bool TryReadAssistRequest(
+        JsonElement? payload, out string id, out int offset, out bool insight)
+    {
+        id = string.Empty;
+        offset = 0;
+        insight = false;
+
+        if (payload is not { } element) return false;
+        if (!element.TryGetProperty("offset", out var offset_prop)
+            || offset_prop.ValueKind != JsonValueKind.Number) return false;
+
+        id = ReadString(element, "id");
+        if (string.IsNullOrEmpty(id)) return false;
+
+        offset = offset_prop.GetInt32();
+        insight = element.TryGetProperty("insight", out var insight_prop)
+                  && insight_prop.ValueKind is JsonValueKind.True;
+        return true;
     }
 
     /// <summary>

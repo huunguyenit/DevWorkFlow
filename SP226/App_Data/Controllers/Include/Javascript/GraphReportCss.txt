@@ -1,9 +1,0 @@
-﻿  <css>
-    <text>
-      <![CDATA[
-div.Graph{background-image:url(../images/Chart.png);background-repeat:no-repeat;background-position:0 0;}
-div.TextGraph{background-image:url(../images/TextChart.png),url(../images/Line.png);background-repeat:no-repeat,repeat-x;background-position:0 0;}
-div.GraphOverGreen, div.TextGraphOverGreen{background-position:0 -22px;}
-]]>
-    </text>
-  </css>

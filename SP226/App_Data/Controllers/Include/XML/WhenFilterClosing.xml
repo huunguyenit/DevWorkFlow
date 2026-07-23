@@ -1,8 +1,0 @@
-<command event="Closing">
-  <text>
-    <![CDATA[
-select 'close123$VoucherFilter$(this);' as message
-return
-]]>
-  </text>
-</command>

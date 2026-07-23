@@ -32,6 +32,8 @@ public static class Sp226Paths
         return ProgramRoot!;
     }
 
+    // Golden test bám nội dung bản SP226 cụ thể → chỉ nhận đúng thư mục SP226. Corpus khác
+    // (FBISP24, …) dùng FboProgramCorpus trong test Phase 3, không đi qua đây.
     private static string? ResolveProgramRoot()
     {
         var env = Environment.GetEnvironmentVariable("FBO_PROGRAM_PATH");
