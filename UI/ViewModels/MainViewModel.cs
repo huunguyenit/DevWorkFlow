@@ -122,7 +122,7 @@ public class MainViewModel : ViewModelBase
 
         _form_navigator.Attach(OpenFormDocument);
         sql_navigator.Attach(request => OpenSqlDocument(request));
-        sql_navigator.AttachInlineRunner(RunSqlInline);
+        sql_navigator.AttachInlineRunner(request => RunSqlInline(request));
 
         _nav.PageChanged += OnPageChanged;
         _program_session.ProgramChanged += OnProgramChanged;

@@ -4,6 +4,46 @@
              xmlns:bottom="clr-namespace:UI.Views.Bottom"
              xmlns:dock="clr-namespace:UI.Docking">
 
+    <UserControl.Resources>
+        <!--
+            Header dùng chung cho 2 pane SQL (Result / Message): nguồn chạy + CSDL + trạng thái.
+            Cần thiết vì kết quả không còn nằm trong tab SQL — F5 ở Form Source chạy không mở tab,
+            người dùng phải thấy được script nào vừa chạy trên DB nào.
+        -->
+        <DataTemplate x:Key="SqlRunHeaderTemplate">
+            <Border Background="{StaticResource IdeDockHeaderBgBrush}"
+                    BorderBrush="{StaticResource IdeBorderBrush}"
+                    BorderThickness="0,0,0,1"
+                    Padding="8,3">
+                <DockPanel>
+                    <TextBlock Text="{Binding Status}" DockPanel.Dock="Right"
+                               VerticalAlignment="Center"
+                               Foreground="{StaticResource FgMutedBrush}" FontSize="11"
+                               TextTrimming="CharacterEllipsis" Margin="12,0,0,0"/>
+                    <Button Content="Stop" DockPanel.Dock="Right"
+                            Command="{Binding CancelCommand}"
+                            Style="{StaticResource IdeDockTabButtonStyle}"
+                            Margin="8,0,0,0"
+                            Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                    <TextBlock Text="{Binding Title}" VerticalAlignment="Center"
+                               FontWeight="SemiBold" FontSize="11"
+                               Foreground="{StaticResource FgBrush}"
+                               TextTrimming="CharacterEllipsis"/>
+                    <TextBlock Text="{Binding TargetDbLabel}" VerticalAlignment="Center"
+                               Margin="8,0,0,0" FontSize="11"
+                               Foreground="{StaticResource FgMutedBrush}"/>
+                </DockPanel>
+            </Border>
+        </DataTemplate>
+
+        <Style x:Key="SqlEmptyHintStyle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource FgMutedBrush}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="12"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+    </UserControl.Resources>
+
     <DockPanel Background="{StaticResource EditorBgBrush}">
         <Border DockPanel.Dock="Top"
                 Background="{StaticResource IdeDockHeaderBgBrush}"
@@ -52,10 +92,18 @@
                 <bottom:BottomToolPanel DataContext="{Binding DiagnosticsVm.SearchPane}"/>
             </Grid>
 
-            <!-- Phase 5: kết quả / message của lần chạy SQL gần nhất (ActiveSqlDocument). -->
-            <Grid Visibility="{Binding Shell.IsSqlResultSelected, Converter={StaticResource BoolToVisibilityConverter}}"
-                  DataContext="{Binding ActiveSqlDocument}">
-                <DockPanel>
+            <!--
+                Output SQL DÙNG CHUNG: mọi lần chạy (tab SQL hoặc F5 ở Form Source, không mở tab)
+                đều đổ vào ActiveSqlDocument và hiện ở 2 pane này.
+            -->
+            <Grid Visibility="{Binding Shell.IsSqlResultSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource SqlEmptyHintStyle}"
+                           Text="Chưa chạy SQL. F5 trong tab SQL, hoặc bôi đen SQL ở Form Source rồi F5 (không cần mở tab)."
+                           Visibility="{Binding ActiveSqlDocument, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"/>
+                <DockPanel DataContext="{Binding ActiveSqlDocument}"
+                           Visibility="{Binding DataContext.ActiveSqlDocument, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource NullToVisibilityConverter}}">
+                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding}"
+                                      ContentTemplate="{StaticResource SqlRunHeaderTemplate}"/>
                     <ListBox DockPanel.Dock="Left" Width="140"
                              ItemsSource="{Binding ResultSets}"
                              SelectedItem="{Binding SelectedResultSet}"
@@ -76,15 +124,22 @@
                 </DockPanel>
             </Grid>
 
-            <Grid Visibility="{Binding Shell.IsSqlMessageSelected, Converter={StaticResource BoolToVisibilityConverter}}"
-                  DataContext="{Binding ActiveSqlDocument}">
-                <TextBox Text="{Binding MessagesText, Mode=OneWay}"
-                         IsReadOnly="True" TextWrapping="Wrap"
-                         VerticalScrollBarVisibility="Auto"
-                         FontFamily="Cascadia Code, Consolas"
-                         FontSize="12" BorderThickness="0"
-                         Padding="8" Background="Transparent"
-                         Foreground="{StaticResource FgBrush}"/>
+            <Grid Visibility="{Binding Shell.IsSqlMessageSelected, Converter={StaticResource BoolToVisibilityConverter}}">
+                <TextBlock Style="{StaticResource SqlEmptyHintStyle}"
+                           Text="Chưa chạy SQL."
+                           Visibility="{Binding ActiveSqlDocument, Converter={StaticResource NullToVisibilityConverter}, ConverterParameter=Inverse}"/>
+                <DockPanel DataContext="{Binding ActiveSqlDocument}"
+                           Visibility="{Binding DataContext.ActiveSqlDocument, RelativeSource={RelativeSource AncestorType=UserControl}, Converter={StaticResource NullToVisibilityConverter}}">
+                    <ContentPresenter DockPanel.Dock="Top" Content="{Binding}"
+                                      ContentTemplate="{StaticResource SqlRunHeaderTemplate}"/>
+                    <TextBox Text="{Binding MessagesText, Mode=OneWay}"
+                             IsReadOnly="True" TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"
+                             FontFamily="Cascadia Code, Consolas"
+                             FontSize="12" BorderThickness="0"
+                             Padding="8" Background="Transparent"
+                             Foreground="{StaticResource FgBrush}"/>
+                </DockPanel>
             </Grid>
         </Grid>
     </DockPanel>

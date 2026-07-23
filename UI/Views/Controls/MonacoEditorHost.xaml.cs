@@ -84,6 +84,13 @@ public partial class MonacoEditorHost : UserControl
     /// </summary>
     public static UI.Services.EditorThemeOptions? SharedTheme { get; set; }
 
+    /// <summary>
+    /// Expand snippet SQL (Tab) cho editor KHÔNG có Form VM phía sau (tab SQL) — gán từ App, trỏ
+    /// tới Language Service để mẫu đến từ <c>Config/xml/sql-snippets.xml</c> (R1: control không
+    /// giữ danh sách mẫu). Cùng kiểu chia sẻ với <see cref="SharedTheme"/>.
+    /// </summary>
+    public static Func<string, string?>? SharedSnippetExpander { get; set; }
+
     public static readonly DependencyProperty BoundTextProperty =
         DependencyProperty.Register(
             nameof(BoundText),

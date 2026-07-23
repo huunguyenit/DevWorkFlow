@@ -218,8 +218,8 @@ public partial class MainWindow
     }
 
     /// <summary>
-    /// F5: tab SQL chạy như cũ; thêm nhánh Form Source có selection (Phase 5 #5) — tab Form
-    /// KHÔNG có kết quả riêng nên nó mở tab SQL rồi chạy ở đó.
+    /// F5: tab SQL chạy như cũ; Form Source có selection thì chạy NGAY, không mở tab SQL —
+    /// kết quả cả hai đường đều ra panel Result/Message dùng chung ở dock dưới.
     /// </summary>
     private void CanWhenSqlDocument(object sender, CanExecuteRoutedEventArgs e)
     {

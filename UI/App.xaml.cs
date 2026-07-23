@@ -66,7 +66,7 @@ public partial class App : Application
         // thiếu file thì LS giữ catalog rỗng (mất gợi ý, không sập).
         language_service.LoadFboJsCatalog(app_config.GetXmlPath("fbo-js.catalog.xml"));
         language_service.LoadSqlSnippets(app_config.GetXmlPath("sql-snippets.xml"));
-        Views.Controls.BindableSqlEditor.SharedSnippetExpander = language_service.TryExpandSqlSnippet;
+        Views.Controls.MonacoEditorHost.SharedSnippetExpander = language_service.TryExpandSqlSnippet;
         Views.Controls.MonacoEditorHost.SharedTheme = app_config.EditorTheme;
         var sql_runner        = new SqlScriptRunner();
         var sql_navigator     = new SqlStudioNavigator();
