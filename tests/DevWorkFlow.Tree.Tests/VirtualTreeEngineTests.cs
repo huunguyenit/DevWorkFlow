@@ -198,6 +198,52 @@ public sealed class VirtualTreeEngineTests
         Assert.Empty(engine.VisibleRows);
     }
 
+    /// <summary>
+    /// Explorer bug (spec 2026-07-24): search "Customer" rồi đổi "Item" — Dir/Filter/Grid có Item.xml
+    /// PHẢI hiện, không kế thừa nhánh Customer cũ; Customer.xml không còn hiện.
+    /// </summary>
+    [Fact]
+    public async Task Search_keyword_change_shows_new_matches_across_all_folders()
+    {
+        var ds = new FakeDataSource();
+        var dir = ds.AddRoot("Dir", has_children: true);
+        var filter = ds.AddRoot("Filter", has_children: true);
+        var grid = ds.AddRoot("Grid", has_children: true);
+        MakeFile(ds, dir.Id, "Customer.xml");
+        MakeFile(ds, dir.Id, "Item.xml");
+        MakeFile(ds, filter.Id, "Customer.xml");
+        MakeFile(ds, filter.Id, "Item.xml");
+        MakeFile(ds, grid.Id, "Item.xml");
+
+        await using var engine = new VirtualTreeEngine(ds);
+        await engine.InitializeAsync();
+
+        // Search "Customer" → Dir/Filter hiện với Customer.xml.
+        await engine.ApplySearchMatchesAsync(
+            await ds.SearchAsync("Customer", CancellationToken.None), CancellationToken.None);
+        var after_customer = engine.VisibleRows.Select(r => r.Node.DisplayName).ToList();
+        Assert.Contains("Dir", after_customer);
+        Assert.Contains("Filter", after_customer);
+        Assert.Contains("Customer.xml", after_customer);
+        Assert.DoesNotContain("Item.xml", after_customer);
+
+        // Đổi search "Item" → Dir/Filter/Grid hiện với Item.xml; Customer.xml biến mất.
+        await engine.ApplySearchMatchesAsync(
+            await ds.SearchAsync("Item", CancellationToken.None), CancellationToken.None);
+        var after_item = engine.VisibleRows.Select(r => r.Node.DisplayName).ToList();
+        Assert.Contains("Dir", after_item);
+        Assert.Contains("Filter", after_item);
+        Assert.Contains("Grid", after_item);
+        Assert.Equal(3, after_item.Count(n => n == "Item.xml"));
+        Assert.DoesNotContain("Customer.xml", after_item);
+    }
+
+    private static void MakeFile(FakeDataSource ds, Guid parent_id, string name)
+    {
+        var file = ds.AddChild(parent_id, name, has_children: false);
+        ds.UpdateNode(file with { Kind = TreeNodeKind.File, SearchKey = name });
+    }
+
     [Fact]
     public async Task Lru_does_not_dispose_expanded_branch()
     {

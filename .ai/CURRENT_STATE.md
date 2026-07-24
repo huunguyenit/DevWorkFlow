@@ -168,8 +168,8 @@ model = ADR-0006, task riêng.
     `CreateFieldAndInsert` viết lại (Replace→Place; Before/After→Input; AutoComplete tạo `ac_N`+`ten_ac_N`
     `readOnly`, `items@reference=ten_ac_N%l`); `DescribeControl` khớp FBO (CheckBox `items@style=Checkbox`,
     DateTime `dataFormatString=@dateTimeFormat`, Numeric `Decimal`+`dataFormatString=""`);
-    `RemoveField(out removed)` xóa mọi ô + `<field>` (AutoComplete xóa cả cặp); `EnsureSpareTrailingRow`
-    (**chỉ Main** — hàng trống không mang field nên category/footer sẽ trôi về main khi reparse);
+    `RemoveField(out removed)` xóa mọi ô + `<field>` (AutoComplete xóa cả cặp); (spare row → render-side ở
+    4b, không còn model `EnsureSpareTrailingRow`);
     `AddTabCategory` (Normal = category rỗng; Grid/Post/List seed field `items@style` chiếm trọn hàng →
     reparse-ổn định); `ResizeFormWidth` (phân bổ lại widths theo tỉ lệ) + `SetRegionHeight` (Main→`view@height`).
     `ResolveOrCreateRow` tạo backing row khi thả vào category/footer chưa có hàng.
@@ -185,9 +185,71 @@ model = ADR-0006, task riêng.
     **Delete/Backspace** trên slot có control → `remove` (host hỏi Yes/No); `data-dwf-split`/`data-dwf-anchor`
     trên bảng main → vẽ **line chia** (theme `splitDivider`) + **icon ⚓** trên cột anchor. Selection click
     chỉ highlight + Property Grid (`SelectCellAny`), không điều hướng.
-- **Chưa làm (P6+):** Undo/Redo Design Command (non-goal) · Replace-on-drop đè control · category/footer spare
-  row reparse-stable (chỉ Main) · Normal tab rỗng chưa droppable đến khi có builder render spare row · rename
-  field từ Property Grid (backlog) · DOM patch incremental (vẫn full refresh) · ADR-0006 Serializer.
+- **Layout Blueprint P6 4b — Hidden rows + Split barrier + Spare (2026-07-24, landed):** theo spec §5/§6
+  (`...p6-toolbox-fbo-ux-design.md`).
+  - **Hidden-only ẩn hẳn (A):** `DesignFormHtmlBuilder` không emit `<tr>` cho hàng hidden-only
+    (`IsHiddenOnlyRow` = có ≥1 ô hidden và không control visible; ô Empty không tính hidden). Ô hidden trong
+    hàng hỗn hợp render `td.DwfHiddenCell` **không** `data-dwf-slot` (không drop target). `row_index` giữ theo
+    model để slot map đúng. Model/XML/Writer **không** đụng token hidden.
+  - **Spare render-side (bỏ model `EnsureSpareTrailingRow`):** builder thêm đúng **một** hàng cuối visible
+    toàn Empty (`tr.DwfSpareRow`) cho main / footer / category **Normal** khi hàng visible cuối chưa toàn
+    Empty (bỏ qua hàng hidden-only). Tab Normal rỗng nay **có ô thả** (render spare cả khi 0 hàng model);
+    thả vào spare → `ResolveOrCreateRow` tạo backing row mang field → reparse-ổn định. Không đụng model →
+    **hết duplicate dòng**. Category Grid/Post/List (seed) không ép spare.
+  - **Split barrier:** `MergeSlots` Fail `Cannot merge across view@split` khi span vượt biên (0-based cột
+    `split`); `PlaceFieldParts` cắt tại biên (`SplitRightLimit`); Before/After chỉ mượn cột **cùng phía**
+    split. Merge Empty+Control giữ nguyên `FieldName`/Kind (chỉ dời cột) — Property Grid sau merge cùng field.
+- **Layout Blueprint P6 gap-fix (2026-07-24, landed):** hoàn thiện UX 5c/5f + anchor/split điều chỉnh được.
+  - **5c merge/split kéo mép ô:** handle mép phải hiện khi chọn Control (lvl1) **hoặc** Slot (lvl2),
+    `cursor:col-resize` rõ khi hover; kéo **phải** N cột → `merge{slot,count}` → `ApplyBlueprintMergeRun`
+    (loop `MergeSlots` với sibling phải, dừng ở barrier split, commit 1 lần); kéo **trái** span>1 →
+    `SplitSlot`. Bỏ nút chrome Merge/Split. Gesture tách move (mousedown giữa ô, threshold 5px).
+  - **5f kéo cao — chỉ category tab active:** `categoryHeightHandle` mép dưới panel, `cursor:row-resize`;
+    `regionHeight{regionId=cat:N}` → `SetRegionHeight` (Normal→`view@height`; Grid/Post/List seed→`field@rows`
+    ghi qua `ApplyFieldProperty`). **Bỏ** handle kéo cao main/footer; engine Fail nếu region ≠ category.
+  - **Anchor/Split kéo chỉnh:** line `view@split` = hit-target `col-resize`, kéo → snap cột gần nhất →
+    `setSplit` → `SetSplit`; icon ⚓ `view@anchor` kéo → snap cột → `setAnchor` → `SetAnchor` (chỉ metadata,
+    không đổi widths). Barrier merge vẫn theo split mới.
+  - **Preview kéo merge/split (2026-07-24):** khi đang kéo mép ô, overlay `#dwf-edge-preview` (riêng, không
+    đụng DOM control) tô trước: **merge** = ô hiện tại + N sibling phải sẽ gộp (clamp theo split barrier,
+    count khớp lúc commit); **split** = cột giữ (control) một màu + phần tách thành Empty màu khác (gạch).
+    Màu từ theme JSON (`mergePreview`/`splitKeepPreview`/`splitReleasePreview`). Xóa preview ngay khi
+    mouseup / Esc; không mở rộng qua biên `view@split`.
+- **P6 bugfix batch (2026-07-24, landed):**
+  - **Bug1+2 — view lắp từ entity: write-back v2 ownership landed (2026-07-24).**
+    Commit đi `CommitLayoutWrite`: view thuần → `ApplyLayout` Dir như P6; view còn entity ref → **không chặn**,
+    `EntityViewWritebackPlanner.BuildPlan` + `ItemValueOwnershipSerializer` phân mảnh từng `<item value>` theo
+    **ownership cột/token**: cột pattern literal → patch literal trong host (Dir/file entity chứa item); cột thuộc
+    `&E;` → chỉ đổi **value của E** (giữ `&E;` trong item); token control `[&k;]`/`[&Tag;dv]` → giữ ref khi control
+    không đổi, chỉ rebuild token đã đổi. Ví dụ đã test: `110&x;` (`&x;="0-1"`) merge → chỉ `&x;`→`"010"`, Dir giữ
+    `110&x;`; `&y;:…` split → chỉ value `y`; `1-: [&k;].Label` merge → Dir literal `10: [&k;].Label` (không expand
+    `&k;`). Entity inline khai trong Dir DOCTYPE → patch value ngay trên Dir (không đi `UpdateEntityValue` để tránh
+    reparse XmlSource cũ ghi đè); SYSTEM/include → `UpdateEntityValue`. **Không ApplyLayout ClearText full vào Dir
+    khi Raw còn `&…;` → hết phantom.** Không map được 1 hàng (độ dài entity value ≠ số cột, add/xóa hàng) → giữ raw
+    hàng đó, thao tác vẫn cho (chưa persist; spare-add-row = follow-up). Spec/plan v2:
+    `docs/superpowers/specs/2026-07-24-blueprint-entity-view-writeback-design.md`,
+    `docs/superpowers/plans/2026-07-24-blueprint-entity-view-writeback.md`; tests `EntityViewWritebackTests`.
+    ADR-0006 Serializer vẫn đích dài hạn (thay adapter regex-patch này).
+  - **Toolbox highlight (2026-07-24):** `ToolboxItemVm.IsSelected` + `ToolboxViewModel.SelectControl` (chọn độc
+    quyền); click control trong palette → highlight (border `PrimaryBrush` + nền `SidebarSelectedBrush`), độc lập
+    hover/drag broker. Không đổi layout Left Panel.
+  - **Explorer search reset (2026-07-24):** `VirtualTreeEngine` theo dõi `_stitched_children`/`_stitched_expanded`
+    do `StitchSearchPath` thêm và `ResetSearchStitch_NoLock` undo đầu mỗi `ApplySearchMatchesAsync` + trong
+    `ClearSearchFilter` → đổi keyword không kế thừa nhánh cũ. Test `Search_keyword_change_shows_new_matches_across_all_folders`.
+    (Ghi chú: keep-set đã lọc đúng theo keyword mới; nếu live app vẫn ẩn Dir/Filter, nghi `FileSystemDataSource.SearchAsync`
+    cap/thứ tự DFS cắt hit — cần xác nhận trên corpus thật trước khi đổi cap.)
+  - **Bug3 — split luôn về 1 cột:** `ShrinkSlot(form, slot, keep_span)` (SplitSlot = keep 1); gesture kéo trái
+    mép ô giờ tách **từng cột** theo khoảng kéo (`shrink{slot,keep}` — keep khớp preview splitKeep/Release
+    đã vẽ khi kéo).
+  - **Bug4 — entity trong conditional section parse sai (Item.xml `&Tiny.External.Form.CategoryIndex.Item;`
+    = 1 thay vì 9):** 2 lỗi trong `EntitySymbolBinder`: (a) `XmlEntity.Value` luôn null (.NET) → InlineValue ""
+    → match-by-value fail → `any_inline` first-wins chọn khai báo trong `<![%Cond;[…]]>` IGNORE; fix dùng
+    `InnerText` + ưu tiên declaration `!InIgnoredSection`; (b) fallback regex (khi XmlDocument fail) giờ tính
+    `ComputeIgnoredRanges` (đọc `%Cond;` từ file SYSTEM, vd. `Tiny.External.txt` = IGNORE, trim BOM) — khai báo
+    trong IGNORE nhường khai báo ngoài. Verify trên Item.xml thật: ClearText `categoryIndex="9"`.
+- **Chưa làm (P6+ / kế tiếp):** Entity write-back mở rộng (mosaic nhiều entity xen kẽ · sửa attr entity phương án A ·
+  đổi số hàng trên entity view) · Undo/Redo Design Command · Replace-on-drop · rename field · DOM patch ·
+  ADR-0006 Semantic Serializer (dài hạn).
 
 `SkinUrlHelper` gợi ý base_url = `https://dev.fast.com.vn/<tên dự án>`; `SkinManifest`/`SkinCaptureRequest`
 có `DocKind` (`ControllerDisplayKind`). Menu "Xem skin" đã gỡ.

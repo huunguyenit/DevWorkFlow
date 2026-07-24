@@ -216,9 +216,11 @@ public sealed class EntitySymbolBinder
 
         if (active_entities.Count == 0)
         {
-            // Fallback: first-wins + cảnh báo trùng (DTD pre-resolve thất bại).
+            // Fallback: first-wins, NHƯNG khai báo trong section IGNORE nhường khai báo ngoài (active).
+            // Pass 1: khai báo không bị IGNORE (first-wins). Pass 2: khai báo IGNORE chỉ khi chưa có active.
             foreach (var declaration in declarations)
             {
+                if (declaration.InIgnoredSection) continue;
                 if (definitions.TryAdd(declaration.Name, declaration))
                     continue;
 
@@ -227,6 +229,12 @@ public sealed class EntitySymbolBinder
                     ErpDiagnosticSeverity.Warning,
                     $"Entity trùng tên: {declaration.Name}",
                     declaration.Definition));
+            }
+
+            foreach (var declaration in declarations)
+            {
+                if (declaration.InIgnoredSection)
+                    definitions.TryAdd(declaration.Name, declaration);
             }
 
             return definitions;
@@ -290,14 +298,22 @@ public sealed class EntitySymbolBinder
         else
         {
             var inline_value = active.InlineValue ?? string.Empty;
-            // Ưu tiên inline đúng giá trị (kể cả rỗng sau IGNORE).
+            // Ưu tiên inline đúng giá trị (kể cả rỗng sau IGNORE); trong đó ưu tiên declaration
+            // KHÔNG nằm trong section IGNORE (khai báo active thật sự).
             var by_value = candidates.FirstOrDefault(c =>
-                c.Kind == EntityDeclarationKind.Inline
-                && string.Equals(c.RawValue ?? string.Empty, inline_value, StringComparison.Ordinal));
+                    c.Kind == EntityDeclarationKind.Inline
+                    && !c.InIgnoredSection
+                    && string.Equals(c.RawValue ?? string.Empty, inline_value, StringComparison.Ordinal))
+                ?? candidates.FirstOrDefault(c =>
+                    c.Kind == EntityDeclarationKind.Inline
+                    && string.Equals(c.RawValue ?? string.Empty, inline_value, StringComparison.Ordinal));
             if (by_value is not null) return by_value;
 
-            // Fallback: bất kỳ inline nào (sẽ bị ApplyActiveValue ghi đè RawValue).
-            var any_inline = candidates.FirstOrDefault(c => c.Kind == EntityDeclarationKind.Inline);
+            // Fallback: inline ngoài IGNORE trước (first-wins theo W3C cho khai báo ACTIVE),
+            // rồi mới tới bất kỳ inline nào (ApplyActiveValue sẽ ghi đè RawValue).
+            var any_inline = candidates.FirstOrDefault(c =>
+                    c.Kind == EntityDeclarationKind.Inline && !c.InIgnoredSection)
+                ?? candidates.FirstOrDefault(c => c.Kind == EntityDeclarationKind.Inline);
             if (any_inline is not null) return any_inline;
         }
 
@@ -540,9 +556,12 @@ public sealed class EntitySymbolBinder
 
             foreach (XmlEntity entity in doc.DocumentType.Entities)
             {
-                // Chuẩn hoá: Value null → "" để so khớp với IGNORE stub.
+                // XmlEntity.Value luôn null (spec .NET) → dùng InnerText (replacement text; nested đã
+                // expand — chỉ để MATCH declaration, không dùng làm RawValue). "" cho IGNORE stub.
                 result[entity.Name] = new ActiveEntityInfo(
-                    InlineValue: entity.SystemId is null ? entity.Value ?? string.Empty : null,
+                    InlineValue: entity.SystemId is null
+                        ? entity.Value ?? entity.InnerText ?? string.Empty
+                        : null,
                     SystemId: entity.SystemId,
                     IsParameter: false);
             }
@@ -559,6 +578,147 @@ public sealed class EntitySymbolBinder
         }
 
         return result;
+    }
+
+    private static readonly Regex MarkedSectionStartRegex =
+        new(@"<!\[\s*(?<status>%[\w.\-]+;|INCLUDE|IGNORE)\s*\[", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+    private static readonly Regex ParamSystemRegex =
+        new("""<!ENTITY\s+%\s+(?<name>[\w.\-]+)\s+SYSTEM\s+(?:"(?<sys>[^"]*)"|'(?<sys>[^']*)')""", RegexOptions.Compiled);
+
+    private static readonly Regex ParamInlineRegex =
+        new("""<!ENTITY\s+%\s+(?<name>[\w.\-]+)\s+(?:"(?<val>[^"]*)"|'(?<val>[^']*)')""", RegexOptions.Compiled);
+
+    private static bool IsInRange(int index, List<(int start, int end)> ranges)
+    {
+        foreach (var (start, end) in ranges)
+            if (index >= start && index < end) return true;
+        return false;
+    }
+
+    /// <summary>
+    /// Tìm các vùng nội dung của conditional marked section <c>&lt;![status[…]]&gt;</c> resolve = IGNORE.
+    /// status có thể là literal INCLUDE/IGNORE hoặc <c>%Name;</c> (đọc parameter entity). Chỉ đánh dấu khi
+    /// chắc chắn IGNORE (an toàn: không rõ → giữ nguyên như first-wins cũ). INCLUDE thì quét tiếp bên trong
+    /// (bắt nested IGNORE); IGNORE thì bỏ qua toàn bộ nội dung.
+    /// </summary>
+    private static List<(int start, int end)> ComputeIgnoredRanges(
+        string text, string declaring_path, IReadOnlyList<EntityDeclaration> known)
+    {
+        var ranges = new List<(int start, int end)>();
+        if (string.IsNullOrEmpty(text) || !text.Contains("<!["))
+            return ranges;
+
+        var i = 0;
+        while (i < text.Length)
+        {
+            var m = MarkedSectionStartRegex.Match(text, i);
+            if (!m.Success) break;
+
+            var content_start = m.Index + m.Length; // sau dấu '[' mở
+            var content_end = FindMarkedSectionEnd(text, content_start);
+            if (content_end < 0) break; // không đóng → dừng an toàn
+
+            var status = ResolveMarkedStatus(m.Groups["status"].Value, declaring_path, known);
+            if (status == MarkedStatus.Ignore)
+            {
+                ranges.Add((content_start, content_end));
+                i = content_end + 3; // qua ']]>' — nested đã bị bao bởi IGNORE
+            }
+            else
+            {
+                // INCLUDE hoặc không rõ: quét tiếp bên trong để bắt nested section.
+                i = content_start;
+            }
+        }
+        return ranges;
+    }
+
+    /// <summary>Vị trí bắt đầu của <c>]]&gt;</c> khớp, tính cả nested <c>&lt;![</c>.</summary>
+    private static int FindMarkedSectionEnd(string text, int content_start)
+    {
+        var depth = 1;
+        var j = content_start;
+        while (j < text.Length)
+        {
+            if (j + 3 <= text.Length && text[j] == '<' && text[j + 1] == '!' && text[j + 2] == '[')
+            {
+                depth++;
+                j += 3;
+            }
+            else if (j + 3 <= text.Length && text[j] == ']' && text[j + 1] == ']' && text[j + 2] == '>')
+            {
+                depth--;
+                if (depth == 0) return j;
+                j += 3;
+            }
+            else j++;
+        }
+        return -1;
+    }
+
+    private enum MarkedStatus { Include, Ignore, Unknown }
+
+    private static MarkedStatus ResolveMarkedStatus(
+        string raw_status, string declaring_path, IReadOnlyList<EntityDeclaration> known)
+    {
+        var s = raw_status.Trim();
+        if (s.Equals("IGNORE", StringComparison.OrdinalIgnoreCase)) return MarkedStatus.Ignore;
+        if (s.Equals("INCLUDE", StringComparison.OrdinalIgnoreCase)) return MarkedStatus.Include;
+
+        // %Name; → giá trị parameter entity (đọc file SYSTEM hoặc inline). Trim BOM + whitespace.
+        if (s.StartsWith('%') && s.EndsWith(';'))
+        {
+            var name = s[1..^1].Trim();
+            var value = ResolveParameterStatusValue(name, declaring_path, known);
+            if (value is null) return MarkedStatus.Unknown;
+            var v = value.Trim().Trim('﻿').Trim();
+            if (v.Equals("IGNORE", StringComparison.OrdinalIgnoreCase)) return MarkedStatus.Ignore;
+            if (v.Equals("INCLUDE", StringComparison.OrdinalIgnoreCase)) return MarkedStatus.Include;
+        }
+        return MarkedStatus.Unknown;
+    }
+
+    private static string? ResolveParameterStatusValue(
+        string name, string declaring_path, IReadOnlyList<EntityDeclaration> known)
+    {
+        // 1) Parameter entity đã collect ở file cha (raw_value = nội dung file SYSTEM đã đọc).
+        var decl = known.LastOrDefault(d =>
+            d.Kind == EntityDeclarationKind.Parameter
+            && string.Equals(d.Name, name, StringComparison.OrdinalIgnoreCase)
+            && d.RawValue is not null);
+        if (decl?.RawValue is { } collected) return collected;
+
+        // 2) Khai báo cục bộ trong chính file này (chưa vào 'known' khi scan trước loop).
+        var text = SafeReadFile(declaring_path);
+        if (text is null) return null;
+
+        var inline = ParamInlineRegex.Matches(text)
+            .Cast<Match>()
+            .LastOrDefault(mm => string.Equals(mm.Groups["name"].Value, name, StringComparison.OrdinalIgnoreCase));
+        if (inline is not null) return inline.Groups["val"].Value;
+
+        var sys = ParamSystemRegex.Matches(text)
+            .Cast<Match>()
+            .LastOrDefault(mm => string.Equals(mm.Groups["name"].Value, name, StringComparison.OrdinalIgnoreCase));
+        if (sys is not null)
+        {
+            var resolved = ResolveSystemPath(declaring_path, sys.Groups["sys"].Value);
+            if (resolved is not null) return SafeReadFile(resolved);
+        }
+        return null;
+    }
+
+    private static string? SafeReadFile(string? path)
+    {
+        try
+        {
+            return string.IsNullOrWhiteSpace(path) || !File.Exists(path) ? null : File.ReadAllText(path);
+        }
+        catch
+        {
+            return null;
+        }
     }
 
     private static void CollectDeclarations(
@@ -582,9 +742,10 @@ public sealed class EntitySymbolBinder
         }
 
         // Single-pass: scan tất cả declarations bằng regex, lấy offset chính xác.
-        // Việc lọc INCLUDE/IGNORE đã được xử lý bởi ResolveActiveDtdEntities (XmlDocument)
-        // ở tầng trên — CollectDeclarations chỉ cần cung cấp đầy đủ offset cho mọi declaration
-        // để Bind() có thể chọn đúng declaration sau khi đã biết entity nào active.
+        // Ưu tiên XmlDocument (ResolveActiveDtdEntities) quyết INCLUDE/IGNORE; nhưng khi nó fail
+        // (DTD external include khổng lồ), fallback dùng cờ InIgnoredSection để bỏ khai báo trong
+        // section IGNORE (vd. <![%Conditional.Tiny.External;[ ... ]]> khi Tiny.External.txt = IGNORE).
+        var ignored_ranges = ComputeIgnoredRanges(text, declaring_path, declarations);
         var current_declarations = new List<EntityDeclaration>();
         foreach (Match match in DeclarationRegex.Matches(text))
         {
@@ -668,7 +829,8 @@ public sealed class EntitySymbolBinder
                 IsResolved = is_resolved,
                 Definition = definition,
                 ValueLocation = value_location,
-                DeclaringPath = declaring_path
+                DeclaringPath = declaring_path,
+                InIgnoredSection = IsInRange(match.Index, ignored_ranges)
             };
             declarations.Add(declaration);
             current_declarations.Add(declaration);
@@ -1383,5 +1545,8 @@ public sealed class EntitySymbolBinder
         public SourceLocation ValueLocation { get; init; } = SourceLocation.None;
 
         public string DeclaringPath { get; init; } = string.Empty;
+
+        /// <summary>Khai báo nằm trong conditional marked section <c>&lt;![%cond;[…]]&gt;</c> resolve = IGNORE.</summary>
+        public bool InIgnoredSection { get; init; }
     }
 }

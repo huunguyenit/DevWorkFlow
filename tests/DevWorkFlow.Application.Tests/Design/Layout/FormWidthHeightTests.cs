@@ -30,22 +30,35 @@ public sealed class FormWidthHeightTests
     }
 
     [Fact]
-    public void SetRegionHeight_MainWritesViewHeight()
+    public void SetRegionHeight_NormalCategory_WritesViewHeight()
     {
-        var form = LayoutTestXml.ParseForm(LayoutTestXml.SimpleDir);
-        Assert.True(Engine().SetRegionHeight(form, LayoutRegionId.Main, 320).Ok);
+        // CategoryAndFooterDir có tab index 1 (Normal, không seed Grid).
+        var form = LayoutTestXml.ParseForm(LayoutTestXml.CategoryAndFooterDir);
+        Assert.True(Engine().SetRegionHeight(form, LayoutRegionId.Category(1), 320, out var rows_field).Ok);
 
-        var xml = new FboXmlWriter().ApplyLayout(LayoutTestXml.SimpleDir, form);
+        Assert.Null(rows_field);
+        var xml = new FboXmlWriter().ApplyLayout(LayoutTestXml.CategoryAndFooterDir, form);
         Assert.Contains("height=\"320\"", xml);
-
-        var reparsed = LayoutTestXml.ParseForm(xml);
-        Assert.Equal(320, reparsed.Layout!.HeightPx);
+        Assert.Equal(320, LayoutTestXml.ParseForm(xml).Layout!.HeightPx);
     }
 
     [Fact]
-    public void SetRegionHeight_NonMainFails()
+    public void SetRegionHeight_GridCategory_ReturnsSeedFieldForRows()
+    {
+        var form = LayoutTestXml.ParseForm(LayoutTestXml.SimpleDir);
+        Assert.True(Engine().AddTabCategory(form, "Grid", "Detail", "Detail", "DetailX", out var seed).Ok);
+
+        Assert.True(Engine().SetRegionHeight(form, LayoutRegionId.Category(seed!.CategoryIndex!.Value), 240, out var rows_field).Ok);
+
+        Assert.Equal(seed.Name, rows_field);
+        Assert.Equal(240, seed.Rows);
+    }
+
+    [Fact]
+    public void SetRegionHeight_MainOrFooter_Fails()
     {
         var form = LayoutTestXml.ParseForm(LayoutTestXml.CategoryAndFooterDir);
-        Assert.False(Engine().SetRegionHeight(form, LayoutRegionId.Footer, 100).Ok);
+        Assert.False(Engine().SetRegionHeight(form, LayoutRegionId.Main, 320, out _).Ok);
+        Assert.False(Engine().SetRegionHeight(form, LayoutRegionId.Footer, 100, out _).Ok);
     }
 }

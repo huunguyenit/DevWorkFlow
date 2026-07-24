@@ -30,6 +30,10 @@ public partial class ToolboxPanel : UserControl
         if (sender is not FrameworkElement el || el.DataContext is not ToolboxItemVm item || !item.IsEnabled)
             return;
 
+        // Highlight selection ngay khi click (độc lập với drag broker).
+        if (DataContext is ToolboxViewModel vm)
+            vm.SelectControl(item);
+
         _pending = item.IsTab && item.TabKind is { Length: > 0 } tab_kind
             ? DesignToolboxDragPayload.Tab(tab_kind, item.Name)
             : item.ControlKind is { } kind

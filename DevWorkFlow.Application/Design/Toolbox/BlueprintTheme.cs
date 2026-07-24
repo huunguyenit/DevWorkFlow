@@ -24,6 +24,11 @@ public sealed record BlueprintTheme
     public string SpareRowHighlight { get; init; } = "rgba(46, 125, 50, 0.12)";
     public string GhostLabelInput { get; init; } = "rgba(21, 101, 192, 0.25)";
 
+    // Preview khi kéo mép ô merge/split.
+    public string MergePreview { get; init; } = "rgba(21, 101, 192, 0.25)";
+    public string SplitKeepPreview { get; init; } = "rgba(21, 101, 192, 0.28)";
+    public string SplitReleasePreview { get; init; } = "rgba(120, 120, 120, 0.18)";
+
     public static BlueprintTheme Default { get; } = new();
 
     /// <summary>JSON object literal cho script Blueprint (`var THEME = {...}`).</summary>
@@ -43,6 +48,9 @@ public sealed record BlueprintTheme
         splitDivider = SplitDivider,
         anchorIcon = AnchorIcon,
         spareRowHighlight = SpareRowHighlight,
-        ghostLabelInput = GhostLabelInput
+        ghostLabelInput = GhostLabelInput,
+        mergePreview = MergePreview,
+        splitKeepPreview = SplitKeepPreview,
+        splitReleasePreview = SplitReleasePreview
     });
 }

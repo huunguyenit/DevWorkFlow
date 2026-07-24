@@ -2,11 +2,16 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Palette control FBO từ config XML (TextBox kế thừa + Place L/I/D), Remove field khỏi view+XML, bỏ FIELDS khỏi Toolbox, Tab 4 loại (dialog properties trước add), Ctrl+Click → Source, resize cột kiểu Word (mép trên), merge/split bằng kéo mép ô, luôn +1 dòng trống region thường, màu Blueprint từ config JSON. Thêm: kéo dãn **dọc** từng region (header / category / footer), kéo dãn **ngang** toàn form; chrome `view@split` (line 2 vùng) + `view@anchor` (icon mỏ neo).
+**Spec (SoT quyết định):** [`docs/superpowers/specs/2026-07-24-layout-blueprint-p6-toolbox-fbo-ux-design.md`](../specs/2026-07-24-layout-blueprint-p6-toolbox-fbo-ux-design.md)  
+**Parent vision:** [`docs/superpowers/specs/2026-07-23-layout-blueprint-designer-design.md`](../specs/2026-07-23-layout-blueprint-designer-design.md)
 
-**Architecture:** Catalog IDE (`UI/Config/xml/toolbox-controls.xml` + `json/blueprint-theme.json`) → Application parser/catalog → Toolbox UI chỉ drag catalog. Engine `CreateFieldAndInsert` / `PlaceFieldParts` / `RemoveField` / spare-row invariant; Writer `ApplyNewField` (đủ attrs) + `ApplyRemoveField`. Blueprint JS: top-only column splitters, cell-edge merge/split, region height / form width handles, split+anchor chrome, Ctrl+Click, Delete. Tab add qua dialog + `AddCategory` seed.
+**Goal:** Palette control FBO từ config XML (TextBox kế thừa + Place L/I/D), Remove field khỏi view+XML, bỏ FIELDS khỏi Toolbox, Tab 4 loại (dialog properties trước add), Ctrl+Click → Source, resize cột kiểu Word (mép trên), merge/split bằng kéo mép ô, luôn +1 dòng trống **visible**, **ẩn hẳn hàng hidden-only (A)**, `split` = biên cứng merge, kéo dãn dọc region + ngang form; chrome `view@split` + `view@anchor`.
+
+**Architecture:** Catalog IDE (`UI/Config/xml/toolbox-controls.xml` + `json/blueprint-theme.json`) → Application parser/catalog → Toolbox UI chỉ drag catalog. Engine `CreateFieldAndInsert` / `PlaceFieldParts` / `RemoveField` / spare-row (visible) / split barrier; Writer `ApplyNewField` + `ApplyRemoveField`. `DesignFormHtmlBuilder` skip emit hàng hidden-only. Blueprint JS: top-only column splitters, cell-edge merge/split, region height / form width, split+anchor chrome, Ctrl+Click, Delete. Tab add qua dialog + `AddCategory` seed.
 
 **Tech Stack:** .NET 10, WPF, WebView2 Blueprint script, xUnit. Pattern config giống `sql-functions.xml` / `toolbar.json`.
+
+**Khi conflict:** Spec P6 > Plan wording > Parent Blueprint spec roadmap wording.
 
 **Parent decisions (đã chốt — không hỏi lại):**
 
@@ -18,19 +23,23 @@
 | TextBox drop | Ưu tiên `[x]` → `[x].Label` → `[x].Description`; chỉ 1 ô trống → chỉ `[x]` |
 | Config | Controls = XML; màu line = JSON |
 | Scope | Full P6 một milestone |
+| Blueprint hàng `hidden` | **(A) ẩn hẳn hàng** — không emit slot/HTML cho hàng toàn cell field `@hidden` (vẫn giữ trong XML/model) |
+| Merge vs `view@split` | Split = biên cứng; **cấm** merge / Place span qua điểm split |
 
 ---
 
 ## Global Constraints
 
+- **Spec:** `docs/superpowers/specs/2026-07-24-layout-blueprint-p6-toolbox-fbo-ux-design.md` (đọc trước khi code)
 - Entry: `CLAUDE.md`; Architecture R1–R10; **Left Panel UX freeze** (chỉ đổi nội dung list Toolbox, không đổi chrome dock)
 - UI never parses FBO form XML; catalog IDE XML/JSON OK (như `sql-functions.xml`)
 - Local vars / params / temps: `snake_case`
 - Do **not** edit the Cursor plan file under `.cursor/plans/`
 - Do **not** commit unless user explicitly asks
 - Preserve unrelated uncommitted work; no destructive git
-- Non-goals cứng: Undo/Redo **đầy đủ** Design Command history; Replace-on-drop đè control; ADR-0006 Serializer; **đổi tên field** từ Property Grid (backlog riêng — xem § Gợi ý)
-- Gợi ý P6+ (Ghost, Undo 1 bước, spare highlight, Tab Grid deep-link): **không chặn exit** — làm nếu còn thời gian sau Task 1–6; chi tiết § Gợi ý thêm
+- Non-goals cứng: Undo/Redo **đầy đủ** Design Command history; Replace-on-drop đè control; ADR-0006 Serializer; **đổi tên field** từ Property Grid (backlog — Spec §2 / Plan G3)
+- P6+ (Ghost, Undo 1 bước, spare highlight, Tab Grid deep-link): **không chặn exit** — Spec §2 / Plan § Gợi ý
+- Task **4b** (hidden A + split barrier + spare) thuộc **bắt buộc** — sửa bug duplicate row / merge nhảy / merge qua split
 
 **Baseline P5 (đã landed — sửa/mở rộng, không revert):**
 
@@ -315,7 +324,45 @@ Gọi sau: CreateField, RemoveField, Insert/Move/Clear (các mutation đụng ro
 
 - [ ] **Step 5: Tests** AddTab Normal có spare; Grid seed field + style; index tăng dần.
 
-**Checkpoint:** Thêm tab qua dialog; Normal luôn dư 1 line trống.
+**Checkpoint:** Thêm tab qua dialog; Normal luôn dư 1 line trống **visible**.
+
+---
+
+## Task 4b: Hidden rows (A) + split barrier + spare không duplicate
+
+**Vấn đề:** Field `@hidden` vẫn trong view (storage) nhưng FBO UI ẩn. IDE hiện vẫn vẽ slot/hàng → spare “+1 dòng” đếm nhầm → Place bị **duplicate dòng**; merge có thể “nhảy” property; merge chưa tôn trọng `view@split`.
+
+**Files:**
+- Modify: `DesignFormHtmlBuilder` (và path category/footer tương ứng)
+- Modify: `LayoutEngine` — spare / Place / MergeSlots
+- Modify: Blueprint chrome split (Task 5g)
+- Tests: hidden-only row, spare, merge cross-split Fail
+
+### 4b.1 — Blueprint Design: ẩn hẳn hàng (A) — đã chốt
+
+- [ ] Helper: cell **hidden** nếu `Kind != Empty` và `form.FindField(name)?.Hidden == true`. Empty không tính hidden.
+- [ ] Hàng **hidden-only**: mọi cell đều Empty hoặc hidden → **không** emit `<tr>` / **không** `data-dwf-slot` trên Blueprint HTML.
+- [ ] XML + `FormViewRow` trong model **giữ nguyên** (không xóa token hidden khỏi view khi Save chỉ vì ẩn Design).
+- [ ] Hàng **hỗn hợp** (có ≥1 control không-hidden): vẫn render; ô hidden trên hàng đó — **không** tạo slot drop (ô trống visual hoặc skip td hit-test); không Place vào field hidden.
+- [ ] Runtime Preview (nếu tách mode): cũng không hiện control hidden (đã đúng FBO); Design dùng cùng rule ẩn hàng hidden-only.
+
+### 4b.2 — Spare chỉ trên hàng visible
+
+- [ ] `EnsureSpareTrailingRow`: bỏ qua hàng hidden-only khi xét “hàng cuối”; chỉ append spare nếu không có hàng cuối **visible** toàn Empty.
+- [ ] Place / Insert xong: không tạo thêm spare nếu đã có đúng một spare visible → hết duplicate dòng.
+
+### 4b.3 — Split = biên cứng merge
+
+- [ ] `MergeSlots`: nếu `layout.Split` có giá trị, Fail khi khoảng span trái–phải **vượt qua** biên cột `split` (0-based: cột đầu bên phải = `split`).
+- [ ] Place Before/After / span gesture: cùng luật — không mượn cột cross-split.
+- [ ] Message rõ: `Cannot merge across view@split`.
+
+### 4b.4 — Merge không nhảy property
+
+- [ ] Giữ semantics Engine: tối đa một bên occupied; dời control về cột bắt đầu chỉ khi trái Empty; không đổi field khi merge hai Empty hoặc Input|Empty đúng chiều.
+- [ ] Test regression: merge rồi Property Grid vẫn cùng `FieldName`.
+
+**Checkpoint:** Hàng toàn hidden không thấy trên Design; spare một dòng visible; merge không qua split; không duplicate row khi drop.
 
 ---
 
@@ -394,7 +441,9 @@ FBO đã có `LayoutEngine.SetSplit` / `SetAnchor` (1-based) + Writer `view@spli
 | Numeric XML | `type="Decimal"` |
 | Lookup XML | `style="Lookup"` |
 | AutoComplete | main + `ten_*` ref + reference attr; Remove xóa cả hai |
-| Spare row | main cuối always empty row sau insert |
+| Spare row | main cuối always empty **visible** row sau insert; không duplicate |
+| Hidden-only row | HTML builder **không** emit `<tr>` / slot |
+| Merge cross-split | Fail khi `view@split` chắn giữa |
 | RemoveField writer | không còn `<field name=…>` |
 
 ```bash
@@ -417,7 +466,9 @@ Thêm bullet **Layout Blueprint P6 (landed)** tóm tắt: config palette, Place 
 - [ ] Kéo TextBox / DateTime / Numeric / CheckBox / ComboBox / AutoComplete / Lookup vào slot → XML đúng attrs; view Place theo ưu tiên I→L→D
 - [ ] AutoComplete tạo field reference; Remove xóa cả cặp + view
 - [ ] Toolbox **không** liệt kê field XML; chỉ catalog config
-- [ ] Tab Normal/Grid/Post/List qua dialog; `+` trên tab bar; Normal có spare row
+- [ ] Tab Normal/Grid/Post/List qua dialog; `+` trên tab bar; Normal có spare row **visible**
+- [ ] Hàng toàn field `@hidden` **không** hiện trên Blueprint (A); spare không duplicate
+- [ ] Merge / Place **không** vượt `view@split`
 - [ ] Resize cột chỉ mép trên; merge/split kéo mép ô; màu từ JSON tương phản
 - [ ] Region (header / category / footer) kéo dãn **dọc**; toàn form kéo dãn **ngang**
 - [ ] Có `split` → line chia 2 table khác màu; có `anchor` → icon mỏ neo trên cột anchor
@@ -481,7 +532,7 @@ Làm **sau** Task 1–6 nếu còn thời gian. Không fail milestone nếu bỏ
 
 ## Thứ tự ưu tiên khi thiếu thời gian
 
-1. Task 1–4 + 5a–5e + 6 (palette, Place, Remove, Tab, selection, tests) — **bắt buộc**
+1. Task 1–4 + **4b** + 5a–5e + 6 (palette, Place, Remove, Tab, **hidden rows A + split barrier**, selection, tests) — **bắt buộc**
 2. Task 5f–5g (kéo dọc/ngang, split line, anchor icon) — **in-scope P6**, ưu tiên ngay sau bắt buộc
 3. G1 Ghost, G4 spare highlight, G2 Undo 1 bước — nên có
 4. G5 deep-link Tab Grid — nice

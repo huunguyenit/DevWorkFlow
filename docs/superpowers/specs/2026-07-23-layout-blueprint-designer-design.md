@@ -1,7 +1,7 @@
 # Layout Blueprint Designer (Slot-based)
 
 Date: 2026-07-23  
-Status: Approved — implementation plans: `docs/superpowers/plans/2026-07-23-layout-blueprint-p0-commands.md`, `docs/superpowers/plans/2026-07-23-layout-blueprint-p1-overlay.md`  
+Status: Approved — P0–P5 landed; **P6:** `docs/superpowers/specs/2026-07-24-layout-blueprint-p6-toolbox-fbo-ux-design.md` + `docs/superpowers/plans/2026-07-24-layout-blueprint-p6-toolbox-fbo-ux.md`  
 Approach: C — Hybrid Blueprint Layer (WebView hit-test/ghost) + Application Layout Engine + stable Design Commands (Adapter → `FboXmlWriter` tạm)  
 Related: `docs/adr/ADR-0009-DesignerPlatform.md`, `docs/04-DESIGNER_PLATFORM.md`, `docs/superpowers/specs/2026-07-22-design-webview-html-generator-design.md`, `.ai/CURRENT_STATE.md`, `FormViewLayout`
 
@@ -277,8 +277,11 @@ Writer Adapter áp dụng qua `FboXmlWriter` / ApplyLayout hiện có cho đến
 | **P2** | Splitter resize + multi-click selection | Kéo cột + chọn Control/Slot/Region |
 | **P3** | Toolbox ghost + drop Insert (empty / before-after) | Kéo field vào Slot → Preview cập nhật |
 | **P4** | Merge/Split UI + EnsureFooter/AddCategory + Anchor/Split indicator & commands nhẹ | Vòng Slot-based Designer cốt lõi |
+| **P5** | Toolbox FIELDS + CreateField 1 ô + fix drop silent | Kéo field/control cơ bản vào Slot (đã land) |
+| **P6** | Palette FBO config, Place I/L/D, Remove, Tab 4, hidden-row A, split barrier, UX resize/merge | Spec + plan: `2026-07-24-layout-blueprint-p6-toolbox-fbo-ux-*` |
 
-Mỗi phase: build + tests xanh; cập nhật `.ai/CURRENT_STATE.md` khi land.
+Mỗi phase: build + tests xanh; cập nhật `.ai/CURRENT_STATE.md` khi land.  
+**P6 SoT:** khi conflict với roadmap ngắn ở đây → dùng spec/plan P6 riêng.
 
 ---
 

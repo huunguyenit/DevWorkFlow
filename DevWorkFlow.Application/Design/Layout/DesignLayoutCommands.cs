@@ -12,14 +12,18 @@ public sealed class DesignLayoutCommands(ILayoutEngine engine) : IDesignLayoutCo
     public LayoutMutationResult ResizeFormWidth(FboFormModel form, LayoutRegionId region, int new_total_px) =>
         engine.ResizeFormWidth(form, region, new_total_px);
 
-    public LayoutMutationResult SetRegionHeight(FboFormModel form, LayoutRegionId region, int? height_px) =>
-        engine.SetRegionHeight(form, region, height_px);
+    public LayoutMutationResult SetRegionHeight(
+        FboFormModel form, LayoutRegionId region, int? height_px, out string? rows_field_name) =>
+        engine.SetRegionHeight(form, region, height_px, out rows_field_name);
 
     public LayoutMutationResult MergeSlots(FboFormModel form, LayoutSlotId left, LayoutSlotId right) =>
         engine.MergeSlots(form, left, right);
 
     public LayoutMutationResult SplitSlot(FboFormModel form, LayoutSlotId slot) =>
         engine.SplitSlot(form, slot);
+
+    public LayoutMutationResult ShrinkSlot(FboFormModel form, LayoutSlotId slot, int keep_span) =>
+        engine.ShrinkSlot(form, slot, keep_span);
 
     public LayoutMutationResult SetAnchor(FboFormModel form, LayoutRegionId region, int? anchor_1_based) =>
         engine.SetAnchor(form, region, anchor_1_based);

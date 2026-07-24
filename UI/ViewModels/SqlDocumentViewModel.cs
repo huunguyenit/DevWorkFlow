@@ -7,6 +7,7 @@ using DevWorkFlow.Application.Abstractions;
 using DevWorkFlow.Domain.Models;
 using DevWorkFlow.Domain.Models.Sql;
 using DevWorkFlow.Infrastructure.Services;
+using UI.Services;
 using UI.ViewModels.Base;
 
 namespace UI.ViewModels;
@@ -328,11 +329,9 @@ public sealed class SqlDocumentViewModel : ViewModelBase
     {
         if (!HasDiskFile || string.IsNullOrWhiteSpace(FilePath))
         {
-            MessageBox.Show(
+            IdeMessage.Info(
                 "Buffer SQL từ XML chưa gắn file disk. Dùng Save As ở bước sau — không ghi đè XML.",
-                "SQL Studio",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
+                "SQL Studio");
             return;
         }
 
@@ -345,7 +344,7 @@ public sealed class SqlDocumentViewModel : ViewModelBase
         }
         catch (Exception ex)
         {
-            MessageBox.Show(ex.Message, "SQL Studio — Save", MessageBoxButton.OK, MessageBoxImage.Error);
+            IdeMessage.Danger(ex.Message, "SQL Studio — Save");
         }
     }
 

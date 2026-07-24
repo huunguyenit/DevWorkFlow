@@ -5,8 +5,8 @@ using UI.Views.Dialogs;
 namespace UI.Services;
 
 /// <summary>
-/// Message box dùng chung DevWorkFlow — 3 loại: Info / Warning / Danger.
-/// Luôn marshal về UI thread; nếu dialog tùy chỉnh lỗi thì fallback MessageBox hệ thống.
+/// Message box dùng chung DevWorkFlow — mọi thông báo/xác nhận qua
+/// <see cref="IdeMessageBoxWindow"/> (OK hoặc Y/N). Không gọi MessageBox Win32 trực tiếp từ feature code.
 /// </summary>
 public static class IdeMessage
 {
@@ -19,7 +19,22 @@ public static class IdeMessage
     public static void Danger(string message, string? title = null) =>
         Show(IdeMessageKind.Danger, message, title);
 
-    public static void Show(IdeMessageKind kind, string message, string? title = null)
+    /// <summary>Thông báo — nút OK.</summary>
+    public static void Show(IdeMessageKind kind, string message, string? title = null) =>
+        ShowInternal(kind, message, title, IdeMessageButtons.Ok);
+
+    /// <summary>Xác nhận — nút Y / N. Trả <c>true</c> khi chọn Y.</summary>
+    public static bool Confirm(
+        string message,
+        string? title = null,
+        IdeMessageKind kind = IdeMessageKind.Warning) =>
+        ShowInternal(kind, message, title ?? "Xác nhận", IdeMessageButtons.YesNo);
+
+    private static bool ShowInternal(
+        IdeMessageKind kind,
+        string message,
+        string? title,
+        IdeMessageButtons buttons)
     {
         var safe_title = title ?? DefaultTitle(kind);
         var safe_message = message ?? string.Empty;
@@ -28,35 +43,38 @@ public static class IdeMessage
         {
             var dispatcher = Application.Current?.Dispatcher;
             if (dispatcher is null)
-            {
-                FallbackSystemMessageBox(kind, safe_title, safe_message);
-                return;
-            }
+                return FallbackSystemMessageBox(kind, safe_title, safe_message, buttons);
 
             if (dispatcher.CheckAccess())
-                ShowCore(kind, safe_title, safe_message);
-            else
-                dispatcher.Invoke(() => ShowCore(kind, safe_title, safe_message), DispatcherPriority.Normal);
+                return ShowCore(kind, safe_title, safe_message, buttons);
+
+            return dispatcher.Invoke(
+                () => ShowCore(kind, safe_title, safe_message, buttons),
+                DispatcherPriority.Normal);
         }
         catch
         {
             try
             {
-                FallbackSystemMessageBox(kind, safe_title, safe_message);
+                return FallbackSystemMessageBox(kind, safe_title, safe_message, buttons);
             }
             catch
             {
-                // last resort — không crash app vì message
+                return false;
             }
         }
     }
 
-    private static void ShowCore(IdeMessageKind kind, string title, string message)
+    private static bool ShowCore(
+        IdeMessageKind kind,
+        string title,
+        string message,
+        IdeMessageButtons buttons)
     {
         try
         {
             var owner = ResolveOwner();
-            var window = new IdeMessageBoxWindow(kind, title, message);
+            var window = new IdeMessageBoxWindow(kind, title, message, buttons);
             if (owner is not null && !ReferenceEquals(owner, window))
             {
                 try
@@ -75,15 +93,22 @@ public static class IdeMessage
                 window.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             }
 
-            window.ShowDialog();
+            var result = window.ShowDialog();
+            if (buttons == IdeMessageButtons.YesNo)
+                return window.Confirmed || result == true;
+            return true;
         }
         catch
         {
-            FallbackSystemMessageBox(kind, title, message);
+            return FallbackSystemMessageBox(kind, title, message, buttons);
         }
     }
 
-    private static void FallbackSystemMessageBox(IdeMessageKind kind, string title, string message)
+    private static bool FallbackSystemMessageBox(
+        IdeMessageKind kind,
+        string title,
+        string message,
+        IdeMessageButtons buttons)
     {
         var image = kind switch
         {
@@ -91,7 +116,15 @@ public static class IdeMessage
             IdeMessageKind.Danger => MessageBoxImage.Error,
             _ => MessageBoxImage.Information
         };
+
+        if (buttons == IdeMessageButtons.YesNo)
+        {
+            var answer = MessageBox.Show(message, title, MessageBoxButton.YesNo, image);
+            return answer == MessageBoxResult.Yes;
+        }
+
         MessageBox.Show(message, title, MessageBoxButton.OK, image);
+        return true;
     }
 
     /// <summary>Phân loại exception DB / kết nối để hiện Danger rõ ràng.</summary>
@@ -118,7 +151,8 @@ public static class IdeMessage
             FallbackSystemMessageBox(
                 IdeMessageKind.Danger,
                 "Lỗi",
-                ex.Message);
+                ex.Message,
+                IdeMessageButtons.Ok);
         }
     }
 

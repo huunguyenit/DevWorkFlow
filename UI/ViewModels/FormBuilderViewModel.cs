@@ -775,11 +775,9 @@ public class FormBuilderViewModel : ViewModelBase
         if (fragments.Count == 0)
         {
             StatusMessage = "Không tìm thấy command/query trong XML.";
-            MessageBox.Show(
+            IdeMessage.Info(
                 "Không tìm thấy thẻ <command> hoặc <query> trong XML hiện tại.",
-                "SQL Studio",
-                MessageBoxButton.OK,
-                MessageBoxImage.Information);
+                "SQL Studio");
             return;
         }
 
@@ -1153,7 +1151,7 @@ public class FormBuilderViewModel : ViewModelBase
             $"✔ Form width {region} → {new_total_px}px");
     }
 
-    /// <summary>P6 5f: kéo dãn dọc vùng (Main → view@height).</summary>
+    /// <summary>P6 gap 5f: kéo dãn dọc CHỈ category tab (Normal→view@height, Grid seed→field@rows).</summary>
     public bool ApplyBlueprintRegionHeight(string? region_id, int height_px)
     {
         if (Document?.Form is null || height_px <= 0) return false;
@@ -1163,9 +1161,93 @@ public class FormBuilderViewModel : ViewModelBase
             return false;
         }
 
+        var result = _layout_commands.SetRegionHeight(Document.Form, region, height_px, out var rows_field);
+        if (!result.Ok)
+        {
+            StatusMessage = $"✘ {result.Error ?? "Không đổi được chiều cao."}";
+            return false;
+        }
+
+        // Tab Grid/Post/List: field@rows không đi qua ApplyLayout → patch riêng trên Dir trước.
+        return CommitLayoutWrite(
+            $"✔ Height {region} → {height_px}px",
+            patch_dir_fields: rows_field is null
+                ? null
+                : xml => _xml_writer.ApplyFieldProperty(xml, rows_field, "rows", height_px.ToString()));
+    }
+
+    /// <summary>P6 gap: kéo split line → SetSplit (biên merge mới vẫn được barrier tôn trọng).</summary>
+    public bool ApplyBlueprintSetSplit(int? split_1_based)
+    {
+        if (Document?.Form is null) return false;
         return CommitLayoutMutation(
-            _layout_commands.SetRegionHeight(Document.Form, region, height_px),
-            $"✔ Height {region} → {height_px}px");
+            _layout_commands.SetSplit(Document.Form, LayoutRegionId.Main, split_1_based),
+            split_1_based is null or 0 ? "✔ Bỏ view@split" : $"✔ view@split={split_1_based}");
+    }
+
+    /// <summary>P6 gap: kéo icon mỏ neo → SetAnchor (chỉ metadata, không đổi column widths).</summary>
+    public bool ApplyBlueprintSetAnchor(int? anchor_1_based)
+    {
+        if (Document?.Form is null) return false;
+        return CommitLayoutMutation(
+            _layout_commands.SetAnchor(Document.Form, LayoutRegionId.Main, anchor_1_based),
+            anchor_1_based is null or 0 ? "✔ Bỏ view@anchor" : $"✔ view@anchor={anchor_1_based}");
+    }
+
+    /// <summary>P6 gap 5c: kéo mép phải ô sang phải qua nhiều cột → merge liên tiếp với sibling phải.</summary>
+    public bool ApplyBlueprintMergeRun(string? slot_id, int count)
+    {
+        if (Document?.Form is null) return false;
+        if (!TryParseSlot(slot_id, out var slot))
+        {
+            StatusMessage = "✘ Slot không hợp lệ.";
+            return false;
+        }
+
+        var merged = 0;
+        LayoutMutationResult last = LayoutMutationResult.Success();
+        for (var i = 0; i < Math.Max(count, 1); i++)
+        {
+            if (RightSiblingSlot(Document.Form, slot) is not { } right)
+                break;
+            last = _layout_commands.MergeSlots(Document.Form, slot, right);
+            if (!last.Ok) break;
+            merged++;
+        }
+
+        if (merged == 0)
+        {
+            StatusMessage = $"✘ {last.Error ?? "Không gộp được."}";
+            return false;
+        }
+
+        return CommitLayoutWrite($"✔ Merge {merged} cột từ {slot_id}");
+    }
+
+    private static LayoutSlotId? RightSiblingSlot(FboFormModel form, LayoutSlotId slot)
+    {
+        var rows = ResolveRegionRows(form, slot.Region);
+        if (rows is null || slot.RowIndex < 0 || slot.RowIndex >= rows.Count) return null;
+        var row = rows[slot.RowIndex];
+        var cell = row.Cells.FirstOrDefault(c => c.ColumnIndex == slot.ColumnIndex);
+        if (cell is null) return null;
+        var next_col = cell.ColumnIndex + Math.Max(cell.ColumnSpan, 1);
+        return row.Cells.Any(c => c.ColumnIndex == next_col)
+            ? new LayoutSlotId(slot.Region, slot.RowIndex, next_col)
+            : null;
+    }
+
+    private static List<FormViewRow>? ResolveRegionRows(FboFormModel form, LayoutRegionId region)
+    {
+        var layout = form.Layout;
+        if (layout is null) return null;
+        return region.Kind switch
+        {
+            LayoutRegionKind.Main => layout.TopRows,
+            LayoutRegionKind.Footer => layout.BottomRows,
+            LayoutRegionKind.Category => layout.Categories.FirstOrDefault(c => c.Index == region.CategoryIndex)?.Rows,
+            _ => null
+        };
     }
 
     /// <summary>Blueprint P4: gộp slot đang chọn với slot liền kề bên phải.</summary>
@@ -1196,6 +1278,21 @@ public class FormBuilderViewModel : ViewModelBase
         return CommitLayoutMutation(
             _layout_commands.SplitSlot(Document.Form, slot),
             $"✔ Split {slot_id}");
+    }
+
+    /// <summary>Bug3: thu span control về <paramref name="keep_span"/> cột (kéo mép trái từng cột).</summary>
+    public bool ApplyBlueprintShrink(string? slot_id, int keep_span)
+    {
+        if (Document?.Form is null) return false;
+        if (!TryParseSlot(slot_id, out var slot))
+        {
+            StatusMessage = "✘ Slot không hợp lệ.";
+            return false;
+        }
+
+        return CommitLayoutMutation(
+            _layout_commands.ShrinkSlot(Document.Form, slot, keep_span),
+            $"✔ Thu span {slot_id} → giữ {keep_span} cột");
     }
 
     /// <summary>Blueprint P4: khai báo category index -1 (vùng Footer) nếu chưa có.</summary>
@@ -1249,11 +1346,96 @@ public class FormBuilderViewModel : ViewModelBase
             return false;
         }
 
-        var new_xml = removed_names is { Count: > 0 }
-            ? _layout_writer.WriteRemoveFieldsAndLayout(XmlSource, Document.Form, removed_names)
-            : new_fields is { Count: > 0 }
-                ? _layout_writer.WriteFieldsAndLayout(XmlSource, Document.Form, new_fields)
-                : _layout_writer.WriteLayout(XmlSource, Document.Form);
+        return CommitLayoutWrite(success_message, new_fields, removed_names);
+    }
+
+    /// <summary>
+    /// Choke point commit layout: view thuần → ApplyLayout vào Dir như P6; view lắp từ entity →
+    /// write-back entity file (hướng 2, spec 2026-07-24) — Dir giữ &amp;Entity;, KHÔNG inline ClearText.
+    /// </summary>
+    private bool CommitLayoutWrite(
+        string success_message,
+        IReadOnlyList<FboField>? new_fields = null,
+        IReadOnlyList<string>? removed_names = null,
+        Func<string, string>? patch_dir_fields = null)
+    {
+        if (Document?.Form is null) return false;
+
+        if (!_layout_writer.RequiresEntityWriteback(XmlSource))
+        {
+            var xml = patch_dir_fields?.Invoke(XmlSource) ?? XmlSource;
+            xml = removed_names is { Count: > 0 }
+                ? _layout_writer.WriteRemoveFieldsAndLayout(xml, Document.Form, removed_names)
+                : new_fields is { Count: > 0 }
+                    ? _layout_writer.WriteFieldsAndLayout(xml, Document.Form, new_fields)
+                    : _layout_writer.WriteLayout(xml, Document.Form);
+            return CommitWrittenXml(xml, success_message);
+        }
+
+        // ── Entity write-back ─────────────────────────────────────────────
+        if (ErpDocument is null || _language_service is null)
+        {
+            ParseXml(); // rollback model từ XmlSource gốc
+            StatusMessage = "✘ View lắp từ entity cần Language Service để ghi entity.";
+            return false;
+        }
+
+        var plan_result = _layout_writer.BuildWritebackPlan(ErpDocument, XmlSource, Document.Form);
+        if (!plan_result.Ok || plan_result.Plan is null)
+        {
+            ParseXml();
+            StatusMessage = $"✘ {plan_result.Reason ?? "Không ghi được layout vào entity."}";
+            return false;
+        }
+
+        var plan = plan_result.Plan;
+        foreach (var write in plan.EntityWrites)
+        {
+            var write_result = _language_service.UpdateEntityValue(
+                ErpDocument.Id, write.EntityName, write.NewContent);
+            if (!write_result.Success)
+            {
+                ParseXml();
+                StatusMessage = $"✘ Ghi entity &{write.EntityName}; thất bại: {write_result.Error}";
+                return false;
+            }
+        }
+
+        // Dir chỉ nhận patch literal (item/category literal + field ops) — KHÔNG ApplyLayout full.
+        var dir_xml = plan.DirXml ?? XmlSource;
+        if (patch_dir_fields is not null)
+            dir_xml = patch_dir_fields(dir_xml);
+        foreach (var field in new_fields ?? [])
+            dir_xml = _xml_writer.ApplyNewField(dir_xml, field);
+        foreach (var name in removed_names ?? [])
+            dir_xml = _xml_writer.ApplyRemoveField(dir_xml, name);
+
+        _in_reparse = true;
+        try
+        {
+            _xml_source = dir_xml;
+            OnPropertyChanged(nameof(XmlSource));
+            OnPropertyChanged(nameof(EditorText));
+            OnPropertyChanged(nameof(HasDocument));
+        }
+        finally
+        {
+            _in_reparse = false;
+        }
+
+        ParseXml();
+        var entity_note = plan.EntityWrites.Count > 0
+            ? " — đã ghi entity "
+              + string.Join(", ", plan.EntityWrites.Select(w => $"&{w.EntityName};"))
+              + " (layout dùng chung)"
+            : string.Empty;
+        StatusMessage = success_message + entity_note;
+        return true;
+    }
+
+    /// <summary>Gán XmlSource đã ghi sẵn rồi reparse ngay + Design refresh (không chờ debounce).</summary>
+    private bool CommitWrittenXml(string new_xml, string success_message)
+    {
         _in_reparse = true;
         try
         {

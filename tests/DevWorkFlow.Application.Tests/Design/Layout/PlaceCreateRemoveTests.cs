@@ -197,27 +197,16 @@ public sealed class PlaceCreateRemoveTests
         Assert.DoesNotContain($"name=\"{created.Name}\"", after);
     }
 
-    // ── Spare trailing row (main) ────────────────────────────────────
+    // ── Create không duplicate dòng model (spare là render-side, không phải model) ─────
 
     [Fact]
-    public void CreateField_LeavesMainEndingWithEmptyRow()
+    public void CreateField_DoesNotAppendModelSpareRow()
     {
-        var form = LayoutTestXml.ParseForm(MainWith(2));
+        var form = LayoutTestXml.ParseForm(MainWith(2)); // 1 row
         Assert.True(Engine().CreateFieldAndInsert(
             form, ToolboxControlKind.TextBox, new LayoutSlotId(LayoutRegionId.Main, 0, 1)).Ok);
 
-        var last = form.Layout!.TopRows[^1];
-        Assert.All(last.Cells, c => Assert.Equal(FormViewCellKind.Empty, c.Kind));
-    }
-
-    [Fact]
-    public void EnsureSpareTrailingRow_IsIdempotentForMain()
-    {
-        var form = LayoutTestXml.ParseForm(MainWith(2));
-        var engine = Engine();
-        engine.EnsureSpareTrailingRow(form, LayoutRegionId.Main);
-        var count = form.Layout!.TopRows.Count;
-        engine.EnsureSpareTrailingRow(form, LayoutRegionId.Main);
-        Assert.Equal(count, form.Layout.TopRows.Count);
+        // Không thêm hàng model (spare do builder render) → không duplicate.
+        Assert.Single(form.Layout!.TopRows);
     }
 }

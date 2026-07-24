@@ -60,7 +60,10 @@ public sealed class BlueprintThemeCatalog
                 SplitDivider = dto.SplitDivider ?? d.SplitDivider,
                 AnchorIcon = dto.AnchorIcon ?? d.AnchorIcon,
                 SpareRowHighlight = dto.SpareRowHighlight ?? d.SpareRowHighlight,
-                GhostLabelInput = dto.GhostLabelInput ?? d.GhostLabelInput
+                GhostLabelInput = dto.GhostLabelInput ?? d.GhostLabelInput,
+                MergePreview = dto.MergePreview ?? d.MergePreview,
+                SplitKeepPreview = dto.SplitKeepPreview ?? d.SplitKeepPreview,
+                SplitReleasePreview = dto.SplitReleasePreview ?? d.SplitReleasePreview
             };
         }
         catch (Exception ex) when (ex is JsonException or IOException or UnauthorizedAccessException)
@@ -86,5 +89,8 @@ public sealed class BlueprintThemeCatalog
         public string? AnchorIcon { get; set; }
         public string? SpareRowHighlight { get; set; }
         public string? GhostLabelInput { get; set; }
+        public string? MergePreview { get; set; }
+        public string? SplitKeepPreview { get; set; }
+        public string? SplitReleasePreview { get; set; }
     }
 }

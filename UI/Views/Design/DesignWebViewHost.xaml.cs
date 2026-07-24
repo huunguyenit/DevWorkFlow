@@ -114,7 +114,9 @@ public partial class DesignWebViewHost : UserControl
             columnGuide: 'rgba(255,111,0,.85)', columnLabel: '#E65100', splitter: 'rgba(255,111,0,.35)',
             selectedControl: '#0D47A1', selectedSlot: '#1565C0', selectedRegion: '#6A1B9A',
             dropTarget: '#2E7D32', topResizeHitPx: 12, splitDivider: '#C62828', anchorIcon: '#1565C0',
-            ghostLabelInput: 'rgba(21,101,192,.25)'
+            ghostLabelInput: 'rgba(21,101,192,.25)',
+            mergePreview: 'rgba(21,101,192,.25)', splitKeepPreview: 'rgba(21,101,192,.28)',
+            splitReleasePreview: 'rgba(120,120,120,.18)'
           };
           function theme() {
             var t = window.__dwfTheme || {};
@@ -125,8 +127,10 @@ public partial class DesignWebViewHost : UserControl
 
           var drag = null;        // column resize (top edge)
           var formDrag = null;    // horizontal form width
-          var heightDrag = null;  // vertical region height
+          var heightDrag = null;  // vertical category height
           var edgeDrag = null;    // merge/split via cell right edge
+          var splitDrag = null;   // drag view@split line
+          var anchorDrag = null;  // drag view@anchor icon
           var slotDrag = null;    // move control
           var suppressClick = false;
           var selection = { level: 0, slotEl: null, regionEl: null };
@@ -139,7 +143,24 @@ public partial class DesignWebViewHost : UserControl
           function enabled() {
             return !!document.body && document.body.classList.contains('dwf-blueprint');
           }
-          function anyDrag() { return drag || formDrag || heightDrag || edgeDrag; }
+          function anyDrag() { return drag || formDrag || heightDrag || edgeDrag || splitDrag || anchorDrag; }
+          function pageX(e) { return e.clientX + window.scrollX; }
+          function nearestSplitCol(edges, px) {
+            var best = 1, bestD = Infinity;
+            for (var i = 1; i < edges.length; i++) {
+              var d = Math.abs(edges[i].left - px);
+              if (d < bestD) { bestD = d; best = i; }
+            }
+            return best; // 1..edges.length-1 (1-based split)
+          }
+          function nearestAnchorCol(edges, px) {
+            var best = 1, bestD = Infinity;
+            for (var i = 0; i < edges.length; i++) {
+              var d = Math.abs(edges[i].right - px);
+              if (d < bestD) { bestD = d; best = i + 1; }
+            }
+            return best; // 1..edges.length (1-based anchor)
+          }
           function ensureLayer() {
             var layer = document.getElementById(LAYER_ID);
             if (!layer) {
@@ -233,32 +254,52 @@ public partial class DesignWebViewHost : UserControl
                           regionId: table.getAttribute('data-dwf-region-table') || 'main', total: 0 };
             });
           }
-          function regionHeightHandle(layer, th, regionEl, table) {
-            var r = regionEl.getBoundingClientRect();
+          // 5f gap: chỉ CATEGORY tab đang active có handle kéo cao (mép dưới panel). Main/footer không có.
+          function categoryHeightHandle(layer, th) {
+            var panel = document.querySelector('.DwfTabPanel.DwfActive');
+            if (!panel) return;
+            var catIndex = panel.getAttribute('data-category-index');
+            if (!catIndex) return;
+            var table = panel.querySelector('table.FormTable[data-dwf-region-table]');
+            var r = panel.getBoundingClientRect();
             var bottom = r.bottom + window.scrollY, left = r.left + window.scrollX;
-            var h = el(layer, 'position:absolute;left:' + left + 'px;top:' + (bottom - 2)
-              + 'px;width:' + r.width + 'px;height:6px;cursor:ns-resize;pointer-events:auto;'
+            var h = el(layer, 'position:absolute;left:' + left + 'px;top:' + (bottom - 3)
+              + 'px;width:' + Math.max(r.width, 40) + 'px;height:6px;cursor:row-resize;pointer-events:auto;'
               + 'background:' + th.splitter + ';z-index:2;');
             h.className = 'dwf-bp-tool';
+            h.title = 'Kéo đổi chiều cao tab';
             h.addEventListener('mousedown', function (e) {
               e.preventDefault(); e.stopPropagation();
-              heightDrag = { startClientY: e.clientY, baseHeight: Math.round(table.getBoundingClientRect().height),
-                             regionId: 'main', height: 0 };
+              var baseH = Math.round((table ? table.getBoundingClientRect().height : r.height));
+              heightDrag = { startClientY: e.clientY, baseHeight: baseH, regionId: 'cat:' + catIndex, height: 0 };
             });
           }
+          // Split line + anchor icon: read-only chỉ dẫn + KÉO điều chỉnh (giống slot metadata).
           function splitAndAnchor(layer, th, table, edges, rect) {
             var top = rect.top + window.scrollY;
             var split = parseInt(table.getAttribute('data-dwf-split'), 10);
             if (split > 0 && split < edges.length) {
-              el(layer, 'position:absolute;width:0;border-left:2px solid ' + th.splitDivider
-                + ';left:' + edges[split].left + 'px;top:' + top + 'px;height:' + rect.height
-                + 'px;pointer-events:none;z-index:1;');
+              var line = el(layer, 'position:absolute;width:7px;left:' + (edges[split].left - 3) + 'px;top:' + top
+                + 'px;height:' + rect.height + 'px;pointer-events:auto;cursor:col-resize;z-index:3;'
+                + 'border-left:2px solid ' + th.splitDivider + ';');
+              line.className = 'dwf-bp-tool';
+              line.title = 'Kéo đổi view@split';
+              line.addEventListener('mousedown', function (e) {
+                e.preventDefault(); e.stopPropagation();
+                splitDrag = { edges: edges, x: pageX(e) };
+              });
             }
             var anchor = parseInt(table.getAttribute('data-dwf-anchor'), 10);
             if (anchor > 0 && anchor <= edges.length) {
-              el(layer, 'position:absolute;left:' + (edges[anchor - 1].right - 12) + 'px;top:' + (top - 12)
-                + 'px;font:11px Segoe UI,sans-serif;color:' + th.anchorIcon
-                + ';pointer-events:none;z-index:3;', '⚓');
+              var icon = el(layer, 'position:absolute;left:' + (edges[anchor - 1].right - 14) + 'px;top:' + (top - 15)
+                + 'px;font:13px Segoe UI,sans-serif;color:' + th.anchorIcon
+                + ';pointer-events:auto;cursor:col-resize;z-index:3;user-select:none;', '⚓');
+              icon.className = 'dwf-bp-tool';
+              icon.title = 'Kéo đổi view@anchor';
+              icon.addEventListener('mousedown', function (e) {
+                e.preventDefault(); e.stopPropagation();
+                anchorDrag = { edges: edges, x: pageX(e) };
+              });
             }
           }
           function paintTable(layer, th, table) {
@@ -287,9 +328,7 @@ public partial class DesignWebViewHost : UserControl
             var th = theme();
             var tables = document.querySelectorAll('table.FormTable[data-dwf-col-widths]');
             for (var i = 0; i < tables.length; i++) paintTable(layer, th, tables[i]);
-            var mainRegion = document.querySelector('[data-dwf-region="main"]');
-            var mainTable = mainRegion ? mainRegion.querySelector('table.FormTable[data-dwf-col-widths]') : null;
-            if (mainRegion && mainTable) regionHeightHandle(layer, th, mainRegion, mainTable);
+            categoryHeightHandle(layer, th); // 5f gap: chỉ category tab active
             paintSelectionActions(layer, th);
             paintTabPlus(layer, th);
           }
@@ -315,29 +354,129 @@ public partial class DesignWebViewHost : UserControl
             while (n && !n.hasAttribute('data-dwf-slot')) n = n.nextElementSibling;
             return n;
           }
-          // Merge/Split kéo mép PHẢI ô đang chọn (5c): kéo phải qua biên → merge; kéo trái (span>1) → split.
+          // 5c gap: kéo mép PHẢI ô đang chọn (Control lvl1 / Slot lvl2). Kéo phải qua N cột → merge N; trái → split.
+          function slotEndColWidth(slotEl) {
+            var table = slotEl.closest('table.FormTable');
+            if (!table) return 40;
+            var widths = readWidths(table);
+            var p = (slotEl.getAttribute('data-dwf-slot') || '').split(':');
+            var col = parseInt(p[p.length - 2], 10) || 0;
+            var span = parseInt(p[p.length - 1], 10) || 1;
+            return widths[col + span] || widths[col] || 40;
+          }
           function edgeMergeSplitHandle(layer, th, slotEl) {
             var r = slotEl.getBoundingClientRect();
             var right = r.right + window.scrollX, top = r.top + window.scrollY;
             var h = el(layer, 'position:absolute;left:' + (right - 4) + 'px;top:' + top
               + 'px;width:8px;height:' + r.height + 'px;cursor:col-resize;pointer-events:auto;'
-              + 'background:' + th.selectedSlot + ';opacity:.5;z-index:3;');
+              + 'background:' + th.selectedSlot + ';opacity:.55;z-index:3;');
             h.className = 'dwf-bp-tool';
-            h.title = 'Kéo phải: gộp • Kéo trái: tách';
+            h.title = 'Kéo phải: gộp cột • Kéo trái: tách';
             var rightSib = rightSlotSibling(slotEl);
             h.addEventListener('mousedown', function (e) {
               e.preventDefault(); e.stopPropagation();
               edgeDrag = {
+                slotEl: slotEl,
                 slotId: slotEl.getAttribute('data-dwf-slot'),
-                rightId: rightSib ? rightSib.getAttribute('data-dwf-slot') : null,
-                span: slotSpan(slotEl), startClientX: e.clientX, dx: 0
+                hasRight: !!rightSib,
+                span: slotSpan(slotEl), colWidth: Math.max(slotEndColWidth(slotEl), 8),
+                startClientX: e.clientX, dx: 0, previewCount: 1, previewKeep: 1
               };
             });
           }
+
+          // ── Preview merge/split khi kéo mép ô (overlay riêng, không đụng DOM control) ──
+          function slotColSpan(slotEl) {
+            var p = (slotEl.getAttribute('data-dwf-slot') || '').split(':');
+            return { col: parseInt(p[p.length - 2], 10) || 0, span: parseInt(p[p.length - 1], 10) || 1 };
+          }
+          function splitBoundaryOf(table) {
+            var s = parseInt(table.getAttribute('data-dwf-split'), 10);
+            return s > 0 ? s : Infinity; // 0-based cột đầu bên phải
+          }
+          // Sibling phải có thể merge (cùng phía split), theo thứ tự.
+          function mergeableSiblings(slotEl) {
+            var table = slotEl.closest('table.FormTable');
+            if (!table) return [];
+            var boundary = splitBoundaryOf(table);
+            var cs = slotColSpan(slotEl);
+            var left_side = cs.col < boundary;
+            var out = [], sib = rightSlotSibling(slotEl);
+            while (sib) {
+              var scs = slotColSpan(sib);
+              if (left_side && (scs.col + scs.span) > boundary) break; // vượt biên split → dừng
+              out.push(sib);
+              sib = rightSlotSibling(sib);
+            }
+            return out;
+          }
+          function edgePreviewLayer() {
+            var p = document.getElementById('dwf-edge-preview');
+            if (!p) {
+              p = document.createElement('div');
+              p.id = 'dwf-edge-preview';
+              p.style.cssText = 'position:absolute;left:0;top:0;width:0;height:0;pointer-events:none;z-index:2147483641;';
+              document.documentElement.appendChild(p);
+            }
+            return p;
+          }
+          function clearEdgePreview() {
+            var p = document.getElementById('dwf-edge-preview');
+            if (p) p.remove();
+          }
+          function previewBox(p, page_left, page_top, w, h, color, dashed) {
+            var d = document.createElement('div');
+            d.className = 'dwf-merge-preview';
+            d.style.cssText = 'position:absolute;left:' + page_left + 'px;top:' + page_top + 'px;width:' + w
+              + 'px;height:' + h + 'px;pointer-events:none;background:' + color + ';'
+              + (dashed ? 'outline:1px dashed rgba(0,0,0,.45);outline-offset:-2px;' : '');
+            p.appendChild(d);
+          }
+          function boxFromRect(p, r, color, dashed) {
+            previewBox(p, r.left + window.scrollX, r.top + window.scrollY, r.width, r.height, color, dashed);
+          }
+          function paintEdgePreview(ed, th) {
+            clearEdgePreview();
+            var slotEl = ed.slotEl;
+            if (!slotEl || !document.contains(slotEl)) return;
+            var p = edgePreviewLayer();
+
+            if (ed.dx > 8 && ed.hasRight) {
+              // Merge: ô hiện tại + N sibling phải (giới hạn theo split barrier).
+              var sibs = mergeableSiblings(slotEl);
+              var count = Math.min(sibs.length, Math.max(1, Math.round(ed.dx / ed.colWidth)));
+              ed.previewCount = count;
+              boxFromRect(p, slotEl.getBoundingClientRect(), th.mergePreview, false);
+              for (var i = 0; i < count; i++) boxFromRect(p, sibs[i].getBoundingClientRect(), th.mergePreview, false);
+              return;
+            }
+            if (ed.dx < -8 && ed.span > 1) {
+              // Split từng cột: control giữ `keep` cột đầu; phần còn lại (release) thành Empty (gạch).
+              var table = slotEl.closest('table.FormTable');
+              var widths = readWidths(table);
+              var tr = table.getBoundingClientRect();
+              var edges = columnEdges(table, widths, tr);
+              if (!edges) return;
+              var cs = slotColSpan(slotEl);
+              var cr = slotEl.getBoundingClientRect();
+              var unit = Math.max(cr.width / cs.span, 8); // px trung bình mỗi cột trong span
+              var release = Math.min(cs.span - 1, Math.max(1, Math.round(-ed.dx / unit)));
+              var keep = cs.span - release;
+              ed.previewKeep = keep;
+              var top = cr.top + window.scrollY, h = cr.height;
+              var keptLast = cs.col + keep - 1;
+              if (edges[cs.col] && edges[keptLast])
+                previewBox(p, edges[cs.col].left, top, edges[keptLast].right - edges[cs.col].left, h, th.splitKeepPreview, false);
+              var relLast = cs.col + cs.span - 1;
+              if (edges[cs.col + keep] && edges[relLast])
+                previewBox(p, edges[cs.col + keep].left, top, edges[relLast].right - edges[cs.col + keep].left, h, th.splitReleasePreview, true);
+            }
+          }
           function paintSelectionActions(layer, th) {
-            if (selection.level === 2 && selection.slotEl && document.contains(selection.slotEl)) {
+            // Control (lvl1) / Slot (lvl2): handle merge/split mép phải + nút xóa nếu có control.
+            if ((selection.level === 1 || selection.level === 2)
+                && selection.slotEl && document.contains(selection.slotEl)) {
               edgeMergeSplitHandle(layer, th, selection.slotEl);
-              var slotId = selection.slotEl.getAttribute('data-dwf-slot');
               var field = controlFieldOf(selection.slotEl);
               if (field) {
                 var r = selection.slotEl.getBoundingClientRect();
@@ -522,7 +661,9 @@ public partial class DesignWebViewHost : UserControl
               showDropChrome(target, slotDrag.mode);
               return;
             }
-            if (edgeDrag) { edgeDrag.dx = e.clientX - edgeDrag.startClientX; return; }
+            if (edgeDrag) { edgeDrag.dx = e.clientX - edgeDrag.startClientX; paintEdgePreview(edgeDrag, theme()); return; }
+            if (splitDrag) { splitDrag.x = pageX(e); return; }
+            if (anchorDrag) { anchorDrag.x = pageX(e); return; }
             if (drag) {
               var dx = Math.round(e.clientX - drag.startClientX);
               var delta = clampDelta(drag.baseWidths, drag.splitterIndex, dx);
@@ -552,7 +693,12 @@ public partial class DesignWebViewHost : UserControl
           });
 
           window.addEventListener('keydown', function (e) {
-            if (e.key === 'Escape') { if (slotDrag) endSlotDrag(false); edgeDrag = drag = formDrag = heightDrag = null; schedule(); return; }
+            if (e.key === 'Escape') {
+              if (slotDrag) endSlotDrag(false);
+              clearEdgePreview();
+              edgeDrag = drag = formDrag = heightDrag = splitDrag = anchorDrag = null;
+              schedule(); return;
+            }
             if ((e.key === 'Delete' || e.key === 'Backspace') && enabled() && selection.slotEl && document.contains(selection.slotEl)) {
               var field = controlFieldOf(selection.slotEl);
               if (field) { post({ type: 'remove', fieldName: field }); e.preventDefault(); }
@@ -563,9 +709,28 @@ public partial class DesignWebViewHost : UserControl
             if (slotDrag) { endSlotDrag(true); return; }
             if (edgeDrag) {
               var s = edgeDrag; edgeDrag = null;
-              if (s.dx > 8 && s.rightId) post({ type: 'merge', leftSlot: s.slotId, rightSlot: s.rightId });
-              else if (s.dx < -8 && s.span > 1) post({ type: 'split', slot: s.slotId });
-              else schedule();
+              clearEdgePreview();
+              suppressClick = true;
+              if (s.dx > 8 && s.hasRight) {
+                // count khớp preview (đã clamp theo split barrier trong paintEdgePreview).
+                post({ type: 'merge', slot: s.slotId, count: Math.max(1, s.previewCount || 1) });
+              } else if (s.dx < -8 && s.span > 1) {
+                // Split từng cột: giữ `keep` cột (khớp preview).
+                var keep = Math.min(s.span - 1, Math.max(1, s.previewKeep || 1));
+                post({ type: 'shrink', slot: s.slotId, keep: keep });
+              } else schedule();
+              return;
+            }
+            if (splitDrag) {
+              var sd = splitDrag; splitDrag = null; suppressClick = true;
+              var scol = nearestSplitCol(sd.edges, sd.x);
+              post({ type: 'setSplit', split: scol });
+              return;
+            }
+            if (anchorDrag) {
+              var ad = anchorDrag; anchorDrag = null; suppressClick = true;
+              var acol = nearestAnchorCol(ad.edges, ad.x);
+              post({ type: 'setAnchor', anchor: acol });
               return;
             }
             if (drag) {
@@ -1045,9 +1210,33 @@ public partial class DesignWebViewHost : UserControl
 
             if (string.Equals(msg_type, "merge", StringComparison.Ordinal))
             {
-                var left = Text(root, "leftSlot");
-                var right = Text(root, "rightSlot");
-                Dispatcher.Invoke(() => _vm?.ApplyBlueprintMerge(left, right));
+                // P6 gap: kéo mép phải → {slot,count}; giữ tương thích {leftSlot,rightSlot} cũ.
+                if (root.TryGetProperty("slot", out var slot_prop))
+                {
+                    var slot = slot_prop.GetString();
+                    var count = root.TryGetProperty("count", out var cp) ? cp.GetInt32() : 1;
+                    Dispatcher.Invoke(() => _vm?.ApplyBlueprintMergeRun(slot, count));
+                }
+                else
+                {
+                    var left = Text(root, "leftSlot");
+                    var right = Text(root, "rightSlot");
+                    Dispatcher.Invoke(() => _vm?.ApplyBlueprintMerge(left, right));
+                }
+                return;
+            }
+
+            if (string.Equals(msg_type, "setSplit", StringComparison.Ordinal))
+            {
+                var split = root.TryGetProperty("split", out var sp) ? sp.GetInt32() : 0;
+                Dispatcher.Invoke(() => _vm?.ApplyBlueprintSetSplit(split));
+                return;
+            }
+
+            if (string.Equals(msg_type, "setAnchor", StringComparison.Ordinal))
+            {
+                var anchor = root.TryGetProperty("anchor", out var ap) ? ap.GetInt32() : 0;
+                Dispatcher.Invoke(() => _vm?.ApplyBlueprintSetAnchor(anchor));
                 return;
             }
 
@@ -1055,6 +1244,14 @@ public partial class DesignWebViewHost : UserControl
             {
                 var slot = Text(root, "slot");
                 Dispatcher.Invoke(() => _vm?.ApplyBlueprintSplit(slot));
+                return;
+            }
+
+            if (string.Equals(msg_type, "shrink", StringComparison.Ordinal))
+            {
+                var slot = Text(root, "slot");
+                var keep = root.TryGetProperty("keep", out var kp) ? kp.GetInt32() : 1;
+                Dispatcher.Invoke(() => _vm?.ApplyBlueprintShrink(slot, keep));
                 return;
             }
 
@@ -1173,13 +1370,10 @@ public partial class DesignWebViewHost : UserControl
     private void ConfirmAndEnsureFooter()
     {
         if (_vm is null) return;
-        var answer = MessageBox.Show(
-            Window.GetWindow(this) ?? System.Windows.Application.Current?.MainWindow!,
-            "Form chưa có vùng Footer (category index -1). Tạo ngay?",
-            "Blueprint Designer",
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Question);
-        if (answer == MessageBoxResult.Yes)
+        if (IdeMessage.Confirm(
+                "Form chưa có vùng Footer (category index -1). Tạo ngay?",
+                "Blueprint Designer",
+                IdeMessageKind.Warning))
             _vm.ApplyBlueprintEnsureFooter();
     }
 
@@ -1199,13 +1393,10 @@ public partial class DesignWebViewHost : UserControl
     private void ConfirmAndRemoveField(string? field_name)
     {
         if (_vm is null || string.IsNullOrWhiteSpace(field_name)) return;
-        var answer = MessageBox.Show(
-            Window.GetWindow(this) ?? System.Windows.Application.Current?.MainWindow!,
-            $"Xóa field '{field_name}' khỏi form? Mọi ô của field (và field reference nếu là AutoComplete) sẽ bị gỡ.",
-            "Blueprint Designer",
-            MessageBoxButton.YesNo,
-            MessageBoxImage.Warning);
-        if (answer == MessageBoxResult.Yes)
+        if (IdeMessage.Confirm(
+                $"Xóa field '{field_name}' khỏi form? Mọi ô của field (và field reference nếu là AutoComplete) sẽ bị gỡ.",
+                "Blueprint Designer",
+                IdeMessageKind.Warning))
             _vm.ApplyBlueprintRemoveField(field_name);
     }
 

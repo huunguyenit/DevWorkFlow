@@ -28,6 +28,12 @@ public sealed class VirtualTreeEngine : IAsyncDisposable
     private readonly LinkedList<Guid> _lru = new();
     private readonly Dictionary<Guid, LinkedListNode<Guid>> _lru_map = new();
     private readonly HashSet<Guid> _expanded = new();
+
+    // Search stitch: những gì lần search HIỆN TẠI thêm vào cache/expanded — undo trước query mới
+    // để đổi keyword không kế thừa nhánh cũ (vd. search "Customer" rồi "item" vẫn thấy Dir/Filter/Item).
+    private readonly List<(Guid Parent, Guid Child)> _stitched_children = new();
+    private readonly HashSet<Guid> _stitched_expanded = new();
+
     private readonly Dictionary<Guid, CancellationTokenSource> _load_cts = new();
     private readonly TreeLoadScheduler _scheduler;
 
@@ -162,6 +168,10 @@ public sealed class VirtualTreeEngine : IAsyncDisposable
         bool empty_hides_all = false,
         bool keep_descendants = false)
     {
+        // Reset stitch của query trước: đổi keyword = filter độc lập trên toàn cây, không kế thừa
+        // nhánh cũ (StitchSearchPath đã chèn) làm ẩn/khung sai folder.
+        lock (_gate) ResetSearchStitch_NoLock();
+
         if (matches.Count == 0)
         {
             if (empty_hides_all)
@@ -242,7 +252,8 @@ public sealed class VirtualTreeEngine : IAsyncDisposable
                     break;
 
                 EnsureChildInCache_NoLock(pid, current);
-                _expanded.Add(pid);
+                if (_expanded.Add(pid))
+                    _stitched_expanded.Add(pid);
                 current = parent;
                 continue;
             }
@@ -257,6 +268,7 @@ public sealed class VirtualTreeEngine : IAsyncDisposable
         if (!_children_cache.TryGetValue(parent_key, out var existing))
         {
             _children_cache[parent_key] = [child];
+            _stitched_children.Add((parent_key, child.Id));
             return;
         }
 
@@ -268,11 +280,41 @@ public sealed class VirtualTreeEngine : IAsyncDisposable
             .OrderByDescending(n => n.Kind == TreeNodeKind.Folder)
             .ThenBy(n => n.DisplayName, StringComparer.OrdinalIgnoreCase)
             .ToList();
+        _stitched_children.Add((parent_key, child.Id));
+    }
+
+    /// <summary>
+    /// Undo mọi child/expanded mà StitchSearchPath thêm cho query trước → về trạng thái lazy-load nền.
+    /// Chỉ gỡ đúng những gì stitch chèn (child chưa từng có sẵn), không đụng cây đã load thật.
+    /// </summary>
+    private void ResetSearchStitch_NoLock()
+    {
+        foreach (var (parent, child) in _stitched_children)
+        {
+            if (!_children_cache.TryGetValue(parent, out var list)) continue;
+            if (list.All(c => c.Id != child)) continue;
+            var reduced = list.Where(c => c.Id != child).ToList();
+            if (reduced.Count == 0)
+                _children_cache.Remove(parent);
+            else
+                _children_cache[parent] = reduced;
+        }
+
+        _stitched_children.Clear();
+
+        foreach (var pid in _stitched_expanded)
+            _expanded.Remove(pid);
+        _stitched_expanded.Clear();
     }
 
     public void ClearSearchFilter()
     {
-        lock (_gate) _search_keep = null;
+        lock (_gate)
+        {
+            ResetSearchStitch_NoLock();
+            _search_keep = null;
+        }
+
         RebuildVisibleRows();
     }
 

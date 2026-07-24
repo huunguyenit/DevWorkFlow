@@ -19,7 +19,11 @@ public class FboXmlWriter
     private static readonly Regex RootStartRegex =
         new(@"<(?:dir|filter|grid|lookup)[\s>]", RegexOptions.IgnoreCase | RegexOptions.Compiled);
 
-    private static readonly Regex CustomEntityRegex =
+    /// <summary>
+    /// Entity ref FBO (&amp;UnitViews;, &amp;BI.j;…) — loại trừ entity chuẩn XML và char ref.
+    /// Dùng chung với <c>EntityViewWritebackPlanner</c> để detect/guard entity trong view.
+    /// </summary>
+    internal static readonly Regex CustomEntityRegex =
         new(@"&(?!(?:amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)([A-Za-z_][\w.-]*);",
             RegexOptions.Compiled);
 
@@ -111,7 +115,7 @@ public class FboXmlWriter
         }
     }
 
-    private static string BuildControlsPart(FormViewRow row)
+    internal static string BuildControlsPart(FormViewRow row)
     {
         var parts = new List<string>();
         foreach (var cell in row.Cells)

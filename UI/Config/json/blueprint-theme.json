@@ -13,5 +13,8 @@
   "splitDivider": "#C62828",
   "anchorIcon": "#1565C0",
   "spareRowHighlight": "rgba(46, 125, 50, 0.12)",
-  "ghostLabelInput": "rgba(21, 101, 192, 0.25)"
+  "ghostLabelInput": "rgba(21, 101, 192, 0.25)",
+  "mergePreview": "rgba(21, 101, 192, 0.25)",
+  "splitKeepPreview": "rgba(21, 101, 192, 0.28)",
+  "splitReleasePreview": "rgba(120, 120, 120, 0.18)"
 }

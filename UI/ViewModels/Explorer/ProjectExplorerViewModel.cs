@@ -326,7 +326,7 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IAsyncDisposable
             catch (Exception ex)
             {
                 StatusText = $"Lỗi đọc SQL: {ex.Message}";
-                MessageBox.Show(ex.Message, "SQL Studio", MessageBoxButton.OK, MessageBoxImage.Error);
+                IdeMessage.Danger(ex.Message, "SQL Studio");
             }
             return;
         }
@@ -355,7 +355,7 @@ public sealed class ProjectExplorerViewModel : ViewModelBase, IAsyncDisposable
         catch (Exception ex)
         {
             StatusText = $"Lỗi mở form: {ex.Message}";
-            MessageBox.Show(ex.Message, "DevWorkFlow", MessageBoxButton.OK, MessageBoxImage.Error);
+            IdeMessage.Danger(ex.Message, "DevWorkFlow");
         }
     }
 

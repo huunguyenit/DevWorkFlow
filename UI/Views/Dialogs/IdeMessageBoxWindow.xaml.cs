@@ -8,18 +8,66 @@ namespace UI.Views.Dialogs;
 
 public partial class IdeMessageBoxWindow : Window
 {
-    public IdeMessageBoxWindow(IdeMessageKind kind, string title, string message)
+    private readonly bool _is_confirm;
+
+    public IdeMessageBoxWindow(
+        IdeMessageKind kind,
+        string title,
+        string message,
+        IdeMessageButtons buttons = IdeMessageButtons.Ok)
     {
         InitializeComponent();
-        DataContext = new IdeMessageBoxVm(kind, title, message);
+        _is_confirm = buttons == IdeMessageButtons.YesNo;
+        DataContext = new IdeMessageBoxVm(kind, title, message, buttons);
     }
 
-    private void Ok_Click(object sender, RoutedEventArgs e) => DialogResult = true;
+    /// <summary>true = OK / Yes; false = No / đóng không đồng ý.</summary>
+    public bool Confirmed { get; private set; }
+
+    private void Ok_Click(object sender, RoutedEventArgs e)
+    {
+        Confirmed = true;
+        DialogResult = true;
+    }
+
+    private void Yes_Click(object sender, RoutedEventArgs e)
+    {
+        Confirmed = true;
+        DialogResult = true;
+    }
+
+    private void No_Click(object sender, RoutedEventArgs e)
+    {
+        Confirmed = false;
+        DialogResult = false;
+    }
 
     private void Window_KeyDown(object sender, KeyEventArgs e)
     {
+        if (_is_confirm)
+        {
+            if (e.Key is Key.Y)
+            {
+                Confirmed = true;
+                DialogResult = true;
+                e.Handled = true;
+                return;
+            }
+
+            if (e.Key is Key.N or Key.Escape)
+            {
+                Confirmed = false;
+                DialogResult = false;
+                e.Handled = true;
+                return;
+            }
+
+            return;
+        }
+
         if (e.Key is Key.Escape or Key.Enter or Key.Return)
         {
+            Confirmed = true;
             DialogResult = true;
             e.Handled = true;
         }
@@ -28,10 +76,16 @@ public partial class IdeMessageBoxWindow : Window
 
 internal sealed class IdeMessageBoxVm
 {
-    public IdeMessageBoxVm(IdeMessageKind kind, string title, string message)
+    public IdeMessageBoxVm(
+        IdeMessageKind kind,
+        string title,
+        string message,
+        IdeMessageButtons buttons)
     {
         TitleText = title;
         MessageText = message;
+        IsConfirm = buttons == IdeMessageButtons.YesNo;
+        IsOkOnly = !IsConfirm;
         (IconKind, AccentBrush, HeaderBrush) = kind switch
         {
             IdeMessageKind.Warning => (
@@ -51,6 +105,8 @@ internal sealed class IdeMessageBoxVm
 
     public string TitleText { get; }
     public string MessageText { get; }
+    public bool IsConfirm { get; }
+    public bool IsOkOnly { get; }
     public PackIconKind IconKind { get; }
     public Brush AccentBrush { get; }
     public Brush HeaderBrush { get; }

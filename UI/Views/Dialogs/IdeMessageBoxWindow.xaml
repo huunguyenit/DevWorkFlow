@@ -15,6 +15,10 @@
         TextOptions.TextRenderingMode="ClearType"
         KeyDown="Window_KeyDown">
 
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -61,19 +65,55 @@
                 BorderThickness="0,1,0,0"
                 Padding="16,10"
                 Background="#FAFBFC">
-            <Button Content="OK"
-                    MinWidth="88"
-                    Height="32"
-                    Padding="16,0"
-                    HorizontalAlignment="Right"
-                    IsDefault="True"
-                    IsCancel="True"
-                    Click="Ok_Click"
-                    Cursor="Hand"
-                    Background="{Binding AccentBrush}"
-                    Foreground="White"
-                    BorderThickness="0"
-                    FontWeight="SemiBold"/>
+            <Grid>
+                <!-- Thông báo: OK -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                            Visibility="{Binding IsOkOnly, Converter={StaticResource BoolToVis}}">
+                    <Button Content="OK"
+                            MinWidth="88"
+                            Height="32"
+                            Padding="16,0"
+                            IsDefault="True"
+                            IsCancel="True"
+                            Click="Ok_Click"
+                            Cursor="Hand"
+                            Background="{Binding AccentBrush}"
+                            Foreground="White"
+                            BorderThickness="0"
+                            FontWeight="SemiBold"/>
+                </StackPanel>
+
+                <!-- Xác nhận: Y / N -->
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right"
+                            Visibility="{Binding IsConfirm, Converter={StaticResource BoolToVis}}">
+                    <Button Content="N"
+                            MinWidth="72"
+                            Height="32"
+                            Margin="0,0,8,0"
+                            Padding="16,0"
+                            IsCancel="True"
+                            Click="No_Click"
+                            Cursor="Hand"
+                            Background="#EEF1F5"
+                            Foreground="#24292F"
+                            BorderBrush="#D0D7DE"
+                            BorderThickness="1"
+                            FontWeight="SemiBold"
+                            ToolTip="No (N)"/>
+                    <Button Content="Y"
+                            MinWidth="72"
+                            Height="32"
+                            Padding="16,0"
+                            IsDefault="True"
+                            Click="Yes_Click"
+                            Cursor="Hand"
+                            Background="{Binding AccentBrush}"
+                            Foreground="White"
+                            BorderThickness="0"
+                            FontWeight="SemiBold"
+                            ToolTip="Yes (Y)"/>
+                </StackPanel>
+            </Grid>
         </Border>
     </Grid>
 </Window>

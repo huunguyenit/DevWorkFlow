@@ -28,14 +28,18 @@ public interface ILayoutEngine
     /// <summary>Kéo dãn ngang toàn form: phân bổ lại widths theo tỉ lệ để tổng = <paramref name="new_total_px"/>.</summary>
     LayoutMutationResult ResizeFormWidth(FboFormModel form, LayoutRegionId region, int new_total_px);
 
-    /// <summary>Đặt chiều cao vùng (P6: chỉ Main → <c>view@height</c>).</summary>
-    LayoutMutationResult SetRegionHeight(FboFormModel form, LayoutRegionId region, int? height_px);
+    /// <summary>Đặt chiều cao vùng — P6 gap: chỉ category tab (Normal→view@height, Grid seed→field@rows).</summary>
+    LayoutMutationResult SetRegionHeight(
+        FboFormModel form, LayoutRegionId region, int? height_px, out string? rows_field_name);
 
     /// <summary>Gộp hai slot liền kề cùng hàng thành một slot span tổng.</summary>
     LayoutMutationResult MergeSlots(FboFormModel form, LayoutSlotId left, LayoutSlotId right);
 
     /// <summary>Tách slot span &gt; 1: control giữ cột đầu, phần còn lại thành ô trống.</summary>
     LayoutMutationResult SplitSlot(FboFormModel form, LayoutSlotId slot);
+
+    /// <summary>Thu span của ô về <paramref name="keep_span"/> cột; phần còn lại thành ô trống (split từng cột).</summary>
+    LayoutMutationResult ShrinkSlot(FboFormModel form, LayoutSlotId slot, int keep_span);
 
     LayoutMutationResult SetAnchor(FboFormModel form, LayoutRegionId region, int? anchor_1_based);
 
@@ -101,11 +105,6 @@ public interface ILayoutEngine
     /// reference. Trả danh sách tên field đã xóa để Writer xóa XML tương ứng.
     /// </summary>
     LayoutMutationResult RemoveField(FboFormModel form, string field_name, out IReadOnlyList<string> removed_names);
-
-    /// <summary>
-    /// Bảo đảm region (P6: chỉ Main) luôn kết thúc bằng một hàng trống — chỗ thả an toàn. Idempotent.
-    /// </summary>
-    void EnsureSpareTrailingRow(FboFormModel form, LayoutRegionId region);
 
     /// <summary>
     /// Thêm tab category loại Normal/Grid/Post/List. Grid/Post/List seed một field <c>items@style</c> tương ứng

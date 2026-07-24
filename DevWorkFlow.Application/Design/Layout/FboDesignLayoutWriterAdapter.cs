@@ -1,4 +1,5 @@
 using DevWorkFlow.Application.Engine;
+using DevWorkFlow.Domain.Language;
 using DevWorkFlow.Domain.Models.Fbo;
 
 namespace DevWorkFlow.Application.Design.Layout;
@@ -7,6 +8,7 @@ namespace DevWorkFlow.Application.Design.Layout;
 public sealed class FboDesignLayoutWriterAdapter : IDesignLayoutWriterAdapter
 {
     private readonly FboXmlWriter _writer = new();
+    private readonly EntityViewWritebackPlanner _writeback_planner = new();
 
     public string WriteLayout(string xml, FboFormModel form) => _writer.ApplyLayout(xml, form);
 
@@ -33,4 +35,11 @@ public sealed class FboDesignLayoutWriterAdapter : IDesignLayoutWriterAdapter
             result = _writer.ApplyRemoveField(result, name);
         return _writer.ApplyLayout(result, form);
     }
+
+    public bool RequiresEntityWriteback(string dir_xml) =>
+        _writeback_planner.RequiresEntityWriteback(dir_xml);
+
+    public LayoutWritePlanResult BuildWritebackPlan(
+        IErpDocument document, string dir_xml, FboFormModel form) =>
+        _writeback_planner.BuildPlan(document, dir_xml, form);
 }

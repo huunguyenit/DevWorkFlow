@@ -54,6 +54,73 @@ public sealed class EntitySymbolSystemTests : IDisposable
     }
 
     [Fact]
+    public void Binder_ignores_entity_declared_inside_IGNORE_marked_section()
+    {
+        // Mô phỏng Tiny.External.Item: entity khai báo "1" trong <![%Cond;[…]]> (Cond=IGNORE)
+        // và "9" bên ngoài → phải resolve = "9". Thêm %Broken; (file thiếu) ép XmlDocument fail
+        // → đi nhánh fallback regex (nơi bug cũ chọn first-wins "1").
+        var controller_path = Path.Combine(_temp_directory, "Controller.xml");
+        File.WriteAllText(Path.Combine(_temp_directory, "cond.txt"), "IGNORE");
+        File.WriteAllText(
+            Path.Combine(_temp_directory, "inc.ent"),
+            """
+            <!ENTITY % Cond SYSTEM "cond.txt">
+            <![%Cond;[
+              <!ENTITY CatIndex "1">
+            ]]>
+            <!ENTITY CatIndex "9">
+            """);
+
+        const string xml = """
+            <!DOCTYPE dir [
+              <!ENTITY % Inc SYSTEM "inc.ent">
+              %Inc;
+              <!ENTITY % Broken SYSTEM "missing-does-not-exist.ent">
+              %Broken;
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">[&CatIndex;]</dir>
+            """;
+        var syntax = FboSyntaxParser.Parse(xml, controller_path);
+        var result = new EntitySymbolBinder().Bind(controller_path, xml, syntax);
+
+        var cat = Assert.Single(result.Symbols, e => e.Name == "CatIndex");
+        Assert.Equal("9", cat.DisplayText);
+        Assert.Contains("[9]", result.ClearText);
+    }
+
+    [Fact]
+    public void Binder_keeps_INCLUDE_section_first_declaration()
+    {
+        // Cond=INCLUDE → khai báo "1" bên trong active (first-wins), không bị fallback bỏ.
+        var controller_path = Path.Combine(_temp_directory, "Controller.xml");
+        File.WriteAllText(Path.Combine(_temp_directory, "cond.txt"), "INCLUDE");
+        File.WriteAllText(
+            Path.Combine(_temp_directory, "inc.ent"),
+            """
+            <!ENTITY % Cond SYSTEM "cond.txt">
+            <![%Cond;[
+              <!ENTITY CatIndex "1">
+            ]]>
+            <!ENTITY CatIndex "9">
+            """);
+
+        const string xml = """
+            <!DOCTYPE dir [
+              <!ENTITY % Inc SYSTEM "inc.ent">
+              %Inc;
+              <!ENTITY % Broken SYSTEM "missing-does-not-exist.ent">
+              %Broken;
+            ]>
+            <dir xmlns="urn:schemas-fast-com:data-dir">[&CatIndex;]</dir>
+            """;
+        var syntax = FboSyntaxParser.Parse(xml, controller_path);
+        var result = new EntitySymbolBinder().Bind(controller_path, xml, syntax);
+
+        var cat = Assert.Single(result.Symbols, e => e.Name == "CatIndex");
+        Assert.Equal("1", cat.DisplayText);
+    }
+
+    [Fact]
     public void Binder_excludes_entities_declared_in_include_but_not_referenced()
     {
         // Mô phỏng Account.xml + Unit.ent: include khai báo nhiều entity dùng chung,

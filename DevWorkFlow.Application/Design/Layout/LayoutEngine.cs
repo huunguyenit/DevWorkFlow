@@ -66,25 +66,55 @@ public sealed class LayoutEngine : ILayoutEngine
         return LayoutMutationResult.Success();
     }
 
-    /// <summary>Đặt chiều cao vùng (P6: chỉ Main → <c>view@height</c>). null/0 = bỏ.</summary>
-    public LayoutMutationResult SetRegionHeight(FboFormModel form, LayoutRegionId region, int? height_px)
+    /// <summary>
+    /// Đặt chiều cao vùng — P6 gap: CHỈ category tab (main/footer không kéo cao bằng gesture này).
+    /// Tab Grid/Post/List có seed → <c>field@rows</c> (builder dùng làm px body): trả tên field qua
+    /// <paramref name="rows_field_name"/> để Writer ghi. Tab Normal → <c>view@height</c>.
+    /// </summary>
+    public LayoutMutationResult SetRegionHeight(
+        FboFormModel form, LayoutRegionId region, int? height_px, out string? rows_field_name)
     {
+        rows_field_name = null;
         if (form.Layout is null)
             return LayoutMutationResult.Fail("Form has no layout.");
-        if (region.Kind != LayoutRegionKind.Main)
-            return LayoutMutationResult.Fail("Region height is only supported on the main view in P6.");
-
+        if (region.Kind != LayoutRegionKind.Category)
+            return LayoutMutationResult.Fail("Region height is only supported on category tabs.");
         if (height_px is null or <= 0)
+            return LayoutMutationResult.Fail("Height must be positive.");
+
+        var category = form.Layout.Categories.FirstOrDefault(c => c.Index == region.CategoryIndex);
+        if (category is null)
+            return LayoutMutationResult.Fail($"Category {region.CategoryIndex} not found.");
+
+        var seed = FindSeedStyleField(form, category);
+        if (seed is not null)
         {
-            form.Layout.HeightPx = null;
-            form.Layout.HeightExpression = null;
+            seed.Rows = height_px; // builder: body_height_px = field.Rows
+            rows_field_name = seed.Name;
+            return LayoutMutationResult.Success();
         }
-        else
-        {
-            form.Layout.HeightPx = height_px;
-            form.Layout.HeightExpression = height_px.Value.ToString();
-        }
+
+        // Normal tab: builder dùng layout.HeightPx cho tab không chứa Grid.
+        form.Layout.HeightPx = height_px;
+        form.Layout.HeightExpression = height_px.Value.ToString();
         return LayoutMutationResult.Success();
+    }
+
+    private static FboField? FindSeedStyleField(FboFormModel form, FormCategory category)
+    {
+        foreach (var row in category.Rows)
+        foreach (var cell in row.Cells)
+        {
+            if (cell.Kind == FormViewCellKind.Empty || cell.FieldName is null) continue;
+            var field = form.FindField(cell.FieldName);
+            var style = field?.ItemsStyle;
+            if (style is not null
+                && (style.Equals("Grid", StringComparison.OrdinalIgnoreCase)
+                    || style.Equals("Post", StringComparison.OrdinalIgnoreCase)
+                    || style.Equals("List", StringComparison.OrdinalIgnoreCase)))
+                return field;
+        }
+        return null;
     }
 
     // ── Merge / Split ────────────────────────────────────────────────
@@ -116,6 +146,11 @@ public sealed class LayoutEngine : ILayoutEngine
         if (left_cell.ColumnIndex + Math.Max(left_cell.ColumnSpan, 1) != right_cell.ColumnIndex)
             return LayoutMutationResult.Fail("Slots are not adjacent.");
 
+        // 4b.3: biên cứng view@split — cấm gộp span vượt qua cột split (0-based cột đầu bên phải = split).
+        var merged_end_exclusive = right_cell.ColumnIndex + Math.Max(right_cell.ColumnSpan, 1);
+        if (CrossesSplit(form, left.Region, left_cell.ColumnIndex, merged_end_exclusive))
+            return LayoutMutationResult.Fail("Cannot merge across view@split.");
+
         var left_empty = left_cell.Kind == FormViewCellKind.Empty;
         var right_empty = right_cell.Kind == FormViewCellKind.Empty;
         if (!left_empty && !right_empty)
@@ -136,7 +171,14 @@ public sealed class LayoutEngine : ILayoutEngine
         return LayoutMutationResult.Success();
     }
 
-    public LayoutMutationResult SplitSlot(FboFormModel form, LayoutSlotId slot)
+    public LayoutMutationResult SplitSlot(FboFormModel form, LayoutSlotId slot) =>
+        ShrinkSlot(form, slot, keep_span: 1);
+
+    /// <summary>
+    /// Thu span của ô về <paramref name="keep_span"/> cột (control giữ cột đầu), phần còn lại thành ô trống.
+    /// <c>keep_span = 1</c> = split hoàn toàn. Dùng cho gesture kéo mép trái từng cột (bug3).
+    /// </summary>
+    public LayoutMutationResult ShrinkSlot(FboFormModel form, LayoutSlotId slot, int keep_span)
     {
         if (!TryResolveRegion(form, slot.Region, out var widths, out var rows, out var error))
             return LayoutMutationResult.Fail(error);
@@ -152,11 +194,12 @@ public sealed class LayoutEngine : ILayoutEngine
         if (span <= 1)
             return LayoutMutationResult.Fail("Slot does not span multiple columns.");
 
+        var keep = Math.Clamp(keep_span, 1, span - 1);
         var insert_at = row.Cells.IndexOf(cell) + 1;
-        cell.ColumnSpan = 1;
-        for (var i = 1; i < span; i++)
+        cell.ColumnSpan = keep;
+        for (var i = keep; i < span; i++)
         {
-            row.Cells.Insert(insert_at + i - 1, new FormViewCell
+            row.Cells.Insert(insert_at + (i - keep), new FormViewCell
             {
                 Kind = FormViewCellKind.Empty,
                 ColumnIndex = cell.ColumnIndex + i,
@@ -218,8 +261,9 @@ public sealed class LayoutEngine : ILayoutEngine
         }
 
         // Before/After: mượn một ô trống span 1 trong hàng để không đổi tổng số cột.
-        if (!TryInsertRelative(row, target, mode, kind, field.Name, resolved_suffix))
-            return LayoutMutationResult.Fail("No free column left in this row to insert into.");
+        if (!TryInsertRelative(row, target, mode, kind, field.Name, resolved_suffix,
+                SplitBoundaryColumn(form, slot.Region)))
+            return LayoutMutationResult.Fail("No free column left in this row to insert into (or blocked by view@split).");
 
         RebuildRow(row, widths);
         return LayoutMutationResult.Success();
@@ -268,12 +312,13 @@ public sealed class LayoutEngine : ILayoutEngine
         from_cell.FieldName = null;
         from_cell.Suffix = string.Empty;
 
-        if (!TryInsertRelative(to_row, to_cell, mode, moved_kind, moved_field, moved_suffix))
+        if (!TryInsertRelative(to_row, to_cell, mode, moved_kind, moved_field, moved_suffix,
+                SplitBoundaryColumn(form, from.Region)))
         {
             from_cell.Kind = moved_kind;
             from_cell.FieldName = moved_field;
             from_cell.Suffix = moved_suffix;
-            return LayoutMutationResult.Fail("No free column left in the target row to insert into.");
+            return LayoutMutationResult.Fail("No free column left in the target row to insert into (or blocked by view@split).");
         }
 
         RebuildRow(from_row, widths);
@@ -499,12 +544,15 @@ public sealed class LayoutEngine : ILayoutEngine
         SlotInsertMode mode,
         FormViewCellKind kind,
         string field_name,
-        string suffix)
+        string suffix,
+        int split_boundary)
     {
         var target_index = row.Cells.IndexOf(target);
         if (target_index < 0) return false;
 
-        var donor_index = FindDonorEmpty(row, target_index, prefer_left: mode == SlotInsertMode.Before);
+        // 4b.3: donor phải cùng phía view@split với target (không mượn cột cross-split).
+        var donor_index = FindDonorEmpty(row, target_index, target.ColumnIndex,
+            prefer_left: mode == SlotInsertMode.Before, split_boundary);
         if (donor_index < 0) return false;
 
         row.Cells.RemoveAt(donor_index);
@@ -521,28 +569,52 @@ public sealed class LayoutEngine : ILayoutEngine
         return true;
     }
 
-    /// <summary>Ô trống span 1 gần nhất để "nhường" cột cho Insert Before/After; ưu tiên một phía rồi phía kia.</summary>
-    private static int FindDonorEmpty(FormViewRow row, int target_index, bool prefer_left)
+    /// <summary>Ô trống span 1 gần nhất cùng phía split để "nhường" cột cho Insert Before/After.</summary>
+    private static int FindDonorEmpty(
+        FormViewRow row, int target_index, int target_col, bool prefer_left, int split_boundary)
     {
         var first = prefer_left
-            ? ScanForEmpty(row, target_index - 1, -1)
-            : ScanForEmpty(row, target_index + 1, 1);
+            ? ScanForEmpty(row, target_index - 1, -1, target_col, split_boundary)
+            : ScanForEmpty(row, target_index + 1, 1, target_col, split_boundary);
         if (first >= 0) return first;
 
         return prefer_left
-            ? ScanForEmpty(row, target_index + 1, 1)
-            : ScanForEmpty(row, target_index - 1, -1);
+            ? ScanForEmpty(row, target_index + 1, 1, target_col, split_boundary)
+            : ScanForEmpty(row, target_index - 1, -1, target_col, split_boundary);
     }
 
-    private static int ScanForEmpty(FormViewRow row, int start, int step)
+    private static int ScanForEmpty(FormViewRow row, int start, int step, int target_col, int split_boundary)
     {
+        var target_left = target_col < split_boundary;
         for (var i = start; i >= 0 && i < row.Cells.Count; i += step)
         {
             var cell = row.Cells[i];
-            if (cell.Kind == FormViewCellKind.Empty && Math.Max(cell.ColumnSpan, 1) == 1)
+            if (cell.Kind == FormViewCellKind.Empty
+                && Math.Max(cell.ColumnSpan, 1) == 1
+                && (cell.ColumnIndex < split_boundary) == target_left)
                 return i;
         }
         return -1;
+    }
+
+    /// <summary>0-based cột biên view@split (cột đầu bên phải); <see cref="int.MaxValue"/> nếu không có split / không phải Main.</summary>
+    private static int SplitBoundaryColumn(FboFormModel form, LayoutRegionId region) =>
+        region.Kind == LayoutRegionKind.Main && form.Layout?.Split is { } s and >= 1
+            ? s
+            : int.MaxValue;
+
+    private static bool CrossesSplit(
+        FboFormModel form, LayoutRegionId region, int start_col_inclusive, int end_col_exclusive)
+    {
+        var b = SplitBoundaryColumn(form, region);
+        return b != int.MaxValue && start_col_inclusive < b && end_col_exclusive > b;
+    }
+
+    /// <summary>Giới hạn cột (exclusive) khi Place sang phải, tôn trọng biên split.</summary>
+    private static int SplitRightLimit(FboFormModel form, LayoutRegionId region, int start_col)
+    {
+        var b = SplitBoundaryColumn(form, region);
+        return b != int.MaxValue && start_col < b ? b : int.MaxValue;
     }
 
     private static FormViewCell? FindCell(FormViewRow row, int column_index) =>
@@ -652,7 +724,6 @@ public sealed class LayoutEngine : ILayoutEngine
             return place;
         }
 
-        EnsureSpareTrailingRow(form, slot.Region);
         return LayoutMutationResult.Success();
     }
 
@@ -679,8 +750,11 @@ public sealed class LayoutEngine : ILayoutEngine
             return LayoutMutationResult.Fail("Invalid row index.");
 
         // Ô trống span 1, bắt đầu từ cột đích sang phải cùng hàng.
+        // 4b.3: không Place vượt biên view@split — cắt tại cột split khi bắt đầu ở bên trái.
+        var split_limit = SplitRightLimit(form, start.Region, start.ColumnIndex);
         var empties = row.Cells
             .Where(c => c.ColumnIndex >= start.ColumnIndex
+                        && c.ColumnIndex < split_limit
                         && c.Kind == FormViewCellKind.Empty
                         && Math.Max(c.ColumnSpan, 1) == 1)
             .OrderBy(c => c.ColumnIndex)
@@ -716,10 +790,9 @@ public sealed class LayoutEngine : ILayoutEngine
         if (field.ReferenceFieldName is { Length: > 0 } ref_name && form.FindField(ref_name) is not null)
             names.Add(ref_name);
 
-        // Xóa mọi ô view mọi region rồi rebuild.
-        foreach (var (region, region_widths, region_rows) in EnumerateRegions(form))
+        // Xóa mọi ô view mọi region rồi rebuild. Spare là render-side (builder) — không đụng model ở đây.
+        foreach (var (_, region_widths, region_rows) in EnumerateRegions(form))
         {
-            var touched = false;
             foreach (var row in region_rows)
             {
                 var changed = false;
@@ -733,9 +806,8 @@ public sealed class LayoutEngine : ILayoutEngine
                         changed = true;
                     }
                 }
-                if (changed) { RebuildRow(row, region_widths); touched = true; }
+                if (changed) RebuildRow(row, region_widths);
             }
-            if (touched) EnsureSpareTrailingRow(form, region);
         }
 
         foreach (var name in names)
@@ -749,26 +821,6 @@ public sealed class LayoutEngine : ILayoutEngine
         return LayoutMutationResult.Success();
     }
 
-    public void EnsureSpareTrailingRow(FboFormModel form, LayoutRegionId region)
-    {
-        // Chỉ Main là reparse-ổn định: hàng trống không mang field → parser gán về vùng main (categoryIndex 0).
-        // Với category/footer, hàng trống sẽ "trôi" về main khi reparse nên không thêm ở model.
-        if (region.Kind != LayoutRegionKind.Main) return;
-
-        var layout = form.Layout;
-        if (layout is null || layout.ColumnWidths.Count == 0) return;
-
-        var rows = layout.TopRows;
-        if (rows.Count > 0 && IsAllEmpty(rows[^1])) return;
-
-        var last_top = rows.Count > 0 ? rows[^1] : null;
-        var spare = MakeEmptyRow(layout.ColumnWidths, category_index: 0);
-        rows.Add(spare);
-
-        var anchor = last_top is null ? -1 : layout.Rows.IndexOf(last_top);
-        if (anchor >= 0) layout.Rows.Insert(anchor + 1, spare);
-        else layout.Rows.Add(spare);
-    }
 
     public LayoutMutationResult AddTabCategory(
         FboFormModel form,
@@ -888,9 +940,6 @@ public sealed class LayoutEngine : ILayoutEngine
         ViewRowPatternBuilder.Rebuild(row, widths.Count);
         return row;
     }
-
-    private static bool IsAllEmpty(FormViewRow row) =>
-        row.Cells.All(c => c.Kind == FormViewCellKind.Empty);
 
     /// <summary>Duyệt (region, widths, rows) của mọi vùng có khai báo — cho Remove/rebuild toàn cục.</summary>
     private static IEnumerable<(LayoutRegionId Region, List<int> Widths, List<FormViewRow> Rows)>

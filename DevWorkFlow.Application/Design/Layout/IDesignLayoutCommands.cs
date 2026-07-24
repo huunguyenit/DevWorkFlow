@@ -14,11 +14,14 @@ public interface IDesignLayoutCommands
 
     LayoutMutationResult ResizeFormWidth(FboFormModel form, LayoutRegionId region, int new_total_px);
 
-    LayoutMutationResult SetRegionHeight(FboFormModel form, LayoutRegionId region, int? height_px);
+    LayoutMutationResult SetRegionHeight(
+        FboFormModel form, LayoutRegionId region, int? height_px, out string? rows_field_name);
 
     LayoutMutationResult MergeSlots(FboFormModel form, LayoutSlotId left, LayoutSlotId right);
 
     LayoutMutationResult SplitSlot(FboFormModel form, LayoutSlotId slot);
+
+    LayoutMutationResult ShrinkSlot(FboFormModel form, LayoutSlotId slot, int keep_span);
 
     LayoutMutationResult SetAnchor(FboFormModel form, LayoutRegionId region, int? anchor_1_based);
 

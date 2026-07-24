@@ -23,5 +23,8 @@ public sealed class BlueprintThemeCatalogTests
         Assert.Contains("splitDivider", json);
         Assert.Contains("anchorIcon", json);
         Assert.Contains("topResizeHitPx", json);
+        Assert.Contains("mergePreview", json);
+        Assert.Contains("splitKeepPreview", json);
+        Assert.Contains("splitReleasePreview", json);
     }
 }

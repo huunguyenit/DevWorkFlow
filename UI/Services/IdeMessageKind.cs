@@ -12,3 +12,10 @@ public enum IdeMessageKind
     /// <summary>Nguy hiểm / lỗi — thao tác thất bại.</summary>
     Danger = 2
 }
+
+/// <summary>Nút đáy IdeMessageBox: thông báo = OK; xác nhận = Y/N.</summary>
+public enum IdeMessageButtons
+{
+    Ok = 0,
+    YesNo = 1
+}

@@ -57,7 +57,7 @@ internal sealed class DesignFormHtmlBuilder
         sb.Append("<div class=\"FormRegion\" data-dwf-region=\"main\">\n");
         sb.Append(RenderTable(
             layout.TopRows, layout.ColumnWidths, ctx, MainRegionId,
-            split: layout.Split, anchor: layout.Anchor));
+            split: layout.Split, anchor: layout.Anchor, allow_spare: true));
         sb.Append("\n</div>\n");
 
         // Tabs — chỉ index &gt; 0, thứ tự khai báo categories/category.
@@ -82,10 +82,12 @@ internal sealed class DesignFormHtmlBuilder
                 var tab_height = !CategoryHasGrid(cat, form) && layout.HeightPx is { } th and > 0
                     ? $" style=\"height:{th}px\""
                     : string.Empty;
+                // Tab Normal (không seed Grid/Post/List) được spare row visible → luôn có ô thả.
+                var normal_tab = !CategoryHasSpecialSeed(cat, form);
                 sb.Append("<section id=\"dwf-tab-").Append(cat.Index).Append("\" class=\"DwfTabPanel")
                   .Append(first ? " DwfActive" : string.Empty).Append("\" role=\"tabpanel\" data-category-index=\"")
                   .Append(cat.Index).Append('"').Append(tab_height).Append(">\n")
-                  .Append(RenderTable(cat.Rows, widths, ctx, CategoryRegionId(cat.Index)))
+                  .Append(RenderTable(cat.Rows, widths, ctx, CategoryRegionId(cat.Index), allow_spare: normal_tab))
                   .Append("\n</section>\n");
                 first = false;
             }
@@ -98,7 +100,8 @@ internal sealed class DesignFormHtmlBuilder
             sb.Append("<div class=\"FormRegion\" data-dwf-region=\"footer\">\n");
             sb.Append("<div class=\"UpdateDlgContent\">\n");
             sb.Append(RenderTable(
-                layout.BottomRows, layout.FooterColumnWidths, ctx, FooterRegionId, table_padding: false));
+                layout.BottomRows, layout.FooterColumnWidths, ctx, FooterRegionId,
+                table_padding: false, allow_spare: true));
             sb.Append("\n</div>\n</div>\n");
         }
 
@@ -123,9 +126,12 @@ internal sealed class DesignFormHtmlBuilder
         string region_id,
         bool table_padding = true,
         int? split = null,
-        int? anchor = null)
+        int? anchor = null,
+        bool allow_spare = false)
     {
-        if (rows.Count == 0) return string.Empty;
+        // Vùng rỗng vẫn render nếu được phép spare (tab Normal mới thêm phải có ô thả).
+        if (rows.Count == 0 && !allow_spare) return string.Empty;
+        if (widths.Count == 0 && rows.Count == 0) return string.Empty;
 
         var sb = new StringBuilder();
         // split/anchor (1-based) chỉ gắn ở bảng main để Blueprint vẽ line chia + icon neo (đọc, không sửa DOM).
@@ -151,13 +157,19 @@ internal sealed class DesignFormHtmlBuilder
             sb.Append($"<table class=\"FormTable\"{table_attrs}>\n");
         }
 
+        // 4b.1: hàng hidden-only không emit (giữ nguyên trong model/XML); giữ row_index theo model để slot map đúng.
         for (var row_index = 0; row_index < rows.Count; row_index++)
         {
+            if (IsHiddenOnlyRow(rows[row_index], ctx.Form)) continue;
             sb.Append("<tr class=\"FormRow\">");
             foreach (var cell in rows[row_index].Cells)
                 sb.Append(RenderCell(cell, ctx, region_id, row_index));
             sb.Append("</tr>\n");
         }
+
+        // 4b.2: spare row render-side — đúng một hàng cuối visible toàn Empty (không đụng model → không duplicate).
+        if (allow_spare && widths.Count > 0 && !LastVisibleRowAllEmpty(rows, ctx.Form))
+            sb.Append(RenderSpareRow(region_id, rows.Count, widths.Count));
 
         sb.Append("</table>");
         return sb.ToString();
@@ -175,9 +187,56 @@ internal sealed class DesignFormHtmlBuilder
     private static string SlotAttr(string region_id, int row_index, FormViewCell cell) =>
         $" data-dwf-slot=\"{region_id}:{row_index}:{cell.ColumnIndex}:{Math.Max(cell.ColumnSpan, 1)}\"";
 
+    /// <summary>Cell hidden ⇔ có control (Kind != Empty) và field.Hidden. Ô Empty KHÔNG tính hidden.</summary>
+    private static bool IsCellHidden(FormViewCell cell, FboFormModel form) =>
+        cell.Kind != FormViewCellKind.Empty
+        && cell.FieldName is { } name
+        && form.FindField(name)?.Hidden == true;
+
+    /// <summary>Hàng hidden-only: có ≥1 ô hidden và KHÔNG ô control visible nào (ô Empty được phép).</summary>
+    private static bool IsHiddenOnlyRow(FormViewRow row, FboFormModel form)
+    {
+        var any_hidden = false;
+        foreach (var cell in row.Cells)
+        {
+            if (cell.Kind == FormViewCellKind.Empty) continue;
+            if (IsCellHidden(cell, form)) any_hidden = true;
+            else return false; // control visible → hàng hỗn hợp, không phải hidden-only
+        }
+        return any_hidden;
+    }
+
+    /// <summary>Hàng visible cuối cùng có phải toàn ô Empty (spare) không — bỏ qua hàng hidden-only.</summary>
+    private static bool LastVisibleRowAllEmpty(IReadOnlyList<FormViewRow> rows, FboFormModel form)
+    {
+        for (var i = rows.Count - 1; i >= 0; i--)
+        {
+            if (IsHiddenOnlyRow(rows[i], form)) continue;
+            return rows[i].Cells.All(c => c.Kind == FormViewCellKind.Empty);
+        }
+        return false; // không có hàng visible → cần spare
+    }
+
+    private static string RenderSpareRow(string region_id, int row_index, int column_count)
+    {
+        var sb = new StringBuilder();
+        sb.Append("<tr class=\"FormRow DwfSpareRow\">");
+        for (var col = 0; col < column_count; col++)
+            sb.Append($"<td class=\"FormCell DwfEmptyCell\" data-dwf-slot=\"{region_id}:{row_index}:{col}:1\" nowrap"
+                      + " style=\"overflow:hidden;width:100%;padding:4px!important;\"></td>");
+        sb.Append("</tr>\n");
+        return sb.ToString();
+    }
+
     private string RenderCell(FormViewCell cell, RenderContext ctx, string region_id, int row_index)
     {
         var span = Math.Max(cell.ColumnSpan, 1);
+
+        // Ô hidden trong hàng hỗn hợp: giữ cột nhưng KHÔNG là drop target (không data-dwf-slot), không hiện control.
+        if (IsCellHidden(cell, ctx.Form))
+            return $"<td class=\"FormCell DwfHiddenCell\" colspan=\"{span}\" nowrap"
+                   + " style=\"overflow:hidden;width:100%;padding:4px!important;\"></td>";
+
         var slot = SlotAttr(region_id, row_index, cell);
         var field = cell.FieldName is null ? null : ctx.Form.FindField(cell.FieldName);
 
@@ -269,6 +328,23 @@ internal sealed class DesignFormHtmlBuilder
             var field = form.FindField(cell.FieldName);
             if (field is not null
                 && string.Equals(field.ItemsStyle, "Grid", StringComparison.OrdinalIgnoreCase))
+                return true;
+        }
+        return false;
+    }
+
+    /// <summary>Category có seed đặc biệt (Grid/Post/List) → không ép spare form row (khác tab Normal).</summary>
+    private static bool CategoryHasSpecialSeed(FormCategory cat, FboFormModel form)
+    {
+        foreach (var row in cat.Rows)
+        foreach (var cell in row.Cells)
+        {
+            if (cell.Kind == FormViewCellKind.Empty || cell.FieldName is null) continue;
+            var style = form.FindField(cell.FieldName)?.ItemsStyle;
+            if (style is not null
+                && (style.Equals("Grid", StringComparison.OrdinalIgnoreCase)
+                    || style.Equals("Post", StringComparison.OrdinalIgnoreCase)
+                    || style.Equals("List", StringComparison.OrdinalIgnoreCase)))
                 return true;
         }
         return false;
